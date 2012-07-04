@@ -7,6 +7,8 @@ touch while deploying for mobile device.
 Tip: Click on Building menu button to toggle visibility of 
 building menu window.
 
+Note: Attach the script to Main Camera.
+
 Author: Ajinkya Waghulde
 **********************************************************/
 
@@ -14,6 +16,8 @@ Author: Ajinkya Waghulde
 //Variables
 private var toolbarInt : int = -1;
 private var buildingMenuInt : int = -1;
+
+//Note: textures will be assigned from unity inspector.
 var btnTexture1 : Texture; 
 var btnTexture2 : Texture;
 var btnTexture3 : Texture; 
