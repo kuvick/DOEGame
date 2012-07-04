@@ -4,40 +4,51 @@ ToolBar.js
 Description: Sets up toolbar above along with building menu. 
 Used mouse click events for now which will be changed to 
 touch while deploying for mobile device.
+Tip: Click on Building menu button to toggle visibility of 
+building menu window.
 
 Author: Ajinkya Waghulde
 **********************************************************/
 
 
 //Variables
-var toolbarInt : int = -1;
-var buildingMenuInt : int = -1;
+private var toolbarInt : int = -1;
+private var buildingMenuInt : int = -1;
 var btnTexture1 : Texture; 
 var btnTexture2 : Texture;
 var btnTexture3 : Texture; 
 var btnTexture4 : Texture;
 var btnTexture5 : Texture; 
 
+private var showWindow : boolean = false;
+
 //need to replace text with GUI texture (if needed)
-var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "End Turn"];
-var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
+private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "End Turn"];
+private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 
 //set for PC screen, need to change for iphone
-var toolbarWindow : Rect = Rect (30, 10, 1300, 60);
-var buildingMenuWindow : Rect = Rect (50, 100, 120, 500);
+private var toolbarWindow : Rect = Rect (50, 10, Screen.width - 100, 80);
+private var buildingMenuWindow : Rect //= Rect (0, 10, 250, 520);
+										= Rect (50 + (3*toolbarWindow.width/4), 
+											    15 + toolbarWindow.height, 
+											    toolbarWindow.width/4, 
+											    Screen.height - 100);
 
 function OnGUI() 
 {
 
+	//showWindow = false;
+
 	toolbarWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
-	buildingMenuWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
 	
+	if(showWindow)
+		buildingMenuWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
 	
 	if (!btnTexture1 || !btnTexture2 || !btnTexture3 || !btnTexture4 || !btnTexture5) {
         Debug.LogError("Missing button texture !");
         return;
     }
-		
+        						
 	switch(toolbarInt)
 	{
 		//Main menu
@@ -55,6 +66,7 @@ function OnGUI()
 		//Buildings menu
 		case 2:
 		Debug.Log("building menu");		
+		ToggleBuildingWindowVisibility();
 		toolbarInt = -1;
 		break;
 		
@@ -69,13 +81,10 @@ function OnGUI()
 }
 
 //Note: window id is 0 for toolbar
-function ToolbarWindowFunc (windowID : int) {
-        
-        toolbarInt = GUILayout.Toolbar (//new Rect(5, 20, toolbarWindow.width  - 10, toolbarWindow.height - 25), 
-        								toolbarInt, 
-        								toolbarStrings);
-        
-
+function ToolbarWindowFunc (windowID : int) {              
+        toolbarInt = GUI.Toolbar (Rect (10, 20, toolbarWindow.width - 20, toolbarWindow.height - 25), 
+        						  toolbarInt, 
+        						  toolbarStrings);
 }
 
 //Note: window id is 1 for building menu
@@ -86,20 +95,28 @@ function BuildingMenuFunc (windowID : int) {
         								buildingMenuStrings);
         */
         
-        
-        GUI.Button(Rect(5, 15, 90, 90),  btnTexture1);
-        GUI.Label(Rect(100, 15, 150, 90), "Prototype Building 1\nInput\nOutput");
+        //Note: Values hardcoded, will be set as per screen resolution later
+        GUI.Button(Rect(5, 20, 90, 90),  btnTexture1);
+        GUI.Label(Rect(100, 20, 150, 90), "Prototype Building 1\nInput: sample text\nOutput: sample text");
  
-        GUI.Button(Rect(5, 117, 90, 90), btnTexture2);
-        GUI.Label(Rect(100, 117, 150, 90), "Prototype Building 2\nInput\nOutput");
+        GUI.Button(Rect(5, 115, 90, 90), btnTexture2);
+        GUI.Label(Rect(100, 115, 150, 90), "Prototype Building 2\nInput: sample text\nOutput: sample text");
         
-        GUI.Button(Rect(5, 219, 90, 90), btnTexture3);
-        GUI.Label(Rect(100, 219, 150, 90), "Prototype Building 3\nInput\nOutput");
+        GUI.Button(Rect(5, 210, 90, 90), btnTexture3);
+        GUI.Label(Rect(100, 210, 150, 90), "Prototype Building 3\nInput: sample text\nOutput: sample text");
         
-        GUI.Button(Rect(5, 321, 90, 90), btnTexture4);
-        GUI.Label(Rect(100, 321, 150, 90), "Prototype Building 4\nInput\nOutput");
+        GUI.Button(Rect(5, 305, 90, 90), btnTexture4);
+        GUI.Label(Rect(100, 305, 150, 90), "Prototype Building 4\nInput: sample text\nOutput: sample text");
            
-        GUI.Button(Rect(5, 423, 90, 90), btnTexture5);
-        GUI.Label(Rect(100, 423, 150, 90), "Prototype Building 5\nInput\nOutput");
+        GUI.Button(Rect(5, 400, 90, 90), btnTexture5);
+        GUI.Label(Rect(100, 400, 150, 90), "Prototype Building 5\nInput: sample text\nOutput: sample text");
         
+}
+
+function ToggleBuildingWindowVisibility()
+{
+	if(showWindow == false)
+		showWindow = true;
+	else
+		showWindow = false;
 }
