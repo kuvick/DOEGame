@@ -1,7 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Camera Scripts\CameraControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Camera Scripts\Camera Scripts - Readme.txt">
     <Files>
+      <File FileName="Assets\Scripts\Camera Scripts\Camera Scripts - Readme.txt" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Camera Scripts\CameraControl.cs" Line="46" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
