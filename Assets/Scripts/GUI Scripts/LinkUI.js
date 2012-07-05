@@ -95,7 +95,7 @@ function OnGUI(){
 			case mousePhases.OutputSelected:
 				inputBuilding = building;
 				if(Input.GetMouseButtonUp(0)){
-					if(inputBuilding != building){
+					if(outputBuilding != building){
 						phase = mousePhases.ClickEnded;
 					}
 					else{
