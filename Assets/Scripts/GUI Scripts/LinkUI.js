@@ -5,7 +5,8 @@
 	
 	This script displays an input and output button for each object tagged "Building".
 	Buildings may be linked by clicking and dragging from one buildings input to 
-	another's output, or vice versa. 
+	another's output, or vice versa. Buildings may only be linked if they are within
+	each others linkRange.
 	
 */
 
@@ -24,15 +25,31 @@ private var inputRect:Rect;			//Rect for Area of input button
 private var outputRect:Rect;		//Rect for Area of output button
 private var mousePos:Vector2;		//Position of mouse in screen space
 
+
 //Reference for linked buildings. 
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
 public var linkReference:boolean[,];
 public var buildings:GameObject[];
+public var linkRange:Vector3 = Vector3(700, 700, 700);
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
+}
+
+//This function returns true if buildings b1 and b2 are linked
+function isLinked(b1:GameObject, b2:GameObject){
+	var b1Index:int;
+	var b2Index:int;
+	
+	for(var b:int; b < buildings.length; b++){
+		if(buildings[b] == b1)
+			b1Index = b;
+		else if(buildings[b] == b2)
+			b2Index = b;
+	}
+	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
 }
 
 //This function is used to link buildings b1 and b2
@@ -48,12 +65,31 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			b2Index = b;
 	}
 	
-	if(linkReference[b1Index, b2Index] || linkReference[b2Index, b1Index])
-		Debug.Log("Buildings \"" + b1.name + "\" and \"" + b2.name + 
-				"\" are already linked");
+	if(isLinked(b1, b2)){
+		Debug.Log(b1.name + " and " + b2.name + 
+				" are already linked");
+	}
 	else{
 		linkReference[b1Index, b2Index] = true;
 		Debug.Log("Buildings Linked");
+	}
+}
+
+//This function returns true if b2 is in b1's range
+function isInRange(b1:GameObject, b2:GameObject){
+	var b1Position:Vector3 = b1.transform.position;
+	var b2Position:Vector3 = b2.transform.position;
+		
+	if(Mathf.Abs(b2Position.x - b1Position.x) < linkRange.x &&
+		Mathf.Abs(b2Position.y - b1Position.y) < linkRange.y &&
+		Mathf.Abs(b2Position.z - b1Position.z) < linkRange.z) 
+		{
+			Debug.Log(b2 + " is in range");
+			return true;
+		}
+	else{
+		Debug.Log(b2 + " is NOT in range");
+		return false;
 	}
 }
 
@@ -95,7 +131,7 @@ function OnGUI(){
 			case mousePhases.OutputSelected:
 				inputBuilding = building;
 				if(Input.GetMouseButtonUp(0)){
-					if(inputBuilding != building){
+					if(outputBuilding != building){
 						phase = mousePhases.ClickEnded;
 					}
 					else{
@@ -152,7 +188,11 @@ function Update() {
 	
 	//If buildings have been selected, link them
 	if(phase == mousePhases.ClickEnded){
-		linkBuildings(inputBuilding, outputBuilding);
+		if(isInRange(inputBuilding, outputBuilding))
+			linkBuildings(inputBuilding, outputBuilding);
+		else 
+			Debug.Log(outputBuilding.name + " is not in " + inputBuilding.name + "'s range");
+		
 		phase = mousePhases.BeforeClick;
 	}
 }
