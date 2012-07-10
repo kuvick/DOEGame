@@ -2,9 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class HexagonGrid : MonoBehaviour {
-	public Camera mainCamera;
-	public GameObject selectionHexagon;
-	public Material selectionMaterial;
 	
 	
 	/* To do: storing tile data, not sure what to do with these yet (if part of sprint 1)*/
@@ -17,12 +14,12 @@ public class HexagonGrid : MonoBehaviour {
 	}
 	public Tile[][] map;
 	
+	//---------------------------------------------------------------------------------------------
+	public Camera mainCamera;
+	public Material selectionMaterial;
+	public ParticleSystem.Particle[] particles;	
 	//plane for raycasting, uses y = 0 as the ground, y-up
 	public Plane plane;
-	
-	//public int xTile, yTile;//current tile under mouse
-	
-	public Mesh hexagon;//hexagon mesh for showing selection
 	
 	public int width;//number of tiles horizontally
 	public int height;//number of tiles vertically
@@ -41,25 +38,36 @@ public class HexagonGrid : MonoBehaviour {
 	 *  \   /
 	 *   \/
 	 * 
-	 * */	
+	 * */
+	
+	private Mesh hexagon;//hexagon mesh for showing selection
+	private GameObject selectionHexagon;
 	// Use this for initialization
-	void Start () {
+	void Start (){ 		
 		plane = new Plane(new Vector3(0, 1, 0), new Vector3());
-		terrainWidth = 200.0f;
-		terrainHeight = 200.0f;
-		width = 10;
-		height = 10;
+		terrainWidth =500;
+		terrainHeight = 500;
+		width = 20;
+		height = 20;
 		tileWidth = terrainWidth / width;
 		sideSize = tileWidth / Mathf.Cos(Mathf.PI / 6.0f) / 2.0f;
 		peakSize = sideSize * Mathf.Sin (Mathf.PI / 6.0f);
-		
+		Debug.Log ("tileWidth: " + tileWidth);
+		Debug.Log ("sideSize: " + sideSize);
+		Debug.Log("peakSize: " + peakSize);
 		createHexagonMesh();
-		createSelectionHexagon ();			
+		createSelectionHexagon ();	
+		createHexagonGridParticles();
 		//createGrid();
 		if(mainCamera == null){
 			Debug.LogError("Camera not set");
 		}
+		
 	}
+
+	/*
+	 * Creates the hexagon that will highlight specific tiles
+	 * */
 	private void createSelectionHexagon(){
 		selectionHexagon = new GameObject("selectionHexagon");
 		MeshFilter meshFilter;
@@ -99,26 +107,48 @@ public class HexagonGrid : MonoBehaviour {
 		hexagon.triangles = indices;
 		hexagon.RecalculateNormals();
 	}
-		
 	
-	/*this function was used for making a hexagonal mesh grid, but  we no longer need it for now*/
-	private void createGrid(){
+	public void setGridVisbility(bool visible){
+		this.renderer.enabled = visible;
+	}
+	public void setSelectionHexagonVisbility(bool visible){
+		selectionHexagon.renderer.enabled = visible;
+	}
+	
+	private void createHexagonGridParticles(){
+		particles = new ParticleSystem.Particle[height * width];
 		for(int y = 0; y < height; ++y){
 			for(int x = 0; x < width; ++x){
-				GameObject go = new GameObject("tile_r" + y + "_c" + x);
-				MeshFilter meshFilter;
-				meshFilter = go.AddComponent("MeshFilter") as MeshFilter;
-				MeshRenderer meshRenderer;
-				meshRenderer = go.AddComponent ("MeshRenderer") as MeshRenderer;
-				//go.renderer.material = selectionMaterial;
-				meshFilter.mesh  = hexagon;
-				go.transform.parent = this.transform;//y*h+(x%2)*h/2
-				go.transform.position = new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 , 0, y * sideSize * 1.5f);
+				Vector3 position = new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 + tileWidth / 2 , 0, y * sideSize * 1.5f + (sideSize * 1.5f  + peakSize) / 2);
+				ParticleSystem.Particle particle = new ParticleSystem.Particle();
+				particle.position = position;
+				particle.rotation = 45;
+				particle.size = tileWidth * 1.7f;//need to fix this number, I do not know how to get it mathematically
+				particles[y * width + x] = particle;		
 			}
 		}
-			
-	
+		
+		particleSystem.SetParticles(particles, height * width);
+		
 	}
+	/*this function was used for making a hexagonal mesh grid, but  we no longer need it for now*/
+//	private void createGrid(){	
+//		for(int y = 0; y < height; ++y){
+//			for(int x = 0; x < width; ++x){
+//				GameObject go = new GameObject("tile_r" + y + "_c" + x);
+//				MeshFilter meshFilter;
+//				meshFilter = go.AddComponent("MeshFilter") as MeshFilter;
+//				MeshRenderer meshRenderer;
+//				meshRenderer = go.AddComponent ("MeshRenderer") as MeshRenderer;
+//				//go.renderer.material = selectionMaterial;
+//				meshFilter.mesh  = hexagon;
+//				go.transform.parent = this.transform;//y*h+(x%2)*h/2
+//				go.transform.position = new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 , 0, y * sideSize * 1.5f);
+//			}
+//		}
+//			
+//	
+//	}
 	
 	
 	/*| 0,2 |
@@ -188,9 +218,6 @@ public class HexagonGrid : MonoBehaviour {
 			}
 		}
 		return new Vector2(xTile, yTile);	
-	}
-	void OnGUI(){
-	
 	}
 	
 	// Update is called once per frame

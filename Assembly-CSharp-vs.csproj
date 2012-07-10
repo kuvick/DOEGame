@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Camera Scripts\CameraControl.cs" />
-     <Compile Include="Assets\Scripts\HexagonGrid.cs" />
+     <Compile Include="Assets\Scripts\Control Scripts\HexagonGrid.cs" />
      <None Include="Assets\Game Objects\Buildings\Buildings-Readme.txt" />
      <None Include="Assets\Scripts\Camera Scripts\Camera Scripts - Readme.txt" />
      <None Include="Assets\Scripts\GUI Scripts\GUI Scripts - Readme.txt" />
