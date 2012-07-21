@@ -45,8 +45,8 @@ public class HexagonGrid : MonoBehaviour {
 	// Use this for initialization
 	void Start (){ 		
 		plane = new Plane(new Vector3(0, 1, 0), new Vector3());
-		terrainWidth =500;
-		terrainHeight = 500;
+		terrainWidth =400;
+		terrainHeight = 400;
 		width = 20;
 		height = 20;
 		tileWidth = terrainWidth / width;
