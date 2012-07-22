@@ -1,6 +1,7 @@
 #pragma strict
 
-/*	LinkUI.js
+/*	
+	LinkUI.js
 	Author: Justin Hinson
 	
 	This script displays an input and output button for each object tagged "Building".
