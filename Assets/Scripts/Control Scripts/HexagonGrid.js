@@ -23,6 +23,7 @@ var terrainHeight: float;
 var tileWidth: float; //width of a hexagon tile
 var sideSize: float; //size of a single side of the hexagon
 var peakSize: float; //see the ascii art
+var building : Transform; // for placing a building on terrain
 /*<-------> tileWidth
  *   
  *    /\   |peakSize
@@ -61,6 +62,7 @@ function Start()
 	{
 		Debug.LogError("Camera not set");
 	}
+	
 }
 
 function Update()
@@ -75,6 +77,38 @@ function Update()
 	var worldPoint: Vector3 = ray.GetPoint(enter);
 	var mouseTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
 	selectionHexagon.transform.position = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
+	
+	//placing a building
+	Debug.Log(	"Position X : " 
+				+ Input.mousePosition.x 
+				+ " Position Y : " 
+				+ Input.mousePosition.y 
+				+ " Position Z :" 
+				+ Input.mousePosition.z 
+				+ " worldx :" 
+				+ worldPoint.x 
+				+ " worldy :" 
+				+ worldPoint.y 
+				+ " worldz :" 
+				+ worldPoint.z 
+				+ " mousetilex" 
+				+ mouseTile.x
+				+ " mousetiley"
+				+ mouseTile.y);
+		
+	var buildPosition: Vector3 = new Vector3(worldPoint.x, -200, worldPoint.z);
+	if ( Input.GetMouseButtonDown(0) )
+   	{
+
+      var hit : RaycastHit;      
+      if (Physics.Raycast (ray, hit, 1000.0f))
+      {
+      	 var building = Instantiate(building, buildPosition, Quaternion.identity);
+         Debug.Log(hit.collider.gameObject.name);         
+      }
+   	}
+	
+	
 }
 
 /*
