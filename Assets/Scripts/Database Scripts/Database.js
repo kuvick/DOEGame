@@ -24,8 +24,17 @@ private var buildings = new Array();
 	// This will contain the information for buildings placed on the grid:
 private var buildingsOnGrid = new Array(); 
 
+	// ********************************************************************************added, keeps track of previous changes
+private var previousBuildings = new Array();
 
 
+
+
+
+	// This will allow for a limited number of undos; remember that there are 6 in the array for linking buildings and 3 for adding a building
+private var previousBuildingsLimit = 18;		// allows for the player to undo linking up to 3 buildings (6 * 3)
+private var limitedUndos = true;
+	//*************************************************************************************************
 
 // This is where the hardcoded buildings go of buildings we are aware of:
 function Awake ()
@@ -107,6 +116,10 @@ and the tile type.
 */
 public function addBuildingToGrid(buildingType:String, coordinate:int, tileType:String)
 {
+
+
+
+
 	var temp = new BuildingOnGrid();
 
 	for (var defaultBuilding : Building in buildings)
@@ -134,6 +147,18 @@ public function addBuildingToGrid(buildingType:String, coordinate:int, tileType:
     temp.tileType = tileType;
     
     buildingsOnGrid.push(temp);
+    
+    
+    //adding for undo:
+	
+	previousBuildings.Add("EndOfAdd");
+	previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
+	previousBuildings.Add("Add");
+	
+	cleanUpPreviousBuildings();
+	
+	//************
+    
 	
 	
 }// end of addBuildingToGrid
@@ -194,14 +219,8 @@ another check)
 */
 public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String)
 {
-
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
-	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];	
-	
-	
-	print("output: " + outputBuilding.buildingName);
-	print("input: " + inputBuilding.buildingName);
-	
+	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
 	
 	
 	var resourceOutputIndex = 0;
@@ -254,6 +273,26 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     // in the linkedTo array.
     if(hasResource)
     {
+    
+    	//adding for undo:
+    	var tempOutputBuilding: BuildingOnGrid = new BuildingOnGrid();
+		var tempInputBuilding: BuildingOnGrid = new BuildingOnGrid();
+	
+		copyBuildingOnGrid(buildingsOnGrid[outputBuildingIndex], tempOutputBuilding);
+		copyBuildingOnGrid(buildingsOnGrid[inputBuildingIndex], tempInputBuilding);
+	
+		previousBuildings.Add("EndOfLink");	
+		previousBuildings.Add(tempInputBuilding);
+		previousBuildings.Add(inputBuildingIndex);
+		previousBuildings.Add(tempOutputBuilding);
+		previousBuildings.Add(outputBuildingIndex);
+		previousBuildings.Add("Link");
+		
+		cleanUpPreviousBuildings();
+		
+		//****************
+    
+    
 	    resourceNum = outputBuilding.outputNum[resourceOutputIndex];
 	    resourceNum--;
 	    outputBuilding.outputNum[resourceOutputIndex] = resourceNum;
@@ -395,35 +434,222 @@ class BuildingOnGrid
 
 
 
+//********************************************************************Updated for Undo Function:
 
 
 
+function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
+{
+	
+	copyTo.buildingName = copyFrom.buildingName;
+	
+	copyTo.inputName.Clear();
+	copyTo.inputName = copyTo.inputName.Concat(copyFrom.inputName);
+	copyTo.inputNum.Clear();
+	copyTo.inputNum = copyTo.inputNum.Concat(copyFrom.inputNum);
+	
+	copyTo.outputName.Clear();
+	copyTo.outputName = copyTo.outputName.Concat(copyFrom.outputName);
+	copyTo.outputNum.Clear();
+	copyTo.outputNum = copyTo.outputNum.Concat(copyFrom.outputNum);
 
-/*
+	copyTo.isActive = copyFrom.isActive;
+	copyTo.coordinate = copyFrom.coordinate;
+	copyTo.tileType = copyFrom.tileType;
+
+	copyTo.linkedTo.Clear();
+	copyTo.linkedTo = copyTo.linkedTo.Concat(copyFrom.linkedTo);
+	
+	copyTo.scoreAchieved = copyFrom.scoreAchieved;
+
+} // end of copyBuildingOnGrid
+
+
+
+// Returns true if undo was successful, false if there is nothing to undo
+// Can add more than link and add (linking buildings and adding to grid)
+// if there are more actions the player can undo; this is assuming other actions
+// are taken by the game rather than the player themselves.
+
+// The previousBuildings array will store the building's info before
+// it was changed, followed by the index of the building, and then lastly the
+// type of change. It is set up to have as many undos as we would like, by changing
+// the number of previousBuildingsLimit, keeping in mind that there are 6 elements
+// added for linking buildings, and 3 added for adding a building.
+
+function undo(): boolean
+{
+
+	print("undo");
+
+	if ( previousBuildings.length > 0 )
+	{
+		var typeOfUndo = previousBuildings.Pop();
+	
+		if( typeOfUndo == "Link" )
+		{
+			// resetting the output building:
+			var buildingIndex = previousBuildings.Pop();
+			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
+			
+			//resetting the input building:
+			buildingIndex = previousBuildings.Pop();
+			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
+			
+		}		
+		else if( typeOfUndo == "Add")
+		{
+			buildingsOnGrid.Splice(previousBuildings.Pop(), 1);
+		}
+		else
+		{
+			return false;
+		}
+	
+	}
+	else
+	{
+		return false;
+	}
+
+
+}// end of undo()
+
+// Cleans up the array used to keep track of previous states
+// by removing the least recent change
+function cleanUpPreviousBuildings()
+{
+	if(limitedUndos)
+	{
+		
+		if( previousBuildings.length > previousBuildingsLimit )
+		{
+			var typeOfUndo = previousBuildings.Shift();	// #1
+		
+			if(typeOfUndo == "EndOfAdd")
+			{
+				previousBuildings.Shift();	//#2, the index of the building
+				previousBuildings.Shift();	//#3, the "Add"
+			}
+			else if(typeOfUndo == "EndOfLink")
+			{
+				previousBuildings.Shift();	//#2, the Input building 
+				previousBuildings.Shift();	//#3, the Input index
+				previousBuildings.Shift();	//#4, the Output building
+				previousBuildings.Shift();	//#5, the Output index
+				previousBuildings.Shift();	//#6, the "Link"
+			}
+					
+		}
+	}
+}// end of cleanUpPreviousBuildings()
+
+
+
 //*********************************Used for testing:
 
 
 
 
-
+/*
 
 function Start ()
 {
-	testValuesInBuildings();
+
+	
+	
+	
+	//var buildingsTemp = new Array();
+	
+	//buildingsTemp = buildingsTemp.Concat(buildings);
+	
+	
+	
+
+	var temp: Building = buildingsTemp[0];
+	temp.inputNum.clear();
+	temp.inputNum.Add(999999);
+	buildingsTemp[0] = temp;
+	buildingsTemp.Add(2);
+	
+
+	//testValuesInBuildings(buildingsTemp);
+	
+	
+	
+	testValuesInBuildingsOnGrid();
+	print("start");
 	addBuildingToGrid("Dam", 6, "Grass");
 	addBuildingToGrid("House", 3, "Grass");
 	testValuesInBuildingsOnGrid();
 	linkBuildings(1,0,"Car");
 	testValuesInBuildingsOnGrid();
-	testValuesInBuildings();
+	undo();
+	testValuesInBuildingsOnGrid();
+	undo();
+	testValuesInBuildingsOnGrid();
+	undo();
+	testValuesInBuildingsOnGrid();
+	
+	//testValuesInBuildings();
+	
+	/*
+	
+	var tempbuildongrid: BuildingOnGrid = new BuildingOnGrid();
+	
+	copyBuildingOnGrid(  buildingsOnGrid[0], tempbuildongrid );
+	
+	
+	
+	tempbuildongrid.inputName.Clear();
+	
+	
+    print("Name:" + tempbuildongrid.buildingName);
+    
+    for (var inputName : String in tempbuildongrid.inputName)
+    {
+        print("Input:" + inputName);
+    }
+    
+   	for (var inputNum : int in tempbuildongrid.inputNum)
+    {
+        print("InputNum:" + inputNum);
+    }
+    
+    for (var outputName : String in tempbuildongrid.outputName)
+    {
+        print("Output:" + outputName);
+    }
+    
+   	for (var outputNum : int in tempbuildongrid.outputNum)
+    {
+        print("OutNum:" + outputNum);
+    }
+    
+    print("Coordinate:" + tempbuildongrid.coordinate);
+    print("Tile Type:" + tempbuildongrid.tileType);
+    
+    for (var linkedIndex : int in tempbuildongrid.linkedTo)
+    {
+        print("Linked To:" + linkedIndex);
+    }
+    
+    print("Score:" + tempbuildongrid.scoreAchieved);
+    
+    print("***3e58u3o4iurisjdfoiu3498u6r98uefij3489u53894u5isdlfjsdf");
+    
+    testValuesInBuildingsOnGrid();
+
+	
+	
 }
 
 
-function testValuesInBuildings()
+function testValuesInBuildings( buildingsPrint: Array )
 {
 	print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 
-	for (var singleBuilding : Building in buildings)
+	for (var singleBuilding : Building in buildingsPrint)
 	{
         print("Name:" + singleBuilding.buildingName);
         
@@ -460,9 +686,11 @@ function testValuesInBuildings()
 
 function testValuesInBuildingsOnGrid()
 {
+	var temp = 0;
 	print("-------------------------------------------");
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
-	{		
+	{
+		print("index: " + temp);		
         print("Name:" + placedBuilding.buildingName);
         
 	    for (var inputName : String in placedBuilding.inputName)
@@ -494,7 +722,10 @@ function testValuesInBuildingsOnGrid()
 	    }
 	    
 	    print("Score:" + placedBuilding.scoreAchieved);
-
+	    
+	    temp++;
+	    
+		print("~~~~~~~~~~");
 	}
 	
 	print("-------------------------------------------");
