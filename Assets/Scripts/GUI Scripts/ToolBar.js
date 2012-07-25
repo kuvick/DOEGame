@@ -99,20 +99,39 @@ function BuildingMenuFunc (windowID : int) {
         								buildingMenuStrings);
         */
         
+
+        
         //Note: Values hardcoded, will be set as per screen resolution later
-        GUI.Button(Rect(5, 20, 90, 90),  btnTexture1);
+        if(GUI.Button(Rect(5, 20, 90, 90),  btnTexture1))
+        {
+        	HexagonGrid.changeBuilding = 0;
+        	showWindow = false;
+        }
         GUI.Label(Rect(100, 20, 150, 90), "Prototype Building 1\nInput: sample text\nOutput: sample text");
  
-        GUI.Button(Rect(5, 115, 90, 90), btnTexture2);
+        if(GUI.Button(Rect(5, 115, 90, 90), btnTexture2))
+        {
+        	HexagonGrid.changeBuilding = 1;
+        	showWindow = false;
+        }                
         GUI.Label(Rect(100, 115, 150, 90), "Prototype Building 2\nInput: sample text\nOutput: sample text");
         
-        GUI.Button(Rect(5, 210, 90, 90), btnTexture3);
+        if(GUI.Button(Rect(5, 210, 90, 90), btnTexture3))
+        {
+        	showWindow = false;
+        }   
         GUI.Label(Rect(100, 210, 150, 90), "Prototype Building 3\nInput: sample text\nOutput: sample text");
         
-        GUI.Button(Rect(5, 305, 90, 90), btnTexture4);
+        if(GUI.Button(Rect(5, 305, 90, 90), btnTexture4))
+        {
+        	showWindow = false;
+        }
         GUI.Label(Rect(100, 305, 150, 90), "Prototype Building 4\nInput: sample text\nOutput: sample text");
            
-        GUI.Button(Rect(5, 400, 90, 90), btnTexture5);
+        if(GUI.Button(Rect(5, 400, 90, 90), btnTexture5))
+        {
+        	showWindow = false;
+        }
         GUI.Label(Rect(100, 400, 150, 90), "Prototype Building 5\nInput: sample text\nOutput: sample text");
         
 }

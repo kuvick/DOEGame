@@ -53,7 +53,19 @@ var peakSize: float; //see the ascii art below
 private var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
 
-var building : Transform; // for placing a building on terrain
+// for placing a building on terrain
+var buildingPrefabs = new Array(); 
+var buildingPrefab0 : Transform; 
+var buildingPrefab1 : Transform;
+var buildingPrefab2 : Transform; 
+var buildingPrefab3 : Transform;
+var buildingPrefab4 : Transform; 
+var buildingPrefab5 : Transform;
+var buildingPrefab6 : Transform; 
+var buildingPrefab7 : Transform;
+
+static var changeBuilding : int;
+
 function Start(){
 	mainCamera = Camera.main;
 	plane = new Plane();
@@ -78,6 +90,20 @@ function Start(){
 	
 }
 
+
+function Awake()
+{
+	//setting up the buildings prefab array
+	buildingPrefabs[0] = buildingPrefab0;
+	buildingPrefabs[1] = buildingPrefab1;
+	buildingPrefabs[2] = buildingPrefab2;
+	buildingPrefabs[3] = buildingPrefab3;
+	buildingPrefabs[4] = buildingPrefab4;
+	buildingPrefabs[5] = buildingPrefab5;
+	buildingPrefabs[6] = buildingPrefab6;
+	buildingPrefabs[7] = buildingPrefab7;
+}
+
 //converts mouse coordinates to world coordinates to tile coordinates, moves a selection hexagon around the grid.
 function Update(){
 	//shows or hides the grid since this script is attached to a particle system
@@ -94,7 +120,7 @@ function Update(){
 	var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
 	selectionHexagon.transform.position = selectionPosition;
 	
-	//placing a building
+	
 	Debug.Log(	"Position X : " 
 				+ Input.mousePosition.x 
 				+ " Position Y : " 
@@ -111,13 +137,31 @@ function Update(){
 				+ mouseTile.x
 				+ " mousetiley"
 				+ mouseTile.y);
-		
-	var buildPosition: Vector3 = new Vector3(worldPoint.x, -200, worldPoint.z);
+	
+	//placing a building	
+
+			
+	//var buildPosition: Vector3 = new Vector3(worldPoint.x, 15, worldPoint.z);
+	var buildPosition: Vector3 = new Vector3(selectionPosition.x + tileWidth/2,
+											15, 
+											selectionPosition.z  + (sideSize + peakSize*2)/2);
+	
 	if ( Input.GetMouseButtonDown(0) ){
 
       var hit : RaycastHit;      
       if (Physics.Raycast (ray, hit, 1000.0f)){
-      	 var building = Instantiate(building, buildPosition, Quaternion.identity);
+      
+      	 var build = null;
+      	 switch(changeBuilding)
+      	 {
+      	 	case 0:
+      	 		build = Instantiate(buildingPrefab0, buildPosition, Quaternion.identity);
+      	 	break;
+      	 	case 1:
+      	 		build = Instantiate(buildingPrefab1, buildPosition, Quaternion.identity);
+      	 	break;
+		 }
+		 
          Debug.Log(hit.collider.gameObject.name);         
       }
    	}		
