@@ -24,7 +24,7 @@ private var point:Vector3;			//Used to obtain position of button in screen space
 private var inputRect:Rect;			//Rect for Area of input button
 private var outputRect:Rect;		//Rect for Area of output button
 private var mousePos:Vector2;		//Position of mouse in screen space
-
+public var mouseOverGUI:boolean;	//Use this to disable raycasting when clicking on the GUI
 
 //Reference for linked buildings. 
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
@@ -36,6 +36,7 @@ function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
+	mouseOverGUI = false;
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -84,11 +85,9 @@ function isInRange(b1:GameObject, b2:GameObject){
 		Mathf.Abs(b2Position.y - b1Position.y) < linkRange.y &&
 		Mathf.Abs(b2Position.z - b1Position.z) < linkRange.z) 
 		{
-			Debug.Log(b2 + " is in range");
 			return true;
 		}
 	else{
-		Debug.Log(b2 + " is NOT in range");
 		return false;
 	}
 }
@@ -115,6 +114,8 @@ function OnGUI(){
 		if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
 			mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height){
 		
+			mouseOverGUI = true;
+			
 			switch(phase)
 			{
 			case mousePhases.BeforeClick:
@@ -151,6 +152,8 @@ function OnGUI(){
 		if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 			mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height){
 			
+			mouseOverGUI = true;
+			
 			switch(phase)
 			{
 			case mousePhases.BeforeClick:
@@ -185,6 +188,7 @@ function OnGUI(){
 function Update() {
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+	mouseOverGUI = false;
 	
 	//If buildings have been selected, link them
 	if(phase == mousePhases.ClickEnded){
