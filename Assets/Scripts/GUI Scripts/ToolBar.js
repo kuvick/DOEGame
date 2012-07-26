@@ -12,7 +12,6 @@ Note: Attach the script to Main Camera.
 Author: Ajinkya Waghulde
 **********************************************************/
 
-
 //Variables
 private var toolbarInt : int = -1;
 private var buildingMenuInt : int = -1;
@@ -30,17 +29,50 @@ private var showWindow : boolean = false;
 private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "End Turn"];
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 
-//set for PC screen, need to change for iphone
-private var toolbarWindow : Rect = Rect (50, 10, Screen.width - 100, 80);
-private var buildingMenuWindow : Rect //= Rect (0, 10, 250, 520);
-										= Rect (50 + (3*toolbarWindow.width/4), 
-											    15 + toolbarWindow.height, 
-											    toolbarWindow.width/4, 
-											    Screen.height - 100);
+// Padding as a percent of total screen size in that direction
+private var sidePaddingPercent = 1; // the space between all gui elements and the left and right side of the screen
+private var topPaddingPercent = 1;
+// height of the window as a percentage of the screen's height
+private var windowHeightPercent = 20;
+// The tool bar for buildings as a perecentage of screen size in that direction
+private var toolBarWidthPercent = 30;
+private var toolBarHeightPercent = 100 - (topPaddingPercent + windowHeightPercent); // make the toolbar fill up the screen space below the menu
+
+private var screenWidth: float;
+private var screenHeight: float;
+private var sidePadding: float;
+private var topPadding: float;
+private var windowHeight: float;
+private var toolBarWidth: float;
+private var toolBarHeight: float;
+
+private var toolBarTopLeftX: float;
+private var toolBarTopLeftY: float;
+
+// The actual gui elements to fill
+private var toolbarWindow : Rect;
+private var buildingMenuWindow : Rect;
+
+
+function Start(){
+	// Need to determine screen size and density at start time for accurate reading
+	screenWidth = Screen.width;
+	screenHeight = Screen.height;
+	sidePadding = screenWidth*(sidePaddingPercent/100.0);
+	topPadding = screenHeight*(topPaddingPercent/100.0);
+	windowHeight = screenHeight*(windowHeightPercent/100.0);
+	toolBarWidth = screenWidth*(toolBarWidthPercent/100.0);
+	toolBarHeight = screenHeight*(toolBarHeightPercent/100.0);
+	
+	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth;
+	toolBarTopLeftY = screenHeight-toolBarHeight;
+	
+	toolbarWindow = Rect(sidePadding, topPadding, screenWidth-(2*sidePadding), windowHeight);
+	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
+}
 
 function OnGUI() 
 {
-
 	//showWindow = false;
 
 	toolbarWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
@@ -99,9 +131,6 @@ function BuildingMenuFunc (windowID : int) {
         								buildingMenuStrings);
         */
         
-
-        
-        //Note: Values hardcoded, will be set as per screen resolution later
         if(GUI.Button(Rect(5, 20, 90, 90),  btnTexture1))
         {
         	HexagonGrid.changeBuilding = 0;
