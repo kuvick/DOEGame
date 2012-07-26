@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 581d22ab5a397be4bbfa6b4584214089
+guid: c07aa3fb00b632040a604f294e76e8a8
 ModelImporter:
   fileIDToRecycleName:
     4300000: polySurface80
@@ -40,20 +40,20 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
+        second: a0860100
       data:
         first: 4
-        second: 821a0600
+        second: 801a0600
       data:
         first: 111
         second: 605fa900
     polySurface80:
       data:
         first: 1
-        second: a0860100
+        second: a2860100
       data:
         first: 4
-        second: 801a0600
+        second: 821a0600
       data:
         first: 23
         second: 60182300

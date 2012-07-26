@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 37746979427e8e64fbd761af933a9398
+guid: 43ed00f9ecdc171459b1f8da454f3f85
 ModelImporter:
   fileIDToRecycleName:
     4300000: Main_Dam
@@ -40,20 +40,20 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
+        second: a0860100
       data:
         first: 4
-        second: 821a0600
+        second: 801a0600
       data:
         first: 111
         second: 605fa900
     Main_Dam:
       data:
         first: 1
-        second: a0860100
+        second: a2860100
       data:
         first: 4
-        second: 801a0600
+        second: 821a0600
       data:
         first: 23
         second: 60182300
