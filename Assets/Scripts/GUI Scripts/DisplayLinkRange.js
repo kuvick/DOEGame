@@ -14,59 +14,72 @@
 
 */
 
-//public var linkRange:Vector3 = Vector3(700, 700, 700);
 public var selectedBuildingColor:Color = Color.red;;
 public var inRangeColor:Color = Color.green;
 
 private var buildings:GameObject[];
 private var selectedBuilding:GameObject;
 private var buildingSelected:boolean;
-private var defaultColors:Color[];			//stores the default color of the all buildings
+public var defaultColors:Color[];			//stores the default color of all buildings
+private var rangeRing:GameObject;
+private var database:Database;
 
 function Start () {
-	buildings = gameObject.FindGameObjectsWithTag("Building");
-	defaultColors = new Color[buildings.length];
+	database = GameObject.Find("Database").GetComponent(Database);
 	
-	for(var i:int = 0; i < buildings.length; i++)
+	buildings = gameObject.FindGameObjectsWithTag("Building");
+	
+	defaultColors = new Color[buildings.Length];
+	
+	for(var i:int = 0; i < buildings.Length; i++){
 		defaultColors[i] = buildings[i].renderer.material.color;
+		
+		//Create a ring denoting the link range around each building
+		rangeRing = new GameObject("RangeRing");
+		rangeRing.transform.parent = buildings[i].transform;
+		rangeRing.transform.position = buildings[i].transform.position;
+		rangeRing.layer = 2;			//Ignore Raycast
+		rangeRing.AddComponent(SphereCollider);
+		rangeRing.GetComponent(SphereCollider).radius = GameObject.Find("LinkMode").GetComponent(LinkUI).linkRange.x;
+		
+	}
+	
 }
 
-function getSelectedBuilding(){
-	  var hit : RaycastHit;
-      var ray : Ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-      
-      if (Physics.Raycast (ray, hit, 1000.0))
-      {
-      	var target = hit.collider.gameObject;
-      	
-      	if(target.tag == "Building"){
-      		if(buildingSelected){
-      		
-      			//Restore all buildings original colors
-      			for(var i:int = 0; i < buildings.length; i++)
-      				buildings[i].renderer.material.color = defaultColors[i];
-      		}
-      		
-      		selectedBuilding = target;
-      		buildingSelected = true;
-      		return true;
-      	}
-      }
-      return false;
-}
+
+
+
 
 function Update() {
-	if(Input.GetMouseButtonDown(0)){
-		if(getSelectedBuilding()){
-			selectedBuilding.renderer.material.color = selectedBuildingColor;
-			
-			for(var b:GameObject in buildings){
-				var isInRange:boolean = gameObject.GetComponent(LinkUI).isInRange(selectedBuilding, b);
-				
-				if(selectedBuilding != b && isInRange){
-					b.renderer.material.color = inRangeColor;
-				}
-			}
+	restoreColors();
+	selectedBuilding = GameObject.Find("ModeController").GetComponent(ModeController).getSelectedBuilding();
+	selectedBuilding.renderer.material.color = selectedBuildingColor;
+      				
+	//Highlight all buildings in range
+	for(var b:GameObject in buildings){
+		var isInRange:boolean = gameObject.GetComponent(LinkUI).isInRange(selectedBuilding, b);
+		
+		if(selectedBuilding != b && isInRange){
+			b.renderer.material.color = inRangeColor;
 		}
 	}
+	
+	//Highlight all tiles in range
+	drawRange();
+		
+}
+
+function restoreColors(){
+	if(buildings != null){
+		for(var i = 0; i < buildings.Length; i++){
+			buildings[i].renderer.material.color = defaultColors[i];
+		}
+	}
+}
+
+
+function drawRange(){
+	
+	
+	
 }

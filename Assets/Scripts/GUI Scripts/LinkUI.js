@@ -17,14 +17,18 @@ private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
 private var inputOffset:Vector2 = new Vector2(-20, -40);	//Used to set position of button relative to building
 private var outputOffset:Vector2 = new Vector2(20, -40);
-private var buttonWidth = 27;
-private var buttonHeight = 27;
+private var ioButtonWidth = 27;
+private var ioButtonHeight = 27;
+private var cancelBtnHeight:int = 27;
+private var cancelBtnWidth:int = 80;
 private var target:Transform;		//Transform of building that button corresponds to
-private var point:Vector3;			//Used to obtain position of button in screen space
+private var point:Vector3;			//Used to obtain position of IO button in screen space
 private var inputRect:Rect;			//Rect for Area of input button
 private var outputRect:Rect;		//Rect for Area of output button
+private var cancelBtnRect:Rect;
 private var mousePos:Vector2;		//Position of mouse in screen space
-
+public var cancelLinkMode:boolean;
+public var mouseOverGUI:boolean;	//Use this to disable raycasting when clicking on the GUI
 
 //Reference for linked buildings. 
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
@@ -36,6 +40,8 @@ function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
+	cancelLinkMode = false;
+	mouseOverGUI = false;
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -84,16 +90,17 @@ function isInRange(b1:GameObject, b2:GameObject){
 		Mathf.Abs(b2Position.y - b1Position.y) < linkRange.y &&
 		Mathf.Abs(b2Position.z - b1Position.z) < linkRange.z) 
 		{
-			Debug.Log(b2 + " is in range");
 			return true;
 		}
 	else{
-		Debug.Log(b2 + " is NOT in range");
 		return false;
 	}
 }
 
 function OnGUI(){
+	cancelLinkMode = false;
+	
+	//Draw IO buttons
 	for(var building:GameObject in buildings){
 		target = building.transform;				
 		point = Camera.main.WorldToScreenPoint(target.position);
@@ -105,9 +112,9 @@ function OnGUI(){
 		
 		//Set position of buttons
 		var inputRect:Rect = Rect(point.x + inputOffset.x, 
-						point.y + inputOffset.y, buttonWidth, buttonHeight);
+						point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
 		var outputRect:Rect = Rect(point.x + outputOffset.x, 
-						point.y + outputOffset.y, buttonWidth, buttonHeight);
+						point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
 
 		//Instructions for input button
 		GUILayout.BeginArea(inputRect);
@@ -115,6 +122,8 @@ function OnGUI(){
 		if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
 			mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height){
 		
+			mouseOverGUI = true;
+			
 			switch(phase)
 			{
 			case mousePhases.BeforeClick:
@@ -151,40 +160,53 @@ function OnGUI(){
 		if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 			mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height){
 			
+			mouseOverGUI = true;
+			
 			switch(phase)
 			{
-			case mousePhases.BeforeClick:
-				if(Input.GetMouseButtonDown(0)){
-					outputBuilding = building;
-					phase = mousePhases.OutputSelected;
-				}
-				break;
-			case mousePhases.InputSelected:
-				outputBuilding = building;
-				if(Input.GetMouseButtonUp(0)){
-					if(inputBuilding != building){
-						phase = mousePhases.ClickEnded;
+				case mousePhases.BeforeClick:
+					if(Input.GetMouseButtonDown(0)){
+						outputBuilding = building;
+						phase = mousePhases.OutputSelected;
 					}
-					else{
-						Debug.Log("Building can not be linked to itself");
+					break;
+					
+				case mousePhases.InputSelected:
+					outputBuilding = building;
+					if(Input.GetMouseButtonUp(0)){
+						if(inputBuilding != building){
+							phase = mousePhases.ClickEnded;
+						}
+						else{
+							Debug.Log("Building can not be linked to itself");
+							phase = mousePhases.BeforeClick;
+						}
+					}
+					break;
+					
+				case mousePhases.OutputSelected:
+					if(Input.GetMouseButtonUp(0)){
 						phase = mousePhases.BeforeClick;
 					}
-				}
-				break;
-			case mousePhases.OutputSelected:
-				if(Input.GetMouseButtonUp(0)){
-					phase = mousePhases.BeforeClick;
-				}
-				break;
+					break;
 			}
 		}
 		GUILayout.EndArea();
 	}
+	
+	//Draw Cancel button
+	var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
+	GUILayout.BeginArea(cancelRect);
+	if(GUILayout.Button("Cancel"))
+		cancelLinkMode = true;
+	GUILayout.EndArea();
 }
 
 function Update() {
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+	mouseOverGUI = false;
+	
 	
 	//If buildings have been selected, link them
 	if(phase == mousePhases.ClickEnded){

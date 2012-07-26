@@ -3,54 +3,87 @@
 /*	DrawLinks.js
 	Author: Justin Hinson
 	
+	Requirements: -All building game objects must be tagged as "Building"
+	
 	Description:
 	This script draws a line (using LineRenderer) between all buildings that are linked.
 	This script uses isLinked from LinkUI.js to determine of two buildings are linked, 
 	therefore this script must be attatched to the same object as LinkUI.js
-	
-	Notes:
-	I'm not sure if LineRenderer is the best option for drawing lines. The LineRenderer
-	line must be continuous, so each link requires a new renderer. Also, a new GameObject 
-	is created each frame for each lineRenderer, so the framerate drops after a few minutes.
-	It works for now though. This website has more information:  
-		http://www.everyday3d.com/blog/index.php/2010/03/15/3-ways-to-draw-3d-lines-in-unity3d/
-	
 */
 
-//Reference for linked buildings. 
+ 
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
-private var linkReference:boolean[,];
-private var b1Position:Vector3;		//These hold position of linked buildings
-private var b2Position:Vector3;
-var color1:Color = Color.blue;		//Color of link line
-var color2:Color = Color.blue;
+private var linkProspects:boolean[,];	//Used to determine the number of possible links.
+private var linksDrawn:boolean[,];		//Used to determine if links have already been drawn.
+private var b1Position:Vector3;		
+private var b2Position:Vector3;			//These hold position of linked buildings
+var color1:Color = Color.blue;		
+var color2:Color = Color.blue;			//Color of link line
 private var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
+private var numLinks:int;
 
 function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
-	//lineAnchor = new GameObject();
+	linkProspects = new boolean[buildings.Length, buildings.Length];
+	linksDrawn = new boolean[buildings.Length, buildings.Length];
+	addObjectsToBuildings();
 }
 
 function Update(){
+	
+	
 	//Iterate through linkReference array. If buildings are linked, draw line.
-	for(var b1:GameObject in buildings){
-		b1Position = b1.transform.position;
+	for(var b1 = 0; b1 < buildings.Length; b1++){
+		b1Position = buildings[b1].transform.position;
 
-		for(var b2:GameObject in buildings){
-			b2Position = b2.transform.position;
-			var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(b1, b2);
+		for(var b2 = 0; b2 < buildings.Length; b2++){
+			b2Position = buildings[b2].transform.position;
+			var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
 			
 			if(isLinked){
-				lineAnchor = new GameObject();
-				var lineRenderer:LineRenderer = lineAnchor.AddComponent(LineRenderer);
-				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-				lineRenderer.SetColors(color1, color2);
-				lineRenderer.SetWidth(5, 5);
-				lineRenderer.SetPosition(0, b1Position);
-				lineRenderer.SetPosition(1, b2Position);
-				
+				for(var child:Transform in buildings[b1].transform){
+					if(child.gameObject.GetComponent(LineRenderer) == null && 
+						!linksDrawn[b1, b2]){
+						var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
+						lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+						lineRenderer.SetColors(color1, color2);
+						lineRenderer.SetWidth(5, 5);
+						lineRenderer.SetPosition(0, b1Position);
+						lineRenderer.SetPosition(1, b2Position);
+						linksDrawn[b1, b2] = true;
+						break;
+					}
+				}
 			}
 		}
 	}
+}
+
+
+//This function determines the number of possible links each building has
+//and adds that many gameObjects to that building.
+function addObjectsToBuildings(){	
+
+	for(var b1:int; b1 < buildings.Length; b1++){
+		numLinks = 0;
+		
+		for(var b2:int; b2 < buildings.Length; b2++){
+			if(gameObject.GetComponent(LinkUI).isInRange(buildings[b1], buildings[b2]) && 
+										b1 != b2 &&
+										(!linkProspects[b1, b2] ||
+										!linkProspects[b2, b1])){
+				numLinks++;
+				linkProspects[b1, b2] = true;
+			}
+		}
+		
+		for(var i:int = 0; i < numLinks; i++){
+			lineAnchor = new GameObject("Line Anchor");
+			lineAnchor.transform.parent = buildings[b1].transform;
+		}
+		Debug.Log(numLinks + " possible links");
+	}
+	
+	return numLinks;
 }
