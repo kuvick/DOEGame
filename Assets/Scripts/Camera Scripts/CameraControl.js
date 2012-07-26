@@ -1,6 +1,38 @@
+/*
+ CameraControl.js
+ By Katharine Uvick
+ 
+ This script allows for panning the camera via click and drag, zooming in
+ with the mouse wheel (will be changed for mobile version), and double-
+ clicking to center the mouse on that location (a feature not in the
+ design document, but mentioned during the programming meeting).
+ 
+ Currently the script looks for Terrain to click and drag, but if
+ the terrain is going to be made up of different game objects with
+ different names, we will probably want to change it to look for a tag
+ instead of a name.
+ 
+ Changed the zoom function to work with touch. If using computer, uncheck
+ the "usingMobile" variable". Updates for mobile marked with "//$$$$CHANGE"
+ 
+ Attach this script to the camera.
+  
+*/
+
 #pragma strict
 
 // Attributes:
+
+
+public var usingMobile: boolean = true;						//$$$$CHANGE
+private var zoomStarted: boolean;							//$$$$CHANGE
+private var currentTouch0: Vector3;							//$$$$CHANGE
+private var currentTouch1: Vector3;							//$$$$CHANGE
+private var previousTouch0: Vector3;						//$$$$CHANGE
+private var previousTouch1: Vector3;						//$$$$CHANGE
+private var disableDrag: boolean;							//$$$$CHANGE
+
+
 
 private var thisCamera: Camera;
 
@@ -21,10 +53,10 @@ private var centeringCamera: boolean;
 
 
 	// Variables for altering the camera's movement
-public var speed: float = 50;							// affects the speed of the scroll
+public var speed: float = 100;							// affects the speed of the scroll
 public var centeringDistanceAway: float = 300;			// the distance away from the object the player has double-clicked on
-public var closestZoomDistance: float = 50;				// the closest distance from terrain the camera can zoom
-public var farthestZoomDistnace: float = 300;			// the farthest distance from terrain the camera can zoom
+public var closestZoomDistance: float = 100;				// the closest distance from terrain the camera can zoom
+public var farthestZoomDistnace: float = 350;			// the farthest distance from terrain the camera can zoom
 public var zoomingIncrement: float = 10;					// the incremental distance the camera will zoom in/zoom out
 public var direction: int = 1;							// change to -1 to reverse the direction of the drag
 public var allowCentering: boolean = true;					// enable/disable double-click to center camera on location
@@ -32,6 +64,11 @@ public var allowCentering: boolean = true;					// enable/disable double-click to
 
 function Start ()
 {
+	zoomStarted = false;								//$$$$CHANGE
+	disableDrag = false;								//$$$$CHANGE
+	
+	
+
 	thisCamera = Camera.main;
 	clickStarted = false;
 	centeringCamera = false;
@@ -56,28 +93,63 @@ function Start ()
 			// If (1) the user has started dragging and has the left mouse button pressed or
 			// (2) Hasn't clicked something that's not the terrain, has the left button pressed,
 			// and the object that the mouse is now over is the terrain:
-			if( ( clickStarted && Input.GetKey(KeyCode.Mouse0) ) || ( clickStartedOnTerrain && Input.GetKey(KeyCode.Mouse0) && mouseClickTarget.transform.name == "Terrain" ) )
-			{
-				drag();
-			}
-			// If button is pressed, the click hasn't started, and (assumed) user did not start click on Terrain
-			else if( Input.GetKey(KeyCode.Mouse0) && !clickStarted )
-			{
-				clickStartedOnTerrain = false;
-				clickStarted = false;
-			}
-			else
-			{
-				clickStartedOnTerrain = true;
-				clickStarted = false;
-			}
 			
-			
+			if( !usingMobile && !disableDrag )						//$$$$CHANGE
+			{
+				if( ( clickStarted && Input.GetKey(KeyCode.Mouse0) ) || ( clickStartedOnTerrain && Input.GetKey(KeyCode.Mouse0) && mouseClickTarget.transform.name == "Terrain" ) )
+				{
+					drag();
+				}
+				// If button is pressed, the click hasn't started, and (assumed) user did not start click on Terrain
+				else if( Input.GetKey(KeyCode.Mouse0) && !clickStarted )
+				{
+					clickStartedOnTerrain = false;
+					clickStarted = false;
+				}
+				else
+				{
+					clickStartedOnTerrain = true;
+					clickStarted = false;
+				}
+				
+			}
+			else if( usingMobile && !disableDrag )
+			{
+				if( ( clickStarted && Input.touchCount > 0 ) || ( clickStartedOnTerrain && Input.touchCount > 0 && mouseClickTarget.transform.name == "Terrain" ) )
+				{
+					drag();
+				}
+				// If button is pressed, the click hasn't started, and (assumed) user did not start click on Terrain
+				else if( Input.touchCount > 0 && !clickStarted )
+				{
+					clickStartedOnTerrain = false;
+					clickStarted = false;
+				}
+				else
+				{
+					clickStartedOnTerrain = true;
+					clickStarted = false;
+				}
+			}
 			
 
-			if( Input.GetAxis("Mouse ScrollWheel") != 0)
+			if( !usingMobile && Input.GetAxis("Mouse ScrollWheel") != 0 )
 			{
 				zoom();
+			}
+			else if(usingMobile && Input.touchCount == 2)							//$$$$CHANGE
+			{
+				zoom();
+			}
+			
+			
+			if( Input.touchCount < 1 )
+			{
+				disableDrag = false;
+			}
+			else if ( Input.touchCount >= 2 )
+			{
+				disableDrag = true;
 			}
 
 		}
@@ -99,21 +171,43 @@ function Start ()
 	// to determine which way to drag the camera, and moves the camera in that direction.
 	private function drag()
 	{
-		// Sets the currentMousePos to the mouse's current position when the click starts
-		if(!clickStarted)
+		if( !usingMobile )	//$$$$CHANGE
 		{
-			clickStarted = true;
-			currentMousePos = Input.mousePosition;
+			// Sets the currentMousePos to the mouse's current position when the click starts
+			if(!clickStarted)
+			{
+				clickStarted = true;
+				currentMousePos = Input.mousePosition;
+			}
+			// Continues to move the camera towards the new position based upon the difference in location
+			// of the mouse between frames.
+			else
+			{
+				
+				lastMousePos = currentMousePos;
+				currentMousePos = Input.mousePosition;
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, dragToPosition(), speed);
+			}
 		}
-		// Continues to move the camera towards the new position based upon the difference in location
-		// of the mouse between frames.
-		else
+		else						//$$$$CHANGE
 		{
-			
-			lastMousePos = currentMousePos;
-			currentMousePos = Input.mousePosition;
-			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, dragToPosition(), speed);
+			// Sets the currentMousePos to the mouse's current position when the click starts
+			if(!clickStarted)
+			{
+				clickStarted = true;
+				//currentMousePos = Input.GetTouch(0).position;
+			}
+			// Continues to move the camera towards the new position based upon the difference in location
+			// of the mouse between frames.
+			else
+			{
+				
+				//lastMousePos = currentMousePos;
+				//currentMousePos = Input.GetTouch(0).position;
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, dragToPosition(), speed);
+			}
 		}
+		//$$$$
 
 	}// End of drag
 	
@@ -123,9 +217,22 @@ function Start ()
 	// to the camera's current position for a location to move the camera to
 	private function dragToPosition(): Vector3
 	{
-		var changeInPos: Vector3 = ( lastMousePos - currentMousePos ) * direction;
-		var temp: Vector3 =  Vector3( changeInPos.x, 0, changeInPos.y );
-		return thisCamera.transform.position + temp;
+		var changeInPos: Vector3;
+		var temp: Vector3;
+		
+		if( !usingMobile )	//$$$$CHANGE
+		{
+			changeInPos = ( lastMousePos - currentMousePos ) * direction;
+			temp =  Vector3( changeInPos.x, 0, changeInPos.y );
+			return thisCamera.transform.position + temp;
+		}
+		else				//$$$$CHANGE
+		{
+			changeInPos = Input.GetTouch(0).deltaPosition * -direction;
+			temp =  Vector3( changeInPos.x, 0, changeInPos.y );
+			return thisCamera.transform.position + temp;
+		}
+		//$$$$
 		
 	}// End of dragToPosition
 
@@ -136,18 +243,63 @@ function Start ()
 	{
 		var updatedLocation: Vector3;
 		
-		//Zoom Out:
-		if(Input.GetAxis("Mouse ScrollWheel") < 0 && thisCamera.transform.position.y < farthestZoomDistnace)
+		if(!usingMobile)						//$$$$CHANGE
 		{
-			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z - zoomingIncrement );
-			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			//Zoom Out:
+			if(Input.GetAxis("Mouse ScrollWheel") < 0 && thisCamera.transform.position.y < farthestZoomDistnace)
+			{
+				updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z - zoomingIncrement );
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			}
+			//Zoom In:
+			else if(Input.GetAxis("Mouse ScrollWheel") > 0 && thisCamera.transform.position.y > closestZoomDistance )
+			{
+				updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z + zoomingIncrement );
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			}
 		}
-		//Zoom In:
-		else if(Input.GetAxis("Mouse ScrollWheel") > 0 && thisCamera.transform.position.y > closestZoomDistance )
+		
+		//$$$$CHANGE:
+		else
 		{
-			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z + zoomingIncrement );
-			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			var deltaTouches : float;
+		
+			if(!zoomStarted)
+			{
+				deltaTouches = 0;
+				currentTouch0 = Input.GetTouch(0).position;
+				currentTouch1 = Input.GetTouch(1).position;
+				zoomStarted = true;
+			}
+			else
+			{
+				previousTouch0  = currentTouch0;
+				previousTouch1 = currentTouch1;
+				currentTouch0 = Input.GetTouch(0).position;
+				currentTouch1 = Input.GetTouch(1).position;
+				deltaTouches = Vector2.Distance(currentTouch0, currentTouch1) - Vector2.Distance(previousTouch0, previousTouch1);
+			}
+			
+			//Zoom Out:
+			if(deltaTouches > 0 && thisCamera.transform.position.y < farthestZoomDistnace)
+			{
+				updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + Mathf.Abs(deltaTouches), thisCamera.transform.position.z - Mathf.Abs(deltaTouches) );
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			}
+			//Zoom In:
+			else if(deltaTouches < 0 && thisCamera.transform.position.y > closestZoomDistance )
+			{
+				updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y - Mathf.Abs(deltaTouches), thisCamera.transform.position.z + Mathf.Abs(deltaTouches) );
+				thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+			}
+			
+			
 		}
+		//$$$$
+		
+		
+		
+		
 		
 	}// End of zoom
 	
