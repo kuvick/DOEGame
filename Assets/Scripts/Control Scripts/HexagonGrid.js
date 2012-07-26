@@ -147,20 +147,16 @@ function Update(){
 											selectionPosition.z  + (sideSize + peakSize*2)/2);
 	
 	if ( Input.GetMouseButtonDown(0) ){
-
       var hit : RaycastHit;      
       if (Physics.Raycast (ray, hit, 1000.0f)){
       
       	 var build = null;
-      	 switch(changeBuilding)
-      	 {
-      	 	case 0:
-      	 		build = Instantiate(buildingPrefab0, buildPosition, Quaternion.identity);
-      	 	break;
-      	 	case 1:
-      	 		build = Instantiate(buildingPrefab1, buildPosition, Quaternion.identity);
-      	 	break;
-		 }
+      	 
+      	 if (changeBuilding > 7) {
+      	 	Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
+      	 } else {
+      	 	build = Instantiate(buildingPrefabs[changeBuilding], buildPosition, Quaternion.identity);
+      	 }
 		 
          Debug.Log(hit.collider.gameObject.name);         
       }
