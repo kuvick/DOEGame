@@ -567,10 +567,14 @@ function testWinState(): boolean
 	
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
-		if(placedBuilding.isActive == false)
+		//only checks houses and cities
+		if(placedBuilding.buildingName == "House" || placedBuilding.buildingName == "City")
 		{
-			//if any of the buildings are not active, will return false
-			return false;
+			if(placedBuilding.isActive == false)
+			{
+				//if any of the buildings are not active, will return false
+				return false;
+			}
 		}
 	}
 	//will only make it this far after going through all the buildings and finding none of them false
