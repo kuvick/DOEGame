@@ -115,11 +115,14 @@ function Update(){
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
 	plane.Raycast(ray, enter);
 	var worldPoint: Vector3 = ray.GetPoint(enter);
-	var mouseTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
-	//0.05f y coordinate the the selection hexagon clips above the terrain//i will clean up the math later
-	var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
+	var mouseTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);		
+	//added math helper function
+	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
+	var selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
+	//set y to be just above the ground plane so it doesn't get clipped.
+	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
-	
+
 	
 	Debug.Log(	"Position X : " 
 				+ Input.mousePosition.x 
@@ -224,7 +227,11 @@ private function createHexagonGridParticles(){
 	hexParticles = new ParticleSystem.Particle[height * width];
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
-			var position: Vector3 = new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 + tileWidth / 2 , 0, y * sideSize * 1.5f + (sideSize * 1.5f  + peakSize) / 2);
+			var position: Vector3 = tileToWorldCoordinates(x, y);
+			//need to add half the size of the hexagon since the particles are centered	
+			position.x += tileWidth / 2.0f;
+			position.z += (sideSize * 1.5f  + peakSize) / 2;
+			//old math new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 + tileWidth / 2 , 0, y * sideSize * 1.5f + (sideSize * 1.5f  + peakSize) / 2);
 			var particle: ParticleSystem.Particle = new ParticleSystem.Particle();
 			particle.position = position;
 			particle.rotation = 45;
@@ -307,3 +314,10 @@ private function createHexagonGridParticles(){
 	}
 	return new Vector2(xTile, yTile);	
  }
+ 
+
+/**returns the lower left corner world coordinates of the tile, (x, 0, z)
+*/
+function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
+  return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
+}
