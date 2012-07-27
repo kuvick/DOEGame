@@ -149,20 +149,28 @@ function Update(){
 											15, 
 											selectionPosition.z  + (sideSize + peakSize*2)/2);
 	
-	if ( Input.GetMouseButtonDown(0) ){
-      var hit : RaycastHit;      
-      if (Physics.Raycast (ray, hit, 1000.0f)){
-      
-      	 var build = null;
-      	 
-      	 if (changeBuilding > 7) {
-      	 	Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
-      	 } else {
-      	 	build = Instantiate(buildingPrefabs[changeBuilding], buildPosition, Quaternion.identity);
-      	 }
-		 
-         Debug.Log(hit.collider.gameObject.name);         
-      }
+	if ( Input.GetMouseButtonDown(0) ){		
+		// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
+		var mousePos: Vector2;
+		mousePos.x = Screen.width-Input.mousePosition.x;
+		mousePos.y = Screen.height-Input.mousePosition.y;
+		
+		// check if the mouse is clicking a gui element
+		if (!ToolBar.toolbarWindow.Contains(mousePos) && !(ToolBar.showWindow && ToolBar.buildingMenuWindow.Contains(Input.mousePosition))){
+			var hit : RaycastHit;      
+			if (Physics.Raycast (ray, hit, 1000.0f)){
+			
+			var build = null;
+			
+			if (changeBuilding > 7) {
+				Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
+			} else {
+				build = Instantiate(buildingPrefabs[changeBuilding], buildPosition, Quaternion.identity);
+			}
+			
+			Debug.Log(hit.collider.gameObject.name);         
+			}
+		}
    	}		
 }
 

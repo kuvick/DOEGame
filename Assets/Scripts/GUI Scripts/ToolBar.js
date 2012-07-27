@@ -23,7 +23,7 @@ var btnTexture3 : Texture;
 var btnTexture4 : Texture;
 var btnTexture5 : Texture; 
 
-private var showWindow : boolean = false;
+public static var showWindow : boolean = false;
 
 //need to replace text with GUI texture (if needed)
 private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "End Turn"];
@@ -50,9 +50,11 @@ private var toolBarTopLeftX: float;
 private var toolBarTopLeftY: float;
 
 // The actual gui elements to fill
-private var toolbarWindow : Rect;
-private var buildingMenuWindow : Rect;
+public static var toolbarWindow : Rect;
+public static var buildingMenuWindow : Rect;
 
+private var mainWindow;
+private var dropDownWindow;
 
 function Start(){
 	// Need to determine screen size and density at start time for accurate reading
@@ -75,11 +77,11 @@ function OnGUI()
 {
 	//showWindow = false;
 
-	toolbarWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
+	mainWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
 	
 	if(showWindow)
-		buildingMenuWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
-	
+		dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
+		
 	if (!btnTexture1 || !btnTexture2 || !btnTexture3 || !btnTexture4 || !btnTexture5) {
         Debug.LogError("Missing button texture !");
         return;
