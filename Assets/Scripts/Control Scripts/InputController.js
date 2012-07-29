@@ -11,7 +11,7 @@
 	-- Attach to camera for now, but that doesn't really make sense.
 */
 
-// The input detection is based off of these 4 states
+// The input detection is based off of these states
 enum ControlState {
 	WaitingForFirstTouch, // there are no fingers down
 	WaitingForSecondTouch, // there is one finger down and we are waiting to see if user presses down another for 2 touch actions
@@ -26,10 +26,17 @@ var zoomEnabled: boolean = true;
 var zoomEpsilon: float = 25; // 
 
 private var state = ControlState.WaitingForFirstTouch;
+
+// Used for touch controls
 private var fingerDown : int[] = new int[ 2 ];
 private var fingerDownPosition : Vector2[] = new Vector2[ 2 ];
 private var fingerDownFrame : int[] = new int[ 2 ];
 private var firstTouchTime : float;
+var touchCount : int;
+
+// this will point to the funciton that will perform input checking based on the device
+private var typeOfInput: function();
+
 
 function ResetControlState() {
 	state = ControlState.WaitingForFirstTouch;
@@ -39,12 +46,20 @@ function ResetControlState() {
 
 function Start () {
 	ResetControlState();
+	// Check what type of input we should be expecting
+	// if we are running on android or iOS then use touch controls
+	// it is assumed this game will be ran on mobile or computers and thus other device inputs are not accounted for
+	if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer){
+		Debug.Log("On Mobile");
+		typeOfInput = function(){HandleMobileInput();};
+	} else {
+		Debug.Log("On Computer");
+		typeOfInput = function(){HandleComputerInput();};
+	}
 }
 
-var touchCount : int;
-
-function Update () {    
-    touchCount = Input.touchCount;
+function HandleMobileInput(){
+	touchCount = Input.touchCount;
     if ( touchCount == 0 ){
         ResetControlState();
     } else{
@@ -193,5 +208,16 @@ function Update () {
             // before we reset to the origin state
             state = ControlState.WaitingForNoFingers;
         }
-    }               
+    } 
+}
+
+function HandleComputerInput(){
+	// TODO
+}
+
+
+
+
+function Update () {  
+	typeOfInput();          
 }
