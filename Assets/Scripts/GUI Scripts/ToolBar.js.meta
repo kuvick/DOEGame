@@ -2,6 +2,16 @@ fileFormatVersion: 2
 guid: d0f5f45f6504fe84695762a56e3a876b
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - btnTexture0: {fileID: 2800000, guid: 0df7dd14e02100b49b073e422d3b7e78, type: 1}
+  - btnTexture1: {fileID: 2800000, guid: 0df7dd14e02100b49b073e422d3b7e78, type: 1}
+  - btnTexture2: {fileID: 2800000, guid: 0df7dd14e02100b49b073e422d3b7e78, type: 1}
+  - btnTexture3: {fileID: 2800000, guid: 0df7dd14e02100b49b073e422d3b7e78, type: 1}
+  - btnTexture4: {fileID: 2800000, guid: 0df7dd14e02100b49b073e422d3b7e78, type: 1}
+  - btnTexture5: {fileID: 2800000, guid: 8eebbf6a314591849bab3f4f71b45645, type: 1}
+  - btnTexture6: {instanceID: 0}
+  - btnTexture7: {instanceID: 0}
+  - btnTexture8: {instanceID: 0}
+  - btnTexture9: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

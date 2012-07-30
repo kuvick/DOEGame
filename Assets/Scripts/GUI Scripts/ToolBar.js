@@ -17,11 +17,17 @@ private var toolbarInt : int = -1;
 private var buildingMenuInt : int = -1;
 
 //Note: textures will be assigned from unity inspector.
+var btnTextureArray : Texture[] = new Texture[10];
+var btnTexture0 : Texture; 
 var btnTexture1 : Texture; 
 var btnTexture2 : Texture;
 var btnTexture3 : Texture; 
 var btnTexture4 : Texture;
 var btnTexture5 : Texture; 
+var btnTexture6 : Texture; 
+var btnTexture7 : Texture;
+var btnTexture8 : Texture; 
+var btnTexture9 : Texture;
 
 public static var showWindow : boolean = false;
 
@@ -56,6 +62,20 @@ public static var buildingMenuWindow : Rect;
 private var mainWindow;
 private var dropDownWindow;
 
+function Awake(){
+	btnTextureArray[0] = btnTexture0;
+	btnTextureArray[1] = btnTexture1;
+	btnTextureArray[2] = btnTexture2;
+	btnTextureArray[3] = btnTexture3;
+	btnTextureArray[4] = btnTexture4;
+	btnTextureArray[5] = btnTexture5;
+	btnTextureArray[6] = btnTexture6;
+	btnTextureArray[7] = btnTexture7;
+	btnTextureArray[8] = btnTexture8;
+	btnTextureArray[9] = btnTexture9;
+
+}
+
 function Start(){
 	// Need to determine screen size and density at start time for accurate reading
 	screenWidth = Screen.width;
@@ -81,11 +101,14 @@ function OnGUI()
 	
 	if(showWindow)
 		dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
-		
-	if (!btnTexture1 || !btnTexture2 || !btnTexture3 || !btnTexture4 || !btnTexture5) {
-        Debug.LogError("Missing button texture !");
-        return;
+	/*
+	for(var i=0; i<10; i++){		
+		if(!btnTextureArray[i]){
+        	Debug.LogError("Missing button texture !");
+        	return;
+    	}
     }
+    */
         						
 	switch(toolbarInt)
 	{
@@ -98,6 +121,7 @@ function OnGUI()
 		//Restart level
 		case 1:
 		Debug.Log("restart level");
+		Application.LoadLevel (0);  
 		toolbarInt = -1;
 		break;
 		
@@ -133,6 +157,8 @@ function BuildingMenuFunc (windowID : int) {
         								buildingMenuStrings);
         */
         
+        
+        /*
         if(GUI.Button(Rect(5, 20, 90, 90),  btnTexture1))
         {
         	PlaceBuilding.changeBuilding = 0;
@@ -164,6 +190,24 @@ function BuildingMenuFunc (windowID : int) {
         	showWindow = false;
         }
         GUI.Label(Rect(100, 400, 150, 90), "Prototype Building 5\nInput: sample text\nOutput: sample text");
+        */
+        
+        for(var i =0; i<10; i++){
+        	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), btnTextureArray[i])){
+        		PlaceBuilding.changeBuilding = i;
+        		showWindow = false;
+        	}
+
+        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	Database.buildings[i].buildingName 
+        												+ "\n"
+        												+ "INPUT: " + Database.buildings[i].inputName
+        												+ " [" + Database.buildings[i].inputNum + "]"
+        												+ "\n"
+        												+ "OUTPUT: " + Database.buildings[i].outputName
+        												+ " [" + Database.buildings[i].outputNum + "]");
+        											
+        	
+		}
         
 }
 
