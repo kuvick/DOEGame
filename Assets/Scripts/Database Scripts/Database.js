@@ -23,8 +23,10 @@ Attach to a blank GameObject
 // The two main structures for holding data:
 
 	// This will contain the default information for all building types:
-private var buildings = new Array();
-	// This will contain the information for buildings placed on the grid:
+//private var buildings = new Array();
+public static var buildings = new Array();
+	
+// This will contain the information for buildings placed on the grid:
 private var buildingsOnGrid = new Array(); 
 
 	// ********************************************************************************added, keeps track of previous changes
