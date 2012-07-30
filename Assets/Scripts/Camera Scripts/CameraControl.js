@@ -81,7 +81,7 @@ function Start ()
 	function Update ()
 	{
 		
-		
+		/*
 		//Raycast:
 		cameraRay = thisCamera.ScreenPointToRay(Input.mousePosition);
 		Physics.Raycast( cameraRay.origin, cameraRay.direction, mouseClickTarget);
@@ -159,7 +159,7 @@ function Start ()
 			center();
 			
 		}
-		
+		*/
 	
 		
 	
