@@ -13,27 +13,32 @@
 
 // The input detection is based off of these states
 enum ControlState {
-	WaitingForFirstTouch, // there are no fingers down
-	WaitingForSecondTouch, // there is one finger down and we are waiting to see if user presses down another for 2 touch actions
+	WaitingForFirstInput, // there are no fingers down/ mouse down
+	WaitingForSecondTouch, // there is one finger down and we are waiting to see if user presses down another for 2 touch actions *note this will only occur on mobile
 	WaitingForMovement, // the user has pressed 2 fingers down and we are waiting to see what gesture is performed
-	DragingCamera, // the user has one finger down and is moving across the screen greater than some minimum amount
-	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out
-	WaitingForNoFingers // The final state where the user's input has been performed but the user is still touching the screen
+	DragingCamera, // the user has one finger down/clicked and is moving across the screen greater than some minimum amount
+	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out or if using mouse when using the wheel
+	WaitingForNoInput // The final state where the user's input has been performed but the user is still touching the screen/ clicking
 }
 
 // General input system settings to be altered as seen fit
 var minimumTimeUntilMove = .25; // the time in seconds that we will wait for the user to move before we interprate as a tap
-var minimumMovementDistance: float = 5; // the amount of posisiton change in a single touh gesture before it is considered a drag
+var minimumMovementDistance: float = 5; // the amount of posisiton change in a single touch gesture/click before it is considered a drag
 var zoomEnabled: boolean = true; 
 var zoomEpsilon: float = 25; // 
 
-private var state = ControlState.WaitingForFirstTouch;
+private var state = ControlState.WaitingForFirstInput;
 
 // Used for touch controls
 private var fingerDown : int[] = new int[ 2 ];
 private var fingerDownPosition : Vector2[] = new Vector2[ 2 ];
 private var fingerDownFrame : int[] = new int[ 2 ];
 private var firstTouchTime : float;
+
+// used for mouse
+private var firstClickTime: float;
+private var clickPosition: Vector2;
+
 var touchCount : int;
 
 // this will point to the funciton that will perform input checking based on the device
@@ -41,7 +46,7 @@ private var typeOfInput: function();
 
 
 function ResetControlState() {
-	state = ControlState.WaitingForFirstTouch;
+	state = ControlState.WaitingForFirstInput;
 	fingerDown[ 0 ] = -1;
 	fingerDown[ 1 ] = -1;
 }
@@ -59,6 +64,7 @@ function Start () {
 }
 
 function HandleMobileInput(){
+	Debug.Log("Mobile input");
 	touchCount = Input.touchCount;
     if ( touchCount == 0 ){
         ResetControlState();
@@ -73,7 +79,7 @@ function HandleMobileInput(){
         var gotTouch1 = false;          
         
         // Check if we got the first finger down
-        if (state == ControlState.WaitingForFirstTouch){
+        if (state == ControlState.WaitingForFirstInput){
             for (i = 0; i < touchCount; i++){
                 touch = theseTouches[ i ];
 
@@ -106,7 +112,6 @@ function HandleMobileInput(){
                         break;
                     } else if ( touchCount == 1 ) {
                         var deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
-                        Debug.Log("delta = " + deltaSinceDown);
                         
                         // if we are looking at the right finger
                         if (touch.fingerId == fingerDown[ 0 ]) {
@@ -114,8 +119,6 @@ function HandleMobileInput(){
 	                        // as a move or it is lifted, which is also a tap. 
 	                        if (Time.time > firstTouchTime + minimumTimeUntilMove || 
 	                             touch.phase == TouchPhase.Ended){
-	                             
-	                             Debug.Log("Place : we have a tap");
 	                            // since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
 								var mousePos: Vector2;
 								mousePos.x = Screen.width-Input.mousePosition.x;
@@ -126,13 +129,11 @@ function HandleMobileInput(){
 	                            // if it does then we do nothing and let the gui handle it, otherwise
 	                            // we let the builing interaction manager handle it
 	                            if (ToolBar.NotOnGui(mousePos)){
-	                            	Debug.Log("Place: it is not on the gui");
 	                            	BuildingInteractionManager.HandleTapAtPoint(mousePos);
 	                            }
-	                            state = ControlState.WaitingForNoFingers;
+	                            state = ControlState.WaitingForNoInput;
 	                            break;
 	                        } else if (deltaSinceDown.x > minimumMovementDistance || deltaSinceDown.y > minimumMovementDistance){ // else if the single touch has moved more than the minimum amount we take it to be a drag
-	                        	Debug.Log("Drag");
 	                        	state = ControlState.DragingCamera;
 	                        	break;
 	                        }
@@ -196,12 +197,11 @@ function HandleMobileInput(){
 	        } else {
 	            // A finger was lifted, so let's just wait until we have no fingers
 	            // before we reset to the origin state
-	            state = ControlState.WaitingForNoFingers;
+	            state = ControlState.WaitingForNoInput;
 	        }
         }
         
         if (state == ControlState.DragingCamera){
-        	Debug.Log("dragging");
         	// Call old camera dragging here
         }
         
@@ -231,7 +231,7 @@ function HandleMobileInput(){
 	        } else {
 	            // A finger was lifted, so let's just wait until we have no fingers
 	            // before we reset to the origin state
-	            state = ControlState.WaitingForNoFingers;
+	            state = ControlState.WaitingForNoInput;
 	        }
 	    } 
     }       
@@ -240,9 +240,44 @@ function HandleMobileInput(){
 }
 
 function HandleComputerInput(){
-	// TODO
+	// if the user has not clicked then keep cheking for a click
+	if (state == ControlState.WaitingForFirstInput){
+		// if a click occurs then start waiting for movement
+		if (Input.GetKey(KeyCode.Mouse0)) {
+			state = ControlState.WaitingForNoInput;
+			firstClickTime = Time.time;
+			clickPosition = Input.mousePosition;
+		}
+	}
+	
+	if (state == ControlState.WaitingForNoInput){
+		var deltaSinceDown = Input.mousePosition - clickPosition;
+		// if the mouse has moved over the threshhold then consider it a drag
+		if (deltaSinceDown.x > minimumMovementDistance || deltaSinceDown.y > minimumMovementDistance) {
+			state = ControlState.DragingCamera;
+		} else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
+			// check that the click is not over the gui
+			var mousePos: Vector2;
+			mousePos.x = Screen.width-Input.mousePosition.x;
+			mousePos.y = Screen.height-Input.mousePosition.y;
+			
+			if (ToolBar.NotOnGui(mousePos)){
+				state = ControlState.WaitingForFirstInput;
+				BuildingInteractionManager.HandleTapAtPoint(mousePos);
+			}
+		}
+	}
+	
+	if (state == ControlState.DragingCamera){
+		// if the mouse is still down keep dragging the camera
+		if (Input.GetKey(KeyCode.Mouse0)){
+			// TODO dragging
+		} else {
+			state = ControlState.WaitingForFirstInput;
+		}
+	}
 }
 
-function Update () {  
+function Update () {
 	typeOfInput();          
 }
