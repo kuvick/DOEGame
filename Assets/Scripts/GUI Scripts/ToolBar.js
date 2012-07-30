@@ -135,14 +135,14 @@ function BuildingMenuFunc (windowID : int) {
         
         if(GUI.Button(Rect(5, 20, 90, 90),  btnTexture1))
         {
-        	HexagonGrid.changeBuilding = 0;
+        	PlaceBuilding.changeBuilding = 0;
         	showWindow = false;
         }
         GUI.Label(Rect(100, 20, 150, 90), "Prototype Building 1\nInput: sample text\nOutput: sample text");
  
         if(GUI.Button(Rect(5, 115, 90, 90), btnTexture2))
         {
-        	HexagonGrid.changeBuilding = 1;
+        	PlaceBuilding.changeBuilding = 1;
         	showWindow = false;
         }                
         GUI.Label(Rect(100, 115, 150, 90), "Prototype Building 2\nInput: sample text\nOutput: sample text");
@@ -173,4 +173,13 @@ function ToggleBuildingWindowVisibility()
 		showWindow = true;
 	else
 		showWindow = false;
+}
+
+// Helper function to determine if the given point on the screen is on a gui element
+static function NotOnGui(screenInputPosistion: Vector2){
+	if (toolbarWindow.Contains(screenInputPosistion) || (ToolBar.showWindow && ToolBar.buildingMenuWindow.Contains(screenInputPosistion))) {
+		return (false);
+	} else {
+		return (true);
+	}
 }
