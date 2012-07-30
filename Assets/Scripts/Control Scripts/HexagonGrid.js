@@ -32,9 +32,9 @@ var height: int; //number of tiles vertically
 var terrainWidth: float; //width of the hexagonal grid, in world coordinates
 var terrainHeight: float;
 var showGrid:boolean = true;
-var tileWidth: float; //width of a hexagon tile
-var sideSize: float; //size of a single side of the hexagon
-var peakSize: float; //see the ascii art below
+static var tileWidth: float; //width of a hexagon tile
+static var sideSize: float; //size of a single side of the hexagon
+static var peakSize: float; //see the ascii art below
 /*<-------> tileWidth
  *   
  *    /\   |peakSize
@@ -52,19 +52,7 @@ var peakSize: float; //see the ascii art below
  
 private var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
-
-// for placing a building on terrain
-var buildingPrefabs = new Array(); 
-var buildingPrefab0 : Transform; 
-var buildingPrefab1 : Transform;
-var buildingPrefab2 : Transform; 
-var buildingPrefab3 : Transform;
-var buildingPrefab4 : Transform; 
-var buildingPrefab5 : Transform;
-var buildingPrefab6 : Transform; 
-var buildingPrefab7 : Transform;
-
-static var changeBuilding : int;
+static public var selectionPosition: Vector3;
 
 function Start(){
 	mainCamera = Camera.main;
@@ -90,20 +78,6 @@ function Start(){
 	
 }
 
-
-function Awake()
-{
-	//setting up the buildings prefab array
-	buildingPrefabs[0] = buildingPrefab0;
-	buildingPrefabs[1] = buildingPrefab1;
-	buildingPrefabs[2] = buildingPrefab2;
-	buildingPrefabs[3] = buildingPrefab3;
-	buildingPrefabs[4] = buildingPrefab4;
-	buildingPrefabs[5] = buildingPrefab5;
-	buildingPrefabs[6] = buildingPrefab6;
-	buildingPrefabs[7] = buildingPrefab7;
-}
-
 //converts mouse coordinates to world coordinates to tile coordinates, moves a selection hexagon around the grid.
 function Update(){
 	//shows or hides the grid since this script is attached to a particle system
@@ -118,11 +92,11 @@ function Update(){
 	var mouseTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);		
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
-	var selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
+	selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
 	//set y to be just above the ground plane so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
-
+/*
 	
 	Debug.Log(	"Position X : " 
 				+ Input.mousePosition.x 
@@ -139,39 +113,19 @@ function Update(){
 				+ " mousetilex" 
 				+ mouseTile.x
 				+ " mousetiley"
-				+ mouseTile.y);
+				+ mouseTile.y);*/
 	
 	//placing a building	
 
 			
-	//var buildPosition: Vector3 = new Vector3(worldPoint.x, 15, worldPoint.z);
-	var buildPosition: Vector3 = new Vector3(selectionPosition.x + tileWidth/2,
-											15, 
-											selectionPosition.z  + (sideSize + peakSize*2)/2);
-	
-	if ( Input.GetMouseButtonDown(0) ){		
-		// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
-		var mousePos: Vector2;
-		mousePos.x = Screen.width-Input.mousePosition.x;
-		mousePos.y = Screen.height-Input.mousePosition.y;
-		
-		// check if the mouse is clicking a gui element
-		if (!ToolBar.toolbarWindow.Contains(mousePos) && !(ToolBar.showWindow && ToolBar.buildingMenuWindow.Contains(Input.mousePosition))){
-			var hit : RaycastHit;      
-			if (Physics.Raycast (ray, hit, 1000.0f)){
-			
-			var build = null;
-			
-			if (changeBuilding > 7) {
-				Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
-			} else {
-				build = Instantiate(buildingPrefabs[changeBuilding], buildPosition, Quaternion.identity);
-			}
-			
-			Debug.Log(hit.collider.gameObject.name);         
-			}
-		}
-   	}		
+	//var buildPosition: Vector3 = new Vector3(worldPoint.x, 15, worldPoint.z);	
+}
+
+// note this shoudl use the position argument, that will come latter
+static function GetPositionToBuild(position: Vector3) {
+	return (new Vector3(selectionPosition.x + tileWidth/2,
+			15, 
+			selectionPosition.z  + (sideSize + peakSize*2)/2));
 }
 
 /*
