@@ -76,6 +76,7 @@ function Start(){
 		Debug.LogError("Camera not set");
 	}
 	
+	gameObject.AddComponent("InputController");
 }
 
 //converts mouse coordinates to world coordinates to tile coordinates, moves a selection hexagon around the grid.
