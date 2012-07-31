@@ -263,9 +263,7 @@ function HandleMobileInput(){
 	            state = ControlState.WaitingForNoInput;
 	        }
 	    } 
-    }       
-        
-    
+    }    
 }
 
 function HandleComputerInput(){
