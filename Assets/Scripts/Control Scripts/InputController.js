@@ -44,6 +44,28 @@ var touchCount : int;
 // this will point to the funciton that will perform input checking based on the device
 private var typeOfInput: function();
 
+// ------------ These functions will be called when the given event occurs, put any code to be perform on the event in here 
+// so you don't have to search in the state machine for the spot
+// called whenever a drag occurs
+function DragEvent(inputChangeSinceLastTick: Vector2){
+	CameraControl.Drag(-inputChangeSinceLastTick);
+}
+
+// called when a click/tap occurs
+function singleClickEvent(inputPos: Vector2){
+	// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
+	var mousePos: Vector2;
+	mousePos.x = Screen.width-inputPos.x;
+	mousePos.y = Screen.height-inputPos.y;
+
+	// At this point the user has indicated a tap on a point on the screen
+	// we need to check if the point overlaps with a gui element
+	// if it does then we do nothing and let the gui handle it, otherwise
+	// we let the builing interaction manager handle it
+	if (ToolBar.NotOnGui(mousePos)){
+    	BuildingInteractionManager.HandleTapAtPoint(mousePos);
+    }
+}
 
 function ResetControlState() {
 	state = ControlState.WaitingForFirstInput;
@@ -63,8 +85,17 @@ function Start () {
 	}
 }
 
+// will detect if the change in input position since the last tick is enough to be accepted as a drag
+function DragMovementDetected(movementChange: Vector2){
+	// if the x or y is greater than the minimum amount to be considered a drag then return true
+	if (Mathf.Abs(movementChange.x) > minimumMovementDistance || Mathf.Abs(movementChange.y) > minimumMovementDistance){
+		return (true);
+	} else {
+		return (false);
+	}
+}
+
 function HandleMobileInput(){
-	Debug.Log("Mobile input");
 	touchCount = Input.touchCount;
     if ( touchCount == 0 ){
         ResetControlState();
@@ -119,21 +150,10 @@ function HandleMobileInput(){
 	                        // as a move or it is lifted, which is also a tap. 
 	                        if (Time.time > firstTouchTime + minimumTimeUntilMove || 
 	                             touch.phase == TouchPhase.Ended){
-	                            // since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
-								var mousePos: Vector2;
-								mousePos.x = Screen.width-Input.mousePosition.x;
-								mousePos.y = Screen.height-Input.mousePosition.y;
-	
-	                            // At this point the user has indicated a tap on a point on the screen
-	                            // we need to check if the point overlaps with a gui element
-	                            // if it does then we do nothing and let the gui handle it, otherwise
-	                            // we let the builing interaction manager handle it
-	                            if (ToolBar.NotOnGui(mousePos)){
-	                            	BuildingInteractionManager.HandleTapAtPoint(mousePos);
-	                            }
+	                            singleClickEvent(deltaSinceDown);
 	                            state = ControlState.WaitingForNoInput;
 	                            break;
-	                        } else if (deltaSinceDown.x > minimumMovementDistance || deltaSinceDown.y > minimumMovementDistance){ // else if the single touch has moved more than the minimum amount we take it to be a drag
+	                        } else if (DragMovementDetected(deltaSinceDown)){ // else if the single touch has moved more than the minimum amount we take it to be a drag
 	                        	state = ControlState.DragingCamera;
 	                        	break;
 	                        }
@@ -202,7 +222,6 @@ function HandleMobileInput(){
         }
         
         if (state == ControlState.DragingCamera){
-        	Debug.Log("Dragging");
         	touch = theseTouches[ 0 ];
         	
         	if (touch.phase == TouchPhase.Ended){
@@ -211,7 +230,7 @@ function HandleMobileInput(){
 	       		deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
 	       		fingerDownPosition[ 0 ] = touch.position;
 	       		// need to do negative in order to give the feeling of pushing the world underneath your finger
-	        	CameraControl.Drag(-deltaSinceDown);
+	       		DragEvent(deltaSinceDown);
 	        }
         }
         
@@ -263,18 +282,11 @@ function HandleComputerInput(){
 	if (state == ControlState.WaitingForNoInput){
 		var deltaSinceDown = Input.mousePosition - clickPosition;
 		// if the mouse has moved over the threshhold then consider it a drag
-		if (deltaSinceDown.x > minimumMovementDistance || deltaSinceDown.y > minimumMovementDistance) {
+		if (DragMovementDetected(deltaSinceDown)) {
 			state = ControlState.DragingCamera;
 		} else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
-			// check that the click is not over the gui
-			var mousePos: Vector2;
-			mousePos.x = Screen.width-Input.mousePosition.x;
-			mousePos.y = Screen.height-Input.mousePosition.y;
-			
-			if (ToolBar.NotOnGui(mousePos)){
-				state = ControlState.WaitingForFirstInput;
-				BuildingInteractionManager.HandleTapAtPoint(mousePos);
-			}
+			singleClickEvent(Input.mousePosition);
+			state = ControlState.WaitingForFirstInput;
 		}
 	}
 	
@@ -284,7 +296,7 @@ function HandleComputerInput(){
 		
 		// if the mouse is still down keep dragging the camera
 		if (Input.GetKey(KeyCode.Mouse0)){
-			CameraControl.Drag(deltaSinceDown);
+			DragEvent(deltaSinceDown);
 		} else {
 			state = ControlState.WaitingForFirstInput;
 		}
