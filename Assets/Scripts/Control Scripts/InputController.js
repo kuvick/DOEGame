@@ -202,7 +202,17 @@ function HandleMobileInput(){
         }
         
         if (state == ControlState.DragingCamera){
-        	// Call old camera dragging here
+        	Debug.Log("Dragging");
+        	touch = theseTouches[ 0 ];
+        	
+        	if (touch.phase == TouchPhase.Ended){
+        		state = ControlState.WaitingForFirstInput;
+        	} else {
+	       		deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
+	       		fingerDownPosition[ 0 ] = touch.position;
+	       		// need to do negative in order to give the feeling of pushing the world underneath your finger
+	        	CameraControl.Drag(-deltaSinceDown);
+	        }
         }
         
         // Now that we are zooming the camera, let's keep
@@ -269,9 +279,12 @@ function HandleComputerInput(){
 	}
 	
 	if (state == ControlState.DragingCamera){
+		deltaSinceDown = Input.mousePosition - clickPosition;
+		clickPosition = Input.mousePosition;
+		
 		// if the mouse is still down keep dragging the camera
 		if (Input.GetKey(KeyCode.Mouse0)){
-			// TODO dragging
+			CameraControl.Drag(deltaSinceDown);
 		} else {
 			state = ControlState.WaitingForFirstInput;
 		}

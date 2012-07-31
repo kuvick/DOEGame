@@ -13,7 +13,7 @@
  instead of a name.
  
  Changed the zoom function to work with touch. If using computer, uncheck
- the "usingMobile" variable". Updates for mobile marked with "//$$$$CHANGE"
+ the "usingMobile" variable". Updates for mobile marked with "//$$$$CHANGE" // updated to no longer check for input
  
  Attach this script to the camera.
   
@@ -34,12 +34,12 @@ private var disableDrag: boolean;							//$$$$CHANGE
 
 
 
-private var thisCamera: Camera;
+static private var thisCamera: Camera;
 
 	// Variables used in dragging the camera:
 private var clickStarted: boolean;
-private var lastMousePos: Vector3;
-private var currentMousePos : Vector3;
+private var lastMousePos: Vector2;
+private var currentMousePos : Vector2 = new Vector2(-1,-1); // set to indicate no initial posision
 private var clickStartedOnTerrain: boolean;
 
 	// Variables used in raycast
@@ -169,8 +169,18 @@ function Start ()
 	
 	// The function uses the difference in the mouse's position between frames
 	// to determine which way to drag the camera, and moves the camera in that direction.
-	private function drag()
+	static public function Drag(currentInputPos: Vector2)
 	{
+		var worldConvertedPoint = thisCamera.ScreenToWorldPoint(new Vector3(currentInputPos.x, 100, currentInputPos.y));
+		
+		// need to add in detecting at end of map
+		thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
+		
+	/*
+		if (currentMousePos.x == -1 && currentMousePos.y == -1){
+		
+		}
+		/*
 		if( !usingMobile )	//$$$$CHANGE
 		{
 			// Sets the currentMousePos to the mouse's current position when the click starts
@@ -208,7 +218,7 @@ function Start ()
 			}
 		}
 		//$$$$
-
+		*/
 	}// End of drag
 	
 
