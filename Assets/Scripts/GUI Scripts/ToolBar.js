@@ -62,6 +62,9 @@ public static var buildingMenuWindow : Rect;
 private var mainWindow;
 private var dropDownWindow;
 
+
+var scrollPosition : Vector2 = Vector2.zero;		// used for scrollbar for building menu
+
 function Awake(){
 	btnTextureArray[0] = btnTexture0;
 	btnTextureArray[1] = btnTexture1;
@@ -149,6 +152,12 @@ function ToolbarWindowFunc (windowID : int) {
         						  toolbarStrings);
 }
 
+
+
+
+
+
+
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
@@ -192,6 +201,13 @@ function BuildingMenuFunc (windowID : int) {
         GUI.Label(Rect(100, 400, 150, 90), "Prototype Building 5\nInput: sample text\nOutput: sample text");
         */
         
+        //scrollPosition = GUI.BeginScrollView (Rect (0,0,toolBarWidth - 100,toolBarHeight), scrollPosition, Rect (0, 0, 220, 220));
+        
+        
+        
+        // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
+        scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight), false, true);
+        
         for(var i =0; i<10; i++){
         	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), btnTextureArray[i])){
         		PlaceBuilding.changeBuilding = i;
@@ -205,9 +221,10 @@ function BuildingMenuFunc (windowID : int) {
         												+ "\n"
         												+ "OUTPUT: " + Database.buildings[i].outputName
         												+ " [" + Database.buildings[i].outputNum + "]");
-        											
-        	
+
 		}
+		
+		GUI.EndScrollView ();
         
 }
 
