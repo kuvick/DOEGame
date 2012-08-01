@@ -76,7 +76,6 @@ function Awake(){
 	btnTextureArray[7] = btnTexture7;
 	btnTextureArray[8] = btnTexture8;
 	btnTextureArray[9] = btnTexture9;
-
 }
 
 function Start(){
@@ -213,7 +212,7 @@ function BuildingMenuFunc (windowID : int) {
         		PlaceBuilding.changeBuilding = i;
         		showWindow = false;
         	}
-
+/*
         	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	Database.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + Database.buildings[i].inputName
@@ -221,7 +220,7 @@ function BuildingMenuFunc (windowID : int) {
         												+ "\n"
         												+ "OUTPUT: " + Database.buildings[i].outputName
         												+ " [" + Database.buildings[i].outputNum + "]");
-
+*/
 		}
 		
 		GUI.EndScrollView ();
@@ -230,15 +229,16 @@ function BuildingMenuFunc (windowID : int) {
 
 function ToggleBuildingWindowVisibility()
 {
-	if(showWindow == false)
-		showWindow = true;
-	else
-		showWindow = false;
+	showWindow = !showWindow;
 }
 
 // Helper function to determine if the given point on the screen is on a gui element
-static function NotOnGui(screenInputPosistion: Vector2){
-	if (toolbarWindow.Contains(screenInputPosistion) || (ToolBar.showWindow && ToolBar.buildingMenuWindow.Contains(screenInputPosistion))) {
+static function NotOnGui(screenInputPosistion: Vector2){	
+	// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
+	var mousePos: Vector2;
+	mousePos.x = screenInputPosistion.x;
+	mousePos.y = Screen.height-screenInputPosistion.y;
+	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos))) {
 		return (false);
 	} else {
 		return (true);

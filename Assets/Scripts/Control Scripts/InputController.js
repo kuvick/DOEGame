@@ -56,18 +56,13 @@ function DragEvent(inputChangeSinceLastTick: Vector2){
 }
 
 // called when a click/tap occurs
-function singleClickEvent(inputPos: Vector2){
-	// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
-	var mousePos: Vector2;
-	mousePos.x = Screen.width-inputPos.x;
-	mousePos.y = Screen.height-inputPos.y;
-
+function singleClickEvent(inputPos: Vector2){	
 	// At this point the user has indicated a tap on a point on the screen
 	// we need to check if the point overlaps with a gui element
 	// if it does then we do nothing and let the gui handle it, otherwise
 	// we let the builing interaction manager handle it
-	if (ToolBar.NotOnGui(mousePos)){
-    	BuildingInteractionManager.HandleTapAtPoint(mousePos);
+	if (ToolBar.NotOnGui(inputPos)){
+    	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }
 }
 
@@ -139,12 +134,15 @@ function HandleMobileInput(){
 
                 if (touch.phase != TouchPhase.Ended &&
                      touch.phase != TouchPhase.Canceled ){
-                    state = ControlState.WaitingForSecondTouch;
-                    firstTouchTime = Time.time;
-                    fingerDown[ 0 ] = touch.fingerId;
-                    fingerDownPosition[ 0 ] = touch.position;
-                    fingerDownFrame[ 0 ] = Time.frameCount;
-                    break; // break out of the rest of the checks for efficiency
+                     // now that we have a tap we need to be sure to check if it is on the gui or not
+                     if (ToolBar.NotOnGui(touch.position)){
+	                    state = ControlState.WaitingForSecondTouch;
+	                    firstTouchTime = Time.time;
+	                    fingerDown[ 0 ] = touch.fingerId;
+	                    fingerDownPosition[ 0 ] = touch.position;
+	                    fingerDownFrame[ 0 ] = Time.frameCount;
+	                    break; // break out of the rest of the checks for efficiency
+	                }
                 }
             }
         }
@@ -289,6 +287,7 @@ function HandleMobileInput(){
 }
 
 function HandleComputerInput(){
+	//Debug.Log("state = " + state);
 	if (Input.GetAxis("Mouse ScrollWheel") > 0){
 		zoomEvent(zoomIn);
 	} else if (Input.GetAxis("Mouse ScrollWheel") < 0){
@@ -298,7 +297,7 @@ function HandleComputerInput(){
 	// if the user has not clicked then keep cheking for a click
 	if (state == ControlState.WaitingForFirstInput){
 		// if a click occurs then start waiting for movement
-		if (Input.GetKey(KeyCode.Mouse0)) {
+		if (Input.GetKey(KeyCode.Mouse0) && ToolBar.NotOnGui(Input.mousePosition)) {
 			state = ControlState.WaitingForNoInput;
 			firstClickTime = Time.time;
 			clickPosition = Input.mousePosition;
