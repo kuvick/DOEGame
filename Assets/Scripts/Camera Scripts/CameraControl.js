@@ -54,9 +54,9 @@ private var centeringCamera: boolean;
 
 	// Variables for altering the camera's movement
 static public var speed: float = 100;							// affects the speed of the scroll
-public var centeringDistanceAway: float = 300;			// the distance away from the object the player has double-clicked on
-static public var closestZoomDistance: float = 100;				// the closest distance from terrain the camera can zoom
-static public var farthestZoomDistnace: float = 350;			// the farthest distance from terrain the camera can zoom
+public var centeringDistanceAway: float = 200;			// the distance away from the object the player has double-clicked on
+static public var closestZoomDistance: float = 400;				// the closest distance from terrain the camera can zoom
+static public var farthestZoomDistnace: float = 550;			// the farthest distance from terrain the camera can zoom
 static public var zoomingIncrement: float = 10;					// the incremental distance the camera will zoom in/zoom out
 public var direction: int = 1;							// change to -1 to reverse the direction of the drag
 public var allowCentering: boolean = true;					// enable/disable double-click to center camera on location
@@ -171,8 +171,6 @@ function Start ()
 	// to determine which way to drag the camera, and moves the camera in that direction.
 	static public function Drag(currentInputPos: Vector2)
 	{
-		var worldConvertedPoint = thisCamera.ScreenToWorldPoint(new Vector3(currentInputPos.x, 100, currentInputPos.y));
-		
 		// need to add in detecting at end of map
 		thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
 		
