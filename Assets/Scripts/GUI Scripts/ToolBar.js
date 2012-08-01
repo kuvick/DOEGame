@@ -207,12 +207,12 @@ function BuildingMenuFunc (windowID : int) {
         // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
         scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight), false, true);
         
-        for(var i =0; i<10; i++){
+        for(var i =0; i<6; i++){
         	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), btnTextureArray[i])){
         		PlaceBuilding.changeBuilding = i;
         		showWindow = false;
         	}
-/*
+
         	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	Database.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + Database.buildings[i].inputName
@@ -220,7 +220,7 @@ function BuildingMenuFunc (windowID : int) {
         												+ "\n"
         												+ "OUTPUT: " + Database.buildings[i].outputName
         												+ " [" + Database.buildings[i].outputNum + "]");
-*/
+
 		}
 		
 		GUI.EndScrollView ();
