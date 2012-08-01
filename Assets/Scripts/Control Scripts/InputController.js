@@ -25,7 +25,11 @@ enum ControlState {
 var minimumTimeUntilMove = .25; // the time in seconds that we will wait for the user to move before we interprate as a tap
 var minimumMovementDistance: float = 5; // the amount of posisiton change in a single touch gesture/click before it is considered a drag
 var zoomEnabled: boolean = true; 
-var zoomEpsilon: float = 25; // 
+var zoomEpsilon: float = 10;
+
+// some variables to represent zooming in/out
+var zoomIn: boolean = true;
+var zoomOut: boolean = false;
 
 private var state = ControlState.WaitingForFirstInput;
 
@@ -66,6 +70,25 @@ function singleClickEvent(inputPos: Vector2){
     	BuildingInteractionManager.HandleTapAtPoint(mousePos);
     }
 }
+
+// calculates the distance between touches to determine if the gesture is to zoom in or out
+function determineZoomingInOrOut(touch0 : Touch, touch1 : Touch){
+	var touchDistance = ( touch1.position - touch0.position ).magnitude;
+    var lastTouchDistance = ( ( touch1.position - touch1.deltaPosition ) - ( touch0.position - touch0.deltaPosition ) ).magnitude;
+    var deltaPinch = touchDistance - lastTouchDistance; // calculate the change in distance between the fingers
+
+	// if the change is negative then the fingers are closer together indicating to zoom in
+	if (deltaPinch < 0) {
+		CameraControl.zoom(zoomIn);
+	} else if (deltaPinch > 0) {
+	 	CameraControl.zoom(zoomOut);
+	}
+}
+
+// Tell the camera to zoom in or out
+function zoomEvent(isZoomingIn: boolean){
+	CameraControl.zoom(isZoomingIn);
+}	
 
 function ResetControlState() {
 	state = ControlState.WaitingForFirstInput;
@@ -164,7 +187,7 @@ function HandleMobileInput(){
         }
         
         // Now that we have two fingers down, let's see what kind of gesture is made                    
-        if ( state == ControlState.WaitingForMovement ) {  
+        if ( state == ControlState.WaitingForMovement ) { 
             // See if we still have both fingers    
             for ( i = 0; i < touchCount; i++ ) {
                 touch = theseTouches[ i ];
@@ -185,18 +208,18 @@ function HandleMobileInput(){
                     touch1 = touch;
                     gotTouch1 = true;
                 }
-            }
-                                                                
-            if ( touch.phase == TouchPhase.Moved || 
+                
+                if ( touch.phase == TouchPhase.Moved || 
             	 touch.phase == TouchPhase.Stationary || 
                  touch.phase == TouchPhase.Ended ) {
-                if ( touch.fingerId == fingerDown[ 0 ] ){
-                    touch0 = touch;
-                    gotTouch0 = true;
-                } else if ( touch.fingerId == fingerDown[ 1 ] ) {
-                    touch1 = touch;
-                    gotTouch1 = true;
-                }
+	                if ( touch.fingerId == fingerDown[ 0 ] ){
+	                    touch0 = touch;
+	                    gotTouch0 = true;
+	                } else if ( touch.fingerId == fingerDown[ 1 ] ) {
+	                    touch1 = touch;
+	                    gotTouch1 = true;
+	                }
+	            }
             }
             
             if ( gotTouch0 ){
@@ -209,7 +232,6 @@ function HandleMobileInput(){
 	                    var deltaDistance = originalVector.magnitude - currentVector.magnitude;
 	                    if ( Mathf.Abs( deltaDistance ) > zoomEpsilon ){
 	                        // The distance between fingers has changed enough
-	                        // to count this as a pinch
 	                        state = ControlState.ZoomingCamera;
 	                    }
 	                }               
@@ -255,7 +277,7 @@ function HandleMobileInput(){
 	        
 	        if ( gotTouch0 ){
 	            if ( gotTouch1 ){
-	                //CameraControl( touch0, touch1 );
+	                determineZoomingInOrOut( touch0, touch1 );
 	            }
 	        } else {
 	            // A finger was lifted, so let's just wait until we have no fingers
@@ -267,6 +289,12 @@ function HandleMobileInput(){
 }
 
 function HandleComputerInput(){
+	if (Input.GetAxis("Mouse ScrollWheel") > 0){
+		zoomEvent(zoomIn);
+	} else if (Input.GetAxis("Mouse ScrollWheel") < 0){
+		zoomEvent(zoomOut);
+	}
+
 	// if the user has not clicked then keep cheking for a click
 	if (state == ControlState.WaitingForFirstInput){
 		// if a click occurs then start waiting for movement

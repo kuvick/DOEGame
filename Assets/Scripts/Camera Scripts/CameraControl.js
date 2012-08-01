@@ -53,11 +53,11 @@ private var centeringCamera: boolean;
 
 
 	// Variables for altering the camera's movement
-public var speed: float = 100;							// affects the speed of the scroll
+static public var speed: float = 100;							// affects the speed of the scroll
 public var centeringDistanceAway: float = 300;			// the distance away from the object the player has double-clicked on
-public var closestZoomDistance: float = 100;				// the closest distance from terrain the camera can zoom
-public var farthestZoomDistnace: float = 350;			// the farthest distance from terrain the camera can zoom
-public var zoomingIncrement: float = 10;					// the incremental distance the camera will zoom in/zoom out
+static public var closestZoomDistance: float = 100;				// the closest distance from terrain the camera can zoom
+static public var farthestZoomDistnace: float = 350;			// the farthest distance from terrain the camera can zoom
+static public var zoomingIncrement: float = 10;					// the incremental distance the camera will zoom in/zoom out
 public var direction: int = 1;							// change to -1 to reverse the direction of the drag
 public var allowCentering: boolean = true;					// enable/disable double-click to center camera on location
 
@@ -249,9 +249,20 @@ function Start ()
 	
 	// This function is used to zoom the camera in and out.
 	// Assumes the camera is at a 45 degree angle towards the terrain.
-	private function zoom()
+	static function zoom(isZoomingIn: boolean)
 	{
 		var updatedLocation: Vector3;
+		
+		// zoom in and out depending on argument, and check that we have not gone too far
+		if (isZoomingIn && thisCamera.transform.position.y > closestZoomDistance){
+			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z + zoomingIncrement );
+			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+		} else if (thisCamera.transform.position.y < farthestZoomDistnace) {
+			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z - zoomingIncrement );
+			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
+		}
+		/*
+		
 		
 		if(!usingMobile)						//$$$$CHANGE
 		{
@@ -307,7 +318,7 @@ function Start ()
 		}
 		//$$$$
 		
-		
+		*/
 		
 		
 		
