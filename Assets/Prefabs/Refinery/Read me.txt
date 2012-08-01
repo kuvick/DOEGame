@@ -1,2 +1,2 @@
 Refinery:
-Scale factor =
+Scale factor = 3
