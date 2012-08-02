@@ -29,5 +29,5 @@ function OnGUI()
 }
 
 function Update(){
-	mode = GameObject.Find("ModeController").GetComponent(ModeController).getCurrentMode();
+	mode = ModeController.getCurrentMode();
 }

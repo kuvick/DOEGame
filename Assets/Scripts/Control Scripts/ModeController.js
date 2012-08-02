@@ -99,7 +99,7 @@ static function getSelectedBuilding(){
 	return selectedBuilding;
 }
 
-function getCurrentMode(){
+static function getCurrentMode(){
 	return currentMode;
 }
 

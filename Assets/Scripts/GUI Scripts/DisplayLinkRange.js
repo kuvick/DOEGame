@@ -15,7 +15,7 @@
 */
 
 public var selectedBuildingColor:Color = Color.red;;
-public var inRangeColor:Color = Color.green;
+static public var inRangeColor:Color = Color.green;
 
 static private var buildings:GameObject[];
 private var selectedBuilding:GameObject;
@@ -50,9 +50,15 @@ function Start () {
 function Update() {
 	restoreColors();
 	selectedBuilding = ModeController.getSelectedBuilding();
-	selectedBuilding.renderer.material.color = selectedBuildingColor;
-      				
-	//Highlight all buildings in range
+	if (selectedBuilding != null){
+		selectedBuilding.renderer.material.color = selectedBuildingColor;
+
+		//Highlight all tiles in range
+		drawRange();
+	}
+}
+
+static function HighLightBuildingsInRange(selectedBuilding: GameObject){
 	for(var b:GameObject in buildings){
 		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
 		
@@ -60,10 +66,6 @@ function Update() {
 			b.renderer.material.color = inRangeColor;
 		}
 	}
-	
-	//Highlight all tiles in range
-	drawRange();
-		
 }
 
 static function restoreColors(){
