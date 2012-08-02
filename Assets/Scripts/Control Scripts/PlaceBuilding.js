@@ -37,10 +37,16 @@ function Awake()
 	buildingPrefabs[7] = buildingPrefab7;
 }
 
-static function Place(position: Vector3){
+static function Place(position: Vector2){
 	if (changeBuilding > 7) {
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
-		var build = Instantiate(buildingPrefabs[changeBuilding], HexagonGrid.GetPositionToBuild(position), Quaternion.identity);
+		//var tilePos = HexagonGrid.ScreenPosToTilePos(position);
+		var buildPos = HexagonGrid.GetPositionToBuild(position);
+		Debug.Log("Build pos = " + buildPos);
+		if (Database.findBuildingIndex(buildPos) == -1){
+			var build = Instantiate(buildingPrefabs[changeBuilding], buildPos, Quaternion.identity);
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].ToString(), buildPos, "Tile Type");
+		}
 	}
 }

@@ -23,10 +23,10 @@ Usage:
 */
 
 
-var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
+static var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
 var selectionMaterial: Material;//material for highlighting a specific hexagon.
 private var hexParticles: ParticleSystem.Particle[];//particles for creating the hex grid
-private var plane:Plane; //plane for raycasting, uses y = 0 as the ground, y-up
+static private var plane:Plane; //plane for raycasting, uses y = 0 as the ground, y-up
 var width: int; //number of tiles horizontally
 var height: int; //number of tiles vertically
 var terrainWidth: float; //width of the hexagonal grid, in world coordinates
@@ -84,21 +84,16 @@ function Update(){
 	//shows or hides the grid since this script is attached to a particle system
 	renderer.enabled = showGrid;
 	
-	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
-	var mousePosition: Vector3 = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
-	var ray: Ray = mainCamera.ScreenPointToRay(mousePosition);
-	var enter: float = 0f; //enter stores the distance from the ray to the plane
-	plane.Raycast(ray, enter);
-	var worldPoint: Vector3 = ray.GetPoint(enter);
-	var mouseTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);		
+	var mouseTile = ScreenPosToTilePos(Input.mousePosition);
+	
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
 	selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
 	//set y to be just above the ground plane so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
-/*
-	
+
+	/*
 	Debug.Log(	"Position X : " 
 				+ Input.mousePosition.x 
 				+ " Position Y : " 
@@ -115,7 +110,7 @@ function Update(){
 				+ mouseTile.x
 				+ " mousetiley"
 				+ mouseTile.y);*/
-	
+
 	//placing a building	
 
 			
@@ -123,7 +118,7 @@ function Update(){
 }
 
 // note this shoudl use the position argument, that will come latter
-static function GetPositionToBuild(position: Vector3) {
+static function GetPositionToBuild(position: Vector3):Vector3 {
 	return (new Vector3(selectionPosition.x + tileWidth/2,
 			15, 
 			selectionPosition.z  + (sideSize + peakSize*2)/2));
@@ -216,14 +211,14 @@ private function createHexagonGridParticles(){
  *| 0,0 | section 0
  * `, ,`
  *   `   ---------------------------------	  	
-*/
+*/	
 	
 /*
  * see these for reference
  * http://www.gamedev.net/page/resources/_/technical/game-programming/coordinates-in-hexagon-based-tile-maps-r1800
  * converts world coordinates to tile coordinates
  * */
- function worldToTileCoordinates(x:float, y:float): Vector2{
+ static function worldToTileCoordinates(x:float, y:float): Vector2{
 	var xTile: int;
 	var yTile: int;
 	var xSection: int = Mathf.FloorToInt (x / tileWidth);
@@ -278,6 +273,16 @@ private function createHexagonGridParticles(){
 	return new Vector2(xTile, yTile);	
  }
  
+ // Convert the given screen location into its corrisponding tile location
+ static function ScreenPosToTilePos(inputPos: Vector2) :Vector3{
+ 	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
+	var ray: Ray = mainCamera.ScreenPointToRay(inputPos);
+	var enter: float = 0f; //enter stores the distance from the ray to the plane
+	plane.Raycast(ray, enter);
+	var worldPoint: Vector3 = ray.GetPoint(enter);
+	var inputTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
+	return (inputTile);
+ }
 
 /**returns the lower left corner world coordinates of the tile, (x, 0, z)
 */

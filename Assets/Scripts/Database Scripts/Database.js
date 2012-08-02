@@ -27,17 +27,17 @@ Attach to a blank GameObject
 public static var buildings = new Array();
 	
 // This will contain the information for buildings placed on the grid:
-private var buildingsOnGrid = new Array(); 
+static private var buildingsOnGrid = new Array(); 
 
 	// ********************************************************************************added, keeps track of previous changes
-private var previousBuildings = new Array();
+static private var previousBuildings = new Array();
 
 	// Current number of times undos the user is capable of (how many changes to grid have been made)
-private var numberOfUndos = 0;
+static private var numberOfUndos = 0;
 	// This will allow for a limited number of undos
-private var undoLimit = 3;
+static private var undoLimit = 3;
 	// Whether or not the player is allowed an unlimited number of undos
-private var limitedUndos = true;
+static private var limitedUndos = true;
 	//*************************************************************************************************
 
 // This is where the hardcoded buildings go of buildings we are aware of:
@@ -118,7 +118,7 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String)
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String)
 {
 
 
@@ -178,22 +178,23 @@ of the building in the buildingsOnGrid array based on a
 given coordinate.
 
 */
-public function findBuildingIndex( coordinate:Vector3 ): int
+static public function findBuildingIndex( coordinate:Vector3 ): int
 {
 	var index = 0;
 
 
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
+		Debug.Log("Looking at " + placedBuilding.coordinate + " looking for " + coordinate);
 		if(coordinate == placedBuilding.coordinate)
 		{
+			Debug.Log("Found it");
 			return index;
 		}
 		
 		index++;
 	}
-	
-	
+	Debug.Log("didn't find it");
 	return -1;			// will return -1 if there is no building at the
 						// given coordinate, to be used as a check as
 						// needed if there is no building at the given
@@ -525,7 +526,7 @@ function undo(): boolean
 
 // Cleans up the array used to keep track of previous states
 // by removing the least recent change
-function cleanUpPreviousBuildings()
+static function cleanUpPreviousBuildings()
 {
 	if(limitedUndos)
 	{
