@@ -14,7 +14,7 @@
 
 */
 
-public var selectedBuildingColor:Color = Color.red;;
+public var selectedBuildingColor:Color = Color.red;
 static public var inRangeColor:Color = Color.green;
 
 static private var buildings:GameObject[];
@@ -73,7 +73,7 @@ static function HighlightBuildingsInRange(selectedBuilding:GameObject){
 static function restoreColors(){
 	if(buildings != null){
 		for(var i = 0; i < buildings.Length; i++){
-			buildings[i].renderer.material.color = Color.green; // this needs to be changes to no color
+			buildings[i].renderer.material.color = Color.clear; // this needs to be changes to no color
 		}
 	}
 }
