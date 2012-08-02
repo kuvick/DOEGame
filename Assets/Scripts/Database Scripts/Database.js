@@ -185,16 +185,13 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
-		Debug.Log("Looking at " + placedBuilding.coordinate + " looking for " + coordinate);
 		if(coordinate == placedBuilding.coordinate)
 		{
-			Debug.Log("Found it");
 			return index;
 		}
 		
 		index++;
 	}
-	Debug.Log("didn't find it");
 	return -1;			// will return -1 if there is no building at the
 						// given coordinate, to be used as a check as
 						// needed if there is no building at the given

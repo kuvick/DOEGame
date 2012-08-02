@@ -41,11 +41,10 @@ static function Place(position: Vector2){
 	if (changeBuilding > 7) {
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
-		//var tilePos = HexagonGrid.ScreenPosToTilePos(position);
 		var buildPos = HexagonGrid.GetPositionToBuild(position);
-		Debug.Log("Build pos = " + buildPos);
 		if (Database.findBuildingIndex(buildPos) == -1){
 			var build = Instantiate(buildingPrefabs[changeBuilding], buildPos, Quaternion.identity);
+			build.tag = "Building";
 			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].ToString(), buildPos, "Tile Type");
 		}
 	}
