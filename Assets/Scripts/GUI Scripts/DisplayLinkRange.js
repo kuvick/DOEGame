@@ -17,16 +17,13 @@
 public var selectedBuildingColor:Color = Color.red;;
 public var inRangeColor:Color = Color.green;
 
-private var buildings:GameObject[];
+static private var buildings:GameObject[];
 private var selectedBuilding:GameObject;
 private var buildingSelected:boolean;
-public var defaultColors:Color[];			//stores the default color of all buildings
+static public var defaultColors:Color[];			//stores the default color of all buildings
 private var rangeRing:GameObject;
-private var database:Database;
 
 function Start () {
-	database = GameObject.Find("Database").GetComponent(Database);
-	
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	
 	defaultColors = new Color[buildings.Length];
@@ -40,7 +37,7 @@ function Start () {
 		rangeRing.transform.position = buildings[i].transform.position;
 		rangeRing.layer = 2;			//Ignore Raycast
 		rangeRing.AddComponent(SphereCollider);
-		rangeRing.GetComponent(SphereCollider).radius = GameObject.Find("LinkMode").GetComponent(LinkUI).linkRange.x;
+		rangeRing.GetComponent(SphereCollider).radius = LinkUI.linkRange.x;
 		
 	}
 	
@@ -52,12 +49,12 @@ function Start () {
 
 function Update() {
 	restoreColors();
-	selectedBuilding = GameObject.Find("ModeController").GetComponent(ModeController).getSelectedBuilding();
+	selectedBuilding = ModeController.getSelectedBuilding();
 	selectedBuilding.renderer.material.color = selectedBuildingColor;
       				
 	//Highlight all buildings in range
 	for(var b:GameObject in buildings){
-		var isInRange:boolean = gameObject.GetComponent(LinkUI).isInRange(selectedBuilding, b);
+		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
 		
 		if(selectedBuilding != b && isInRange){
 			b.renderer.material.color = inRangeColor;
@@ -69,7 +66,7 @@ function Update() {
 		
 }
 
-function restoreColors(){
+static function restoreColors(){
 	if(buildings != null){
 		for(var i = 0; i < buildings.Length; i++){
 			buildings[i].renderer.material.color = defaultColors[i];

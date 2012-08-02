@@ -18,9 +18,8 @@ to build mode can be added later.
 
 
 private static var currentMode:String;
-private var selectedBuilding:GameObject;
+static private var selectedBuilding:GameObject;
 private var buildings:GameObject[];
-private var database:Database;
 private var linkMode:GameObject;
 private var object:String;
 private var mouseOverGUI:boolean;
@@ -34,7 +33,6 @@ function Awake(){
 }
 
 function Start () {
-	database = GameObject.Find("Database").GetComponent(Database);
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	mouseOverGUI = false;
 }
@@ -44,7 +42,7 @@ function Update () {
 		currentMode = "link";
 		switchTo(currentMode);
 	}
-	else if(currentMode == "link" && linkMode.GetComponent(LinkUI).CancelLinkMode()){
+	else if(currentMode == "link" && LinkUI.CancelLinkMode()){
 		currentMode = "explore";
 		switchTo(currentMode);
 	}
@@ -60,7 +58,7 @@ function BuildingClicked():boolean{
     	layerMask = ~layerMask;
     	
     	if(currentMode == "link"){
-			mouseOverGUI = gameObject.Find("LinkMode").GetComponent(LinkUI).MouseOverLinkGUI();
+			mouseOverGUI = LinkUI.MouseOverLinkGUI();
 		}
       
     	if (Physics.Raycast (ray, hit, 1000.0, layerMask)){
@@ -85,7 +83,7 @@ function switchTo(mode:String){
 			break;
 			
 		case "explore":
-			linkMode.GetComponent(DisplayLinkRange).restoreColors();
+			DisplayLinkRange.restoreColors();
 			linkMode.active = false;
 			break;
 			
@@ -97,7 +95,7 @@ function switchTo(mode:String){
 	
 }
 
-function getSelectedBuilding(){
+static function getSelectedBuilding(){
 	return selectedBuilding;
 }
 

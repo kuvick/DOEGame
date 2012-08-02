@@ -28,14 +28,14 @@ private var outputRect:Rect;		//Rect for Area of output button
 private var cancelBtnRect:Rect;
 private var mousePos:Vector2;		//Position of mouse in screen space
 private var selectedBuilding:GameObject;
-private var cancelLinkMode:boolean;
-private var mouseOverGUI:boolean;	//Use this to disable raycasting when clicking on the GUI
+static private var cancelLinkMode:boolean;
+static private var mouseOverGUI:boolean;	//Use this to disable raycasting when clicking on the GUI
 
 //Reference for linked buildings. 
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
 public var linkReference:boolean[,];
 public var buildings:GameObject[];
-public var linkRange:Vector3 = Vector3(700, 700, 700);
+static public var linkRange:Vector3 = Vector3(700, 700, 700);
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -83,7 +83,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 }
 
 //This function returns true if b2 is in b1's range
-function isInRange(b1:GameObject, b2:GameObject){
+static function isInRange(b1:GameObject, b2:GameObject){
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
 		
@@ -211,7 +211,7 @@ function Update() {
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 	
 	mouseOverGUI = false;
-	selectedBuilding = GameObject.Find("ModeController").GetComponent(ModeController).getSelectedBuilding();
+	selectedBuilding = ModeController.getSelectedBuilding();
 	
 	
 	//If buildings have been selected, link them
@@ -225,10 +225,10 @@ function Update() {
 	}
 }
 
-function MouseOverLinkGUI():boolean{
+static function MouseOverLinkGUI():boolean{
 	return mouseOverGUI;
 }
 
-function CancelLinkMode():boolean{
+static function CancelLinkMode():boolean{
 	return cancelLinkMode;
 }
