@@ -58,11 +58,13 @@ function Update() {
 	}
 }
 
-static function HighLightBuildingsInRange(selectedBuilding: GameObject){
+static function HighlightBuildingsInRange(selectedBuilding:GameObject){
+	buildings = GameObject.FindGameObjectsWithTag("Building");
 	for(var b:GameObject in buildings){
 		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
 		
 		if(selectedBuilding != b && isInRange){
+			Debug.Log("Changing Color of " + b.ToString());
 			b.renderer.material.color = inRangeColor;
 		}
 	}
@@ -71,7 +73,7 @@ static function HighLightBuildingsInRange(selectedBuilding: GameObject){
 static function restoreColors(){
 	if(buildings != null){
 		for(var i = 0; i < buildings.Length; i++){
-			buildings[i].renderer.material.color = defaultColors[i];
+			buildings[i].renderer.material.color = Color.green; // this needs to be changes to no color
 		}
 	}
 }

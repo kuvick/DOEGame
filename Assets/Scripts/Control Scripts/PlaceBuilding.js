@@ -12,7 +12,7 @@ Author: Ajinkya Waghulde
 **********************************************************/
 
 // for placing a building on terrain
-static var buildingPrefabs = new Array(); 
+static var buildingPrefabs:Transform[]; 
 var buildingPrefab0 : Transform; 
 var buildingPrefab1 : Transform;
 var buildingPrefab2 : Transform; 
@@ -26,6 +26,7 @@ static var changeBuilding : int = 0;
 
 function Awake()
 {
+	buildingPrefabs = new Transform[8];
 	//setting up the buildings prefab array
 	buildingPrefabs[0] = buildingPrefab0;
 	buildingPrefabs[1] = buildingPrefab1;
@@ -37,15 +38,13 @@ function Awake()
 	buildingPrefabs[7] = buildingPrefab7;
 }
 
-static function Place(position: Vector2){
+static function Place(position: Vector3){
 	if (changeBuilding > 7) {
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
-		var buildPos = HexagonGrid.GetPositionToBuild(position);
-		if (Database.findBuildingIndex(buildPos) == -1){
-			var build = Instantiate(buildingPrefabs[changeBuilding], buildPos, Quaternion.identity);
-			build.tag = "Building";
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].ToString(), buildPos, "Tile Type");
-		}
+		var build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+		build.tag = "Building";
+		build.gameObject.AddComponent("MeshRenderer");
+		Database.addBuildingToGrid(buildingPrefabs[changeBuilding].ToString(), position, "Tile Type", build.gameObject);
 	}
 }

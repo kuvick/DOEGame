@@ -24,8 +24,19 @@ function Start () {
 
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
-	// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
-	if (tapMode == TapType.Place){
-		PlaceBuilding.Place(position);
-	} 
+	// check if the click is on a building
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildingIndex = Database.findBuildingIndex(buildPos);
+	if (buildingIndex != -1){
+		Debug.Log("Tap on building");
+		var buildings = Database.getBuildingsOnGrid();
+		var building: GameObject;
+		building = Database.getBuildingAtIndex(buildingIndex);
+		DisplayLinkRange.HighlightBuildingsInRange(building);
+	} else {
+		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
+		if (tapMode == TapType.Place){
+			PlaceBuilding.Place(buildPos);
+		}
+	}
 }

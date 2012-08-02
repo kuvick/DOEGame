@@ -118,7 +118,7 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String)
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject)
 {
 
 
@@ -146,7 +146,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			
 		}
     }
-    
+    temp.buildingPointer = building;
     temp.coordinate = coordinate;
     temp.tileType = tileType;
     
@@ -200,7 +200,14 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 	
 }// end of findBuildingIndex
 
+static public function getBuildingAtIndex(index: int):GameObject{
+	var toReturn : BuildingOnGrid = buildingsOnGrid[index];
+	return (toReturn.buildingPointer);
+}
 
+static public function getBuildingsOnGrid(){
+	return (buildingsOnGrid);
+}
 
 
 /*
@@ -432,6 +439,7 @@ class BuildingOnGrid
 	
 	var coordinate : Vector3 = new Vector3(0,0,0);
 	var tileType = "tileType";
+	var buildingPointer: GameObject;
 	var linkedTo = new Array();	// will contain an array of the buildings it is connected to, by index of the building in the array
 	
 }
