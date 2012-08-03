@@ -2,7 +2,8 @@
 /**
 Summary of HexagonGrid
 Requirements:
-	-This grid must be attached to a particle system
+	-This grid must be attached to a GameObject with a particle system. 
+		-The Gameobject should be located at (0, 0.1, 0). The y = 0.1 is so that it sits above the terrain.
 		-see the example scene in the test folder for setting up the particle system. Everything must match
 	    -the particle system must have looping turned off. Play on awake turned off, turn everything off except renderer.
 	    In renderer use horizontal billboard and attach the HexParticleMaterial. If the particles start to separate when they are close to the screen, 
@@ -89,7 +90,7 @@ function Update(){
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
 	selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
-	//set y to be just above the ground plane so it doesn't get clipped.
+	//set y to be just above the ground plane at 0.1 so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
 
