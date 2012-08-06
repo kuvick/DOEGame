@@ -37,7 +37,7 @@ static private var numberOfUndos = 0;
 	// This will allow for a limited number of undos
 static private var undoLimit = 3;
 	// Whether or not the player is allowed an unlimited number of undos
-static private var limitedUndos = true;
+static private var limitedUndos = false;
 	//*************************************************************************************************
 
 // This is where the hardcoded buildings go of buildings we are aware of:
@@ -491,8 +491,6 @@ function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 function undo(): boolean
 {
 
-	print("undo");
-
 	if ( previousBuildings.length > 0 )
 	{
 		var typeOfUndo = previousBuildings.Pop();
@@ -512,7 +510,12 @@ function undo(): boolean
 		}		
 		else if( typeOfUndo == "Add")
 		{
-			buildingsOnGrid.Splice(previousBuildings.Pop(), 1);
+			//buildingPointer
+			var buildingID = previousBuildings.Pop();
+			var buildingToDelete : BuildingOnGrid = buildingsOnGrid[buildingID];
+			Destroy(buildingToDelete.buildingPointer);
+			buildingsOnGrid.Splice(buildingID, 1);
+			previousBuildings.Pop();
 			return true;
 		}
 		else
@@ -525,7 +528,6 @@ function undo(): boolean
 	{
 		return false;
 	}
-
 
 }// end of undo()
 

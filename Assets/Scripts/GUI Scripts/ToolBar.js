@@ -59,6 +59,8 @@ private var toolBarTopLeftY: float;
 public static var toolbarWindow : Rect;
 public static var buildingMenuWindow : Rect;
 
+public static var undoButton : Rect;		//*** added by K
+
 private var mainWindow;
 private var dropDownWindow;
 
@@ -93,6 +95,8 @@ function Start(){
 	
 	toolbarWindow = Rect(sidePadding, topPadding, screenWidth-(2*sidePadding), windowHeight);
 	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
+	
+	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
 }
 
 function OnGUI() 
@@ -141,6 +145,18 @@ function OnGUI()
 		break;
 		
 	}
+	
+	// *** added by K, the undo button
+	if(GUI.Button(undoButton, "Undo"))
+	{
+		var data:Database = GameObject.Find("Database").GetComponent("Database");
+		var didUndo = data.undo();
+		if(didUndo)
+			Debug.Log("Undo Successful!");
+		else
+			Debug.Log("Undo Failed!");
+	}
+	
 
 }
 
@@ -238,7 +254,7 @@ static function NotOnGui(screenInputPosistion: Vector2){
 	var mousePos: Vector2;
 	mousePos.x = screenInputPosistion.x;
 	mousePos.y = Screen.height-screenInputPosistion.y;
-	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos))) {
+	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos)) || undoButton.Contains(mousePos)) {					// *** K added undo button
 		return (false);
 	} else {
 		return (true);
