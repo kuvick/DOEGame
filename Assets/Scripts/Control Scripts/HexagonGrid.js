@@ -80,6 +80,17 @@ function Start(){
 	gameObject.AddComponent("InputController");
 }
 
+function OnDrawGizmos(){
+	for(var y:int = 0; y < height; ++y){
+		for(var x:int = 0; x < width; ++x){
+			var worldPosition: Vector3 = tileToWorldCoordinates(x, y);
+			for(var z:int = 0; z < 5; ++z){
+				Gizmos.DrawLine(hexagon.vertices[z] + worldPosition, hexagon.vertices[z + 1] + worldPosition);
+			}
+		}
+	}
+}
+
 //converts mouse coordinates to world coordinates to tile coordinates, moves a selection hexagon around the grid.
 function Update(){
 	//shows or hides the grid since this script is attached to a particle system
