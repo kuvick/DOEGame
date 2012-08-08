@@ -71,11 +71,11 @@ static public var currentRequisitionPoints : int;
 static public var lengthOfStorm : int = 3;
 static private var daysLeftOfStorm : int;
 static public var isStorming : boolean;
-static private var turnsTilStorm : int;
-static public var turnsBetweenStorm : int;		//change this per mission
+static public var turnsTilStorm : int;
+static public var turnsBetweenStorm : int = 2;		//change this per mission
 static public var pollutionReductionByStorm : int = 33;
 
-static private var stormIntervals : int[];
+static public var stormIntervals : Array = new Array();
 static private var spotInStormArray : int;
 
 // Pollution Variables
@@ -94,16 +94,9 @@ static private var totalRequisitionSpent : int;
 
 function Awake ()
 {
-	stormIntervals = new int[3];
-	stormIntervals[0] = 2;
-	stormIntervals[1] = 3;
-	stormIntervals[2] = 5;
-
-
 	currentRequisitionPoints = startingRequisitionPoints;
 	spotInStormArray = 0;
 	daysLeftOfStorm = lengthOfStorm;
-	turnsBetweenStorm = stormIntervals[spotInStormArray];
 	turnsTilStorm = turnsBetweenStorm;
 	
 	isStorming = false;
@@ -211,7 +204,7 @@ static private function checkStorm( daysPassed : int )
 		{
 			isStorming = false;
 			
-			if(spotInStormArray < stormIntervals.Length)
+			if(spotInStormArray < stormIntervals.length - 1)
 			{
 				spotInStormArray++;
 			}

@@ -166,10 +166,11 @@ function OnGUI()
 	}
 	
 	// *** added by K, requisition system info
-	GUI.Label(Rect(Screen.width/5, Screen.height - 40, Screen.width/2 + 50, 40), "Requisition: "
+	GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Requisition: "
 	+ requisitionSystem.currentRequisitionPoints
 	+ " Pollution: " + requisitionSystem.pollutionLevel
-	+ " Is Storming: " + requisitionSystem.isStorming );
+	+ " Is Storming: " + requisitionSystem.isStorming
+	+ " Next Storm (Days): " + requisitionSystem.turnsTilStorm );
 	
 
 }
