@@ -135,9 +135,9 @@ static public function spendRequisition( cost : int )
 	{
 		currentRequisitionPoints -= cost;
 		totalRequisitionSpent += cost;
-		checkStorm();
+		checkStorm( cost );
 		addPollution();
-		checkPayDay();
+		checkPayDay( cost );
 		
 		checkState();
 	
@@ -176,11 +176,11 @@ static public function canSpendRequisition( buildingName : String ) : boolean
 
 // Used to check whether or not to enact a storm
 // If it is time, it will enact the effects (described above)
-static private function checkStorm()
+static private function checkStorm( daysPassed : int )
 {
 	if(!isStorming && turnsTilStorm > 0)
 	{
-		turnsTilStorm--;
+		turnsTilStorm -= daysPassed;
 	}
 	else if(!isStorming && turnsTilStorm <= 0)
 	{
@@ -198,13 +198,13 @@ static private function checkStorm()
 			pollutionLevel -= pollutionReductionByStorm;
 			correctPollution();
 			currentRequisitionPoints--;
-			daysLeftOfStorm--;
+			daysLeftOfStorm -= daysPassed;
 		}
 		// For each day of the storm, spends requisition and reduces the amount of days left.
 		else if(daysLeftOfStorm > 0)
 		{
 			currentRequisitionPoints--;
-			daysLeftOfStorm--;
+			daysLeftOfStorm -= daysPassed;
 		}
 		// If 3 requisition points have been spent, the storm ends, everything resets.
 		else
@@ -276,12 +276,12 @@ static public function causeStorm()
 
 // Checks for a pay day. If the number of turns have passed, 
 // it will calculate and reward the player with more requisition.
-static private function checkPayDay()
+static private function checkPayDay( daysPassed : int)
 {
 	
 	if(turnsTilPayDay > 0)
 	{
-		turnsTilPayDay--;
+		turnsTilPayDay -= daysPassed;
 	}
 	else
 	{
