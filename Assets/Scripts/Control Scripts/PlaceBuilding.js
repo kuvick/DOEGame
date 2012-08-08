@@ -9,6 +9,8 @@ be used in other script.
 Note:
 
 Author: Ajinkya Waghulde
+
+AUG 7 update: added in requisition system, test for enough points
 **********************************************************/
 
 // for placing a building on terrain
@@ -24,6 +26,8 @@ var buildingPrefab7 : Transform;
 
 static var changeBuilding : int = 0;
 
+static private var requisitionSystem : RequisitionSystem;
+
 function Awake()
 {
 	buildingPrefabs = new Transform[8];
@@ -36,15 +40,26 @@ function Awake()
 	buildingPrefabs[5] = buildingPrefab5;
 	buildingPrefabs[6] = buildingPrefab6;
 	buildingPrefabs[7] = buildingPrefab7;
+	
+	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
 
 static function Place(position: Vector3){
 	if (changeBuilding > 7) {
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
-		var build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
-		build.tag = "Building";
-		build.gameObject.AddComponent("MeshRenderer");
-		Database.addBuildingToGrid(buildingPrefabs[changeBuilding].ToString(), position, "Tile Type", build.gameObject);
+	
+		if(requisitionSystem.canSpendRequisition(buildingPrefabs[changeBuilding].name))
+		{
+			var build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build.tag = "Building";
+			build.gameObject.AddComponent("MeshRenderer");
+			
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject);
+		}
+		else
+		{
+			Debug.Log("Not enough req. points!");
+		}
 	}
 }

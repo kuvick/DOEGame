@@ -13,6 +13,12 @@ to be detailed on what each column and row represented.
 
 Also contains undo functionality.
 
+AUG 7  Update: added Requisistion System functions, as well as the requisition
+points attribute to buildings. NEEDS TO BE EDITED FOR ACTUAL VALUES, set for
+1 for now...
+
+SAME FOR POLLUTION OUTPUT, NEEDS TO BE SET FOR ACTUAL VALUES.
+
 Attach to a blank GameObject
 */
 
@@ -32,18 +38,24 @@ static private var buildingsOnGrid = new Array();
 	// ********************************************************************************added, keeps track of previous changes
 static private var previousBuildings = new Array();
 
+
+
+//***NOTE: can use these variables if we want to limit the number of undos, at anytime:
 	// Current number of times undos the user is capable of (how many changes to grid have been made)
 static private var numberOfUndos = 0;
 	// This will allow for a limited number of undos
-static private var undoLimit = 3;
+static public var undoLimit = 3;
 	// Whether or not the player is allowed an unlimited number of undos
-static private var limitedUndos = false;
+static public var limitedUndos = false;
 	//*************************************************************************************************
+	
+	
+	
+static private var requisitionSystem : RequisitionSystem;	// AUG 7, added edits to requisition system.
 
 // This is where the hardcoded buildings go of buildings we are aware of:
 function Awake ()
-{
-
+{	
 	//House
 	var temp = new Building();
 	temp.buildingName = "House";
@@ -53,17 +65,21 @@ function Awake ()
 	temp.inputNum.push(1);
 	temp.outputName.push("Car");
 	temp.outputNum.push(1);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);	
 	
 	//Gas Station
 	temp = new Building();
-	temp.buildingName = "Gas Station";
+	temp.buildingName = "GasStation";
 	temp.inputName.push("Power");
 	temp.inputNum.push(1);
 	temp.inputName.push("Petroleum");
 	temp.inputNum.push(1);
 	temp.outputName.push("Gas");
 	temp.outputNum.push(1);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);
 	
 	//Refinery
@@ -75,6 +91,8 @@ function Awake ()
 	temp.inputNum.push(1);
 	temp.outputName.push("Petroleum");
 	temp.outputNum.push(1);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);
 	
 	
@@ -87,6 +105,8 @@ function Awake ()
 	temp.inputNum.push(1);
 	temp.outputName.push("Power");
 	temp.outputNum.push(1);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);
 	
 	//City
@@ -96,18 +116,27 @@ function Awake ()
 	temp.inputNum.push(3);
 	temp.outputName.push("Money");
 	temp.outputNum.push(1);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);
 	
 	//Dam
 	temp = new Building();
-	temp.buildingName = "Dam";
+	temp.buildingName = "HydroDam";
 	temp.inputName.push("Car");
 	temp.inputNum.push(1);
 	temp.outputName.push("Power");
 	temp.outputNum.push(3);
+	temp.requisitionCost = 1;
+	temp.pollutionOutput = 2;
 	buildings.push(temp);
 
 }// end of Awake
+
+function Start ()
+{
+	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
+}
 
 
 /*
@@ -118,18 +147,16 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject)
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject) : boolean
 {
-
-
-
 
 	var temp = new BuildingOnGrid();
 
 	for (var defaultBuilding : Building in buildings)
 	{
-		if(buildingType == defaultBuilding.buildingName)
+		if(buildingType == defaultBuilding.buildingName )
 		{
+		
 			temp.buildingName = buildingType;
 			
 			temp.inputName = new Array();
@@ -144,29 +171,41 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			temp.outputNum = new Array();
 			temp.outputNum = temp.outputNum.Concat(defaultBuilding.outputNum);
 			
+			temp.requisitionCost = defaultBuilding.requisitionCost;
+			
+			temp.pollutionOutput = defaultBuilding.pollutionOutput;
+			
 		}
     }
     temp.buildingPointer = building;
     temp.coordinate = coordinate;
     temp.tileType = tileType;
     
-    buildingsOnGrid.push(temp);
-    
-    
-    //adding for undo:
-	
-	previousBuildings.Add("EndOfAdd");
-	previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
-	previousBuildings.Add("Add");
-	
-	numberOfUndos++;
-	
-	cleanUpPreviousBuildings();
-	
-	//************
-    
-	
-	
+    	
+   if( requisitionSystem.spendRequisition( temp.requisitionCost ) )
+   {
+	    buildingsOnGrid.push(temp);
+	    	        
+	    //adding for undo:
+		
+		previousBuildings.Add("EndOfAdd");
+		previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
+		previousBuildings.Add("Add");
+		
+		numberOfUndos++;
+		
+		cleanUpPreviousBuildings();
+		
+		//************
+		return true;
+	}
+	else
+	{
+ 		Debug.Log("Not enough requisition points to make such an action!");
+ 		return false;
+	}
+
+	 
 }// end of addBuildingToGrid
 
 
@@ -282,7 +321,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     // If the resource has been found in both buildings,
     // decrease the amount and add the index of the other building
     // in the linkedTo array.
-    if(hasResource)
+    //
+    // AND if there is at least 1 point of requisition to spend:
+    if(hasResource && requisitionSystem.spendRequisition(1))
     {
     
     	//adding for undo:
@@ -319,7 +360,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-	    
+    }
+    else
+    {
+    	Debug.Log("Unable to link buildings due to missing resource or lack of requisition");
     }
 
 }// End of linkBuildings
@@ -407,7 +451,9 @@ class Building
 	var outputName = new Array();
 	var outputNum = new Array();
 	
+	var requisitionCost : int;
 	
+	var pollutionOutput : int;
 }
 
 /*
@@ -442,6 +488,10 @@ class BuildingOnGrid
 	var buildingPointer: GameObject;
 	var linkedTo = new Array();	// will contain an array of the buildings it is connected to, by index of the building in the array
 	
+	var requisitionCost : int;
+	
+	var pollutionOutput : int;
+	
 }
 
 
@@ -472,6 +522,9 @@ function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 
 	copyTo.linkedTo.Clear();
 	copyTo.linkedTo = copyTo.linkedTo.Concat(copyFrom.linkedTo);
+	
+	copyTo.requisitionCost = copyFrom.requisitionCost;
+	copyTo.pollutionOutput = copyFrom.pollutionOutput;
 
 } // end of copyBuildingOnGrid
 
@@ -505,6 +558,8 @@ function undo(): boolean
 			buildingIndex = previousBuildings.Pop();
 			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
 			
+			requisitionSystem.numberOfUndos++;
+			
 			return true;
 			
 		}		
@@ -516,6 +571,9 @@ function undo(): boolean
 			Destroy(buildingToDelete.buildingPointer);
 			buildingsOnGrid.Splice(buildingID, 1);
 			previousBuildings.Pop();
+			
+			requisitionSystem.numberOfUndos++;
+			
 			return true;
 		}
 		else
@@ -563,6 +621,28 @@ static function cleanUpPreviousBuildings()
 		}
 	}
 }// end of cleanUpPreviousBuildings()
+
+
+
+// This function adds up the pollution output for all buildings on
+// the grid and returns that value.
+static public function totalPollution(): int
+{
+	var pollution : int = 0;
+
+	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	{
+		pollution += placedBuilding.pollutionOutput;
+	}
+	return pollution;
+
+}// end of totalPollution
+
+
+
+
+
+
 
 
 //********************************************************************Updated for Check for Win State:

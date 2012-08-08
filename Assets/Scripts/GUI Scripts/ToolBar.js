@@ -10,6 +10,9 @@ building menu window.
 Note: Attach the script to Main Camera.
 
 Author: Ajinkya Waghulde
+
+AUG 7 : added requisition system, may need to move the GUI to another script
+Also changed "end turn" to wait
 **********************************************************/
 
 //Variables
@@ -32,7 +35,7 @@ var btnTexture9 : Texture;
 public static var showWindow : boolean = false;
 
 //need to replace text with GUI texture (if needed)
-private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "End Turn"];
+private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 
 // Padding as a percent of total screen size in that direction
@@ -67,6 +70,8 @@ private var dropDownWindow;
 
 var scrollPosition : Vector2 = Vector2.zero;		// used for scrollbar for building menu
 
+static private var requisitionSystem : RequisitionSystem;
+
 function Awake(){
 	btnTextureArray[0] = btnTexture0;
 	btnTextureArray[1] = btnTexture1;
@@ -78,6 +83,8 @@ function Awake(){
 	btnTextureArray[7] = btnTexture7;
 	btnTextureArray[8] = btnTexture8;
 	btnTextureArray[9] = btnTexture9;
+	
+	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
 
 function Start(){
@@ -138,9 +145,10 @@ function OnGUI()
 		toolbarInt = -1;
 		break;
 		
-		//End turn
+		//Wait
 		case 3:
-		Debug.Log("end turn");
+		Debug.Log("wait");
+		requisitionSystem.spendRequisition( 1 );	// spend 1 requisition to wait
 		toolbarInt = -1;
 		break;
 		
@@ -156,6 +164,12 @@ function OnGUI()
 		else
 			Debug.Log("Undo Failed!");
 	}
+	
+	// *** added by K, requisition system info
+	GUI.Label(Rect(Screen.width/5, Screen.height - 40, Screen.width/2 + 50, 40), "Requisition: "
+	+ requisitionSystem.currentRequisitionPoints
+	+ " Pollution: " + requisitionSystem.pollutionLevel
+	+ " Is Storming: " + requisitionSystem.isStorming );
 	
 
 }
@@ -240,6 +254,8 @@ function BuildingMenuFunc (windowID : int) {
 		}
 		
 		GUI.EndScrollView ();
+		
+		
         
 }
 
