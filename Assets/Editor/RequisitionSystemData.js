@@ -13,17 +13,17 @@ Will be used to edit the different values of variables used in the Requisition S
 
 class RequisitionSystemData extends EditorWindow
 {
-	var startingRequisitionPoints : int = 10;
-	var lengthOfStorm : int = 3;
-	var pollutionReductionByStorm : int = 33;
+	var startingRequisitionPoints : int;
+	var lengthOfStorm : int;
+	var pollutionReductionByStorm : int;
 	
-    static var stormIntervalArrayLength : int = 0;
+    static var stormIntervalArrayLength : int;
     static var stormInterval : Array = new Array();
     
-    var turnsBetweenPayDay : int = 10;
-	var requisitionPayDay : int = 10;
-	var pollutionPenaltyPercent : int = 10;
-	var pollutionPenalty : int = 1;
+    var turnsBetweenPayDay : int;
+	var requisitionPayDay : int;
+	var pollutionPenaltyPercent : int;
+	var pollutionPenalty : int;
     
     // Add menu to Windows menu
     @MenuItem ("Window/Game Data Manipulation/Requisition System")
@@ -56,30 +56,27 @@ class RequisitionSystemData extends EditorWindow
 		}
 		else
 		{
+			stormInterval.clear();
 			stormInterval.push(1);
 			stormIntervalArrayLength++;
-			stormInterval[stormInterval.length - 1] = EditorGUILayout.IntField("Days Between Storm:", stormInterval[stormInterval.length - 1]);
-			updateData();
+			stormInterval[0] = EditorGUILayout.IntField("Days Between Storm:", stormInterval[0]);
 		}
 		
 		if(GUILayout.Button("Add to Cycle"))
       	{
 			stormInterval.push(1);
 			stormIntervalArrayLength++;
-			stormInterval[stormInterval.length - 1] = EditorGUILayout.IntField("Days Between Storm:", stormInterval[stormInterval.length - 1]);
-			updateData();
       	}
       	if(GUILayout.Button("Remove Cycle"))
       	{
 			stormInterval.pop();
 			
-			var tempString : String = "daysTilStorm" + stormInterval.length;
+			var tempString : String = "daysTilStorm" + (stormInterval.length - 1);
 			
 			if(EditorPrefs.HasKey(tempString))
 				EditorPrefs.DeleteKey(tempString);
 				
 			stormIntervalArrayLength--;
-			updateData();
         }
         
         GUILayout.Label ("Pay Day Variables", EditorStyles.boldLabel);

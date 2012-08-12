@@ -2,6 +2,9 @@
 RequisitionSystem.js
 By Katharine Uvick
 
+UPDATE: Use, under Windows/Game Manipulation Data/Requisition System Data
+to change the variable's values.
+
 This script contains the information pertaining to the requisition
 system, as well as storms and pollution since they are tied into
 the requisition system. The functions are to be called by other
@@ -64,16 +67,16 @@ Attach to a blank GameObject
 static private var database : Database;
 
 // Requisition System Variables
-static public var startingRequisitionPoints : int = 20;
+static public var startingRequisitionPoints : int;
 static public var currentRequisitionPoints : int;
 
 // Storm System Variables
-static public var lengthOfStorm : int = 3;
+static public var lengthOfStorm : int;
 static private var daysLeftOfStorm : int;
 static public var isStorming : boolean;
 static public var turnsTilStorm : int;
-static public var turnsBetweenStorm : int = 2;		//change this per mission
-static public var pollutionReductionByStorm : int = 33;
+static public var turnsBetweenStorm : int;
+static public var pollutionReductionByStorm : int;
 
 static public var stormIntervals : Array = new Array();
 static private var spotInStormArray : int;
@@ -82,11 +85,11 @@ static private var spotInStormArray : int;
 static public var pollutionLevel : int;
 
 // Pay Day Variables
-static public var turnsBetweenPayDay : int = 10;
+static public var turnsBetweenPayDay : int;
 static private var turnsTilPayDay : int;
-static public var requisitionPayDay : int = 10;
-static public var pollutionPenaltyPercent : int = 10;
-static public var pollutionPenalty : int = 1;
+static public var requisitionPayDay : int;
+static public var pollutionPenaltyPercent : int;
+static public var pollutionPenalty : int;
 
 // Score Specific Variables
 static public var numberOfUndos : int;		// seperate from the one in the Database script if we want to limit the number of undos remembered.
