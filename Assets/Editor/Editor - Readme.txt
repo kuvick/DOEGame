@@ -31,3 +31,11 @@ Load them in OnEnable and write them in OnDisable and you're done.
 
 Also, might want to look into this for data based scripts:
 http://docs.unity3d.com/Documentation/ScriptReference/ScriptableObject.html
+
+
+
+
+AUG 15 UPDATE, IMPORTANT:
+Yes, EditorPrefs can create persistent data, but the problem is that the scripts within the editor only run WHILE THE EDITOR IS OPEN. Thus to load the data into the game,
+you must include it within a script that runs while the game is playing (for example, for the requisistion system and the database, there is now a loadData function to actually
+load the data within the game; we might want to have a seperate script that we can just add this to that just loads all the editor data into the game at once.

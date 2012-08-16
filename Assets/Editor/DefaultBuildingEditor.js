@@ -13,6 +13,7 @@ UNDER CONSTRUCTION
 
 */
 
+#pragma strict
 
 class DefaultBuildingEditor extends EditorWindow
 {
@@ -20,18 +21,20 @@ class DefaultBuildingEditor extends EditorWindow
     static var defaultBuildingsLength : int;
     static var defaultBuildings : Array = new Array();
     
-    var buildingIndex : int;
+    static var buildingIndex : int;
     
-    var currentBuildingName : String;
-    var currentRequisitionCost : int;
-    var currentPollutionCost : int;
-    var currentInputName : Array = new Array();
-    var currentInputNum : Array = new Array();
-    var currentOutputName : Array = new Array();
-    var currentOutputNum : Array = new Array();
+    static var currentBuildingName : String;
+    static var currentRequisitionCost : int;
+    static var currentPollutionCost : int;
+    static var currentInputName : Array = new Array();
+    static var currentInputNum : Array = new Array();
+    static var currentOutputName : Array = new Array();
+    static var currentOutputNum : Array = new Array();
     
     
-    var tempBuilding : Building;
+    static var tempBuilding : Building;
+    
+
 
     // Add menu to Windows menu
     @MenuItem ("Window/Game Data Manipulation/Default Building Editor")
@@ -42,21 +45,27 @@ class DefaultBuildingEditor extends EditorWindow
         
         selectedBuilding = -1;
         
-        defaultBuildingsLength = defaultBuildings.length;
-        
         window.Show();
+        
+        Debug.Log("Init");
+        
     }
     
     function OnGUI ()
     {
-    
+    	var tempName : String;
+    	var tempValue : int;
+    	
+    	//Default View:***************************************************
     	if(selectedBuilding == -1)
     	{
     		var i : int = 0;
     		
     		if( defaultBuildingsLength > 0)
     		{
-    			GUILayout.Label ("Current Buildings:", EditorStyles.boldLabel);
+    			// Displays list of all buildings currently stored, for user to select and edit attributes.
+    			GUILayout.Label ("Current Buildings (" + defaultBuildingsLength + "):", EditorStyles.boldLabel);
+    			
 		        for (var defaultBuilding : Building in defaultBuildings)
 				{
 			      	if(GUILayout.Button("Edit " + defaultBuilding.buildingName))
@@ -76,8 +85,9 @@ class DefaultBuildingEditor extends EditorWindow
 			      	}
 			      	i++;
 		      	}
-	      	}
+	      	}// end of if( defaultBuildingsLength > 0)
 	      	
+	      	// Button to add an new building
 	      	GUILayout.Label ("~~~~~~~~~~~~~~~", EditorStyles.boldLabel);	      	
 	      	if(GUILayout.Button("Add Building"))
 	      	{
@@ -93,7 +103,25 @@ class DefaultBuildingEditor extends EditorWindow
 				selectedBuilding = -2;
 	      	}
 	      	
-      	}
+	      	// Buttons to force the editor to save, load,
+	      	// or reset the data to defaults.
+	      	if(GUILayout.Button("Force Save"))
+		  	{
+				OnDisable();
+				updateData();
+		  	}
+		  	if(GUILayout.Button("Force Load"))
+		  	{
+				OnEnable();
+		  	}
+		  	if(GUILayout.Button("Reset to Defaults"))
+		  	{
+				initalizeBuildings();
+		  	}
+	      	
+      	}// end of default view
+      	
+      	//Create New Building View:***************************************************
     	else if(selectedBuilding == -2)
     	{
     	
@@ -111,8 +139,11 @@ class DefaultBuildingEditor extends EditorWindow
 				for (i = 0; i < currentInputName.length; i++)
 				{
 					GUILayout.Label ("Input #" + (i + 1) + ":", EditorStyles.boldLabel);
-					currentInputName[i] = EditorGUILayout.TextField("Name:", currentInputName[i]);
-					currentInputNum[i] = EditorGUILayout.IntField("Amount:", currentInputNum[i]);
+					
+					tempName = currentInputName[i];					
+					currentInputName[i] = EditorGUILayout.TextField("Name:", tempName);
+					tempValue = currentInputNum[i];
+					currentInputNum[i] = EditorGUILayout.IntField("Amount:", tempValue);
 				}
 				
 			}
@@ -121,8 +152,10 @@ class DefaultBuildingEditor extends EditorWindow
 				GUILayout.Label ("Input #1:", EditorStyles.boldLabel);
 				currentInputName.push("");
 				currentInputNum.push(0);
-				currentInputName[0] = EditorGUILayout.TextField("Name:", currentInputName[0]);
-				currentInputNum[0] = EditorGUILayout.IntField("Amount:", currentInputNum[0]);
+				tempName = currentInputName[0];
+				currentInputName[0] = EditorGUILayout.TextField("Name:", tempName);
+				tempValue = currentInputNum[0];
+				currentInputNum[0] = EditorGUILayout.IntField("Amount:", tempValue);
 			}
 			
 			if(GUILayout.Button("Add Input"))
@@ -142,8 +175,11 @@ class DefaultBuildingEditor extends EditorWindow
 				for (i = 0; i < currentOutputName.length; i++)
 				{
 					GUILayout.Label ("Output #" + (i + 1) + ":", EditorStyles.boldLabel);
-					currentOutputName[i] = EditorGUILayout.TextField("Name:", currentOutputName[i]);
-					currentOutputNum[i] = EditorGUILayout.IntField("Amount:", currentOutputNum[i]);
+					
+					tempName = currentOutputName[i];					
+					currentOutputName[i] = EditorGUILayout.TextField("Name:", tempName);
+					tempValue = currentOutputNum[i];
+					currentOutputNum[i] = EditorGUILayout.IntField("Amount:", tempValue);
 				}
 				
 			}
@@ -152,8 +188,8 @@ class DefaultBuildingEditor extends EditorWindow
 				GUILayout.Label ("Output #1:", EditorStyles.boldLabel);
 				currentOutputName.push("");
 				currentOutputNum.push(0);
-				currentOutputName[0] = EditorGUILayout.TextField("Name:", currentOutputName[0]);
-				currentOutputNum[0] = EditorGUILayout.IntField("Amount:", currentOutputNum[0]);
+				currentOutputName[0] = EditorGUILayout.TextField("Name:", "");
+				currentOutputNum[0] = EditorGUILayout.IntField("Amount:", 0);
 			}
 			
 			if(GUILayout.Button("Add Output"))
@@ -202,7 +238,6 @@ class DefaultBuildingEditor extends EditorWindow
 				tempBuilding.pollutionOutput = currentPollutionCost;
 
 	      		defaultBuildings.push(tempBuilding);
-	      		updateData();
 	      			      		
 				selectedBuilding = -1;
 	      	}
@@ -210,7 +245,9 @@ class DefaultBuildingEditor extends EditorWindow
 	      	{
 				selectedBuilding = -1;
 	      	}
-      	}
+      	}// end of create view
+      	
+		//Edit Building View:***************************************************     	
       	else if(selectedBuilding == 0)
       	{
     		GUILayout.Label ("Edit " + currentBuildingName, EditorStyles.boldLabel);
@@ -219,16 +256,17 @@ class DefaultBuildingEditor extends EditorWindow
     		currentRequisitionCost = EditorGUILayout.IntField("Requisition Cost:", currentRequisitionCost);
     		currentPollutionCost = EditorGUILayout.IntField("Pollution Output:", currentPollutionCost);
     		
-    		
-    		
 			
 			if(currentInputName.length > 0)
 	      	{
 				for (i = 0; i < currentInputName.length; i++)
 				{
 					GUILayout.Label ("Input #" + (i + 1) + ":", EditorStyles.boldLabel);
-					currentInputName[i] = EditorGUILayout.TextField("Name:", currentInputName[i]);
-					currentInputNum[i] = EditorGUILayout.IntField("Amount:", currentInputNum[i]);
+					
+					tempName = currentInputName[i];					
+					currentInputName[i] = EditorGUILayout.TextField("Name:", tempName);
+					tempValue = currentInputNum[i];
+					currentInputNum[i] = EditorGUILayout.IntField("Amount:", tempValue);
 				}
 				
 			}
@@ -237,8 +275,8 @@ class DefaultBuildingEditor extends EditorWindow
 				GUILayout.Label ("Input #1:", EditorStyles.boldLabel);
 				currentInputName.push("");
 				currentInputNum.push(0);
-				currentInputName[0] = EditorGUILayout.TextField("Name:", currentInputName[0]);
-				currentInputNum[0] = EditorGUILayout.IntField("Amount:", currentInputNum[0]);
+				currentInputName[0] = EditorGUILayout.TextField("Name:", "");
+				currentInputNum[0] = EditorGUILayout.IntField("Amount:", 0);
 			}
 			
 			if(GUILayout.Button("Add Input"))
@@ -258,8 +296,11 @@ class DefaultBuildingEditor extends EditorWindow
 				for (i = 0; i < currentOutputName.length; i++)
 				{
 					GUILayout.Label ("Output #" + (i + 1) + ":", EditorStyles.boldLabel);
-					currentOutputName[i] = EditorGUILayout.TextField("Name:", currentOutputName[i]);
-					currentOutputNum[i] = EditorGUILayout.IntField("Amount:", currentOutputNum[i]);
+					
+					tempName = currentOutputName[i];					
+					currentOutputName[i] = EditorGUILayout.TextField("Name:", tempName);
+					tempValue = currentOutputNum[i];
+					currentOutputNum[i] = EditorGUILayout.IntField("Amount:", tempValue);
 				}
 				
 			}
@@ -268,8 +309,8 @@ class DefaultBuildingEditor extends EditorWindow
 				GUILayout.Label ("Output #1:", EditorStyles.boldLabel);
 				currentOutputName.push("");
 				currentOutputNum.push(0);
-				currentOutputName[0] = EditorGUILayout.TextField("Name:", currentOutputName[0]);
-				currentOutputNum[0] = EditorGUILayout.IntField("Amount:", currentOutputNum[0]);
+				currentOutputName[0] = EditorGUILayout.TextField("Name:", "");
+				currentOutputNum[0] = EditorGUILayout.IntField("Amount:", 0);
 			}
 			
 			if(GUILayout.Button("Add Output"))
@@ -326,22 +367,50 @@ class DefaultBuildingEditor extends EditorWindow
 	      	{
 	      		defaultBuildings.Splice(buildingIndex, 1);
 				selectedBuilding = -1;
+				
+				deleteBuilding( buildingIndex );
+				defaultBuildingsLength--;
+				
 	      	}
       		if(GUILayout.Button("Cancel"))
 	      	{
 				selectedBuilding = -1;
 	      	}
-	      	
-	      	
-	      	
       		
+      	} // end of Edit Building view
+      	
+      	
+      	
+      	/*
+      	GUILayout.Label ("~~~~~~~~~~~~~~~", EditorStyles.boldLabel);
+      	
+      	//Was used to temporarily delete all editor prefs, affects ALL stored editor prefs
+      	
+      	if(GUILayout.Button("Clear ALL DATA, BE CAREFUL"))
+      	{
+			EditorPrefs.DeleteAll();
       	}
+      	
+      	
+      	
+      	if(GUILayout.Button("Check Data"))
+      	{
+			printBuildings();
+      	}
+      	
+      	*/
       	 
 
     }// end of OnGUI
     
+    
+    // Used to load all data into the script.
     function OnEnable()
     {
+    	Debug.Log("OnEnable");
+    	defaultBuildings.clear();
+    	var j : int = 0;
+    	
 		if(EditorPrefs.HasKey("defaultBuildingsLength"))
 		{
 			defaultBuildingsLength = EditorPrefs.GetInt("defaultBuildingsLength");
@@ -351,6 +420,7 @@ class DefaultBuildingEditor extends EditorWindow
 			{
 				var temp : Building;
 				var tempString : String = "";
+				var i : int = 0;
 			
 				for(i = 0; i < defaultBuildingsLength; i++)
 				{
@@ -385,12 +455,13 @@ class DefaultBuildingEditor extends EditorWindow
 							
 						if( inputLength > 0)
 						{
+							
 							for(j = 0; j < inputLength; j++)
 							{
 								tempString = "buildingInputName" + i + "_" + j;
 								if(EditorPrefs.HasKey(tempString))
 								{
-									temp.inputName.push(EditorPrefs.GetInt(tempString));
+									temp.inputName.push(EditorPrefs.GetString(tempString));
 								}
 								
 								tempString = "buildingInputNum" + i + "_" + j;
@@ -411,12 +482,13 @@ class DefaultBuildingEditor extends EditorWindow
 							
 						if( outputLength > 0)
 						{
+							
 							for(j = 0; j < outputLength; j++)
 							{
 								tempString = "buildingOutputName" + i + "_" + j;
 								if(EditorPrefs.HasKey(tempString))
 								{
-									temp.outputName.push(EditorPrefs.GetInt(tempString));
+									temp.outputName.push(EditorPrefs.GetString(tempString));
 								}
 								
 								tempString = "buildingOutputNum" + i + "_" + j;
@@ -429,31 +501,109 @@ class DefaultBuildingEditor extends EditorWindow
 						}//end of outputLength > 0
 					}
 					
-					
+					defaultBuildings.push(temp);
 					
 				}//end of for loop
 			}// end of if length > 0
 		}// end of if HasKey
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		updateData();
 	
 			
-	}
+	}// end of OnEnable
 	
+	
+	// Given the index within defaultBuildings,
+	// it will go through and delete all the
+	// stored data within EditorPrefs relating
+	// to that building
+	function deleteBuilding( index : int )
+	{
+		var tempString : String;
+	
+		Debug.Log("Deleting");
+		tempString = "buildingName" + index;
+		if(EditorPrefs.HasKey(tempString))
+			EditorPrefs.DeleteKey(tempString);
+		
+		tempString = "buildingRequisitionCost" + index;
+		if(EditorPrefs.HasKey(tempString))
+			EditorPrefs.DeleteKey(tempString);
+		
+		
+		tempString = "buildingPollutionOutput" + index;
+		if(EditorPrefs.HasKey(tempString))
+			EditorPrefs.DeleteKey(tempString);
+		
+		
+		tempString = "buildingInputLength" + index;
+		var buildingInputLength : int;
+		if(EditorPrefs.HasKey(tempString))
+		{
+			buildingInputLength = EditorPrefs.GetInt(tempString);
+			EditorPrefs.DeleteKey(tempString);
+		}
+				
+		
+		var j : int = 0;
+		for (j = 0; j < buildingInputLength; j++)
+		{
+			tempString = "buildingInputName" + index + "_" + j;
+			if(EditorPrefs.HasKey(tempString))
+				EditorPrefs.DeleteKey(tempString);
+		
+			j++;
+		}
+		
+		j = 0;
+		for (j = 0; j < buildingInputLength; j++)
+		{
+			tempString = "buildingInputNum" + index + "_" + j;
+			if(EditorPrefs.HasKey(tempString))
+				EditorPrefs.DeleteKey(tempString);
+			j++;
+		}
+		
+		
+		tempString = "buildingOutputLength" + index;
+		var buildingOutputLength : int;
+		if(EditorPrefs.HasKey(tempString))
+		{
+			buildingOutputLength = EditorPrefs.GetInt(tempString);
+			EditorPrefs.DeleteKey(tempString);
+		}
+	
+		
+		j = 0;
+		for (j = 0; j < buildingOutputLength; j++)
+		{
+			tempString = "buildingOutputName" + index + "_" + j;
+			if(EditorPrefs.HasKey(tempString))
+				EditorPrefs.DeleteKey(tempString);
+			j++;
+		}
+		
+		j = 0;
+		for (j = 0; j < buildingOutputLength; j++)
+		{
+			tempString = "buildingOutputNum" + index + "_" + j;
+			if(EditorPrefs.HasKey(tempString))
+				EditorPrefs.DeleteKey(tempString);
+			j++;
+		}	
+	}// end of deleteBuilding
+	
+	
+	
+	// Used to store all data into EditorPrefs
 	function OnDisable()
 	{
+		Debug.Log("On Disable");
 		var i : int = 0;
 		var tempString : String = "";
+		var tempName : String;
+		var tempValue : int;
 		
-		EditorPrefs.SetInt("defaultBuildingsLength", defaultBuildingsLength);
+		EditorPrefs.SetInt("defaultBuildingsLength", defaultBuildings.length);
 		
 		for (var defaultBuilding : Building in defaultBuildings)
 		{
@@ -470,38 +620,44 @@ class DefaultBuildingEditor extends EditorWindow
 			EditorPrefs.SetInt(tempString, defaultBuilding.inputName.length);			
 			
 			var j : int = 0;
-			for (var inputName : String in defaultBuilding.inputName)
+			for (j = 0; j < defaultBuilding.inputName.length; j++)
 			{
 				tempString = "buildingInputName" + i + "_" + j;
-				EditorPrefs.SetString(tempString, inputName);
-				j++;
+				
+				Debug.Log("*****" + defaultBuilding.inputName[j].ToString() + "*****");
+				
+				tempName = defaultBuilding.inputName[j];
+				EditorPrefs.SetString(tempString, tempName);
 			}
 			
 			j = 0;
-			for (var inputNum : int in defaultBuilding.inputNum)
+			for (j = 0; j < defaultBuilding.inputNum.length; j++)
 			{
 				tempString = "buildingInputNum" + i + "_" + j;
-				EditorPrefs.SetInt(tempString, inputNum);
-				j++;
+				tempValue = defaultBuilding.inputNum[j];
+				
+				Debug.Log("*****" + tempValue + "*****");
+				
+				EditorPrefs.SetInt(tempString, tempValue);
 			}
 			
 			tempString = "buildingOutputLength" + i;
 			EditorPrefs.SetInt(tempString, defaultBuilding.outputName.length);		
 			
 			j = 0;
-			for (var outputName : String in defaultBuilding.outputName)
+			for (j = 0; j < defaultBuilding.outputName.length; j++)
 			{
 				tempString = "buildingOutputName" + i + "_" + j;
-				EditorPrefs.SetString(tempString, outputName);
-				j++;
+				tempName = defaultBuilding.outputName[j];
+				EditorPrefs.SetString(tempString, tempName);
 			}
 			
 			j = 0;
-			for (var outputNum : int in defaultBuilding.outputNum)
+			for (j = 0; j < defaultBuilding.outputNum.length; j++)
 			{
 				tempString = "buildingOutputNum" + i + "_" + j;
-				EditorPrefs.SetInt(tempString, outputNum);
-				j++;
+				tempValue = defaultBuilding.outputNum[j];
+				EditorPrefs.SetInt(tempString, tempValue);
 			}
 			
 
@@ -512,7 +668,7 @@ class DefaultBuildingEditor extends EditorWindow
 		
 		updateData();
 	
-	}
+	}// end of OnDisable
 	
 	function OnDestroy()
 	{
@@ -521,17 +677,165 @@ class DefaultBuildingEditor extends EditorWindow
 	
 	
 	
+	// Used to update data of Database, but
+	// only works if editor is open, else
+	// uses LoadDataFromEditor.js script
 	function updateData()
 	{
+		Debug.Log("update");
+		var temp: Building;
 
 		Database.buildings.clear();
 		for (var defaultBuilding : Building in defaultBuildings)
 		{
-			Database.buildings.push(defaultBuilding);
+			temp = new Building();
+			temp.buildingName = defaultBuilding.buildingName;
+			temp.inputName = temp.inputName.Concat(defaultBuilding.inputName);
+			temp.inputNum = temp.inputNum.Concat(defaultBuilding.inputNum);
+			temp.outputName = temp.outputName.Concat(defaultBuilding.outputName);
+			temp.outputNum = temp.outputNum.Concat(defaultBuilding.outputNum);			
+			temp.requisitionCost = defaultBuilding.requisitionCost;
+			temp.pollutionOutput = defaultBuilding.pollutionOutput;
+					
+			Database.buildings.push(temp);
 		}
 		
 		defaultBuildingsLength = Database.buildings.length;
 		
-	}
+	}// end of updateData
+	
+	// Used to set up the default
+	// values for buildings
+	function initalizeBuildings()
+	{
+		Debug.Log("Initalizing Buildings");
+		
+		defaultBuildings.clear();
+		
+		var temp = new Building();
+		temp.buildingName = "House";
+		temp.inputName.push("Fuel");
+		temp.inputNum.push(1);
+		temp.inputName.push("Power");
+		temp.inputNum.push(1);
+		temp.outputName.push("Car");
+		temp.outputNum.push(1);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);	
+		
+		//Gas Station
+		temp = new Building();
+		temp.buildingName = "GasStation";
+		temp.inputName.push("Power");
+		temp.inputNum.push(1);
+		temp.inputName.push("Petroleum");
+		temp.inputNum.push(1);
+		temp.outputName.push("Gas");
+		temp.outputNum.push(1);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);
+		
+		//Refinery
+		temp = new Building();
+		temp.buildingName = "Refinery";
+		temp.inputName.push("Power");
+		temp.inputNum.push(1);
+		temp.inputName.push("Car");
+		temp.inputNum.push(1);
+		temp.outputName.push("Petroleum");
+		temp.outputNum.push(1);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);
+		
+		
+		//Power Plant
+		temp = new Building();
+		temp.buildingName = "PowerPlant";
+		temp.inputName.push("Car");
+		temp.inputNum.push(1);
+		temp.inputName.push("Petroleum");
+		temp.inputNum.push(1);
+		temp.outputName.push("Power");
+		temp.outputNum.push(1);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);
+		
+		//City
+		temp = new Building();
+		temp.buildingName = "City";
+		temp.inputName.push("Power");
+		temp.inputNum.push(3);
+		temp.outputName.push("Money");
+		temp.outputNum.push(1);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);
+		
+		//Dam
+		temp = new Building();
+		temp.buildingName = "HydroDam";
+		temp.inputName.push("Car");
+		temp.inputNum.push(1);
+		temp.outputName.push("Power");
+		temp.outputNum.push(3);
+		temp.requisitionCost = 1;
+		temp.pollutionOutput = 2;
+		defaultBuildings.push(temp);
+		
+		defaultBuildingsLength = defaultBuildings.length;
+		
+		updateData();
+		OnDisable();
+		
+		
+		
+	}// end of initalizeBuildings
+	
+	
+	function printBuildings()
+	{
+		var j : int = 0;
+		var i : int = 0;
+		
+		for (var defaultBuilding : Building in defaultBuildings)
+		{
+			Debug.Log(defaultBuilding.buildingName + "****");
+			
+			Debug.Log(defaultBuilding.inputName.length);
+			
+			for (j = 0; j < defaultBuilding.inputName.length; j++)
+			{
+				Debug.Log("*****" + defaultBuilding.inputName[j] + "*****");
+			}
+			
+			j = 0;
+			for (j = 0; j < defaultBuilding.inputNum.length; j++)
+			{
+				Debug.Log("*****" + defaultBuilding.inputNum[j] + "*****");
+			}
+			
+			j = 0;
+			for (j = 0; j < defaultBuilding.outputName.length; j++)
+			{
+				Debug.Log("*****" + defaultBuilding.outputName[j] + "*****");
+			}
+			
+			j = 0;
+			for (j = 0; j < defaultBuilding.outputNum.length; j++)
+			{
+				Debug.Log("*****" + defaultBuilding.outputNum[j] + "*****");
+			}
+			
 
-}
+			i++;
+			
+			
+		}
+	}
+	
+
+}// end of DefaultBuildingEditor class

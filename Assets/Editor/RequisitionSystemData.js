@@ -13,17 +13,19 @@ Will be used to edit the different values of variables used in the Requisition S
 
 class RequisitionSystemData extends EditorWindow
 {
-	var startingRequisitionPoints : int;
-	var lengthOfStorm : int;
-	var pollutionReductionByStorm : int;
+	static var startingRequisitionPoints : int;
+	static var lengthOfStorm : int;
+	static var pollutionReductionByStorm : int;
 	
     static var stormIntervalArrayLength : int;
     static var stormInterval : Array = new Array();
     
-    var turnsBetweenPayDay : int;
-	var requisitionPayDay : int;
-	var pollutionPenaltyPercent : int;
-	var pollutionPenalty : int;
+    static var turnsBetweenPayDay : int;
+	static var requisitionPayDay : int;
+	static var pollutionPenaltyPercent : int;
+	static var pollutionPenalty : int;
+	
+	//static var 
     
     // Add menu to Windows menu
     @MenuItem ("Window/Game Data Manipulation/Requisition System")
@@ -84,16 +86,31 @@ class RequisitionSystemData extends EditorWindow
 		requisitionPayDay = EditorGUILayout.IntField("Requisition Points Earned by Player:", requisitionPayDay);
 		pollutionPenaltyPercent = EditorGUILayout.IntField("Percent of Pollution for Penalty:", pollutionPenaltyPercent);
 		pollutionPenalty = EditorGUILayout.IntField("Amount of Pollution Penalty:", pollutionPenalty);
-        
-        /*
-      	if(GUILayout.Button("Update Data"))
+
+      	if(GUILayout.Button("Force Save"))
       	{
+			OnDisable();
 			updateData();
       	}
+      	if(GUILayout.Button("Force Load"))
+      	{
+			OnEnable();
+      	}
+      	if(GUILayout.Button("Reset to Defaults"))
+      	{
+			initializeData();
+      	}
+      	
+      	/*
+      	if(GUILayout.Button("Clear Cycle"))
+      	{
+			if(EditorPrefs.HasKey("stormIntervalArrayLength"))
+			{
+			}
+			
+      	} 
       	*/
       	
-      	updateData();
-        
     }
     
     function OnEnable()
@@ -141,6 +158,7 @@ class RequisitionSystemData extends EditorWindow
 			
 			if( stormIntervalArrayLength > 0)
 			{
+				stormInterval.clear();
 				for(i = 0; i < stormIntervalArrayLength; i++)
 				{
 					var tempString : String = "daysTilStorm" + i;
@@ -154,12 +172,10 @@ class RequisitionSystemData extends EditorWindow
 	
 		}
 		
-		updateData();
 	}
 	
 	function OnDisable()
 	{
-		updateData();
     	EditorPrefs.SetInt("startingRequisitionPoints", startingRequisitionPoints);
     	EditorPrefs.SetInt("lengthOfStorm", lengthOfStorm);
     	EditorPrefs.SetInt("pollutionReductionByStorm", pollutionReductionByStorm);
@@ -206,6 +222,23 @@ class RequisitionSystemData extends EditorWindow
 		RequisitionSystem.turnsBetweenStorm = stormInterval[0];
 		stormIntervalArrayLength = stormInterval.length;
 		
+	}
+	
+	function initializeData()
+	{
+		startingRequisitionPoints = 10;
+		lengthOfStorm = 3;
+		pollutionReductionByStorm = 33;
+		
+	    stormIntervalArrayLength = 3;
+	    stormInterval.push(2);
+	    stormInterval.push(3);
+	    stormInterval.push(5);
+	    
+	    turnsBetweenPayDay = 10;
+		requisitionPayDay = 10;
+		pollutionPenaltyPercent = 10;
+		pollutionPenalty = 1;
 	}
 
 }
