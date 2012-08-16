@@ -62,13 +62,13 @@ function Start(){
 
 	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
-	if(hexagon == null)
+	if(hexagon == null){
 		createHexagonMesh();
-	createSelectionHexagon ();	
+	}
+	createSelectionHexagon();	
 	createHexagonGridParticles();
 	//createGrid();
-	if(mainCamera == null)
-	{
+	if(mainCamera == null){
 		Debug.LogError("Camera not set");
 	}
 	
@@ -77,13 +77,17 @@ function Start(){
 
 //used for drawing a grid without needing to run the scene
 function OnDrawGizmos(){
-	if(hexagon == null)
+	if(hexagon == null){
 		createHexagonMesh();
+	}
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
 			var worldPosition: Vector3 = tileToWorldCoordinates(x, y);
-			for(var z:int = 0; z < 5; ++z){
-				Gizmos.DrawLine(hexagon.vertices[z] + worldPosition, hexagon.vertices[z + 1] + worldPosition);
+			var savedVertex: Vector3 = hexagon.vertices[0] + worldPosition;
+			for(var z:int = 1; z < 6; ++z){
+				var nextVertex: Vector3 = hexagon.vertices[z] + worldPosition;
+				Gizmos.DrawLine(savedVertex, nextVertex);
+				savedVertex = nextVertex;
 			}
 		}
 	}

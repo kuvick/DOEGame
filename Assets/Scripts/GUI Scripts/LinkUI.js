@@ -35,7 +35,7 @@ static private var mouseOverGUI:boolean;	//Use this to disable raycasting when c
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
 public var linkReference:boolean[,];
 public var buildings:GameObject[];
-static public var linkRange:Vector3 = Vector3(700, 700, 700);
+static public var linkRange:Vector3 = Vector3(400, 400, 400);
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
