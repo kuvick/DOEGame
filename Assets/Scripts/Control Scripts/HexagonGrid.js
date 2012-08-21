@@ -21,13 +21,23 @@ Usage:
     	-height is the number of hexagon tiles you want vertically
 	-The grid can be turned on or off with the showGrid boolean or the setGridVisibility function
 	-The selection hexagon can be turned on or off with the setSelectionHexagonVisibility function
+	-The tile type of a particular tile (x, y) can be found through getTile(x, y).type . getTile returns a Tile Object.
 */
+enum TileType{
+	Land,
+	Water,
+	GeothermalVent,
+	Mine
+}
 
-
+class Tile{
+	var type:TileType = TileType.Land;
+}
+var tileMap:Tile[] = new Tile[15 * 10];
 static var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
 var selectionMaterial: Material;//material for highlighting a specific hexagon.
 private var hexParticles: ParticleSystem.Particle[];//particles for creating the hex grid
-static private var plane:Plane; //plane for raycasting, uses y = 0 as the ground, y-up
+static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0); //plane for raycasting, uses y = 0 as the ground, y-up
 var width: int = 15; //number of tiles horizontally
 var height: int = 10; //number of tiles vertically
 //var terrainWidth: float; //width of the hexagonal grid, in world coordinates
@@ -50,15 +60,14 @@ static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the a
 	
 	
 
- 
 private var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
 static public var selectionPosition: Vector3;
 
 function Start(){
 	mainCamera = Camera.main;
-	plane = new Plane();
-	plane.SetNormalAndPosition(new Vector3(0, 1, 0), new Vector3());
+	
+	//plane.SetNormalAndPosition();
 
 	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
@@ -82,6 +91,7 @@ function OnDrawGizmos(){
 	}
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
+		
 			var worldPosition: Vector3 = tileToWorldCoordinates(x, y);
 			var savedVertex: Vector3 = hexagon.vertices[0] + worldPosition;
 			for(var z:int = 1; z < 6; ++z){
@@ -97,7 +107,7 @@ function OnDrawGizmos(){
 function Update(){
 	//shows or hides the grid since this script is attached to a particle system
 	renderer.enabled = showGrid;
-	var mouseTile = ScreenPosToTilePos(Input.mousePosition);
+	var mouseTile:Vector2 = ScreenPosToTilePos(Input.mousePosition);
 
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
@@ -128,6 +138,23 @@ function Update(){
 
 			
 	//var buildPosition: Vector3 = new Vector3(worldPoint.x, 15, worldPoint.z);	
+}
+
+//get a tile object at coordinate x, y
+function getTile(x:int, y:int):Tile{
+	if(y * width + x < tileMap.Length){
+		return tileMap[y * width + x];
+	}
+	Debug.LogError("out of bounds for tileMap");
+	return null;
+}
+
+//set the type of a tile at coordinate x, y
+function setTileType(x:int, y:int, tileType:TileType):void{
+	if(y * width + x < tileMap.Length){
+		tileMap[y * width + x].type = tileType;
+	}
+	else Debug.LogError("out of bounds for tileMap");
 }
 
 // note this shoudl use the position argument, that will come latter
@@ -287,7 +314,7 @@ private function createHexagonGridParticles(){
  }
  
  // Convert the given screen location into its corrisponding tile location
- static function ScreenPosToTilePos(inputPos: Vector2) :Vector3{
+ static function ScreenPosToTilePos(inputPos: Vector2) :Vector2{
  	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
 	var ray: Ray = mainCamera.ScreenPointToRay(inputPos);
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
