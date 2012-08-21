@@ -244,7 +244,7 @@ function BuildingMenuFunc (windowID : int) {
         		showWindow = false;
         	}
 
-        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	Database.buildings[i].buildingName 
+        	GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), 	Database.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + Database.buildings[i].inputName
         												+ " [" + Database.buildings[i].inputNum + "]"

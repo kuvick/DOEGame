@@ -53,9 +53,12 @@ static public var limitedUndos = false;
 	
 static private var requisitionSystem : RequisitionSystem;	// AUG 7, added edits to requisition system.
 
+
+
 // This is where the hardcoded buildings go of buildings we are aware of:
 function Awake ()
 {	
+	/*
 	//House
 	var temp = new Building();
 	temp.buildingName = "House";
@@ -130,14 +133,16 @@ function Awake ()
 	temp.requisitionCost = 1;
 	temp.pollutionOutput = 2;
 	buildings.push(temp);
+	*/
 
 }// end of Awake
+
+
 
 function Start ()
 {
 	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
-
 
 /*
 
