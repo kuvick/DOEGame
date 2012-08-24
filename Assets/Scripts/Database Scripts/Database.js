@@ -152,7 +152,7 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject) : boolean
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean) : boolean
 {
 
 	var temp = new BuildingOnGrid();
@@ -187,7 +187,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     temp.tileType = tileType;
     
     	
-   if( requisitionSystem.spendRequisition( temp.requisitionCost ) )
+   if( !isPreplaced && requisitionSystem.spendRequisition( temp.requisitionCost ) )
    {
 	    buildingsOnGrid.push(temp);
 	    	        
@@ -203,6 +203,25 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		//************
 		return true;
+	}
+	else if( isPreplaced )
+	{
+	
+		buildingsOnGrid.push(temp);
+	    	        
+	    //adding for undo:
+		
+		previousBuildings.Add("EndOfAdd");
+		previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
+		previousBuildings.Add("Add");
+		
+		numberOfUndos++;
+		
+		cleanUpPreviousBuildings();
+		
+		//************
+		return true;
+	
 	}
 	else
 	{

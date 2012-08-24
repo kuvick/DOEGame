@@ -36,7 +36,7 @@ static function HandleTapAtPoint(position: Vector2){
 	} else {
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
 		if (tapMode == TapType.Place){
-			PlaceBuilding.Place(buildPos);
+			PlaceBuilding.Place(buildPos, false);
 		}
 	}
 }

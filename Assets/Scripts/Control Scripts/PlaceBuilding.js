@@ -44,18 +44,28 @@ function Awake()
 	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
 
-static function Place(position: Vector3){
+static function Place(position: Vector3, isPreplaced: boolean){
 	if (changeBuilding > 7) {
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
 	
-		if(requisitionSystem.canSpendRequisition(buildingPrefabs[changeBuilding].name))
+		var build;
+	
+		if( !isPreplaced && requisitionSystem.canSpendRequisition(buildingPrefabs[changeBuilding].name) )
 		{
-			var build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject);
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced);
+		}
+		else if( isPreplaced )
+		{
+			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build.tag = "Building";
+			build.gameObject.AddComponent("MeshRenderer");
+			
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced);
 		}
 		else
 		{
