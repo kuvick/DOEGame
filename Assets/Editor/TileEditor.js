@@ -1,5 +1,13 @@
 #pragma strict
 
+/*
+This editor is accessed by selecting the HexagonGrid object and looking at its properties in the Inpsector.
+To paint/change the tile type of the terrain, select the tile type you want to paint and then click the begin painting button.
+Dragging your mouse over tiles in the scene view will change their tile type. Turn on the TileType gizmo for viewing which
+TileType the tiles currently have.
+
+
+*/
 @CustomEditor(HexagonGrid)
 class TileEditor extends Editor
 {
@@ -83,15 +91,15 @@ class TileEditor extends Editor
 		    		{
 		    			var inputTile: Vector2 = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);
 		    			Debug.Log(inputTile);
-						grid.setTileType(inputTile.y, inputTile.x, tileType);
-						EditorUtility.SetDirty(grid);
+						grid.setTileType(inputTile.x, inputTile.y, tileType);
+						EditorUtility.SetDirty(grid);//calling SetDirty causes the scene to remember/save the values changed in the grid
 		    		}
 		    		else if(Event.current.type == EventType.MouseDown && placing) //Placing + Mouse Button Down
 		    		{
 		    			if(e.button == 0) //Left Click
 						{
 							selectedTilePos = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);
-							grid.setBuildingType(selectedTilePos.y, selectedTilePos.x, buildingType);
+							grid.setBuildingType(selectedTilePos.x, selectedTilePos.y, buildingType);
 							Debug.Log(selectedTilePos);
 							
 							//TODO - PlaceBuilding.Place() is not working.
@@ -118,6 +126,7 @@ class TileEditor extends Editor
 		}
 	    else if(Event.current.type == EventType.layout){
             HandleUtility.AddDefaultControl(controlID);
+            //I don't really understand this part, but its necessary from what I've read for intercepting mouse clicks - Stephen
         }
 	    	
 	}

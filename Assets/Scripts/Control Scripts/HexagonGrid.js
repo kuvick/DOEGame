@@ -25,6 +25,7 @@ Usage:
 */
 enum TileType{
 	Land,
+	Hill,
 	Water,
 	GeothermalVent,
 	Mine
@@ -65,7 +66,8 @@ static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the a
  *   \/
  * 
  * */
-	
+static var tileHalfWidth = tileWidth / 2.0;
+static var tileHalfHeight = (sideSize + peakSize * 2.0) / 2.0;
 	
 
 public var hexagon: Mesh; //hexagon mesh for showing selection
@@ -247,8 +249,8 @@ private function createHexagonGridParticles(){
 		for(var x:int = 0; x < width; ++x){
 			var position: Vector3 = tileToWorldCoordinates(x, y);
 			//need to add half the size of the hexagon since the particles are centered	
-			position.x += tileWidth / 2.0f;
-			position.z += (sideSize * 1.5f  + peakSize) / 2;
+			position.x += tileHalfWidth;
+			position.z += tileHalfHeight;//(sideSize * 1.5f  + peakSize) / 2;
 			//old math new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 + tileWidth / 2 , 0, y * sideSize * 1.5f + (sideSize * 1.5f  + peakSize) / 2);
 			var particle: ParticleSystem.Particle = new ParticleSystem.Particle();
 			particle.position = position;
@@ -346,6 +348,6 @@ private function createHexagonGridParticles(){
 
 /**returns the lower left corner world coordinates of the tile, (x, 0, z)
 */
-function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
+static function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
   return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
 }
