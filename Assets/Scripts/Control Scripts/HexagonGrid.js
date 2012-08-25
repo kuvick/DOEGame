@@ -30,8 +30,16 @@ enum TileType{
 	Mine
 }
 
+enum BuildingType
+{
+	None,
+	PowerPlant,
+	Factory
+}
+
 class Tile{
 	var type:TileType = TileType.Land;
+	var bType:BuildingType = BuildingType.None;
 }
 var tileMap:Tile[] = new Tile[15 * 10];
 static var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
@@ -60,7 +68,7 @@ static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the a
 	
 	
 
-private var hexagon: Mesh; //hexagon mesh for showing selection
+public var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
 static public var selectionPosition: Vector3;
 
@@ -89,13 +97,17 @@ function OnDrawGizmos(){
 	if(hexagon == null){
 		createHexagonMesh();
 	}
+	
+	var worldPosition: Vector3;
+	var savedVertex: Vector3;
+	var nextVertex: Vector3;
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
 		
-			var worldPosition: Vector3 = tileToWorldCoordinates(x, y);
-			var savedVertex: Vector3 = hexagon.vertices[0] + worldPosition;
+			worldPosition = tileToWorldCoordinates(x, y);
+			savedVertex = hexagon.vertices[0] + worldPosition;
 			for(var z:int = 1; z < 6; ++z){
-				var nextVertex: Vector3 = hexagon.vertices[z] + worldPosition;
+				nextVertex = hexagon.vertices[z] + worldPosition;
 				Gizmos.DrawLine(savedVertex, nextVertex);
 				savedVertex = nextVertex;
 			}
@@ -157,7 +169,15 @@ function setTileType(x:int, y:int, tileType:TileType):void{
 	else Debug.LogError("out of bounds for tileMap");
 }
 
-// note this shoudl use the position argument, that will come latter
+//Set the type of building for the tile at coordinate x, y
+function setBuildingType(x:int, y:int, buildingType:BuildingType):void{
+	if(y * width + x < tileMap.Length){
+		tileMap[y * width + x].bType = buildingType;
+	}
+	else Debug.LogError("out of bounds for tileMap");
+}
+
+// note this should use the position argument, that will come latter
 static function GetPositionToBuild(position: Vector3):Vector3 {
 	return (new Vector3(selectionPosition.x + tileWidth/2,
 			15, 
