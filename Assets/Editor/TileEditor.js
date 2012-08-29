@@ -18,7 +18,6 @@ class TileEditor extends Editor
     //Building Placing
     private var buildingType:BuildingType = BuildingType.None;
     private var placing:boolean = false;
-    public static var selectedTilePos: Vector2 = new Vector2(-1, -1); //Current hex that is being selected
     //  Add menu named "My Window" to the Window menu
 //    @MenuItem ("Window/Game Data Manipulation/Tile Editor")
 //    static function Init ()
@@ -98,9 +97,9 @@ class TileEditor extends Editor
 		    		{
 		    			if(e.button == 0) //Left Click
 						{
-							selectedTilePos = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);
-							grid.setBuildingType(selectedTilePos.x, selectedTilePos.y, buildingType);
-							Debug.Log(selectedTilePos);
+							HexagonGrid.selectedTilePos = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);
+							grid.setBuildingType(HexagonGrid.selectedTilePos.x, HexagonGrid.selectedTilePos.y, buildingType);
+							Debug.Log(HexagonGrid.selectedTilePos);
 							
 							//TODO - PlaceBuilding.Place() is not working.
 							/*
@@ -117,8 +116,8 @@ class TileEditor extends Editor
 						}
 						else if(e.button == 1) //Right Click
 						{
-							selectedTilePos.x = -1; //Reset selected tile
-							selectedTilePos.y = -1;
+							HexagonGrid.selectedTilePos.x = -1; //Reset selected tile
+							HexagonGrid.selectedTilePos.y = -1;
 						}
 		    		}
 		    	}

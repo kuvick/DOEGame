@@ -68,6 +68,7 @@ static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the a
  * */
 static var tileHalfWidth = tileWidth / 2.0;
 static var tileHalfHeight = (sideSize + peakSize * 2.0) / 2.0;
+public static var selectedTilePos: Vector2 = new Vector2(-1, -1); //Current hex that is being selected
 	
 
 public var hexagon: Mesh; //hexagon mesh for showing selection
@@ -103,9 +104,11 @@ function OnDrawGizmos(){
 	var worldPosition: Vector3;
 	var savedVertex: Vector3;
 	var nextVertex: Vector3;
+	
+	//Outline the hexagon on all tiles
+	Gizmos.color = Color.white;
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
-		
 			worldPosition = tileToWorldCoordinates(x, y);
 			savedVertex = hexagon.vertices[0] + worldPosition;
 			for(var z:int = 1; z < 6; ++z){
@@ -113,7 +116,23 @@ function OnDrawGizmos(){
 				Gizmos.DrawLine(savedVertex, nextVertex);
 				savedVertex = nextVertex;
 			}
+			Gizmos.DrawLine(savedVertex, hexagon.vertices[0] + worldPosition); //Draw the last line
 		}
+	}
+	
+	//Draw selection border
+	Gizmos.color = Color.red;
+	if(selectedTilePos.x != -1 && selectedTilePos.y != -1)
+	{
+		worldPosition = tileToWorldCoordinates(selectedTilePos.x, selectedTilePos.y);
+		worldPosition.y += 5;
+		savedVertex = hexagon.vertices[0] + worldPosition;
+		for(var i:int = 1; i < 6; ++i){
+			nextVertex = hexagon.vertices[i] + worldPosition;
+			Gizmos.DrawLine(savedVertex, nextVertex);
+			savedVertex = nextVertex;
+		}
+		Gizmos.DrawLine(savedVertex, hexagon.vertices[0] + worldPosition); //Draw the last line
 	}
 }
 
