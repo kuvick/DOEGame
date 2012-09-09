@@ -19,6 +19,11 @@ points attribute to buildings. NEEDS TO BE EDITED FOR ACTUAL VALUES, set for
 
 SAME FOR POLLUTION OUTPUT, NEEDS TO BE SET FOR ACTUAL VALUES.
 
+
+UPDATE REMINDER: See DefaultBuildingEditor to change the values of the default
+buildings.
+
+
 Attach to a blank GameObject
 */
 
@@ -51,7 +56,7 @@ static public var limitedUndos = false;
 	
 	
 	
-static private var requisitionSystem : RequisitionSystem;	// AUG 7, added edits to requisition system.
+//static private var requisitionSystem : RequisitionSystem;	// AUG 7, added edits to requisition system.
 
 
 
@@ -138,11 +143,13 @@ function Awake ()
 }// end of Awake
 
 
-
+/*
 function Start ()
 {
 	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
+
+*/
 
 /*
 
@@ -187,7 +194,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     temp.tileType = tileType;
     
     	
-   if( !isPreplaced && requisitionSystem.spendRequisition( temp.requisitionCost ) )
+   if( !isPreplaced )
    {
 	    buildingsOnGrid.push(temp);
 	    	        
@@ -201,10 +208,12 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		cleanUpPreviousBuildings();
 		
+		EventSystem.currentTurn += 1;		// NEW: add a turn to the event system
+		
 		//************
 		return true;
 	}
-	else if( isPreplaced )
+	else
 	{
 	
 		buildingsOnGrid.push(temp);
@@ -223,12 +232,6 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		return true;
 	
 	}
-	else
-	{
- 		Debug.Log("Not enough requisition points to make such an action!");
- 		return false;
-	}
-
 	 
 }// end of addBuildingToGrid
 
@@ -347,7 +350,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     // in the linkedTo array.
     //
     // AND if there is at least 1 point of requisition to spend:
-    if(hasResource && requisitionSystem.spendRequisition(1))
+    if(hasResource)
     {
     
     	//adding for undo:
@@ -384,6 +387,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		
+		EventSystem.currentTurn += 1;		// NEW: add a turn to the event system
     }
     else
     {
@@ -582,7 +587,6 @@ function undo(): boolean
 			buildingIndex = previousBuildings.Pop();
 			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
 			
-			requisitionSystem.numberOfUndos++;
 			
 			return true;
 			
@@ -596,7 +600,6 @@ function undo(): boolean
 			buildingsOnGrid.Splice(buildingID, 1);
 			previousBuildings.Pop();
 			
-			requisitionSystem.numberOfUndos++;
 			
 			return true;
 		}

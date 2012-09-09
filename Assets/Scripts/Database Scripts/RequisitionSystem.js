@@ -1,4 +1,10 @@
 /*
+
+UPDATE: REQUISISTION SYSTEM REPLACED BY EVENTS
+
+
+
+
 RequisitionSystem.js
 By Katharine Uvick
 
@@ -62,6 +68,8 @@ for balancing testing.
 
 Attach to a blank GameObject
 */
+
+/*
 #pragma strict
 
 static private var database : Database;
@@ -312,3 +320,5 @@ static public function calculateScore()
 	Debug.Log("Requisition Spent: " + totalRequisitionSpent);
 	Debug.Log("Pollution Level: " + pollutionLevel);
 }// end of calculateScore
+
+*/

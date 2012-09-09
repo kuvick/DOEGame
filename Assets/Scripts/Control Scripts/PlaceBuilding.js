@@ -10,7 +10,6 @@ Note:
 
 Author: Ajinkya Waghulde
 
-AUG 7 update: added in requisition system, test for enough points
 **********************************************************/
 
 // for placing a building on terrain
@@ -26,8 +25,6 @@ var buildingPrefab7 : Transform;
 
 static var changeBuilding : int = 0;
 
-static private var requisitionSystem : RequisitionSystem;
-
 function Awake()
 {
 	buildingPrefabs = new Transform[8];
@@ -40,8 +37,6 @@ function Awake()
 	buildingPrefabs[5] = buildingPrefab5;
 	buildingPrefabs[6] = buildingPrefab6;
 	buildingPrefabs[7] = buildingPrefab7;
-	
-	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
 }
 
 static function Place(position: Vector3, isPreplaced: boolean){
@@ -51,7 +46,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 	
 		var build;
 	
-		if( !isPreplaced && requisitionSystem.canSpendRequisition(buildingPrefabs[changeBuilding].name) )
+		if( !isPreplaced )
 		{
 			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
 			build.tag = "Building";

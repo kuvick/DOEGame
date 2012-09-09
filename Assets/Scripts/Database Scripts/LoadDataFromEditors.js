@@ -9,11 +9,11 @@ to the start function.
 
 function Start ()
 {
-	loadFromRequisitionSystemData();
+	//loadFromRequisitionSystemData();
 	loadFromDefaultBuildingEditor();
 }
 
-
+/*
 function loadFromRequisitionSystemData()
 {
 	if(EditorPrefs.HasKey("startingRequisitionPoints"))
@@ -74,6 +74,8 @@ function loadFromRequisitionSystemData()
 
 	}
 }// end of loadFromRequisitionSystemData()
+
+*/
 
 function loadFromDefaultBuildingEditor()
 {

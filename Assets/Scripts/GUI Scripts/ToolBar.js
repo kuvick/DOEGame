@@ -165,13 +165,19 @@ function OnGUI()
 			Debug.Log("Undo Failed!");
 	}
 	
+	
+	/*
 	// *** added by K, requisition system info
 	GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Requisition: "
 	+ requisitionSystem.currentRequisitionPoints
 	+ " Pollution: " + requisitionSystem.pollutionLevel
 	+ " Is Storming: " + requisitionSystem.isStorming
 	+ " Next Storm (Days): " + requisitionSystem.turnsTilStorm );
+	*/
 	
+	// *** added by K, Event System Info
+	GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
+	+ EventSystem.currentTurn);
 
 }
 
