@@ -696,7 +696,7 @@ class DefaultBuildingEditor extends EditorWindow
 			temp.outputNum = temp.outputNum.Concat(defaultBuilding.outputNum);			
 			temp.requisitionCost = defaultBuilding.requisitionCost;
 			temp.pollutionOutput = defaultBuilding.pollutionOutput;
-					
+						
 			Database.buildings.push(temp);
 		}
 		

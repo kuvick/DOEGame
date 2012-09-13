@@ -83,6 +83,8 @@ function loadFromDefaultBuildingEditor()
 	var i : int;
 	var j : int;
 
+	
+
 	if(EditorPrefs.HasKey("defaultBuildingsLength"))
 	{
 		Debug.Log("Loading Data: " + EditorPrefs.GetInt("defaultBuildingsLength"));
@@ -171,7 +173,7 @@ function loadFromDefaultBuildingEditor()
 						}
 					}//end of outputLength > 0
 				}
-				
+				Debug.Log("Pushing building: " + temp.buildingName);
 				Database.buildings.push(temp);
 				
 			}//end of for loop

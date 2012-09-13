@@ -63,9 +63,9 @@ static public var limitedUndos = false;
 // This is where the hardcoded buildings go of buildings we are aware of:
 function Awake ()
 {	
-	/*
+	
 	//House
-	var temp = new Building();
+	/*var temp = new Building();
 	temp.buildingName = "House";
 	temp.inputName.push("Fuel");
 	temp.inputNum.push(1);
@@ -137,8 +137,7 @@ function Awake ()
 	temp.outputNum.push(3);
 	temp.requisitionCost = 1;
 	temp.pollutionOutput = 2;
-	buildings.push(temp);
-	*/
+	buildings.push(temp);*/
 
 }// end of Awake
 

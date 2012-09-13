@@ -239,24 +239,29 @@ function BuildingMenuFunc (windowID : int) {
         
         //scrollPosition = GUI.BeginScrollView (Rect (0,0,toolBarWidth - 100,toolBarHeight), scrollPosition, Rect (0, 0, 220, 220));
         
-        
+        var data:Database = GameObject.Find("Database").GetComponent("Database");
         
         // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
-        scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight), false, true);
+        scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight + 75), false, true);
         
-        for(var i =0; i<6; i++){
-        	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), btnTextureArray[i])){
+        for(var i =0; i<6; i++)
+        {
+        	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), btnTextureArray[i]))
+        	{
         		PlaceBuilding.changeBuilding = i;
         		showWindow = false;
         	}
 
-        	GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), 	Database.buildings[i].buildingName 
+			//Debug.Log("Building: at index " + i);
+			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
+        	/*GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), 	data.buildings[i].buildingName 
         												+ "\n"
-        												+ "INPUT: " + Database.buildings[i].inputName
-        												+ " [" + Database.buildings[i].inputNum + "]"
+        												+ "INPUT: " + data.buildings[i].inputName
+        												+ " [" + data.buildings[i].inputNum + "]"
         												+ "\n"
-        												+ "OUTPUT: " + Database.buildings[i].outputName
-        												+ " [" + Database.buildings[i].outputNum + "]");
+        												+ "OUTPUT: " + data.buildings[i].outputName
+        												+ " [" + data.buildings[i].outputNum + "]");*/
+        												
 
 		}
 		

@@ -53,6 +53,13 @@ function Update() {
 	
 	restoreColors();
 	selectedBuilding = ModeController.getSelectedBuilding();
+	
+	if(selectedBuilding == null)
+	{
+		//Debug.Log("No selected building, cannot update link display!");
+		return;
+	}
+	
 	selectedBuilding.renderer.material.color = selectedBuildingColor;
 
 	/*Highlight all buildings in range
@@ -147,6 +154,13 @@ private function createSelectionHexagon(){
  * Clears highlighted tiles that show range	
 */
 function DestroyRangeTiles(){
+	
+	if(GameObject.FindGameObjectsWithTag("RangeTile") == null)
+	{
+		Debug.Log("No range tiles to destroy");
+		return;
+	}
+
 	for(var tile:GameObject in GameObject.FindGameObjectsWithTag("RangeTile"))
 		GameObject.Destroy(tile);
 }
