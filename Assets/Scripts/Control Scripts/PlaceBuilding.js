@@ -44,7 +44,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
 	
-		var build;
+		var build: Transform;
 	
 		if( !isPreplaced )
 		{

@@ -148,7 +148,7 @@ function OnGUI()
 		//Wait
 		case 3:
 		Debug.Log("wait");
-		requisitionSystem.spendRequisition( 1 );	// spend 1 requisition to wait
+		//requisitionSystem.spendRequisition( 1 );	// spend 1 requisition to wait
 		toolbarInt = -1;
 		break;
 		
