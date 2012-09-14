@@ -1,5 +1,4 @@
 #pragma strict
-import FacebookInterface;
 
 function Start () {
 	//var myName : String = FacebookInterface.GetUserProperty("Jared.Mavis", "name");
