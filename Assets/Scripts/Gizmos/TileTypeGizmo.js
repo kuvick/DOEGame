@@ -3,9 +3,13 @@
 /*
 Author: Stephen Hopkins
 
-Turn on this gizmo to see the type of each tile on the terrain. Uses icons in the Gizmos folder.
+Turn on this gizmo to see the type of each tile on the terrain. Tiles with an X in them are not buildable on. Uses icons in the Gizmos folder. 3d gizmos needs to be turned off
+or if its turned on, move the slider to the right.
 */
 
+private var slope1:Vector3 = new Vector3(1, 0, -1);
+private var slope2:Vector3 = new Vector3(1, 0, 1);
+private var xLineLength:float = HexagonGrid.tileHalfWidth * 0.65;
 function OnDrawGizmos () {
     var grid:HexagonGrid = GetComponent("HexagonGrid") as HexagonGrid;
     if(grid){
@@ -15,6 +19,16 @@ function OnDrawGizmos () {
     			iconPos.y = 10;
     			iconPos.x += grid.tileHalfWidth;//center the icon over the tile
     			iconPos.z += grid.tileHalfHeight;
+    			var buildable:boolean = grid.getTile(x, y).buildable;
+    			if(!buildable){
+    				Gizmos.color = Color.red;	
+    				var upperLeft:Vector3 = iconPos - slope1 * xLineLength;
+    				var bottomLeft:Vector3 = iconPos - slope2 * xLineLength;
+    				var bottomRight:Vector3 = iconPos + slope1 * xLineLength;
+    				var upperRight:Vector3 = iconPos + slope2 * xLineLength;
+    				Gizmos.DrawLine(upperLeft, bottomRight);
+    				Gizmos.DrawLine(bottomLeft, upperRight);
+    			}
     			switch(grid.getTile(x, y).type){
     				case TileType.Land:
     					Gizmos.DrawIcon(iconPos, "land.jpg", true);

@@ -41,6 +41,7 @@ enum BuildingType
 class Tile{
 	var type:TileType = TileType.Land;
 	var bType:BuildingType = BuildingType.None;
+	var buildable:boolean = true;
 }
 var tileMap:Tile[] = new Tile[15 * 10];
 static var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
@@ -140,7 +141,7 @@ function OnDrawGizmos(){
 function Update(){
 	//shows or hides the grid since this script is attached to a particle system
 	renderer.enabled = showGrid;
-	var mouseTile:Vector2 = ScreenPosToTilePos(Input.mousePosition);
+	var mouseTile:Vector2 = ScreenPosToTilePos(mainCamera, Input.mousePosition);
 
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
@@ -187,15 +188,20 @@ function setTileType(x:int, y:int, tileType:TileType):void{
 	if(y * width + x < tileMap.Length){
 		tileMap[y * width + x].type = tileType;
 	}
-	else Debug.LogError("out of bounds for tileMap");
+	else Debug.LogError("out of bounds for tileMap, tiletype");
 }
-
+function setBuildable(x:int, y:int, buildable:boolean):void{
+	if(y * width + x < tileMap.Length){
+		tileMap[y * width + x].buildable = buildable;
+	}
+	else Debug.LogError("out of bounds for tileMap, buildable");
+}
 //Set the type of building for the tile at coordinate x, y
 function setBuildingType(x:int, y:int, buildingType:BuildingType):void{
 	if(y * width + x < tileMap.Length){
 		tileMap[y * width + x].bType = buildingType;
 	}
-	else Debug.LogError("out of bounds for tileMap");
+	else Debug.LogError("out of bounds for tileMap, buildingtype");
 }
 
 // note this should use the position argument, that will come latter
@@ -355,9 +361,9 @@ private function createHexagonGridParticles(){
  }
  
  // Convert the given screen location into its corrisponding tile location
- static function ScreenPosToTilePos(inputPos: Vector2) :Vector2{
+ static function ScreenPosToTilePos(camera:Camera, inputPos: Vector2) :Vector2{
  	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
-	var ray: Ray = mainCamera.ScreenPointToRay(inputPos);
+	var ray: Ray = camera.ScreenPointToRay(inputPos);
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
 	plane.Raycast(ray, enter);
 	var worldPoint: Vector3 = ray.GetPoint(enter);
