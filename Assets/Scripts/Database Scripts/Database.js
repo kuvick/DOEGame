@@ -256,7 +256,7 @@ public static function BroadcastBuildingUpdate():void
 		if(gos && gos.transform.parent == null) // make sure the GO exists and is the parent, since BroadcastMessage sends to all children
 		{
 			//Debug.Log("Game object in scene is: " + gos.name);
-			gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+			gos.gameObject.SendMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
 		}
 	}
 }
