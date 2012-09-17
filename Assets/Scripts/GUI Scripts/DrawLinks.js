@@ -30,6 +30,15 @@ function Start() {
 	addObjectsToBuildings();
 }
 
+function UpdateBuildingCount(curBuildings:GameObject[]):void
+{
+	buildings = curBuildings;
+	linkProspects = new boolean[buildings.Length, buildings.Length]; // reset the length of the possible prospects
+	linksDrawn = linksDrawn = new boolean[buildings.Length, buildings.Length];
+	
+	Debug.Log("Updating building count from DrawLinks.js");
+}
+
 function Update(){
 	
 	

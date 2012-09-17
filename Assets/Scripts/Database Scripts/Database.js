@@ -209,6 +209,9 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		EventSystem.currentTurn += 1;		// NEW: add a turn to the event system
 		
+		
+		BroadcastBuildingUpdate();
+		
 		//************
 		return true;
 	}
@@ -234,6 +237,29 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 	 
 }// end of addBuildingToGrid
 
+/* 
+	BroadcastBuildingUpdate:
+
+   This functionality is set in place so when the building is placed and added to grid, all game objects with the "UpdateBuildingCount" function,
+   if it exists, will be sent the latest set of buildings from the same call. All that's needed to be done is to have an UpdateBuildingCount function
+   with a gameObject array as a parameter and everything should be fine.
+   
+   Also, this can be refined later via tags so we can separate what we need to update for performance tweaking
+*/
+
+public static function BroadcastBuildingUpdate():void
+{
+	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
+	
+	for(var gos:GameObject in gameObjInScene)
+	{
+		if(gos && gos.transform.parent == null) // make sure the GO exists and is the parent, since BroadcastMessage sends to all children
+		{
+			//Debug.Log("Game object in scene is: " + gos.name);
+			gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+		}
+	}
+}
 
 
 /*

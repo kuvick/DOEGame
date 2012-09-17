@@ -52,6 +52,7 @@ private var typeOfInput: function();
 // so you don't have to search in the state machine for the spot
 // called whenever a drag occurs
 function DragEvent(inputChangeSinceLastTick: Vector2){
+	//Debug.Log("Calling drag event");
 	CameraControl.Drag(-inputChangeSinceLastTick);
 }
 

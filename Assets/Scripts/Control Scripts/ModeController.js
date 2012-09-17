@@ -17,39 +17,71 @@ to build mode can be added later.
 */
 
 
-private static var currentMode:String;
-static private var selectedBuilding:GameObject;
+static public var currentMode:GameState;
+static public var selectedBuilding:GameObject = null;
 private var buildings:GameObject[];
 private var linkMode:GameObject;
 private var object:String;
+private var previousBuildingLength:int;
 private var mouseOverGUI:boolean;
 public var defaultColors:Color[];			//stores the default color of all buildings
 
+enum GameState{ EXPLORE, LINK }; // The states that can currently exist in the game
 
-function Awake(){
-	currentMode = "explore";
+
+function Awake()
+{
+	Debug.Log("Setting the mode controller to exploration state");
+	currentMode = GameState.EXPLORE; // set the state initially to exploration
+	
+	/*if(!GameObject.Find("LinkMode"))
+		Debug.Log("LinkMode object does not exist!"); return;
+	
 	linkMode = GameObject.Find("LinkMode");
-	linkMode.active = false;
+	linkMode.active = false;*/
 }
 
-function Start () {
+function Start () 
+{
 	buildings = gameObject.FindGameObjectsWithTag("Building");
+	previousBuildingLength = buildings.Length;
 	mouseOverGUI = false;
 }
 
-function Update () {
-	if(BuildingClicked()){
-		currentMode = "link";
+function Update () 
+{
+	if(BuildingClicked()) //If a building is clicked, set the mode to link
+	{
+		currentMode = GameState.LINK;
 		switchTo(currentMode);
 	}
-	else if(currentMode == "link" && LinkUI.CancelLinkMode()){
-		currentMode = "explore";
+	else if(currentMode == GameState.LINK && LinkUI.CancelLinkMode()) // Once the user cancels out of link mode, switch back to explore
+	{
+		currentMode = GameState.EXPLORE;
+		selectedBuilding = null;
 		switchTo(currentMode);
 	}
 }
 
-function BuildingClicked():boolean{
-	if(Input.GetMouseButtonDown(0)){
+function UpdateBuildingCount(curBuildings:GameObject[]):void
+{
+	Debug.Log("Sucessfully broadcasted update building count from ModeController.js");
+	buildings = curBuildings;
+	
+	Debug.Log("Building count is now " + buildings.Length);
+	/*if(Database.getBuildingsOnGrid().length != previousBuildingLength)
+	{
+		buildings = gameObject.FindGameObjectsWithTag("Building");
+		previousBuildingLength = buildings.Length;
+		Debug.Log("Building count is now " + previousBuildingLength);
+	}*/
+}
+
+function BuildingClicked():boolean
+{
+	return (selectedBuilding != null);
+
+	/*if(Input.GetMouseButtonDown(0)){
 		var hit : RaycastHit;
     	var ray : Ray = Camera.main.ScreenPointToRay (Input.mousePosition);
     	
@@ -57,7 +89,8 @@ function BuildingClicked():boolean{
     	var layerMask = 1 << 8 | 1 << 2;
     	layerMask = ~layerMask;
     	
-    	if(currentMode == "link"){
+    	if(currentMode == GameState.LINK)
+    	{
 			mouseOverGUI = LinkUI.MouseOverLinkGUI();
 		}
       
@@ -66,25 +99,27 @@ function BuildingClicked():boolean{
 	    	if(target.tag == "Building" && !mouseOverGUI){ 
 	      		selectedBuilding = target;
 	      		
-	      		Debug.Log("Clicked Building");
+	      		Debug.Log("Clicked Building: " + target.name);
 	      		
 	      		return true;
 	      	}
 	  	}
+	  	
+	  	Debug.Log("Raycast did not hit building");
 	}
-	return false;
+	return false;*/
 }
 
-function switchTo(mode:String){
+function switchTo(mode:int){
 	switch(mode)
 	{
-		case "link":
-			linkMode.active = true;
+		case GameState.LINK:
+			//linkMode.active = true;
 			break;
 			
-		case "explore":
+		case GameState.EXPLORE:
 			DisplayLinkRange.restoreColors();
-			linkMode.active = false;
+			//linkMode.active = false;
 			break;
 			
 		/***************To be expanded

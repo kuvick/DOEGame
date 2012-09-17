@@ -8,7 +8,7 @@ Note: Attach the script to Main Camera.
 
 Author: Ajinkya Waghulde
 **********************************************************/
-private var mode:String;
+private var mode:int;
 
 
 function OnGUI()
@@ -20,7 +20,7 @@ function OnGUI()
 		GUI.Label(Rect(Screen.width/2 - 50, Screen.height - 40, Screen.width/2 + 50, 40), "<Link Mode>");	
 	*/
 	
-	if(mode == "link")
+	if(mode == GameState.LINK)
 		GUI.Label(Rect(Screen.width/2 - 50, Screen.height - 40, Screen.width/2 + 50, 40), "<Link Mode>");	
 	else 
 		GUI.Label(Rect(Screen.width/2 - 50, Screen.height - 40, Screen.width/2 + 50, 40), "<Explore Mode>");	

@@ -28,10 +28,11 @@ static function HandleTapAtPoint(position: Vector2){
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildingIndex = Database.findBuildingIndex(buildPos);
 	if (buildingIndex != -1){
-		Debug.Log("Tap on building");
+		//Debug.Log("Tap on building");
 		var buildings = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
+		ModeController.selectedBuilding = building;
 		DisplayLinkRange.HighlightBuildingsInRange(building);
 	} else {
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one

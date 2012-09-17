@@ -19,7 +19,7 @@ static private var buildings:GameObject[];
 private var selectedBuilding:GameObject;
 private var previousBuilding:GameObject = null;
 private var buildingSelected:boolean;
-static public var defaultColors:Color[];			//stores the default color of all buildings
+static public var defaultColors:Color[]; //stores the default color of all buildings
 private var rangeRing:GameObject;
 private static var hexagon: Mesh; //hexagon mesh for showing selection
 var selectionMaterial: Material;//material for highlighting a specific hexagon.
@@ -27,13 +27,15 @@ static var selectionPosition:Vector3;
 static var tileWidth:float;
 static var sideSize:float;
 
-function Start () {
+function Start () 
+{
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	tileWidth = HexagonGrid.tileWidth;
 	sideSize = HexagonGrid.sideSize;
 	createHexagonMesh();
 	defaultColors = new Color[buildings.Length];
 	
+	Debug.Log("Building length " + buildings.Length);
 	for(var i:int = 0; i < buildings.Length; i++){
 		defaultColors[i] = buildings[i].renderer.material.color;
 		
@@ -44,8 +46,7 @@ function Start () {
 		rangeRing.layer = 2;			//Ignore Raycast
 		rangeRing.AddComponent(SphereCollider);
 		rangeRing.GetComponent(SphereCollider).radius = LinkUI.linkRange.x;
-	}
-	
+	}	
 }
 
 
@@ -99,8 +100,9 @@ static function HighlightBuildingsInRange(selectedBuilding:GameObject){
 
 function HighlightTilesInRange(){
 	DestroyRangeTiles();
-	/*TODO: update this to use correct range*/
-	var range = selectedBuilding.transform.FindChild("RangeRing").GetComponent(SphereCollider).radius / tileWidth;
+	/*TODO: update this to correct range from buildings*/
+	//var range = selectedBuilding.transform.FindChild("RangeRing").GetComponent(SphereCollider).radius / tileWidth;
+	var range = 2; //Test
 	Debug.Log("Range " + range);
 	var position:Vector3 = selectedBuilding.transform.position;
 	var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
