@@ -35,8 +35,9 @@ static function HandleTapAtPoint(position: Vector2){
 		ModeController.selectedBuilding = building;
 		DisplayLinkRange.HighlightBuildingsInRange(building);
 	} else {
+		Debug.Log("Current Mode: " + ModeController.currentMode);
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
-		if (tapMode == TapType.Place){
+		if (tapMode == TapType.Place && ModeController.currentMode == GameState.EXPLORE){
 			PlaceBuilding.Place(buildPos, false);
 		}
 	}

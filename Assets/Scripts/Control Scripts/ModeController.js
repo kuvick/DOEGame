@@ -50,13 +50,14 @@ function Start ()
 
 function Update () 
 {
-	if(BuildingClicked()) //If a building is clicked, set the mode to link
+	if(BuildingClicked() && GameState.EXPLORE) //If a building is clicked, set the mode to link
 	{
 		currentMode = GameState.LINK;
-		switchTo(currentMode);
+		this.switchTo(currentMode);
 	}
 	else if(currentMode == GameState.LINK && LinkUI.CancelLinkMode()) // Once the user cancels out of link mode, switch back to explore
 	{
+		Debug.Log("Set current mode to Explore from Link");
 		currentMode = GameState.EXPLORE;
 		selectedBuilding = null;
 		switchTo(currentMode);

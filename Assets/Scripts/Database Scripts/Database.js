@@ -48,6 +48,8 @@ static private var previousBuildings = new Array();
 //***NOTE: can use these variables if we want to limit the number of undos, at anytime:
 	// Current number of times undos the user is capable of (how many changes to grid have been made)
 static private var numberOfUndos = 0;
+	// The amount of tiles a building has in range, can be specific to building later on
+static public var TILE_RANGE = 2;
 	// This will allow for a limited number of undos
 static public var undoLimit = 3;
 	// Whether or not the player is allowed an unlimited number of undos

@@ -102,14 +102,13 @@ function HighlightTilesInRange(){
 	DestroyRangeTiles();
 	/*TODO: update this to correct range from buildings*/
 	//var range = selectedBuilding.transform.FindChild("RangeRing").GetComponent(SphereCollider).radius / tileWidth;
-	var range = 2; //Test
-	Debug.Log("Range " + range);
+	Debug.Log("Range " + Database.TILE_RANGE);
 	var position:Vector3 = selectedBuilding.transform.position;
 	var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
 	var x = mouseTile.x;
 	var y = mouseTile.y;
-	var minX = x - range;
-	var maxX = x + range;
+	var minX = x - Database.TILE_RANGE;
+	var maxX = x + Database.TILE_RANGE;
 	
 	for(var i = minX; i <= maxX; i++){
 		if(i != x){
@@ -119,7 +118,7 @@ function HighlightTilesInRange(){
 		}
 	}
 	
-	for(var yOff = 1; yOff <= range; yOff++){
+	for(var yOff = 1; yOff <= Database.TILE_RANGE; yOff++){
 		if((y + yOff) % 2 == 1) maxX--;
 		else minX++;
 		for(var j = minX; j <= maxX; j++){

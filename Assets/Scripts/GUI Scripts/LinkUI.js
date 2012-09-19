@@ -10,8 +10,8 @@
 	
 */
 
-private enum mousePhases {BeforeClick, InputSelected, OutputSelected, ClickEnded}
-private var phase:mousePhases = mousePhases.BeforeClick;
+//private enum mousePhases {BeforeClick, InputSelected, OutputSelected, ClickEnded}
+//private var phase:mousePhases = mousePhases.BeforeClick;
 private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
@@ -35,7 +35,8 @@ static private var mouseOverGUI:boolean;	//Use this to disable raycasting when c
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
 public var linkReference:boolean[,];
 public var buildings:GameObject[];
-static public var linkRange:Vector3 = Vector3(400, 400, 400);
+static public var linkRange:Vector3;// = Vector3(400, 400, 400);
+static var tileRange = Database.TILE_RANGE;
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -83,19 +84,15 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 }
 
 //This function returns true if b2 is in b1's range
-static function isInRange(b1:GameObject, b2:GameObject){
+static function isInRange(b1:GameObject, b2:GameObject)
+{
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
 		
-	if(Mathf.Abs(b2Position.x - b1Position.x) < linkRange.x &&
-		Mathf.Abs(b2Position.y - b1Position.y) < linkRange.y &&
-		Mathf.Abs(b2Position.z - b1Position.z) < linkRange.z) 
-		{
-			return true;
-		}
-	else{
-		return false;
-	}
+	if(Mathf.Abs(b2Position.x - b1Position.x) <= HexagonGrid.tileWidth * tileRange)
+		return true;
+		
+	return false;
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
@@ -104,25 +101,24 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
 	Debug.Log("Updating building count from LinkUI.js");
-
-	/*if(Database.getBuildingsOnGrid().length != numBuildings)
-	{
-		buildings = gameObject.FindGameObjectsWithTag("Building");
-		numBuildings = buildings.Length;
-		Debug.Log("Building count is now " + numBuildings);
-	}*/
 }
 
-function OnGUI(){
+function OnGUI()
+{
 	//cancelLinkMode = false;
+	
+	if(buildings.Length == 0)
+		return; //no point in updating 
+	
 	//Draw IO buttons
-	for(var building:GameObject in buildings){
+	for(var building:GameObject in buildings)
+	{
 		target = building.transform;				
 		point = Camera.main.WorldToScreenPoint(target.position);
-		point.y = Screen.height - point.y;
 		
-		//Adjust y value of button for screen space
-		if(point.y < 0)
+		point.y = Screen.height - point.y; //adjust height point
+		
+		if(point.y < 0) //Adjust y value of button for screen space
 			point.y -= Screen.height;
 		
 		//Set position of buttons
@@ -139,46 +135,19 @@ function OnGUI(){
 			if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
 				mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height){
 			
-				Debug.Log("Is within button range");
 				mouseOverGUI = true;
 				
-				switch(phase)
+				if(Input.GetMouseButtonDown(0))
 				{
-					case mousePhases.BeforeClick:
-						if(Input.GetMouseButtonDown(0))
-						{
-							Debug.Log("Clicked on button");
-							inputBuilding = building;
-							phase = mousePhases.InputSelected;
-						}
-						break;
-					case mousePhases.InputSelected:
-						if(Input.GetMouseButtonUp(0))
-						{
-							Debug.Log("Released early, not dragged");
-							phase = mousePhases.BeforeClick;
-						}
-						break;
-					case mousePhases.OutputSelected:
-						inputBuilding = building;
-						if(Input.GetMouseButtonUp(0))
-						{
-							if(outputBuilding != building){
-								phase = mousePhases.ClickEnded;
-							}
-							else{
-								Debug.Log("Building can not be linked to itself");
-								phase = mousePhases.BeforeClick;
-							}
-						}
-						break;
+					inputBuilding = building;
 				}
 			}
 			GUILayout.EndArea();
 		}
 		
 		//Instructions for output button
-		else{	//building == selectedBuilding
+		else
+		{	
 			GUILayout.BeginArea(outputRect);
 			GUILayout.Button("O");
 			if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
@@ -187,33 +156,9 @@ function OnGUI(){
 				Debug.Log("Over output button");
 				mouseOverGUI = true;
 				
-				switch(phase)
+				if(Input.GetMouseButtonDown(0))
 				{
-					case mousePhases.BeforeClick:
-						if(Input.GetMouseButtonDown(0)){
-							outputBuilding = building;
-							phase = mousePhases.OutputSelected;
-						}
-						break;
-						
-					case mousePhases.InputSelected:
-						outputBuilding = building;
-						if(Input.GetMouseButtonUp(0)){
-							if(inputBuilding != building){
-								phase = mousePhases.ClickEnded;
-							}
-							else{
-								Debug.Log("Building can not be linked to itself");
-								phase = mousePhases.BeforeClick;
-							}
-						}
-						break;
-						
-					case mousePhases.OutputSelected:
-						if(Input.GetMouseButtonUp(0)){
-							phase = mousePhases.BeforeClick;
-						}
-						break;
+					outputBuilding = building;
 				}
 			}
 			GUILayout.EndArea();
@@ -223,12 +168,23 @@ function OnGUI(){
 	//Draw Cancel button
 	var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 	GUILayout.BeginArea(cancelRect);
-	if(GUILayout.Button("Cancel") && ModeController.currentMode == GameState.LINK)
-		cancelLinkMode = true;
+	GUILayout.Button("Cancel");
+	if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
+				mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
+	{
+		mouseOverGUI = true;
+	
+		if(Input.GetMouseButtonDown(0))
+		{
+			Debug.Log("Cancel hit");
+			cancelLinkMode = true;
+		}
+	}
 	GUILayout.EndArea();
 }
 
-function Update() {
+function Update() 
+{
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 	
@@ -236,14 +192,15 @@ function Update() {
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
 	
-	//If buildings have been selected, link them
-	if(phase == mousePhases.ClickEnded){
-		if(isInRange(inputBuilding, outputBuilding))
+	if(inputBuilding != null && outputBuilding != null)
+	{
+		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
+		{
+			Debug.Log("Linking buildings");
 			linkBuildings(inputBuilding, outputBuilding);
-		else 
-			Debug.Log(outputBuilding.name + " is not in " + inputBuilding.name + "'s range");
+		}
 		
-		phase = mousePhases.BeforeClick;
+		inputBuilding = null; outputBuilding = null; //resets either way
 	}
 }
 
