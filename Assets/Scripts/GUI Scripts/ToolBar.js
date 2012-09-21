@@ -197,48 +197,6 @@ function ToolbarWindowFunc (windowID : int) {
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
-        /*buildingMenuInt = GUILayout.Toolbar (
-        								buildingMenuInt, 
-        								buildingMenuStrings);
-        */
-        
-        
-        /*
-        if(GUI.Button(Rect(5, 20, 90, 90),  btnTexture1))
-        {
-        	PlaceBuilding.changeBuilding = 0;
-        	showWindow = false;
-        }
-        GUI.Label(Rect(100, 20, 150, 90), "Prototype Building 1\nInput: sample text\nOutput: sample text");
- 
-        if(GUI.Button(Rect(5, 115, 90, 90), btnTexture2))
-        {
-        	PlaceBuilding.changeBuilding = 1;
-        	showWindow = false;
-        }                
-        GUI.Label(Rect(100, 115, 150, 90), "Prototype Building 2\nInput: sample text\nOutput: sample text");
-        
-        if(GUI.Button(Rect(5, 210, 90, 90), btnTexture3))
-        {
-        	showWindow = false;
-        }   
-        GUI.Label(Rect(100, 210, 150, 90), "Prototype Building 3\nInput: sample text\nOutput: sample text");
-        
-        if(GUI.Button(Rect(5, 305, 90, 90), btnTexture4))
-        {
-        	showWindow = false;
-        }
-        GUI.Label(Rect(100, 305, 150, 90), "Prototype Building 4\nInput: sample text\nOutput: sample text");
-           
-        if(GUI.Button(Rect(5, 400, 90, 90), btnTexture5))
-        {
-        	showWindow = false;
-        }
-        GUI.Label(Rect(100, 400, 150, 90), "Prototype Building 5\nInput: sample text\nOutput: sample text");
-        */
-        
-        //scrollPosition = GUI.BeginScrollView (Rect (0,0,toolBarWidth - 100,toolBarHeight), scrollPosition, Rect (0, 0, 220, 220));
-        
         var data:Database = GameObject.Find("Database").GetComponent("Database");
         
         // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
@@ -254,13 +212,13 @@ function BuildingMenuFunc (windowID : int) {
 
 			//Debug.Log("Building: at index " + i);
 			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-        	/*GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), 	data.buildings[i].buildingName 
+        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
         												+ " [" + data.buildings[i].inputNum + "]"
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
-        												+ " [" + data.buildings[i].outputNum + "]");*/
+        												+ " [" + data.buildings[i].outputNum + "]");
         												
 
 		}

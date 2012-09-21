@@ -83,7 +83,7 @@ function loadFromDefaultBuildingEditor()
 	var i : int;
 	var j : int;
 
-	/*
+#if UNITY_EDITOR
 	if(EditorPrefs.HasKey("defaultBuildingsLength"))
 	{
 		Debug.Log("Loading Data: " + EditorPrefs.GetInt("defaultBuildingsLength"));
@@ -178,5 +178,5 @@ function loadFromDefaultBuildingEditor()
 			}//end of for loop
 		}// end of if length > 0
 	}// end of if HasKey
-	*/
+#endif
 }// end of loadFromDefaultBuildingEditor()

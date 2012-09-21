@@ -57,7 +57,7 @@ function Update(){
 						var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
 						lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
 						lineRenderer.SetColors(color1, color2);
-						lineRenderer.SetWidth(5, 5);
+						lineRenderer.SetWidth(10, 10);
 						lineRenderer.SetPosition(0, b1Position);
 						lineRenderer.SetPosition(1, b2Position);
 						linksDrawn[b1, b2] = true;
