@@ -13,13 +13,6 @@ to be detailed on what each column and row represented.
 
 Also contains undo functionality.
 
-AUG 7  Update: added Requisistion System functions, as well as the requisition
-points attribute to buildings. NEEDS TO BE EDITED FOR ACTUAL VALUES, set for
-1 for now...
-
-SAME FOR POLLUTION OUTPUT, NEEDS TO BE SET FOR ACTUAL VALUES.
-
-
 UPDATE REMINDER: See DefaultBuildingEditor to change the values of the default
 buildings.
 
@@ -32,125 +25,28 @@ Attach to a blank GameObject
 
 
 // The two main structures for holding data:
+	// Default buildings stored here:
+static public var buildings = new Array();
 
-	// This will contain the default information for all building types:
-//private var buildings = new Array();
-public static var buildings = new Array();
-	
-// This will contain the information for buildings placed on the grid:
-static private var buildingsOnGrid = new Array(); 
-
-	// ********************************************************************************added, keeps track of previous changes
-static private var previousBuildings = new Array();
+	// Buildings on grid stored here:
+static public var buildingsOnGrid = new Array(); 
 
 
-
-//***NOTE: can use these variables if we want to limit the number of undos, at anytime:
-	// Current number of times undos the user is capable of (how many changes to grid have been made)
-static private var numberOfUndos = 0;
 	// The amount of tiles a building has in range, can be specific to building later on
 static public var TILE_RANGE = 2;
-	// This will allow for a limited number of undos
+
+
+//Undo-related variables:
+	// Keeps track of the moves and indexes of placed buildings so they can be removed:
+static private var previousBuildings = new Array();
+		//For use if we want to limit the number of undos:
+			// Current number of times undos the user is capable of (how many changes to grid have been made)
+static private var numberOfUndos = 0;
+			// This will allow for a limited number of undos
 static public var undoLimit = 3;
-	// Whether or not the player is allowed an unlimited number of undos
+			// Whether or not the player is allowed an unlimited number of undos
 static public var limitedUndos = false;
 	//*************************************************************************************************
-	
-	
-	
-//static private var requisitionSystem : RequisitionSystem;	// AUG 7, added edits to requisition system.
-
-
-
-// This is where the hardcoded buildings go of buildings we are aware of:
-function Awake ()
-{	
-	
-	//House
-	/*var temp = new Building();
-	temp.buildingName = "House";
-	temp.inputName.push("Fuel");
-	temp.inputNum.push(1);
-	temp.inputName.push("Power");
-	temp.inputNum.push(1);
-	temp.outputName.push("Car");
-	temp.outputNum.push(1);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);	
-	
-	//Gas Station
-	temp = new Building();
-	temp.buildingName = "GasStation";
-	temp.inputName.push("Power");
-	temp.inputNum.push(1);
-	temp.inputName.push("Petroleum");
-	temp.inputNum.push(1);
-	temp.outputName.push("Gas");
-	temp.outputNum.push(1);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);
-	
-	//Refinery
-	temp = new Building();
-	temp.buildingName = "Refinery";
-	temp.inputName.push("Power");
-	temp.inputNum.push(1);
-	temp.inputName.push("Car");
-	temp.inputNum.push(1);
-	temp.outputName.push("Petroleum");
-	temp.outputNum.push(1);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);
-	
-	
-	//Power Plant
-	temp = new Building();
-	temp.buildingName = "PowerPlant";
-	temp.inputName.push("Car");
-	temp.inputNum.push(1);
-	temp.inputName.push("Petroleum");
-	temp.inputNum.push(1);
-	temp.outputName.push("Power");
-	temp.outputNum.push(1);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);
-	
-	//City
-	temp = new Building();
-	temp.buildingName = "City";
-	temp.inputName.push("Power");
-	temp.inputNum.push(3);
-	temp.outputName.push("Money");
-	temp.outputNum.push(1);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);
-	
-	//Dam
-	temp = new Building();
-	temp.buildingName = "HydroDam";
-	temp.inputName.push("Car");
-	temp.inputNum.push(1);
-	temp.outputName.push("Power");
-	temp.outputNum.push(3);
-	temp.requisitionCost = 1;
-	temp.pollutionOutput = 2;
-	buildings.push(temp);*/
-
-}// end of Awake
-
-
-/*
-function Start ()
-{
-	requisitionSystem = GameObject.Find("Database").GetComponent("RequisitionSystem");
-}
-
-*/
 
 /*
 
@@ -160,7 +56,7 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean) : boolean
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, event:String) : boolean
 {
 
 	var temp = new BuildingOnGrid();
@@ -184,6 +80,12 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			temp.outputNum = new Array();
 			temp.outputNum = temp.outputNum.Concat(defaultBuilding.outputNum);
 			
+			temp.optionalOutputName = new Array();
+			temp.optionalOutputName = temp.optionalOutputName.Concat(defaultBuilding.optionalOutputName);
+			
+			temp.optionalOutputNum = new Array();
+			temp.optionalOutputNum = temp.optionalOutputNum.Concat(defaultBuilding.optionalOutputNum);
+			
 			temp.requisitionCost = defaultBuilding.requisitionCost;
 			
 			temp.pollutionOutput = defaultBuilding.pollutionOutput;
@@ -193,6 +95,8 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     temp.buildingPointer = building;
     temp.coordinate = coordinate;
     temp.tileType = tileType;
+    temp.idea = idea;				// will be blank for buildings placed in game?
+    temp.event = event;				// will be blank for buildings placed in game?
     
     	
    if( !isPreplaced )
@@ -209,7 +113,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		cleanUpPreviousBuildings();
 		
-		EventSystem.currentTurn += 1;		// NEW: add a turn to the event system
+		IntelSystem.addTurn();		// NEW: for the Intel System
 		
 		
 		BroadcastBuildingUpdate();
@@ -222,17 +126,6 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 	
 		buildingsOnGrid.push(temp);
 	    	        
-	    //adding for undo:
-		
-		previousBuildings.Add("EndOfAdd");
-		previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
-		previousBuildings.Add("Add");
-		
-		numberOfUndos++;
-		
-		cleanUpPreviousBuildings();
-		
-		//************
 		return true;
 	
 	}
@@ -321,7 +214,7 @@ another function listed later on, although for distance that will have to be
 another check)
 
 */
-public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String)
+public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String, hasOptionalOutput:boolean)
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
@@ -350,6 +243,30 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
         }
     }
     
+
+    var usedOptionalOutput : boolean = false;
+    // Will take optional resource if resource not found among original output
+    if( hasOptionalOutput && !hasResource )
+    {
+    	resourceOutputIndex = 0;
+    	   	
+	    for (var optionalOutputName : String in outputBuilding.optionalOutputName)
+	    {
+	    	resourceNum = outputBuilding.optionalOutputNum[resourceOutputIndex];
+	    	
+	        if(resourceName == optionalOutputName && resourceNum > 0)
+	        {
+	        	hasResource = true;
+	        	usedOptionalOutput = true;
+	        }
+	        
+	        if(!hasResource)
+	        {
+	        	resourceOutputIndex++;
+	        }
+	    }
+    }
+    
     // If it found the resource in the output, it will check for
     // the resource in the building requiring the input
     if(hasResource)
@@ -375,8 +292,6 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     // If the resource has been found in both buildings,
     // decrease the amount and add the index of the other building
     // in the linkedTo array.
-    //
-    // AND if there is at least 1 point of requisition to spend:
     if(hasResource)
     {
     
@@ -400,10 +315,18 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		
 		//****************
     
-    
-	    resourceNum = outputBuilding.outputNum[resourceOutputIndex];
-	    resourceNum--;
-	    outputBuilding.outputNum[resourceOutputIndex] = resourceNum;
+    	if(usedOptionalOutput)
+    	{
+		    resourceNum = outputBuilding.optionalOutputNum[resourceOutputIndex];
+		    resourceNum--;
+		    outputBuilding.optionalOutputNum[resourceOutputIndex] = resourceNum;
+    	}
+    	else
+    	{
+		    resourceNum = outputBuilding.outputNum[resourceOutputIndex];
+		    resourceNum--;
+		    outputBuilding.outputNum[resourceOutputIndex] = resourceNum;
+	    }
 	    
 	    resourceNum = inputBuilding.inputNum[resourceInputIndex];
 	    resourceNum--;
@@ -415,11 +338,11 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		
-		EventSystem.currentTurn += 1;		// NEW: add a turn to the event system
+		IntelSystem.addTurn();		// NEW: Intel System
     }
     else
     {
-    	Debug.Log("Unable to link buildings due to missing resource or lack of requisition");
+    	Debug.Log("Unable to link buildings due to missing resource");
     }
 
 }// End of linkBuildings
@@ -456,7 +379,7 @@ Can be used for special cases where a building may be deactivated
 despite having the required input amounts.
 
 */
-public function toggleActiveness( buildingIndex:int )
+static public function toggleActiveness( buildingIndex:int )
 {
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	building.isActive = !building.isActive;
@@ -469,13 +392,42 @@ public function toggleActiveness( buildingIndex:int )
 Used to check if a particular building at a given index is active
 
 */
-public function isActive( buildingIndex:int ): boolean
+static public function isActive( buildingIndex:int ): boolean
 {
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	return building.isActive;	
 }
 
 
+
+// Functions for adding/removing units to a building on the grid
+// Has it for a UnitType or String, based upon the preference of other scripts
+static public function addUnit( buildingIndex : int, unit : UnitType )
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	building.unit = unit;
+}
+
+static public function addUnit( buildingIndex : int, unit : String )
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	
+	if(unit == "Worker")
+		building.unit = UnitType.Worker;
+	else if (unit == "Researcher")
+		building.unit = UnitType.Researcher;
+	else if (unit == "Regulator")
+		building.unit = UnitType.Regulator;
+	else if (unit == "EnergyAgent")
+		building.unit = UnitType.EnergyAgent;
+		
+}
+
+static public function removeUnit( buildingIndex : int)
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	building.unit = UnitType.None;
+}
 
 /*
 
@@ -507,6 +459,9 @@ class Building
 	var outputName = new Array();
 	var outputNum = new Array();
 	
+	var optionalOutputName = new Array();
+	var optionalOutputNum = new Array();
+	
 	var requisitionCost : int;
 	
 	var pollutionOutput : int;
@@ -537,6 +492,9 @@ class BuildingOnGrid
 	var outputName = new Array();
 	var outputNum = new Array();
 	
+	var optionalOutputName = new Array();
+	var optionalOutputNum = new Array();
+	
 	var isActive = false;
 	
 	var coordinate : Vector3 = new Vector3(0,0,0);
@@ -548,8 +506,23 @@ class BuildingOnGrid
 	
 	var pollutionOutput : int;
 	
+	var unit : UnitType = UnitType.None;
+	
+	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
+	
+	var event : String = "";	// (will search through a list of upgrades to identify what this means)
+	
 }
 
+// From Design Document, 3.3 Units
+enum UnitType
+{
+	None = 0,
+	Worker = 1,
+	Researcher = 2,
+	Regulator = 3,
+	EnergyAgent = 4
+}
 
 
 
@@ -557,7 +530,7 @@ class BuildingOnGrid
 
 
 
-function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
+static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 {
 	
 	copyTo.buildingName = copyFrom.buildingName;
@@ -571,6 +544,11 @@ function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 	copyTo.outputName = copyTo.outputName.Concat(copyFrom.outputName);
 	copyTo.outputNum.Clear();
 	copyTo.outputNum = copyTo.outputNum.Concat(copyFrom.outputNum);
+	
+	copyTo.optionalOutputName.Clear();
+	copyTo.optionalOutputName = copyTo.optionalOutputName.Concat(copyFrom.optionalOutputName);
+	copyTo.optionalOutputNum.Clear();
+	copyTo.optionalOutputNum = copyTo.optionalOutputNum.Concat(copyFrom.optionalOutputNum);
 
 	copyTo.isActive = copyFrom.isActive;
 	copyTo.coordinate = copyFrom.coordinate;
@@ -581,8 +559,11 @@ function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 	
 	copyTo.requisitionCost = copyFrom.requisitionCost;
 	copyTo.pollutionOutput = copyFrom.pollutionOutput;
+	
+	copyTo.unit = copyFrom.unit;
+	copyTo.idea = copyFrom.idea;
 
-} // end of copyBuildingOnGrid
+} // end of copyBuildingOnGridd
 
 
 

@@ -52,19 +52,50 @@ static function Place(position: Vector3, isPreplaced: boolean){
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced);
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, "", "");
 		}
-		else if( isPreplaced )
+		else
 		{
 			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced);
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, "", "");
+		}
+
+	}
+}
+
+// If the building has an idea and an event, should use this parameter set:
+// Should really only be used for preplaced buildings since the last parameter allows
+static function Place(position: Vector3, isPreplaced: boolean, idea: String, event: String, isActive: boolean){
+	if (changeBuilding > 7) {
+		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
+	} else {
+	
+		var build: Transform;
+	
+		if( !isPreplaced )
+		{
+			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build.tag = "Building";
+			build.gameObject.AddComponent("MeshRenderer");
+			
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, idea, event);
 		}
 		else
 		{
-			Debug.Log("Not enough req. points!");
+			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build.tag = "Building";
+			build.gameObject.AddComponent("MeshRenderer");
+			
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, idea, event);
+			
+			if(isActive)
+			{
+				if( !Database.isActive(Database.findBuildingIndex(position)) )
+					Database.toggleActiveness( Database.findBuildingIndex(position) );
+			}
 		}
 	}
 }
