@@ -37,6 +37,9 @@ public var linkReference:boolean[,];
 public var buildings:GameObject[];
 static public var linkRange:Vector3;// = Vector3(400, 400, 400);
 static var tileRange = Database.TILE_RANGE;
+private var gridBuilding:BuildingOnGrid;
+private var buildingInputNum:int;
+private var buildingOutputNum:int;
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -113,7 +116,16 @@ function OnGUI()
 	//Draw IO buttons
 	for(var building:GameObject in buildings)
 	{
-		target = building.transform;				
+		target = building.transform;
+		gridBuilding = Database.getBuildingOnGrid(target.position);
+		Debug.Log(gridBuilding.inputNum.length);
+		
+		if(gridBuilding.inputNum.length > 0)
+			buildingInputNum = gridBuilding.inputNum[0];
+		
+		if(gridBuilding.outputNum.length > 0)
+			buildingOutputNum = gridBuilding.outputNum[0];
+																
 		point = Camera.main.WorldToScreenPoint(target.position);
 		
 		point.y = Screen.height - point.y; //adjust height point
@@ -126,42 +138,58 @@ function OnGUI()
 						point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
 		var outputRect:Rect = Rect(point.x + outputOffset.x, 
 						point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
-
-		//Instructions for input buttons
+						
+		//prototype
 		if(building != selectedBuilding)
 		{
-			GUILayout.BeginArea(inputRect);
-			GUILayout.Button("I");
-			if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
-				mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height){
-			
-				mouseOverGUI = true;
+			if(buildingInputNum == null || buildingOutputNum == null) return;
+		
+			for(var i = 0; i < buildingInputNum; i++)
+			{
+				if(i > 0)
+					inputRect.y += 30;
 				
-				if(Input.GetMouseButtonDown(0))
+				GUILayout.BeginArea(inputRect);
+				GUILayout.Button("I");
+				if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
+					mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
 				{
-					inputBuilding = building;
+			
+					mouseOverGUI = true;
+				
+					if(Input.GetMouseButtonDown(0))
+					{
+						inputBuilding = building;
+					}
 				}
+				GUILayout.EndArea();
 			}
-			GUILayout.EndArea();
 		}
 		
 		//Instructions for output button
 		else
 		{	
-			GUILayout.BeginArea(outputRect);
-			GUILayout.Button("O");
-			if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
-				mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height){
+		
+			for(var j = 0; j < buildingOutputNum; j++)
+			{
+				if(j > 0)
+					outputRect.y += 30;
 				
-				Debug.Log("Over output button");
-				mouseOverGUI = true;
-				
-				if(Input.GetMouseButtonDown(0))
+				GUILayout.BeginArea(outputRect);
+				GUILayout.Button("O");
+				if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
+					mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 				{
-					outputBuilding = building;
+			
+					mouseOverGUI = true;
+				
+					if(Input.GetMouseButtonDown(0))
+					{
+						outputBuilding = building;
+					}
 				}
+				GUILayout.EndArea();
 			}
-			GUILayout.EndArea();
 		}
 	}
 	
@@ -196,7 +224,6 @@ function Update()
 	{
 		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
 		{
-			Debug.Log("Linking buildings");
 			linkBuildings(inputBuilding, outputBuilding);
 		}
 		

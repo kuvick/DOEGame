@@ -195,6 +195,11 @@ static public function getBuildingsOnGrid(){
 	return (buildingsOnGrid);
 }
 
+static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
+{
+	return buildingsOnGrid[findBuildingIndex(coordinate)];
+}
+
 
 /*
 
@@ -505,6 +510,7 @@ class BuildingOnGrid
 	var requisitionCost : int;
 	
 	var pollutionOutput : int;
+	var linkCount : int = 0; // How many links are currently on the building
 	
 	var unit : UnitType = UnitType.None;
 	
