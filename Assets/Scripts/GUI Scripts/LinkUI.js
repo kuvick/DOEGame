@@ -80,7 +80,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		resource = linkBuilding.outputName[0];
 	
 	
-	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2))
+	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
 		Debug.Log("Buildings successfully linked!");
