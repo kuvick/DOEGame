@@ -62,8 +62,31 @@ public static var buildingMenuWindow : Rect;
 
 public static var undoButton : Rect;		//*** added by K
 
+private var showToolbar : boolean;
+
+//EVENT LIST VARIABLES
+class gameEvent
+{
+	var icon : String;
+	var description : String;
+	var positive : boolean;
+	var turn : int;
+}
+public static var eventList : gameEvent[];
+private var eventListUsed : boolean;
+
+public static var eventListRect : Rect; //Button for toggling the event list
+private var eventListBGRect : Rect; //Background for the event list
+private var eventListTurnRect : Rect; //Current turn label
+private var eventListScrollRect : Rect; //For the positions of the scroll bars
+private var eventListContentRect : Rect; //For the content area
+
+private var eventListScrollPos : Vector2;
+///////////////////////
+
 private var mainWindow;
 private var dropDownWindow;
+private var eventListWindow;
 
 
 var scrollPosition : Vector2 = Vector2.zero;		// used for scrollbar for building menu
@@ -83,6 +106,8 @@ function Awake(){
 }
 
 function Start(){
+	showToolbar = true;
+
 	// Need to determine screen size and density at start time for accurate reading
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
@@ -99,71 +124,164 @@ function Start(){
 	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
 	
 	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
+	
+	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
+	eventListRect = Rect(0, Screen.height - 100, 100, 50);
+	eventListBGRect = Rect(50, 50, screenWidth - 100, screenHeight - 100);
+	eventListTurnRect = Rect(eventListBGRect.x + eventListBGRect.width - 60, eventListBGRect.y + 10, 50, 50);
+	eventListScrollRect = Rect(eventListBGRect.x + 10, eventListTurnRect.y + eventListTurnRect.height + 10, eventListBGRect.width - 10, eventListBGRect.height - eventListTurnRect.height * 2 - 20);
+	eventListContentRect = Rect(0, 0, eventListBGRect.width - eventListScrollRect.x - eventListBGRect.x, 1000);
+	
+	eventList = new Array();
+	var gE1:gameEvent = new gameEvent();
+	gE1.description = "Game started.";
+	gE1.positive = true;
+	gE1.turn = 1;
+	var gE2:gameEvent = new gameEvent();
+	gE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
+	gE2.positive = false;
+	gE2.turn = 22;
+	var gE3:gameEvent = new gameEvent();
+	gE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
+	gE3.positive = true;
+	gE3.turn = 19;
+	var gE4:gameEvent = new gameEvent();
+	gE4.description = "A Manager is looking to make his next career move.";
+	gE4.positive = true;
+	gE4.turn = 15;
+	var gE5:gameEvent = new gameEvent();
+	gE5.description = "A new Researcher is about to graduate from the University.";
+	gE5.positive = true;
+	gE5.turn = 12;
+	var gE6:gameEvent = new gameEvent();
+	gE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
+	gE6.positive = false;
+	gE6.turn = 8;
+	
+	eventList = new Array(gE1, gE2, gE3, gE4, gE5, gE6);
+	
+	eventListUsed = false;
+	
+	Debug.Log("eventList.length = " + eventList.Length); //Print the length just in case
 }
 
 function OnGUI() 
 {
 	//showWindow = false;
 
-	mainWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
-	
-	if(showWindow)
-		dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
-	/*
-	for(var i=0; i<10; i++){		
-		if(!btnTextureArray[i]){
-        	Debug.LogError("Missing button texture !");
-        	return;
-    	}
-    }
-    */
-        						
-	switch(toolbarInt)
+	if(showToolbar)
 	{
-		//Main menu
-		case 0:
-		Debug.Log("main menu");
-		toolbarInt = -1;
-		break;
+		mainWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
 		
-		//Restart level
-		case 1:
-		Debug.Log("restart level");
-		Application.LoadLevel (0);  
-		toolbarInt = -1;
-		break;
+		if(showWindow)
+		{
+			dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
+		}
 		
-		//Buildings menu
-		case 2:
-		Debug.Log("building menu");		
-		ToggleBuildingWindowVisibility();
-		toolbarInt = -1;
-		break;
+			switch(toolbarInt)
+		{
+			//Main menu
+			case 0:
+			Debug.Log("main menu");
+			toolbarInt = -1;
+			break;
+			
+			//Restart level
+			case 1:
+			Debug.Log("restart level");
+			Application.LoadLevel (0);  
+			toolbarInt = -1;
+			break;
+			
+			//Buildings menu
+			case 2:
+			Debug.Log("building menu");		
+			ToggleBuildingWindowVisibility();
+			toolbarInt = -1;
+			break;
+			
+			//Wait
+			case 3:
+			Debug.Log("wait");
+			toolbarInt = -1;
+			break;
+		}
 		
-		//Wait
-		case 3:
-		Debug.Log("wait");
-		toolbarInt = -1;
-		break;
+		// *** added by K, the undo button
+		if(GUI.Button(undoButton, "Undo"))
+		{
+			var data:Database = GameObject.Find("Database").GetComponent("Database");
+			var didUndo = data.undo();
+			if(didUndo)
+				Debug.Log("Undo Successful!");
+			else
+				Debug.Log("Undo Failed!");
+		}
 		
+		// *** added by K, IntelSystem Info
+		GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
+		+ IntelSystem.currentTurn);
 	}
 	
-	// *** added by K, the undo button
-	if(GUI.Button(undoButton, "Undo"))
+	//Draw Event List button
+	if(GUI.Button(eventListRect, "Event List"))
 	{
-		var data:Database = GameObject.Find("Database").GetComponent("Database");
-		var didUndo = data.undo();
-		if(didUndo)
-			Debug.Log("Undo Successful!");
+		Debug.Log("Event List clicked");
+		if(eventListUsed)
+		{
+			eventListUsed = false;
+			showToolbar = true;
+		}
 		else
-			Debug.Log("Undo Failed!");
+		{
+			eventListUsed = true;
+			showToolbar = false;
+		}
 	}
 	
-	
-	// *** added by K, IntelSystem Info
-	GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
-	+ IntelSystem.currentTurn);
+	if(eventListUsed)
+	{
+		//Background box
+		GUI.Box(eventListBGRect, "Intelligence Reports");
+		
+		//Current turn label
+		GUI.Button(eventListTurnRect, IntelSystem.currentTurn.ToString());
+		
+		//Scroll bar
+		eventListScrollPos = GUI.BeginScrollView(
+			eventListScrollRect,
+			eventListScrollPos,
+			eventListContentRect
+			);
+			
+		//Array of events
+		var gameEventRect : Rect;
+		var tempPos : int;
+		var currentYStart : int;
+		for(var i : int = 0; i < eventList.length; ++i)
+		{
+			//This works but the first event should be at the bottom and not top. See below
+			currentYStart = i * 50 + (i + 1) * 5;
+			//This does it in the right order (first event is on the bottom) but it causes the content to be at the very bottom... not sure how to fix this
+			//currentYStart = eventListContentRect.height - ((i + 1) * 50) - ((i + 1) * 5);
+		
+        	//Draw Icon
+        	gameEventRect = Rect(5, currentYStart, 50, 50);
+        	GUI.Button(gameEventRect, "Icon");
+        	
+        	//Description
+        	tempPos = eventListContentRect.x + eventListContentRect.width - 60;
+        	gameEventRect = Rect(60, currentYStart, tempPos, 50);
+        	GUI.Button(gameEventRect, eventList[i].description);
 
+        	//Turn
+        	gameEventRect = Rect(tempPos + 65, currentYStart, 50, 50);
+        	GUI.Button(gameEventRect, eventList[i].turn.ToString());
+
+    	}
+    	
+    	GUI.EndScrollView();
+	}
 }
 
 //Note: window id is 0 for toolbar
@@ -225,7 +343,7 @@ static function NotOnGui(screenInputPosistion: Vector2){
 	var mousePos: Vector2;
 	mousePos.x = screenInputPosistion.x;
 	mousePos.y = Screen.height-screenInputPosistion.y;
-	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos)) || undoButton.Contains(mousePos)) {					// *** K added undo button
+	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos)) || undoButton.Contains(mousePos) || eventListRect.Contains(mousePos)) {					// *** K added undo button
 		return (false);
 	} else {
 		return (true);
