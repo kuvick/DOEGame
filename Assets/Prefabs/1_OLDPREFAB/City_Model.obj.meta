@@ -1,9 +1,12 @@
 fileFormatVersion: 2
-guid: 2ad489f4019c59b4ca821c758f6b0f12
+guid: c3e71481322f3344a86070785b29e175
 ModelImporter:
   fileIDToRecycleName:
-    4300000: pCube2
-    4300002: polySurface11
+    4300000: Box001
+    4300002: Box002
+    4300004: Box003
+    4300006: Cone001
+    4300008: Cylinder002
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -41,14 +44,27 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a0860100
+        second: a2860100
       data:
         first: 4
-        second: 801a0600
+        second: 821a0600
       data:
         first: 111
         second: 605fa900
-    pCube2:
+    Box001:
+      data:
+        first: 1
+        second: a8860100
+      data:
+        first: 4
+        second: 881a0600
+      data:
+        first: 23
+        second: 66182300
+      data:
+        first: 33
+        second: a65a3200
+    Box002:
       data:
         first: 1
         second: a4860100
@@ -61,16 +77,42 @@ ModelImporter:
       data:
         first: 33
         second: a25a3200
-    polySurface11:
+    Box003:
       data:
         first: 1
-        second: a2860100
+        second: aa860100
       data:
         first: 4
-        second: 821a0600
+        second: 8a1a0600
+      data:
+        first: 23
+        second: 68182300
+      data:
+        first: 33
+        second: a85a3200
+    Cone001:
+      data:
+        first: 1
+        second: a0860100
+      data:
+        first: 4
+        second: 801a0600
       data:
         first: 23
         second: 60182300
       data:
         first: 33
         second: a05a3200
+    Cylinder002:
+      data:
+        first: 1
+        second: a6860100
+      data:
+        first: 4
+        second: 861a0600
+      data:
+        first: 23
+        second: 64182300
+      data:
+        first: 33
+        second: a45a3200

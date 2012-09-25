@@ -1,0 +1,16 @@
+When creating a new building, you must do the following:
+
+1) In the Database object in the Hierarchy, you must go to the Default Buildings component and add in the data there. Keep in mind that the input and output arrays are parallel arrays (e.g., the first element in the Name array corresponds to the first element of the Num array, where Num is the number of inputs/outputs that the building requires or has)...and thus each Name/Num array pair must have the same number of elements.
+
+2) Rename the model the same name you put into the database.
+
+3) In the prefab folder, create a folder just for that model. Right click, and "Create > Prefab" with that same name as the building name you wrote in the database.
+
+4) Attach the BuildingData.js script to this building.
+
+5) Change the Tag of the object in game to "Building".
+
+6) Click and drag the model in game onto the prefab in the Project View.
+
+
+When you add buildings to the game, you click and drag these prefabs to the hex grid.

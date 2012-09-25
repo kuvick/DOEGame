@@ -5,12 +5,16 @@ Started By Katharine Uvick
 Use this script to load data from Editors in-game, for each editor a different function, and add the function
 to the start function.
 
+
+
+NOW NO LONGER USED, NEED TO EVENTUALLLY DELETE.
+
 */
 
 function Start ()
 {
-	loadFromBuildingsOnGridEditor();
-	loadFromDefaultBuildingEditor();
+	//loadFromBuildingsOnGridEditor();
+	//loadFromDefaultBuildingEditor();
 }
 
 function loadFromBuildingsOnGridEditor()

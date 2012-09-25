@@ -982,5 +982,29 @@ class DefaultBuildingEditor extends EditorWindow
 	
 	}// end of getArrayOfNames
 	
+	public function getBuildingInfo( buildingName : String) : Building
+	{
+		OnEnable();		// should load into defaultBuildings array if from a different script
+		var temp : Building = new Building();
+	
+		for (var defaultBuilding : Building in defaultBuildings)
+		{
+	      	if(defaultBuilding.buildingName == buildingName)
+	      	{
+				temp.buildingName = defaultBuilding.buildingName;
+			    temp.requisitionCost = defaultBuilding.requisitionCost;
+			    temp.pollutionOutput = defaultBuilding.pollutionOutput;
+			    temp.inputName = defaultBuilding.inputName;
+			    temp.inputNum = defaultBuilding.inputNum;
+			    temp.outputName = defaultBuilding.outputName;
+			    temp.outputNum = defaultBuilding.outputNum;
+			    temp.optionalOutputName = defaultBuilding.optionalOutputName;
+			    temp.optionalOutputNum = defaultBuilding.optionalOutputNum;
+	      	}
+      	}
+      	
+      	return temp;
+	}
+	
 
 }// end of DefaultBuildingEditor class

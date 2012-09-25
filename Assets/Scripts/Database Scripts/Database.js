@@ -48,6 +48,30 @@ static public var undoLimit = 3;
 static public var limitedUndos = false;
 	//*************************************************************************************************
 
+
+
+function Start()
+{
+	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent("DefaultBuildings");
+	var tempBuildingData : BuildingData;
+	var tempBuilding : BuildingOnGrid;
+	
+	buildings = defaultBuildingScript.createDefaultBuildingArray();
+
+	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
+	{
+		tempBuilding = new BuildingOnGrid();
+		tempBuildingData = buildingObject.GetComponent("BuildingData");
+		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		buildingsOnGrid.Push(tempBuilding);
+		BroadcastBuildingUpdate();
+		
+		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	}
+
+}
+
+
 /*
 
 The addingBuildingToGrid function adds a building to the
@@ -572,6 +596,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.unit = copyFrom.unit;
 	copyTo.idea = copyFrom.idea;
+	copyTo.event = copyFrom.event;
 
 } // end of copyBuildingOnGridd
 

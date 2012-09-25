@@ -1,8 +1,9 @@
 fileFormatVersion: 2
-guid: 43ed00f9ecdc171459b1f8da454f3f85
+guid: e36e9fc18b1ecc94f89da02821403573
 ModelImporter:
   fileIDToRecycleName:
-    4300000: Main_Dam
+    4300000: pCube2
+    4300002: polySurface11
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -47,7 +48,7 @@ ModelImporter:
       data:
         first: 111
         second: 605fa900
-    Main_Dam:
+    pCube2:
       data:
         first: 1
         second: a2860100
@@ -60,3 +61,16 @@ ModelImporter:
       data:
         first: 33
         second: a05a3200
+    polySurface11:
+      data:
+        first: 1
+        second: a4860100
+      data:
+        first: 4
+        second: 841a0600
+      data:
+        first: 23
+        second: 62182300
+      data:
+        first: 33
+        second: a25a3200
