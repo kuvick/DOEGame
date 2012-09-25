@@ -74,6 +74,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			temp.inputNum = temp.inputNum.Concat(defaultBuilding.inputNum);
 			
 			temp.outputName = new Array();
+			Debug.Log("adding output name " + defaultBuilding.outputName);
 			temp.outputName = temp.outputName.Concat(defaultBuilding.outputName);
 			
 			temp.outputNum = new Array();
@@ -219,7 +220,7 @@ another function listed later on, although for distance that will have to be
 another check)
 
 */
-public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String, hasOptionalOutput:boolean)
+public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String, hasOptionalOutput:boolean):boolean
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
@@ -250,6 +251,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     
 
     var usedOptionalOutput : boolean = false;
+    Debug.Log("Going into optional if statement? : " + (hasOptionalOutput && !hasResource));
     // Will take optional resource if resource not found among original output
     if( hasOptionalOutput && !hasResource )
     {
@@ -347,8 +349,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     }
     else
     {
-    	Debug.Log("Unable to link buildings due to missing resource");
+    	Debug.Log("Unable to link buildings due to unmatched or missing resource");
     }
+    
+    return hasResource;
 
 }// End of linkBuildings
 

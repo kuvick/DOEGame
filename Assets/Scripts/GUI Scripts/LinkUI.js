@@ -69,37 +69,22 @@ function isLinked(b1:GameObject, b2:GameObject){
 //This function is used to link buildings b1 and b2
 //An error message is printed if the buildings are already linked
 function linkBuildings(b1:GameObject, b2:GameObject){
-	var b1Index:int;
-	var b2Index:int;
-	
-	for(var b:int; b < buildings.length; b++){
-		if(buildings[b] == b1)
-			b1Index = b;
-		else if(buildings[b] == b2)
-			b2Index = b;
-	}
-	
-	if(isLinked(b1, b2)){
-		Debug.Log(b1.name + " and " + b2.name + 
-				" are already linked");
-	}
-	else
-	{
-		linkReference[b1Index, b2Index] = true;
-		var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
-		var building1Index:int = Database.findBuildingIndex(b1.transform.position);
-		var building2Index:int = Database.findBuildingIndex(b2.transform.position);
-		var resource:String = "";
-		var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0);
-		
-		if(linkBuilding.optionalOutputName.length > 0)
-			resource = Database.getBuildingOnGrid(target.position).optionalOutputName[0];
-		
-		GameObject.Find("Database").GetComponent(Database).linkBuildings(building1Index, building2Index, resource, hasOptional);
-		Debug.Log("Buildings Linked");
-	}
-	
 
+	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
+	var building1Index:int = Database.findBuildingIndex(b1.transform.position);
+	var building2Index:int = Database.findBuildingIndex(b2.transform.position);
+	var resource:String = "";
+	var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0);
+	
+	if(linkBuilding.outputName.length > 0)
+		resource = linkBuilding.outputName[0];
+	
+	
+	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2))
+	{
+		linkReference[building1Index, building2Index] = true;
+		Debug.Log("Buildings successfully linked!");
+	}
 }
 
 //This function returns true if b2 is in b1's range
