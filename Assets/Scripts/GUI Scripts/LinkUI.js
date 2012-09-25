@@ -40,6 +40,9 @@ static var tileRange = Database.TILE_RANGE;
 private var gridBuilding:BuildingOnGrid;
 private var buildingInputNum:int;
 private var buildingOutputNum:int;
+private var outputCount:int;
+private var inputCount:int;
+
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -80,10 +83,23 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		Debug.Log(b1.name + " and " + b2.name + 
 				" are already linked");
 	}
-	else{
+	else
+	{
 		linkReference[b1Index, b2Index] = true;
+		var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
+		var building1Index:int = Database.findBuildingIndex(b1.transform.position);
+		var building2Index:int = Database.findBuildingIndex(b2.transform.position);
+		var resource:String = "";
+		var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0);
+		
+		if(linkBuilding.optionalOutputName.length > 0)
+			resource = Database.getBuildingOnGrid(target.position).optionalOutputName[0];
+		
+		GameObject.Find("Database").GetComponent(Database).linkBuildings(building1Index, building2Index, resource, hasOptional);
 		Debug.Log("Buildings Linked");
 	}
+	
+
 }
 
 //This function returns true if b2 is in b1's range
@@ -103,7 +119,7 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	buildings = curBuildings;
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
-	Debug.Log("Updating building count from LinkUI.js");
+	//Debug.Log("Updating building count from LinkUI.js");
 }
 
 function OnGUI()
@@ -118,13 +134,14 @@ function OnGUI()
 	{
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
-		Debug.Log(gridBuilding.inputNum.length);
 		
-		if(gridBuilding.inputNum.length > 0)
-			buildingInputNum = gridBuilding.inputNum[0];
+		if(gridBuilding == null || gridBuilding.inputNum.length <= 0 || gridBuilding.outputNum.length <= 0)
+			return;
+			
+		inputCount = gridBuilding.inputNum.length;
+		outputCount = gridBuilding.outputNum.length;
 		
-		if(gridBuilding.outputNum.length > 0)
-			buildingOutputNum = gridBuilding.outputNum[0];
+		buildingOutputNum = gridBuilding.outputNum[0];
 																
 		point = Camera.main.WorldToScreenPoint(target.position);
 		
@@ -142,34 +159,38 @@ function OnGUI()
 		//prototype
 		if(building != selectedBuilding)
 		{
-			if(buildingInputNum == null || buildingOutputNum == null) return;
-		
-			for(var i = 0; i < buildingInputNum; i++)
+			for(var input = 0; input < inputCount; input++)
 			{
-				if(i > 0)
+				buildingInputNum = gridBuilding.inputNum[input];
+				if(input > 0)
 					inputRect.y += 30;
-				
-				GUILayout.BeginArea(inputRect);
-				GUILayout.Button("I");
-				if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
-					mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
+					
+				for(var i = 0; i < buildingInputNum; i++)
 				{
-			
-					mouseOverGUI = true;
-				
-					if(Input.GetMouseButtonDown(0))
+					if(i > 0)
+						inputRect.y += 30;
+
+					GUILayout.BeginArea(inputRect);
+					GUILayout.Button("I");
+					if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
+						mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
 					{
-						inputBuilding = building;
+						mouseOverGUI = true;
+					
+						if(Input.GetMouseButtonDown(0))
+						{
+							inputBuilding = building;
+						}
 					}
+					GUILayout.EndArea();
 				}
-				GUILayout.EndArea();
 			}
+
 		}
 		
 		//Instructions for output button
 		else
 		{	
-		
 			for(var j = 0; j < buildingOutputNum; j++)
 			{
 				if(j > 0)
@@ -180,7 +201,6 @@ function OnGUI()
 				if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 					mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 				{
-			
 					mouseOverGUI = true;
 				
 					if(Input.GetMouseButtonDown(0))
@@ -225,6 +245,7 @@ function Update()
 		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
 		{
 			linkBuildings(inputBuilding, outputBuilding);
+			//Debug.Log("Link count: " + this.gameObject.GetComponent(DrawLinks).addObjectsToBuildings());
 		}
 		
 		inputBuilding = null; outputBuilding = null; //resets either way

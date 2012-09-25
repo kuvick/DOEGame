@@ -73,15 +73,17 @@ function Update(){
 //This function determines the number of possible links each building has
 //and adds that many gameObjects to that building.
 function addObjectsToBuildings(){	
+	var linkUIRef = gameObject.GetComponent(LinkUI);
 
 	for(var b1:int; b1 < buildings.Length; b1++){
 		numLinks = 0;
 		
 		for(var b2:int; b2 < buildings.Length; b2++){
-			if(gameObject.GetComponent(LinkUI).isInRange(buildings[b1], buildings[b2]) && 
+			if(linkUIRef.isInRange(buildings[b1], buildings[b2]) && !linkUIRef.isLinked(buildings[b1], buildings[b2]) &&
 										b1 != b2 &&
 										(!linkProspects[b1, b2] ||
 										!linkProspects[b2, b1])){
+				Debug.Log("Buildings : " + buildings[b1].name + " and " + buildings[b2].name + " can be linked");						
 				numLinks++;
 				linkProspects[b1, b2] = true;
 			}
@@ -91,8 +93,8 @@ function addObjectsToBuildings(){
 			lineAnchor = new GameObject("Line Anchor");
 			lineAnchor.transform.parent = buildings[b1].transform;
 		}
-		Debug.Log(numLinks + " possible links");
 	}
+	Debug.Log(numLinks + " possible links");
 	
 	return numLinks;
 }

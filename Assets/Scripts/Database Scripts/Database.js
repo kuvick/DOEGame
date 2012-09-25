@@ -58,12 +58,11 @@ and the tile type.
 */
 static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, event:String) : boolean
 {
-
 	var temp = new BuildingOnGrid();
 
 	for (var defaultBuilding : Building in buildings)
 	{
-		if(buildingType == defaultBuilding.buildingName )
+		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
 		{
 		
 			temp.buildingName = buildingType;
@@ -90,6 +89,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			
 			temp.pollutionOutput = defaultBuilding.pollutionOutput;
 			
+			break;
 		}
     }
     temp.buildingPointer = building;
