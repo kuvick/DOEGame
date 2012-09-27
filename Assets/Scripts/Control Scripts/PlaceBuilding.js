@@ -40,8 +40,9 @@ function Awake()
 }
 
 static function Place(position: Vector3, isPreplaced: boolean){
+
 	if (changeBuilding > 7) {
-		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
+		return;
 	} else {
 	
 		var build: Transform;
@@ -70,6 +71,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 // Should really only be used for preplaced buildings since the last parameter allows
 static function Place(position: Vector3, isPreplaced: boolean, idea: String, event: String, isActive: boolean){
 	if (changeBuilding > 7) {
+		return;
 		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
 	} else {
 	

@@ -28,7 +28,7 @@ private var outputRect:Rect;		//Rect for Area of output button
 private var cancelBtnRect:Rect;
 private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
-static private var cancelLinkMode:boolean;
+static public var cancelLinkMode:boolean;
 static private var mouseOverGUI:boolean;	//Use this to disable raycasting when clicking on the GUI
 
 //Reference for linked buildings. 
@@ -83,7 +83,10 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		Debug.Log("Buildings successfully linked!");
+		
+		//These next two lines may not have to be here, will test further -WF
+		inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
+		outputCount = linkBuilding.outputNum.length;
 	}
 }
 
@@ -109,7 +112,10 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 
 function OnGUI()
 {
-	//cancelLinkMode = false;
+	if(ModeController.getCurrentMode() == GameState.LINK)
+		cancelLinkMode = false;
+	else
+		cancelLinkMode = true;
 	
 	if(buildings.Length == 0)
 		return; //no point in updating 
@@ -117,6 +123,7 @@ function OnGUI()
 	//Draw IO buttons
 	for(var building:GameObject in buildings)
 	{
+		//Debug.Log("GUI GUI");
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		
@@ -176,6 +183,8 @@ function OnGUI()
 		//Instructions for output button
 		else
 		{	
+			ModeController.setCurrentMode(GameState.LINK);
+		
 			for(var j = 0; j < buildingOutputNum; j++)
 			{
 				if(j > 0)
@@ -198,22 +207,25 @@ function OnGUI()
 		}
 	}
 	
-	//Draw Cancel button
-	var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
-	GUILayout.BeginArea(cancelRect);
-	GUILayout.Button("Cancel");
-	if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
-				mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
+	if(!cancelLinkMode)
 	{
-		mouseOverGUI = true;
-	
-		if(Input.GetMouseButtonDown(0))
+		//Draw Cancel button
+		var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
+		GUILayout.BeginArea(cancelRect);
+		GUILayout.Button("Cancel");
+		if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
+					mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
 		{
-			Debug.Log("Cancel hit");
-			cancelLinkMode = true;
+			mouseOverGUI = true;
+		
+			if(Input.GetMouseButtonDown(0))
+			{
+				Debug.Log(ModeController.getCurrentMode());
+				cancelLinkMode = true;
+			}
 		}
+		GUILayout.EndArea();
 	}
-	GUILayout.EndArea();
 }
 
 function Update() 
@@ -235,6 +247,8 @@ function Update()
 		
 		inputBuilding = null; outputBuilding = null; //resets either way
 	}
+	
+
 }
 
 static function MouseOverLinkGUI():boolean{
@@ -243,4 +257,8 @@ static function MouseOverLinkGUI():boolean{
 
 static function CancelLinkMode():boolean{
 	return cancelLinkMode;
+}
+
+static function setLinkMode(mode:boolean){
+	cancelLinkMode = mode;
 }

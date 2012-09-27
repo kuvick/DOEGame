@@ -27,6 +27,7 @@ static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildingIndex = Database.findBuildingIndex(buildPos);
+
 	if (buildingIndex != -1){
 		//Debug.Log("Tap on building");
 		var buildings = Database.getBuildingsOnGrid();
@@ -35,10 +36,15 @@ static function HandleTapAtPoint(position: Vector2){
 		ModeController.selectedBuilding = building;
 		DisplayLinkRange.HighlightBuildingsInRange(building);
 	} else {
-		Debug.Log("Current Mode: " + ModeController.currentMode);
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
 		if (tapMode == TapType.Place && ModeController.currentMode == GameState.EXPLORE){
 			PlaceBuilding.Place(buildPos, false);
+		}
+		else
+		{
+			Debug.Log("Not placing building, set to link");
+			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
+			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
 		}
 	}
 }

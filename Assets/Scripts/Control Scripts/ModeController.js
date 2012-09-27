@@ -52,13 +52,14 @@ function Update ()
 {
 	if(BuildingClicked() && GameState.EXPLORE) //If a building is clicked, set the mode to link
 	{
-		currentMode = GameState.LINK;
-		this.switchTo(currentMode);
+		Debug.Log("Switching to link since building was clicked");
+		//currentMode = GameState.LINK;
+		//this.switchTo(currentMode);
 	}
 	else if(currentMode == GameState.LINK && LinkUI.CancelLinkMode()) // Once the user cancels out of link mode, switch back to explore
 	{
-		Debug.Log("Set current mode to Explore from Link");
-		currentMode = GameState.EXPLORE;
+		//currentMode = GameState.EXPLORE;
+		//LinkUI.cancelLinkMode = false;
 		selectedBuilding = null;
 		switchTo(currentMode);
 	}
@@ -68,14 +69,6 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 {
 	Debug.Log("Sucessfully broadcasted update building count from ModeController.js");
 	buildings = curBuildings;
-	
-	Debug.Log("Building count is now " + buildings.Length);
-	/*if(Database.getBuildingsOnGrid().length != previousBuildingLength)
-	{
-		buildings = gameObject.FindGameObjectsWithTag("Building");
-		previousBuildingLength = buildings.Length;
-		Debug.Log("Building count is now " + previousBuildingLength);
-	}*/
 }
 
 function BuildingClicked():boolean
@@ -115,11 +108,13 @@ function switchTo(mode:int){
 	switch(mode)
 	{
 		case GameState.LINK:
+			currentMode = GameState.LINK;
 			//linkMode.active = true;
 			break;
 			
 		case GameState.EXPLORE:
 			DisplayLinkRange.restoreColors();
+			currentMode = GameState.EXPLORE;
 			//linkMode.active = false;
 			break;
 			
@@ -129,6 +124,11 @@ function switchTo(mode:int){
 		
 	}
 	
+}
+
+static function setCurrentMode(state:int)
+{
+	currentMode = state;
 }
 
 static function getSelectedBuilding(){

@@ -178,6 +178,8 @@ function OnGUI()
 		if(showWindow)
 		{
 			dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
+			if(ModeController.getCurrentMode() != GameState.EXPLORE)
+				ModeController.setCurrentMode(GameState.EXPLORE);
 		}
 		
 			switch(toolbarInt)
@@ -297,12 +299,6 @@ function ToolbarWindowFunc (windowID : int) {
         						  toolbarStrings);
 }
 
-
-
-
-
-
-
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
@@ -321,14 +317,14 @@ function BuildingMenuFunc (windowID : int) {
 
 			//Debug.Log("Building: at index " + i);
 			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-        	/*GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
+        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
         												+ " [" + data.buildings[i].inputNum + "]"
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
         												+ " [" + data.buildings[i].outputNum + "]");
-        			*/									
+        												
 
 		}
 		

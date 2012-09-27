@@ -83,7 +83,13 @@ and the tile type.
 static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, event:String) : boolean
 {
 	var temp = new BuildingOnGrid();
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
 
+	Debug.Log("adding buidling to grid");
 	for (var defaultBuilding : Building in buildings)
 	{
 		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
@@ -98,7 +104,6 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			temp.inputNum = temp.inputNum.Concat(defaultBuilding.inputNum);
 			
 			temp.outputName = new Array();
-			Debug.Log("adding output name " + defaultBuilding.outputName);
 			temp.outputName = temp.outputName.Concat(defaultBuilding.outputName);
 			
 			temp.outputNum = new Array();
@@ -140,7 +145,8 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		IntelSystem.addTurn();		// NEW: for the Intel System
 		
-		
+		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
+		Debug.Log("Setting to link");
 		BroadcastBuildingUpdate();
 		
 		//************
@@ -149,8 +155,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 	else
 	{
 	
-		buildingsOnGrid.push(temp);
-	    	        
+		buildingsOnGrid.push(temp);	   	
 		return true;
 	
 	}
@@ -275,7 +280,6 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     
 
     var usedOptionalOutput : boolean = false;
-    Debug.Log("Going into optional if statement? : " + (hasOptionalOutput && !hasResource));
     // Will take optional resource if resource not found among original output
     if( hasOptionalOutput && !hasResource )
     {
@@ -368,6 +372,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		Debug.Log("End of link buildings");
 		
 		IntelSystem.addTurn();		// NEW: Intel System
     }
