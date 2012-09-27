@@ -80,6 +80,7 @@ private var eventListBGRect : Rect; //Background for the event list
 private var eventListTurnRect : Rect; //Current turn label
 private var eventListScrollRect : Rect; //For the positions of the scroll bars
 private var eventListContentRect : Rect; //For the content area
+private var eventFacebookRect : Rect;
 
 private var eventListScrollPos : Vector2;
 ///////////////////////
@@ -131,6 +132,7 @@ function Start(){
 	eventListTurnRect = Rect(eventListBGRect.x + eventListBGRect.width - 60, eventListBGRect.y + 10, 50, 50);
 	eventListScrollRect = Rect(eventListBGRect.x + 10, eventListTurnRect.y + eventListTurnRect.height + 10, eventListBGRect.width - 10, eventListBGRect.height - eventListTurnRect.height * 2 - 20);
 	eventListContentRect = Rect(0, 0, eventListBGRect.width - eventListScrollRect.x - eventListBGRect.x, 1000);
+	eventFacebookRect = Rect(sidePadding, screenHeight - toolBarHeight, 100, 100);
 	
 	eventList = new Array();
 	var gE1:gameEvent = new gameEvent();
@@ -239,6 +241,10 @@ function OnGUI()
 		}
 	}
 	
+	if (GUI.Button(eventFacebookRect, "Post")) {
+		FacebookProtocol.PostScoreToFacebook(12345, "The Outpost");
+	}
+	
 	if(eventListUsed)
 	{
 		//Background box
@@ -315,14 +321,14 @@ function BuildingMenuFunc (windowID : int) {
 
 			//Debug.Log("Building: at index " + i);
 			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
+        	/*GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
         												+ " [" + data.buildings[i].inputNum + "]"
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
         												+ " [" + data.buildings[i].outputNum + "]");
-        												
+        			*/									
 
 		}
 		

@@ -36,15 +36,32 @@ static function Init () {
 	}
 }
 
+static function PostAchievmentToFacebook(achievment:String, description:String){
+	var comment : String = "I just earned " + achievment + " for " + description + ".";
+	if (hasLoggedIn){
+		PostComment(comment);
+	} else {
+		Debug.Log("FacebookProtocol : needed to log in");
+		Login();
+		PostComment(comment);
+	}
+}
+
 // Creates a dialog with the given score and level included in a facebok post.
 // the user has a choice to add some to the post
 static function PostScoreToFacebook(score:int, level:String){
+	var comment : String = "I just scored " + score + " points on " + level + ". Beat that!";
 	if (hasLoggedIn){
-		var comment : String = "I just scored " + score + " points on " + level + ". Beat that!";
-		FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);	
+		PostComment(comment);
 	} else {
 		Debug.Log("FacebookProtocol : needed to log in");
+		Login();
+		PostComment(comment);
 	}
+}
+
+private static function PostComment(comment:String){
+	FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);	
 }
 
 // Does appropriate tests then pops up a dialog to allow the user to login and give the app necessary permissions
