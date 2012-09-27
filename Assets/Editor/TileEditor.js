@@ -2,6 +2,8 @@
 
 /*
 This editor is accessed by selecting the HexagonGrid object and looking at its properties in the Inpsector.
+Use this to change the buildability of tiles on the grid
+old:
 To paint/change the tile type of the terrain, select the tile type you want to paint and then click the begin painting button.
 Dragging your mouse over tiles in the scene view will change their tile type or buildability. Turn on the TileType gizmo for viewing which
 TileType the tiles currently have.
@@ -13,7 +15,7 @@ class TileEditor extends Editor{
 	//Land Painting
     private var tileType:TileType = TileType.Land;
     private var paintingTileType:boolean = false;
-    
+    private var paintingBuildability:boolean = false;
     //if this is true, tiles painted will be buildable, not buildable otherwise
     private var buildable:boolean = true;
     //Building Placing
@@ -32,9 +34,20 @@ class TileEditor extends Editor{
     function OnInspectorGUI (){
     	DrawDefaultInspector();
 		//Painting
-        GUILayout.Label("Select tile type, click button, paint on scene", EditorStyles.boldLabel); //Painting Label
-        tileType = EditorGUILayout.EnumPopup("Tile Type: ", tileType); //Drop-down menu for tile types
-        
+        GUILayout.Label("Click the paint button and drag on grid to change buildability", EditorStyles.boldLabel); //Painting Label       
+        buildable = GUILayout.Toggle(buildable, "buildable"); 
+        if(!paintingBuildability){ //Painting button (toggle) 
+	        if(GUILayout.Button("Begin painting buildability")){
+	        	paintingBuildability = true;
+	        }
+	    }
+	    else { 
+	    	if(GUILayout.Button("Stop painting")){
+	        	paintingBuildability = false;
+	    	}
+		}
+		/*old tile type gui
+		GUILayout.Label("Select tile type, click button, paint on scene", EditorStyles.boldLabel); //Painting Label
         if(!paintingTileType){ //Painting button (toggle) 
 	        if(GUILayout.Button("Begin painting tile types")){
 	        	paintingTileType = true;
@@ -45,7 +58,6 @@ class TileEditor extends Editor{
 	        	paintingTileType = false;
 	    	}
 		}
-		buildable = GUILayout.Toggle(buildable, "buildable - paint buildability, keep checked after use");
       	//Placing
       	GUILayout.Label("Select a tile and choose a building to place", EditorStyles.boldLabel); //Placing Label
 	    if(!placing){ //Placing button (toggle)
@@ -59,6 +71,7 @@ class TileEditor extends Editor{
 	    	}
 	    }
 	    buildingType = EditorGUILayout.EnumPopup("Building Type: ", buildingType); //Drop-down menu for building types
+	    */
     }
     
 
@@ -74,9 +87,10 @@ class TileEditor extends Editor{
 				var worldPoint: Vector3 = ray.GetPoint(enter);
 				var mouseTile: Vector2 = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);//tile under mouse in gui 				    				
 	    		if(Event.current.type == EventType.MouseDrag){ //mouse drag
-	    			if(paintingTileType)//change the tile type	
-						grid.setTileType(mouseTile.x, mouseTile.y, tileType);
-					grid.setBuildable(mouseTile.x, mouseTile.y, buildable);//set buildability
+	    			//if(paintingTileType)//change the tile type	
+						//grid.setTileType(mouseTile.x, mouseTile.y, tileType);
+					if(paintingBuildability)
+						grid.setBuildable(mouseTile.x, mouseTile.y, buildable);//set buildability
 					EditorUtility.SetDirty(grid);//calling SetDirty causes the scene to remember/save the values changed in the grid
 	    		}
 	    		else if(Event.current.type == EventType.MouseDown && placing){ //Placing + Mouse Button Down

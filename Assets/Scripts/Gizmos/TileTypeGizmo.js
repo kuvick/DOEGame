@@ -10,6 +10,7 @@ or if its turned on, move the slider to the right.
 private var slope1:Vector3 = new Vector3(1, 0, -1);
 private var slope2:Vector3 = new Vector3(1, 0, 1);
 private var xLineLength:float = HexagonGrid.tileHalfWidth * 0.65;
+private var showTileType:boolean = false;//tile type has no use now, not showing for now
 function OnDrawGizmos () {
     var grid:HexagonGrid = GetComponent("HexagonGrid") as HexagonGrid;
     if(grid){
@@ -29,24 +30,26 @@ function OnDrawGizmos () {
     				Gizmos.DrawLine(upperLeft, bottomRight);
     				Gizmos.DrawLine(bottomLeft, upperRight);
     			}
-    			switch(grid.getTile(x, y).type){
-    				case TileType.Land:
-    					Gizmos.DrawIcon(iconPos, "land.jpg", true);
-    					break;
-    				case TileType.Hill:
-    					Gizmos.DrawIcon(iconPos, "hill.jpg", true);
-    					break;
-    				case TileType.Water:
-    					Gizmos.DrawIcon(iconPos, "water.jpg", true);
-    				 	break;			
-					case TileType.GeothermalVent:
-						Gizmos.DrawIcon(iconPos, "vent.jpg", true);
-						break;				
-					case TileType.Mine:
-						Gizmos.DrawIcon(iconPos, "mine.jpg", true);
-						break;
-					default:
-						break;
+    			if(showTileType){
+	    			switch(grid.getTile(x, y).type){
+	    				case TileType.Land:
+	    					Gizmos.DrawIcon(iconPos, "land.jpg", true);
+	    					break;
+	    				case TileType.Hill:
+	    					Gizmos.DrawIcon(iconPos, "hill.jpg", true);
+	    					break;
+	    				case TileType.Water:
+	    					Gizmos.DrawIcon(iconPos, "water.jpg", true);
+	    				 	break;			
+						case TileType.GeothermalVent:
+							Gizmos.DrawIcon(iconPos, "vent.jpg", true);
+							break;				
+						case TileType.Mine:
+							Gizmos.DrawIcon(iconPos, "mine.jpg", true);
+							break;
+						default:
+							break;
+					}
 				}
 					  		
     		}
