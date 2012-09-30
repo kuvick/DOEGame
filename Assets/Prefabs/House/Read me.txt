@@ -1,2 +1,0 @@
-House:
-Scale factor : 3.5
