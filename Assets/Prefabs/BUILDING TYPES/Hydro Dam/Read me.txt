@@ -1,0 +1,2 @@
+Hydro Dam:
+Scale factor = 1
