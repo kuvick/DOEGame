@@ -65,14 +65,7 @@ public static var undoButton : Rect;		//*** added by K
 private var showToolbar : boolean;
 
 //EVENT LIST VARIABLES
-class gameEvent
-{
-	var icon : String;
-	var description : String;
-	var positive : boolean;
-	var turn : int;
-}
-public static var eventList : gameEvent[];
+public static var eventList : BuildingEvent[];
 private var eventListUsed : boolean;
 
 public static var eventListRect : Rect; //Button for toggling the event list
@@ -135,32 +128,32 @@ function Start(){
 	eventFacebookRect = Rect(sidePadding, screenHeight - toolBarHeight, 100, 100);
 	
 	eventList = new Array();
-	var gE1:gameEvent = new gameEvent();
-	gE1.description = "Game started.";
-	gE1.positive = true;
-	gE1.turn = 1;
-	var gE2:gameEvent = new gameEvent();
-	gE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
-	gE2.positive = false;
-	gE2.turn = 22;
-	var gE3:gameEvent = new gameEvent();
-	gE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
-	gE3.positive = true;
-	gE3.turn = 19;
-	var gE4:gameEvent = new gameEvent();
-	gE4.description = "A Manager is looking to make his next career move.";
-	gE4.positive = true;
-	gE4.turn = 15;
-	var gE5:gameEvent = new gameEvent();
-	gE5.description = "A new Researcher is about to graduate from the University.";
-	gE5.positive = true;
-	gE5.turn = 12;
-	var gE6:gameEvent = new gameEvent();
-	gE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
-	gE6.positive = false;
-	gE6.turn = 8;
+	var bE1:BuildingEvent = new BuildingEvent();
+	bE1.description = "Game started.";
+	bE1.type = 0;
+	bE1.time = 1;
+	var bE2:BuildingEvent = new BuildingEvent();
+	bE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
+	bE2.type = 1;
+	bE2.time = 22;
+	var bE3:BuildingEvent = new BuildingEvent();
+	bE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
+	bE3.type = 0;
+	bE3.time = 19;
+	var bE4:BuildingEvent = new BuildingEvent();
+	bE4.description = "A Manager is looking to make his next career move.";
+	bE4.type = 0;
+	bE4.time = 15;
+	var bE5:BuildingEvent = new BuildingEvent();
+	bE5.description = "A new Researcher is about to graduate from the University.";
+	bE5.type = 0;
+	bE5.time = 12;
+	var bE6:BuildingEvent = new BuildingEvent();
+	bE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
+	bE6.type = 1;
+	bE6.time = 8;
 	
-	eventList = new Array(gE1, gE2, gE3, gE4, gE5, gE6);
+	eventList = new Array(bE6, bE5, bE4, bE3, bE2, bE1);
 	
 	eventListUsed = false;
 	
@@ -263,7 +256,7 @@ function OnGUI()
 			);
 			
 		//Array of events
-		var gameEventRect : Rect;
+		var buildingEventRect : Rect;
 		var tempPos : int;
 		var currentYStart : int;
 		for(var i : int = 0; i < eventList.length; ++i)
@@ -274,17 +267,17 @@ function OnGUI()
 			//currentYStart = eventListContentRect.height - ((i + 1) * 50) - ((i + 1) * 5);
 		
         	//Draw Icon
-        	gameEventRect = Rect(5, currentYStart, 50, 50);
-        	GUI.Button(gameEventRect, "Icon");
+        	buildingEventRect = Rect(5, currentYStart, 50, 50);
+        	GUI.Button(buildingEventRect, "Icon");
         	
         	//Description
         	tempPos = eventListContentRect.x + eventListContentRect.width - 60;
-        	gameEventRect = Rect(60, currentYStart, tempPos, 50);
-        	GUI.Button(gameEventRect, eventList[i].description);
+        	buildingEventRect = Rect(60, currentYStart, tempPos, 50);
+        	GUI.Button(buildingEventRect, eventList[i].description);
 
         	//Turn
-        	gameEventRect = Rect(tempPos + 65, currentYStart, 50, 50);
-        	GUI.Button(gameEventRect, eventList[i].turn.ToString());
+        	buildingEventRect = Rect(tempPos + 65, currentYStart, 50, 50);
+        	GUI.Button(buildingEventRect, eventList[i].time.ToString());
 
     	}
     	

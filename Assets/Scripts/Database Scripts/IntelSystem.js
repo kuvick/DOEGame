@@ -24,6 +24,7 @@ class BuildingEvent
 {
 	var name : String;			//used for accessing in editor
 	var description : String;
+	var icon : String;
 	var type : BuildingEventType;
 	var functionName : String;
 	var time : int;
