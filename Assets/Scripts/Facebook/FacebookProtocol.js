@@ -56,7 +56,7 @@ static function PostScoreToFacebook(score:int, level:String){
 	} else {
 		Debug.Log("FacebookProtocol : needed to log in");
 		Login();
-		PostComment(comment);
+		//PostComment(comment);
 	}
 }
 
