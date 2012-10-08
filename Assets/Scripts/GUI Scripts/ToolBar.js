@@ -65,11 +65,11 @@ public static var undoButton : Rect;		//*** added by K
 private var showToolbar : boolean;
 
 //EVENT LIST VARIABLES
-public static var eventList : BuildingEvent[];
-private var eventListUsed : boolean;
+public static var eventList : EventLinkedList;
+public static var eventListUsed : boolean; //Determines if the event list is opened or not
 
 public static var eventListRect : Rect; //Button for toggling the event list
-private var eventListBGRect : Rect; //Background for the event list
+public static var eventListBGRect : Rect; //Background for the event list
 private var eventListTurnRect : Rect; //Current turn label
 private var eventListScrollRect : Rect; //For the positions of the scroll bars
 private var eventListContentRect : Rect; //For the content area
@@ -130,7 +130,7 @@ function Start(){
 	eventFacebookPostRect = Rect(sidePadding, screenHeight - toolBarHeight + 100, 100, 100);
 	
 	
-	eventList = new Array();
+	eventList = new EventLinkedList();
 	var bE1:BuildingEvent = new BuildingEvent();
 	bE1.description = "Game started.";
 	bE1.type = 0;
@@ -156,11 +156,16 @@ function Start(){
 	bE6.type = 1;
 	bE6.time = 8;
 	
-	eventList = new Array(bE6, bE5, bE4, bE3, bE2, bE1);
+	eventList.InsertNode(bE1);
+	eventList.InsertNode(bE2);
+	eventList.InsertNode(bE3);
+	eventList.InsertNode(bE4);
+	eventList.InsertNode(bE5);
+	eventList.InsertNode(bE6);
 	
 	eventListUsed = false;
 	
-	Debug.Log("eventList.length = " + eventList.Length); //Print the length just in case
+	Debug.Log("eventList.length = " + eventList.GetSize()); //Print the length just in case
 }
 
 function OnGUI() 
@@ -266,29 +271,40 @@ function OnGUI()
 		var buildingEventRect : Rect;
 		var tempPos : int;
 		var currentYStart : int;
-		for(var i : int = 0; i < eventList.length; ++i)
+		var currNode : EventNode = eventList.head;
+		var i : int = 0;
+		while(currNode != null)
 		{
-			//This works but the first event should be at the bottom and not top. See below
 			currentYStart = i * 50 + (i + 1) * 5;
-			//This does it in the right order (first event is on the bottom) but it causes the content to be at the very bottom... not sure how to fix this
-			//currentYStart = eventListContentRect.height - ((i + 1) * 50) - ((i + 1) * 5);
-		
-        	//Draw Icon
+			
+			//Draw Icon
         	buildingEventRect = Rect(5, currentYStart, 50, 50);
         	GUI.Button(buildingEventRect, "Icon");
         	
         	//Description
         	tempPos = eventListContentRect.x + eventListContentRect.width - 60;
         	buildingEventRect = Rect(60, currentYStart, tempPos, 50);
-        	GUI.Button(buildingEventRect, eventList[i].description);
+        	GUI.Button(buildingEventRect, currNode.data.description);
 
         	//Turn
         	buildingEventRect = Rect(tempPos + 65, currentYStart, 50, 50);
-        	GUI.Button(buildingEventRect, eventList[i].time.ToString());
-
-    	}
-    	
+        	GUI.Button(buildingEventRect, currNode.data.time.ToString());
+			
+			currNode = currNode.next;
+			++i;
+		}
+		
     	GUI.EndScrollView();
+	}
+}
+
+function Update()
+{
+	var currNode : EventNode = eventList.head;
+	while(currNode != null)
+	{
+		
+		currNode = currNode.next;
 	}
 }
 
@@ -330,9 +346,6 @@ function BuildingMenuFunc (windowID : int) {
 		}
 		
 		GUI.EndScrollView ();
-		
-		
-        
 }
 
 function ToggleBuildingWindowVisibility()
@@ -346,9 +359,14 @@ static function NotOnGui(screenInputPosistion: Vector2){
 	var mousePos: Vector2;
 	mousePos.x = screenInputPosistion.x;
 	mousePos.y = Screen.height-screenInputPosistion.y;
-	if (toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos)) || undoButton.Contains(mousePos) || eventListRect.Contains(mousePos)) {					// *** K added undo button
+	
+	if(toolbarWindow.Contains(mousePos) || (showWindow && buildingMenuWindow.Contains(mousePos)) || undoButton.Contains(mousePos) || eventListRect.Contains(mousePos) ||
+	(eventListUsed && eventListBGRect.Contains(mousePos)))
+	{
 		return (false);
-	} else {
+	}
+	else
+	{
 		return (true);
 	}
 }
