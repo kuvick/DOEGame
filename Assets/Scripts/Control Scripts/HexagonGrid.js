@@ -360,14 +360,19 @@ private function createHexagonGridParticles(){
 	return new Vector2(xTile, yTile);	
  }
  
- // Convert the given screen location into its corrisponding tile location
+ // Convert the given screen location into its corrisponding tile location, if the mouse is in negative coordinates repect to the grid, the coordinates get set to 0
  static function ScreenPosToTilePos(camera:Camera, inputPos: Vector2) :Vector2{
  	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
 	var ray: Ray = camera.ScreenPointToRay(inputPos);
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
 	plane.Raycast(ray, enter);
 	var worldPoint: Vector3 = ray.GetPoint(enter);
+	//bounds checking for negative coordinates
+	//worldPoint.x = worldPoint.x < 0 ? 0: worldPoint.x;
+	//worldPoint.z = worldPoint.z < 0 ? 0: worldPoint.z;
 	var inputTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
+	inputTile.x = inputTile.x < 0 ? 0: inputTile.x;
+	inputTile.y = inputTile.y < 0 ? 0: inputTile.y;
 	return (inputTile);
  }
 
