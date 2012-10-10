@@ -36,5 +36,9 @@ function OnGUI()
 		{
 			Application.LoadLevel(1);
 		}
+		
+		if(GUI.Button(Rect(Screen.width - 110, 10, 100, 80), "Score Screen")){
+			Application.LoadLevel("ScoreScreen");		
+		}
 	}
 }
