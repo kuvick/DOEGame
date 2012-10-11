@@ -43,6 +43,8 @@ private var buildingOutputNum:int;
 private var outputCount:int;
 private var inputCount:int;
 
+private var displayLink : DisplayLinkRange;
+
 
 function Start () {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -50,6 +52,7 @@ function Start () {
 	linkReference = new boolean[numBuildings, numBuildings];
 	cancelLinkMode = false;
 	mouseOverGUI = false;
+	displayLink = gameObject.GetComponent(DisplayLinkRange);
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -222,6 +225,8 @@ function OnGUI()
 			{
 				Debug.Log(ModeController.getCurrentMode());
 				cancelLinkMode = true;
+				displayLink.DestroyRangeTiles();
+				outputBuilding = null;
 			}
 		}
 		GUILayout.EndArea();
