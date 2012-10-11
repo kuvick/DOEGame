@@ -27,7 +27,7 @@ private var buttonHeight : float = Screen.height / 6;
 private var xGrid : float = Screen.width / 16;
 private var yGrid : float = Screen.height / 5;
 
-
+private static var currLevel : String;
 
 function Start(){
 	
@@ -42,19 +42,27 @@ function Start(){
 	newStyle = GUIStyle();
 	newStyle.fontSize = 20;		
 	newStyle.alignment = TextAnchor.MiddleCenter;
-
+	paused = true;
+	//currLevel = "Prototype - Level1";
+	
 }
+
+// Added by Derrick, used to set the current level for "Reset Level"
+// possibly moved to ToolBar if multiple screens need current level (such as the score screen)
+/*static function SetCurrLevel(clevel : String) {
+	currLevel = clevel;
+}*/
 
 function Update(){
 
-	if ( Input.GetKeyDown( KeyCode.P ) )
+	/*if ( Input.GetKeyDown( KeyCode.P ) )
 	{
 		if ( paused )
 			paused = false;
 		else
 			paused = true;
-	}
-
+	}*/
+	
 }
 
 function OnGUI(){
@@ -88,7 +96,8 @@ function OnGUI(){
 		{
 			
 			// Restart Current Level
-			Application.LoadLevel(EditorApplication.currentScene);
+			//Application.LoadLevel(EditorApplication.currentScene);
+			Application.LoadLevel(ToolBar.currLevel); // added by Derrick, takes in current level from ToolBar
 		}
 		
 		

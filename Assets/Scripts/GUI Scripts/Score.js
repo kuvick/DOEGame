@@ -63,6 +63,11 @@ function Start(){
 			- bonusScore
 		from the IntelSystem script
 	*/	
+	
+}
+
+function Update() {
+	
 }
 
 function OnGUI(){
@@ -76,8 +81,9 @@ function OnGUI(){
 	{
 		/*
 			TODO: Restart Previous Level(not just level 1)
+			Note: Derrick, possibly done, taking int the current level from ToolBar
 		*/
-		Application.LoadLevel("Prototype - Level1");
+		Application.LoadLevel(ToolBar.currLevel);//"Prototype - Level1");
 	}
 	
 	/* 
@@ -109,7 +115,6 @@ function OnGUI(){
 	if(GUI.Button(eventBackToStartRect, scoreStrings[3]))
 	{
 		Application.LoadLevel("StartScreen");
-	
 	}
 }
 

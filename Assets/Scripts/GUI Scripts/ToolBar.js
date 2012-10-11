@@ -32,6 +32,9 @@ var btnTexture9 : Texture;
 
 public static var showWindow : boolean = false;
 
+// added by Derrick, used to keep track of the current level for game menu and score screen
+public static var currLevel : String = "Prototype - Level1";
+
 //need to replace text with GUI texture (if needed)
 private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
@@ -61,6 +64,8 @@ public static var toolbarWindow : Rect;
 public static var buildingMenuWindow : Rect;
 
 public static var undoButton : Rect;		//*** added by K
+
+public static var gameMenuButton : Rect;   // added by D for game menu
 
 private var showToolbar : boolean;
 
@@ -120,6 +125,8 @@ function Start(){
 	
 	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
 	
+	gameMenuButton = Rect (0,Screen.height - 150,100,50);	// *** added by D, puts game menu button in bottom left corner above undo and intel system
+	
 	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
 	eventListRect = Rect(0, Screen.height - 100, 100, 50);
 	eventListBGRect = Rect(50, 50, screenWidth - 100, screenHeight - 100);
@@ -166,6 +173,8 @@ function Start(){
 	eventListUsed = false;
 	
 	Debug.Log("eventList.length = " + eventList.GetSize()); //Print the length just in case
+	Debug.Log("level " + Application.loadedLevelName);
+	currLevel = Application.loadedLevelName; // added by Derrick, sets the current level on load
 }
 
 function OnGUI() 
@@ -188,13 +197,14 @@ function OnGUI()
 			//Main menu
 			case 0:
 			Debug.Log("main menu");
+			Application.LoadLevel ("StartScreen");
 			toolbarInt = -1;
 			break;
 			
 			//Restart level
 			case 1:
 			Debug.Log("restart level");
-			Application.LoadLevel (0);  
+			Application.LoadLevel ("Prototype - Level1");  
 			toolbarInt = -1;
 			break;
 			
@@ -209,6 +219,7 @@ function OnGUI()
 			case 3:
 			Debug.Log("wait");
 			toolbarInt = -1;
+			IntelSystem.addTurn();
 			break;
 		}
 		
@@ -223,9 +234,20 @@ function OnGUI()
 				Debug.Log("Undo Failed!");
 		}
 		
+		// added by Derrick, the game menu button
+		if(GUI.Button(gameMenuButton, "Game Menu"))
+		{
+			Debug.Log("game menu opened");
+			GameMenu.SetCurrLevel(Application.loadedLevelName);
+			Application.LoadLevel("GameMenu");
+		}
+		
 		// *** added by K, IntelSystem Info
 		GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
 		+ IntelSystem.currentTurn);
+		
+		// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
+		GUI.Label(Rect(Screen.width/7*6, Screen.height - 40, Screen.width/2 + 50, 40), "Score: "); // + Database.?
 	}
 	
 	//Draw Event List button
