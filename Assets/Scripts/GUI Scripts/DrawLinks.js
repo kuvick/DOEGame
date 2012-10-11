@@ -36,17 +36,24 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	linkProspects = new boolean[buildings.Length, buildings.Length]; // reset the length of the possible prospects
 	linksDrawn = linksDrawn = new boolean[buildings.Length, buildings.Length];
 	
-	Debug.Log("Updating building count from DrawLinks.js");
+	Debug.Log("Updating building count from DrawLinks.js " + buildings.Length);
 }
 
 function Update(){
 	
+	if(buildings.Length <= 0) return;
 	
 	//Iterate through linkReference array. If buildings are linked, draw line.
 	for(var b1 = 0; b1 < buildings.Length; b1++){
+	
+		if(buildings[b1].gameObject == null) return;
+		
 		b1Position = buildings[b1].transform.position;
 
 		for(var b2 = 0; b2 < buildings.Length; b2++){
+		
+			if(buildings[b2] == null) return;
+			
 			b2Position = buildings[b2].transform.position;
 			var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
 			

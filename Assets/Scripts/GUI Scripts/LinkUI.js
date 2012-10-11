@@ -99,7 +99,7 @@ static function isInRange(b1:GameObject, b2:GameObject)
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
 		
-	if(Mathf.Abs(b2Position.x - b1Position.x) <= HexagonGrid.tileWidth * tileRange)
+	if(Mathf.Abs(b2Position.x - b1Position.x) <= (HexagonGrid.tileWidth * tileRange))
 		return true;
 		
 	return false;
@@ -127,6 +127,8 @@ function OnGUI()
 	for(var building:GameObject in buildings)
 	{
 		//Debug.Log("GUI GUI");
+		if(building == null) return;
+		
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		
@@ -154,6 +156,8 @@ function OnGUI()
 		//prototype
 		if(building != selectedBuilding)
 		{
+			if(building == null || selectedBuilding == null || !isInRange(building.gameObject, selectedBuilding.gameObject)) continue;
+		
 			for(var input = 0; input < inputCount; input++)
 			{
 				buildingInputNum = gridBuilding.inputNum[input];

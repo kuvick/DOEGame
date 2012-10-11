@@ -634,7 +634,7 @@ function undo(): boolean
 			//resetting the input building:
 			buildingIndex = previousBuildings.Pop();
 			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
-			
+			BroadcastBuildingUpdate();
 			
 			return true;
 			
@@ -647,7 +647,7 @@ function undo(): boolean
 			Destroy(buildingToDelete.buildingPointer);
 			buildingsOnGrid.Splice(buildingID, 1);
 			previousBuildings.Pop();
-			
+			BroadcastBuildingUpdate();
 			
 			return true;
 		}
