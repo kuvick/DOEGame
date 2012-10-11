@@ -167,8 +167,13 @@ function DestroyRangeTiles(){
 }
 
 static function restoreColors(){
+	
+	if(buildings.Length == 0) return;
+	
 	if(buildings != null){
 		for(var i = 0; i < buildings.Length; i++){
+			if(buildings[i] == null) return;
+		
 			buildings[i].renderer.material.color = Color.clear; // this needs to be changes to no color
 		}
 	}
