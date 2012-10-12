@@ -13,18 +13,21 @@ public var firstSlide : Texture;
 public var secondSlide : Texture;
 public var thirdSlide : Texture;
 
-
+private static var showSplash : boolean = true;
 
 
 
 
 function Start ()
 {
-	yield WaitForSeconds(1);
-	renderer.material.mainTexture = firstSlide;
-	yield WaitForSeconds(2);
-	renderer.material.mainTexture = secondSlide;
-	yield WaitForSeconds(2);
+	if (showSplash) {
+		yield WaitForSeconds(1);
+		renderer.material.mainTexture = firstSlide;
+		yield WaitForSeconds(2);
+		renderer.material.mainTexture = secondSlide;
+		yield WaitForSeconds(2);
+		showSplash = false;
+	}
 	renderer.material.mainTexture = thirdSlide;
 }
 
@@ -61,6 +64,11 @@ function OnGUI()
 			Application.LoadLevel("ScoreScreen");		// to be removed later, used for testing purposes
 		}
 	}
+}
+
+static function SetShowSplash (sSplash : boolen)
+{
+	showSplash = sSplash;
 }
 
 /*
