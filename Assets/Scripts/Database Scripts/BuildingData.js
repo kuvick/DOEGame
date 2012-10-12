@@ -55,12 +55,17 @@ class BuildingOnGridData
 	private var defaultBuildingsScript : DefaultBuildings;
 	private var thisBuilding : GameObject;
 	public var loadDefaultData : boolean = true;	// be sure to set false before the game starts, else it might replace the changed data
+	
+	private var firstLoad : boolean = true;
 
 
 // This function temporarily loads a database
 function Start ()
 {
 	thisBuilding = gameObject;
+	var replaceName : String = thisBuilding.name.Replace("(Clone)", "");
+	thisBuilding.name = replaceName;
+
 	if(loadDefaultData)
 	{
 		buildingData = new BuildingOnGridData();
@@ -78,4 +83,5 @@ function Update()
 	{
 	    buildingData.coordinate = HexagonGrid.worldToTileCoordinates(thisBuilding.transform.position.x, thisBuilding.transform.position.z);
 	}
+	
 }// end of update
