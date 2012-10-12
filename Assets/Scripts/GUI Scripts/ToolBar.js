@@ -84,6 +84,10 @@ private var eventFacebookLoginRect : Rect;
 private var eventListScrollPos : Vector2;
 ///////////////////////
 
+private static var showToast : boolean = false;
+private static var toastTime : int;
+private static var toastMsg : String = "";
+
 private var mainWindow;
 private var dropDownWindow;
 private var eventListWindow;
@@ -274,6 +278,10 @@ function OnGUI()
 		FacebookProtocol.Login();
 	}
 	
+	if (showToast){
+		GUI.Label(Rect(Screen.width/2-30, Screen.height - 50, Screen.width/2+30, Screen.height-30), toastMsg);
+	}
+	
 	if(eventListUsed)
 	{
 		//Background box
@@ -322,6 +330,14 @@ function OnGUI()
 
 function Update()
 {
+	if (showToast){
+		if (toastTime > 0){
+			toastTime -= Time.deltaTime;
+		} else {
+			showToast = false;
+		}
+	}
+
 	var currNode : EventNode = eventList.head;
 	while(currNode != null)
 	{
@@ -391,4 +407,10 @@ static function NotOnGui(screenInputPosistion: Vector2){
 	{
 		return (true);
 	}
+}
+
+static function ShowMessage(msg : String){
+	toastMsg = msg;
+	toastTime = 60;
+	showToast = true;
 }
