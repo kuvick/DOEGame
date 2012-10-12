@@ -1,0 +1,23 @@
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [igdumdx32.dll 8.15.10.2342]
+    Renderer: Intel(R) HD Graphics Family
+    Vendor:   Intel
+    VRAM:     880 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 DF24=0 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=0
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Initialize engine version: 3.5.6f4
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\P31RestKit.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\P31RestKit.dll into Unity Child Domain
+- Completed reload, in  0.056 seconds
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\UnityScript.Lang.dll (this message is harmless)
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled90\Demo2\Demo2-v1.0_Data\Managed\Boo.Lang.dll (this message is harmless)
