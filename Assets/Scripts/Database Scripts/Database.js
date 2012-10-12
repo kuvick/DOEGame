@@ -50,6 +50,10 @@ static public var limitedUndos = false;
 
 
 
+static var gridObject:GameObject;
+static var grid:HexagonGrid;
+
+
 function Start()
 {
 	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent("DefaultBuildings");
@@ -68,6 +72,9 @@ function Start()
 		
 		Debug.Log(tempBuilding.buildingName + " was added to the grid");
 	}
+	
+	gridObject = GameObject.Find("HexagonGrid");
+	grid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
 
 }
 
@@ -227,6 +234,13 @@ static public function getBuildingsOnGrid(){
 
 static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 {
+	// If z is not zero, must have recieved its world position rather than coordinate
+	if(coordinate.z != 0)
+	{
+		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.y);
+		coordinate = new Vector3( tempCoord.x, tempCoord.y, 0);
+	}
+	
 	return buildingsOnGrid[findBuildingIndex(coordinate)];
 }
 

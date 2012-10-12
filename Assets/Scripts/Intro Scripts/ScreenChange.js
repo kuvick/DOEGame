@@ -13,20 +13,18 @@ public var firstSlide : Texture;
 public var secondSlide : Texture;
 public var thirdSlide : Texture;
 
-// added by Derrick, determines whether to display DOE/Red Axon splash screens
-private static var showSplash : boolean = true;
+
+
+
+
 
 function Start ()
 {
-	if (showSplash)
-	{
-		yield WaitForSeconds(5);
-		renderer.material.mainTexture = firstSlide;
-		yield WaitForSeconds(2);
-		renderer.material.mainTexture = secondSlide;
-		yield WaitForSeconds(2);
-		showSplash = false;
-	}
+	yield WaitForSeconds(1);
+	renderer.material.mainTexture = firstSlide;
+	yield WaitForSeconds(2);
+	renderer.material.mainTexture = secondSlide;
+	yield WaitForSeconds(2);
 	renderer.material.mainTexture = thirdSlide;
 }
 
@@ -38,15 +36,12 @@ function OnGUI()
 		{
 			Application.LoadLevel(1);
 		}
-		
-		if(GUI.Button(Rect(Screen.width - 110, 10, 100, 80), "Score Screen")){
-			Application.LoadLevel("ScoreScreen");		
-		}
 	}
 }
 
-// added by Derrick, used to set whether to show the DOE/Red Axon splash screens upon entering start screen
-static function SetShowSplash(sSplash : boolean) 
+/*
+function Update()
 {
-	showSplash = sSplash;
+	gameObject.transform.localScale = new Vector3( ( Screen.width / 119 ) + 5, ( Screen.height / 119 ) + 5, 1);
 }
+*/

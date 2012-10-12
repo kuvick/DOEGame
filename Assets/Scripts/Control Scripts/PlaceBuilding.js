@@ -25,6 +25,10 @@ var buildingPrefab7 : Transform;
 
 static var changeBuilding : int = 0;
 
+static var gridObject:GameObject;
+static var grid:HexagonGrid;
+ 
+
 function Awake()
 {
 	buildingPrefabs = new Transform[8];
@@ -37,6 +41,9 @@ function Awake()
 	buildingPrefabs[5] = buildingPrefab5;
 	buildingPrefabs[6] = buildingPrefab6;
 	buildingPrefabs[7] = buildingPrefab7;
+	
+	gridObject = GameObject.Find("HexagonGrid");
+	grid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
 }
 
 static function Place(position: Vector3, isPreplaced: boolean){
@@ -46,14 +53,24 @@ static function Place(position: Vector3, isPreplaced: boolean){
 	} else {
 	
 		var build: Transform;
-	
+		
+		var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.y);
+		Debug.Log("Placing.........");
+		
 		if( !isPreplaced )
 		{
-			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
-			build.tag = "Building";
-			build.gameObject.AddComponent("MeshRenderer");
+			if( locationIsBuildable(coordinate) )
+			{
+				build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+				build.tag = "Building";
+				build.gameObject.AddComponent("MeshRenderer");		
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, "", "");
+				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(coordinate.x, coordinate.y, 0), "Tile Type", build.gameObject, isPreplaced, "", "");
+			}
+			else
+			{
+				Debug.Log("You cannot build here! Location is marked unbuildable.");
+			}
 		}
 		else
 		{
@@ -61,43 +78,17 @@ static function Place(position: Vector3, isPreplaced: boolean){
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, "", "");
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(coordinate.x, coordinate.y, 0), "Tile Type", build.gameObject, isPreplaced, "", "");
 		}
 
 	}
 }
 
-// If the building has an idea and an event, should use this parameter set:
-// Should really only be used for preplaced buildings since the last parameter allows
-static function Place(position: Vector3, isPreplaced: boolean, idea: String, event: String, isActive: boolean){
-	if (changeBuilding > 7) {
-		return;
-		Debug.LogError("HexagonGrid.js: changeBuilding = " + changeBuilding + " . Value not recorded");
-	} else {
-	
-		var build: Transform;
-	
-		if( !isPreplaced )
-		{
-			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
-			build.tag = "Building";
-			build.gameObject.AddComponent("MeshRenderer");
-			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, idea, event);
-		}
-		else
-		{
-			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
-			build.tag = "Building";
-			build.gameObject.AddComponent("MeshRenderer");
-			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, position, "Tile Type", build.gameObject, isPreplaced, idea, event);
-			
-			if(isActive)
-			{
-				if( !Database.isActive(Database.findBuildingIndex(position)) )
-					Database.toggleActiveness( Database.findBuildingIndex(position) );
-			}
-		}
-	}
+
+
+static function locationIsBuildable( coordinate : Vector3 ) : boolean {
+	Debug.Log("Coordinates: " + coordinate);
+	var thisTile : Tile;
+	thisTile = grid.getTile( coordinate.x, coordinate.y );
+	return thisTile.buildable;
 }
