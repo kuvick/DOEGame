@@ -34,13 +34,33 @@ function OnGUI()
 {
 	if(renderer.material.mainTexture == thirdSlide)
 	{
-		if(GUI.Button(new Rect(Screen.width/2, Screen.height - 200, 100, 100), "Play"))
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 400, 110, 50), "Start Game"))
 		{
 			Application.LoadLevel(1);
 		}
 		
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 325, 110, 50), "Resume"))
+		{
+			Application.LoadLevel(1); // to be changed when saving and loading is implemented
+		}
+		
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 250, 110, 50), "Level Select"))
+		{
+			// Application.LoadLevel("LevelSelect"); when implemented
+		}
+		
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 175, 110, 50), "Link to Facebook"))
+		{
+			FacebookProtocol.PostScoreToFacebook(12345, "The Outpost");
+		}
+		
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 100, 110, 50), "Exit"))
+		{
+			Application.Quit();
+		}
+		
 		if(GUI.Button(Rect(Screen.width - 110, 10, 100, 80), "Score Screen")){
-			Application.LoadLevel("ScoreScreen");		
+			Application.LoadLevel("ScoreScreen");		// to be removed later, used for testing purposes
 		}
 	}
 }
