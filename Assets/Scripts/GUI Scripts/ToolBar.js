@@ -238,7 +238,7 @@ function OnGUI()
 		if(GUI.Button(gameMenuButton, "Game Menu"))
 		{
 			Debug.Log("game menu opened");
-			GameMenu.SetCurrLevel(Application.loadedLevelName);
+			//GameMenu.SetCurrLevel(Application.loadedLevelName);
 			Application.LoadLevel("GameMenu");
 		}
 		
@@ -356,14 +356,14 @@ function BuildingMenuFunc (windowID : int) {
 			//Debug.Log("Building: at index " + i);
 			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
 			
-        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
+        	/*GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
         												+ " [" + data.buildings[i].inputNum + "]"
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
         												+ " [" + data.buildings[i].outputNum + "]");
-        											
+        											*/
 
 		}
 		

@@ -1,7 +1,6 @@
-#pragma strict
-
 /*
 	FacebookProtocol.js
+		*note this will only do stuff on android platforms
 		Will interface between the game and the facebook api to:
 			Log the user in
 			Log the user out
@@ -9,6 +8,38 @@
 			Post scores to facebook
 	Email issues to Jared Mavis (jmavis@ucsc.edu)
 */
+
+
+// Does appropriate tests then pops up a dialog to allow the user to login and give the app necessary permissions
+static function Login(){
+	#if UNITY_ANDROID
+		if (!hasInitialized){
+			Debug.Log("FacebookProtocol : needed to initialize");
+			Init();
+		}
+		if (InternetConnection.isConnected()){
+			FacebookAndroid.loginWithRequestedPermissions(permisions);
+			hasLoggedIn = true;
+			Debug.Log("FacebookProtocol : logged in");
+		} else {
+			Debug.Log("FacebookProtocol : no internet connection");
+		}
+	#endif
+}
+
+// Creates a dialog with the given score and level included in a facebok post.
+// the user has a choice to add some to the post
+static function PostScoreToFacebook(score:int, level:String){
+	#if UNITY_ANDROID
+		var comment : String = "I just scored " + score + " points on " + level + ". Beat that!";
+		if (hasLoggedIn){
+			PostComment(comment);
+		} else {
+			Debug.Log("FacebookProtocol : needed to log in");
+			Login();
+		}
+	#endif
+}
 
 
 // this code will only work when used on android so check to not cause errors when working on other devices
@@ -24,6 +55,7 @@ static var hasLoggedIn : boolean = false;
 function Start(){
 	//Init();
 }
+
 
 // Initializes the facebook plugin
 static function Init () {
@@ -47,35 +79,8 @@ static function PostAchievmentToFacebook(achievment:String, description:String){
 	}
 }
 
-// Creates a dialog with the given score and level included in a facebok post.
-// the user has a choice to add some to the post
-static function PostScoreToFacebook(score:int, level:String){
-	var comment : String = "I just scored " + score + " points on " + level + ". Beat that!";
-	if (hasLoggedIn){
-		PostComment(comment);
-	} else {
-		Debug.Log("FacebookProtocol : needed to log in");
-		Login();
-		//PostComment(comment);
-	}
-}
-
 private static function PostComment(comment:String){
 	FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);	
 }
 
-// Does appropriate tests then pops up a dialog to allow the user to login and give the app necessary permissions
-static function Login(){
-	if (!hasInitialized){
-		Debug.Log("FacebookProtocol : needed to initialize");
-		Init();
-	}
-	if (InternetConnection.isConnected()){
-		FacebookAndroid.loginWithRequestedPermissions(permisions);
-		hasLoggedIn = true;
-		Debug.Log("FacebookProtocol : logged in");
-	} else {
-		Debug.Log("FacebookProtocol : no internet connection");
-	}
-}
 #endif
