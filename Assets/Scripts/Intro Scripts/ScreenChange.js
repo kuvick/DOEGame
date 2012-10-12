@@ -66,7 +66,7 @@ function OnGUI()
 	}
 }
 
-static function SetShowSplash (sSplash : boolen)
+static function SetShowSplash (sSplash : boolean)
 {
 	showSplash = sSplash;
 }
