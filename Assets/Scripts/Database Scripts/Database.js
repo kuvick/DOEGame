@@ -235,10 +235,11 @@ static public function getBuildingsOnGrid(){
 static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 {
 	// If z is not zero, must have recieved its world position rather than coordinate
+	// Also, no coordinates will be negative, so correction by absolute value
 	if(coordinate.z != 0)
 	{
 		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.y);
-		coordinate = new Vector3( tempCoord.x, tempCoord.y, 0);
+		coordinate = new Vector3( Mathf.Abs(tempCoord.x), Mathf.Abs(tempCoord.y), 0);
 	}
 	
 	return buildingsOnGrid[findBuildingIndex(coordinate)];

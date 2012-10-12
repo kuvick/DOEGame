@@ -87,8 +87,11 @@ static function Place(position: Vector3, isPreplaced: boolean){
 
 
 static function locationIsBuildable( coordinate : Vector3 ) : boolean {
+	
 	Debug.Log("Coordinates: " + coordinate);
 	var thisTile : Tile;
-	thisTile = grid.getTile( coordinate.x, coordinate.y );
+	thisTile = grid.getTile( Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y) );
 	return thisTile.buildable;
+	
+	//return true;
 }
