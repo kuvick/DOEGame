@@ -1,7 +1,7 @@
 /**********************************************************
 GameMenu.js
 
-Description: Game Menu that is called when "P" is pressed during the game or fails the level
+Description: Game Menu that is called when the game is paused
 
 Author: Bomin Kim
 **********************************************************/
@@ -10,16 +10,17 @@ Author: Bomin Kim
 var levelFailed : boolean = false;
 var paused : boolean = false;
 
-// GUIStyle used for the Score Text
+// GUIStyle used for the GameMenu Text
 var newStyle : GUIStyle;
 
 // need to replace text with GUI texture (if needed)
-private var menuStrings : String[] = ["Try again?", "Paused", "Level Select", "Restart Level", "Save and Exit"];
+private var menuStrings : String[] = ["Try again?", "Paused", "Level Select", "Restart Level", "Save and Exit", "Resume"];
 
 // The Bounds for the 3 Buttons
 private var eventLevelSelectRect: Rect;
 private var eventRestartLevelRect : Rect;
 private var eventSaveAndExitRect : Rect;
+private var eventResumeRect : Rect;
 
 // Private variables for buttons
 private var buttonWidth : float = Screen.width / 4;
@@ -35,6 +36,7 @@ function Start(){
 	eventLevelSelectRect = Rect	( 1 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
 	eventRestartLevelRect = Rect( 6 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
 	eventSaveAndExitRect = Rect( 11 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
+	eventResumeRect = Rect( 11 * xGrid, 1.5 * yGrid, buttonWidth, buttonHeight );
 					
 								
 	
@@ -42,7 +44,6 @@ function Start(){
 	newStyle = GUIStyle();
 	newStyle.fontSize = 20;		
 	newStyle.alignment = TextAnchor.MiddleCenter;
-	paused = true;
 	//currLevel = "Prototype - Level1";
 	
 }
@@ -57,10 +58,7 @@ function Update(){
 
 	/*if ( Input.GetKeyDown( KeyCode.P ) )
 	{
-		if ( paused )
-			paused = false;
-		else
-			paused = true;
+		paused = !paused;
 	}*/
 	
 }
@@ -85,9 +83,9 @@ function OnGUI(){
 		if(GUI.Button(eventLevelSelectRect, menuStrings[2]))
 		{
 			/*
-				TODO: Show All Levels (not just level 1)
+				TODO: Show Level Selection Screen when implemented
 			*/
-			Application.LoadLevel("Prototype - Level1");
+			//Application.LoadLevel("LevelSelect");
 		}
 		
 		
@@ -107,8 +105,45 @@ function OnGUI(){
 			/*
 				TODO: Closes game app and saves progress (not just return to level 1)
 			*/
-			Application.LoadLevel("Prototype - Level1");
+			Application.Quit();
+		}
+		
+		
+		// Resume Button
+		if(GUI.Button(eventResumeRect, menuStrings[5]))
+		{
+			resumeGame();
 		}
 	
+	}
+}
+
+function OnPauseGame()
+{
+	paused = true;
+}
+
+function OnResumeGame()
+{
+	paused = false;
+}
+
+
+
+public static function pauseGame()
+{
+	Time.timeScale = 0.0;
+	var objects:GameObject[] = GameObject.FindObjectsOfType(GameObject);
+	for (var obj:GameObject in objects) {
+		obj.SendMessage ("OnPauseGame", SendMessageOptions.DontRequireReceiver);
+	}
+}
+
+public static function resumeGame()
+{
+	Time.timeScale = 1.0;
+	var objects:GameObject[] = GameObject.FindObjectsOfType(GameObject);
+	for (var obj:GameObject in objects) {
+		obj.SendMessage ("OnResumeGame", SendMessageOptions.DontRequireReceiver);
 	}
 }

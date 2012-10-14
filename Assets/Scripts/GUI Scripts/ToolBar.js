@@ -239,11 +239,13 @@ function OnGUI()
 		}
 		
 		// added by Derrick, the game menu button
+		// updated by Bomin
 		if(GUI.Button(gameMenuButton, "Game Menu"))
 		{
 			Debug.Log("game menu opened");
 			//GameMenu.SetCurrLevel(Application.loadedLevelName);
-			Application.LoadLevel("GameMenu");
+			//Application.LoadLevel("GameMenu");
+			GameMenu.pauseGame();
 		}
 		
 		// *** added by K, IntelSystem Info
@@ -414,3 +416,17 @@ static function ShowMessage(msg : String){
 	toastTime = 60;
 	showToast = true;
 }
+
+
+
+/////////////// Pause Functions ///////////////// (Bomin)
+function OnPauseGame()
+{
+	showToolbar = false;
+}
+
+function OnResumeGame()
+{
+	showToolbar = true;
+}
+///////////////////////////////////////////////// (Bomin)
