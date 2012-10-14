@@ -122,11 +122,11 @@ function OnGUI()
 	
 	if(buildings.Length == 0)
 		return; //no point in updating 
-	
+		
 	//Draw IO buttons
 	for(var building:GameObject in buildings)
 	{
-		//Debug.Log("GUI GUI");
+		//Debug.Log("GUI GUI " + buildings.Length);
 		if(building == null) return;
 		
 		target = building.transform;
@@ -243,8 +243,9 @@ function Update()
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 	
 	mouseOverGUI = false;
+	//Debug.Log(ModeController.selectedBuilding.name);
+	//Debug.Log(ModeController.getSelectedBuilding().name);
 	selectedBuilding = ModeController.getSelectedBuilding();
-	
 	
 	if(inputBuilding != null && outputBuilding != null)
 	{

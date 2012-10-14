@@ -152,6 +152,8 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		IntelSystem.addTurn();		// NEW: for the Intel System
 		
+		ModeController.setSelectedBuilding(temp.buildingPointer);
+		Debug.Log("Setting selected building to: " + ModeController.getSelectedBuilding());
 		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
 		Debug.Log("Setting to link");
 		BroadcastBuildingUpdate();
