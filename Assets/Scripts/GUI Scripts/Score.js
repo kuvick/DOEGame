@@ -19,6 +19,7 @@ var eventRetryLevelRect : Rect;
 var eventPostScoreToFBRect: Rect;
 var eventNextLevelRect : Rect;
 var eventBackToStartRect : Rect;
+var eventLoginToFBRect : Rect;
 
 //The Buffer between the buttons and the screen size
 var borderBuffer = 10;
@@ -27,7 +28,12 @@ var borderBuffer = 10;
 var newStyle : GUIStyle;
 
 //need to replace text with GUI texture (if needed)
-private var scoreStrings : String[] = ["Retry Level", "Share to Facebook", "Next Level", "Start Screen"];
+private var scoreStrings : String[] = ["Retry Level", "Share to Facebook", "Next Level", "Start Screen", "Login"];
+
+// for showing facebook confirmation
+private static var showToast : boolean = false;
+private static var toastTime : int;
+private static var toastMsg : String = "";
 
 function Start(){
 	/*
@@ -39,6 +45,10 @@ function Start(){
 								Screen.height / 6);
 	eventPostScoreToFBRect = Rect(Screen.width/2 - Screen.width/8, 
 								Screen.height - Screen.height / 6, 
+								Screen.width / 4, 
+								Screen.height / 6);
+	eventLoginToFBRect = Rect(Screen.width/2 - Screen.width/8, 
+								Screen.height - Screen.height / 3, 
 								Screen.width / 4, 
 								Screen.height / 6);
 	eventNextLevelRect = Rect(Screen.width - Screen.width/4 - borderBuffer, 
@@ -67,7 +77,13 @@ function Start(){
 }
 
 function Update() {
-	
+	if (showToast){
+		if (toastTime > 0){
+			toastTime -= Time.deltaTime;
+		} else {
+			showToast = false;
+		}
+	}
 }
 
 function OnGUI(){
@@ -98,6 +114,19 @@ function OnGUI(){
 		FacebookProtocol.PostScoreToFacebook(totalScore, "The Outpost");		
 	}
 	
+	
+	/* 
+		Login to Facebook Button
+	*/
+	if(GUI.Button(eventLoginToFBRect, scoreStrings[4]))
+	{
+		/*
+			TODO: Post Scores to Facebook
+		*/
+						
+		FacebookProtocol.Login();	
+	}
+	
 	/*
 		Next Level Button
 	*/
@@ -116,6 +145,11 @@ function OnGUI(){
 	{
 		Application.LoadLevel("StartScreen");
 	}
+	
+	// shows messages
+	if (showToast){
+		GUI.Label(Rect(Screen.width/2 - 50, Screen.height/2, 100, 50), toastMsg);
+	}
 }
 
 //Draws the scores
@@ -126,4 +160,11 @@ function DrawScores(){
 				     "\nTotal Score:        " + totalScore;
 
 	GUI.Box(Rect(Screen.width/3, Screen.height/3, Screen.width/3, Screen.height/3), text, newStyle);
+}
+
+// will set things to show a message on screen
+static function ShowMessage(msg : String){
+	toastMsg = msg;
+	toastTime = 300;
+	showToast = true;
 }

@@ -84,10 +84,6 @@ private var eventFacebookLoginRect : Rect;
 private var eventListScrollPos : Vector2;
 ///////////////////////
 
-private static var showToast : boolean = false;
-private static var toastTime : int;
-private static var toastMsg : String = "";
-
 private var mainWindow;
 private var dropDownWindow;
 private var eventListWindow;
@@ -137,8 +133,6 @@ function Start(){
 	eventListTurnRect = Rect(eventListBGRect.x + eventListBGRect.width - 60, eventListBGRect.y + 10, 50, 50);
 	eventListScrollRect = Rect(eventListBGRect.x + 10, eventListTurnRect.y + eventListTurnRect.height + 10, eventListBGRect.width - 10, eventListBGRect.height - eventListTurnRect.height * 2 - 20);
 	eventListContentRect = Rect(0, 0, eventListBGRect.width - eventListScrollRect.x - eventListBGRect.x, 1000);
-	eventFacebookLoginRect = Rect(sidePadding, screenHeight - toolBarHeight, 100, 100);
-	eventFacebookPostRect = Rect(sidePadding, screenHeight - toolBarHeight + 100, 100, 100);
 	
 	
 	eventList = new EventLinkedList();
@@ -272,18 +266,6 @@ function OnGUI()
 		}
 	}
 	
-	if (GUI.Button(eventFacebookPostRect, "Post")) {
-		FacebookProtocol.PostScoreToFacebook(12345, "The Outpost");
-	}
-	
-	if (GUI.Button(eventFacebookLoginRect, "Login")) {
-		FacebookProtocol.Login();
-	}
-	
-	if (showToast){
-		GUI.Label(Rect(Screen.width/2-30, Screen.height - 50, Screen.width/2+30, Screen.height-30), toastMsg);
-	}
-	
 	if(eventListUsed)
 	{
 		//Background box
@@ -332,14 +314,6 @@ function OnGUI()
 
 function Update()
 {
-	if (showToast){
-		if (toastTime > 0){
-			toastTime -= Time.deltaTime;
-		} else {
-			showToast = false;
-		}
-	}
-
 	var currNode : EventNode = eventList.head;
 	while(currNode != null)
 	{
@@ -410,13 +384,6 @@ static function NotOnGui(screenInputPosistion: Vector2){
 		return (true);
 	}
 }
-
-static function ShowMessage(msg : String){
-	toastMsg = msg;
-	toastTime = 60;
-	showToast = true;
-}
-
 
 
 /////////////// Pause Functions ///////////////// (Bomin)
