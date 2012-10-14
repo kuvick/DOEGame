@@ -54,8 +54,10 @@ static function Place(position: Vector3, isPreplaced: boolean){
 	
 		var build: Transform;
 		
-		var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.y);
-		Debug.Log("Placing.........");
+		
+		Debug.Log("Position Received: " + position);
+		var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);
+		Debug.Log("Placing.........Coordinates are: " + coordinate);
 		
 		if( !isPreplaced )
 		{
@@ -65,7 +67,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 				build.tag = "Building";
 				build.gameObject.AddComponent("MeshRenderer");		
 			
-				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(coordinate.x, coordinate.y, 0), "Tile Type", build.gameObject, isPreplaced, "", "");
+				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", "");
 			}
 			else
 			{
@@ -78,7 +80,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(coordinate.x, coordinate.y, 0), "Tile Type", build.gameObject, isPreplaced, "", "");
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", "");
 		}
 
 	}

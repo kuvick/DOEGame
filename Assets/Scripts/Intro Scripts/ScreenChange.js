@@ -37,12 +37,12 @@ function OnGUI()
 	{
 		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 400, 110, 50), "Start Game"))
 		{
-			Application.LoadLevel(1);
+			Application.LoadLevel(0);
 		}
 		
 		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 325, 110, 50), "Resume"))
 		{
-			Application.LoadLevel(1); // to be changed when saving and loading is implemented
+			Application.LoadLevel(0); // to be changed when saving and loading is implemented
 		}
 		
 		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 250, 110, 50), "Level Select"))
