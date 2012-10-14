@@ -1,0 +1,328 @@
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 9.0c [nvumdshimx.dll 9.18.13.697]
+    Renderer: Intel(R) HD Graphics Family
+    Vendor:   Intel
+    VRAM:     880 MB (via DXGI)
+    Caps:     Shader=30 DepthRT=1 NativeDepth=1 NativeShadow=1 DF16=1 DF24=0 INTZ=1 RAWZ=0 NULL=1 RESZ=1 SlowINTZ=0
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Initialize engine version: 3.5.6f4
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\P31RestKit.dll (this message is harmless)
+Loading E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\P31RestKit.dll into Unity Child Domain
+- Completed reload, in  0.063 seconds
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\UnityScript.Lang.dll (this message is harmless)
+Platform assembly: E:\U.S. Dept of Energy - Gaming Project\VersionControlEnabled100\Demo2\US-DOEGame-Demo2-v1.1-Windows64bit_Data\Managed\Boo.Lang.dll (this message is harmless)
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 8 unused Assets to reduce memory usage. Loaded Objects now: 772. Operation took 4.629121 ms.
+Setting the mode controller to exploration state
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+eventList.length = 6
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+level Prototype - Level1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+0 possible links
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Building length 1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Updating building count from DrawLinks.js 1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Sucessfully broadcasted update building count from ModeController.js
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+GasStation was added to the grid
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Position Received: (780.0, 15.0, 187.6)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Placing.........Coordinates are: (5.0, 1.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Coordinates: (5.0, 1.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+You cannot build here! Location is marked unbuildable.
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Position Received: (780.0, 15.0, 187.6)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Placing.........Coordinates are: (5.0, 1.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Coordinates: (5.0, 1.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+You cannot build here! Location is marked unbuildable.
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Position Received: (780.0, 15.0, 187.6)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Placing.........Coordinates are: (5.0, 1.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Coordinates: (5.0, 1.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+You cannot build here! Location is marked unbuildable.
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Position Received: (975.0, 15.0, 300.2)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Placing.........Coordinates are: (7.0, 2.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Coordinates: (7.0, 2.0, 0.0)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Can't add component 'MeshRenderer' to House(Clone) because such a component is already added to the game object!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Export/GameObjectExport.cpp Line: 29)
+
+adding buidling to grid
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Selected building is: House(Clone)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Setting selected building to: House(Clone) (UnityEngine.GameObject)
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Setting to link
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Updating building count from DrawLinks.js 2
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Sucessfully broadcasted update building count from ModeController.js
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Not placing building, set to link
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+building menu
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+restart level
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+The referenced script on this Behaviour is missing!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/Mono/MonoBehaviour.cpp Line: 1592)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 828. Operation took 4.797434 ms.
+Setting the mode controller to exploration state
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+eventList.length = 6
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+level Prototype - Level1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+0 possible links
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Building length 1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Updating building count from DrawLinks.js 1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Sucessfully broadcasted update building count from ModeController.js
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+GasStation was added to the grid
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+game menu opened
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Event List clicked
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Event List clicked
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Event List clicked
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Event List clicked
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Updating building count from DrawLinks.js 1
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Sucessfully broadcasted update building count from ModeController.js
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Undo Successful!
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Terrain
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+main menu
+ 
+(Filename: C:/BuildAgent/work/14194e8ce88cdf47/Runtime/ExportGenerated/StandalonePlayer/UnityEngineDebug.cpp Line: 43)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 30 unused Assets to reduce memory usage. Loaded Objects now: 326. Operation took 3.806029 ms.
