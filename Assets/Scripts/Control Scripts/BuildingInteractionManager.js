@@ -34,7 +34,6 @@ static function HandleTapAtPoint(position: Vector2){
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.selectedBuilding = building;
-		Debug.Log("Selected building is: " + building.name);
 		DisplayLinkRange.HighlightBuildingsInRange(building);
 	} else {
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one

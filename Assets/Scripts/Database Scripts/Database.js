@@ -152,8 +152,6 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		IntelSystem.addTurn();		// NEW: for the Intel System
 		
-		ModeController.setSelectedBuilding(temp.buildingPointer);
-		Debug.Log("Setting selected building to: " + ModeController.getSelectedBuilding());
 		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
 		Debug.Log("Setting to link");
 		BroadcastBuildingUpdate();
@@ -238,23 +236,13 @@ static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 {
 	// If z is not zero, must have recieved its world position rather than coordinate
 	// Also, no coordinates will be negative, so correction by absolute value
-	//Debug.Log("Coordinate: " + coordinate);
 	if(coordinate.z != 0)
 	{
-		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.z);
+		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.y);
 		coordinate = new Vector3( Mathf.Abs(tempCoord.x), Mathf.Abs(tempCoord.y), 0);
-		//Debug.Log("Changing coordinate to: " + coordinate);
 	}
 	
-	var index : int = findBuildingIndex(coordinate);
-	
-	if(index > -1)
-		return buildingsOnGrid[index];
-	else
-	{
-		Debug.Log("Building not found at " + coordinate);
-		return null;	// if it returns -1, then it could not find the building
-	}
+	return buildingsOnGrid[findBuildingIndex(coordinate)];
 }
 
 
