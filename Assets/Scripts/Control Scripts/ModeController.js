@@ -135,6 +135,11 @@ static function getSelectedBuilding(){
 	return selectedBuilding;
 }
 
+static function setSelectedBuilding(selected:GameObject)
+{
+	selectedBuilding = selected;
+}
+
 static function getCurrentMode(){
 	return currentMode;
 }
