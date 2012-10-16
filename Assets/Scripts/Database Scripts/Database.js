@@ -152,7 +152,6 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		IntelSystem.addTurn();		// NEW: for the Intel System
 		
-		ModeController.setSelectedBuilding(temp.buildingPointer);
 		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
 		Debug.Log("Setting to link");
 		BroadcastBuildingUpdate();
@@ -206,19 +205,16 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 {
 	var index = 0;
 
-	//Debug.Log(buildingsOnGrid.length);
+
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
-		//Debug.Log("Comparing " + coordinate + " to " + placedBuilding.coordinate);
-		if(coordinate.x == placedBuilding.coordinate.x && coordinate.z == placedBuilding.coordinate.z)
+		if(coordinate == placedBuilding.coordinate)
 		{
 			return index;
 		}
 		
 		index++;
 	}
-	
-	//Debug.Log("Cannot find building at coordinate: " + coordinate);
 	return -1;			// will return -1 if there is no building at the
 						// given coordinate, to be used as a check as
 						// needed if there is no building at the given
@@ -240,14 +236,23 @@ static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 {
 	// If z is not zero, must have recieved its world position rather than coordinate
 	// Also, no coordinates will be negative, so correction by absolute value
+	//Debug.Log("Coordinate: " + coordinate);
 	if(coordinate.z != 0)
 	{
-		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.y);
+		var tempCoord : Vector2 = grid.worldToTileCoordinates( coordinate.x, coordinate.z);
 		coordinate = new Vector3( Mathf.Abs(tempCoord.x), Mathf.Abs(tempCoord.y), 0);
+		//Debug.Log("Changing coordinate to: " + coordinate);
 	}
 	
-	if(buildingsOnGrid[findBuildingIndex(coordinate)] != null)
-		return buildingsOnGrid[findBuildingIndex(coordinate)];
+	var index : int = findBuildingIndex(coordinate);
+	
+	if(index > -1)
+		return buildingsOnGrid[index];
+	else
+	{
+		Debug.Log("Building not found at " + coordinate);
+		return null;	// if it returns -1, then it could not find the building
+	}
 }
 
 

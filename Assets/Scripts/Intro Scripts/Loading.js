@@ -14,5 +14,5 @@ http://docs.unity3d.com/Documentation/ScriptReference/Application.LoadLevelAsync
 function Start ()
 {
 	yield WaitForSeconds(4);
-	Application.LoadLevel(2);
+	Application.LoadLevel("Prototype - Level1");
 }
