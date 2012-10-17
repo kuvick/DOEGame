@@ -228,14 +228,6 @@ function OnGUI()
 					mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
 		{
 			mouseOverGUI = true;
-		
-			if(Input.GetMouseButtonDown(0))
-			{
-				Debug.Log(ModeController.getCurrentMode());
-				cancelLinkMode = true;
-				displayLink.DestroyRangeTiles();
-				outputBuilding = null;
-			}
 		}
 		GUILayout.EndArea();
 	}
@@ -249,6 +241,13 @@ function Update()
 	mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
+	if(!cancelLinkMode && Input.GetMouseButtonDown(0))
+	{
+		Debug.Log(ModeController.getCurrentMode());
+		cancelLinkMode = true;
+		displayLink.DestroyRangeTiles();
+		outputBuilding = null;
+	}
 	
 	if(inputBuilding != null && outputBuilding != null)
 	{
