@@ -74,14 +74,18 @@ function isLinked(b1:GameObject, b2:GameObject){
 function linkBuildings(b1:GameObject, b2:GameObject){
 
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
-	var building1Index:int = Database.findBuildingIndex(b1.transform.position);
-	var building2Index:int = Database.findBuildingIndex(b2.transform.position);
+	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
+	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
+	
+	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
+	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
 	var resource:String = "";
 	var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0);
 	
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
+	//Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
 	
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{

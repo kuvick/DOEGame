@@ -206,11 +206,12 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 {
 	var index = 0;
 
-
 	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
+		//Debug.Log("coordinate: " + coordinate + " building coord: " + placedBuilding.coordinate);
 		if(coordinate == placedBuilding.coordinate)
 		{
+			//Debug.Log("Found match at " + index);
 			return index;
 		}
 		
