@@ -227,6 +227,13 @@ function OnGUI()
 		if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
 					mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
 		{
+			if(Input.GetMouseButtonDown(0))
+			{
+				Debug.Log(ModeController.getCurrentMode());
+				cancelLinkMode = true;
+				displayLink.DestroyRangeTiles();
+				outputBuilding = null;
+			}
 			mouseOverGUI = true;
 		}
 		GUILayout.EndArea();

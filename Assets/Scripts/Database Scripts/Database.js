@@ -287,7 +287,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	
 	var resourceNum : int = 0;
 	
-	//if(!outputBuilding.isActive || !inputBuilding.isActive) return;
+	if(outputBuilding.isActive || inputBuilding.isActive) return;
 	
 	// Checks to see if output is there, the amount of the resource
 	// is above 0, meaning it is avaliable.
