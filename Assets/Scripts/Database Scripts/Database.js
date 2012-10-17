@@ -281,12 +281,13 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
 	
-	
 	var resourceOutputIndex = 0;
 	var resourceInputIndex = 0;
 	var hasResource = false;
 	
 	var resourceNum : int = 0;
+	
+	//if(!outputBuilding.isActive || !inputBuilding.isActive) return;
 	
 	// Checks to see if output is there, the amount of the resource
 	// is above 0, meaning it is avaliable.

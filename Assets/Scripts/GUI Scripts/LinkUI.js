@@ -85,12 +85,12 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
-	//Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
+	Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
 	
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		
+		Debug.Log("Linking bro");
 		//These next two lines may not have to be here, will test further -WF
 		inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
 		outputCount = linkBuilding.outputNum.length;
@@ -241,13 +241,13 @@ function Update()
 	mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
-	if(!cancelLinkMode && Input.GetMouseButtonDown(0))
+	/*if(!cancelLinkMode && Input.GetMouseButtonDown(0))
 	{
 		Debug.Log(ModeController.getCurrentMode());
 		cancelLinkMode = true;
 		displayLink.DestroyRangeTiles();
 		outputBuilding = null;
-	}
+	}*/
 	
 	if(inputBuilding != null && outputBuilding != null)
 	{
