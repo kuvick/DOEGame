@@ -20,10 +20,11 @@ static function Login(){
 		if (InternetConnection.isConnected()){
 			FacebookAndroid.loginWithRequestedPermissions(permisions);
 			hasLoggedIn = true;
-			Score.ShowMessage("Logged in");
-			Debug.Log("FacebookProtocol : logged In");
+			Score.ShowMessage("Logged In");
+			Debug.Log("FacebookProtocol : Logged In");
 		} else {
 			Debug.Log("FacebookProtocol : no internet connection");
+			Score.ShowMessage("No Internet Connection Detected");
 		}
 	#endif
 }
@@ -33,13 +34,19 @@ static function Login(){
 static function PostScoreToFacebook(score:int, level:String){
 	#if UNITY_ANDROID
 		var comment : String = "I just scored " + score + " points on " + level + ". Beat that!";
-		if (hasLoggedIn){
-			PostComment(comment);
+		
+		if (InternetConnection.isConnected()){
+			if (hasLoggedIn){
+				PostComment(comment);
+			} else {
+				Debug.Log("FacebookProtocol : needed to log in");
+				Score.ShowMessage("Need to Log In");
+			}
 		} else {
-			Debug.Log("FacebookProtocol : needed to log in");
-			Score.ShowMessage("Need to Log In");
-			Login();
+			Debug.Log("FacebookProtocol : no internet connection");
+			Score.ShowMessage("No Internet Connection Detected");
 		}
+		
 	#endif
 }
 

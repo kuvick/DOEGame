@@ -40,19 +40,14 @@ function OnGUI()
 			Application.LoadLevel("LoadingScreen");
 		}
 		
-		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 325, 110, 50), "Resume"))
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 250, 110, 50), "Resume"))
 		{
 			Application.LoadLevel("LoadingScreen"); // to be changed when saving and loading is implemented
 		}
 		
-		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 250, 110, 50), "Level Select"))
+		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 175, 110, 50), "Level Select"))
 		{
 			// Application.LoadLevel("LevelSelect"); when implemented
-		}
-		
-		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 175, 110, 50), "Link to Facebook"))
-		{
-			FacebookProtocol.PostScoreToFacebook(12345, "The Outpost");
 		}
 		
 		if(GUI.Button(new Rect(Screen.width/2 - 55, Screen.height - 100, 110, 50), "Exit"))
