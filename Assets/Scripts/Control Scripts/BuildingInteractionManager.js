@@ -17,14 +17,27 @@ enum TapType {
 }
 
 public static var tapMode = TapType.Place;
+private static var paused : boolean = false;
 
 function Start () {
 
 }
 
+function OnPauseGame()
+{
+	paused = true;
+}
+
+function OnResumeGame()
+{
+	yield WaitForEndOfFrame();
+	paused = false;
+}
+
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
+	if(paused) return;
 
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);

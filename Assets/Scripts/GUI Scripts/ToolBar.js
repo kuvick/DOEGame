@@ -16,6 +16,7 @@ Author: Ajinkya Waghulde
 //Variables
 private var toolbarInt : int = -1;
 private var buildingMenuInt : int = -1;
+private var isPaused : boolean = false;
 
 //Note: textures will be assigned from unity inspector.
 var btnTextureArray : Texture[] = new Texture[10];
@@ -232,40 +233,42 @@ function OnGUI()
 				Debug.Log("Undo Failed!");
 		}
 		
-		// added by Derrick, the game menu button
-		// updated by Bomin
-		if(GUI.Button(gameMenuButton, "Game Menu"))
-		{
-			Debug.Log("game menu opened");
-			//GameMenu.SetCurrLevel(Application.loadedLevelName);
-			//Application.LoadLevel("GameMenu");
-			GameMenu.pauseGame();
-		}
-		
 		// *** added by K, IntelSystem Info
 		GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
 		+ IntelSystem.currentTurn);
 		
 		// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
 		GUI.Label(Rect(Screen.width/7*6, Screen.height - 40, Screen.width/2 + 50, 40), "Score: "); // + Database.?
+	
+		//Draw Event List button
+		if(GUI.Button(eventListRect, "Event List"))
+		{
+			Debug.Log("Event List clicked");
+			if(eventListUsed)
+			{
+				eventListUsed = false;
+				showToolbar = true;
+			}
+			else
+			{
+				eventListUsed = true;
+				showToolbar = false;
+			}
+		}
 	}
 	
-	//Draw Event List button
-	if(GUI.Button(eventListRect, "Event List"))
+	// added by Derrick, the game menu button
+	// updated by Bomin
+	if(GUI.Button(gameMenuButton, "Game Menu"))
 	{
-		Debug.Log("Event List clicked");
-		if(eventListUsed)
-		{
-			eventListUsed = false;
-			showToolbar = true;
-		}
-		else
-		{
-			eventListUsed = true;
-			showToolbar = false;
-		}
+		Debug.Log("game menu opened");
+		//GameMenu.SetCurrLevel(Application.loadedLevelName);
+		//Application.LoadLevel("GameMenu");
+		Debug.Log(isPaused);
+		if(!isPaused){ isPaused = true; GameMenu.pauseGame(); }
+		else { isPaused = false; GameMenu.resumeGame(); }
 	}
-	
+
 	if(eventListUsed)
 	{
 		//Background box

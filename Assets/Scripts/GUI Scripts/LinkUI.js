@@ -42,6 +42,7 @@ private var buildingInputNum:int;
 private var buildingOutputNum:int;
 private var outputCount:int;
 private var inputCount:int;
+private var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 
 private var displayLink : DisplayLinkRange;
 
@@ -85,12 +86,12 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
-	Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
+	//Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
 	
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		Debug.Log("Linking bro");
+		//Debug.Log("Linking bro");
 		//These next two lines may not have to be here, will test further -WF
 		inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
 		outputCount = linkBuilding.outputNum.length;
@@ -114,7 +115,6 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	buildings = curBuildings;
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
-	//Debug.Log("Updating building count from LinkUI.js");
 }
 
 function OnGUI()
@@ -185,6 +185,7 @@ function OnGUI()
 							inputBuilding = building;
 						}
 					}
+					else mouseOverGUI = false;
 					GUILayout.EndArea();
 				}
 			}
@@ -213,6 +214,7 @@ function OnGUI()
 						outputBuilding = building;
 					}
 				}
+				else mouseOverGUI = false;
 				GUILayout.EndArea();
 			}
 		}
@@ -221,7 +223,6 @@ function OnGUI()
 	if(!cancelLinkMode)
 	{
 		//Draw Cancel button
-		var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 		GUILayout.BeginArea(cancelRect);
 		GUILayout.Button("Cancel");
 		if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
@@ -229,13 +230,13 @@ function OnGUI()
 		{
 			if(Input.GetMouseButtonDown(0))
 			{
-				Debug.Log(ModeController.getCurrentMode());
 				cancelLinkMode = true;
 				displayLink.DestroyRangeTiles();
 				outputBuilding = null;
 			}
 			mouseOverGUI = true;
 		}
+		else mouseOverGUI = false;
 		GUILayout.EndArea();
 	}
 }
@@ -245,7 +246,7 @@ function Update()
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
 	
-	mouseOverGUI = false;
+	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
 	/*if(!cancelLinkMode && Input.GetMouseButtonDown(0))
