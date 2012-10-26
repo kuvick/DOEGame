@@ -203,7 +203,7 @@ function OnGUI()
 			//Restart level
 			case 1:
 			Debug.Log("restart level");
-			Application.LoadLevel ("Prototype - Level1");  
+			Application.LoadLevel (currLevel);  
 			toolbarInt = -1;
 			break;
 			
