@@ -23,14 +23,18 @@ private var eventSaveAndExitRect : Rect;
 private var eventResumeRect : Rect;
 
 // Private variables for buttons
-private var buttonWidth : float = Screen.width / 4;
-private var buttonHeight : float = Screen.height / 6;
-private var xGrid : float = Screen.width / 16;
-private var yGrid : float = Screen.height / 5;
+private var buttonWidth : float;
+private var buttonHeight : float; 
+private var xGrid : float;
+private var yGrid : float;
 
 private static var currLevel : String;
 
 function Start(){
+	buttonWidth = Screen.width / 4;
+	buttonHeight = Screen.height / 6;
+	xGrid = Screen.width / 16;
+	yGrid = Screen.height / 5;
 	
 	// Initialize the Bounds for the 3 buttons
 	eventLevelSelectRect = Rect	( 1 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
