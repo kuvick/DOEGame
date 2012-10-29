@@ -255,7 +255,7 @@ function Start ()
 		if (isZoomingIn && thisCamera.transform.position.y > closestZoomDistance){
 			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z + zoomingIncrement );
 			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
-		} else if (thisCamera.transform.position.y < farthestZoomDistnace) {
+		} else if (!isZoomingIn && thisCamera.transform.position.y < farthestZoomDistnace) {
 			updatedLocation = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z - zoomingIncrement );
 			thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speed);
 		}
