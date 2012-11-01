@@ -60,6 +60,7 @@ static public var farthestZoomDistnace: float = 550;			// the farthest distance 
 static public var zoomingIncrement: float = 10;					// the incremental distance the camera will zoom in/zoom out
 public var direction: int = 1;							// change to -1 to reverse the direction of the drag
 public var allowCentering: boolean = true;					// enable/disable double-click to center camera on location
+static var hexOrigin: Vector3;
 
 
 function Start ()
@@ -67,7 +68,7 @@ function Start ()
 	zoomStarted = false;								//$$$$CHANGE
 	disableDrag = false;								//$$$$CHANGE
 	
-	
+	hexOrigin = HexagonGrid.tileToWorldCoordinates(0,0);
 
 	thisCamera = Camera.main;
 	clickStarted = false;
@@ -171,8 +172,34 @@ function Start ()
 	// to determine which way to drag the camera, and moves the camera in that direction.
 	static public function Drag(currentInputPos: Vector2)
 	{
-		// need to add in detecting at end of map
+	
+			
 		thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
+		
+		
+		//
+		//var tempVector: Vector3;
+		//tempVector = HexagonGrid.tileToWorldCoordinates(0,0);
+		
+		var totalDimensions: Vector2 = HexagonGrid.totalTileDimensions();
+		
+		//Detects the edge of the map - Left
+		if(thisCamera.transform.position.x <= hexOrigin.x){
+			thisCamera.transform.position = new Vector3(hexOrigin.x, thisCamera.transform.position.y, thisCamera.transform.position.z);
+		}
+		//Detects the edge of the map - Right
+		if(thisCamera.transform.position.x >= hexOrigin.x + totalDimensions.x){
+			thisCamera.transform.position = new Vector3(hexOrigin.x + totalDimensions.x, thisCamera.transform.position.y, thisCamera.transform.position.z);
+		}
+		//Detects the edge of the map - Bottom
+		if(thisCamera.transform.position.z <= hexOrigin.z){
+			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
+		}
+		//Detects the edge of the map - Top
+		if(thisCamera.transform.position.z >= hexOrigin.z + totalDimensions.y - Screen.height /2){
+			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + totalDimensions.y - Screen.height/2);		
+		}
+		
 		
 	/*
 		if (currentMousePos.x == -1 && currentMousePos.y == -1){

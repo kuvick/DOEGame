@@ -54,6 +54,7 @@ var height: int = 10; //number of tiles vertically
 //var terrainHeight: float;
 var showGrid:boolean = true;
 static var tileWidth: float = 130.0f; //width of a hexagon tile
+static var totalDimensions:Vector2;
 static var sideSize: float = tileWidth / Mathf.Cos(Mathf.PI / 6.0f) / 2.0f; //size of a single side of the hexagon
 static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the ascii art below
 /*<-------> tileWidth
@@ -92,6 +93,8 @@ function Start(){
 	if(mainCamera == null){
 		Debug.LogError("Camera not set");
 	}
+	
+	totalDimensions = new Vector2(width * tileWidth, height * tileWidth);
 	
 	gameObject.AddComponent("InputController");
 }
@@ -380,4 +383,9 @@ private function createHexagonGridParticles(){
 */
 static function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
   return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
+}
+
+//returns the dimensions of the grid
+static function totalTileDimensions():Vector2{
+	return totalDimensions;
 }
