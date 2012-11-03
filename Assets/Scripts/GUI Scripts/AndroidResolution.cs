@@ -47,6 +47,6 @@ public class AndroidResolution : MonoBehaviour {
 	
 	        camera.rect = rect;
 	    }
-	}
 #endif
+	}
 }
