@@ -1,5 +1,5 @@
 #pragma strict
 
 function Start () {
-	ResolutionManager.instance.InitializeResolutionSettings();
+	ScreenSettingsManager.instance.CalculateSettings();
 }

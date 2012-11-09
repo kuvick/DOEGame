@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+/*
+ * ResolutionManager.cs
+ * 	Responisble for performing relevant calculations for screen resizing to a set aspect ratio
+ * 
+ */
 
 public class ResolutionManager : MonoBehaviour {
 	public static float widthShift = 0; // records the width of any side bars added ot the screen.
@@ -13,7 +18,7 @@ public class ResolutionManager : MonoBehaviour {
 	public static ResolutionManager instance{
 		get {
             if (rm_instance == null) {
-                //  FindObjectOfType(...) returns the first AManager object in the scene.
+                //  FindObjectOfType(...) returns the first ResolutionManager in the scene.
                 rm_instance =  FindObjectOfType(typeof (ResolutionManager)) as ResolutionManager;
             }
  
