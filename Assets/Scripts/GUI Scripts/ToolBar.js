@@ -10,7 +10,6 @@ building menu window.
 Note: Attach the script to Main Camera.
 
 Author: Ajinkya Waghulde
-
 **********************************************************/
 
 //Variables
@@ -47,7 +46,7 @@ private var topPaddingPercent = 1;
 private var windowHeightPercent = 20;
 // The tool bar for buildings as a perecentage of screen size in that direction
 private var toolBarWidthPercent = 30;
-private var toolBarHeightPercent = 100 - (topPaddingPercent + windowHeightPercent); // make the toolbar fill up the screen space below the menu
+private var toolBarHeightPercent = ResolutionManager.instance.scaleHeight - (topPaddingPercent + windowHeightPercent); // make the toolbar fill up the screen space below the menu
 
 private var screenWidth: float;
 private var screenHeight: float;
