@@ -103,7 +103,6 @@ function Awake(){
 	btnTextureArray[7] = btnTexture7;
 	btnTextureArray[8] = btnTexture8;
 	btnTextureArray[9] = btnTexture9;
-
 }
 
 function Start(){
