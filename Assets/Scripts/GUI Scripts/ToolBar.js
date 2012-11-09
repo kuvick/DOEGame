@@ -120,7 +120,7 @@ function Start(){
 	Debug.Log("screenHeight = " + screenHeight + ", Screen.height = " + Screen.height + ", toolBarHeight = " + toolBarHeight + ", ScreenSettingsManager.instance.horizontalBarHeight = " + ScreenSettingsManager.instance.horizontalBarHeight);
 	
 	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + ScreenSettingsManager.instance.verticalBarWidth;
-	toolBarTopLeftY = screenHeight-toolBarHeight + ScreenSettingsManager.instance.horizontalBarHeight;
+	toolBarTopLeftY = windowHeight + topPadding + ScreenSettingsManager.instance.horizontalBarHeight;
 	
 	Debug.Log("toolBarTopLeftX = " + toolBarTopLeftX + ", toolBarTopLeftY = " + toolBarTopLeftY);
 	toolbarWindow = Rect(sidePadding + ScreenSettingsManager.instance.verticalBarWidth, topPadding + ScreenSettingsManager.instance.horizontalBarHeight, screenWidth-(2*sidePadding), windowHeight);

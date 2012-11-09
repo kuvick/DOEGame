@@ -72,6 +72,7 @@ public class ResolutionManager : MonoBehaviour {
 		else // add pillarbox
 	    {
 	        scaleWidth = 1.0f / scaleHeight;
+			scaleHeight = 1;
 	
 	        Rect rect = camera.rect;
 	
