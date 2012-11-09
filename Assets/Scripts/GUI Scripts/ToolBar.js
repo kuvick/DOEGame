@@ -106,6 +106,9 @@ function Awake(){
 
 function Start(){
 	showToolbar = true;
+	
+	var leftX = ScreenSettingsManager.instance.verticalBarWidth;
+	var topY = ScreenSettingsManager.instance.horizontalBarHeight;
 
 	// Need to determine screen size and density at start time for accurate reading
 	screenWidth = ScreenSettingsManager.instance.screenWidth;
@@ -115,15 +118,11 @@ function Start(){
 	windowHeight = screenHeight*windowHeightPercent;
 	toolBarWidth = screenWidth*toolBarWidthPercent;
 	toolBarHeight = screenHeight-windowHeight-(topPadding*2);
-	Debug.Log("windowHeight = " + windowHeight);
-	Debug.Log("toolBarHeightPercent = " + toolBarHeightPercent);
-	Debug.Log("screenHeight = " + screenHeight + ", Screen.height = " + Screen.height + ", toolBarHeight = " + toolBarHeight + ", ScreenSettingsManager.instance.horizontalBarHeight = " + ScreenSettingsManager.instance.horizontalBarHeight);
 	
-	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + ScreenSettingsManager.instance.verticalBarWidth;
-	toolBarTopLeftY = windowHeight + topPadding + ScreenSettingsManager.instance.horizontalBarHeight;
+	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + leftX;
+	toolBarTopLeftY = windowHeight + topPadding + topY;
 	
-	Debug.Log("toolBarTopLeftX = " + toolBarTopLeftX + ", toolBarTopLeftY = " + toolBarTopLeftY);
-	toolbarWindow = Rect(sidePadding + ScreenSettingsManager.instance.verticalBarWidth, topPadding + ScreenSettingsManager.instance.horizontalBarHeight, screenWidth-(2*sidePadding), windowHeight);
+	toolbarWindow = Rect(sidePadding + leftX, topPadding + topY, screenWidth-(2*sidePadding), windowHeight);
 	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
 	
 	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
