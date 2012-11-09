@@ -1,6 +1,6 @@
 #pragma strict
 
 function Awake () {
-	Debug.Log("test");
+	DontDestroyOnLoad (transform.gameObject);
 	ScreenSettingsManager.instance.CalculateSettings();
 }
