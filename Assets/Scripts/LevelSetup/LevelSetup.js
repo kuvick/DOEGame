@@ -1,5 +1,6 @@
 #pragma strict
 
-function Start () {
+function Awake () {
+	Debug.Log("test");
 	ScreenSettingsManager.instance.CalculateSettings();
 }

@@ -114,11 +114,15 @@ function Start(){
 	topPadding = screenHeight*topPaddingPercent;
 	windowHeight = screenHeight*windowHeightPercent;
 	toolBarWidth = screenWidth*toolBarWidthPercent;
-	toolBarHeight = screenHeight*toolBarHeightPercent;
+	toolBarHeight = screenHeight-windowHeight-(topPadding*2);
+	Debug.Log("windowHeight = " + windowHeight);
+	Debug.Log("toolBarHeightPercent = " + toolBarHeightPercent);
+	Debug.Log("screenHeight = " + screenHeight + ", Screen.height = " + Screen.height + ", toolBarHeight = " + toolBarHeight + ", ScreenSettingsManager.instance.horizontalBarHeight = " + ScreenSettingsManager.instance.horizontalBarHeight);
 	
 	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + ScreenSettingsManager.instance.verticalBarWidth;
 	toolBarTopLeftY = screenHeight-toolBarHeight + ScreenSettingsManager.instance.horizontalBarHeight;
 	
+	Debug.Log("toolBarTopLeftX = " + toolBarTopLeftX + ", toolBarTopLeftY = " + toolBarTopLeftY);
 	toolbarWindow = Rect(sidePadding + ScreenSettingsManager.instance.verticalBarWidth, topPadding + ScreenSettingsManager.instance.horizontalBarHeight, screenWidth-(2*sidePadding), windowHeight);
 	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
 	

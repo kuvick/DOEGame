@@ -42,9 +42,13 @@ public class ResolutionManager : MonoBehaviour {
 	
 	    // determine the game window's current aspect ratio
 	    float windowaspect = (float)Screen.width / (float)Screen.height;
+		
+		Debug.Log("screenheight = " + (float)Screen.height);
 	
 	    // current viewport height should be scaled by this amount
-	    float scaleHeight = windowaspect / targetaspect;
+	    scaleHeight = windowaspect / targetaspect;
+		Debug.Log("scaleHeight = " + (float)scaleHeight);
+		
 	
 	    // obtain camera component so we can modify its viewport
 	    Camera camera = Camera.main;
@@ -58,6 +62,8 @@ public class ResolutionManager : MonoBehaviour {
 	        rect.height = scaleHeight;
 	        rect.x = 0;
 	        rect.y = (1.0f - scaleHeight) / 2.0f;
+			Debug.Log("scaleHeight = " + (float)scaleHeight);
+			
 			
 			heightShift = rect.y;
 	        

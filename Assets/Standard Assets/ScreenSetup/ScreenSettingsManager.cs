@@ -44,18 +44,21 @@ public class ScreenSettingsManager : MonoBehaviour {
 	// will call all apropriate functions to dynamically calculate the screen settings
 	public static void CalculateSettings(){
 		ResolutionManager.instance.InitializeResolutionSettings();
+		Debug.Log("ResolutionManager.scaleHeight = " + ResolutionManager.scaleHeight);
+		
 		CalulateScreenDimensions();
 		CalculateBarSizes();
 	}
 	
 	// will calulate the screen's width and height with respect to resolution changes
 	private static void CalulateScreenDimensions(){
+		Debug.Log("ResolutionManager.scaleHeight = " + ResolutionManager.scaleHeight);
 		screenWidth = Screen.width * ResolutionManager.scaleWidth;
-		screenHeight = Screen.width * ResolutionManager.scaleHeight;
+		screenHeight = Screen.height * ResolutionManager.scaleHeight;
 	}
 	
 	private static void CalculateBarSizes(){
 		verticalBarWidth = Screen.width * ResolutionManager.widthShift;
-		horizontalBarHeight = Screen.width * ResolutionManager.heightShift;
+		horizontalBarHeight = Screen.height * ResolutionManager.heightShift;
 	}
 }
