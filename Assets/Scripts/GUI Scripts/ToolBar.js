@@ -40,13 +40,13 @@ private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Building
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 
 // Padding as a percent of total screen size in that direction
-private var sidePaddingPercent = 1; // the space between all gui elements and the left and right side of the screen
-private var topPaddingPercent = 1;
+private var sidePaddingPercent = .01; // the space between all gui elements and the left and right side of the screen
+private var topPaddingPercent = .01;
 // height of the window as a percentage of the screen's height
-private var windowHeightPercent = 20;
+private var windowHeightPercent = .2;
 // The tool bar for buildings as a perecentage of screen size in that direction
-private var toolBarWidthPercent = 30;
-private var toolBarHeightPercent = ResolutionManager.instance.scaleHeight - (topPaddingPercent + windowHeightPercent); // make the toolbar fill up the screen space below the menu
+private var toolBarWidthPercent = .3;
+private var toolBarHeightPercent = 1 - (topPaddingPercent + windowHeightPercent); // make the toolbar fill up the screen space below the menu
 
 private var screenWidth: float;
 private var screenHeight: float;
@@ -108,18 +108,18 @@ function Start(){
 	showToolbar = true;
 
 	// Need to determine screen size and density at start time for accurate reading
-	screenWidth = Screen.width;
-	screenHeight = Screen.height;
-	sidePadding = screenWidth*(sidePaddingPercent/100.0);
-	topPadding = screenHeight*(topPaddingPercent/100.0);
-	windowHeight = screenHeight*(windowHeightPercent/100.0);
-	toolBarWidth = screenWidth*(toolBarWidthPercent/100.0);
-	toolBarHeight = screenHeight*(toolBarHeightPercent/100.0);
+	screenWidth = ScreenSettingsManager.instance.screenWidth;
+	screenHeight = ScreenSettingsManager.instance.screenHeight;
+	sidePadding = screenWidth*sidePaddingPercent;
+	topPadding = screenHeight*topPaddingPercent;
+	windowHeight = screenHeight*windowHeightPercent;
+	toolBarWidth = screenWidth*toolBarWidthPercent;
+	toolBarHeight = screenHeight*toolBarHeightPercent;
 	
-	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth;
-	toolBarTopLeftY = screenHeight-toolBarHeight;
+	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + ScreenSettingsManager.instance.verticalBarWidth;
+	toolBarTopLeftY = screenHeight-toolBarHeight + ScreenSettingsManager.instance.horizontalBarHeight;
 	
-	toolbarWindow = Rect(sidePadding, topPadding, screenWidth-(2*sidePadding), windowHeight);
+	toolbarWindow = Rect(sidePadding + ScreenSettingsManager.instance.verticalBarWidth, topPadding + ScreenSettingsManager.instance.horizontalBarHeight, screenWidth-(2*sidePadding), windowHeight);
 	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
 	
 	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
