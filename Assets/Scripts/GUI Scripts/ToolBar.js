@@ -68,6 +68,7 @@ public static var undoButton : Rect;		//*** added by K
 public static var gameMenuButton : Rect;   // added by D for game menu
 
 private var showToolbar : boolean;
+private var savedShowToolbar : boolean; //Current showToolbar status saved
 
 //EVENT LIST VARIABLES
 public static var eventList : EventLinkedList;
@@ -106,6 +107,7 @@ function Awake(){
 
 function Start(){
 	showToolbar = true;
+	savedShowToolbar = showToolbar;
 	
 	var leftX = ScreenSettingsManager.instance.verticalBarWidth;
 	var topY = ScreenSettingsManager.instance.horizontalBarHeight;
@@ -179,7 +181,24 @@ function Start(){
 
 function OnGUI() 
 {
-	//showWindow = false;
+	//Draw Event List button
+	if(GUI.Button(eventListRect, "Event List"))
+	{
+		Debug.Log("Event List clicked");
+		if(eventListUsed)
+		{
+			eventListUsed = false;
+			showToolbar = savedShowToolbar;
+			savedShowToolbar = showToolbar;
+		}
+		else
+		{
+			eventListUsed = true;
+			savedShowToolbar = showToolbar;
+			showToolbar = false;	
+		}
+	}
+
 
 	if(showToolbar)
 	{
@@ -192,7 +211,7 @@ function OnGUI()
 				ModeController.setCurrentMode(GameState.EXPLORE);
 		}
 		
-			switch(toolbarInt)
+		switch(toolbarInt)
 		{
 			//Main menu
 			case 0:
@@ -240,22 +259,6 @@ function OnGUI()
 		
 		// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
 		GUI.Label(Rect(Screen.width/7*6, Screen.height - 40, Screen.width/2 + 50, 40), "Score: "); // + Database.?
-	
-		//Draw Event List button
-		if(GUI.Button(eventListRect, "Event List"))
-		{
-			Debug.Log("Event List clicked");
-			if(eventListUsed)
-			{
-				eventListUsed = false;
-				showToolbar = true;
-			}
-			else
-			{
-				eventListUsed = true;
-				showToolbar = false;
-			}
-		}
 	}
 	
 	// added by Derrick, the game menu button
@@ -269,7 +272,7 @@ function OnGUI()
 		if(!isPaused){ isPaused = true; GameMenu.pauseGame(); }
 		else { isPaused = false; GameMenu.resumeGame(); }
 	}
-
+	
 	if(eventListUsed)
 	{
 		//Background box
@@ -394,10 +397,12 @@ static function NotOnGui(screenInputPosistion: Vector2){
 function OnPauseGame()
 {
 	showToolbar = false;
+	savedShowToolbar = showToolbar;
 }
 
 function OnResumeGame()
 {
 	showToolbar = true;
+	savedShowToolbar = showToolbar;
 }
 ///////////////////////////////////////////////// (Bomin)
