@@ -38,6 +38,8 @@ public var buildings:GameObject[];
 static public var linkRange:Vector3;// = Vector3(400, 400, 400);
 static var tileRange = Database.TILE_RANGE;
 private var gridBuilding:BuildingOnGrid;
+private var selectedGridBuilding:BuildingOnGrid;
+private var selectedBuildingOutputs:String[];
 private var buildingInputNum:int;
 private var buildingOutputNum:int;
 private var outputCount:int;
@@ -104,7 +106,7 @@ static function isInRange(b1:GameObject, b2:GameObject)
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
 		
-	if(Mathf.Abs(b2Position.x - b1Position.x) <= (HexagonGrid.tileWidth * tileRange))
+	if(Mathf.Abs(b2Position.x - b1Position.x) < (HexagonGrid.tileWidth * tileRange))
 		return true;
 		
 	return false;
@@ -126,6 +128,12 @@ function OnGUI()
 	
 	if(buildings.Length == 0)
 		return; //no point in updating 
+	
+	if(selectedBuilding == null)
+		return;
+		
+	selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+	selectedBuildingOutputs = selectedGridBuilding.outputName;
 	
 	//Draw IO buttons
 	for(var building:GameObject in buildings)
@@ -172,7 +180,15 @@ function OnGUI()
 				{
 					if(i > 0)
 						inputRect.y += 30;
-
+					GUI.enabled = false;
+					for (var outName:String in selectedBuildingOutputs)
+					{
+						if (gridBuilding.inputName[input] == outName)
+						{
+							GUI.enabled = true;
+							break;
+						}
+					}
 					GUILayout.BeginArea(inputRect);
 					GUILayout.Button("I");
 					if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
@@ -187,6 +203,7 @@ function OnGUI()
 					}
 					else mouseOverGUI = false;
 					GUILayout.EndArea();
+					GUI.enabled = true;
 				}
 			}
 

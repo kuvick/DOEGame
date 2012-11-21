@@ -33,7 +33,7 @@ static public var buildingsOnGrid = new Array();
 
 
 	// The amount of tiles a building has in range, can be specific to building later on
-static public var TILE_RANGE = 2;
+static public var TILE_RANGE = 3;
 
 
 //Undo-related variables:
