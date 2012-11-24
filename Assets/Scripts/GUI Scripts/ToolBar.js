@@ -124,17 +124,13 @@ function Start(){
 	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + leftX;
 	toolBarTopLeftY = windowHeight + topPadding + topY;
 	
-	toolbarWindow = Rect(sidePadding + leftX, topPadding + topY, screenWidth-(2*sidePadding), windowHeight);
-	buildingMenuWindow = Rect (toolBarTopLeftX, toolBarTopLeftY, toolBarWidth, toolBarHeight);
-	
-	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
-	
-	
-	
-	gameMenuButton = Rect (0,Screen.height - 150,100,50);	// *** added by D, puts game menu button in bottom left corner above undo and intel system
+	toolbarWindow = RectFactory.NewRect(.01,.01,.98,.3);
+	buildingMenuWindow = RectFactory.NewRect(.7,.32,.3,.68);
+	undoButton = RectFactory.NewRect(0,.85);// *** added by K, puts undo button in bottom left corner
+	gameMenuButton = RectFactory.NewRect(0,.7);// *** added by D, puts game menu button in bottom left corner above undo and intel system
 	
 	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
-	eventListRect = Rect(0, Screen.height - 100, 100, 50);
+	eventListRect = RectFactory.NewRect(0,.55);
 	eventListBGRect = Rect(50, 50, screenWidth - 100, screenHeight - 100);
 	eventListTurnRect = Rect(eventListBGRect.x + eventListBGRect.width - 60, eventListBGRect.y + 10, 50, 50);
 	eventListScrollRect = Rect(eventListBGRect.x + 10, eventListTurnRect.y + eventListTurnRect.height + 10, eventListBGRect.width - 10, eventListBGRect.height - eventListTurnRect.height * 2 - 20);
@@ -256,11 +252,10 @@ function OnGUI()
 		}
 		
 		// *** added by K, IntelSystem Info
-		GUI.Label(Rect(Screen.width/7, Screen.height - 40, Screen.width/2 + 50, 40), "Current Turn: "
-		+ IntelSystem.currentTurn);
+		GUI.Label(RectFactory.NewRect(.21,.95), "Current Turn: " + IntelSystem.currentTurn);
 		
 		// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
-		GUI.Label(Rect(Screen.width/7*6, Screen.height - 40, Screen.width/2 + 50, 40), "Score: "); // + Database.?
+		GUI.Label(RectFactory.NewRect(.21,.9), "Score: "); // + Database.?
 	}
 	
 	// added by Derrick, the game menu button
@@ -325,8 +320,7 @@ function Update()
 {
 	var currNode : EventNode = eventList.head;
 	while(currNode != null)
-	{
-		
+{
 		currNode = currNode.next;
 	}
 }
@@ -371,8 +365,7 @@ function BuildingMenuFunc (windowID : int) {
 		GUI.EndScrollView ();
 }
 
-function ToggleBuildingWindowVisibility()
-{
+function ToggleBuildingWindowVisibility(){
 	showWindow = !showWindow;
 }
 

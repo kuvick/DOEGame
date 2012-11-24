@@ -15,8 +15,8 @@
 ****************************************************************************************************************/
 
 // The standard height and width percentage of all rectangles when a new rectangle's dimensions are not specified 
-public static var standardWidthPercent : float = .25;
-public static var standardHeightPercent : float = .1;
+public static var standardWidthPercent : float = .2;
+public static var standardHeightPercent : float = .15;
 
 /*
 	Rect NewRect(float topLeftXPercentage, float topLeftYPercentage)
