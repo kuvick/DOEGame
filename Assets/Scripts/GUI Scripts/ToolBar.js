@@ -129,6 +129,8 @@ function Start(){
 	
 	undoButton = Rect (0,Screen.height - 50,100,50);	// *** added by K, puts undo button in bottom left corner
 	
+	
+	
 	gameMenuButton = Rect (0,Screen.height - 150,100,50);	// *** added by D, puts game menu button in bottom left corner above undo and intel system
 	
 	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
@@ -354,7 +356,7 @@ function BuildingMenuFunc (windowID : int) {
 
 			//Debug.Log("Building: at index " + i);
 			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-			
+			/*
         	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
@@ -362,7 +364,7 @@ function BuildingMenuFunc (windowID : int) {
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
         												+ " [" + data.buildings[i].outputNum + "]");
-        											
+        											*/
 
 		}
 		

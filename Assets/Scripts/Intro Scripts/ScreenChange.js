@@ -30,6 +30,7 @@ private var buttonHeight : float;
 private var xGrid : float;
 private var yGrid : float;
 
+private var currentTexture : Texture = firstSlide;
 
 function Start ()
 {
@@ -45,19 +46,20 @@ function Start ()
 	eventScoreScreenRect = Rect( 8.5 * xGrid, 4 * yGrid, buttonWidth, buttonHeight );
 
 	if (showSplash) {
-		yield WaitForSeconds(1);
-		renderer.material.mainTexture = firstSlide;
+		currentTexture = firstSlide;
 		yield WaitForSeconds(2);
-		renderer.material.mainTexture = secondSlide;
+		currentTexture = secondSlide;
 		yield WaitForSeconds(2);
+		currentTexture = thirdSlide;
 		showSplash = false;
 	}
-	renderer.material.mainTexture = thirdSlide;
 }
 
 function OnGUI()
 {
-	if(renderer.material.mainTexture == thirdSlide)
+	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1),currentTexture); 
+	
+	if(!showSplash)
 	{
 		if(GUI.Button(eventStartGameRect, "Start Game"))
 		{

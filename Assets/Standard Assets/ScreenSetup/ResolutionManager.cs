@@ -62,8 +62,6 @@ public class ResolutionManager : MonoBehaviour {
 	        rect.height = scaleHeight;
 	        rect.x = 0;
 	        rect.y = (1.0f - scaleHeight) / 2.0f;
-			Debug.Log("scaleHeight = " + (float)scaleHeight);
-			
 			
 			heightShift = rect.y;
 	        
