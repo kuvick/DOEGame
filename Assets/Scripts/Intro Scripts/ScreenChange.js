@@ -15,36 +15,16 @@ public var thirdSlide : Texture;
 
 private static var showSplash : boolean = true;
 
-
 private var eventStartGameRect: Rect;
 private var eventResumeRect : Rect;
 private var eventLevelSelectRect : Rect;
 private var eventExitRect : Rect;
 private var eventScoreScreenRect : Rect;
 
-// the dimensions of the buttons
-private var buttonWidth : float;
-private var buttonHeight : float; 
-
-// the size of each unit on a grid placed on the screen
-private var xGrid : float;
-private var yGrid : float;
-
 private var currentTexture : Texture = firstSlide;
 
-function Start ()
-{
-	buttonWidth = Screen.width / 4;
-	buttonHeight = Screen.height / 6;
-	xGrid = Screen.width / 16;
-	yGrid = Screen.height / 5;
-	
-	eventStartGameRect = Rect( 3.5 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
-	eventResumeRect = Rect( 8.5 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
-	eventLevelSelectRect = Rect( 3.5 * xGrid, 4 * yGrid, buttonWidth, buttonHeight );
-	eventExitRect = Rect( 12 * xGrid, 0 * yGrid, buttonWidth, buttonHeight );
-	eventScoreScreenRect = Rect( 8.5 * xGrid, 4 * yGrid, buttonWidth, buttonHeight );
-
+function Start (){
+	InitButtons();
 	if (showSplash) {
 		currentTexture = firstSlide;
 		yield WaitForSeconds(2);
@@ -88,14 +68,14 @@ function OnGUI()
 	}
 }
 
-static function SetShowSplash (sSplash : boolean)
-{
+static function SetShowSplash (sSplash : boolean){
 	showSplash = sSplash;
 }
 
-/*
-function Update()
-{
-	gameObject.transform.localScale = new Vector3( ( Screen.width / 119 ) + 5, ( Screen.height / 119 ) + 5, 1);
+function InitButtons(){
+	eventStartGameRect = RectFactory.NewRect(.2,.6);
+	eventResumeRect = RectFactory.NewRect(.6,.6);
+	eventLevelSelectRect = RectFactory.NewRect(.2,.8);
+	eventExitRect = RectFactory.NewRect(.8,0);
+	eventScoreScreenRect = RectFactory.NewRect(.6,.8);
 }
-*/
