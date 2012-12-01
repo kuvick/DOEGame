@@ -26,7 +26,6 @@ public class ResolutionManager : MonoBehaviour {
             if (rm_instance == null) {
                 GameObject obj = new GameObject("ResolutionManager");
                 rm_instance = obj.AddComponent(typeof (ResolutionManager)) as ResolutionManager;
-                Debug.Log("Could not locate an ResolutionManager object. ResolutionManager was Generated Automaticly.");
             }
  
             return rm_instance;
@@ -43,12 +42,8 @@ public class ResolutionManager : MonoBehaviour {
 	    // determine the game window's current aspect ratio
 	    float windowaspect = (float)Screen.width / (float)Screen.height;
 		
-		Debug.Log("screenheight = " + (float)Screen.height);
-	
 	    // current viewport height should be scaled by this amount
-	    scaleHeight = windowaspect / targetaspect;
-		Debug.Log("scaleHeight = " + (float)scaleHeight);
-		
+	    scaleHeight = windowaspect / targetaspect;		
 	
 	    // obtain camera component so we can modify its viewport
 	    Camera camera = Camera.main;
