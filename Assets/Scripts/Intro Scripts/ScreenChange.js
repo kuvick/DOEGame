@@ -30,13 +30,15 @@ function Start (){
 		yield WaitForSeconds(2);
 		currentTexture = secondSlide;
 		yield WaitForSeconds(2);
-		currentTexture = thirdSlide;
 		showSplash = false;
 	}
+	
+	currentTexture = thirdSlide; 
 }
 
 function OnGUI()
 {
+	//if (currentTexture == null) currentTexture = thirdSlide; // if we are return
 	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1),currentTexture); 
 	
 	if(!showSplash)
@@ -53,7 +55,8 @@ function OnGUI()
 		
 		if(GUI.Button(eventLevelSelectRect, "Level Select"))
 		{
-			// Application.LoadLevel("LevelSelect"); when implemented
+			
+			Application.LoadLevel("LevelSelectScreen");
 		}
 		
 		if(GUI.Button(eventExitRect, "Exit"))
@@ -70,6 +73,11 @@ function OnGUI()
 
 static function SetShowSplash (sSplash : boolean){
 	showSplash = sSplash;
+}
+
+function ChangeScreen(newScreen : String){
+	showSplash = false; 
+	
 }
 
 function InitButtons(){
