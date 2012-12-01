@@ -22,7 +22,7 @@ function levelSelectMenu() {
 	var vertOffsetAmount = 300;
 	var numberDone = 0; //Counts up to 5 GUI boxes then resets and moves everything down
 
-	for	(i = 1; i <= numberOfLevels; i++){
+	for	(var i = 1; i <= numberOfLevels; i++){
 	
 		if (numberDone >= levelsPerRow){
 			vertOffsetAmount -= 150;
