@@ -35,30 +35,17 @@ private static var showToast : boolean = false;
 private static var toastTime : int;
 private static var toastMsg : String = "";
 
+public var backgroundTexture : Texture;
+
 function Start(){
 	/*
 		Initialize the Bounds for the 4 buttons
 	*/
-	eventRetryLevelRect = Rect(	borderBuffer, 
-								Screen.height - Screen.height / 6, 
-								Screen.width / 4, 
-								Screen.height / 6);
-	eventPostScoreToFBRect = Rect(Screen.width/2 - Screen.width/8, 
-								Screen.height - Screen.height / 6, 
-								Screen.width / 4, 
-								Screen.height / 6);
-	eventLoginToFBRect = Rect(Screen.width/2 - Screen.width/8, 
-								Screen.height - Screen.height / 3, 
-								Screen.width / 4, 
-								Screen.height / 6);
-	eventNextLevelRect = Rect(Screen.width - Screen.width/4 - borderBuffer, 
-								Screen.height - Screen.height / 6, 
-								Screen.width / 4, 
-								Screen.height / 6);
-	eventBackToStartRect = Rect(Screen.width - Screen.width/4 - borderBuffer, 
-								borderBuffer,
-								Screen.width / 4, 
-								Screen.height / 6);
+	eventRetryLevelRect = RectFactory.NewRect(0,.85);
+	eventPostScoreToFBRect = RectFactory.NewRect(.4,.85);
+	eventLoginToFBRect = RectFactory.NewRect(.4,.7);
+	eventNextLevelRect = RectFactory.NewRect(.8,.85);
+	eventBackToStartRect = RectFactory.NewRect(.8,0);
 								
 								
 	/*
@@ -87,6 +74,7 @@ function Update() {
 }
 
 function OnGUI(){
+	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1),backgroundTexture); 
 	
 	DrawScores();
 	
@@ -107,10 +95,6 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventPostScoreToFBRect, scoreStrings[1]))
 	{
-		/*
-			TODO: Post Scores to Facebook
-		*/
-						
 		FacebookProtocol.PostScoreToFacebook(totalScore, "The Outpost");		
 	}
 	
@@ -148,7 +132,7 @@ function OnGUI(){
 	
 	// shows messages
 	if (showToast){
-		GUI.Label(Rect(Screen.width/2 - 50, Screen.height/2, 100, 50), toastMsg);
+		GUI.Label(RectFactory.NewRect(.2,.5), toastMsg);
 	}
 }
 
@@ -159,7 +143,7 @@ function DrawScores(){
 					 "\nBonus Score:     " + bonusScore +
 				     "\nTotal Score:        " + totalScore;
 
-	GUI.Box(Rect(Screen.width/3, Screen.height/3, Screen.width/3, Screen.height/3), text, newStyle);
+	GUI.Box(RectFactory.NewRect(.38,.38,.3,.3), text, newStyle);
 }
 
 // will set things to show a message on screen
