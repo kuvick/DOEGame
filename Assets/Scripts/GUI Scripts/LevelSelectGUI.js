@@ -5,14 +5,17 @@ var levelNames: String[]; //input names into the inspector panel to create butto
 var levelsPerRow : int = 5;
 var levelsCompleted : int = 0; //not sure how you want to integrate this into the full game but for
 					      //now levelsUnlocked is how you test locking and unlocking levels
+var nonLevelScenes : int = 4; // number of non-level scenes, change as necessary
+var baseLevelScene : int; // 
 					  
 
 @HideInInspector
 var numberOfLevels : int;
 
 function Start() {
-	numberOfLevels = levelNames.length;
-	PlayerPrefs.SetInt("currentLevel", levelsCompleted); //Just get rid of this and move the functionality into whatever script determines level completion
+	numberOfLevels = Application.levelCount - nonLevelScenes;//levelNames.length;
+	baseLevelScene = nonLevelScenes;
+	PlayerPrefs.SetInt("currentLevel", baseLevelScene + levelsCompleted); //Just get rid of this and move the functionality into whatever script determines level completion
 }
 
 function levelSelectMenu() {
@@ -30,7 +33,7 @@ function levelSelectMenu() {
 	
 		GUI.BeginGroup(Rect((Screen.width / 2) - horizOffsetAmount,(Screen.height / 2) - vertOffsetAmount, 250, 250));
     
-    		GUI.Box(Rect(90, 120, 120, 20), "" + levelNames[i-1]);
+    		GUI.Box(Rect(90, 120, 120, 20), "Level " + i); //+ levelNames[i-1]);
 
 			if (i <= nextLevel) {
    		 		if(GUI.Button(Rect(100, 20, 100, 100), "Graphic Here")) { //Replace "" with mapTexture when assets available
@@ -42,10 +45,10 @@ function levelSelectMenu() {
    			}  	    
     	GUI.EndGroup();
     	
-    horizOffsetAmount -= 150; 
-    numberDone++;	
+    	horizOffsetAmount -= 150; 
+    	numberDone++;	
 
-	} 	
+	} 
 	
     if(GUI.Button(RectFactory.NewRect(0,.85), "<- Menu")) {
    		Application.LoadLevel("StartScreen");
