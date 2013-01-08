@@ -80,9 +80,6 @@ static public var selectionPosition: Vector3;
 function Start(){
 	mainCamera = Camera.main;
 	
-	//plane.SetNormalAndPosition();
-
-	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
 	if(hexagon == null){
 		createHexagonMesh();
@@ -152,29 +149,6 @@ function Update(){
 	//set y to be just above the ground plane at 0.1 so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
-
-	/*
-	Debug.Log(	"Position X : " 
-				+ Input.mousePosition.x 
-				+ " Position Y : " 
-				+ Input.mousePosition.y 
-				+ " Position Z :" 
-				+ Input.mousePosition.z 
-				+ " worldx :" 
-				+ worldPoint.x 
-				+ " worldy :" 
-				+ worldPoint.y 
-				+ " worldz :" 
-				+ worldPoint.z 
-				+ " mousetilex" 
-				+ mouseTile.x
-				+ " mousetiley"
-				+ mouseTile.y);*/
-
-	//placing a building	
-
-			
-	//var buildPosition: Vector3 = new Vector3(worldPoint.x, 15, worldPoint.z);	
 }
 
 //get a tile object at coordinate x, y
@@ -279,11 +253,10 @@ private function createHexagonGridParticles(){
 			//need to add half the size of the hexagon since the particles are centered	
 			position.x += tileHalfWidth;
 			position.z += tileHalfHeight;//(sideSize * 1.5f  + peakSize) / 2;
-			//old math new Vector3(x * tileWidth + (y % 2) * tileWidth / 2 + tileWidth / 2 , 0, y * sideSize * 1.5f + (sideSize * 1.5f  + peakSize) / 2);
 			var particle: ParticleSystem.Particle = new ParticleSystem.Particle();
 			particle.position = position;
 			particle.rotation = 45;
-			particle.size = tileWidth * 1.7f;//need to fix this number, I do not know how to get it mathematically
+			particle.size = tileWidth * 1.7f; //need to fix this number, I do not know how to get it mathematically
 			hexParticles[y * width + x] = particle;
 		}
 	}
@@ -370,9 +343,6 @@ private function createHexagonGridParticles(){
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
 	plane.Raycast(ray, enter);
 	var worldPoint: Vector3 = ray.GetPoint(enter);
-	//bounds checking for negative coordinates
-	//worldPoint.x = worldPoint.x < 0 ? 0: worldPoint.x;
-	//worldPoint.z = worldPoint.z < 0 ? 0: worldPoint.z;
 	var inputTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
 	inputTile.x = inputTile.x < 0 ? 0: inputTile.x;
 	inputTile.y = inputTile.y < 0 ? 0: inputTile.y;

@@ -263,8 +263,6 @@ function OnGUI()
 	if(GUI.Button(gameMenuButton, "Game Menu"))
 	{
 		Debug.Log("game menu opened");
-		//GameMenu.SetCurrLevel(Application.loadedLevelName);
-		//Application.LoadLevel("GameMenu");
 		Debug.Log(isPaused);
 		if(!isPaused){ isPaused = true; GameMenu.pauseGame(); }
 		else { isPaused = false; GameMenu.resumeGame(); }
@@ -348,9 +346,6 @@ function BuildingMenuFunc (windowID : int) {
         		showWindow = false;
         	}
 
-			//Debug.Log("Building: at index " + i);
-			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-			
         	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
         												+ "\n"
         												+ "INPUT: " + data.buildings[i].inputName
