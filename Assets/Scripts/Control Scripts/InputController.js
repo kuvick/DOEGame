@@ -62,7 +62,7 @@ function singleClickEvent(inputPos: Vector2){
 	// we need to check if the point overlaps with a gui element
 	// if it does then we do nothing and let the gui handle it, otherwise
 	// we let the builing interaction manager handle it
-	if (ToolBar.NotOnGui(inputPos)){
+	if (ToolBar.GetInstance().NotOnGui(inputPos)){
     	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }
 }
@@ -136,7 +136,7 @@ function HandleMobileInput(){
                 if (touch.phase != TouchPhase.Ended &&
                      touch.phase != TouchPhase.Canceled ){
                      // now that we have a tap we need to be sure to check if it is on the gui or not
-                     if (ToolBar.NotOnGui(touch.position)){
+                     if (ToolBar.GetInstance().NotOnGui(touch.position)){
 	                    state = ControlState.WaitingForSecondTouch;
 	                    firstTouchTime = Time.time;
 	                    fingerDown[ 0 ] = touch.fingerId;
@@ -298,7 +298,7 @@ function HandleComputerInput(){
 	// if the user has not clicked then keep cheking for a click
 	if (state == ControlState.WaitingForFirstInput){
 		// if a click occurs then start waiting for movement
-		if (Input.GetKey(KeyCode.Mouse0) && ToolBar.NotOnGui(Input.mousePosition)) {
+		if (Input.GetKey(KeyCode.Mouse0) && ToolBar.GetInstance().NotOnGui(Input.mousePosition)) {
 			state = ControlState.WaitingForNoInput;
 			firstClickTime = Time.time;
 			clickPosition = Input.mousePosition;
