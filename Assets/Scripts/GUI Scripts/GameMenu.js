@@ -40,16 +40,13 @@ function Start(){
 	eventLevelSelectRect = Rect	( 1 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
 	eventRestartLevelRect = Rect( 6 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
 	eventSaveAndExitRect = Rect( 11 * xGrid, 3 * yGrid, buttonWidth, buttonHeight );
-	eventResumeRect = Rect( 11 * xGrid, 1.5 * yGrid, buttonWidth, buttonHeight );
-					
-								
+	eventResumeRect = Rect( 11 * xGrid, 1.5 * yGrid, buttonWidth, buttonHeight );				
 	
 	// Initialize the GUIStyle for the Score Text
 	newStyle = GUIStyle();
 	newStyle.fontSize = 20;		
 	newStyle.alignment = TextAnchor.MiddleCenter;
 	//currLevel = "Prototype - Level1";
-	
 }
 
 // Added by Derrick, used to set the current level for "Reset Level"
