@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: eb9cca5468dc99843be5b961ea20cf91
+guid: 8138927160181324c94cacdf0a48968e
 ModelImporter:
   fileIDToRecycleName:
-    4300000: polySurface1
+    4300000: DrillModel
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -40,14 +40,14 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: c6860100
+        second: a2860100
       data:
         first: 4
-        second: a61a0600
+        second: 821a0600
       data:
         first: 111
         second: 605fa900
-    polySurface1:
+    DrillModel:
       data:
         first: 1
         second: a0860100
