@@ -26,7 +26,7 @@ private var previousBuildingLength:int;
 private var mouseOverGUI:boolean;
 public var defaultColors:Color[];			//stores the default color of all buildings
 
-enum GameState{ EXPLORE, LINK }; // The states that can currently exist in the game
+enum GameState{ EXPLORE, LINK, INTEL, PAUSE}; // The states that can currently exist in the game
 
 
 function Awake()
@@ -117,11 +117,15 @@ function switchTo(mode:int){
 			currentMode = GameState.EXPLORE;
 			//linkMode.active = false;
 			break;
+		
+		case GameState.INTEL:
+			currentMode = GameState.INTEL;
 			
+		case GameState.PAUSE:
+			currentMode = GameState.PAUSE;
 		/***************To be expanded
 		case "build":
 		***************/
-		
 	}
 	
 }
