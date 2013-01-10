@@ -44,7 +44,7 @@ private var buildingInputNum:int;
 private var buildingOutputNum:int;
 private var outputCount:int;
 private var inputCount:int;
-private var cancelRect:Rect = Rect(Screen.width - 100, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
+private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 
 private var displayLink : DisplayLinkRange;
 

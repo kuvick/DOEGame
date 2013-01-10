@@ -91,3 +91,29 @@ public static function NewRect(_topLeftXPercentage : float, _topLeftYPercentage 
 							   
 	return (new Rect(shiftedTopLeftX, shiftedTopLeftY, rectWidth, rectHeight));
 }
+
+/*
+	Added by Francis Yuan
+	
+	NewSquare(_topLeftX : float, _topLeftY : float,  _width : float)
+		
+	Inputs:
+		float topLeftX
+			The top left x point of the square in pixels
+		float topLeftY
+			The top left y point of the square in pixels
+		float width
+			The width of the square in pixels
+			
+	Output:		
+		Will return a new square with the given top left point position and given width
+		
+	Notes:
+		A utility function that creates an square with the NewRect function as a base 
+		using absolute positioning instead of percentage positioning
+*/
+public static function NewSquareAbs(_topLeftX:float, _topLeftY:float, _width:float) : Rect
+{
+	var newSquare = new Rect(_topLeftX, _topLeftY, _width, _width);
+	return newSquare;
+}

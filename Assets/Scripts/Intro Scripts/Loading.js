@@ -16,7 +16,7 @@ public var loadingTexture : Texture;
 
 function Start (){
 	yield WaitForSeconds(4);
-	Application.LoadLevel("Prototype - Level1");
+	Application.LoadLevel("DOEGame");
 }
 
 function OnGUI() {
