@@ -49,6 +49,11 @@ static function addTurn()
 	currentTurn++;
 }
 
+static function subtractTurn()
+{
+	currentTurn--;
+}
+
 static function causeEvent()
 {
 
