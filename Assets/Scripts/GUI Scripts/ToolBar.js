@@ -51,8 +51,8 @@ private var topPadding: float;
 private var horizontalBarHeight:float;
 private var verticalBarWidth:float;
 
-// Main Menu Variables
-private var mainMenuList:List.<Rect>;		// Stores all the Main Menu elements for easy iteration
+// Tool Bar Variables
+private var ToolBarList:List.<Rect>;		// Stores all the Main Menu elements for easy iteration
 private var gameMenuButton:Rect;   			// Added by D for toggling the Game Menu
 private var waitButton:Rect; 				// Added by F for Waiting
 private var undoButton:Rect;				// Added by K for Undoing
@@ -114,21 +114,20 @@ private var toolBarHeight: float;
 
 private var toolBarTopLeftX: float;
 private var toolBarTopLeftY: float;
+private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
+private var toolbarInt : int = -1;
 
 private var showWindow : boolean = false;
 
-private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
-
-private var toolbarInt : int = -1;
 private var buildingMenuInt : int = -1;
+public static var buildingMenuWindow : Rect;
 
 private var mainWindow;
 private var dropDownWindow;
 private var eventListWindow;
 
 public static var toolbarWindow : Rect;
-public static var buildingMenuWindow : Rect;
 
 private var toolBarWidthPercent = .3;												// The tool bar for buildings as a perecentage of screen size in that direction
 private var toolBarHeightPercent = 1 - (topPaddingPercent + windowHeightPercent); 	// make the toolbar fill up the screen space below the menu
@@ -158,7 +157,7 @@ function Start(){
 	verticalBarWidth = ScreenSettingsManager.instance.verticalBarWidth;
 
 	// Initialize all menus
-	InitializeMainMenu();
+	InitializeToolBar();
 	InitializeGameMenu();
 	InitializeIntelMenu();
 	
@@ -202,23 +201,25 @@ public static function GetInstance():ToolBar
     return tb_instance;
 }
 	
-function InitializeMainMenu()
+function InitializeToolBar()
 {
 	squareButtonWidth = squareButtonWidthPercent * screenHeight;
 	squareButtonPadding = squareButtonWidthPercent * screenHeight;
 	var totalButtonPadding = squareButtonWidth + sidePadding;
+	
 	fontHeight = fontHeightPercent * screenHeight;
+	scoreSkin.label.fontSize = fontHeight;
 	
 	gameMenuButton = Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, squareButtonWidth, squareButtonWidth);											// Added by D, modified by F, puts Game Menu button in top left hand corner				
 	waitButton = Rect(verticalBarWidth + sidePadding, screenHeight - (2 * totalButtonPadding) - horizontalBarHeight, squareButtonWidth, squareButtonWidth);					// Added by F, puts Wait button at bottom left corner above undo button	
 	undoButton = Rect(verticalBarWidth + 5 * sidePadding, screenHeight - totalButtonPadding - horizontalBarHeight, squareButtonWidth , squareButtonWidth);						// Added by K, modified by F, puts Undo button at bottom left corner	
 	intelButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, screenHeight - totalButtonPadding - horizontalBarHeight, squareButtonWidth, squareButtonWidth); 	// Added by F, puts Intel button at bottom right corner 
 
-	mainMenuList = new List.<Rect>();
-	mainMenuList.Add(gameMenuButton);
-	mainMenuList.Add(waitButton);
-	mainMenuList.Add(undoButton);
-	mainMenuList.Add(intelButton);
+	ToolBarList = new List.<Rect>();
+	ToolBarList.Add(gameMenuButton);
+	ToolBarList.Add(waitButton);
+	ToolBarList.Add(undoButton);
+	ToolBarList.Add(intelButton);
 	
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
@@ -300,7 +301,7 @@ function InitializeIntelMenu()
 
 function OnGUI() 
 {
-	if(showToolbar)		{DrawMainMenu();}
+	if(showToolbar)		{DrawToolBar();}
 	if(isPaused)		{DrawGameMenu();}
 	if(eventListUsed)	{DrawIntelMenu();}
 	
@@ -336,7 +337,7 @@ function OnGUI()
 	
 	Whenever a submenu is opened, the Main Menu is hidden in order to prevent conflicting clicks
 */
-function DrawMainMenu()
+function DrawToolBar()
 {
 	// added by Derrick, the game menu button
 	// updated by Bomin, F
@@ -349,6 +350,7 @@ function DrawMainMenu()
 			isPaused = true; 
 			savedShowToolbar = showToolbar;
 			showToolbar = false;
+			ModeController.setCurrentMode(GameState.PAUSE);
 		}
 	}
 	
@@ -367,7 +369,10 @@ function DrawMainMenu()
 		var data:Database = GameObject.Find("Database").GetComponent("Database");
 		var didUndo = data.undo();
 		if(didUndo)
+		{
+			IntelSystem.subtractTurn();
 			Debug.Log("Undo Successful!");
+		}
 		else
 			Debug.Log("Undo Failed!");
 	}
@@ -377,22 +382,15 @@ function DrawMainMenu()
 	if(GUI.Button(intelButton, "Intel"))
 	{
 		Debug.Log("Intel button clicked");
-		if(eventListUsed)
-		{
-			eventListUsed = false;
-			showToolbar = savedShowToolbar;
-			savedShowToolbar = showToolbar;
-		}
-		else
+		if(!eventListUsed)
 		{
 			eventListUsed = true;
 			savedShowToolbar = showToolbar;
 			showToolbar = false;	
+			ModeController.setCurrentMode(GameState.INTEL);
 		}
 	}
 	
-	// Set the font size of the label style of the scoreSkin variable
-	scoreSkin.label.fontSize = fontHeight;
 	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = scoreSkin;
 	
@@ -413,6 +411,7 @@ function DrawGameMenu()
 		isPaused = false; 
 		showToolbar = savedShowToolbar;
 		savedShowToolbar = showToolbar;	
+		ModeController.setCurrentMode(GameState.EXPLORE);
 	}
 	if (GUI.Button(levelSelectButton, "Level Select"))
 	{
@@ -437,7 +436,7 @@ function DrawGameMenu()
 function DrawIntelMenu()
 {
 	//Background box
-	GUI.Box(eventListBGRect, "Intelligence Reports");
+	GUI.Box(eventListBGRect, "");
 	
 	// Closes the event list
 	if (GUI.Button(eventListCloseRect, "X"))
@@ -445,6 +444,7 @@ function DrawIntelMenu()
 		eventListUsed = false;
 		showToolbar = savedShowToolbar;
 		savedShowToolbar = showToolbar;
+		ModeController.setCurrentMode(GameState.EXPLORE);
 	}
 	
 	//Scroll bar
@@ -542,7 +542,7 @@ function NotOnGui(screenInputPosition: Vector2):boolean{
 	mousePos.x = screenInputPosition.x;
 	mousePos.y = Screen.height-screenInputPosition.y;
 	
-	if(	NotOnMainMenu(screenInputPosition) ||
+	if(	NotOnToolBar(screenInputPosition) ||
 		NotOnGameMenu(screenInputPosition) ||
 		(eventListUsed && eventListBGRect.Contains(mousePos)))
 	{
@@ -554,15 +554,15 @@ function NotOnGui(screenInputPosition: Vector2):boolean{
 	}
 }
 
-function NotOnMainMenu(screenInputPosition:Vector2):boolean
+function NotOnToolBar(screenInputPosition:Vector2):boolean
 {
 	var mousePos:Vector2;
 	mousePos.x = screenInputPosition.x;
 	mousePos.y = Screen.height - screenInputPosition.y;
 	
-	for (var i = 0; i < mainMenuList.Count; i++)
+	for (var i = 0; i < ToolBarList.Count; i++)
 	{
-		if (mainMenuList[i].Contains(mousePos))
+		if (ToolBarList[i].Contains(mousePos))
 		{
 			return false;
 		}
