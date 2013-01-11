@@ -18,9 +18,18 @@ import System.Collections.Generic;
 // Singleton instance
 private static var tb_instance:ToolBar = null;
 
-// Game Management Variables
+// Game Management Booleans
 private var isPaused : boolean = false;
+private var gameMenuOpen:boolean;
+private var eventListUsed:boolean; 			// Determines if the event list is opened or not
+private var showToolbar : boolean;
+private var savedShowToolbar : boolean; 	// Current showToolbar status saved
+
+// Game Name
 public static var currLevel : String = "Prototype - Level1";	// added by Derrick, used to keep track of the current level for game menu and score screen
+
+// Collection of Styles for GUI components
+public var toolBarSkin:GUISkin;				// GUISkin component, set in Inspector
 
 // Button Textures. Textures will be assigned in the inspector
 var btnTextureArray : Texture[] = new Texture[10];
@@ -61,17 +70,17 @@ private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 private var squareButtonWidthPercent = 0.12;// Width of a Main Menu button as a percent of height
 private var squareButtonWidth;				// Width of a Main Menu button in actual pixels
 
-private var showToolbar : boolean;
-private var savedShowToolbar : boolean; 	// Current showToolbar status saved
-
 private var fontHeightPercent = 0.03;		// Height of the font as a percentage of screen height
 private var fontHeight;						// Height of the font in pixels
 
-public var scoreSkin:GUISkin;				// GUISkin component, set in Inspector
+// Game Menu Textures
+public var hexTexture:Texture;				// Texture for the hexagon button base
+public var undoTexture:Texture;				// Texture for the undo button
+public var waitTexture:Texture;				// Texture for the wait button
+public var intelTexture:Texture;			// Texture for the intel button
 
 // Event List Variables
 private var eventList:EventLinkedList;
-private var eventListUsed:boolean; 			// Determines if the event list is opened or not
 
 private var eventListScrollRect:Rect; 		// For the positions of the scroll bars
 private var eventListScrollPos:Vector2;
@@ -100,7 +109,6 @@ private var restartLevelButton:Rect;
 private var startScreenButton:Rect;
 private var saveExitButton:Rect;	
 
-private var gameMenuOpen:boolean;
 private var gameMenuButtonHeightPercent:float = 0.1;
 private var gameMenuButtonWidthPercent:float = 0.2;
 private var gameMenuButtonHeight:float;
@@ -339,9 +347,12 @@ function OnGUI()
 */
 function DrawToolBar()
 {
+	// Set the current GUI's skin to the scoreSkin variable
+	GUI.skin = scoreSkin;
+	
 	// added by Derrick, the game menu button
 	// updated by Bomin, F
-	if(GUI.Button(gameMenuButton, "Game Menu"))
+	if(GUI.Button(gameMenuButton, "Menu"))
 	{
 		Debug.Log("Game Menu button clicked");
 		if(!isPaused)
@@ -356,14 +367,14 @@ function DrawToolBar()
 	
 	// Added by F
 	// Advances the game a single turn
-	if(GUI.Button(waitButton, "Wait"))
+	if(GUI.Button(waitButton, waitTexture))
 	{
 		Debug.Log("Wait button clicked");
 		IntelSystem.addTurn();
 	}
 	
 	// *** added by K, the undo button
-	if(GUI.Button(undoButton, "Undo"))
+	if(GUI.Button(undoButton, undoTexture))
 	{
 		Debug.Log("Debug button clicked");
 		var data:Database = GameObject.Find("Database").GetComponent("Database");
@@ -379,7 +390,7 @@ function DrawToolBar()
 	
 	// Added by F
 	// Toggles the intel menu
-	if(GUI.Button(intelButton, "Intel"))
+	if(GUI.Button(intelButton, intelTexture))
 	{
 		Debug.Log("Intel button clicked");
 		if(!eventListUsed)
@@ -390,9 +401,6 @@ function DrawToolBar()
 			ModeController.setCurrentMode(GameState.INTEL);
 		}
 	}
-	
-	// Set the current GUI's skin to the scoreSkin variable
-	GUI.skin = scoreSkin;
 	
 	// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
 	// Modified by F
