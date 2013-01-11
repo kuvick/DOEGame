@@ -216,7 +216,7 @@ function InitializeToolBar()
 	var totalButtonPadding = squareButtonWidth + sidePadding;
 	
 	fontHeight = fontHeightPercent * screenHeight;
-	scoreSkin.label.fontSize = fontHeight;
+	toolBarSkin.label.fontSize = fontHeight;
 	
 	gameMenuButton = Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, squareButtonWidth, squareButtonWidth);											// Added by D, modified by F, puts Game Menu button in top left hand corner				
 	waitButton = Rect(verticalBarWidth + sidePadding, screenHeight - (2 * totalButtonPadding) - horizontalBarHeight, squareButtonWidth, squareButtonWidth);					// Added by F, puts Wait button at bottom left corner above undo button	
@@ -348,7 +348,7 @@ function OnGUI()
 function DrawToolBar()
 {
 	// Set the current GUI's skin to the scoreSkin variable
-	GUI.skin = scoreSkin;
+	GUI.skin = toolBarSkin;
 	
 	// added by Derrick, the game menu button
 	// updated by Bomin, F
