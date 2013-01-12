@@ -71,10 +71,11 @@ private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 private var squareButtonWidthPercent = 0.12;// Width of a Main Menu button as a percent of height
 private var scoreFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
 private var menuFontHeightPercent = 0.02;	// Height of the font as a percentage of screen height
+private var squareButtonPadding : float;
 
-private var squareButtonWidth;				// Width of a Main Menu button in actual pixels
-private var scoreFontHeight;				// Height of the font in pixels
-private var menuFontHeight;					// Height of the font in pixels
+private var squareButtonWidth:float;				// Width of a Main Menu button in actual pixels
+private var scoreFontHeight:float;				// Height of the font in pixels
+private var menuFontHeight:float;					// Height of the font in pixels
 
 // Game Menu Textures
 public var undoTexture:Texture;				// Texture for the undo button
@@ -218,7 +219,7 @@ function InitializeToolBar()
 {
 	squareButtonWidth = squareButtonWidthPercent * screenHeight;
 	squareButtonPadding = squareButtonWidthPercent * screenHeight;
-	var totalButtonPadding = squareButtonWidth + sidePadding;
+	var totalButtonPadding : float = squareButtonWidth + sidePadding;
 	
 	scoreFontHeight = scoreFontHeightPercent * screenHeight;
 	toolBarSkin.label.fontSize = scoreFontHeight;
