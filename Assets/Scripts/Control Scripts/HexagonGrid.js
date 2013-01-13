@@ -15,10 +15,10 @@ Requirements:
 Usage:
 	-Hexagon tiles use (x, y) coordinate system. (0, 0, 0) world coordinates, is (0, 0) in tile coordinates,
     	-uses the positive x/z axis for the tiles
-    -The size/number of hexagon tiles is controlled by the width, and terrainWidth variables.
-    	-the terrain width is the width in world coordinates of the ground plane
-    	-width is the number of hexagonal tiles that fits across this ground plane
-    	-height is the number of hexagon tiles you want vertically
+    -The size/number of hexagon tiles is controlled by the width, height, and tileWidth
+    	-width is the number of hexagonal tiles horizontally
+    	-height is the number of hexagon tiles vertically
+		-tileWidth determines the rest of the geometric properties of a hexagon
 	-The grid can be turned on or off with the showGrid boolean or the setGridVisibility function
 	-The selection hexagon can be turned on or off with the setSelectionHexagonVisibility function
 	-The tile type of a particular tile (x, y) can be found through getTile(x, y).type . getTile returns a Tile Object.
@@ -50,8 +50,6 @@ private var hexParticles: ParticleSystem.Particle[];//particles for creating the
 static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0); //plane for raycasting, uses y = 0 as the ground, y-up
 var width: int = 15; //number of tiles horizontally
 var height: int = 10; //number of tiles vertically
-//var terrainWidth: float; //width of the hexagonal grid, in world coordinates
-//var terrainHeight: float;
 var showGrid:boolean = true;
 static var tileWidth: float = 130.0f; //width of a hexagon tile
 static var totalDimensions:Vector2;
@@ -86,7 +84,6 @@ function Start(){
 	}
 	createSelectionHexagon();	
 	createHexagonGridParticles();
-	//createGrid();
 	if(mainCamera == null){
 		Debug.LogError("Camera not set");
 	}
@@ -224,7 +221,6 @@ private function createHexagonMesh(){
 		var x: float = tileWidth / 2.0f + Mathf.Cos (radian)* radius;
 		var z: float = sideSize + Mathf.Sin (radian) * radius;
 		vertices[i] = new Vector3(x, 0, z);
-		//Debug.Log (vertices[i].ToString());
 	}
 	hexagon.vertices = vertices;
 	hexagon.triangles = indices;
