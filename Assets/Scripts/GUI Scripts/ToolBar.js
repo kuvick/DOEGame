@@ -24,6 +24,7 @@ private var gameMenuOpen:boolean;
 private var eventListUsed:boolean; 			// Determines if the event list is opened or not
 private var showToolbar : boolean;
 private var savedShowToolbar : boolean; 	// Current showToolbar status saved
+private var showWindow : boolean = false;
 
 // Game Name
 public static var currLevel : String = "Prototype - Level1";	// added by Derrick, used to keep track of the current level for game menu and score screen
@@ -68,9 +69,9 @@ private var waitButton:Rect; 				// Added by F for Waiting
 private var undoButton:Rect;				// Added by K for Undoing
 private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 
-private var squareButtonWidthPercent = 0.12;// Width of a Main Menu button as a percent of height
-private var scoreFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
-private var menuFontHeightPercent = 0.02;	// Height of the font as a percentage of screen height
+private var squareButtonWidthPercent = 0.2;// Width of a Main Menu button as a percent of height
+private var scoreFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
+private var menuFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
 private var squareButtonPadding : float;
 
 private var squareButtonWidth:float;				// Width of a Main Menu button in actual pixels
@@ -100,12 +101,16 @@ private var eventListNodeRect:Rect;
 private var eventListSidePaddingPercent:float = 0.02;
 private var eventListTopPaddingPercent:float = 0.04;
 private var eventListCloseWidthPercent:float = 0.12;
-private var eventListNodeWidthPercent:float	= 0.08;
+private var eventListNodeWidthPercent:float	= 0.12;
+private var eventListFontHeightPercent:float = 0.03;
+private var eventListBGRatio = 2.3;
 
 private var eventListSidePadding:float;
 private var eventListTopPadding:float;
 private var eventListCloseWidth:float;
 private var eventListNodeWidth:float;
+private var eventListFontHeight:float;
+private var eventListBGSideBorder;
 
 // Game Menu Variables
 private var gameMenuList:List.<Rect>;		// Stores all the Game Menu elements for easy iteration
@@ -120,32 +125,11 @@ private var gameMenuButtonWidthPercent:float = 0.2;
 private var gameMenuButtonHeight:float;
 private var gameMenuButtonWidth:float;
 
-// Potentially Outdated Variables
-private var windowHeightPercent = .2;		// height of the window as a percentage of the screen's height
-private var windowHeight: float;
-private var toolBarWidth: float;
-private var toolBarHeight: float;
-
-private var toolBarTopLeftX: float;
-private var toolBarTopLeftY: float;
-private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
-private var toolbarInt : int = -1;
-
-private var showWindow : boolean = false;
-
+// Building Variables
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 private var buildingMenuInt : int = -1;
 public static var buildingMenuWindow : Rect;
-
-private var mainWindow;
 private var dropDownWindow;
-private var eventListWindow;
-
-public static var toolbarWindow : Rect;
-
-private var toolBarWidthPercent = .3;												// The tool bar for buildings as a perecentage of screen size in that direction
-private var toolBarHeightPercent = 1 - (topPaddingPercent + windowHeightPercent); 	// make the toolbar fill up the screen space below the menu
-
 var scrollPosition : Vector2 = Vector2.zero;		// used for scrollbar for building menu
 
 function Awake(){
@@ -180,18 +164,6 @@ function Start(){
 	currLevel = Application.loadedLevelName; 
 	
 	/*
-	// Claculate necessary numbers for creating a consistent layout
-	var leftX = ScreenSettingsManager.instance.verticalBarWidth;
-	var topY = ScreenSettingsManager.instance.horizontalBarHeight;
-	
-	windowHeight = screenHeight*windowHeightPercent;
-	toolBarWidth = screenWidth*toolBarWidthPercent;
-	toolBarHeight = screenHeight-windowHeight-(topPadding*2);
-	
-	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + leftX;
-	toolBarTopLeftY = windowHeight + topPadding + topY;
-	
-	toolbarWindow = RectFactory.NewRect(.01,.01,.98,.3);
 	buildingMenuWindow = RectFactory.NewRect(.7,.32,.3,.68);
 	*/
 }
@@ -270,15 +242,24 @@ function InitializeIntelMenu()
 	eventListCloseWidth = eventListCloseWidthPercent * screenHeight;
 	eventListNodeWidth = eventListNodeWidthPercent * screenHeight;
 	
+	eventListSideBorder = (eventListNodeWidth * eventListBGRatio)/2 - 1;
+	intelSkin.button.border.left = eventListSideBorder;
+	intelSkin.button.border.right = eventListSideBorder;
+	
+	eventListFontHeight = eventListFontHeightPercent * screenHeight;
+	intelSkin.button.fontSize = eventListFontHeight;
+	intelSkin.label.fontSize = eventListFontHeight;
+	intelSkin.box.fontSize = eventListFontHeight;
+	
 	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
 	eventListBGRect = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 	eventListCloseRect = Rect(eventListBGRect.x + eventListBGRect.width - eventListCloseWidth - sidePadding, eventListBGRect.y + sidePadding, eventListCloseWidth, eventListCloseWidth);
 	eventListScrollRect = Rect(eventListBGRect.x + sidePadding, eventListCloseRect.y + eventListCloseRect.height + sidePadding, eventListBGRect.width - 2 * sidePadding, eventListBGRect.height - eventListCloseRect.height - (2 * sidePadding));
 	eventListContentRect = Rect(0, 0, eventListScrollRect.width - 2 * eventListSidePadding, 1000);
 	
-	eventListIconRect = Rect(eventListSidePadding, 0, eventListNodeWidth, eventListNodeWidth);
-	eventListDescriptionRect = Rect(eventListIconRect.x + eventListIconRect.width/2, 0, eventListContentRect.width - (eventListNodeWidth), eventListNodeWidth);
-	eventListTurnsRect = Rect(eventListDescriptionRect.x + eventListDescriptionRect.width - eventListIconRect.width/2, 0, eventListNodeWidth, eventListNodeWidth);
+	eventListDescriptionRect = Rect(eventListSidePadding, 0, eventListContentRect.width - eventListNodeWidth/2, eventListNodeWidth);
+	eventListIconRect = Rect(eventListDescriptionRect.x + eventListNodeWidth * 0.05, 0, eventListNodeWidth, eventListNodeWidth);
+	eventListTurnsRect = Rect(eventListDescriptionRect.x + eventListDescriptionRect.width - eventListNodeWidth * 1.05, 0, eventListNodeWidth, eventListNodeWidth);
     
 	eventList = new EventLinkedList();
 	var bE1:BuildingEvent = new BuildingEvent();
@@ -324,8 +305,6 @@ function OnGUI()
 	if(eventListUsed)	{DrawIntelMenu();}
 	
 	/*
-		mainWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
-		
 		if(showWindow)
 		{
 			dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
@@ -375,15 +354,12 @@ function DrawToolBar()
 		}
 	}
 	
-	// Added by F
-	// Advances the game a single turn
 	if(GUI.Button(waitButton, waitTexture))
 	{
 		Debug.Log("Wait button clicked");
 		IntelSystem.addTurn();
 	}
 	
-	// *** added by K, the undo button
 	if(GUI.Button(undoButton, undoTexture))
 	{
 		Debug.Log("Debug button clicked");
@@ -398,8 +374,6 @@ function DrawToolBar()
 			Debug.Log("Undo Failed!");
 	}
 	
-	// Added by F
-	// Toggles the intel menu
 	if(GUI.Button(intelButton, intelTexture))
 	{
 		Debug.Log("Intel button clicked");
@@ -412,12 +386,9 @@ function DrawToolBar()
 		}
 	}
 	
-	// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
-	// Modified by F
-	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "Score: "); // + Database.?
-	
-	// *** added by K, IntelSystem Info
-	// Modified by F
+	// Score
+	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "Score: ");
+	// Turns
 	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + (2 * sidePadding) + scoreFontHeight, 0, 0), "Turn: " + IntelSystem.currentTurn);
 }
 
@@ -453,14 +424,12 @@ function DrawGameMenu()
 
 function DrawIntelMenu()
 {
-	//Background box
 	GUI.Box(eventListBGRect, "");
 	
-	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = toolBarSkin;
 	
 	// Closes the event list
-	if (GUI.Button(eventListCloseRect, "Close"))
+	if (GUI.Button(eventListCloseRect, "X"))
 	{
 		eventListUsed = false;
 		showToolbar = savedShowToolbar;
@@ -468,7 +437,7 @@ function DrawIntelMenu()
 		ModeController.setCurrentMode(GameState.EXPLORE);
 	}
 	
-	//Scroll bar
+	// Scroll bar
 	eventListScrollPos = GUI.BeginScrollView
 	(
 		eventListScrollRect,
@@ -476,7 +445,6 @@ function DrawIntelMenu()
 		eventListContentRect
 	);
 	
-	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = intelSkin;
 		
 	//Array of events
@@ -486,7 +454,7 @@ function DrawIntelMenu()
 	
 	while(currNode != null)
 	{
-		currentHeight = (i * eventListNodeWidth) + (i * sidePadding/2);
+		currentHeight = (i * eventListNodeWidth * 0.82);
 		
 		eventListIconRect.y = currentHeight;
 		eventListTurnsRect.y = currentHeight;
@@ -512,20 +480,12 @@ function Update()
 	}
 }
 
-//Note: window id is 0 for toolbar
-function ToolbarWindowFunc (windowID : int) {              
-        toolbarInt = GUI.Toolbar (Rect (10, 20, toolbarWindow.width - 20, toolbarWindow.height - 25), 
-        						  toolbarInt, 
-        						  toolbarStrings);
-}
-
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
         var data:Database = GameObject.Find("Database").GetComponent("Database");
         
-        // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
-        scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight + 75), false, true);
+       // scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight + 75), false, true);
         
         for(var i =0; i<6; i++)
         {
@@ -534,19 +494,6 @@ function BuildingMenuFunc (windowID : int) {
         		PlaceBuilding.changeBuilding = i;
         		showWindow = false;
         	}
-
-			//Debug.Log("Building: at index " + i);
-			//GUI.Label(Rect(100, 20 + (95*i), 200, 90 * i), buildingMenuStrings[i]);
-			/*
-        	GUI.Label(Rect(100, 20 + (95*i), 200, 90), 	data.buildings[i].buildingName 
-        												+ "\n"
-        												+ "INPUT: " + data.buildings[i].inputName
-        												+ " [" + data.buildings[i].inputNum + "]"
-        												+ "\n"
-        												+ "OUTPUT: " + data.buildings[i].outputName
-        												+ " [" + data.buildings[i].outputNum + "]");
-        											*/
-
 		}
 		
 		GUI.EndScrollView ();
@@ -558,56 +505,71 @@ function ToggleBuildingWindowVisibility(){
 
 // Helper function to determine if the given point on the screen is on a gui element
 function NotOnGui(screenInputPosition: Vector2):boolean{	
-	// since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
+	
+	// Since gui coordinates and screen coordinates differ, we need to convert the mouse position into the toolbar's rectangle gui coordinates
 	var mousePos: Vector2;
 	mousePos.x = screenInputPosition.x;
 	mousePos.y = Screen.height-screenInputPosition.y;
 	
-	if(	NotOnToolBar(screenInputPosition) ||
-		NotOnGameMenu(screenInputPosition) ||
-		(eventListUsed && eventListBGRect.Contains(mousePos)))
+	if(	NotOnToolBar(screenInputPosition) &&
+		NotOnGameMenu(screenInputPosition) &&
+		!(eventListUsed && eventListBGRect.Contains(mousePos)))
 	{
-		return (false);
+		return true;
 	}
 	else
 	{
-		return (true);
+		return false;
 	}
 }
 
 function NotOnToolBar(screenInputPosition:Vector2):boolean
 {
-	var mousePos:Vector2;
-	mousePos.x = screenInputPosition.x;
-	mousePos.y = Screen.height - screenInputPosition.y;
-	
-	for (var i = 0; i < ToolBarList.Count; i++)
+	if (!isPaused)
 	{
-		if (ToolBarList[i].Contains(mousePos))
+		var mousePos:Vector2;
+		mousePos.x = screenInputPosition.x;
+		mousePos.y = Screen.height - screenInputPosition.y;
+		
+		for (var i = 0; i < ToolBarList.Count; i++)
 		{
-			return false;
+			if (ToolBarList[i].Contains(mousePos))
+			{
+
+				return false;
+			}
 		}
+		return true;
 	}
-	return true;
+	else
+	{
+		return true;
+	}
 }
 
 function NotOnGameMenu(screenInputPosition:Vector2):boolean
 {
-	var mousePos:Vector2;
-	mousePos.x = screenInputPosition.x;
-	mousePos.y = Screen.height - screenInputPosition.y;
-
-	for (var i = 0; i < gameMenuList.Count; i++)
+	if (isPaused)
 	{
-		if (gameMenuList[i].Contains(mousePos))
+		var mousePos:Vector2;
+		mousePos.x = screenInputPosition.x;
+		mousePos.y = Screen.height - screenInputPosition.y;
+	
+		for (var i = 0; i < gameMenuList.Count; i++)
 		{
-			return false;
+			if (gameMenuList[i].Contains(mousePos))
+			{
+				return false;
+			}
 		}
+		return true;
 	}
-	return true;
+	else
+	{
+		return true;
+	}
 }
 
-/////////////// Pause Functions ///////////////// (Bomin)
 function OnPauseGame()
 {
 	showToolbar = false;
@@ -619,4 +581,3 @@ function OnResumeGame()
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
 }
-///////////////////////////////////////////////// (Bomin)
