@@ -13,24 +13,21 @@ Edits by: Ian Winter, Francis Yuan
 private var mode:int;
 private var welcome : int = 0;
 
-public var marqueeSkin:GUISkin;			// GUISkin component, set in Inspector
+public var marqueeSkin:GUISkin;						// GUISkin component, set in Inspector
 private var marqueePosYPercent = 0.07;
 private var marqueePosXPercent = 0.5; 
+private var marqueePosition:Rect;					// Position of the Status Marquee
 
-private var marqueePosition:Rect;		// Position of the Status Marquee
+private var fontHeightPercent = 0.04;				// Height of the font as a percentage of screen height
+private var fontHeight;								// Height of the font in pixels
 
-private var fontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
-private var fontHeight;					// Height of the font in pixels
-
-private var marqueeBGHeightPercent:float = 0.15; 	// Height of the marquee background as a percentage of screen height
+private var marqueeBGHeightPercent:float = 0.17; 	// Height of the marquee background as a percentage of screen height
 private var marqueeBGWidthRatio:float = 5.1;		// Ratio between the width and the height of the marquee image (don't want stretching, only scaling)
 private var marqueeBGHeight:float;
 private var marqueeBGWidth:float;
 private var marqueeBGRect:Rect;
 
 public var marqueeTexture:Texture;
-
-private var testRect:Rect;
 
 function Start()
 {
@@ -44,8 +41,6 @@ function Start()
 	marqueeBGHeight = marqueeBGHeightPercent * Screen.height;
 	marqueeBGWidth = marqueeBGWidthRatio * marqueeBGHeight;
 	marqueeBGRect = Rect(marqueePosition.x - marqueeBGWidth/2, marqueePosition.y - marqueeBGHeight/2, marqueeBGWidth, marqueeBGHeight);
-	Debug.Log(marqueeBGHeight);
-	Debug.Log(marqueeBGWidth);
 }
 
 function OnGUI()
