@@ -24,6 +24,7 @@ private var gameMenuOpen:boolean;
 private var eventListUsed:boolean; 			// Determines if the event list is opened or not
 private var showToolbar : boolean;
 private var savedShowToolbar : boolean; 	// Current showToolbar status saved
+private var showWindow : boolean = false;
 
 // Game Name
 public static var currLevel : String = "Prototype - Level1";	// added by Derrick, used to keep track of the current level for game menu and score screen
@@ -31,6 +32,7 @@ public static var currLevel : String = "Prototype - Level1";	// added by Derrick
 // Skins for GUI components
 public var toolBarSkin:GUISkin;				// GUISkin component for the tool bar, set in Inspector
 public var intelSkin:GUISkin;				// GUISkin component for the intel list, set in Inspector
+public var gameMenuSkin:GUISkin;			// GUISkin component for the game menu, set in Inspector
 
 // Button Textures. Textures will be assigned in the inspector
 var btnTextureArray : Texture[] = new Texture[10];
@@ -68,19 +70,26 @@ private var waitButton:Rect; 				// Added by F for Waiting
 private var undoButton:Rect;				// Added by K for Undoing
 private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 
-private var squareButtonWidthPercent = 0.12;// Width of a Main Menu button as a percent of height
-private var scoreFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
-private var menuFontHeightPercent = 0.02;	// Height of the font as a percentage of screen height
-private var squareButtonPadding : float;
+private var hexButtonHeightPercent = 0.2;// Width of a Main Menu button as a percent of height
+private var scoreFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
+private var menuFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
+private var hexButtonPadding : float;
 
-private var squareButtonWidth:float;				// Width of a Main Menu button in actual pixels
+private var hexButtonHeight:float;				// Width of a Main Menu button in actual pixels
 private var scoreFontHeight:float;				// Height of the font in pixels
 private var menuFontHeight:float;					// Height of the font in pixels
 
 // Game Menu Textures
-public var undoTexture:Texture;				// Texture for the undo button
-public var waitTexture:Texture;				// Texture for the wait button
-public var intelTexture:Texture;			// Texture for the intel button
+private var undoTexture:Texture;					// Texture to display for the undo button
+private var waitTexture:Texture;					// Texture to display for the wait button
+private var intelTexture:Texture;					// Texture to display for the intel button
+
+public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
+public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
+public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
+public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
+public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
+public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
 
 // Event List Variables
 private var eventList:EventLinkedList;
@@ -100,12 +109,16 @@ private var eventListNodeRect:Rect;
 private var eventListSidePaddingPercent:float = 0.02;
 private var eventListTopPaddingPercent:float = 0.04;
 private var eventListCloseWidthPercent:float = 0.12;
-private var eventListNodeWidthPercent:float	= 0.08;
+private var eventListNodeWidthPercent:float	= 0.12;
+private var eventListFontHeightPercent:float = 0.03;
+private var eventListBGRatio = 2.3;
 
 private var eventListSidePadding:float;
 private var eventListTopPadding:float;
 private var eventListCloseWidth:float;
 private var eventListNodeWidth:float;
+private var eventListFontHeight:float;
+private var eventListBGSideBorder;
 
 // Game Menu Variables
 private var gameMenuList:List.<Rect>;		// Stores all the Game Menu elements for easy iteration
@@ -130,8 +143,6 @@ private var toolBarTopLeftX: float;
 private var toolBarTopLeftY: float;
 private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
 private var toolbarInt : int = -1;
-
-private var showWindow : boolean = false;
 
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 private var buildingMenuInt : int = -1;
@@ -221,9 +232,9 @@ public static function GetInstance():ToolBar
 	
 function InitializeToolBar()
 {
-	squareButtonWidth = squareButtonWidthPercent * screenHeight;
-	squareButtonPadding = squareButtonWidthPercent * screenHeight;
-	var totalButtonPadding : float = squareButtonWidth + sidePadding;
+	hexButtonHeight = hexButtonHeightPercent * screenHeight;
+	squareButtonPadding = hexButtonHeightPercent * screenHeight;
+	var totalButtonPadding : float = hexButtonHeight + sidePadding;
 	
 	scoreFontHeight = scoreFontHeightPercent * screenHeight;
 	toolBarSkin.label.fontSize = scoreFontHeight;
@@ -231,10 +242,11 @@ function InitializeToolBar()
 	menuFontHeight = menuFontHeightPercent * screenHeight;
 	toolBarSkin.button.fontSize = menuFontHeight;
 	
-	gameMenuButton = Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, squareButtonWidth, squareButtonWidth);											// Added by D, modified by F, puts Game Menu button in top left hand corner				
-	waitButton = Rect(verticalBarWidth + sidePadding, screenHeight - (2 * totalButtonPadding) - horizontalBarHeight, squareButtonWidth, squareButtonWidth);					// Added by F, puts Wait button at bottom left corner above undo button	
-	undoButton = Rect(verticalBarWidth + 5 * sidePadding, screenHeight - totalButtonPadding - horizontalBarHeight, squareButtonWidth , squareButtonWidth);						// Added by K, modified by F, puts Undo button at bottom left corner	
-	intelButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, screenHeight - totalButtonPadding - horizontalBarHeight, squareButtonWidth, squareButtonWidth); 	// Added by F, puts Intel button at bottom right corner 
+	gameMenuButton = Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, hexButtonHeight, hexButtonHeight);														
+	waitButton = Rect(verticalBarWidth + sidePadding, screenHeight - (2 * totalButtonPadding) - horizontalBarHeight, hexButtonHeight, hexButtonHeight);						
+	var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
+	undoButton = Rect(undoButtonPos.x, undoButtonPos.y, hexButtonHeight , hexButtonHeight);																					
+	intelButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, screenHeight - totalButtonPadding - horizontalBarHeight, hexButtonHeight, hexButtonHeight); 	
 
 	ToolBarList = new List.<Rect>();
 	ToolBarList.Add(gameMenuButton);
@@ -250,12 +262,12 @@ function InitializeGameMenu()
 {
 	gameMenuButtonHeight = screenHeight * gameMenuButtonHeightPercent;
 	gameMenuButtonWidth = screenWidth * gameMenuButtonWidthPercent;
-	
-	resumeGameButton = Rect(verticalBarWidth + (screenWidth - gameMenuButtonWidth)/2, horizontalBarHeight + screenHeight * 0.4, gameMenuButtonWidth, gameMenuButtonHeight); 
-	levelSelectButton = Rect(resumeGameButton.x, horizontalBarHeight + resumeGameButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight); 
-	restartLevelButton = Rect(resumeGameButton.x, horizontalBarHeight + levelSelectButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
-	startScreenButton = Rect(resumeGameButton.x, horizontalBarHeight + restartLevelButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
-	saveExitButton = Rect(resumeGameButton.x, horizontalBarHeight + startScreenButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
+
+	resumeGameButton =	Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, hexButtonHeight, hexButtonHeight);	
+	levelSelectButton = Rect(verticalBarWidth + (screenWidth - gameMenuButtonWidth)/2, horizontalBarHeight + screenHeight * 0.4, gameMenuButtonWidth, gameMenuButtonHeight); 
+	restartLevelButton = Rect(levelSelectButton.x, horizontalBarHeight + levelSelectButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
+	startScreenButton = Rect(levelSelectButton.x, horizontalBarHeight + restartLevelButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
+	saveExitButton = Rect(levelSelectButton.x, horizontalBarHeight + startScreenButton.y + gameMenuButtonHeight, gameMenuButtonWidth, gameMenuButtonHeight);
 
 	gameMenuList = new List.<Rect>();
 	gameMenuList.Add(resumeGameButton);
@@ -274,15 +286,24 @@ function InitializeIntelMenu()
 	eventListCloseWidth = eventListCloseWidthPercent * screenHeight;
 	eventListNodeWidth = eventListNodeWidthPercent * screenHeight;
 	
+	eventListSideBorder = (eventListNodeWidth * eventListBGRatio)/2 - 1;
+	intelSkin.button.border.left = eventListSideBorder;
+	intelSkin.button.border.right = eventListSideBorder;
+	
+	eventListFontHeight = eventListFontHeightPercent * screenHeight;
+	intelSkin.button.fontSize = eventListFontHeight;
+	intelSkin.label.fontSize = eventListFontHeight;
+	intelSkin.box.fontSize = eventListFontHeight;
+	
 	//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
 	eventListBGRect = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 	eventListCloseRect = Rect(eventListBGRect.x + eventListBGRect.width - eventListCloseWidth - sidePadding, eventListBGRect.y + sidePadding, eventListCloseWidth, eventListCloseWidth);
 	eventListScrollRect = Rect(eventListBGRect.x + sidePadding, eventListCloseRect.y + eventListCloseRect.height + sidePadding, eventListBGRect.width - 2 * sidePadding, eventListBGRect.height - eventListCloseRect.height - (2 * sidePadding));
 	eventListContentRect = Rect(0, 0, eventListScrollRect.width - 2 * eventListSidePadding, 1000);
 	
-	eventListIconRect = Rect(eventListSidePadding, 0, eventListNodeWidth, eventListNodeWidth);
-	eventListDescriptionRect = Rect(eventListIconRect.x + eventListIconRect.width/2, 0, eventListContentRect.width - (eventListNodeWidth), eventListNodeWidth);
-	eventListTurnsRect = Rect(eventListDescriptionRect.x + eventListDescriptionRect.width - eventListIconRect.width/2, 0, eventListNodeWidth, eventListNodeWidth);
+	eventListDescriptionRect = Rect(eventListSidePadding, 0, eventListContentRect.width - eventListNodeWidth/2, eventListNodeWidth);
+	eventListIconRect = Rect(eventListDescriptionRect.x + eventListNodeWidth * 0.05, 0, eventListNodeWidth, eventListNodeWidth);
+	eventListTurnsRect = Rect(eventListDescriptionRect.x + eventListDescriptionRect.width - eventListNodeWidth * 1.05, 0, eventListNodeWidth, eventListNodeWidth);
     
 	eventList = new EventLinkedList();
 	var bE1:BuildingEvent = new BuildingEvent();
@@ -326,26 +347,6 @@ function OnGUI()
 	if(showToolbar)		{DrawToolBar();}
 	if(isPaused)		{DrawGameMenu();}
 	if(eventListUsed)	{DrawIntelMenu();}
-	
-	/*
-		mainWindow = GUI.Window (0, toolbarWindow, ToolbarWindowFunc, "DOE Gaming Project");
-		
-		if(showWindow)
-		{
-			dropDownWindow = GUI.Window (1, buildingMenuWindow, BuildingMenuFunc, "Building Menu");
-			if(ModeController.getCurrentMode() != GameState.EXPLORE)
-				ModeController.setCurrentMode(GameState.EXPLORE);
-		}
-		
-		switch(toolbarInt)
-		{	
-			//Buildings menu
-			case 2:
-			Debug.Log("building menu");		
-			ToggleBuildingWindowVisibility();
-			toolbarInt = -1;
-			break;
-	*/
 }
 
 /*
@@ -361,6 +362,11 @@ function OnGUI()
 */
 function DrawToolBar()
 {
+	// Calculate the mouse position
+	var mousePos;
+	//mousePos.x = Input.mousePosition.x;
+	//mousePos.y = Input.mousePosition.y;
+		
 	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = toolBarSkin;
 	
@@ -379,15 +385,32 @@ function DrawToolBar()
 		}
 	}
 	
-	// Added by F
-	// Advances the game a single turn
+	waitTexture = waitTextureNeutral;
+	undoTexture = undoTextureNeutral;
+	intelTexture = intelTextureNeutral;
+	
+	/*
+	if (waitButton.Contains(mousePos))
+	{
+		waitTexture = waitTextureClicked;
+	}
+	else if (undoButton.Contains(mousePos))
+	{
+		undoTexture = undoTextureClicked;
+	}
+	else if (intelButton.Contains(mousePos))
+	{
+		intelTexture = intelTextureClicked;
+	}
+	
+	*/
+	
 	if(GUI.Button(waitButton, waitTexture))
 	{
 		Debug.Log("Wait button clicked");
 		IntelSystem.addTurn();
 	}
 	
-	// *** added by K, the undo button
 	if(GUI.Button(undoButton, undoTexture))
 	{
 		Debug.Log("Debug button clicked");
@@ -402,8 +425,6 @@ function DrawToolBar()
 			Debug.Log("Undo Failed!");
 	}
 	
-	// Added by F
-	// Toggles the intel menu
 	if(GUI.Button(intelButton, intelTexture))
 	{
 		Debug.Log("Intel button clicked");
@@ -416,17 +437,15 @@ function DrawToolBar()
 		}
 	}
 	
-	// Added by Derrick, Draws score, need to add functionality to pull from where score is being stored
-	// Modified by F
-	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "Score: "); // + Database.?
-	
-	// *** added by K, IntelSystem Info
-	// Modified by F
+	// Score
+	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "Score: ");
+	// Turns
 	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + (2 * sidePadding) + scoreFontHeight, 0, 0), "Turn: " + IntelSystem.currentTurn);
 }
 
 function DrawGameMenu()
 {
+	GUI.skin = toolBarSkin;
 	if (GUI.Button(resumeGameButton, "Resume"))
 	{
 		Debug.Log("Game is unpaused");
@@ -435,6 +454,8 @@ function DrawGameMenu()
 		savedShowToolbar = showToolbar;	
 		ModeController.setCurrentMode(GameState.EXPLORE);
 	}
+	
+	GUI.skin = gameMenuSkin;
 	if (GUI.Button(levelSelectButton, "Level Select"))
 	{
 		Application.LoadLevel("LevelSelectScreen");
@@ -457,14 +478,12 @@ function DrawGameMenu()
 
 function DrawIntelMenu()
 {
-	//Background box
 	GUI.Box(eventListBGRect, "");
 	
-	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = toolBarSkin;
 	
 	// Closes the event list
-	if (GUI.Button(eventListCloseRect, "Close"))
+	if (GUI.Button(eventListCloseRect, "X"))
 	{
 		eventListUsed = false;
 		showToolbar = savedShowToolbar;
@@ -472,7 +491,7 @@ function DrawIntelMenu()
 		ModeController.setCurrentMode(GameState.EXPLORE);
 	}
 	
-	//Scroll bar
+	// Scroll bar
 	eventListScrollPos = GUI.BeginScrollView
 	(
 		eventListScrollRect,
@@ -480,7 +499,6 @@ function DrawIntelMenu()
 		eventListContentRect
 	);
 	
-	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = intelSkin;
 		
 	//Array of events
@@ -490,7 +508,7 @@ function DrawIntelMenu()
 	
 	while(currNode != null)
 	{
-		currentHeight = (i * eventListNodeWidth) + (i * sidePadding/2);
+		currentHeight = (i * eventListNodeWidth * 0.82);
 		
 		eventListIconRect.y = currentHeight;
 		eventListTurnsRect.y = currentHeight;
@@ -612,7 +630,33 @@ function NotOnGameMenu(screenInputPosition:Vector2):boolean
 	return true;
 }
 
-/////////////// Pause Functions ///////////////// (Bomin)
+/*
+	Helper function that finds the position of a hexagon bordering an equivalent base hexagon
+	 
+	Parameters:
+		position - The top left hand corner of the bounding box of the base hexagon
+		length - The length of a side of the bounding box of the base hexagon
+		side - The side that borders the base hexagon, starting from the top right side at 1, moving clockwise around the hexagon
+		
+	Return:
+		A Vector2 object describing the top left hand corner of the bounding box of a hexagon
+		that borders the base hexagon
+		
+	Note:
+		Assumes the hexagon is pointing upwards		
+*/
+function HexCalc(position:Vector2, length:float, side:int):Vector2
+{
+	var angle = (90 - (side * 60) + 30) * Mathf.PI/180;
+	var offsetLength = length * 0.86;
+	var sin = Mathf.Sin(angle) * offsetLength;
+	var cos = Mathf.Cos(angle) * offsetLength;
+	
+	var newPosition:Vector2 = Vector2(position.x + cos, position.y - sin);
+	
+	return newPosition;
+}
+
 function OnPauseGame()
 {
 	showToolbar = false;
@@ -624,4 +668,3 @@ function OnResumeGame()
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
 }
-///////////////////////////////////////////////// (Bomin)
