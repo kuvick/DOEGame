@@ -13,7 +13,7 @@ Author: Ajinkya Waghulde
 **********************************************************/
 
 // for placing a building on terrain
-static var buildingPrefabs:Transform[]; 
+//static var buildingPrefabs:Transform[];
 var buildingPrefab0 : Transform; 
 var buildingPrefab1 : Transform;
 var buildingPrefab2 : Transform; 
@@ -27,20 +27,26 @@ static var changeBuilding : int = 0;
 
 static var gridObject:GameObject;
 static var grid:HexagonGrid;
- 
+
+static var buildingPrefabs:GameObject[];
 
 function Awake()
 {
-	buildingPrefabs = new Transform[8];
-	//setting up the buildings prefab array
-	buildingPrefabs[0] = buildingPrefab0;
-	buildingPrefabs[1] = buildingPrefab1;
-	buildingPrefabs[2] = buildingPrefab2;
-	buildingPrefabs[3] = buildingPrefab3;
-	buildingPrefabs[4] = buildingPrefab4;
-	buildingPrefabs[5] = buildingPrefab5;
-	buildingPrefabs[6] = buildingPrefab6;
-	buildingPrefabs[7] = buildingPrefab7;
+	// Loading the prefabs from the Resources folder
+	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent("DefaultBuildings");
+	var defaultBuildingList : DefaultBuildingData[] = defaultBuildingScript.defaultBuildings;
+	var size: int = defaultBuildingList.Length;	
+	var rawPrefabs : Object[] =  Resources.LoadAll("");
+	buildingPrefabs = new GameObject[rawPrefabs.Length];
+	
+	var i : int = 0;
+	for (var prefab : GameObject in rawPrefabs)
+	{
+		buildingPrefabs[i] = prefab;
+		Debug.Log(buildingPrefabs[i].ToString());
+		i++;
+	}
+	
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
@@ -65,7 +71,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 		{
 			if( locationIsBuildable(coordinate) )
 			{
-				build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+				build = Instantiate(buildingPrefabs[changeBuilding].transform, position, Quaternion.identity);
 				build.tag = "Building";
 				build.gameObject.AddComponent("MeshRenderer");		
 				cannotPlace = 0;
@@ -80,7 +86,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 		}
 		else
 		{
-			build = Instantiate(buildingPrefabs[changeBuilding], position, Quaternion.identity);
+			build = Instantiate(buildingPrefabs[changeBuilding].transform, position, Quaternion.identity);
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			

@@ -52,8 +52,19 @@ static function HandleTapAtPoint(position: Vector2){
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.selectedBuilding = building;
-		DisplayLinkRange.HighlightBuildingsInRange(building);
+		if(building.name != "BuildingSite")
+			DisplayLinkRange.HighlightBuildingsInRange(building);
+		else
+		{
+			var buildingSiteScript: BuildingSiteScript = building.GetComponent("BuildingSiteScript");
+			buildingSiteScript.OpenBuildingMenu(position);
+		}
 	} else {
+		/*
+		
+		Others need to check whether or not this should be entirely cut out...it's for the old place building function
+		for when you could just place things on the grid.
+		
 		Debug.Log("Current mode: " + ModeController.getCurrentMode());
 		// As of right now it will just place a building in future development it will need to determine if a building is already there before placing a new one
 		if (tapMode == TapType.Place && ModeController.currentMode == GameState.EXPLORE){
@@ -61,9 +72,10 @@ static function HandleTapAtPoint(position: Vector2){
 		}
 		else
 		{
+		*/
 			Debug.Log("Not placing building, set to link");
 			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
-		}
+		//}
 	}
 }
