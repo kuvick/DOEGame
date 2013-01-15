@@ -361,12 +361,7 @@ function OnGUI()
 	Whenever a submenu is opened, the Main Menu is hidden in order to prevent conflicting clicks
 */
 function DrawToolBar()
-{
-	// Calculate the mouse position
-	var mousePos;
-	//mousePos.x = Input.mousePosition.x;
-	//mousePos.y = Input.mousePosition.y;
-		
+{   
 	// Set the current GUI's skin to the scoreSkin variable
 	GUI.skin = toolBarSkin;
 	
@@ -385,26 +380,44 @@ function DrawToolBar()
 		}
 	}
 	
+	// Set icon textures to default
 	waitTexture = waitTextureNeutral;
 	undoTexture = undoTextureNeutral;
 	intelTexture = intelTextureNeutral;
 	
-	/*
-	if (waitButton.Contains(mousePos))
+	// Calculate the mouse position
+	var mousePos:Vector2;
+	mousePos.x = Input.mousePosition.x;
+	mousePos.y = Screen.height - Input.mousePosition.y;
+	
+	// Calculate any touches
+	// TODO: Test whether this code block actually works with touch controls
+	var touchPos:Vector2;
+	for (var i = 0; i < Input.touchCount; ++i) 
+	{
+        if (Input.GetTouch(i).phase == TouchPhase.Began) 
+        {
+        	touchPos = Input.GetTouch(i).position;
+        }
+    }
+    
+    // If the mouse or the finger is hovering/tapping one of the buttons, change the button's texture
+	if (waitButton.Contains(mousePos) || waitButton.Contains(touchPos))
 	{
 		waitTexture = waitTextureClicked;
 	}
-	else if (undoButton.Contains(mousePos))
+	
+	if (undoButton.Contains(mousePos) || undoButton.Contains(touchPos))
 	{
 		undoTexture = undoTextureClicked;
 	}
-	else if (intelButton.Contains(mousePos))
+	
+	if (intelButton.Contains(mousePos) || intelButton.Contains(touchPos))
 	{
 		intelTexture = intelTextureClicked;
 	}
 	
-	*/
-	
+	// Draw the buttons and respond to interaction
 	if(GUI.Button(waitButton, waitTexture))
 	{
 		Debug.Log("Wait button clicked");
@@ -437,9 +450,8 @@ function DrawToolBar()
 		}
 	}
 	
-	// Score
-	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "Score: ");
-	// Turns
+	// Draw the score and label
+	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + sidePadding, 0, 0), "0000000");
 	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + (2 * sidePadding) + scoreFontHeight, 0, 0), "Turn: " + IntelSystem.currentTurn);
 }
 
