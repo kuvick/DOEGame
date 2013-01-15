@@ -13,6 +13,14 @@ Edits by: Ian Winter, Francis Yuan
 private var mode:int;
 private var welcome : int = 0;
 
+// Screen width and height
+private var screenWidth: float;
+private var screenHeight: float;
+
+// Bars to account for resolution differences
+private var horizontalBarHeight:float;
+private var verticalBarWidth:float;
+
 public var marqueeSkin:GUISkin;			// GUISkin component, set in Inspector
 private var marqueePosYPercent = 0.07;
 private var marqueePosXPercent = 0.5; 
@@ -30,22 +38,23 @@ private var marqueeBGRect:Rect;
 
 public var marqueeTexture:Texture;
 
-private var testRect:Rect;
-
 function Start()
 {
-	// Calclate the marquee position
-	marqueePosition = new Rect(Screen.width * marqueePosXPercent, Screen.height * marqueePosYPercent, 0, 0);
+	// Store window dimensions and calculate padding
+	screenWidth = ScreenSettingsManager.instance.screenWidth;
+	screenHeight = ScreenSettingsManager.instance.screenHeight;
+	horizontalBarHeight = ScreenSettingsManager.instance.horizontalBarHeight;
+	verticalBarWidth = ScreenSettingsManager.instance.verticalBarWidth;
 	
-	fontHeight = fontHeightPercent * Screen.height;
+	// Calclate the marquee position
+	marqueePosition = new Rect(verticalBarWidth + screenWidth * marqueePosXPercent, horizontalBarHeight + screenHeight * marqueePosYPercent, 0, 0);
+	
+	fontHeight = fontHeightPercent * screenHeight;
 	marqueeSkin.label.fontSize = fontHeight;
 	
-	testRect = Rect(0, 0, 500, 500);
-	marqueeBGHeight = marqueeBGHeightPercent * Screen.height;
+	marqueeBGHeight = marqueeBGHeightPercent * screenHeight;
 	marqueeBGWidth = marqueeBGWidthRatio * marqueeBGHeight;
 	marqueeBGRect = Rect(marqueePosition.x - marqueeBGWidth/2, marqueePosition.y - marqueeBGHeight/2, marqueeBGWidth, marqueeBGHeight);
-	Debug.Log(marqueeBGHeight);
-	Debug.Log(marqueeBGWidth);
 }
 
 function OnGUI()
