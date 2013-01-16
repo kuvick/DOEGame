@@ -15,9 +15,6 @@ public var thirdSlide : Texture;
 
 private static var showSplash : boolean = true;
 
-
-
-
 function Start ()
 {
 	if (showSplash) {
