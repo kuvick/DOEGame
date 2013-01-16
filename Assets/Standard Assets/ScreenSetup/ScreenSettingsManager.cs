@@ -42,8 +42,8 @@ public class ScreenSettingsManager : MonoBehaviour {
 	}
 	
 	// will call all apropriate functions to dynamically calculate the screen settings
-	public static void CalculateSettings(){
-		ResolutionManager.instance.InitializeResolutionSettings();
+	public static void CalculateSettings(float targetaspect){
+		ResolutionManager.instance.InitializeResolutionSettings(targetaspect);
 		
 		CalulateScreenDimensions();
 		CalculateBarSizes();

@@ -33,12 +33,7 @@ public class ResolutionManager : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	public void InitializeResolutionSettings () {
-	    // set the desired aspect ratio (the values in this example are
-	    // hard-coded for 16:9, but you could make them into public
-	    // variables instead so you can set them at design time)
-	    float targetaspect = 3.0f / 2.0f;
-	
+	public void InitializeResolutionSettings (float targetaspect) {	
 	    // determine the game window's current aspect ratio
 	    float windowaspect = (float)Screen.width / (float)Screen.height;
 		
