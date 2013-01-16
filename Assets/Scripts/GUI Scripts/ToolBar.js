@@ -72,26 +72,14 @@ private var waitButton:Rect; 				// Added by F for Waiting
 private var undoButton:Rect;				// Added by K for Undoing
 private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 
-private var hexButtonHeightPercent = 0.2;// Width of a Main Menu button as a percent of height
+private var hexButtonHeightPercent = 0.2;	// Width of a Main Menu button as a percent of height
 private var scoreFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
 private var menuFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
 private var hexButtonPadding : float;
 
-private var hexButtonHeight:float;				// Width of a Main Menu button in actual pixels
-private var scoreFontHeight:float;				// Height of the font in pixels
-private var menuFontHeight:float;					// Height of the font in pixels
-
-// Game Menu Textures
-private var undoTexture:Texture;					// Texture to display for the undo button
-private var waitTexture:Texture;					// Texture to display for the wait button
-private var intelTexture:Texture;					// Texture to display for the intel button
-
-public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
-public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
-public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
-public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
-public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
-public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
+private var hexButtonHeight:float;			// Width of a Main Menu button in actual pixels
+private var scoreFontHeight:float;			// Height of the font in pixels
+private var menuFontHeight:float;			// Height of the font in pixels
 
 // Event List Variables
 private var eventList:EventLinkedList;
@@ -133,24 +121,26 @@ private var gameMenuButtonWidthPercent:float = 0.2;
 private var gameMenuButtonHeight:float;
 private var gameMenuButtonWidth:float;
 
+// Game Menu Textures
+private var undoTexture:Texture;					// Texture to display for the undo button
+private var waitTexture:Texture;					// Texture to display for the wait button
+private var intelTexture:Texture;					// Texture to display for the intel button
+
+public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
+public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
+public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
+public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
+public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
+public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
+
 // Potentially Outdated Variables
 private var windowHeightPercent = .2;		// height of the window as a percentage of the screen's height
-private var windowHeight: float;
 private var toolBarWidth: float;
 private var toolBarHeight: float;
-
-private var toolBarTopLeftX: float;
-private var toolBarTopLeftY: float;
-private var toolbarStrings : String[] = ["Main Menu", "Restart Level", "Buildings", "Wait"];
-private var toolbarInt : int = -1;
 
 private var buildingMenuStrings : String[] = ["Building1", "Building2", "Building3", "Building4", "Building5"];
 private var buildingMenuInt : int = -1;
 public static var buildingMenuWindow : Rect;
-
-private var mainWindow;
-private var dropDownWindow;
-private var eventListWindow;
 
 public static var toolbarWindow : Rect;
 
@@ -200,15 +190,9 @@ function Start(){
 	
 	/*
 	// Claculate necessary numbers for creating a consistent layout
-	var leftX = ScreenSettingsManager.instance.verticalBarWidth;
-	var topY = ScreenSettingsManager.instance.horizontalBarHeight;
-	
 	windowHeight = screenHeight*windowHeightPercent;
 	toolBarWidth = screenWidth*toolBarWidthPercent;
 	toolBarHeight = screenHeight-windowHeight-(topPadding*2);
-	
-	toolBarTopLeftX = screenWidth-sidePadding-toolBarWidth + leftX;
-	toolBarTopLeftY = windowHeight + topPadding + topY;
 	
 	toolbarWindow = RectFactory.NewRect(.01,.01,.98,.3);
 	buildingMenuWindow = RectFactory.NewRect(.7,.32,.3,.68);
@@ -278,8 +262,6 @@ function InitializeGameMenu()
 	gameMenuList.Add(restartLevelButton);
 	gameMenuList.Add(startScreenButton);
 	gameMenuList.Add(saveExitButton);
-	
-	gameMenuOpen = false;
 }
 
 function InitializeIntelMenu()
@@ -545,13 +527,6 @@ function Update()
 	}
 }
 
-//Note: window id is 0 for toolbar
-function ToolbarWindowFunc (windowID : int) {              
-        toolbarInt = GUI.Toolbar (Rect (10, 20, toolbarWindow.width - 20, toolbarWindow.height - 25), 
-        						  toolbarInt, 
-        						  toolbarStrings);
-}
-
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
@@ -668,14 +643,19 @@ function HexCalc(position:Vector2, length:float, side:int):Vector2
 	return newPosition;
 }
 
-function OnPauseGame()
+public function OnPauseGame()
 {
 	showToolbar = false;
 	savedShowToolbar = showToolbar;
 }
 
-function OnResumeGame()
+public function OnResumeGame()
 {
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
+}
+
+public function TogglePauseMenu()
+{
+	
 }
