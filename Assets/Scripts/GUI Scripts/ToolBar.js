@@ -654,8 +654,3 @@ public function OnResumeGame()
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
 }
-
-public function TogglePauseMenu()
-{
-	
-}
