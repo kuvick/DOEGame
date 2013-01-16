@@ -26,6 +26,7 @@ public class ResolutionManager : MonoBehaviour {
             if (rm_instance == null) {
                 GameObject obj = new GameObject("ResolutionManager");
                 rm_instance = obj.AddComponent(typeof (ResolutionManager)) as ResolutionManager;
+       			DontDestroyOnLoad(obj.transform.gameObject);
             }
  
             return rm_instance;

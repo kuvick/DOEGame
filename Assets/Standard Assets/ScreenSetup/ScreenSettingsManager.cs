@@ -23,18 +23,20 @@ public class ScreenSettingsManager : MonoBehaviour {
 
 	private static ScreenSettingsManager ssm_instance = null;
 	
+	private static bool SettingsCalculated = false;
+	
 	public static ScreenSettingsManager instance{
-		get {
+		get {			
             if (ssm_instance == null) {
                 //  FindObjectOfType(...) returns the first ScreenSettingsManager object in the scene.
-                ssm_instance =  FindObjectOfType(typeof (ScreenSettingsManager)) as ScreenSettingsManager;
+                ssm_instance = FindObjectOfType(typeof (ScreenSettingsManager)) as ScreenSettingsManager;
             }
  
             // If it is still null, create a new instance
             if (ssm_instance == null) {
                 GameObject obj = new GameObject("ScreenSettingsManager");
                 ssm_instance = obj.AddComponent(typeof (ScreenSettingsManager)) as ScreenSettingsManager;
-                Debug.Log("Could not locate an ScreenSettingsManager object. ScreenSettingsManager was Generated Automaticly.");
+				DontDestroyOnLoad(obj.transform.gameObject);
             }
  
             return ssm_instance;
@@ -42,11 +44,15 @@ public class ScreenSettingsManager : MonoBehaviour {
 	}
 	
 	// will call all apropriate functions to dynamically calculate the screen settings
-	public static void CalculateSettings(float targetaspect){
-		ResolutionManager.instance.InitializeResolutionSettings(targetaspect);
-		
-		CalulateScreenDimensions();
-		CalculateBarSizes();
+	public void CalculateSettings(float targetaspect){
+		if (SettingsCalculated == false){
+			ResolutionManager.instance.InitializeResolutionSettings(targetaspect);
+			
+			CalulateScreenDimensions();
+			CalculateBarSizes();
+			
+			SettingsCalculated = true;
+		}
 	}
 	
 	// will calulate the screen's width and height with respect to resolution changes
@@ -59,4 +65,8 @@ public class ScreenSettingsManager : MonoBehaviour {
 		verticalBarWidth = Screen.width * ResolutionManager.widthShift;
 		horizontalBarHeight = Screen.height * ResolutionManager.heightShift;
 	}
+	
+	void Awake() {
+        DontDestroyOnLoad(transform.gameObject);
+    }
 }
