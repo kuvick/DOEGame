@@ -45,27 +45,31 @@ function OnGUI()
 	{
 		if(GUI.Button(eventStartGameRect, "Start Game"))
 		{
+		PlayButtonPress(2);
 			Application.LoadLevel("LoadingScreen");
 		}
 		
 		if(GUI.Button(eventResumeRect, "Resume"))
 		{
+			PlayButtonPress(2);
 			Application.LoadLevel("LoadingScreen"); // to be changed when saving and loading is implemented
 		}
 		
 		if(GUI.Button(eventLevelSelectRect, "Level Select"))
 		{
-			
+			PlayButtonPress(1);
 			Application.LoadLevel("LevelSelectScreen");
 		}
 		
 		if(GUI.Button(eventExitRect, "Exit"))
 		{
+			PlayButtonPress(1);
 			Application.Quit();
 		}
 		
 		if(GUI.Button(eventScoreScreenRect, "Score Screen"))
 		{
+			PlayButtonPress(1);
 			Application.LoadLevel("ScoreScreen");		// to be removed later, used for testing purposes
 		}
 	}
@@ -86,4 +90,11 @@ function InitButtons(){
 	eventLevelSelectRect = RectFactory.NewRect(.2,.8);
 	eventExitRect = RectFactory.NewRect(.8,0);
 	eventScoreScreenRect = RectFactory.NewRect(.6,.8);
+}
+
+//Plays the Audio for the Button Press
+//sounderNumber is which button press sound to play (1 or 2)
+function PlayButtonPress(soundNumber)
+{
+	GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup).playButtonClick(soundNumber);
 }

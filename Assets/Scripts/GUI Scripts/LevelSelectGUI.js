@@ -37,6 +37,7 @@ function levelSelectMenu() {
 
 			if (i <= nextLevel) {
    		 		if(GUI.Button(Rect(100, 20, 100, 100), "Graphic Here")) { //Replace "" with mapTexture when assets available
+   		 			PlayButtonPress(1);
     				Application.LoadLevel(i); //Automatically assigns each button to scene 1-numberOfLevels
    			   }
    			}else{
@@ -51,6 +52,7 @@ function levelSelectMenu() {
 	} 
 	
     if(GUI.Button(RectFactory.NewRect(0,.85), "<- Menu")) {
+    	PlayButtonPress(2);
    		Application.LoadLevel("StartScreen");
     } 
       
@@ -60,4 +62,11 @@ function OnGUI () {
 	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1),backgroundTexture); 
     GUI.skin = newSkin;    
     levelSelectMenu();
+}
+
+//Plays the Audio for the Button Press
+//sounderNumber is which button press sound to play (1 or 2)
+function PlayButtonPress(soundNumber)
+{
+	GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup).playButtonClick(soundNumber);
 }

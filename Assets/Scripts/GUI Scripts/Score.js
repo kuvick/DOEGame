@@ -83,10 +83,12 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventRetryLevelRect, scoreStrings[0]))
 	{
+		PlayButtonPress(1);
 		/*
 			TODO: Restart Previous Level(not just level 1)
 			Note: Derrick, possibly done, taking int the current level from ToolBar
 		*/
+		
 		Application.LoadLevel(ToolBar.currLevel);//"Prototype - Level1");
 	}
 	
@@ -95,6 +97,7 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventPostScoreToFBRect, scoreStrings[1]))
 	{
+		PlayButtonPress(2);
 		FacebookProtocol.PostScoreToFacebook(totalScore, "The Outpost");		
 	}
 	
@@ -104,6 +107,7 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventLoginToFBRect, scoreStrings[4]))
 	{
+		PlayButtonPress(2);
 		/*
 			TODO: Post Scores to Facebook
 		*/
@@ -116,6 +120,7 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventNextLevelRect, scoreStrings[2]))
 	{
+		PlayButtonPress(1);
 		/*
 			TODO: Continue to the next level(not just return to level 1)
 		*/
@@ -127,6 +132,7 @@ function OnGUI(){
 	*/
 	if(GUI.Button(eventBackToStartRect, scoreStrings[3]))
 	{
+		PlayButtonPress(1);
 		Application.LoadLevel("StartScreen");
 	}
 	
@@ -151,4 +157,11 @@ static function ShowMessage(msg : String){
 	toastMsg = msg;
 	toastTime = 300;
 	showToast = true;
+}
+
+//Plays the Audio for the Button Press
+//sounderNumber is which button press sound to play (1 or 2)
+function PlayButtonPress(soundNumber)
+{
+	GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup).playButtonClick(soundNumber);
 }
