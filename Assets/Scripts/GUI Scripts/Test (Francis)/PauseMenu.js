@@ -10,9 +10,6 @@ Author: by Francis Yuan
 // Import
 import System.Collections.Generic;
 
-// Static boolean to control visibility
-private var isVisible:boolean;
-
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
@@ -26,55 +23,48 @@ private var paddingPercent = .02;
 private var padding: float;
 
 // Font sizes
-private var resumeFontHeightPercent = 0.03;		// Height of the font of the resume button as a percentage of screen height
-private var resumeFontHeight:float;				// Height of the font of the resume buttonin pixels
+private var resumeFontHeightPercent = 0.03;			// Height of the font of the resume button as a percentage of screen height
+private var resumeFontHeight:float;					// Height of the font of the resume buttonin pixels
 
 // Skins for GUI components
 public var hexButtonSkin:GUISkin;
 public var pauseMenuSkin:GUISkin;					
 
-// Pause Menu Variables
+// Pause Menu Button Rectangles
 private var gameMenuList:List.<Rect>;				// Stores all the Pause Menu elements for easy iteration
 private var resumeGameButton:Rect;
 private var levelSelectButton:Rect;
 private var restartLevelButton:Rect;
 private var startScreenButton:Rect;
-private var saveExitButton:Rect;	
+private var saveExitButton:Rect;
+
+// Pause Menu Scaling
+private var hexButtonHeightPercent:float = 0.2;		// Width of the Resume button as a percent of height
+private var scoreFontHeightPercent:float = 0.04;	// Height of the font as a percentage of screen height
+private var menuFontHeightPercent:float = 0.03;		// Height of the font as a percentage of screen height
+
+private var hexButtonPadding:float;					// Padding of the Resume button
+private var hexButtonHeight:float;					// Width of a the Resume button in actual pixels
 
 private var gameMenuButtonHeightPercent:float = 0.1;
 private var gameMenuButtonWidthPercent:float = 0.2;
 private var gameMenuButtonHeight:float;
 private var gameMenuButtonWidth:float;
 
-// Pause Menu Textures
-private var undoTexture:Texture;					// Texture to display for the undo button
-private var waitTexture:Texture;					// Texture to display for the wait button
-private var intelTexture:Texture;					// Texture to display for the intel button
-
-public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
-public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
-public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
-public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
-public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
-public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
-
-// Pause Menu Scaling
-private var hexButtonHeightPercent = 0.2;	// Width of a Main Menu button as a percent of height
-private var scoreFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
-private var menuFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
-private var hexButtonPadding : float;
-
-private var hexButtonHeight:float;			// Width of a Main Menu button in actual pixels
-private var scoreFontHeight:float;			// Height of the font in pixels
-private var menuFontHeight:float;			// Height of the font in pixels
-
 function Start()
 {
 	// Store window dimensions and calculate padding
+	/*
 	screenWidth = ScreenSettingsManager.screenWidth;
 	screenHeight = ScreenSettingsManager.screenHeight;
 	horizontalBarHeight = ScreenSettingsManager.horizontalBarHeight;
 	verticalBarWidth = ScreenSettingsManager.verticalBarWidth;
+	*/
+	
+	screenWidth = Screen.width;
+	screenHeight = Screen.height;
+	horizontalBarHeight = 0;
+	verticalBarWidth = 0;
 	padding = screenWidth * paddingPercent;
 	
 	InitializePauseMenu();
@@ -103,7 +93,7 @@ function InitializePauseMenu()
 }
 
 
-function DrawPauseMenu()
+public function Render()
 {
 	GUI.skin = hexButtonSkin;
 	if (GUI.Button(resumeGameButton, "Resume"))
@@ -139,8 +129,5 @@ function Update()
 
 function OnGUI()
 {
-	if (isVisible)
-	{
-		DrawPauseMenu();
-	}
+
 }
