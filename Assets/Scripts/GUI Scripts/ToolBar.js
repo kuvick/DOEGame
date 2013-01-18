@@ -72,14 +72,26 @@ private var waitButton:Rect; 				// Added by F for Waiting
 private var undoButton:Rect;				// Added by K for Undoing
 private var intelButton:Rect; 				// Added by F for toggling the Intel Menu
 
-private var hexButtonHeightPercent = 0.2;	// Width of a Main Menu button as a percent of height
-private var scoreFontHeightPercent = 0.04;	// Height of the font as a percentage of screen height
-private var menuFontHeightPercent = 0.03;	// Height of the font as a percentage of screen height
-private var hexButtonPadding : float;
+private var hexButtonHeightPercent:float = 0.2;	// Width of a Main Menu button as a percent of height
+private var scoreFontHeightPercent:float = 0.04;	// Height of the font as a percentage of screen height
+private var menuFontHeightPercent:float = 0.03;	// Height of the font as a percentage of screen height
+private var hexButtonPadding:float;
 
 private var hexButtonHeight:float;			// Width of a Main Menu button in actual pixels
 private var scoreFontHeight:float;			// Height of the font in pixels
 private var menuFontHeight:float;			// Height of the font in pixels
+
+// Toolbar Textures
+private var undoTexture:Texture;					// Texture to display for the undo button
+private var waitTexture:Texture;					// Texture to display for the wait button
+private var intelTexture:Texture;					// Texture to display for the intel button
+
+public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
+public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
+public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
+public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
+public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
+public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
 
 // Event List Variables
 private var eventList:EventLinkedList;
@@ -120,18 +132,6 @@ private var gameMenuButtonHeightPercent:float = 0.1;
 private var gameMenuButtonWidthPercent:float = 0.2;
 private var gameMenuButtonHeight:float;
 private var gameMenuButtonWidth:float;
-
-// Game Menu Textures
-private var undoTexture:Texture;					// Texture to display for the undo button
-private var waitTexture:Texture;					// Texture to display for the wait button
-private var intelTexture:Texture;					// Texture to display for the intel button
-
-public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
-public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
-public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
-public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
-public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
-public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
 
 // Potentially Outdated Variables
 private var windowHeightPercent = .2;		// height of the window as a percentage of the screen's height
@@ -331,7 +331,7 @@ function OnGUI()
 }
 
 /*
-	Draws all the buttons in the Main Menu.
+	Draws the Main Menu.
 	
 	Buttons:
 		Game Menu - Opens the Game Menu
@@ -385,6 +385,7 @@ function DrawToolBar()
 	// Draw the buttons and respond to interaction
 	if(GUI.Button(gameMenuButton, "Menu"))
 	{
+		PlayButtonPress(1);
 		Debug.Log("Game Menu button clicked");
 		if(!isPaused)
 		{ 
@@ -398,12 +399,14 @@ function DrawToolBar()
 	
 	if(GUI.Button(waitButton, waitTexture))
 	{
+		PlayButtonPress(1);
 		Debug.Log("Wait button clicked");
 		IntelSystem.addTurn();
 	}
 	
 	if(GUI.Button(undoButton, undoTexture))
 	{
+		PlayButtonPress(1);
 		Debug.Log("Debug button clicked");
 		var data:Database = GameObject.Find("Database").GetComponent("Database");
 		var didUndo = data.undo();
@@ -418,6 +421,7 @@ function DrawToolBar()
 	
 	if(GUI.Button(intelButton, intelTexture))
 	{
+		PlayButtonPress(1);
 		Debug.Log("Intel button clicked");
 		if(!eventListUsed)
 		{
@@ -433,11 +437,21 @@ function DrawToolBar()
 	GUI.Label(Rect(verticalBarWidth + screenWidth - sidePadding, horizontalBarHeight + (2 * sidePadding) + scoreFontHeight, 0, 0), "Turn: " + IntelSystem.currentTurn);
 }
 
+/*
+	Draws the Game Menu.
+	
+	Buttons:
+		Resume - Closes the game menu
+		Level Select - Loads the Level Selection Screen
+		Restart - Restarts the current level
+		Save & Exit - Saves progress and exits the program
+*/
 function DrawGameMenu()
 {
 	GUI.skin = toolBarSkin;
 	if (GUI.Button(resumeGameButton, "Resume"))
 	{
+		PlayButtonPress(2);
 		Debug.Log("Game is unpaused");
 		isPaused = false; 
 		showToolbar = savedShowToolbar;
@@ -448,24 +462,37 @@ function DrawGameMenu()
 	GUI.skin = gameMenuSkin;
 	if (GUI.Button(levelSelectButton, "Level Select"))
 	{
+		PlayButtonPress(1);
 		Application.LoadLevel("LevelSelectScreen");
 	}
 	if (GUI.Button(restartLevelButton, "Restart"))
 	{
+		PlayButtonPress(2);
+		
 		Application.LoadLevel(currLevel);  
 	}
 	if (GUI.Button(startScreenButton, "Start Screen"))
 	{
+		PlayButtonPress(1);
 		// TODO: Saves progress and returns to the starting screen
 		Application.LoadLevel ("StartScreen");
 	}
 	if (GUI.Button(saveExitButton, "Save & Exit"))
 	{
+		PlayButtonPress(2);
 		// TODO: Closes game app and saves progress 
 		Application.Quit();	
 	}
 }
 
+/*
+	Draws all the buttons in the Intel Menu.
+	
+	Buttons:
+		Event - Each event is a button
+		Close - Closes the Intel Menu
+	
+*/
 function DrawIntelMenu()
 {
 	GUI.Box(eventListBGRect, "");
@@ -475,6 +502,7 @@ function DrawIntelMenu()
 	// Closes the event list
 	if (GUI.Button(eventListCloseRect, "X"))
 	{
+		PlayButtonPress(1);
 		eventListUsed = false;
 		showToolbar = savedShowToolbar;
 		savedShowToolbar = showToolbar;
@@ -561,6 +589,7 @@ function BuildingMenuFunc (windowID : int) {
 }
 
 function ToggleBuildingWindowVisibility(){
+	PlayButtonPress(1);
 	showWindow = !showWindow;
 }
 
@@ -653,4 +682,11 @@ public function OnResumeGame()
 {
 	showToolbar = true;
 	savedShowToolbar = showToolbar;
+}
+
+//Plays the Audio for the Button Press
+//sounderNumber is which button press sound to play (1 or 2)
+function PlayButtonPress(soundNumber)
+{
+	GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup).playButtonClick(soundNumber);
 }
