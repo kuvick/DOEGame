@@ -59,32 +59,35 @@ function Start()
 
 function OnGUI()
 {
-	// Set the current GUI's skin to the scoreSkin variable
-	GUI.skin = marqueeSkin;
-	
-	GUI.Box(marqueeBGRect, "");
-	
-	if (mode == GameState.EXPLORE && welcome == 0)
+	if (!GUIManager.GetInstance().IsPaused())
 	{
-		GUI.Label(marqueePosition, "Welcome to Prototype City!");
-	}					
-	else if(mode == GameState.LINK)
-	{
-		GUI.Label(marqueePosition, "Link Mode");
-		welcome = 1;
+		// Set the current GUI's skin to the scoreSkin variable
+		GUI.skin = marqueeSkin;
+		
+		GUI.Box(marqueeBGRect, "");
+		
+		if (mode == GameState.EXPLORE && welcome == 0)
+		{
+			GUI.Label(marqueePosition, "Welcome to Prototype City!");
+		}					
+		else if(mode == GameState.LINK)
+		{
+			GUI.Label(marqueePosition, "Link Mode");
+			welcome = 1;
+		}
+		else if(mode == GameState.INTEL)
+		{
+			GUI.Label(marqueePosition, "Intelligence");
+			welcome = 1;
+		}
+		else if(mode == GameState.PAUSE)
+		{
+			GUI.Label(marqueePosition, "Paused");
+			welcome = 1;
+		}
+		else 
+			GUI.Label(marqueePosition, "Explore Mode");	
 	}
-	else if(mode == GameState.INTEL)
-	{
-		GUI.Label(marqueePosition, "Intelligence");
-		welcome = 1;
-	}
-	else if(mode == GameState.PAUSE)
-	{
-		GUI.Label(marqueePosition, "Paused");
-		welcome = 1;
-	}
-	else 
-		GUI.Label(marqueePosition, "Explore Mode");	
 }
 
 function Update(){

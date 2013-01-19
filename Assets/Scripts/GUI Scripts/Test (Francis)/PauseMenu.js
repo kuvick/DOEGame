@@ -108,7 +108,7 @@ public function Render()
 	}
 	if (GUI.Button(restartLevelButton, "Restart"))
 	{
-		Application.LoadLevel(ToolBar.currLevel);  
+		Application.LoadLevel(GUIManager.currLevel);  
 	}
 	if (GUI.Button(startScreenButton, "Start Screen"))
 	{

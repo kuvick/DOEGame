@@ -48,11 +48,11 @@ public class GUIControl extends MonoBehaviour
 		rectList = new List.<Rect>();
 	}
 	
-	public virtual function Render()
+	public function Render()
 	{
 	}
 	
-	public virtual function RecieveEvent(e:EventTypes)
+	public function RecieveEvent(e:EventTypes)
 	{
 	}
 }

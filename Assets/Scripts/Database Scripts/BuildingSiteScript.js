@@ -6,7 +6,7 @@ private var selectedBuildingSite : boolean;
 private var buildingLocationMenu : Vector2;
 private var buildingSiteLocation : Vector3;
 private var buildingData : BuildingData;
-public var toolbar : ToolBar;
+public var guiManager : GUIManager;
 
 function Start ()
 {
@@ -36,7 +36,7 @@ function OnGUI()
         	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), building.name))
         	{
         		PlaceBuilding.changeBuilding = i;
-        		toolbar.buildingMenuOpen = false;
+        		guiManager.buildingMenuOpen = false;
         		selectedBuildingSite = false;
         		PlaceBuilding.Place(gameObject.transform.position, false);
         		Destroy(gameObject);
@@ -57,9 +57,9 @@ function OnGUI()
 
 function OpenBuildingMenu(mousePosition : Vector2)
 {
-	toolbar = GameObject.Find("Main Camera").GetComponent("ToolBar");
+	guiManager = GameObject.Find("Main Camera").GetComponent("guiManager");
 
 	selectedBuildingSite = true;
 	buildingLocationMenu = mousePosition;
-	toolbar.buildingMenuOpen = true;
+	guiManager.buildingMenuOpen = true;
 }
