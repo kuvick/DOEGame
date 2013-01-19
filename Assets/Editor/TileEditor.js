@@ -19,7 +19,6 @@ class TileEditor extends Editor{
     //if this is true, tiles painted will be buildable, not buildable otherwise
     private var buildable:boolean = true;
     //Building Placing
-    private var buildingType:BuildingType = BuildingType.None;
     private var placing:boolean = false;
     //  Add menu named "My Window" to the Window menu
 //    @MenuItem ("Window/Game Data Manipulation/Tile Editor")
@@ -87,38 +86,13 @@ class TileEditor extends Editor{
 				var worldPoint: Vector3 = ray.GetPoint(enter);
 				var mouseTile: Vector2 = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);//tile under mouse in gui 				    				
 	    		if(Event.current.type == EventType.MouseDrag){ //mouse drag
-	    			//if(paintingTileType)//change the tile type	
-						//grid.setTileType(mouseTile.x, mouseTile.y, tileType);
+	    			if(paintingTileType)//change the tile type	
+						grid.setTileType(mouseTile.x, mouseTile.y, tileType);
 					if(paintingBuildability)
 						grid.setBuildable(mouseTile.x, mouseTile.y, buildable);//set buildability
 					EditorUtility.SetDirty(grid);//calling SetDirty causes the scene to remember/save the values changed in the grid
 	    		}
-	    		else if(Event.current.type == EventType.MouseDown && placing){ //Placing + Mouse Button Down
-	    			if(e.button == 0) //Left Click
-					{
-						HexagonGrid.selectedTilePos = grid.worldToTileCoordinates(worldPoint.x, worldPoint.z);
-						grid.setBuildingType(HexagonGrid.selectedTilePos.x, HexagonGrid.selectedTilePos.y, buildingType);
-						Debug.Log(HexagonGrid.selectedTilePos);
-						
-						//TODO - PlaceBuilding.Place() is not working.
-						/*
-						//Find the center of the hexagon tile
-						var buildingPos: Vector3;
-						buildingPos.x = grid.hexagon.vertices[1].x + (grid.tileWidth / 2.0);
-						buildingPos.y = grid.hexagon.vertices[1].y;
-						buildingPos.z = grid.hexagon.vertices[1].z + grid.sideSize;
-						
-						//Get an instance of PlaceBuilding
-						PlaceBuilding.Place(buildingPos, true); //Place the building in the center of the hexagon tile
-						*/
-						EditorUtility.SetDirty(grid);
-					}
-					else if(e.button == 1) //Right Click
-					{
-						HexagonGrid.selectedTilePos.x = -1; //Reset selected tile
-						HexagonGrid.selectedTilePos.y = -1;
-					}
-		    	}
+	    		
 		    }
 		}
 	    else if(Event.current.type == EventType.layout){

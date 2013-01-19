@@ -31,16 +31,8 @@ enum TileType{
 	Mine
 }
 
-enum BuildingType
-{
-	None,
-	PowerPlant,
-	Factory
-}
-
 class Tile{
 	var type:TileType = TileType.Land;
-	var bType:BuildingType = BuildingType.None;
 	var buildable:boolean = true;
 }
 var tileMap:Tile[] = new Tile[15 * 10];
@@ -170,13 +162,7 @@ function setBuildable(x:int, y:int, buildable:boolean):void{
 	}
 	else Debug.LogError("out of bounds for tileMap, buildable");
 }
-//Set the type of building for the tile at coordinate x, y
-function setBuildingType(x:int, y:int, buildingType:BuildingType):void{
-	if(y * width + x < tileMap.Length){
-		tileMap[y * width + x].bType = buildingType;
-	}
-	else Debug.LogError("out of bounds for tileMap, buildingtype");
-}
+
 
 // note this should use the position argument, that will come latter
 static function GetPositionToBuild(position: Vector3):Vector3 {
