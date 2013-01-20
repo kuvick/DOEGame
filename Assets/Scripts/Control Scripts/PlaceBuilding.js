@@ -54,7 +54,7 @@ function Awake()
 
 static function Place(position: Vector3, isPreplaced: boolean){
 
-	if (changeBuilding > 7) 
+	if (changeBuilding > buildingPrefabs.Length - 1) 
 	{
 		return;
 	} 
