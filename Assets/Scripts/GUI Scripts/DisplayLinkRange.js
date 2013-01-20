@@ -37,7 +37,7 @@ function Start ()
 	
 	Debug.Log("Building length " + buildings.Length);
 	for(var i:int = 0; i < buildings.Length; i++){
-		defaultColors[i] = buildings[i].renderer.material.color;
+		defaultColors[i] = (buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color;
 		
 		//Create a ring denoting the link range around each building
 		rangeRing = new GameObject("RangeRing");
@@ -61,7 +61,7 @@ function Update() {
 		return;
 	}
 	
-	selectedBuilding.renderer.material.color = selectedBuildingColor;
+	(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
 
 	/*Highlight all buildings in range
 	for(var b:GameObject in buildings){
@@ -92,7 +92,7 @@ static function HighlightBuildingsInRange(selectedBuilding:GameObject){
 		
 		if(selectedBuilding != b && isInRange){
 			Debug.Log("Changing Color of " + b.ToString());
-			b.renderer.material.color = inRangeColor;
+			(b.GetComponentInChildren(Renderer) as Renderer).material.color = inRangeColor;
 		}
 	}
 }
@@ -146,7 +146,7 @@ private function createSelectionHexagon(){
 	if(selectionMaterial == null){
 		Debug.LogError ("selection material not linked for HexagonGrid");
 	}
-	selectionHexagon.renderer.material = selectionMaterial;
+	(selectionHexagon.GetComponentInChildren(Renderer) as Renderer).material = selectionMaterial;
 	selectionHexagon.tag = "RangeTile";
 	return selectionHexagon;
 }
@@ -174,7 +174,7 @@ static function restoreColors(){
 		for(var i = 0; i < buildings.Length; i++){
 			if(buildings[i] == null) return;
 		
-			buildings[i].renderer.material.color = Color.clear; // this needs to be changes to no color
+			(buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color = Color.clear; // this needs to be changes to no color
 		}
 	}
 }
