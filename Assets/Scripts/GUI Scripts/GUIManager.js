@@ -123,19 +123,19 @@ private var restartLevelButton:Rect;
 private var startScreenButton:Rect;
 private var saveExitButton:Rect;	
 
-private var pauseMenuHeightPercent:float = 0.3;
-private var pauseMenuButtonHeightPercent:float = 0.16;
-private var pauseMenuButtonRatio:float = 4;
-private var pauseMenuButtonOffsetPercent:float = 0.8;
+private var pauseMenuGroupHeightPercent:float = 0.3;			// Height of the entire menu as a percentage of screen height
+private var pauseMenuButtonHeightPercent:float = 0.16;			// Height of each button as a percentage of screen height
+private var pauseMenuButtonRatio:float = 4;						// Width to height ratio of the button texture (for accurate sclaing)
+private var pauseMenuButtonOffsetPercent:float = 0.8;			// The "height" of the button used for positioning to account for whitespace in the textures
 
-private var pauseMenuButtonTextOffsetXPercent:float = -0.18;
-private var pauseMenuButtonTextOffsetYPercent:float = 0.43;
+private var pauseMenuButtonTextOffsetXPercent:float = -0.18;	// Offset X of the button text so it's aligned according to the mockup
+private var pauseMenuButtonTextOffsetYPercent:float = 0.43;		// Offset Y of the button text so it's aligned according to the mockup
 
-private var pauseMenuTitleOffsetXPercent:float = 0.11;
-private var pauseMenuTitleOffsetYPercent:float = -0.5;
+private var pauseMenuTitleOffsetXPercent:float = 0.11;			// Offset X of the meny title so it's aligned according to the mockup
+private var pauseMenuTitleOffsetYPercent:float = -0.5;			// Offset Y of the meny title so it's aligned according to the mockup
 
-private var pauseMenuTitleHeightPercent:float = 0.09;
-private var pauseMenuFontHeightPercent:float = 0.04;
+private var pauseMenuTitleHeightPercent:float = 0.09;			// Height of the font of the title as a percentage of screen height
+private var pauseMenuFontHeightPercent:float = 0.04;			// Height of the font of the buttons as a percentage of screen height
 
 private var pauseMenuButtonHeight:float;
 private var pauseMenuButtonWidth:float;
@@ -203,23 +203,21 @@ function Start(){
 	currLevel = Application.loadedLevelName; 
 }
 
-public static function GetInstance():GUIManager
+
+function OnGUI() 
 {
-	// Search for an instance of Main Menu
-    if (gm_instance == null) 
-    {
-        gm_instance =  FindObjectOfType(typeof (GUIManager)) as GUIManager;
-    }
+	if(mainMenuOpen)		{DrawMainMenu();}
+	if(pauseMenuOpen)		{DrawPauseMenu();}
+	if(intelMenuOpen)		{DrawIntelMenu();}
+}
 
-    // If it is still null, create a new instance
-    if (gm_instance == null) 
-    {
-        var obj:GameObject = new GameObject("GUIManager");
-        gm_instance = obj.AddComponent(typeof (GUIManager)) as GUIManager;
-        Debug.Log("Could not locate an ToolBar object. ToolBar was generated automaticly.");
-    }
-
-    return gm_instance;
+function Update()
+{
+	var currNode : EventNode = eventList.head;
+	while(currNode != null)
+	{
+		currNode = currNode.next;
+	}
 }
 	
 function InitializeMainMenu()
@@ -270,7 +268,7 @@ function InitializePauseMenu()
 	
 	pauseMenuBackground = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 	resumeGameButton =	Rect(verticalBarWidth + sidePadding, horizontalBarHeight + sidePadding, hexButtonHeight, hexButtonHeight);	
-	levelSelectButton = Rect(verticalBarWidth + (screenWidth - pauseMenuButtonWidth)/2, horizontalBarHeight + screenHeight * pauseMenuHeightPercent, pauseMenuButtonWidth, pauseMenuButtonHeight); 
+	levelSelectButton = Rect(verticalBarWidth + (screenWidth - pauseMenuButtonWidth)/2, horizontalBarHeight + screenHeight * pauseMenuGroupHeightPercent, pauseMenuButtonWidth, pauseMenuButtonHeight); 
 	restartLevelButton = Rect(levelSelectButton.x, levelSelectButton.y + pauseMenuButtonOffset, pauseMenuButtonWidth, pauseMenuButtonHeight);
 	startScreenButton = Rect(levelSelectButton.x, restartLevelButton.y + pauseMenuButtonOffset, pauseMenuButtonWidth, pauseMenuButtonHeight);
 	saveExitButton = Rect(levelSelectButton.x, startScreenButton.y + pauseMenuButtonOffset, pauseMenuButtonWidth, pauseMenuButtonHeight);
@@ -335,12 +333,6 @@ function InitializeIntelMenu()
 	Debug.Log("eventList.length = " + eventList.GetSize()); //Print the length just in case
 }
 
-function OnGUI() 
-{
-	if(mainMenuOpen)		{DrawMainMenu();}
-	if(pauseMenuOpen)		{DrawPauseMenu();}
-	if(intelMenuOpen)		{DrawIntelMenu();}
-}
 
 /*
 	Draws the Main Menu.
@@ -465,14 +457,12 @@ function DrawPauseMenu()
 	GUI.Box(pauseMenuBackground, "");
 	GUI.Label(pauseMenuTitle, "PAUSE");
 
-	// Level Select button/label pair
 	if (GUI.Button(levelSelectButton, "level select"))
 	{
 		PlayButtonPress(1);
 		Application.LoadLevel("LevelSelectScreen");
 	}
 	
-	// Restart Level button/label pair
 	if (GUI.Button(restartLevelButton, "restart"))
 	{
 		PlayButtonPress(2);
@@ -480,7 +470,6 @@ function DrawPauseMenu()
 		Application.LoadLevel(currLevel);  
 	}
 	
-	// Start Screen button/label pair
 	if (GUI.Button(startScreenButton, "start screen"))
 	{
 		PlayButtonPress(1);
@@ -488,7 +477,6 @@ function DrawPauseMenu()
 		Application.LoadLevel ("StartScreen");
 	}
 	
-	// Save and Quit button/label pair
 	if (GUI.Button(saveExitButton, "save and quit"))
 	{
 		PlayButtonPress(2);
@@ -570,15 +558,6 @@ function DrawIntelMenu()
 	GUI.EndScrollView();
 }
 
-function Update()
-{
-	var currNode : EventNode = eventList.head;
-	while(currNode != null)
-	{
-		currNode = currNode.next;
-	}
-}
-
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
@@ -615,6 +594,25 @@ function BuildingMenuFunc (windowID : int) {
 function ToggleBuildingWindowVisibility(){
 	PlayButtonPress(1);
 	showWindow = !showWindow;
+}
+
+public static function GetInstance():GUIManager
+{
+	// Search for an instance of Main Menu
+    if (gm_instance == null) 
+    {
+        gm_instance =  FindObjectOfType(typeof (GUIManager)) as GUIManager;
+    }
+
+    // If it is still null, create a new instance
+    if (gm_instance == null) 
+    {
+        var obj:GameObject = new GameObject("GUIManager");
+        gm_instance = obj.AddComponent(typeof (GUIManager)) as GUIManager;
+        Debug.Log("Could not locate an ToolBar object. ToolBar was generated automaticly.");
+    }
+
+    return gm_instance;
 }
 
 // Helper function to determine if the given point on the screen is on a gui element
