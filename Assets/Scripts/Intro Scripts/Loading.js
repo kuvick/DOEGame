@@ -21,5 +21,5 @@ function Start (){
 
 function OnGUI() {
 	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1),loadingTexture); 
-	GUI.DrawTexture(RectFactory.NewRect(.05,.05,.9,.8),adTexture); 
+	//GUI.DrawTexture(RectFactory.NewRect(.05,.05,.9,.8),adTexture); 
 }
