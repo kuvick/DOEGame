@@ -5,7 +5,7 @@ enum Ratio {_4x3, _3x2, _16x9, _5x3, _16x10};
 
 public var wantedScreenRatio : Ratio;
 
-function Awake () {
+function Start() {
 	var ratioAmount : float = ConvertRatio(wantedScreenRatio);
 	
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);

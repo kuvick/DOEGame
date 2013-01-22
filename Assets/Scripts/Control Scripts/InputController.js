@@ -52,7 +52,6 @@ private var typeOfInput: function();
 // so you don't have to search in the state machine for the spot
 // called whenever a drag occurs
 function DragEvent(inputChangeSinceLastTick: Vector2){
-	//Debug.Log("Calling drag event");
 	CameraControl.Drag(-inputChangeSinceLastTick);
 }
 
@@ -75,15 +74,15 @@ function determineZoomingInOrOut(touch0 : Touch, touch1 : Touch){
 
 	// if the change is negative then the fingers are closer together indicating to zoom in
 	if (deltaPinch < 0) {
-		CameraControl.zoom(zoomIn);
+		CameraControl.Zoom(zoomIn);
 	} else if (deltaPinch > 0) {
-	 	CameraControl.zoom(zoomOut);
+	 	CameraControl.Zoom(zoomOut);
 	}
 }
 
 // Tell the camera to zoom in or out
 function zoomEvent(isZoomingIn: boolean){
-	CameraControl.zoom(isZoomingIn);
+	CameraControl.Zoom(isZoomingIn);
 }	
 
 function ResetControlState() {
