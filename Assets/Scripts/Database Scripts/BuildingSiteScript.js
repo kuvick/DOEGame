@@ -38,6 +38,7 @@ function OnGUI()
         		PlaceBuilding.changeBuilding = i;
         		guiManager.buildingMenuOpen = false;
         		selectedBuildingSite = false;
+        		Database.deleteBuildingSite(buildingSiteLocation);
         		PlaceBuilding.Place(gameObject.transform.position, false);
         		Destroy(gameObject);
         	}
@@ -57,7 +58,7 @@ function OnGUI()
 
 function OpenBuildingMenu(mousePosition : Vector2)
 {
-	guiManager = GameObject.Find("Main Camera").GetComponent("guiManager");
+	guiManager = GameObject.Find("Main Camera").GetComponent("GUIManager");
 
 	selectedBuildingSite = true;
 	buildingLocationMenu = mousePosition;

@@ -774,3 +774,18 @@ function testWinState(): boolean
 	return true;
 	
 }// end of testWinState
+
+
+
+//*******************************************************************************
+// This function will properly delete a building site from the database
+
+static public function deleteBuildingSite( coordinate : Vector3 )
+{
+
+	var buildingSiteID : int = findBuildingIndex( coordinate );	// find location in array of buildings
+	Debug.Log("Index: " + buildingSiteID);
+	buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
+	BroadcastBuildingUpdate();
+
+}// end of deleteBuildingSite()

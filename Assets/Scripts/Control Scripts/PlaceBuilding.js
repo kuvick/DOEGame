@@ -30,13 +30,15 @@ static var grid:HexagonGrid;
 
 static var buildingPrefabs:GameObject[];
 
+public var buildingSitePrefabsFolder : String;	// the level designer specifies the name of the folder, where the prefabs are located for the building sites
+
 function Awake()
 {
 	// Loading the prefabs from the Resources folder
 	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent("DefaultBuildings");
 	var defaultBuildingList : DefaultBuildingData[] = defaultBuildingScript.defaultBuildings;
 	var size: int = defaultBuildingList.Length;	
-	var rawPrefabs : Object[] =  Resources.LoadAll("");
+	var rawPrefabs : Object[] =  Resources.LoadAll(buildingSitePrefabsFolder);
 	buildingPrefabs = new GameObject[rawPrefabs.Length];
 	
 	var i : int = 0;
