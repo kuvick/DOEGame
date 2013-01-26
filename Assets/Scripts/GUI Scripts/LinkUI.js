@@ -126,8 +126,7 @@ function OnGUI()
 	else
 		cancelLinkMode = true;
 	
-	if(buildings.Length == 0)
-		return; //no point in updating 
+
 	
 	if(selectedBuilding == null)
 		return;
@@ -136,8 +135,9 @@ function OnGUI()
 	selectedBuildingOutputs = selectedGridBuilding.outputName;
 	
 	//Draw IO buttons
-	for(var building:GameObject in buildings)
+	for(var buildingData:BuildingData in (GameObject.Find("Database").GetComponent("Database") as Database).buildingDataList)
 	{
+		var building:GameObject = buildingData.gameObject;
 		//Debug.Log("GUI GUI");
 		if(building == null) return;
 		

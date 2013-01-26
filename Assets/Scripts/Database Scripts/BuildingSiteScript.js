@@ -28,22 +28,30 @@ function OnGUI()
 	
 	if(selectedBuildingSite)
 	{
-        scrollPosition = GUI.BeginScrollView (Rect (buildingLocationMenu.x, buildingLocationMenu.y, 200 , 200), scrollPosition, Rect (0, 0, 200, (PlaceBuilding.buildingPrefabs.Length + 1) * 90), false, true);
         
+        
+        var database:Database = GameObject.Find("Database").GetComponent("Database");
+        scrollPosition = GUI.BeginScrollView (Rect (buildingLocationMenu.x, buildingLocationMenu.y, 200 , 200), scrollPosition, Rect (0, 0, 200, ( database.availableBuildingList.Count + 1) * 90), false, true);
         var i : int = 0;
-        for(var building : GameObject in PlaceBuilding.buildingPrefabs)
-        {
+        for(var building : GameObject in database.availableBuildingList){
         	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), building.name))
         	{
-        		PlaceBuilding.changeBuilding = i;
+        		//PlaceBuilding.changeBuilding = i;
         		guiManager.buildingMenuOpen = false;
         		selectedBuildingSite = false;
-        		PlaceBuilding.Place(gameObject.transform.position, false);
+        		var buildPosition:Vector3 = gameObject.transform.position;
+        		var newBuilding:GameObject = Instantiate(building, gameObject.transform.position, Quaternion.identity);
+        		var newBuildingData:BuildingData = newBuilding.GetComponent("BuildingData");
+        		newBuildingData.coordinate = HexagonGrid.worldToTileCoordinates(buildPosition.x, buildPosition.z); 
+				newBuilding.tag = "Building";
+				Database.instance.addBuildingData(newBuildingData);
+				Database.instance.removeBuildingData(GetComponent("BuildingData"));
         		Destroy(gameObject);
         	}
 
 			i++;
 		}
+		
 		
 		GUI.EndScrollView ();
 		
@@ -57,7 +65,7 @@ function OnGUI()
 
 function OpenBuildingMenu(mousePosition : Vector2)
 {
-	guiManager = GameObject.Find("Main Camera").GetComponent("guiManager");
+	guiManager = GameObject.Find("Main Camera").GetComponent("GUIManager");
 
 	selectedBuildingSite = true;
 	buildingLocationMenu = mousePosition;

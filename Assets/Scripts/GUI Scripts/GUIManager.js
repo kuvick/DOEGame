@@ -561,7 +561,9 @@ function DrawIntelMenu()
 //Note: window id is 1 for building menu
 function BuildingMenuFunc (windowID : int) {
         
-        var data:Database = GameObject.Find("Database").GetComponent("Database");
+        //old building menu function
+        
+        /*var data:Database = GameObject.Find("Database").GetComponent("Database");
         
         // Added a scroll bar for when there are multiple buildings; need to find a way to disable the panning of the camera while scrolling
         scrollPosition = GUI.BeginScrollView (Rect (5,25,toolBarWidth - 25 , toolBarHeight - 50), scrollPosition, Rect (0, 0, toolBarWidth - 75, toolBarHeight + 75), false, true);
@@ -584,11 +586,12 @@ function BuildingMenuFunc (windowID : int) {
         												+ "\n"
         												+ "OUTPUT: " + data.buildings[i].outputName
         												+ " [" + data.buildings[i].outputNum + "]");
-        											*/
+        											*
 
 		}
-		
+		*/
 		GUI.EndScrollView ();
+		
 }
 
 function ToggleBuildingWindowVisibility(){

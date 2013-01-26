@@ -22,6 +22,10 @@ Attach to a blank GameObject
 
 #pragma strict
 
+static var instance:Database;
+
+//list of buildings for the BuildingMenu of the BuildingSite
+public var availableBuildingList:List.<GameObject>;
 
 
 // The two main structures for holding data:
@@ -49,10 +53,17 @@ static public var limitedUndos = false;
 	//*************************************************************************************************
 
 
-
+ var buildingDataList:List.<BuildingData> = new List.<BuildingData>();
 static var gridObject:GameObject;
 static var grid:HexagonGrid;
-
+function Awake(){
+	if(instance ==null){
+    	instance = this;
+    }
+    else{
+        Debug.LogWarning("There should only be one database");
+    }
+}
 
 function Start()
 {
@@ -64,13 +75,14 @@ function Start()
 
 	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
 	{
-		tempBuilding = new BuildingOnGrid();
+		//tempBuilding = new BuildingOnGrid();
 		tempBuildingData = buildingObject.GetComponent("BuildingData");
-		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
-		buildingsOnGrid.Push(tempBuilding);
-		BroadcastBuildingUpdate();
+		buildingDataList.Add(tempBuildingData);
+		//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		//buildingsOnGrid.Push(tempBuilding);
+		//BroadcastBuildingUpdate();
 		
-		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+		//Debug.Log(tempBuilding.buildingName + " was added to the grid");
 	}
 	
 	gridObject = GameObject.Find("HexagonGrid");
@@ -78,7 +90,26 @@ function Start()
 
 }
 
-
+public function getBuildingDataAtCoordinate(coordinate:Vector3):BuildingData{
+	for(var buildingData:BuildingData in buildingDataList){
+		if(coordinate.x == buildingData.coordinate.x && coordinate.y == buildingData.coordinate.y){
+			return buildingData;
+		}
+		
+		
+	}
+	return null;
+	
+}
+public function addBuildingData(buildingData:BuildingData){
+	buildingDataList.Add(buildingData);
+}
+public function removeBuildingData(buildingData:BuildingData){
+	var index = buildingDataList.IndexOf(buildingData);
+	if(index != -1){
+		buildingDataList.RemoveAt(index);
+	}
+}
 /*
 
 The addingBuildingToGrid function adds a building to the

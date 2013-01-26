@@ -22,6 +22,8 @@ Usage:
 	-The grid can be turned on or off with the showGrid boolean or the setGridVisibility function
 	-The selection hexagon can be turned on or off with the setSelectionHexagonVisibility function
 	-The tile type of a particular tile (x, y) can be found through getTile(x, y).type . getTile returns a Tile Object.
+	
+	author - Stephen hopkins
 */
 enum TileType{
 	Land,
@@ -47,6 +49,7 @@ static var tileWidth: float = 130.0f; //width of a hexagon tile
 static var totalDimensions:Vector2;
 static var sideSize: float = tileWidth / Mathf.Cos(Mathf.PI / 6.0f) / 2.0f; //size of a single side of the hexagon
 static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the ascii art below
+
 /*<-------> tileWidth
  *   
  *    /\   |peakSize
@@ -62,10 +65,10 @@ static var tileHalfWidth = tileWidth / 2.0;
 static var tileHalfHeight = (sideSize + peakSize * 2.0) / 2.0;
 public static var selectedTilePos: Vector2 = new Vector2(-1, -1); //Current hex that is being selected
 	
-
+private var selectionPosition:Vector3 = new Vector3();
 public var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
-static public var selectionPosition: Vector3;
+
 
 function Start(){
 	mainCamera = Camera.main;
@@ -164,12 +167,7 @@ function setBuildable(x:int, y:int, buildable:boolean):void{
 }
 
 
-// note this should use the position argument, that will come latter
-static function GetPositionToBuild(position: Vector3):Vector3 {
-	return (new Vector3(selectionPosition.x + tileWidth/2,
-			15, 
-			selectionPosition.z  + (sideSize + peakSize*2)/2));
-}
+
 
 /*
  * Creates the hexagon that will highlight specific tiles
@@ -263,7 +261,7 @@ private function createHexagonGridParticles(){
  * http://www.gamedev.net/page/resources/_/technical/game-programming/coordinates-in-hexagon-based-tile-maps-r1800
  * converts world coordinates to tile coordinates
  * */
- static function worldToTileCoordinates(x:float, y:float): Vector2{
+ static function worldToTileCoordinates(x:float, y:float): Vector3{
 	var xTile: int;
 	var yTile: int;
 	var xSection: int = Mathf.FloorToInt (x / tileWidth);
@@ -315,17 +313,17 @@ private function createHexagonGridParticles(){
 			}
 		}
 	}
-	return new Vector2(xTile, yTile);	
+	return new Vector3(xTile, yTile, 0);	
  }
  
- // Convert the given screen location into its corrisponding tile location, if the mouse is in negative coordinates repect to the grid, the coordinates get set to 0
- static function ScreenPosToTilePos(camera:Camera, inputPos: Vector2) :Vector2{
+ // Convert the given screen location into its corresponding tile location, if the mouse is in negative coordinates repect to the grid, the coordinates get set to 0
+ static function ScreenPosToTilePos(camera:Camera, inputPos: Vector2) :Vector3{
  	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
 	var ray: Ray = camera.ScreenPointToRay(inputPos);
 	var enter: float = 0f; //enter stores the distance from the ray to the plane
 	plane.Raycast(ray, enter);
 	var worldPoint: Vector3 = ray.GetPoint(enter);
-	var inputTile: Vector2 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
+	var inputTile: Vector3 = worldToTileCoordinates(worldPoint.x, worldPoint.z);
 	inputTile.x = inputTile.x < 0 ? 0: inputTile.x;
 	inputTile.y = inputTile.y < 0 ? 0: inputTile.y;
 	return (inputTile);
@@ -336,8 +334,20 @@ private function createHexagonGridParticles(){
 static function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
   return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
 }
+/**
+	centered rather than bottom left corner
+*/
+static function tileToWorldCoordinatesCentered(tileX:int, tileY:int):Vector3{
+	return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 + tileHalfWidth, 0, tileY * sideSize * 1.5f + tileHalfHeight);	
+}
 
 //returns the dimensions of the grid
 static function totalTileDimensions():Vector2{
 	return totalDimensions;
+}
+function getSelectionHexagon():GameObject{
+	return selectionHexagon;
+}
+function getSelectedTileCoordinates():Vector3{
+	return worldToTileCoordinates(selectionHexagon.transform.position.x + tileHalfWidth, selectionHexagon.transform.position.z + tileHalfHeight);
 }

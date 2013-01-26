@@ -13,9 +13,9 @@
 */
 
 public var selectedBuildingColor:Color = Color.red;
-static public var inRangeColor:Color = Color.green;
+static public var inRangeColor:Color = Color.blue;
 
-static private var buildings:GameObject[];
+static private var buildings:List.<BuildingData>;
 private var selectedBuilding:GameObject;
 private var previousBuilding:GameObject = null;
 private var buildingSelected:boolean;
@@ -27,14 +27,13 @@ static var selectionPosition:Vector3;
 static var tileWidth:float;
 static var sideSize:float;
 
+private var rangeTileContainer:GameObject;
 function Start () 
 {
-	buildings = gameObject.FindGameObjectsWithTag("Building");
-	tileWidth = HexagonGrid.tileWidth;
-	sideSize = HexagonGrid.sideSize;
-	createHexagonMesh();
-	defaultColors = new Color[buildings.Length];
-	
+	buildings = Database.instance.buildingDataList;
+	rangeTileContainer = new GameObject("RangeTileContainer");
+	/*defaultColors = new Color[buildings.Length];
+	/*
 	Debug.Log("Building length " + buildings.Length);
 	for(var i:int = 0; i < buildings.Length; i++){
 		defaultColors[i] = (buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color;
@@ -46,7 +45,7 @@ function Start ()
 		rangeRing.layer = 2;			//Ignore Raycast
 		rangeRing.AddComponent(SphereCollider);
 		rangeRing.GetComponent(SphereCollider).radius = LinkUI.linkRange.x;
-	}	
+	}	*/
 }
 
 
@@ -61,7 +60,7 @@ function Update() {
 		return;
 	}
 	
-	(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
+	//(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
 
 	/*Highlight all buildings in range
 	for(var b:GameObject in buildings){
@@ -85,8 +84,9 @@ function OnDisable(){
 	previousBuilding = null;
 }
 
-static function HighlightBuildingsInRange(selectedBuilding:GameObject){
-	buildings = GameObject.FindGameObjectsWithTag("Building");
+ function HighlightBuildingsInRange(selectedBuilding:GameObject){
+	//need to rewrite this - stephen 1/25/2013
+/*
 	for(var b:GameObject in buildings){
 		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
 		
@@ -95,10 +95,11 @@ static function HighlightBuildingsInRange(selectedBuilding:GameObject){
 			(b.GetComponentInChildren(Renderer) as Renderer).material.color = inRangeColor;
 		}
 	}
+	*/
 }
 
 
-function HighlightTilesInRange(){
+ function HighlightTilesInRange(){
 	DestroyRangeTiles();
 	/*TODO: update this to correct range from buildings*/
 	//var range = selectedBuilding.transform.FindChild("RangeRing").GetComponent(SphereCollider).radius / tileWidth;
@@ -110,11 +111,17 @@ function HighlightTilesInRange(){
 	var minX = x - Database.TILE_RANGE;
 	var maxX = x + Database.TILE_RANGE;
 	
+
+	var rangeTile:GameObject;
+	var hexagonGrid:HexagonGrid = (GameObject.Find("HexagonGrid").GetComponent("HexagonGrid") as HexagonGrid);
+	var hex:GameObject = hexagonGrid.getSelectionHexagon();
 	for(var i = minX; i <= maxX; i++){
-		if(i != x){
-			selectionPosition = tileToWorldCoordinates(i, y);
+		
+		if(i != x && x >= 0 && x < hexagonGrid.width){			
+			selectionPosition = HexagonGrid.tileToWorldCoordinates(i, y);
 			selectionPosition.y = 0.2f;
-			createSelectionHexagon().transform.position = selectionPosition;
+			rangeTile = GameObject.Instantiate(hex, selectionPosition, Quaternion.identity);
+			rangeTile.transform.parent = rangeTileContainer.transform;
 		}
 	}
 	
@@ -122,82 +129,50 @@ function HighlightTilesInRange(){
 		if((y + yOff) % 2 == 1) maxX--;
 		else minX++;
 		for(var j = minX; j <= maxX; j++){
-			selectionPosition = tileToWorldCoordinates(j, (y + yOff));
-			selectionPosition.y = 0.2f;
-			createSelectionHexagon().transform.position = selectionPosition;
-			
-			selectionPosition = tileToWorldCoordinates(j, (y - yOff));
-			selectionPosition.y = 0.2f;
-			createSelectionHexagon().transform.position = selectionPosition;
+			if(j >= 0 && j < hexagonGrid.width && y + yOff < hexagonGrid.height){
+				selectionPosition = HexagonGrid.tileToWorldCoordinates(j, (y + yOff));
+				selectionPosition.y = 0.2f;
+				rangeTile = GameObject.Instantiate(hex, selectionPosition, Quaternion.identity);
+				rangeTile.transform.parent = rangeTileContainer.transform;
+			}
+			if(j >= 0 && j < hexagonGrid.width && y - yOff >= 0){
+				selectionPosition = HexagonGrid.tileToWorldCoordinates(j, (y - yOff));
+				selectionPosition.y = 0.2f;
+				rangeTile = GameObject.Instantiate(hex, selectionPosition, Quaternion.identity);
+				rangeTile.transform.parent = rangeTileContainer.transform;
+			}
 		}
 	}
 	
+	
 }
 
-/*
- * Creates the hexagon that will highlight specific tiles
- * */
-private function createSelectionHexagon(){
-	var selectionHexagon = new GameObject("RangeHexagon");
-	var meshFilter: MeshFilter = selectionHexagon.AddComponent("MeshFilter");
-	meshFilter.mesh = hexagon;
-	var meshRenderer: MeshRenderer = selectionHexagon.AddComponent("MeshRenderer");
-	
-	if(selectionMaterial == null){
-		Debug.LogError ("selection material not linked for HexagonGrid");
-	}
-	(selectionHexagon.GetComponentInChildren(Renderer) as Renderer).material = selectionMaterial;
-	selectionHexagon.tag = "RangeTile";
-	return selectionHexagon;
-}
 
 /*
  * Clears highlighted tiles that show range	
 */
 function DestroyRangeTiles(){
 	
-	if(GameObject.FindGameObjectsWithTag("RangeTile") == null)
-	{
-		Debug.Log("No range tiles to destroy");
-		return;
+	for(var child:Transform in rangeTileContainer.transform){
+		Destroy(child.gameObject);
+		
 	}
-
-	for(var tile:GameObject in GameObject.FindGameObjectsWithTag("RangeTile"))
-		GameObject.Destroy(tile);
 }
 
 static function restoreColors(){
-	
-	if(buildings.Length == 0) return;
+	/*
+	if(buildings.Count == 0) return;
 	
 	if(buildings != null){
-		for(var i = 0; i < buildings.Length; i++){
+		for(var i = 0; i < buildings.Count; i++){
 			if(buildings[i] == null) return;
 		
 			(buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color = Color.clear; // this needs to be changes to no color
 		}
 	}
+	*/
 }
 
-private function createHexagonMesh(){
-	hexagon = new Mesh();
-	var vertices: Vector3[];
-	vertices = new Vector3[6];
-	var indices = new Array(0, 5, 1, 1, 5, 2, 5, 4, 2, 2, 4, 3);
-	var radius: float = sideSize;
-	for(var i:int = 0; i < 6; ++i){
-		var radian: float = i / 6.0f * Mathf.PI * 2.0f + Mathf.PI / 2.0f; //add PI/2 to start point at top
-		var x: float = tileWidth / 2.0f + Mathf.Cos (radian)* radius;
-		var z: float = sideSize + Mathf.Sin (radian) * radius;
-		vertices[i] = new Vector3(x, 0, z);
-		//Debug.Log (vertices[i].ToString());
-	}
-	hexagon.vertices = vertices;
-	hexagon.triangles = indices;
-	hexagon.RecalculateNormals();
-}
 
-static function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
-	return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
-}
+
 
