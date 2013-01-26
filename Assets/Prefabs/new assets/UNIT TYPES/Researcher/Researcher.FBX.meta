@@ -1,11 +1,10 @@
 fileFormatVersion: 2
-guid: bb36370d61fbc704b9dd9a75ca7c2510
+guid: b7978537ed042ee40a61cc9ea8abad38
 ModelImporter:
   fileIDToRecycleName:
-    4300000: Box003
-    4300002: Box004
-    4300004: Box010
-    4300006: Box011
+    4300000: Box001
+    4300002: Sphere001
+    4300004: clipboard
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -43,27 +42,14 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a8860100
+        second: a0860100
       data:
         first: 4
-        second: 881a0600
+        second: 801a0600
       data:
         first: 111
         second: 605fa900
-    Box003:
-      data:
-        first: 1
-        second: a4860100
-      data:
-        first: 4
-        second: 841a0600
-      data:
-        first: 23
-        second: 64182300
-      data:
-        first: 33
-        second: a45a3200
-    Box004:
+    Box001:
       data:
         first: 1
         second: a6860100
@@ -72,11 +58,11 @@ ModelImporter:
         second: 861a0600
       data:
         first: 23
-        second: 66182300
+        second: 64182300
       data:
         first: 33
-        second: a65a3200
-    Box010:
+        second: a45a3200
+    Sphere001:
       data:
         first: 1
         second: a2860100
@@ -85,20 +71,20 @@ ModelImporter:
         second: 821a0600
       data:
         first: 23
-        second: 62182300
-      data:
-        first: 33
-        second: a25a3200
-    Box011:
-      data:
-        first: 1
-        second: a0860100
-      data:
-        first: 4
-        second: 801a0600
-      data:
-        first: 23
         second: 60182300
       data:
         first: 33
         second: a05a3200
+    clipboard:
+      data:
+        first: 1
+        second: a4860100
+      data:
+        first: 4
+        second: 841a0600
+      data:
+        first: 23
+        second: 62182300
+      data:
+        first: 33
+        second: a25a3200
