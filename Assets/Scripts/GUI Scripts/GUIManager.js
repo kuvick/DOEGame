@@ -3,6 +3,24 @@ GUIManager.js
 
 Description: 
 
+	GUIManager is responsible for: 
+	- Drawing active GUIControls 
+	- Passing on messages (as GUIEvents) from other classes to GUIControls
+	- Recieving responses (as GUIEvents) from GUIControls and passing them back to the other scripts
+	- Determining which GUIControls should be displayed when
+	
+	It is a Singleton, and should only be accessed by other classes through its
+	static getter function, Instance(). GUIManager persists between scenes, so its Prefab
+	should be added to every scene. A switch block in Start() determines which GUIControls
+	will be displayed first depending on the scene name.
+	
+	All GUIControls should be placed in the same GameObject
+	as GUIManager, declared as a variable, and with additional lines 
+	in Start() to get the GUIControl from the components list and call its Initialize() function.
+	
+	When a GUIControl should be displayed, add it to the list of active controls. 
+	When it needs to be hidden, remove it from the list.
+
 Author: Francis Yuan
 **********************************************************/
 #pragma strict
@@ -31,6 +49,10 @@ private var intelMenu:IntelMenu;
 
 static var buildingMenuOpen;
 
+/*
+	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
+	and only the first initialization of it will remain.
+*/
 public function Awake () 
 {
 	if(!exists)
@@ -44,6 +66,9 @@ public function Awake ()
 	}
 }
 
+/*
+	Returns an instance of the GUIManager, if any exists. If not, an instance will be created.
+*/
 public static function Instance():GUIManager
 {
 	// Search for an instance of Main Menu
@@ -63,6 +88,10 @@ public static function Instance():GUIManager
     return gm_instance;
 }
 
+/*
+	Initializes all variables and gets GUIControl components from the same
+	GameObject that GUIManager is a component of.
+*/
 public function Start () 
 {
 	activeControls = new List.<GUIControl>();
@@ -108,10 +137,12 @@ public function Start ()
 	}
 }
 
-public function Initialize()
-{
-}
-
+/*
+	Update involves 3 steps:
+		1. Send every message in the message queue to all active GUIControls
+		2. Recieve responses from every active GUIControl and put them in the response queue
+		3. Respond to any events in the response queue
+*/
 public function Update() 
 {
 	// Send out every message in the message queue to all the active controls
@@ -137,6 +168,9 @@ public function Update()
 	}
 }
 
+/*
+	Draws every active GUIControl
+*/
 public function OnGUI()
 {
 	for(var i:int = 0; i < activeControls.Count; i++)
@@ -145,6 +179,17 @@ public function OnGUI()
 	}
 }
 
+/*
+	Called by other classes to add a message to the message queue
+*/
+public function RecieveEvent(e:GUIEvent)
+{
+	uiMessages.Add(e);
+}
+
+/*
+	A switch block that handles all possible responses from GUIControls.
+*/
 private function RespondTo(response:GUIEvent)
 {
 	switch (response.type)
@@ -155,7 +200,6 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
 			break;
-			
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
 			break;
@@ -167,17 +211,14 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(loading);
 			loading.DelayLoad(3);
 			break;
-			
 		case EventTypes.NEWGAME:
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
 			activeControls.Add(loading);
 			loading.DelayLoad(3);
 			break;
-			
 		case EventTypes.FACEBOOK:
 			break;
-			
 		case EventTypes.QUIT:
 			Application.Quit();
 		
@@ -194,16 +235,13 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			activeControls.Add(pauseMenu);
 			break;
-			
 		case EventTypes.INTEL:
 			ClearControls();
 			activeControls.Add(intelMenu);
 			activeControls.Add(marquee);
 			break;
-			
 		case EventTypes.WAIT:
 			break;
-			
 		case EventTypes.UNDO:
 			break;
 			
@@ -214,14 +252,12 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
 			break;
-			
 		case EventTypes.STARTMENU:
 			Application.LoadLevel("StartScreen");
 			ClearControls();
 			activeControls.Add(startMenu);
 			startMenu.SetSplash(false);
 			break;
-			
 		case EventTypes.SAVEQUIT:
 			Application.Quit();
 			break;
@@ -230,6 +266,9 @@ private function RespondTo(response:GUIEvent)
 	}
 }
 
+/*
+	Clears every control from the list of active controls
+*/
 private function ClearControls()
 {
 	for (var i:int = 0; i < activeControls.Count; i++)
@@ -239,6 +278,9 @@ private function ClearControls()
 	activeControls.Clear();
 }
 
+/*
+	Determines whether or not an input position is hovering over some part of a GUIControl.
+*/
 public function NotOnGUI(screenInputPosition: Vector2):boolean
 {
 	// Convert mouse coordinates (bottom left registration) to screen coordinates (top left registration)

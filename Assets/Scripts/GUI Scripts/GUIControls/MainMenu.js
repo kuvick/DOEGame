@@ -93,36 +93,25 @@ public class MainMenu extends GUIControl
 		var mousePos:Vector2;
 		mousePos.x = Input.mousePosition.x;
 		mousePos.y = Screen.height - Input.mousePosition.y;
-		
-		// Calculate any touches
-		// TODO: Test whether this code block actually works with touch controls
-		var touchPos:Vector2;
-		for (var i = 0; i < Input.touchCount; ++i) 
-		{
-	        if (Input.GetTouch(i).phase == TouchPhase.Began) 
-	        {
-	        	touchPos = Input.GetTouch(i).position;
-	        }
-	    }
 	    
 	    // If the mouse or the finger is hovering/tapping one of the buttons, change the button's texture
-		if (waitButton.Contains(mousePos) || waitButton.Contains(touchPos))
+		if (waitButton.Contains(mousePos))
 		{
 			waitTexture = waitTextureClicked;
 		}
 		
-		if (undoButton.Contains(mousePos) || undoButton.Contains(touchPos))
+		if (undoButton.Contains(mousePos))
 		{
 			undoTexture = undoTextureClicked;
 		}
 		
-		if (intelButton.Contains(mousePos) || intelButton.Contains(touchPos))
+		if (intelButton.Contains(mousePos))
 		{
 			intelTexture = intelTextureClicked;
 		}
 		
 		// Draw the buttons and respond to interaction
-		if(GUI.Button(pauseButton, "Menu"))
+		if(GUI.Button(pauseButton, "Pause"))
 		{
 			currentResponse.type = EventTypes.PAUSE;
 		}

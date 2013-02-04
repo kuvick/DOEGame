@@ -52,7 +52,7 @@ static function HandleTapAtPoint(position: Vector2){
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.selectedBuilding = building;
-		if(building.name != "BuildingSite")
+		if(building.name == "BuildingSite")
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent("BuildingSiteScript");
 			buildingSiteScript.OpenBuildingMenu(position);

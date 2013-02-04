@@ -20,6 +20,7 @@ private static var hexagon: Mesh; 						//hexagon mesh for showing selection
 
 private static var buildings:GameObject[];
 private static var selectedBuilding:GameObject;
+private static var previousBuilding:GameObject;
 private static var selectionPosition:Vector3;
 
 private static var tileWidth:float;
@@ -61,8 +62,12 @@ function Update() {
 	
 	(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
 
-	HighlightBuildingsInRange(selectedBuilding);
-	HighlightTilesInRange();
+	if (selectedBuilding != previousBuilding)
+	{
+		HighlightBuildingsInRange(selectedBuilding);
+		HighlightTilesInRange();
+	}
+	previousBuilding = selectedBuilding;
 }
 
 function HighlightBuildingsInRange(selectedBuilding:GameObject){
@@ -162,6 +167,7 @@ static function RestoreColors(){
 static function ClearSelection()
 {
 	selectedBuilding = null;
+	previousBuilding = null;
 }
 
 private function CreateHexagonMesh(){

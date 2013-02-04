@@ -27,16 +27,16 @@ public class StartMenu extends GUIControl
 	private var groupXPercent:float = 0.4;					// X position of the entire menu as a position of screen width
 	private var groupYPercent:float = 0.4;					// Y position of the entire menu as a position of screen width
 	private var quitButtonHeightPercent:float = 0.1;		// Height (size) of the quit button as a percentage of screen height
-	private var buttonHeightPercent:float = 0.16;			// Height (size) of each button as a percentage of screen height
-	private var buttonRatio:float = 4;						// Width to height ratio of the button texture (for accurate sclaing)
-	private var buttonOffsetPercent:float = 0.6;			// The "height" of the button used for positioning to account for whitespace in the textures
+	private var buttonHeightPercent:float = 0.13;			// Height (size) of each button as a percentage of screen height
+	private var buttonRatio:float = 4.5;						// Width to height ratio of the button texture (for accurate sclaing)
+	private var buttonOffsetPercent:float = 1;				// The "height" of the button used for positioning to account for whitespace in the textures
 	private var titleHeightPercent:float = 0.17;			// Height of the title texture as a percentage of screen height
 	private var titleRatio:float = 5.47;					// Width to height ratio of the title texture
 	
-	private var buttonTextOffsetXPercent:float = -0.17;		// Offset X of the button text so it's aligned according to the mockup
-	private var buttonTextOffsetYPercent:float = 0.4;		// Offset Y of the button text so it's aligned according to the mockup
+	private var buttonTextOffsetXPercent:float = -0.09;		// Offset X of the button text so it's aligned according to the mockup
+	private var buttonTextOffsetYPercent:float = 0.37;		// Offset Y of the button text so it's aligned according to the mockup
 	
-	private var titleOffsetXPercent:float = 0.06;			// Offset X of the menu title so it's aligned according to the mockup
+	private var titleOffsetXPercent:float = 0.00;			// Offset X of the menu title so it's aligned according to the mockup
 	private var titleOffsetYPercent:float = -0.2;			// Offset Y of the menu title so it's aligned according to the mockup
 	
 	private var fontHeightPercent:float = 0.04;				// Height of the font of the buttons as a percentage of screen height
@@ -101,7 +101,7 @@ public class StartMenu extends GUIControl
 		quitButton = Rect(verticalBarWidth + screenWidth - quitButtonHeight, horizontalBarHeight, quitButtonHeight, quitButtonHeight);	
 		
 		title = Rect((resumeGameButton.x + buttonWidth) - (titleWidth + titleOffsetX), resumeGameButton.y - (titleHeight + titleOffsetY), titleWidth, titleHeight);
-	
+		
 		RiffSplashScreens();
 	}
 	

@@ -2,6 +2,9 @@
 GUIControl.js
 
 Description: 
+	
+	GUIControl is the base class for all collections of GUI elements such as menus or splash screens.
+	Every menu/screen should inherit from GUIControl in order to be integrated into GUIManager.
 
 Author: Francis Yuan
 **********************************************************/
@@ -36,10 +39,19 @@ public class GUIControl extends MonoBehaviour
 	// Audio object
 	protected var audioSource:AudioSourceSetup;
 	
+	/*
+		Starts the GUIControl's update cycle.
+		Should be overridden in child classes.
+	*/
 	public function Start () 
 	{
 	}
 	
+	/*
+		Initializes all values of the GUIControl. The reason this is not in Start()
+		is so that other classes can "reset" this GUIControl by calling its Initialize()
+		function again.
+	*/
 	public function Initialize()
 	{
 		// Store window dimensions and calculate padding
@@ -58,24 +70,43 @@ public class GUIControl extends MonoBehaviour
 		}
 	}
 	
+	/*
+		Draws the GUIControl.
+		Should be overridden in child classes.
+	*/
 	public function Render()
 	{
 	}
 	
+	/*
+		Recieves an event from another class, typically GUIManager.
+		Should be overridden in child classes.
+	*/
 	public function RecieveEvent(e:GUIEvent)
 	{
 	}
 	
+	/*
+		Returns the GUIControl's current response.
+	*/
 	public function GiveResponse()
 	{
 		return currentResponse;
 	}
 	
+	/*
+		Clears the response of GUIControl so that when it is re-added
+		to the list of active controls, it does not generate any responses.
+	*/
 	public function ClearResponse()
 	{
 		currentResponse.type = EventTypes.NULLEVENT;
 	}
 	
+	/*
+		Determines whether or not the input position is hovering over one of the Rects
+		of this GUIControl
+	*/
 	public function InputOverControl(inputPos:Vector2):boolean
 	{
 		for (var i = 0; i < rectList.Count; i++)
@@ -88,6 +119,9 @@ public class GUIControl extends MonoBehaviour
 		return false;
 	}
 	
+	/*
+		Plays a sound using the audio source
+	*/
 	protected function PlayButtonPress(soundNumber)
 	{
 		if (audioSource != null)

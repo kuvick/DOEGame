@@ -1,8 +1,7 @@
 /**********************************************************
 StatusMarquee.js
 
-Description: Displays which mode the player is in. 
-(Explore mode or Link mode)
+Description: 
 
 Author: Ajinkya Waghulde, Francis Yuan
 **********************************************************/
