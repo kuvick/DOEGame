@@ -19,7 +19,7 @@ static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
 
 function Start () {	
-	hexOrigin = HexagonGrid.tileToWorldCoordinates(0,0);
+	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 
 	thisCamera = Camera.main;
 }

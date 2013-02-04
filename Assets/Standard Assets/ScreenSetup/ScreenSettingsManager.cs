@@ -45,9 +45,9 @@ public class ScreenSettingsManager : MonoBehaviour {
 	
 	// will call all apropriate functions to dynamically calculate the screen settings
 	public void CalculateSettings(float targetaspect){
-		if (SettingsCalculated == false){
-			ResolutionManager.instance.InitializeResolutionSettings(targetaspect);
-			
+		ResolutionManager.instance.InitializeResolutionSettings(targetaspect);
+		if (SettingsCalculated == false)
+		{
 			CalulateScreenDimensions();
 			CalculateBarSizes();
 			
@@ -66,7 +66,8 @@ public class ScreenSettingsManager : MonoBehaviour {
 		horizontalBarHeight = Screen.height * ResolutionManager.heightShift;
 	}
 	
-	void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
+	void Awake() 
+	{
+       	 DontDestroyOnLoad(transform.gameObject);
     }
 }

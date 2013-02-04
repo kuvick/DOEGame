@@ -10,8 +10,6 @@
 	
 */
 
-//private enum mousePhases {BeforeClick, InputSelected, OutputSelected, ClickEnded}
-//private var phase:mousePhases = mousePhases.BeforeClick;
 private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
@@ -21,10 +19,10 @@ private var ioButtonWidth = 27;
 private var ioButtonHeight = 27;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
-private var target:Transform;		//Transform of building that button corresponds to
-private var point:Vector3;			//Used to obtain position of IO button in screen space
-private var inputRect:Rect;			//Rect for Area of input button
-private var outputRect:Rect;		//Rect for Area of output button
+private var target:Transform;			//Transform of building that button corresponds to
+private var point:Vector3;				//Used to obtain position of IO button in screen space
+private var inputRect:Rect;				//Rect for Area of input button
+private var outputRect:Rect;			//Rect for Area of output button
 private var cancelBtnRect:Rect;
 private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
@@ -72,8 +70,8 @@ function isLinked(b1:GameObject, b2:GameObject){
 	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
 }
 
-//This function is used to link buildings b1 and b2
-//An error message is printed if the buildings are already linked
+// This function is used to link buildings b1 and b2
+// An error message is printed if the buildings are already linked
 function linkBuildings(b1:GameObject, b2:GameObject){
 
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
@@ -88,12 +86,9 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
-	//Debug.Log("Building 1 index: " + building1Index + " Building 2 index: " + building2Index);
-	
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		//Debug.Log("Linking bro");
 		//These next two lines may not have to be here, will test further -WF
 		inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
 		outputCount = linkBuilding.outputNum.length;
@@ -127,7 +122,7 @@ function OnGUI()
 		cancelLinkMode = true;
 	
 	if(buildings.Length == 0)
-		return; //no point in updating 
+		return; 
 	
 	if(selectedBuilding == null)
 		return;
@@ -266,20 +261,11 @@ function Update()
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
-	/*if(!cancelLinkMode && Input.GetMouseButtonDown(0))
-	{
-		Debug.Log(ModeController.getCurrentMode());
-		cancelLinkMode = true;
-		displayLink.DestroyRangeTiles();
-		outputBuilding = null;
-	}*/
-	
 	if(inputBuilding != null && outputBuilding != null)
 	{
 		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
 		{
 			linkBuildings(inputBuilding, outputBuilding);
-			//Debug.Log("Link count: " + this.gameObject.GetComponent(DrawLinks).addObjectsToBuildings());
 		}
 		
 		inputBuilding = null; outputBuilding = null; //resets either way

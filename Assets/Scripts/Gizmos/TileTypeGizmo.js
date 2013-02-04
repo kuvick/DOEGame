@@ -16,7 +16,7 @@ function OnDrawGizmos () {
     if(grid){
     	for(var y:int = 0; y < grid.height; ++y){
     		for(var x:int = 0; x < grid.width; ++x){
-    			var iconPos:Vector3 = HexagonGrid.tileToWorldCoordinates(x, y);
+    			var iconPos:Vector3 = HexagonGrid.TileToWorldCoordinates(x, y);
     			iconPos.y = 10;
     			iconPos.x += grid.tileHalfWidth;//center the icon over the tile
     			iconPos.z += grid.tileHalfHeight;

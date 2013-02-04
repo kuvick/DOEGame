@@ -3,7 +3,7 @@ using System.Collections;
 
 /*
  * ResolutionManager.cs
- * 	Responisble for performing relevant calculations for screen resizing to a set aspect ratio
+ * 	Responsible for performing relevant calculations for screen resizing to a set aspect ratio
  * 
  */
 
@@ -35,6 +35,7 @@ public class ResolutionManager : MonoBehaviour {
 	
 	// Use this for initialization
 	public void InitializeResolutionSettings (float targetaspect) {	
+		
 	    // determine the game window's current aspect ratio
 	    float windowaspect = (float)Screen.width / (float)Screen.height;
 		

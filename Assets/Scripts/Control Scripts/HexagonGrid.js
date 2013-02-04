@@ -35,18 +35,19 @@ class Tile{
 	var type:TileType = TileType.Land;
 	var buildable:boolean = true;
 }
+
 var tileMap:Tile[] = new Tile[15 * 10];
-static var mainCamera: Camera;//set this in the editor, although the script fallbacks to the default camera.
-var selectionMaterial: Material;//material for highlighting a specific hexagon.
-private var hexParticles: ParticleSystem.Particle[];//particles for creating the hex grid
-static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0); //plane for raycasting, uses y = 0 as the ground, y-up
-var width: int = 15; //number of tiles horizontally
-var height: int = 10; //number of tiles vertically
+static var mainCamera: Camera;									//set this in the editor, although the script fallbacks to the default camera.
+var selectionMaterial: Material;								//material for highlighting a specific hexagon.
+private var hexParticles: ParticleSystem.Particle[];			//particles for creating the hex grid
+static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0);	//plane for raycasting, uses y = 0 as the ground, y-up
+var width: int = 15; 											//number of tiles horizontally
+var height: int = 10; 											//number of tiles vertically
 var showGrid:boolean = true;
-static var tileWidth: float = 130.0f; //width of a hexagon tile
+static var tileWidth: float = 130.0f; 							//width of a hexagon tile
 static var totalDimensions:Vector2;
 static var sideSize: float = tileWidth / Mathf.Cos(Mathf.PI / 6.0f) / 2.0f; //size of a single side of the hexagon
-static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); //see the ascii art below
+static var peakSize: float = sideSize * Mathf.Sin (Mathf.PI / 6.0f); 		//see the ascii art below
 /*<-------> tileWidth
  *   
  *    /\   |peakSize
@@ -62,7 +63,6 @@ static var tileHalfWidth = tileWidth / 2.0;
 static var tileHalfHeight = (sideSize + peakSize * 2.0) / 2.0;
 public static var selectedTilePos: Vector2 = new Vector2(-1, -1); //Current hex that is being selected
 	
-
 public var hexagon: Mesh; //hexagon mesh for showing selection
 private var selectionHexagon: GameObject;
 static public var selectionPosition: Vector3;
@@ -72,9 +72,9 @@ function Start(){
 	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
 	if(hexagon == null){
-		createHexagonMesh();
+		CreateHexagonMesh();
 	}
-	createSelectionHexagon();	
+	CreateSelectionHexagon();	
 	createHexagonGridParticles();
 	if(mainCamera == null){
 		Debug.LogError("Camera not set");
@@ -88,7 +88,7 @@ function Start(){
 //used for drawing a grid without needing to run the scene
 function OnDrawGizmos(){
 	if(hexagon == null){
-		createHexagonMesh();
+		CreateHexagonMesh();
 	}
 	
 	var worldPosition: Vector3;
@@ -99,7 +99,7 @@ function OnDrawGizmos(){
 	Gizmos.color = Color.white;
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
-			worldPosition = tileToWorldCoordinates(x, y);
+			worldPosition = TileToWorldCoordinates(x, y);
 			savedVertex = hexagon.vertices[0] + worldPosition;
 			for(var z:int = 1; z < 6; ++z){
 				nextVertex = hexagon.vertices[z] + worldPosition;
@@ -114,7 +114,7 @@ function OnDrawGizmos(){
 	Gizmos.color = Color.red;
 	if(selectedTilePos.x != -1 && selectedTilePos.y != -1)
 	{
-		worldPosition = tileToWorldCoordinates(selectedTilePos.x, selectedTilePos.y);
+		worldPosition = TileToWorldCoordinates(selectedTilePos.x, selectedTilePos.y);
 		worldPosition.y += 5;
 		savedVertex = hexagon.vertices[0] + worldPosition;
 		for(var i:int = 1; i < 6; ++i){
@@ -134,7 +134,7 @@ function Update(){
 
 	//added math helper function
 	//this is no longer needed ->var selectionPosition:Vector3 = new Vector3(mouseTile.x * tileWidth + (mouseTile.y % 2) * tileWidth / 2 , 0.05f, mouseTile.y * sideSize * 1.5f);
-	selectionPosition = tileToWorldCoordinates(mouseTile.x, mouseTile.y);
+	selectionPosition = TileToWorldCoordinates(mouseTile.x, mouseTile.y);
 	//set y to be just above the ground plane at 0.1 so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	selectionHexagon.transform.position = selectionPosition;
@@ -174,7 +174,7 @@ static function GetPositionToBuild(position: Vector3):Vector3 {
 /*
  * Creates the hexagon that will highlight specific tiles
  * */
-private function createSelectionHexagon(){
+private function CreateSelectionHexagon(){
 	selectionHexagon = new GameObject("SelectionHexagon");
 	var meshFilter: MeshFilter = selectionHexagon.AddComponent("MeshFilter");
 	meshFilter.mesh = hexagon;
@@ -196,7 +196,7 @@ private function createSelectionHexagon(){
  *  \   /4
  *o 3\/
  * */
-private function createHexagonMesh(){
+private function CreateHexagonMesh(){
 	hexagon = new Mesh();
 	var vertices: Vector3[];
 	vertices = new Vector3[6];
@@ -231,7 +231,7 @@ private function createHexagonGridParticles(){
 	hexParticles = new ParticleSystem.Particle[height * width];
 	for(var y:int = 0; y < height; ++y){
 		for(var x:int = 0; x < width; ++x){
-			var position: Vector3 = tileToWorldCoordinates(x, y);
+			var position: Vector3 = TileToWorldCoordinates(x, y);
 			//need to add half the size of the hexagon since the particles are centered	
 			position.x += tileHalfWidth;
 			position.z += tileHalfHeight;//(sideSize * 1.5f  + peakSize) / 2;
@@ -333,7 +333,7 @@ private function createHexagonGridParticles(){
 
 /**returns the lower left corner world coordinates of the tile, (x, 0, z)
 */
-static function tileToWorldCoordinates(tileX:int, tileY:int):Vector3{
+static function TileToWorldCoordinates(tileX:int, tileY:int):Vector3{
   return new Vector3(tileX * tileWidth + (tileY % 2) * tileWidth / 2 , 0, tileY * sideSize * 1.5f);	
 }
 

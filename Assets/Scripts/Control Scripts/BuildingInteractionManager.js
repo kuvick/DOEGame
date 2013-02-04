@@ -53,8 +53,6 @@ static function HandleTapAtPoint(position: Vector2){
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.selectedBuilding = building;
 		if(building.name != "BuildingSite")
-			DisplayLinkRange.HighlightBuildingsInRange(building);
-		else
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent("BuildingSiteScript");
 			buildingSiteScript.OpenBuildingMenu(position);
