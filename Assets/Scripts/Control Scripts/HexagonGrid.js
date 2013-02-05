@@ -176,9 +176,9 @@ static function GetPositionToBuild(position: Vector3):Vector3 {
  * */
 private function CreateSelectionHexagon(){
 	selectionHexagon = new GameObject("SelectionHexagon");
-	var meshFilter: MeshFilter = selectionHexagon.AddComponent("MeshFilter");
+	var meshFilter: MeshFilter = selectionHexagon.AddComponent(MeshFilter);
 	meshFilter.mesh = hexagon;
-	var meshRenderer: MeshRenderer = selectionHexagon.AddComponent("MeshRenderer");
+	var meshRenderer: MeshRenderer = selectionHexagon.AddComponent(MeshRenderer);
 	if(selectionMaterial == null){
 		Debug.LogError ("selection material not linked for HexagonGrid");
 	}

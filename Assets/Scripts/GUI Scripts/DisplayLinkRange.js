@@ -122,9 +122,9 @@ function HighlightTilesInRange(){
  * */
 private function CreateSelectionHexagon():GameObject{
 	var selectionHexagon = new GameObject("RangeHexagon");
-	var meshFilter: MeshFilter = selectionHexagon.AddComponent("MeshFilter");
+	var meshFilter: MeshFilter = selectionHexagon.AddComponent(MeshFilter);
 	meshFilter.mesh = hexagon;
-	var meshRenderer: MeshRenderer = selectionHexagon.AddComponent("MeshRenderer");
+	var meshRenderer: MeshRenderer = selectionHexagon.AddComponent(MeshRenderer);
 	if(selectionMaterial == null){
 		Debug.LogError ("selection material not linked for HexagonGrid");
 	}

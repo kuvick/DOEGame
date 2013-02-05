@@ -54,7 +54,7 @@ static function HandleTapAtPoint(position: Vector2){
 		ModeController.selectedBuilding = building;
 		if(building.name == "BuildingSite")
 		{
-			var buildingSiteScript: BuildingSiteScript = building.GetComponent("BuildingSiteScript");
+			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
 			buildingSiteScript.OpenBuildingMenu(position);
 		}
 	} else {

@@ -22,8 +22,6 @@ Attach to a blank GameObject
 
 #pragma strict
 
-
-
 // The two main structures for holding data:
 	// Default buildings stored here:
 static public var buildings = new Array();
@@ -56,7 +54,7 @@ static var grid:HexagonGrid;
 
 function Start()
 {
-	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent("DefaultBuildings");
+	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
 	
@@ -65,7 +63,7 @@ function Start()
 	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
 	{
 		tempBuilding = new BuildingOnGrid();
-		tempBuildingData = buildingObject.GetComponent("BuildingData");
+		tempBuildingData = buildingObject.GetComponent(BuildingData);
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 		buildingsOnGrid.Push(tempBuilding);
 		BroadcastBuildingUpdate();
@@ -74,7 +72,7 @@ function Start()
 	}
 	
 	gridObject = GameObject.Find("HexagonGrid");
-	grid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
+	grid = gridObject.GetComponent(HexagonGrid);
 
 }
 

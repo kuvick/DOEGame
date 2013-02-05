@@ -1,5 +1,5 @@
 /**********************************************************
-MainMenu.js
+IntelMenu.js
 
 Description: 
 
@@ -17,7 +17,7 @@ public class IntelMenu extends GUIControl
 	// Event List
 	private var eventList:EventLinkedList;
 
-	// Intel Menu rectanges
+	// Intel Menu rectangles
 	private var scrollArea:Rect; 				
 	private var intelMenuScrollPos:Vector2;
 	

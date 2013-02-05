@@ -116,7 +116,7 @@ class TileEditor extends Editor{
 	private function getGrid():HexagonGrid{
     	var gridObject:GameObject = GameObject.Find("HexagonGrid");
 		if(gridObject){
-		    var grid:HexagonGrid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
+		    var grid:HexagonGrid = gridObject.GetComponent(HexagonGrid);
 		    if(grid)
 		    	return grid;
 		    else

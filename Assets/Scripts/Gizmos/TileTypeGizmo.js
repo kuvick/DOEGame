@@ -12,7 +12,7 @@ private var slope2:Vector3 = new Vector3(1, 0, 1);
 private var xLineLength:float = HexagonGrid.tileHalfWidth * 0.65;
 private var showTileType:boolean = false;//tile type has no use now, not showing for now
 function OnDrawGizmos () {
-    var grid:HexagonGrid = GetComponent("HexagonGrid") as HexagonGrid;
+    var grid:HexagonGrid = GetComponent(HexagonGrid);
     if(grid){
     	for(var y:int = 0; y < grid.height; ++y){
     		for(var x:int = 0; x < grid.width; ++x){

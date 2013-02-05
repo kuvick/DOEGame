@@ -35,7 +35,7 @@ public var buildingSitePrefabsFolder : String;	// the level designer specifies t
 function Awake()
 {
 	// Loading the prefabs from the Resources folder
-	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent("DefaultBuildings");
+	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent(DefaultBuildings);
 	var defaultBuildingList : DefaultBuildingData[] = defaultBuildingScript.defaultBuildings;
 	var size: int = defaultBuildingList.Length;	
 	var rawPrefabs : Object[] =  Resources.LoadAll(buildingSitePrefabsFolder);
@@ -51,7 +51,7 @@ function Awake()
 	
 	
 	gridObject = GameObject.Find("HexagonGrid");
-	grid = gridObject.GetComponent("HexagonGrid") as HexagonGrid;
+	grid = gridObject.GetComponent(HexagonGrid);
 }
 
 static function Place(position: Vector3, isPreplaced: boolean){

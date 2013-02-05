@@ -14,10 +14,10 @@ function Start ()
 
 	scrollPosition = Vector2.zero;
 	buildingLocationMenu = Vector2.zero;
-	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent("DefaultBuildings");
+	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent(DefaultBuildings);
 	defaultBuildingList = defaultBuildingScript.defaultBuildings;
 	
-	buildingData = gameObject.GetComponent("BuildingData");
+	buildingData = gameObject.GetComponent(BuildingData);
 	buildingSiteLocation = buildingData.buildingData.coordinate;
 
 
@@ -58,7 +58,7 @@ function OnGUI()
 
 function OpenBuildingMenu(mousePosition : Vector2)
 {
-	guiManager = GameObject.Find("Main Camera").GetComponent("GUIManager");
+	guiManager = GameObject.Find("Main Camera").GetComponent(GUIManager);
 
 	selectedBuildingSite = true;
 	buildingLocationMenu = mousePosition;

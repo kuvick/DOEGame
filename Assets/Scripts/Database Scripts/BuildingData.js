@@ -69,7 +69,7 @@ function Start ()
 	if(loadDefaultData)
 	{
 		buildingData = new BuildingOnGridData();
-		defaultBuildingsScript = GameObject.Find("Database").GetComponent("DefaultBuildings");
+		defaultBuildingsScript = GameObject.Find("Database").GetComponent(DefaultBuildings);
 		buildingData = defaultBuildingsScript.convertDefaultBuildingIntoBuildingOnGrid( gameObject.name );		//MAKE SURE THE NAME OF THE GAME OBJECT IS THE BUILDING NAME
 	}
 	buildingData.coordinate = HexagonGrid.worldToTileCoordinates(thisBuilding.transform.position.x, thisBuilding.transform.position.z);

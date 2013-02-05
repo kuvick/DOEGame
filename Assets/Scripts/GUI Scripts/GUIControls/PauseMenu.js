@@ -53,7 +53,7 @@ public class PauseMenu extends GUIControl
 	private var titleHeight:float;
 	
 	private var fontHeight:float;
-	private var resumeButtonFontHeight;	
+	private var resumeButtonFontHeight:float;	
 	
 	// Pause Menu Textures
 	public var pauseBackground:Texture;

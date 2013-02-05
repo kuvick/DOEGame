@@ -130,44 +130,36 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 {
 	var buildingOnGrid : BuildingOnGrid = new BuildingOnGrid();
 	
-	
 	buildingOnGrid.buildingName = buildingData.buildingName;
-
-	buildingOnGrid.inputName = new Array();
-	buildingOnGrid.inputNum = new Array();
-	buildingOnGrid.outputName = new Array();
-	buildingOnGrid.outputNum = new Array();
-	buildingOnGrid.optionalOutputName = new Array();
-	buildingOnGrid.optionalOutputNum = new Array();
 	
 	for (var tempVar : String in buildingData.inputName)
 	{
-		buildingOnGrid.inputName.Push(tempVar);
+		buildingOnGrid.inputName.Add(tempVar);
 	}
 	
 	for (var tempVar : int in buildingData.inputNum)
 	{
-		buildingOnGrid.inputNum.Push(tempVar);
+		buildingOnGrid.inputNum.Add(tempVar);
 	}
 	
 	for (var tempVar : String in buildingData.outputName)
 	{
-		buildingOnGrid.outputName.Push(tempVar);
+		buildingOnGrid.outputName.Add(tempVar);
 	}
 	
 	for (var tempVar : int in buildingData.outputNum)
 	{
-		buildingOnGrid.outputNum.Push(tempVar);
+		buildingOnGrid.outputNum.Add(tempVar);
 	}
 	
 	for (var tempVar : String in buildingData.optionalOutputName)
 	{
-		buildingOnGrid.optionalOutputName.Push(tempVar);
+		buildingOnGrid.optionalOutputName.Add(tempVar);
 	}
 	
 	for (var tempVar : int in buildingData.optionalOutputNum)
 	{
-		buildingOnGrid.optionalOutputNum.Push(tempVar);
+		buildingOnGrid.optionalOutputNum.Add(tempVar);
 	}
 	
 	buildingOnGrid.requisitionCost = buildingData.requisitionCost;

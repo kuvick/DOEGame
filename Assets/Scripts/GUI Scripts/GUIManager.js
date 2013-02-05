@@ -46,7 +46,9 @@ private var mainMenu:MainMenu;
 private var marquee:StatusMarquee;
 private var pauseMenu:PauseMenu;
 private var intelMenu:IntelMenu;
+private var buildingMenu:BuildingMenu;
 
+// Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
 
 /*
@@ -109,6 +111,7 @@ public function Start ()
 	marquee = GetComponent(StatusMarquee);
 	pauseMenu = GetComponent(PauseMenu);
 	intelMenu = GetComponent(IntelMenu);
+	buildingMenu = GetComponent(BuildingMenu);
 	
 	// Initialize all GUIControls;
 	startMenu.Initialize();
@@ -117,6 +120,7 @@ public function Start ()
 	marquee.Initialize();
 	pauseMenu.Initialize();
 	intelMenu.Initialize();
+	buildingMenu.Initialize();
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
@@ -131,7 +135,8 @@ public function Start ()
 			break;
 			
 		case "DOEGame":
-			activeControls.Add(mainMenu);
+			//activeControls.Add(buildingMenu);
+			activeControls.Add(maingMenu);
 			activeControls.Add(marquee);
 			break;
 	}
@@ -184,7 +189,7 @@ public function OnGUI()
 */
 public function RecieveEvent(e:GUIEvent)
 {
-	uiMessages.Add(e);
+	uiMessages.Enqueue(e);
 }
 
 /*

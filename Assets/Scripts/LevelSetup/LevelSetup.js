@@ -11,19 +11,29 @@ function Awake() {
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
 }
 
-function ConvertRatio(setRatio : Ratio){
-	switch (setRatio){
+function ConvertRatio(setRatio : Ratio)
+{
+	var converted:float = 0;
+	switch (setRatio)
+	{
 		case Ratio._4x3:
-			return(4.0f / 3.0f);
+			converted = (4.0f / 3.0f);
+			break;
 		case Ratio._3x2:
-			return(3.0f / 2.0f);
+			converted = (3.0f / 2.0f);
+			break;
 		case Ratio._16x9:
-			return(16.0f / 9.0f);
+			converted = (16.0f / 9.0f);
+			break;
 		case Ratio._5x3:
-			return(5.0f / 3.0f);
+			converted = (5.0f / 3.0f);
+			break;
 		case Ratio._16x10:
-			return(16.0f / 10.0f);
+			converted = (16.0f / 10.0f);
+			break;
 		default:
-			return(4.0f / 3.0f);	
+			converted = (4.0f / 3.0f);	
 	}
+	
+	return converted;
 }
