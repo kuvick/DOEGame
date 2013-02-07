@@ -136,7 +136,7 @@ public function Start ()
 			
 		case "DOEGame":
 			//activeControls.Add(buildingMenu);
-			activeControls.Add(maingMenu);
+			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
 			break;
 	}
