@@ -208,6 +208,11 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
 			break;
+		case EventTypes.BUILDING:
+			ClearControls();
+			activeControls.Add(buildingMenu);
+			activeControls.Add(marquee);
+			break;
 		
 		// Start Menu responses
 		case EventTypes.RESUME:

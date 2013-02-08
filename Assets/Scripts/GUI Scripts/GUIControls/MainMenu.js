@@ -24,23 +24,22 @@ public class MainMenu extends GUIControl
 	private var hexButtonHeightPercent:float = 0.2;		// Height of the hex button font as a percentage of screen height
 	private var scoreFontHeightPercent:float = 0.04;	// Height of the score font as a percentage of screen height
 	private var pauseFontHeightPercent:float = 0.03;	// Height of the pausefont as a percentage of screen height
-	
-	private var hexButtonPadding:float;					// Padding around the Main menu buttons
-	private var hexButtonHeight:float;					// Width of a a Main menu button in actual pixels		
+				
+	private var hexButtonHeight:float;					
 	private var scoreFontHeight:float;			
 	private var pauseFontHeight:float;		
 	
 	// Main Menu Textures
-	private var undoTexture:Texture;					// Texture to display for the undo button
-	private var waitTexture:Texture;					// Texture to display for the wait button
-	private var intelTexture:Texture;					// Texture to display for the intel button
+	private var undoTexture:Texture;				
+	private var waitTexture:Texture;				
+	private var intelTexture:Texture;					
 	
-	public var undoTextureNeutral:Texture;				// Texture for the undo button when unclicked
-	public var undoTextureClicked:Texture;				// Texture for the undo button when clicked
-	public var waitTextureNeutral:Texture;				// Texture for the wait button when unclicked
-	public var waitTextureClicked:Texture;				// Texture for the wait button when clicked
-	public var intelTextureNeutral:Texture;				// Texture for the intel button when unclicked
-	public var intelTextureClicked:Texture;				// Texture for the intel button when clicked
+	public var undoTexture_Inactive:Texture;			
+	public var undoTexture_Active:Texture;				
+	public var waitTexture_Inactive:Texture;
+	public var waitTexture_Active:Texture;		
+	public var intelTexture_Inactive:Texture;		
+	public var intelTexture_Active:Texture;			
 	
 	// Score and turn ints
 	private var score:int;
@@ -85,9 +84,9 @@ public class MainMenu extends GUIControl
 		GUI.skin = mainMenuSkin;
 		
 		// Set icon textures to default
-		waitTexture = waitTextureNeutral;
-		undoTexture = undoTextureNeutral;
-		intelTexture = intelTextureNeutral;
+		waitTexture = waitTexture_Inactive;
+		undoTexture = undoTexture_Inactive;
+		intelTexture = intelTexture_Inactive;
 		
 		// Calculate the mouse position
 		var mousePos:Vector2;
@@ -97,17 +96,17 @@ public class MainMenu extends GUIControl
 	    // If the mouse or the finger is hovering/tapping one of the buttons, change the button's texture
 		if (waitButton.Contains(mousePos))
 		{
-			waitTexture = waitTextureClicked;
+			waitTexture = waitTexture_Active;
 		}
 		
 		if (undoButton.Contains(mousePos))
 		{
-			undoTexture = undoTextureClicked;
+			undoTexture = undoTexture_Active;
 		}
 		
 		if (intelButton.Contains(mousePos))
 		{
-			intelTexture = intelTextureClicked;
+			intelTexture = intelTexture_Active;
 		}
 		
 		// Draw the buttons and respond to interaction
@@ -123,7 +122,8 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(waitButton, waitTexture))
 		{
-			currentResponse.type = EventTypes.WAIT;
+			//currentResponse.type = EventTypes.WAIT;
+			currentResponse.type = EventTypes.BUILDING;
 		}
 		
 		if(GUI.Button(undoButton, undoTexture))

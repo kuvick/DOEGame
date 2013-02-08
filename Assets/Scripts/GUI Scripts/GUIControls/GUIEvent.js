@@ -15,6 +15,7 @@ public enum EventTypes
 	// Non-unique events
 	MAIN,
 	LEVELSELECT,
+	BUILDING,
 	
 	// Start Menu events
 	RESUME,
@@ -37,11 +38,12 @@ public enum EventTypes
 	SAVEQUIT
 	
 	// Intel Menu events
+	
+	// Building Menu events
+	
 }
 
 public class GUIEvent
 {
 	public var type:int = 0;
-	public var number:float = 0.0;
-	public var text:String = "";
 }

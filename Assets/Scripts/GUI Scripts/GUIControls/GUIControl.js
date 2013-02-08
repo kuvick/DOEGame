@@ -79,7 +79,13 @@ public class GUIControl extends MonoBehaviour
 	}
 	
 	/*
-		Recieves an event from another class, typically GUIManager.
+		Recieves an input event from another class, typically GUIManager.
+		
+		Since the GUIManager is making use of the built in GUI interaction, there's
+		not much point to this function. However, if the game ever decides to switch to using a 
+		class like an InputManager for handling all mouse events, this function should
+		allow passing mouse/touch events from InputManager to GUIManager to every active GUIControl,
+		
 		Should be overridden in child classes.
 	*/
 	public function RecieveEvent(e:GUIEvent)
