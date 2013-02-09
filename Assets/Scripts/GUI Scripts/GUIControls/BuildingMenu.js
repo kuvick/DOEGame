@@ -47,15 +47,22 @@ public class BuildingMenu extends GUIControl
 	private var cancelButtonFontHeight:float = 0.03;	
 	
 	// Building Menu textures
+	private var scrollLeftTexture_Current:Texture;
+	private var scrollRightTexture_Current:Texture;
+	
 	public var scrollLeftTexture_Active:Texture;
-	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Active:Texture;
+	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Inactive:Texture;
 	public var buildingIconTexture:Texture;
 	
 	// Building Menu animation
-	private var isScrolling:boolean;
-	private var buildingPageNumber:int = 0;
+	private var numPages:int = 0;
+	private var isScrolling:boolean = false;
+	private var currentPage:float = 0;
+	private var targetPage:float = 0;
+	private var scrollTimer:float = 0;
+	private var scrollSpeed:float = 1;
 	
 	public function Start () 
 	{
@@ -107,17 +114,43 @@ public class BuildingMenu extends GUIControl
 		GUI.skin = buildingMenuSkin;
 		GUI.Box(background, "");
 		
-		GUI.DrawTexture(scrollLeft, scrollLeftTexture_Inactive);
-		GUI.DrawTexture(scrollRight, scrollRightTexture_Inactive);
+		// Calculate the mouse position
+		var mousePos:Vector2;
+		mousePos.x = Input.mousePosition.x;
+		mousePos.y = Screen.height - Input.mousePosition.y;
+	    
+	    // Set scroll textures to default
+		scrollLeftTexture_Current = scrollLeftTexture_Inactive;
+		scrollRightTexture_Current = scrollRightTexture_Inactive;
+		
+	    // If the mouse or the finger is hovering/tapping one of the scroll buttons, change the button's texture
+		if (scrollLeft.Contains(mousePos))
+		{
+			scrollLeftTexture_Current = scrollLeftTexture_Active;
+		}
+		
+		if (scrollRight.Contains(mousePos))
+		{
+			scrollRightTexture_Current = scrollRightTexture_Active;
+		}
+		
+		GUI.DrawTexture(scrollLeft, scrollLeftTexture_Current);
+		GUI.DrawTexture(scrollRight, scrollRightTexture_Current);
 		
 		if (GUI.Button(scrollLeft, ""))
 		{
-			Scroll(-1);
+			if (!isScrolling)
+			{
+				Scroll(-1);
+			}
 		}
 		
 		if (GUI.Button(scrollRight,""))
 		{
-			Scroll(1);
+			if (!isScrolling)
+			{
+				Scroll(1);
+			}
 		}
 		
 		GUI.BeginGroup(buildingClip);
@@ -140,6 +173,18 @@ public class BuildingMenu extends GUIControl
 	
 	public function Update()
 	{
+		if (targetPage != currentPage)
+		{
+			scrollTimer += Time.deltaTime;
+			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer * scrollSpeed);
+			buildingGroup.x = screenWidth * -currentPage;
+			
+			if (targetPage == currentPage)
+			{
+				isScrolling = false;
+				scrollTimer = 0;
+			}
+		}
 	}
 	
 	/*
@@ -148,12 +193,14 @@ public class BuildingMenu extends GUIControl
 	*/
 	public function CreateBuildingGroup()
 	{
-		buildingIconList = new List.<Rect>();
-		var numPages:int;
 		var sumWidth:int;
 		var buildingIcon:Rect;
+		var currentPageX:float = 0;
+		var currentUpperRowX:float = 0;
+		var currentLowerRowX:float = 0;
 		
-		numPages = Mathf.CeilToInt(testBuildings.Count/6);
+		buildingIconList = new List.<Rect>();
+		numPages = Mathf.CeilToInt(testBuildings.Count/6.0);	
 		sumWidth = buildingIconHeight + buildingIconPadding;
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
 		
@@ -161,10 +208,12 @@ public class BuildingMenu extends GUIControl
 		// Each page consists of up to six icons split into two rows three
 		for (var i:int = 0; i < numPages; i++)
 		{	
+			currentPageX = i * screenWidth;
 			// Calculate the first row of building icons
 			for (var j:int = 0; j < 3; j++)
 			{
-				buildingIcon = new Rect(j * sumWidth + buildingIconPadding, 0, buildingIconHeight, buildingIconHeight);
+				currentUpperRowX = j * sumWidth + buildingIconPadding;
+				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 			}
 			
@@ -172,7 +221,8 @@ public class BuildingMenu extends GUIControl
 			var lowerRowOffset = buildingClipWidth - (3 * buildingIconHeight) - (2 * buildingIconPadding);
 			for (var k:int = 0; k < 3; k++)
 			{
-				buildingIcon = new Rect(k * sumWidth + lowerRowOffset - buildingIconPadding, buildingIconHeight, buildingIconHeight, buildingIconHeight);
+				currentLowerRowX = k * sumWidth + lowerRowOffset - buildingIconPadding;
+				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 			}
 		}
@@ -185,6 +235,7 @@ public class BuildingMenu extends GUIControl
 	*/
 	private function Scroll(direction:int):IEnumerator
 	{
-		
+		isScrolling = true;
+		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
 	}
 }
