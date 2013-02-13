@@ -1,5 +1,5 @@
 /**********************************************************
-IntelMenu.js
+BuildingMenu.js
 
 Description: 
 
@@ -54,15 +54,18 @@ public class BuildingMenu extends GUIControl
 	public var scrollRightTexture_Active:Texture;
 	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Inactive:Texture;
+	
 	public var buildingIconTexture:Texture;
 	
 	// Building Menu animation
-	private var numPages:int = 0;
 	private var isScrolling:boolean = false;
+	private var numPages:int = 0;
 	private var currentPage:float = 0;
 	private var targetPage:float = 0;
 	private var scrollTimer:float = 0;
-	private var scrollSpeed:float = 1;
+	private var scrollSpeed:float = 1;				// Time in seconds to complete 1 scroll.
+	private var leftScrollVisible:boolean = false;
+	private var rightScrollVisible:boolean = true;
 	
 	public function Start () 
 	{
@@ -106,7 +109,7 @@ public class BuildingMenu extends GUIControl
 		
 		rectList.Add(background);
 		
-		CreateBuildingGroup();
+		LoadBuildingList();
 	}
 	
 	public function Render()
@@ -134,25 +137,28 @@ public class BuildingMenu extends GUIControl
 			scrollRightTexture_Current = scrollRightTexture_Active;
 		}
 		
-		GUI.DrawTexture(scrollLeft, scrollLeftTexture_Current);
-		GUI.DrawTexture(scrollRight, scrollRightTexture_Current);
-		
-		if (GUI.Button(scrollLeft, ""))
+		if (leftScrollVisible)
 		{
-			if (!isScrolling)
+			GUI.DrawTexture(scrollLeft, scrollLeftTexture_Current);
+			if (GUI.Button(scrollLeft, "") && !isScrolling)
 			{
 				Scroll(-1);
 			}
 		}
 		
-		if (GUI.Button(scrollRight,""))
+		if (rightScrollVisible)
 		{
-			if (!isScrolling)
+			GUI.DrawTexture(scrollRight, scrollRightTexture_Current);
+			if (GUI.Button(scrollRight,"") && !isScrolling)
 			{
 				Scroll(1);
 			}
 		}
 		
+		// Draws every building icon in the building icon list in two nested GUI groups
+		// The first group represents the clip area 
+		// The second group represents the entire list of building icons
+		// Change the second group's rect's x position in order to scroll the building icons
 		GUI.BeginGroup(buildingClip);
 			GUI.BeginGroup(buildingGroup);
 				for (var i:int = 0; i < buildingIconList.Count; i++)
@@ -176,7 +182,7 @@ public class BuildingMenu extends GUIControl
 		if (targetPage != currentPage)
 		{
 			scrollTimer += Time.deltaTime;
-			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer * scrollSpeed);
+			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer/scrollSpeed);
 			buildingGroup.x = screenWidth * -currentPage;
 			
 			if (targetPage == currentPage)
@@ -188,13 +194,14 @@ public class BuildingMenu extends GUIControl
 	}
 	
 	/*
-		Eventually, this should be the function that creates the building icons GUI group
+		Eventually, this should be the function that creates the building icons group
 		out of a list of building data
 	*/
-	public function CreateBuildingGroup()
+	public function LoadBuildingList()
 	{
 		var sumWidth:int;
 		var buildingIcon:Rect;
+		var counter:int = 0;
 		var currentPageX:float = 0;
 		var currentUpperRowX:float = 0;
 		var currentLowerRowX:float = 0;
@@ -212,15 +219,26 @@ public class BuildingMenu extends GUIControl
 			// Calculate the first row of building icons
 			for (var j:int = 0; j < 3; j++)
 			{
+				counter++;
+				if (counter > testBuildings.Count)
+				{
+					break;
+				}
 				currentUpperRowX = j * sumWidth + buildingIconPadding;
 				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
+				
 			}
 			
 			// Calculate the second row of building icons
 			var lowerRowOffset = buildingClipWidth - (3 * buildingIconHeight) - (2 * buildingIconPadding);
 			for (var k:int = 0; k < 3; k++)
 			{
+				counter++;
+				if (counter > testBuildings.Count)
+				{
+					break;
+				}
 				currentLowerRowX = k * sumWidth + lowerRowOffset - buildingIconPadding;
 				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
@@ -237,5 +255,23 @@ public class BuildingMenu extends GUIControl
 	{
 		isScrolling = true;
 		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
+		
+		if (targetPage == 0)
+		{
+			leftScrollVisible = false;
+		}
+		else
+		{
+			leftScrollVisible = true;
+		}
+		
+		if (targetPage == numPages - 1)
+		{
+			rightScrollVisible = false;
+		}
+		else
+		{
+			rightScrollVisible = true;
+		}
 	}
 }
