@@ -13,6 +13,14 @@ public class LevelNode
 	public var name:String = "";
 	public var difficulty:int = 0;
 	public var score:int = 0;
+	
+	public function LevelNode(tex:Texture, lvlName:String, dif:int, bestScore:int)
+	{
+		texture = tex;
+		name = lvlName;
+		difficulty = dif;
+		score = bestScore;
+	}
 }
 
 public class LevelSelectMenu extends GUIControl
@@ -23,12 +31,13 @@ public class LevelSelectMenu extends GUIControl
 	
 	// Level Select Menu rectangles
 	private var background:Rect;
+	private var title:Rect;
 	private var scrollLeft:Rect;
 	private var scrollRight:Rect;
 	private var levelClip:Rect;
 	private var levelGroup:Rect;
 	private var levelList:List.<Rect>;
-	private var cancelButton:Rect;
+	private var backButton:Rect;
 	
 	// For testing
 	private var testLevels:List.<LevelNode>;
@@ -36,24 +45,33 @@ public class LevelSelectMenu extends GUIControl
 	// Level Select Menu scaling
 	private var scrollHeightPercent:float = 0.3;
 	private var scrollRatio:float = 0.39;
-	private var scrollYPercent:float = 0.4;
-	private var levelHeightPercent:float = 0.3;
+	private var scrollYPercent:float = 0.3;
+	private var levelHeightPercent:float = 0.35;
 	private var levelPaddingPercent:float = 0.01;
 	private var levelGroupYPercent:float = 0.25;
-	private var cancelButtonHeightPercent:float = 0.2;		
-	private var cancelButtonFontHeightPercent:float = 0.03;	
+	private var levelTitleFontHeightPercent:float = 0.1;
+	private var levelNodeFontHeightPercent:float = 0.025;
+	private var levelMiddleNodeOffsetPercent:float = 0.2;
+	private var backButtonHeightPercent:float = 0.2;		
+	private var backButtonFontHeightPercent:float = 0.03;	
 
 	private var scrollHeight:float;
 	private var scrollWidth:float;
 	private var scrollY:float;
 	private var levelHeight:float;
 	private var levelPadding:float;
+	private var levelSumWidth:int;
 	private var levelClipWidth:float;
 	private var levelGroupY:float;
-	private var cancelButtonHeight:float = 0.2;		
-	private var cancelButtonFontHeight:float = 0.03;	
+	private var levelTitleFontHeight:float;
+	private var levelNodeFontHeight:float;
+	private var levelMiddleNodeOffset;
+	private var backButtonHeight:float;		
+	private var backButtonFontHeight:float;	
 	
 	// Level Select Menu textures
+	public var backgroundTexture:Texture;
+	
 	private var scrollLeftTexture_Current:Texture;
 	private var scrollRightTexture_Current:Texture;
 	
@@ -65,12 +83,15 @@ public class LevelSelectMenu extends GUIControl
 	public var levelNodeTexture:Texture;
 	
 	// Level Select Menu animation
-	private var numPages:int = 0;
+	private var numLevels:int;
+	private var maxVisibleLevels:int = 3;
 	private var isScrolling:boolean = false;
-	private var currentPage:float = 0;
-	private var targetPage:float = 0;
+	private var currentLevel:float = 0;
+	private var targetLevel:float = 0;
 	private var scrollTimer:float = 0;
 	private var scrollSpeed:float = 1;				// Time in seconds to complete 1 scroll.
+	private var leftScrollVisible:boolean = false;
+	private var rightScrollVisible:boolean = false;
 	
 	public function Start () 
 	{
@@ -84,39 +105,114 @@ public class LevelSelectMenu extends GUIControl
 		scrollHeight = scrollHeightPercent * screenHeight;
 		scrollWidth = scrollHeight * scrollRatio;
 		scrollY = scrollYPercent * screenHeight;
-		levelHeight = levelHeightPercent * screenHeight;
-		levelPadding = levelPaddingPercent * screenWidth;
 		levelClipWidth = screenWidth - 2 * (scrollWidth + padding);
+		levelHeight = levelHeightPercent * screenHeight;
+		levelPadding = (levelClipWidth - (maxVisibleLevels * levelHeight))/2.0;
 		levelGroupY = screenHeight * levelGroupYPercent;
+		levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
+		levelNodeFontHeight = levelNodeFontHeightPercent * screenHeight;
+		levelMiddleNodeOffset = levelMiddleNodeOffsetPercent * screenHeight;
+		backButtonHeight = backButtonHeightPercent * screenHeight;
+		backButtonFontHeight = backButtonFontHeightPercent * screenHeight;
 		
-		cancelButtonHeight = cancelButtonHeightPercent * screenHeight;
-		cancelButtonFontHeight = cancelButtonFontHeightPercent * screenHeight;
-		
-		hexButtonSkin.button.fontSize = cancelButtonFontHeight;
+		levelSelectSkin.button.fontSize = levelNodeFontHeight;
+		levelSelectSkin.label.fontSize = levelTitleFontHeight;
+		hexButtonSkin.button.fontSize = backButtonFontHeight;
 		
 		background = new Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
+		title = new Rect(verticalBarWidth + screenWidth/2, horizontalBarHeight + padding, 0, 0);
 		scrollLeft = new Rect(verticalBarWidth + padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
 		scrollRight = new Rect(verticalBarWidth + screenWidth - scrollWidth - padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
 		levelClip = new Rect(verticalBarWidth + (screenWidth - levelClipWidth)/2, horizontalBarHeight, levelClipWidth, screenHeight);
-		cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonHeight, cancelButtonHeight);	
+		backButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - backButtonHeight, backButtonHeight, backButtonHeight);	
+		
+		// For testing
+		testLevels = new List.<LevelNode>();
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nIntro", 1, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nEast Coast Surge", 2, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nHurricanes", 3, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nWe Ran Out of Oil", 5, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nMr. Fusion", 6, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nInvaders from\nOuter Space", 10, 0));
 		
 		LoadLevelList();
 	}
 	
 	public function Render()
 	{
+		GUI.skin = levelSelectSkin;
+		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleAndCrop);
 		
+		// Calculate the mouse position
+		var mousePos:Vector2;
+		mousePos.x = Input.mousePosition.x;
+		mousePos.y = Screen.height - Input.mousePosition.y;
+	    
+	    // Set scroll textures to default
+		scrollLeftTexture_Current = scrollLeftTexture_Inactive;
+		scrollRightTexture_Current = scrollRightTexture_Inactive;
+		
+	    // If the mouse or the finger is hovering/tapping one of the scroll buttons, change the button's texture
+		if (scrollLeft.Contains(mousePos))
+		{
+			scrollLeftTexture_Current = scrollLeftTexture_Active;
+		}
+		
+		if (scrollRight.Contains(mousePos))
+		{
+			scrollRightTexture_Current = scrollRightTexture_Active;
+		}
+		
+		if (leftScrollVisible)
+		{
+			GUI.DrawTexture(scrollLeft, scrollLeftTexture_Current);
+			if (GUI.Button(scrollLeft, "") && !isScrolling)
+			{
+				Scroll(-1);
+			}
+		}
+		
+		if (rightScrollVisible)
+		{
+			GUI.DrawTexture(scrollRight, scrollRightTexture_Current);
+			if (GUI.Button(scrollRight,"") && !isScrolling)
+			{
+				Scroll(1);
+			}
+		}
+		
+		// Draws every building icon in the building icon list in two nested GUI groups
+		// The first group represents the clip area 
+		// The second group represents the entire list of building icons
+		// Change the second group's rect's x position in order to scroll the building icons
+		GUI.BeginGroup(levelClip);
+			GUI.BeginGroup(levelGroup);
+				for (var i:int = 0; i < levelList.Count; i++)
+				{
+					GUI.DrawTexture(levelList[i], testLevels[i].texture);
+					GUI.Button(levelList[i], testLevels[i].name + "\n\nDifficulty: " + testLevels[i].difficulty + "\nScore: " + testLevels[i].score);
+				}
+			GUI.EndGroup();
+		GUI.EndGroup();
+		
+		
+		GUI.skin = hexButtonSkin;
+		
+		if (GUI.Button(backButton, "Back"))
+		{
+			currentResponse.type = EventTypes.MAIN;
+		}
 	}
 	
 	public function Update()
 	{
-		if (targetPage != currentPage)
+		if (targetLevel != currentLevel)
 		{
 			scrollTimer += Time.deltaTime;
-			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer/scrollSpeed);
-			//levelGroup.x = screenWidth * -currentPage;
+			currentLevel = Mathf.Lerp(currentLevel, targetLevel, scrollTimer/scrollSpeed);
+			levelGroup.x = levelSumWidth * -currentLevel;
 			
-			if (targetPage == currentPage)
+			if (targetLevel == currentLevel)
 			{
 				isScrolling = false;
 				scrollTimer = 0;
@@ -130,35 +226,35 @@ public class LevelSelectMenu extends GUIControl
 	*/
 	public function LoadLevelList()
 	{
-		var sumWidth:int;
 		var level:Rect;
 		var counter:int = 0;
-		var currentPageX:float = 0;
-		var currentUpperRowX:float = 0;
-		var currentLowerRowX:float = 0;
-		
+		var currentRowX:float = 0;
+		var currentRowY:float = 0;
 		levelList = new List.<Rect>();
-		numPages = Mathf.CeilToInt(testLevels.Count/6.0);	
-		sumWidth = levelHeight + levelPadding;
-		levelGroup = new Rect(0, levelGroupY, screenWidth * numPages, screenHeight);
 		
-		// Calculate the rect dimensions of every page of levels
-		// Each page consists of up to 4 icons
-		for (var i:int = 0; i < numPages; i++)
-		{	
-			currentPageX = i * screenWidth;
-			// Calculate the first row of building icons
-			for (var j:int = 0; j < 3; j++)
+		numLevels = testLevels.Count;	
+		if (numLevels > 3)
+		{
+			rightScrollVisible = true;
+		}
+		levelSumWidth = levelHeight + levelPadding;
+		levelGroup = new Rect(0, levelGroupY, screenWidth * numLevels, screenHeight);
+		
+		// Calculate the rect dimensions of every level
+		for (var i:int = 0; i < numLevels; i++)
+		{			
+			if(i%2 == 1)	
 			{
-				counter++;
-				if (counter > testLevels.Count)
-				{
-					break;
-				}
-				currentUpperRowX = j * sumWidth + levelPadding;
-				level = new Rect(currentPageX + currentUpperRowX, 0, levelHeight, levelHeight);
-				levelList.Add(level);
+				currentRowY = levelMiddleNodeOffset;
 			}
+			else
+			{
+				currentRowY = 0;
+			}
+			
+			currentRowX = i * levelSumWidth;
+			level = new Rect(currentRowX, currentRowY, levelHeight, levelHeight);
+			levelList.Add(level);
 		}
 	}
 	
@@ -170,6 +266,20 @@ public class LevelSelectMenu extends GUIControl
 	private function Scroll(direction:int):IEnumerator
 	{
 		isScrolling = true;
-		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
+		targetLevel = Mathf.Clamp(targetLevel + direction, 0, numLevels);
+		
+		if (targetLevel == 0)
+		{
+			leftScrollVisible = false;
+		}
+		else if (targetLevel + 3 >= numLevels)
+		{
+			rightScrollVisible = false;
+		}
+		else
+		{
+			leftScrollVisible = true;
+			rightScrollVisible = true;
+		}
 	}
 }

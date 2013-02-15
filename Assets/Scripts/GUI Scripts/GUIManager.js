@@ -47,6 +47,7 @@ private var marquee:StatusMarquee;
 private var pauseMenu:PauseMenu;
 private var intelMenu:IntelMenu;
 private var buildingMenu:BuildingMenu;
+private var levelSelectMenu:LevelSelectMenu;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -112,6 +113,7 @@ public function Start ()
 	pauseMenu = GetComponent(PauseMenu);
 	intelMenu = GetComponent(IntelMenu);
 	buildingMenu = GetComponent(BuildingMenu);
+	levelSelectMenu = GetComponent(LevelSelectMenu);
 	
 	// Initialize all GUIControls;
 	startMenu.Initialize();
@@ -121,12 +123,17 @@ public function Start ()
 	pauseMenu.Initialize();
 	intelMenu.Initialize();
 	buildingMenu.Initialize();
+	levelSelectMenu.Initialize();
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
 		case "StartScreen":
 			activeControls.Add(startMenu);
+			break;
+		
+		case "LevelSelectScreen":
+			activeControls.Add(levelSelectMenu);
 			break;
 			
 		case "LoadingScreen":
@@ -207,6 +214,8 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
+			ClearControls();
+			activeControls.Add(levelSelectMenu);
 			break;
 		case EventTypes.BUILDING:
 			ClearControls();

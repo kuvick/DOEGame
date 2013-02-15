@@ -31,7 +31,7 @@ public class BuildingMenu extends GUIControl
 	private var scrollRatio:float = 0.39;
 	private var scrollYPercent:float = 0.4;
 	private var buildingIconHeightPercent:float = 0.3;
-	private var buildingIconPaddingPercent:float = 0.01;
+	private var buildingIconPaddingPercent:float = 0.005;
 	private var buildingGroupYPercent:float = 0.25;
 	private var cancelButtonHeightPercent:float = 0.2;		
 	private var cancelButtonFontHeightPercent:float = 0.03;	
@@ -81,7 +81,7 @@ public class BuildingMenu extends GUIControl
 		scrollY = scrollYPercent * screenHeight;
 		buildingIconHeight = buildingIconHeightPercent * screenHeight;
 		buildingIconPadding = buildingIconPaddingPercent * screenWidth;
-		buildingClipWidth = screenWidth - 2 * (scrollWidth + padding);
+		buildingClipWidth = screenWidth - 2 * (scrollWidth + 2 * padding);
 		buildingGroupY = screenHeight * buildingGroupYPercent;
 		
 		cancelButtonHeight = cancelButtonHeightPercent * screenHeight;
@@ -163,7 +163,8 @@ public class BuildingMenu extends GUIControl
 			GUI.BeginGroup(buildingGroup);
 				for (var i:int = 0; i < buildingIconList.Count; i++)
 				{
-					GUI.Button(buildingIconList[i], buildingIconTexture);
+					GUI.DrawTexture(buildingIconList[i], buildingIconTexture);
+					GUI.Button(buildingIconList[i], "");
 				}
 			GUI.EndGroup();
 		GUI.EndGroup();
@@ -207,7 +208,11 @@ public class BuildingMenu extends GUIControl
 		var currentLowerRowX:float = 0;
 		
 		buildingIconList = new List.<Rect>();
-		numPages = Mathf.CeilToInt(testBuildings.Count/6.0);	
+		numPages = Mathf.CeilToInt(testBuildings.Count/6.0);
+		if (numPages > 6)
+		{
+			rightScrollVisible = true;
+		}	
 		sumWidth = buildingIconHeight + buildingIconPadding;
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
 		
@@ -224,7 +229,7 @@ public class BuildingMenu extends GUIControl
 				{
 					break;
 				}
-				currentUpperRowX = j * sumWidth + buildingIconPadding;
+				currentUpperRowX = j * sumWidth;
 				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 				
@@ -239,7 +244,7 @@ public class BuildingMenu extends GUIControl
 				{
 					break;
 				}
-				currentLowerRowX = k * sumWidth + lowerRowOffset - buildingIconPadding;
+				currentLowerRowX = k * sumWidth + lowerRowOffset;
 				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 			}
@@ -260,17 +265,13 @@ public class BuildingMenu extends GUIControl
 		{
 			leftScrollVisible = false;
 		}
-		else
-		{
-			leftScrollVisible = true;
-		}
-		
-		if (targetPage == numPages - 1)
+		else if (targetPage == numPages - 1)
 		{
 			rightScrollVisible = false;
 		}
 		else
 		{
+			leftScrollVisible = true;
 			rightScrollVisible = true;
 		}
 	}

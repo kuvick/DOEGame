@@ -23,6 +23,8 @@ public enum EventTypes
 	FACEBOOK,
 	QUIT,
 	
+	// Level Select Events
+	
 	// Loading events
 	DONELOADING,
 	

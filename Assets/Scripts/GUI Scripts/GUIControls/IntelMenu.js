@@ -31,8 +31,8 @@ public class IntelMenu extends GUIControl
 	private var eventNodeHitbox:Rect;
 	
 	// Intel Menu scaling
-	private var closeButtonHeightPercent:float = 0.12;
-	private var eventNodeHeightPercent:float	= 0.12;
+	private var closeButtonHeightPercent:float = 0.2;
+	private var eventNodeHeightPercent:float = 0.03;
 	private var fontHeightPercent:float = 0.02;
 	
 	private var closeButtonHeight:float;
@@ -62,7 +62,8 @@ public class IntelMenu extends GUIControl
 		
 		//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		closeButton = Rect(background.x + background.width - closeButtonHeight - padding, background.y + padding, closeButtonHeight, closeButtonHeight);
+		closeButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, closeButtonHeight, closeButtonHeight);	
+	
 		scrollArea = Rect(background.x + padding, closeButton.y + closeButton.height + padding, background.width - 2 * padding, background.height - closeButton.height - (2 * padding));
 		scrollContent = Rect(0, 0, scrollArea.width - 2 * padding, 1000);
 		
