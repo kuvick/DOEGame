@@ -44,6 +44,12 @@ public class IntelMenu extends GUIControl
 	public var right:Texture;
 	public var border:Texture;
 	
+	// Intel Menu Icon textures
+	public var negative:Texture;
+	public var positive_blue:Texture;
+	public var positive_green:Texture;
+	public var positive_yellow:Texture;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -75,27 +81,27 @@ public class IntelMenu extends GUIControl
 		eventList = new EventLinkedList();
 		var bE1:BuildingEvent = new BuildingEvent();
 		bE1.description = "Game started.";
-		bE1.type = 0;
+		bE1.type = 1;
 		bE1.time = 1;
 		var bE2:BuildingEvent = new BuildingEvent();
 		bE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
-		bE2.type = 1;
+		bE2.type = 0;
 		bE2.time = 22;
 		var bE3:BuildingEvent = new BuildingEvent();
 		bE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
-		bE3.type = 0;
+		bE3.type = 1;
 		bE3.time = 19;
 		var bE4:BuildingEvent = new BuildingEvent();
 		bE4.description = "A Manager is looking to make his next career move.";
-		bE4.type = 0;
+		bE4.type = 1;
 		bE4.time = 15;
 		var bE5:BuildingEvent = new BuildingEvent();
 		bE5.description = "A new Researcher is about to graduate from the University.";
-		bE5.type = 0;
+		bE5.type = 1;
 		bE5.time = 12;
 		var bE6:BuildingEvent = new BuildingEvent();
 		bE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
-		bE6.type = 1;
+		bE6.type = 0;
 		bE6.time = 8;
 		
 		eventList.InsertNode(bE1);
@@ -142,20 +148,43 @@ public class IntelMenu extends GUIControl
 		
 		while(currNode != null)
 		{
-			currentHeight = (i * eventNodeHeight * 0.78);
-			
+			//currentHeight = (i * eventNodeHeight * 0.78);
+				
+			currentHeight = (i * eventNodeHeight * 1.5); /*TEMPORARY CODE - Chris*/
+				
 			eventNodeIcon.y = currentHeight;
 			eventNodeTurns.y = currentHeight;
 			eventNodeDescription.y = currentHeight;
 			eventNodeHitbox.y = currentHeight;
 			
 			GUI.skin = intelMenuSkin;
-			
+					
 			GUI.DrawTexture(eventNodeIcon, left);
 			GUI.DrawTexture(eventNodeDescription, border);
 			GUI.DrawTexture(eventNodeTurns, right);
 			
-			GUI.Label(eventNodeIcon, "Icon");
+			/*
+				Render Node Type
+			*/
+			switch(currNode.data.type){
+				case 0:				
+					GUI.DrawTexture(eventNodeIcon, negative);
+					break;
+				case 1:
+					GUI.DrawTexture(eventNodeIcon, positive_green);
+					break;
+				case 2:
+					GUI.DrawTexture(eventNodeIcon, positive_blue);
+					break;
+				case 3:
+					GUI.DrawTexture(eventNodeIcon, positive_yellow);
+					break;
+				default:
+					GUI.DrawTexture(eventNodeIcon, positive_blue);
+					break;
+			}
+			
+			//GUI.Label(eventNodeIcon, "Icon");
 			GUI.Label(eventNodeDescription, currNode.data.description);
 			GUI.Label(eventNodeTurns, currNode.data.time.ToString());
 			

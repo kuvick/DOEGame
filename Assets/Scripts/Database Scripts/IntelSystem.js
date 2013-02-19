@@ -25,7 +25,7 @@ class BuildingEvent
 	var name : String;			//used for accessing in editor
 	var description : String;
 	var icon : String;
-	var type : BuildingEventType;
+	var type : BuildingEventType; 
 	var functionName : String;
 	var time : int;
 	var points : int;
@@ -35,7 +35,9 @@ class BuildingEvent
 enum BuildingEventType
 {
 	Negative = 0,
-	Positive = 1
+	Positive_Green = 1,
+	Positive_Blue = 2,
+	Positive_Yellow = 3
 }
 
 function Awake ()
