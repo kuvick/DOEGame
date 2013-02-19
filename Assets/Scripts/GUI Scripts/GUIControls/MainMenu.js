@@ -122,8 +122,8 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(waitButton, waitTexture))
 		{
-			//currentResponse.type = EventTypes.WAIT;
-			currentResponse.type = EventTypes.BUILDING;
+			currentResponse.type = EventTypes.WAIT;
+			//currentResponse.type = EventTypes.BUILDING;
 		}
 		
 		if(GUI.Button(undoButton, undoTexture))
@@ -132,7 +132,7 @@ public class MainMenu extends GUIControl
 		}
 		
 		GUI.Label(scoreRect, score.ToString());
-		GUI.Label(turnRect, "Turn: " + turn);
+		GUI.Label(turnRect, "Turn: " + IntelSystem.currentTurn);
 	}
 	
 	private function HexCalc(position:Vector2, length:float, side:int):Vector2

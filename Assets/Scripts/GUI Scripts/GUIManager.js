@@ -146,6 +146,13 @@ public function Start ()
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
 			break;
+		
+		// temporary for unit testing purposes	
+		case "UnitTest":
+			//activeControls.Add(buildingMenu);
+			activeControls.Add(mainMenu);
+			activeControls.Add(marquee);
+			break;
 	}
 }
 
@@ -260,6 +267,10 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(marquee);
 			break;
 		case EventTypes.WAIT:
+			IntelSystem.addTurn();
+			ClearControls();
+			activeControls.Add(mainMenu);
+			activeControls.Add(marquee);
 			break;
 		case EventTypes.UNDO:
 			break;

@@ -48,6 +48,7 @@ function Awake ()
 //Can use this functio to check for events
 static function addTurn()
 {
+	UnitManager.DoUnitActions();
 	currentTurn++;
 }
 

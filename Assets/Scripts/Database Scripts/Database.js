@@ -73,7 +73,7 @@ function Start()
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
-
+	UnitManager.InitiateUnits();
 }
 
 
@@ -223,9 +223,32 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 	
 }// end of findBuildingIndex
 
+static public function findBuildingIndex (build : BuildingOnGrid) : int {
+	var index = 0;
+
+	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	{
+		//Debug.Log("coordinate: " + coordinate + " building coord: " + placedBuilding.coordinate);
+		if(build == placedBuilding)
+		{
+			//Debug.Log("Found match at " + index);
+			return index;
+		}
+		
+		index++;
+	}
+	return -1;	
+}
+
 static public function getBuildingAtIndex(index: int):GameObject{
 	var toReturn : BuildingOnGrid = buildingsOnGrid[index];
 	return (toReturn.buildingPointer);
+}
+
+static public function getBuildingOnGridAtIndex(index: int):BuildingOnGrid{
+	if (index < buildingsOnGrid.Count)
+		return buildingsOnGrid[index];
+	return null;
 }
 
 static public function getBuildingsOnGrid(){
@@ -577,6 +600,9 @@ class BuildingOnGrid
 	
 	var event : String = "";	// (will search through a list of upgrades to identify what this means)
 	
+	// Unit pathing variables
+	var pathParent : BuildingOnGrid = null;
+	var pathParentDist : float = -1;
 }
 
 // From Design Document, 3.3 Units
