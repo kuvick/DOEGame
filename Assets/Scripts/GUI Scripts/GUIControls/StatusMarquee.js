@@ -28,7 +28,11 @@ public class StatusMarquee extends GUIControl
 	private var backgroundWidth:float;
 	
 	// Marquee Text
-	private var text:String = "Welcome to Prototype City!";	// Default text
+	private static var text:String = "Welcome to Prototype City!";	// Default text
+	private static var prevText:String = "";
+	private static var timed : boolean = false;
+	private static var timedDuration : float = 3.0f;
+	private static var timedStart : float;
 
 	// Mode variables
 	private var mode:int = 0;
@@ -61,10 +65,27 @@ public class StatusMarquee extends GUIControl
 		
 		GUI.Box(backgroundRect, "");
 		
-		GUI.Label(backgroundRect, "Welcome to Prototype City!");
+		GUI.Label(backgroundRect, text);
+	}
+	
+	public static function SetText (t : String, timed : boolean)
+	{
+		this.timed = timed;
+		if (this.timed)
+		{
+			timedStart = Time.time;
+			prevText = text;
+		}
+		text = t;	
 	}
 	
 	public function Update()
 	{
+		if (timed && Time.time - timedStart > timedDuration)
+		{
+			timed = false;
+			text = prevText;
+		}
+		
 	}
 }

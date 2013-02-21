@@ -83,7 +83,7 @@ function FindPath (target : BuildingOnGrid) : boolean {
 		foundPath.RemoveAt(0);
 		found = true;
 	}
-	//SetLinkColors();
+	SetLinkColors();
 	ClearAllPathVars ();
 	return found;
 }
@@ -168,7 +168,7 @@ function DoAction () {
 	previousBuilding = currentBuilding;
 	currentBuilding = foundPath[0];
 	foundPath.RemoveAt(0);
-	//DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
+	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
 	var tileCoord : Vector3 = currentBuilding.coordinate;
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	/*worldCoord.x += HexagonGrid.tileWidth / 2;
@@ -194,9 +194,15 @@ function Update() {
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		if (FindPath(selectedGridBuilding))
+		{
 			Debug.Log("Path found");
+			StatusMarquee.SetText("Unit target set", true);
+		}
 		else
+		{
 			Debug.Log("Path not found");
+			StatusMarquee.SetText("Invalid unit target", true);
+		}
 		isSelected = false;
 	}
 }
@@ -216,8 +222,15 @@ function OnGUI() {
 							point.y + unitButtonOffset.y, unitButtonWidth, unitButtonHeight);
 	
 		GUILayout.BeginArea(unitRect);
-		GUILayout.Button("U");
-		if(mousePos.x >= unitRect.x && mousePos.x <= unitRect.x + unitRect.width &&
+		if (!currentBuilding.isActive)
+			GUI.enabled = false;
+		if (GUILayout.Button("U"))
+		{
+			isSelected = true;
+			Debug.Log("Unit selected");
+		}
+		GUI.enabled = false;
+		/*if(mousePos.x >= unitRect.x && mousePos.x <= unitRect.x + unitRect.width &&
 			mousePos.y >= unitRect.y && mousePos.y <= unitRect.y + unitRect.height)
 		{
 			mouseOverGUI = true;
@@ -228,7 +241,7 @@ function OnGUI() {
 				Debug.Log("Unit selected");
 			}
 		}
-		else mouseOverGUI = false;
+		else mouseOverGUI = false;*/
 		GUILayout.EndArea();
 	}
 }

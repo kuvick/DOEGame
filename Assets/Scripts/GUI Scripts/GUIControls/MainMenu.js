@@ -39,7 +39,7 @@ public class MainMenu extends GUIControl
 	public var waitTexture_Inactive:Texture;
 	public var waitTexture_Active:Texture;		
 	public var intelTexture_Inactive:Texture;		
-	public var intelTexture_Active:Texture;			
+	public var intelTexture_Active:Texture;		
 	
 	// Score and turn ints
 	private var score:int;
@@ -77,6 +77,7 @@ public class MainMenu extends GUIControl
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
 		rectList.Add(intelButton);
+		
 	}
 	
 	public function Render()

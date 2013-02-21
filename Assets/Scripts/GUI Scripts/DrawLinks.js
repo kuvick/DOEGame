@@ -15,7 +15,6 @@
 //Buildings i and j are linked if linkReference[i,j] == true OR linkReference[j,i] == true
 private var linkProspects:boolean[,];	//Used to determine the number of possible links.
 private static var linksDrawn:boolean[,];		//Used to determine if links have already been drawn.
-private static var linkColors : Color[,];
 private var b1Position:Vector3;		
 private var b2Position:Vector3;			//These hold position of linked buildings
 var color1:Color = Color.blue;		
@@ -28,26 +27,27 @@ function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	linkProspects = new boolean[buildings.Length, buildings.Length];
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
-	linkColors = new Color[buildings.Length, buildings.Length];
-	for (var i : int = 0; i < linkColors.GetLength(0); i++)
-		for (var j : int = 0; j < linkColors.GetLength(1); j++)
-			linkColors[i,j] = Color.blue;
 	addObjectsToBuildings();
 }
 
 static function SetLinkColor (b1 : int, b2 : int, c : Color) {
-	/*linkColors[b1,b2] = linkColors[b2,b1] = c;
-	linksDrawn[b1,b2] = linksDrawn[b2,b1] = false;
-	Destroy(buildings[b1].GetComponent(LineRenderer));
-	Destroy(buildings[b2].GetComponent(LineRenderer));*/
-	linkColors[b1,b2] = linkColors[b2,b1] = c;
-	for(var child:Transform in buildings[b1].transform){
-		var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
-		temp.SetColors(c, c);
+	for(var child:Transform in buildings[b1].transform)
+	{
+		if (child.name==buildings[b2].transform.position.ToString())
+		{
+			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
+			temp.SetColors(c, c);
+			break;
+		}
 	}
-	for(var child:Transform in buildings[b2].transform){
-		temp = child.gameObject.GetComponent(LineRenderer);
-		temp.SetColors(c, c);
+	for(var child:Transform in buildings[b2].transform)
+	{
+		if (child.name==buildings[b1].transform.position.ToString())
+		{
+			temp = child.gameObject.GetComponent(LineRenderer);
+			temp.SetColors(c, c);
+			break;
+		}
 	}
 }
 
@@ -89,6 +89,7 @@ function Update(){
 						lineRenderer.SetPosition(0, b1Position);
 						lineRenderer.SetPosition(1, b2Position);
 						linksDrawn[b1, b2] = true;
+						child.name = b2Position.ToString(); // used for changing the colors of specific links
 						break;
 					}
 				}

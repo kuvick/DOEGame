@@ -1,55 +1,68 @@
 /*
-Unit.js
+ResearcherUnit.js
 By Derrick Huey
 */
 #pragma strict
 
 class ResearcherUnit extends Unit {
-	var heldUpgrade : Upgrade = null;
+	public var heldUpgrade : UpgradeType = UpgradeType.NONE;
+	private var heldUpgradeIcon : Texture;
+	private var heldUpgradeButtonOffset:Vector2 = new Vector2(-14, -50);	//Used to set position of button relative to building
+	private var upgradeButtonWidth = 27;
+	private var upgradeButtonHeight = 27;
+	private var manager : UnitManager;
 
-	/*function Start () {
+	function Start () {
 		super();
-	}*/
-	
-	/*function Initiate() {
-		super();
-	}*/
+		manager = gameObject.FindGameObjectWithTag("MainCamera").GetComponent("UnitManager");
+		if (heldUpgrade != UpgradeType.NONE)
+			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
+	}
 	
 	function DoAction() {
 		super();
-		if (CheckUpgrade())
-			heldUpgrade = null;
+		if (currentBuilding.heldUpgrade != UpgradeType.NONE)
+		{
+			heldUpgrade = currentBuilding.heldUpgrade;
+			currentBuilding.heldUpgrade = UpgradeType.NONE;
+			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
+		}
+		else if (currentBuilding.neededUpgrade != UpgradeType.NONE &&
+					currentBuilding.neededUpgrade == heldUpgrade)
+		{
+			currentBuilding.neededUpgrade = UpgradeType.NONE;
+			StatusMarquee.SetText("Upgrade delivered", true);	
+		}
 	}
 	
-	// checks whether the held upgrade's target building has been reached
-	function CheckUpgrade () : boolean {
-		if (currentBuilding == heldUpgrade.targetBuilding)
-			return true;
-		return false;
+	function OnGUI()
+	{
+		super();
+		if (heldUpgrade != UpgradeType.NONE)
+		{
+			GUI.enabled = true;
+			var point : Vector3 = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+			
+			point.y = Screen.height - point.y; //adjust height point
+				
+			if(point.y < 0) //Adjust y value of button for screen space
+				point.y -= Screen.height;
+			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
+							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
+	
+			GUI.Button(heldUpgradeRect, heldUpgradeIcon);
+		}
 	}
-	
-	/*function Update () {
-	
-	}*/
-
 }
 
 enum UpgradeType // to be changed
 {
-	Electrical = 0,
-	Gas = 1
-}
-
-class Upgrade {
-	var type : UpgradeType;
-	var targetBuilding : BuildingOnGrid; // building upgrade needs to be brought to
-	
-	function Upgrade (ut : UpgradeType, tb : BuildingOnGrid) {
-		type = ut;
-		targetBuilding = tb;
-	}
-	
-	function GetTarget() : BuildingOnGrid {
-		return targetBuilding;
-	}
+	NONE,
+	BLUE,
+	GREEN,
+	ORANGE,
+	PINK,
+	PURPLE,
+	TEAL,
+	YELLOW
 }

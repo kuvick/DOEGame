@@ -7,6 +7,7 @@ function Start () {
 	test.linkedTo.Add(1);
 	test.linkedTo.Add(4);
 	test = Database.getBuildingOnGridAtIndex(1);
+	test.heldUpgrade = UpgradeType.BLUE;
 	test.linkedTo.Add(0);
 	testb.linkReference[0,1] = testb.linkReference[1,0] = true;
 	Database.toggleActiveness(0);
@@ -15,6 +16,7 @@ function Start () {
 	
 	test.linkedTo.Add(2);
 	test = Database.getBuildingOnGridAtIndex(2);
+	test.neededUpgrade = UpgradeType.BLUE;
 	test.linkedTo.Add(1);
 	testb.linkReference[2,1] = testb.linkReference[1,2] = true;
 	Database.toggleActiveness(2);

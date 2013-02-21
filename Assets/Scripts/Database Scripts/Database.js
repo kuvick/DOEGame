@@ -603,6 +603,9 @@ class BuildingOnGrid
 	// Unit pathing variables
 	var pathParent : BuildingOnGrid = null;
 	var pathParentDist : float = -1;
+	
+	var heldUpgrade : UpgradeType = UpgradeType.NONE;
+	var neededUpgrade : UpgradeType = UpgradeType.NONE;
 }
 
 // From Design Document, 3.3 Units
