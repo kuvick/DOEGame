@@ -71,9 +71,26 @@ function Start()
 		Debug.Log(tempBuilding.buildingName + " was added to the grid");
 	}
 	
+	PrintBuildingsOnGrid();
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
 	UnitManager.InitiateUnits();
+}
+
+function PrintBuildingsOnGrid()
+{
+	for (var building : BuildingOnGrid in buildingsOnGrid)
+	{
+		Debug.Log("Name: " + building.buildingName);
+		for (var iName : String in building.inputName)
+			Debug.Log("Input: " + iName);
+		for (var iNum : int in building.inputNum)
+			Debug.Log("Input #: " + iNum);
+		for (var oName : String in building.outputName)
+			Debug.Log("Output: " + oName);
+		for (var oNum : int in building.outputNum)
+			Debug.Log("Output #: " + oNum);
+	}
 }
 
 

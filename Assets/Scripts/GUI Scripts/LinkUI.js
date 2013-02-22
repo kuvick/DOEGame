@@ -54,6 +54,7 @@ function Start () {
 	cancelLinkMode = false;
 	mouseOverGUI = false;
 	displayLink = gameObject.GetComponent(DisplayLinkRange);
+	Debug.Log("linkui" + buildings.Length);
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -100,10 +101,15 @@ static function isInRange(b1:GameObject, b2:GameObject)
 {
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
+	
 		
-	if(Mathf.Abs(b2Position.x - b1Position.x) < (HexagonGrid.tileWidth * tileRange))
+	//if(Mathf.Abs(b2Position.x - b1Position.x) < (HexagonGrid.tileWidth * tileRange))
+	if(Vector3.Distance(b1Position, b2Position) < (HexagonGrid.tileWidth * tileRange))
+	{
+		//Debug.Log("in range");
 		return true;
-		
+		}
+	//Debug.Log("not in range");
 	return false;
 }
 
@@ -139,13 +145,13 @@ function OnGUI()
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		
-		if(gridBuilding == null || gridBuilding.inputNum.length <= 0 || gridBuilding.outputNum.length <= 0)
+		if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
 			return;
 			
 		inputCount = gridBuilding.inputNum.length;
 		outputCount = gridBuilding.outputNum.length;
 		
-		buildingOutputNum = gridBuilding.outputNum[0];
+		//buildingOutputNum = gridBuilding.outputNum[0];
 																
 		point = Camera.main.WorldToScreenPoint(target.position);
 		
@@ -159,12 +165,12 @@ function OnGUI()
 						point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
 		var outputRect:Rect = Rect(point.x + outputOffset.x, 
 						point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
-						
+					
 		//prototype
 		if(building != selectedBuilding)
 		{
-			if(building == null || selectedBuilding == null || !isInRange(building.gameObject, selectedBuilding.gameObject)) continue;
-		
+			if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
+	
 			for(var input = 0; input < inputCount; input++)
 			{
 				buildingInputNum = gridBuilding.inputNum[input];
@@ -207,8 +213,10 @@ function OnGUI()
 		//Instructions for output button
 		else
 		{	
+			if(gridBuilding.outputNum.length <= 0)
+				return;
 			ModeController.setCurrentMode(GameState.LINK);
-		
+			buildingOutputNum = gridBuilding.outputNum[0];
 			for(var j = 0; j < buildingOutputNum; j++)
 			{
 				if(j > 0)

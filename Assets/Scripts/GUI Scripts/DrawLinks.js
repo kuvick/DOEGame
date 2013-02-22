@@ -27,6 +27,7 @@ function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	linkProspects = new boolean[buildings.Length, buildings.Length];
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
+	Debug.Log("drawlinks");
 	addObjectsToBuildings();
 }
 
@@ -102,7 +103,7 @@ function Update(){
 //This function determines the number of possible links each building has
 //and adds that many gameObjects to that building.
 function addObjectsToBuildings(){	
-	var linkUIRef = gameObject.GetComponent(LinkUI);
+	var linkUIRef : LinkUI = gameObject.GetComponent(LinkUI);
 
 	for(var b1:int; b1 < buildings.Length; b1++){
 		numLinks = 0;
