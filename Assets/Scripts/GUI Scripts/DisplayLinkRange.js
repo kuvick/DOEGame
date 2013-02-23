@@ -60,9 +60,12 @@ function Update() {
 		return;
 	}
 	
-	(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
+	if(selectedBuilding.name != "BuildingSite")
+	{
+		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
+	}
 
-	if (selectedBuilding != previousBuilding)
+	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding))
 	{
 		HighlightBuildingsInRange(selectedBuilding);
 		HighlightTilesInRange();

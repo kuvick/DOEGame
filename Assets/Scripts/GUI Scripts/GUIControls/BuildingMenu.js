@@ -67,9 +67,40 @@ public class BuildingMenu extends GUIControl
 	private var leftScrollVisible:boolean = false;
 	private var rightScrollVisible:boolean = true;
 	
+	
+	/*
+	Since it is easier to keep track of buildings in one spot, since all
+	Building Sites utlize the same list and there is the requirement of
+	subtracting buildings from the list, one uses the menu to keep track
+	of all the buildings. Also, for now the resources that are involved
+	with the buildings must be included in the picture so the user knows
+	the the input/output of the building they are selecting.
+	
+	These two items, to avoid the confusion of parallel arrays, will be in
+	a new class, and there will be an array of this new class, BuildingSiteChoice,
+	that this menu will use.
+	
+	*/
+	
+	class BuildingSiteChoice
+	{
+		public var building : GameObject;
+		public var menuIcon : Texture;
+	}
+	
+	public var buildingChoices : BuildingSiteChoice[];
+	
+	// Used for placing buildings:
+	private var gridObject : GameObject;
+	private var grid : HexagonGrid;
+
+	
 	public function Start () 
 	{
 		super.Start();
+		
+		gridObject = GameObject.Find("HexagonGrid");
+		grid = gridObject.GetComponent(HexagonGrid);
 	}
 	
 	public function Initialize()
@@ -275,4 +306,21 @@ public class BuildingMenu extends GUIControl
 			rightScrollVisible = true;
 		}
 	}
+	
+	
+	public function Place(position : Vector3, index : int)
+	{
+			
+			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
+			var build: Transform;
+			
+			build = Instantiate(buildingChoices[index].building.transform, position, Quaternion.identity);
+			build.tag = "Building";
+			build.gameObject.AddComponent("MeshRenderer");
+			
+			Database.addBuildingToGrid(buildingChoices[index].building);
+	
+	}
+	
+	
 }

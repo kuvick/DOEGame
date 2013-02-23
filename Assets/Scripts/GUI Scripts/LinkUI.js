@@ -136,128 +136,131 @@ function OnGUI()
 	selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 	selectedBuildingOutputs = selectedGridBuilding.outputName;
 	
-	//Draw IO buttons
-	for(var building:GameObject in buildings)
+	if(selectedGridBuilding.buildingName != "BuildingSite")
 	{
-		//Debug.Log("GUI GUI");
-		if(building == null) return;
-		
-		target = building.transform;
-		gridBuilding = Database.getBuildingOnGrid(target.position);
-		
-		if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
-			return;
-			
-		inputCount = gridBuilding.inputNum.length;
-		outputCount = gridBuilding.outputNum.length;
-		
-		//buildingOutputNum = gridBuilding.outputNum[0];
-																
-		point = Camera.main.WorldToScreenPoint(target.position);
-		
-		point.y = Screen.height - point.y; //adjust height point
-		
-		if(point.y < 0) //Adjust y value of button for screen space
-			point.y -= Screen.height;
-		
-		//Set position of buttons
-		var inputRect:Rect = Rect(point.x + inputOffset.x, 
-						point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
-		var outputRect:Rect = Rect(point.x + outputOffset.x, 
-						point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
-					
-		//prototype
-		if(building != selectedBuilding)
+		//Draw IO buttons
+		for(var building:GameObject in buildings)
 		{
-			if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
-	
-			for(var input = 0; input < inputCount; input++)
+			//Debug.Log("GUI GUI");
+			if(building == null) return;
+			
+			target = building.transform;
+			gridBuilding = Database.getBuildingOnGrid(target.position);
+			
+			if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
+				return;
+				
+			inputCount = gridBuilding.inputNum.length;
+			outputCount = gridBuilding.outputNum.length;
+			
+			//buildingOutputNum = gridBuilding.outputNum[0];
+																	
+			point = Camera.main.WorldToScreenPoint(target.position);
+			
+			point.y = Screen.height - point.y; //adjust height point
+			
+			if(point.y < 0) //Adjust y value of button for screen space
+				point.y -= Screen.height;
+			
+			//Set position of buttons
+			var inputRect:Rect = Rect(point.x + inputOffset.x, 
+							point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
+			var outputRect:Rect = Rect(point.x + outputOffset.x, 
+							point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
+						
+			//prototype
+			if(building != selectedBuilding)
 			{
-				buildingInputNum = gridBuilding.inputNum[input];
-				if(input > 0)
-					inputRect.y += 30;
-					
-				for(var i = 0; i < buildingInputNum; i++)
+				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
+		
+				for(var input = 0; input < inputCount; input++)
 				{
-					if(i > 0)
+					buildingInputNum = gridBuilding.inputNum[input];
+					if(input > 0)
 						inputRect.y += 30;
-					GUI.enabled = false;
-					for (var outName:String in selectedBuildingOutputs)
+						
+					for(var i = 0; i < buildingInputNum; i++)
 					{
-						if (gridBuilding.inputName[input] == outName)
+						if(i > 0)
+							inputRect.y += 30;
+						GUI.enabled = false;
+						for (var outName:String in selectedBuildingOutputs)
 						{
-							GUI.enabled = true;
-							break;
+							if (gridBuilding.inputName[input] == outName)
+							{
+								GUI.enabled = true;
+								break;
+							}
 						}
+						GUILayout.BeginArea(inputRect);
+						GUILayout.Button("I");
+						if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
+							mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
+						{
+							mouseOverGUI = true;
+						
+							if(Input.GetMouseButtonDown(0))
+							{
+								inputBuilding = building;
+							}
+						}
+						else mouseOverGUI = false;
+						GUILayout.EndArea();
+						GUI.enabled = true;
 					}
-					GUILayout.BeginArea(inputRect);
-					GUILayout.Button("I");
-					if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
-						mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
+				}
+	
+			}
+			
+			//Instructions for output button
+			else
+			{	
+				if(gridBuilding.outputNum.length <= 0)
+					return;
+				ModeController.setCurrentMode(GameState.LINK);
+				buildingOutputNum = gridBuilding.outputNum[0];
+				for(var j = 0; j < buildingOutputNum; j++)
+				{
+					if(j > 0)
+						outputRect.y += 30;
+					
+					GUILayout.BeginArea(outputRect);
+					GUILayout.Button("O");
+					if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
+						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 					{
 						mouseOverGUI = true;
 					
 						if(Input.GetMouseButtonDown(0))
 						{
-							inputBuilding = building;
+							outputBuilding = building;
 						}
 					}
 					else mouseOverGUI = false;
 					GUILayout.EndArea();
-					GUI.enabled = true;
 				}
 			}
-
 		}
 		
-		//Instructions for output button
-		else
-		{	
-			if(gridBuilding.outputNum.length <= 0)
-				return;
-			ModeController.setCurrentMode(GameState.LINK);
-			buildingOutputNum = gridBuilding.outputNum[0];
-			for(var j = 0; j < buildingOutputNum; j++)
-			{
-				if(j > 0)
-					outputRect.y += 30;
-				
-				GUILayout.BeginArea(outputRect);
-				GUILayout.Button("O");
-				if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
-					mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
-				{
-					mouseOverGUI = true;
-				
-					if(Input.GetMouseButtonDown(0))
-					{
-						outputBuilding = building;
-					}
-				}
-				else mouseOverGUI = false;
-				GUILayout.EndArea();
-			}
-		}
-	}
-	
-	if(!cancelLinkMode)
-	{
-		//Draw Cancel button
-		GUILayout.BeginArea(cancelRect);
-		GUILayout.Button("Cancel");
-		if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
-					mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
+		if(!cancelLinkMode)
 		{
-			if(Input.GetMouseButtonDown(0))
+			//Draw Cancel button
+			GUILayout.BeginArea(cancelRect);
+			GUILayout.Button("Cancel");
+			if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
+						mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
 			{
-				cancelLinkMode = true;
-				displayLink.DestroyRangeTiles();
-				outputBuilding = null;
+				if(Input.GetMouseButtonDown(0))
+				{
+					cancelLinkMode = true;
+					displayLink.DestroyRangeTiles();
+					outputBuilding = null;
+				}
+				mouseOverGUI = true;
 			}
-			mouseOverGUI = true;
+			else mouseOverGUI = false;
+			GUILayout.EndArea();
 		}
-		else mouseOverGUI = false;
-		GUILayout.EndArea();
 	}
 }
 

@@ -52,9 +52,11 @@ static var gridObject:GameObject;
 static var grid:HexagonGrid;
 
 
+static var defaultBuildingScript : DefaultBuildings;
+
 function Start()
 {
-	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
+	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
 	
@@ -76,8 +78,27 @@ function Start()
 	UnitManager.InitiateUnits();
 }
 
-/*
 
+/*
+Since there are no more default buildings, this script will add a building as is
+to the building menu. There is no undo functionality yet, since that will involve
+re-placing the building site.
+*/
+static public function addBuildingToGrid(buildingObject: GameObject)
+{
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	buildingsOnGrid.Push(tempBuilding);
+	BroadcastBuildingUpdate();
+		
+	Debug.Log(tempBuilding.buildingName + " was added to the grid");
+}
+
+
+
+
+/*
 The addingBuildingToGrid function adds a building to the
 buildingsOnGrid array, representing it has been placed on
 the grid, based on a given building type name, coordinate,
