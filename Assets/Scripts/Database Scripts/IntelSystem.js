@@ -23,7 +23,8 @@ public var events : BuildingEvent[];		// must use this intel system to edit actu
 class BuildingEvent
 {
 	var name : String;			//used for accessing in editor
-	var description : String;
+	var title: String;			//Displayed Title in the Intel Menu
+	var description : String;	//Displayed Description in the Intel Menu
 	var icon : String;
 	var type : BuildingEventType; 
 	var functionName : String;

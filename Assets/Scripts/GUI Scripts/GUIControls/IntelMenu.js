@@ -27,6 +27,7 @@ public class IntelMenu extends GUIControl
 	
 	private var eventNodeIcon:Rect;
 	private var eventNodeDescription:Rect;
+	private var eventNodeTitle:Rect;
 	private var eventNodeTurns:Rect;
 	private var eventNodeHitbox:Rect;
 	
@@ -60,7 +61,7 @@ public class IntelMenu extends GUIControl
 		super.Initialize();
 		
 		closeButtonHeight = closeButtonHeightPercent * screenHeight;
-		eventNodeHeight = eventNodeHeightPercent * screenHeight;
+		eventNodeHeight = eventNodeHeightPercent * screenHeight * 4;
 		
 		fontHeight = fontHeightPercent * screenHeight;
 		hexButtonSkin.button.fontSize = fontHeight;
@@ -73,33 +74,43 @@ public class IntelMenu extends GUIControl
 		scrollArea = Rect(background.x + padding, closeButton.y + closeButton.height + padding, background.width - 2 * padding, background.height - closeButton.height - (2 * padding));
 		scrollContent = Rect(0, 0, scrollArea.width - 2 * padding, 1000);
 		
-		eventNodeIcon = Rect(padding, 0, eventNodeHeight, eventNodeHeight);
+		eventNodeIcon = Rect(padding, 0, eventNodeHeight/2, eventNodeHeight/2);
 		eventNodeDescription = Rect(eventNodeIcon.x + eventNodeHeight, 0, scrollContent.width - 2.5 * eventNodeHeight, eventNodeHeight);
-		eventNodeTurns = Rect(eventNodeDescription.x + eventNodeDescription.width, 0, eventNodeHeight, eventNodeHeight);
+		eventNodeTitle = Rect(eventNodeDescription.x + eventNodeIcon.width * 2, 0, scrollContent.width - 2.5 * eventNodeHeight, eventNodeHeight);
+		eventNodeTurns = Rect(eventNodeDescription.x + eventNodeDescription.width - eventNodeHeight * 1.4, 0, eventNodeHeight, eventNodeHeight);
 	    eventNodeHitbox = Rect(eventNodeIcon.x, 0, eventNodeIcon.width + eventNodeDescription.width + eventNodeTurns.width, eventNodeHeight);
+		
+		/**/
+		eventNodeIcon.x = eventNodeDescription.x + eventNodeIcon.width/1.6;			
 		
 		eventList = new EventLinkedList();
 		var bE1:BuildingEvent = new BuildingEvent();
-		bE1.description = "Game started.";
+		bE1.title = "Game On!";
+		bE1.description = "The game has started!";
 		bE1.type = 1;
 		bE1.time = 1;
 		var bE2:BuildingEvent = new BuildingEvent();
+		bE2.title = "Coal Mine Gridlock!";
 		bE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
 		bE2.type = 0;
 		bE2.time = 22;
 		var bE3:BuildingEvent = new BuildingEvent();
+		bE3.title = "Wasteful Spending!";
 		bE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
 		bE3.type = 1;
 		bE3.time = 19;
 		var bE4:BuildingEvent = new BuildingEvent();
+		bE4.title = "New Manager Available!";
 		bE4.description = "A Manager is looking to make his next career move.";
 		bE4.type = 1;
 		bE4.time = 15;
 		var bE5:BuildingEvent = new BuildingEvent();
+		bE5.title = "Seeking Employment!";
 		bE5.description = "A new Researcher is about to graduate from the University.";
 		bE5.type = 1;
 		bE5.time = 12;
 		var bE6:BuildingEvent = new BuildingEvent();
+		bE6.title = "Factory Needs Fuel!";
 		bE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
 		bE6.type = 0;
 		bE6.time = 8;
@@ -148,20 +159,17 @@ public class IntelMenu extends GUIControl
 		
 		while(currNode != null)
 		{
-			//currentHeight = (i * eventNodeHeight * 0.78);
+			currentHeight = (i * eventNodeHeight * .78); //Magic Number was: 0.78
 				
-			currentHeight = (i * eventNodeHeight * 1.5); /*TEMPORARY CODE - Chris*/
-				
-			eventNodeIcon.y = currentHeight;
+			eventNodeIcon.y = currentHeight + eventNodeIcon.height /2;
 			eventNodeTurns.y = currentHeight;
 			eventNodeDescription.y = currentHeight;
-			eventNodeHitbox.y = currentHeight;
+			eventNodeTitle.y = currentHeight - fontHeight;
+			eventNodeHitbox.y = currentHeight;						
 			
 			GUI.skin = intelMenuSkin;
-					
-			GUI.DrawTexture(eventNodeIcon, left);
-			GUI.DrawTexture(eventNodeDescription, border);
-			GUI.DrawTexture(eventNodeTurns, right);
+								
+			GUI.DrawTexture(eventNodeDescription, border);			
 			
 			/*
 				Render Node Type
@@ -185,8 +193,29 @@ public class IntelMenu extends GUIControl
 			}
 			
 			//GUI.Label(eventNodeIcon, "Icon");
+			
+			/*Skin Modification for Title display*/
+				intelMenuSkin.label.alignment = TextAnchor.MiddleLeft;
+				intelMenuSkin.label.fontStyle = FontStyle.Bold;
+				
+				GUI.Label(eventNodeTitle, currNode.data.title);	//Display Title as Label
+				
+				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
+				intelMenuSkin.label.fontStyle = FontStyle.Normal;
+			/*End of Skin Modification*/
+			
+			eventNodeDescription.y += fontHeight/2;
 			GUI.Label(eventNodeDescription, currNode.data.description);
-			GUI.Label(eventNodeTurns, currNode.data.time.ToString());
+			
+			/*Skin Modification for Turns Display*/
+				intelMenuSkin.label.alignment = TextAnchor.MiddleRight;
+				intelMenuSkin.label.fontStyle = FontStyle.Bold;
+				
+				GUI.Label(eventNodeTurns, currNode.data.time.ToString());
+				
+				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
+				intelMenuSkin.label.fontStyle = FontStyle.Normal;
+			/*End of Skin Modification*/
 			
 			if (GUI.Button(eventNodeHitbox, ""))
 			{
