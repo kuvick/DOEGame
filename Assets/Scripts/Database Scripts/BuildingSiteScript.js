@@ -6,7 +6,7 @@ private var selectedBuildingSite : boolean;
 private var buildingLocationMenu : Vector2;
 private var buildingSiteLocation : Vector3;
 private var buildingData : BuildingData;
-public var guiManager : GUIManager;
+private var mainMenu : MainMenu;
 
 function Start ()
 {
@@ -20,7 +20,7 @@ function Start ()
 	buildingData = gameObject.GetComponent(BuildingData);
 	buildingSiteLocation = buildingData.buildingData.coordinate;
 
-
+	mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 }
 
 function OnGUI()
@@ -36,7 +36,6 @@ function OnGUI()
         	if(GUI.Button(Rect(5, 20 + (95*i), 90, 90), building.name))
         	{
         		PlaceBuilding.changeBuilding = i;
-        		guiManager.buildingMenuOpen = false;
         		selectedBuildingSite = false;
         		Database.deleteBuildingSite(buildingSiteLocation);
         		PlaceBuilding.Place(gameObject.transform.position, false);
@@ -56,11 +55,9 @@ function OnGUI()
 }
 
 
-function OpenBuildingMenu(mousePosition : Vector2)
+// Used by the BuildingInteractionManager, when it identifies the selected building
+// as a building site to open the Building Menu.
+function OpenBuildingMenu()
 {
-	guiManager = GameObject.Find("Main Camera").GetComponent(GUIManager);
-
-	selectedBuildingSite = true;
-	buildingLocationMenu = mousePosition;
-	guiManager.buildingMenuOpen = true;
+	mainMenu.RecieveEvent(EventTypes.BUILDING);
 }

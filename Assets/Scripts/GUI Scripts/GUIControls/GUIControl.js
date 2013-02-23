@@ -90,7 +90,15 @@ public class GUIControl extends MonoBehaviour
 	*/
 	public function RecieveEvent(e:GUIEvent)
 	{
+		currentResponse.type = e.type;
 	}
+	
+	// Currently used to pass on events from non-GUI members, e.g., the Building Site
+	public function RecieveEvent(e:EventTypes)
+	{
+		currentResponse.type = e;
+	}
+	
 	
 	/*
 		Returns the GUIControl's current response.
