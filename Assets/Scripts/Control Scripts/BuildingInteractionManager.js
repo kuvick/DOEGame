@@ -45,6 +45,7 @@ static function HandleTapAtPoint(position: Vector2){
 	Debug.Log("Clicked position: " + buildPos);
 	//var buildingIndex = Database.findBuildingIndex(buildPos);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	Debug.Log("BuildID:" + buildingIndex);
 
 	if (buildingIndex != -1){
 		//Debug.Log("Tap on building");

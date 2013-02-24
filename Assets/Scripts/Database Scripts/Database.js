@@ -83,16 +83,38 @@ function Start()
 Since there are no more default buildings, this script will add a building as is
 to the building menu. There is no undo functionality yet, since that will involve
 re-placing the building site.
+
+This will place the building at the building site's index
 */
-static public function addBuildingToGrid(buildingObject: GameObject)
+static public function addBuildingToGrid(buildingObject: GameObject, coord : Vector3)
 {
+	var temp = new BuildingOnGrid();
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	Debug.Log("adding buidling to grid");
+
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
 	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
-	buildingsOnGrid.Push(tempBuilding);
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	buildingsOnGrid[findBuildingIndex(coord)] = tempBuilding;
 	BroadcastBuildingUpdate();
-		
-	Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	
+	if(findBuildingIndex(tempBuilding.coordinate) != -1)
+	{
+		Debug.Log("Coord: " + tempBuilding.coordinate);
+		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
+		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	}
+	else
+	{
+		Debug.Log("Error, building not added...");
+	}
+	
 }
 
 
@@ -831,8 +853,16 @@ static public function deleteBuildingSite( coordinate : Vector3 )
 {
 
 	var buildingSiteID : int = findBuildingIndex( coordinate );	// find location in array of buildings
-	Debug.Log("Index: " + buildingSiteID);
+	Debug.Log("Removing at Index: " + buildingSiteID);
 	buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
 	BroadcastBuildingUpdate();
-
+	
+	if(findBuildingIndex(coordinate) == -1)
+	{
+		Debug.Log("Successfully Removed.");
+	}
+	else
+	{
+		Debug.Log("Error, building not removed...");
+	}
 }// end of deleteBuildingSite()

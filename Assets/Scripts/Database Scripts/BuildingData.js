@@ -54,14 +54,16 @@ class BuildingOnGridData
 	public var buildingData : BuildingOnGridData;
 	private var defaultBuildingsScript : DefaultBuildings;
 	private var thisBuilding : GameObject;
-	public var loadDefaultData : boolean = true;	// be sure to set false before the game starts, else it might replace the changed data
+	public var loadDefaultData : boolean = false;	// be sure to set false before the game starts, else it might replace the changed data
 	
-	private var firstLoad : boolean = true;
+	private var firstLoad : boolean = false;
 
 
 // This function temporarily loads a database
 function Start ()
 {
+	loadDefaultData = false;
+
 	thisBuilding = gameObject;
 	var replaceName : String = thisBuilding.name.Replace("(Clone)", "");
 	thisBuilding.name = replaceName;

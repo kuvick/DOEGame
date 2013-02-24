@@ -64,7 +64,7 @@ function Update() {
 	{
 		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
 	}
-
+	
 	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding))
 	{
 		HighlightBuildingsInRange(selectedBuilding);
@@ -162,7 +162,7 @@ static function RestoreColors(){
 		for(var i = 0; i < buildings.Length; i++){
 			if(buildings[i] == null) return;
 		
-			(buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color = Color.clear; // this needs to be changes to no color
+			(buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color = Color.white; // this needs to be changes to no color
 		}
 	}
 }

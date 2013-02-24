@@ -23,9 +23,6 @@ public class BuildingMenu extends GUIControl
 	private var buildingIconList:List.<Rect>;
 	private var cancelButton:Rect;
 	
-	// For testing
-	private var testBuildings:List.<String>;
-	
 	// Building Menu scaling
 	private var scrollHeightPercent:float = 0.3;
 	private var scrollRatio:float = 0.39;
@@ -55,7 +52,7 @@ public class BuildingMenu extends GUIControl
 	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Inactive:Texture;
 	
-	public var buildingIconTexture:Texture;
+	public var buildingIconTexture:Texture;					//to be removed?
 	
 	// Building Menu animation
 	private var isScrolling:boolean = false;
@@ -85,7 +82,7 @@ public class BuildingMenu extends GUIControl
 	class BuildingSiteChoice
 	{
 		public var building : GameObject;
-		public var menuIcon : Texture;
+		public var icon : Texture;
 	}
 	
 	public var buildingChoices : BuildingSiteChoice[];
@@ -93,6 +90,7 @@ public class BuildingMenu extends GUIControl
 	// Used for placing buildings:
 	private var gridObject : GameObject;
 	private var grid : HexagonGrid;
+	private var selectedBuildingSite : GameObject;
 
 	
 	public function Start () 
@@ -126,17 +124,6 @@ public class BuildingMenu extends GUIControl
 		buildingClip = new Rect(verticalBarWidth + (screenWidth - buildingClipWidth)/2, horizontalBarHeight, buildingClipWidth, screenHeight);
 		cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonHeight, cancelButtonHeight);	
 
-		// For testig the layout of the building icons and scrolling animations
-		testBuildings = new List.<String>();
-		testBuildings.Add("1415");
-		testBuildings.Add("4505");
-		testBuildings.Add("9410");
-		testBuildings.Add("1024");
-		testBuildings.Add("5938");
-		testBuildings.Add("3029");
-		testBuildings.Add("8467");
-		testBuildings.Add("6265");
-		testBuildings.Add("9245");
 		
 		rectList.Add(background);
 		
@@ -192,10 +179,20 @@ public class BuildingMenu extends GUIControl
 		// Change the second group's rect's x position in order to scroll the building icons
 		GUI.BeginGroup(buildingClip);
 			GUI.BeginGroup(buildingGroup);
-				for (var i:int = 0; i < buildingIconList.Count; i++)
+				for (var i:int = 0; i < buildingChoices.length; i++)
 				{
-					GUI.DrawTexture(buildingIconList[i], buildingIconTexture);
-					GUI.Button(buildingIconList[i], "");
+					//Katharine: I will eventually set it up for it to print the input/output on top of the button (?)
+					//so we don't have to include the input int the image
+					//var buildingData : BuildingData = buildingChoices[i].building.GetComponent("BuildingData");
+					//Debug.Log(i + "Input: " + buildingData.buildingData.inputName[0]);
+				
+					GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
+					if(GUI.Button(buildingIconList[i], "" ))
+					{
+						Place(i);						
+						currentResponse.type = EventTypes.MAIN;
+						
+					}
 				}
 			GUI.EndGroup();
 		GUI.EndGroup();
@@ -211,6 +208,7 @@ public class BuildingMenu extends GUIControl
 	
 	public function Update()
 	{
+		//This will scroll the icons until the current page matches the target page		
 		if (targetPage != currentPage)
 		{
 			scrollTimer += Time.deltaTime;
@@ -239,7 +237,7 @@ public class BuildingMenu extends GUIControl
 		var currentLowerRowX:float = 0;
 		
 		buildingIconList = new List.<Rect>();
-		numPages = Mathf.CeilToInt(testBuildings.Count/6.0);
+		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);
 		if (numPages > 6)
 		{
 			rightScrollVisible = true;
@@ -248,7 +246,7 @@ public class BuildingMenu extends GUIControl
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
 		
 		// Calculate the rect dimensions of every page of building icons
-		// Each page consists of up to six icons split into two rows three
+		// Each page consists of up to six icons split into two rows of three
 		for (var i:int = 0; i < numPages; i++)
 		{	
 			currentPageX = i * screenWidth;
@@ -256,7 +254,7 @@ public class BuildingMenu extends GUIControl
 			for (var j:int = 0; j < 3; j++)
 			{
 				counter++;
-				if (counter > testBuildings.Count)
+				if (counter > buildingChoices.Length)
 				{
 					break;
 				}
@@ -271,7 +269,7 @@ public class BuildingMenu extends GUIControl
 			for (var k:int = 0; k < 3; k++)
 			{
 				counter++;
-				if (counter > testBuildings.Count)
+				if (counter > buildingChoices.Length)
 				{
 					break;
 				}
@@ -292,12 +290,19 @@ public class BuildingMenu extends GUIControl
 		isScrolling = true;
 		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
 		
-		if (targetPage == 0)
+		if (numPages <= 1)
 		{
 			leftScrollVisible = false;
+			rightScrollVisible = false;
 		}
-		else if (targetPage == numPages - 1)
+		else if (targetPage == 0 && numPages > 1)
 		{
+			leftScrollVisible = false;
+			rightScrollVisible = true;
+		}
+		else if (targetPage != 0 && targetPage == numPages - 1)
+		{
+			leftScrollVisible = true;
 			rightScrollVisible = false;
 		}
 		else
@@ -308,19 +313,58 @@ public class BuildingMenu extends GUIControl
 	}
 	
 	
-	public function Place(position : Vector3, index : int)
+	// Used to place the building at the specified location,
+	// using the building in the current index of buildingChoices.
+	// It also deletes the building site where it is to place the building.
+	public function Place(index : int)
 	{
+			var position : Vector3 = selectedBuildingSite.transform.position;
+			var buildingData : BuildingSiteScript = selectedBuildingSite.GetComponent("BuildingSiteScript");
+			//Database.deleteBuildingSite(buildingData.GetLocation());
+		
 			
 			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
-			var build: Transform;
+			var build: GameObject;
 			
-			build = Instantiate(buildingChoices[index].building.transform, position, Quaternion.identity);
-			build.tag = "Building";
-			build.gameObject.AddComponent("MeshRenderer");
+			build = Instantiate(buildingChoices[index].building, position, Quaternion.identity);
 			
-			Database.addBuildingToGrid(buildingChoices[index].building);
-	
+			Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
+			
+			Destroy(selectedBuildingSite);
+			RemoveBuildingFromList(index);
 	}
 	
+	// Used by building site to give this menu its location.
+	public function MakeCurrentSite( currentSite : GameObject )
+	{
+		selectedBuildingSite = currentSite;
+	}
 	
+	private function RemoveBuildingFromList(index : int)
+	{
+		var tempBuildingChoices : BuildingSiteChoice[] = new BuildingSiteChoice[buildingChoices.length - 1];
+		
+		var i : int = 0;
+		var j : int = 0;
+		for(i = 0; i < buildingChoices.length; i++)
+		{
+			if(i != index)
+			{
+				tempBuildingChoices[j] = buildingChoices[i];
+				j++;
+			}
+		}
+		
+		buildingChoices = tempBuildingChoices;
+		
+		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);	
+		Debug.Log(numPages + " pages");
+		if (numPages <= 1)
+		{
+			leftScrollVisible = false;
+			rightScrollVisible = false;
+			targetPage = 0;
+		}		
+	}
+
 }
