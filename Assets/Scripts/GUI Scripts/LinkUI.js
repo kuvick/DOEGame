@@ -42,6 +42,7 @@ private var buildingInputNum:int;
 private var buildingOutputNum:int;
 private var outputCount:int;
 private var inputCount:int;
+private var usedOptionalOutput : boolean = false;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 
 private var displayLink : DisplayLinkRange;
@@ -87,7 +88,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
-	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
+	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, usedOptionalOutput) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
 		//These next two lines may not have to be here, will test further -WF
@@ -193,8 +194,9 @@ function OnGUI()
 							}
 						}
 						GUILayout.BeginArea(inputRect);
-						GUILayout.Button("I");
-						if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
+						if (GUILayout.Button("I"))
+							inputBuilding = building;
+						/*if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
 							mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
 						{
 							mouseOverGUI = true;
@@ -204,7 +206,7 @@ function OnGUI()
 								inputBuilding = building;
 							}
 						}
-						else mouseOverGUI = false;
+						else mouseOverGUI = false;*/
 						GUILayout.EndArea();
 						GUI.enabled = true;
 					}
@@ -215,7 +217,7 @@ function OnGUI()
 			//Instructions for output button
 			else
 			{	
-				if(gridBuilding.outputNum.length <= 0)
+				if(gridBuilding.outputNum.length <= 0 && gridBuilding.optionalOutputNum.length <= 0)
 					return;
 				ModeController.setCurrentMode(GameState.LINK);
 				buildingOutputNum = gridBuilding.outputNum[0];
@@ -225,8 +227,35 @@ function OnGUI()
 						outputRect.y += 30;
 					
 					GUILayout.BeginArea(outputRect);
-					GUILayout.Button("O");
-					if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
+					if (GUILayout.Button("O")) 
+						outputBuilding = building;
+					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
+						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
+					{
+						mouseOverGUI = true;
+					
+						if(Input.GetMouseButtonDown(0))
+						{
+							outputBuilding = building;
+						}
+					}
+					else mouseOverGUI = false;*/
+					GUILayout.EndArea();
+				}
+				
+				/*for (j = 0; j < gridBuilding.optionalOutputNum.length; j++)
+				{
+					outputRect.y += 30;
+					
+					GUILayout.BeginArea(outputRect);
+					if (gridBuilding.unit != UnitType.Worker)
+						GUI.enabled = false;
+					if (GUILayout.Button("OO")) 
+					{
+						outputBuilding = building;
+						usedOptionalOutput = true;
+					}
+					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 					{
 						mouseOverGUI = true;
@@ -237,8 +266,9 @@ function OnGUI()
 						}
 					}
 					else mouseOverGUI = false;
+					GUI.enabled = true;
 					GUILayout.EndArea();
-				}
+				}*/
 			}
 		}
 		

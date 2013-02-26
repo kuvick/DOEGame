@@ -14,6 +14,7 @@ class ResearcherUnit extends Unit {
 
 	function Start () {
 		super();
+		type = UnitType.Researcher;
 		manager = gameObject.FindGameObjectWithTag("MainCamera").GetComponent("UnitManager");
 		if (heldUpgrade != UpgradeType.NONE)
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);

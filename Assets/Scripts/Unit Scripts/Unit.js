@@ -6,13 +6,10 @@ By Derrick Huey
 import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
-protected var currentBuildingIndex : int;
 protected var previousBuilding : BuildingOnGrid;
-protected var targetBuilding : BuildingOnGrid;
-protected var targetBuildingIndex : int;
 protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
-protected var buildingPathIndices : int[];
 protected var foundPathIndex : int = 0;
+protected var type : UnitType;
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
@@ -159,29 +156,26 @@ private function SetLinkColors() {
 	}
 }
 
-function SetTarget (targ : BuildingOnGrid) {
-	targetBuilding = targ;
-}
-
 function DoAction () {
 	if (foundPath.Count < 1) return;
 	previousBuilding = currentBuilding;
 	currentBuilding = foundPath[0];
 	foundPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
-	var tileCoord : Vector3 = currentBuilding.coordinate;
-	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
-	/*worldCoord.x += HexagonGrid.tileWidth / 2;
-	worldCoord.y = 50;
-	worldCoord.z += HexagonGrid.tileWidth / 2;*/
-	worldCoord += unitOffset;
-	gameObject.transform.position = worldCoord;
-	Debug.Log("Unit moved to " + currentBuilding.buildingName);
-	//gameObject.transform.position = currentBuilding.position;
+	SetPosition();
 }
 
 function UndoAction () {
 
+}
+
+private function SetPosition() {
+	var tileCoord : Vector3 = currentBuilding.coordinate;
+	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
+	worldCoord += unitOffset;
+	gameObject.transform.position = worldCoord;
+	currentBuilding.unit = type;
+	Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
 function Update() {
@@ -229,19 +223,7 @@ function OnGUI() {
 			isSelected = true;
 			Debug.Log("Unit selected");
 		}
-		GUI.enabled = false;
-		/*if(mousePos.x >= unitRect.x && mousePos.x <= unitRect.x + unitRect.width &&
-			mousePos.y >= unitRect.y && mousePos.y <= unitRect.y + unitRect.height)
-		{
-			mouseOverGUI = true;
-					
-			if(Input.GetMouseButtonDown(0))
-			{
-				isSelected = true;
-				Debug.Log("Unit selected");
-			}
-		}
-		else mouseOverGUI = false;*/
+		GUI.enabled = true;
 		GUILayout.EndArea();
 	}
 }

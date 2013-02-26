@@ -7,11 +7,7 @@ By Derrick Huey
 class WorkerUnit extends Unit {
 
 	function Start () {
-
+		super();
+		type = UnitType.Worker;
 	}
-
-	function Update () {
-
-	}
-
 }

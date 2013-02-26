@@ -54,6 +54,14 @@ static var grid:HexagonGrid;
 
 static var defaultBuildingScript : DefaultBuildings;
 
+enum ResourceType
+{
+	Power,
+	Coal,
+	Petroleum,
+	Car
+}
+
 function Start()
 {
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
