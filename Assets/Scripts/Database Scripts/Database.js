@@ -54,6 +54,8 @@ static var grid:HexagonGrid;
 
 static var defaultBuildingScript : DefaultBuildings;
 
+static var intelSystem : IntelSystem;
+
 enum ResourceType
 {
 	Power,
@@ -86,6 +88,7 @@ function Start()
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
 	UnitManager.InitiateUnits();
+	intelSystem = gameObject.GetComponent(IntelSystem);
 }
 
 
@@ -137,7 +140,7 @@ the grid, based on a given building type name, coordinate,
 and the tile type.
 
 */
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, event:String) : boolean
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, hasEvent:boolean) : boolean
 {
 	var temp = new BuildingOnGrid();
 	if(ModeController.getCurrentMode() == GameState.LINK)
@@ -183,7 +186,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     temp.coordinate = coordinate;
     temp.tileType = tileType;
     temp.idea = idea;				// will be blank for buildings placed in game?
-    temp.event = event;				// will be blank for buildings placed in game?
+    temp.hasEvent = hasEvent;				// will be blank for buildings placed in game?
     
     	
    if( !isPreplaced )
@@ -485,6 +488,12 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     	Debug.Log("Unable to link buildings due to unmatched or missing resource");
     }
     
+    // If the building is activated and has an event, sends a message to the intel system
+	if(activateBuilding( inputBuildingIndex ) && inputBuilding.hasEvent)
+    {
+    	intelSystem.buildingActivated(inputBuilding.buildingPointer);
+    }
+    
     return hasResource;
 
 }// End of linkBuildings
@@ -496,7 +505,7 @@ the building has no more input requirements, and then sets
 the variable isActive to true if so.
 
 */
-public function activateBuilding( buildingIndex:int )
+public function activateBuilding( buildingIndex:int ): boolean
 {
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
@@ -511,6 +520,8 @@ public function activateBuilding( buildingIndex:int )
     
     building.isActive = canActivate;
     buildingsOnGrid[buildingIndex] = building;
+    
+    return canActivate;
 	
 }
 
@@ -653,7 +664,7 @@ class BuildingOnGrid
 	
 	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
 	
-	var event : String = "";	// (will search through a list of upgrades to identify what this means)
+	var hasEvent : boolean = false;	// (will search through a list of upgrades to identify what this means)
 	
 	// Unit pathing variables
 	var pathParent : BuildingOnGrid = null;
@@ -711,7 +722,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.unit = copyFrom.unit;
 	copyTo.idea = copyFrom.idea;
-	copyTo.event = copyFrom.event;
+	copyTo.hasEvent = copyFrom.hasEvent;
 
 } // end of copyBuildingOnGridd
 

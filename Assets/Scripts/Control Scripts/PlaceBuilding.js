@@ -77,7 +77,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 				build.tag = "Building";
 				build.gameObject.AddComponent("MeshRenderer");		
 				cannotPlace = 0;
-				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", "");
+				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
 			}
 			else
 			{
@@ -92,7 +92,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", "");
+			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
 		}
 
 	}

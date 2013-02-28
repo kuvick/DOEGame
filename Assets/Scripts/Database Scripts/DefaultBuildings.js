@@ -71,7 +71,7 @@ class BuildingOnGridData
 	var pollutionOutput : int;
 	var unit : UnitType = UnitType.None;
 	var idea : String = "";
-	var event : String = "";
+	var hasEvent : boolean = false;
 	
 }// end of BuildingOnGridData
 
@@ -176,7 +176,7 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;
-	buildingOnGrid.event = buildingData.event;
+	buildingOnGrid.hasEvent = buildingData.hasEvent;
 	
 	
 	
