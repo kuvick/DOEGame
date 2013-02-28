@@ -13,7 +13,12 @@ private var upgradeButtonWidth = 27;
 private var upgradeButtonHeight = 27;
 
 function Start () {
+	
+}
 
+function Awake()
+{
+	unitList.Clear();
 }
 
 function Update () {

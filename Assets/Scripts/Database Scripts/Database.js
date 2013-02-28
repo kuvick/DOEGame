@@ -24,10 +24,10 @@ Attach to a blank GameObject
 
 // The two main structures for holding data:
 	// Default buildings stored here:
-static public var buildings = new Array();
+static public var buildings : Array;// = new Array();
 
 	// Buildings on grid stored here:
-static public var buildingsOnGrid = new Array(); 
+static public var buildingsOnGrid : Array;// = new Array(); 
 
 
 	// The amount of tiles a building has in range, can be specific to building later on
@@ -64,6 +64,8 @@ enum ResourceType
 
 function Start()
 {
+	buildings = new Array();
+	buildingsOnGrid = new Array();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
