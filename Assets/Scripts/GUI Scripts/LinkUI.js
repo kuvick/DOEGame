@@ -42,7 +42,6 @@ private var buildingInputNum:int;
 private var buildingOutputNum:int;
 private var outputCount:int;
 private var inputCount:int;
-private var usedOptionalOutput : boolean = false;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 
 private var displayLink : DisplayLinkRange;
@@ -83,12 +82,13 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
 	var resource:String = "";
-	var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0);
+	var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
+								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
 	
 	if(linkBuilding.outputName.length > 0)
 		resource = linkBuilding.outputName[0];
 	
-	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, usedOptionalOutput) && (!isLinked(b1, b2)))
+	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
 		//These next two lines may not have to be here, will test further -WF
@@ -173,7 +173,7 @@ function OnGUI()
 			if(building != selectedBuilding)
 			{
 				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
-		
+				// iterate through input arrays and draw appropriate input buttons
 				for(var input = 0; input < inputCount; input++)
 				{
 					buildingInputNum = gridBuilding.inputNum[input];
@@ -185,6 +185,7 @@ function OnGUI()
 						if(i > 0)
 							inputRect.y += 30;
 						GUI.enabled = false;
+						// check if the selected building has a matching output, if so make input button active
 						for (var outName:String in selectedBuildingOutputs)
 						{
 							if (gridBuilding.inputName[input] == outName)
@@ -192,6 +193,19 @@ function OnGUI()
 								GUI.enabled = true;
 								break;
 							}
+						}
+						// if selected building's optional outputs are active, check if it has a matching output
+						// if so make input button active
+						if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
+						{
+							for (outName in selectedGridBuilding.optionalOutputName)
+							{
+								if (gridBuilding.inputName[input] == outName)
+								{
+									GUI.enabled = true;
+									break;
+								}
+						}
 						}
 						GUILayout.BeginArea(inputRect);
 						if (GUILayout.Button("I"))
@@ -217,10 +231,11 @@ function OnGUI()
 			//Instructions for output button
 			else
 			{	
-				if(gridBuilding.outputNum.length <= 0 && gridBuilding.optionalOutputNum.length <= 0)
+				if(gridBuilding.outputNum.length <= 0)
 					return;
 				ModeController.setCurrentMode(GameState.LINK);
 				buildingOutputNum = gridBuilding.outputNum[0];
+				// iterate through output arrays and draw appropriate output buttons
 				for(var j = 0; j < buildingOutputNum; j++)
 				{
 					if(j > 0)
@@ -242,19 +257,20 @@ function OnGUI()
 					else mouseOverGUI = false;*/
 					GUILayout.EndArea();
 				}
-				
-				/*for (j = 0; j < gridBuilding.optionalOutputNum.length; j++)
+				if (gridBuilding.optionalOutputNum.length <= 0)
+					return;
+				buildingOutputNum = gridBuilding.optionalOutputNum[0];
+				// iterate through optional output arrays and draw appropriate output buttons
+				for (j = 0; j < buildingOutputNum; j++)
 				{
 					outputRect.y += 30;
 					
 					GUILayout.BeginArea(outputRect);
-					if (gridBuilding.unit != UnitType.Worker)
+					// if the selected building's optional outputs aren't active, deactivate button
+					if (gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 						GUI.enabled = false;
 					if (GUILayout.Button("OO")) 
-					{
 						outputBuilding = building;
-						usedOptionalOutput = true;
-					}
 					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 					{
@@ -265,10 +281,10 @@ function OnGUI()
 							outputBuilding = building;
 						}
 					}
-					else mouseOverGUI = false;
+					else mouseOverGUI = false;*/
 					GUI.enabled = true;
 					GUILayout.EndArea();
-				}*/
+				}
 			}
 		}
 		

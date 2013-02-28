@@ -27,10 +27,11 @@ private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
 
 function Start () {
-	UnitManager.AddUnit(this);
+	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
 }
 
 function Initiate() {
+	// find and set current building
 	var buildingCoord : Vector3 = gameObject.transform.position;
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
@@ -44,6 +45,7 @@ function FindPath (target : BuildingOnGrid) : boolean {
 		return false;
 	if (target == null)
 		return false;
+	// reset pathing variables and lists
 	var found : boolean = false;
 	foundPath.Clear();
 	open.Clear();
@@ -149,6 +151,7 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 	}
 }
 
+// changes the color of all links in the found path to red
 private function SetLinkColors() {
 	for (var temp : BuildingOnGrid in foundPath)
 	{
@@ -156,25 +159,28 @@ private function SetLinkColors() {
 	}
 }
 
+// performs unit actions on new turn
 function DoAction () {
 	if (foundPath.Count < 1) return;
-	previousBuilding = currentBuilding;
-	currentBuilding = foundPath[0];
+	previousBuilding = currentBuilding; // set previous building in case of undo
+	currentBuilding = foundPath[0]; // set current building to next building in the path
 	foundPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
-	SetPosition();
+	SetPosition(); // move unit to its new position
 }
 
 function UndoAction () {
 
 }
 
+// moves unit to the position of the current building
 private function SetPosition() {
 	var tileCoord : Vector3 = currentBuilding.coordinate;
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	worldCoord += unitOffset;
 	gameObject.transform.position = worldCoord;
 	currentBuilding.unit = type;
+	previousBuilding.unit = UnitType.None;
 	Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
@@ -184,15 +190,17 @@ function Update() {
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	
+	// if unit is selected, and a different building has been selected
 	if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-		if (FindPath(selectedGridBuilding))
+		// check if a path has been found to the selected building
+		if (FindPath(selectedGridBuilding)) // if so, display message indicating so on status marquee
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
 		}
-		else
+		else // if not, display message that a path was not found on status marquee
 		{
 			Debug.Log("Path not found");
 			StatusMarquee.SetText("Invalid unit target", true);
@@ -201,8 +209,8 @@ function Update() {
 	}
 }
 
-// draw Unit movement selection button on current building
 function OnGUI() {
+	// if the current building is the one that is selected, draw button to select unit for movement
 	if (selectedBuilding == currentBuilding.buildingPointer)
 	{
 		var point : Vector3 = Camera.main.WorldToScreenPoint(currentBuilding.buildingPointer.transform.position);

@@ -8,6 +8,6 @@ class WorkerUnit extends Unit {
 
 	function Start () {
 		super();
-		type = UnitType.Worker;
+		type = UnitType.Worker; // set unit type
 	}
 }

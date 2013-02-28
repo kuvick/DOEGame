@@ -62,6 +62,9 @@ class BuildingOnGridData
 	var tileType = "tileType";
 	var buildingPointer: GameObject;
 	
+	var neededUpgrade : UpgradeType;
+	var heldUpgrade : UpgradeType;
+	
 	//var linkedTo = new Array(); game assumes level designers will not need to pre-link buildings
 	
 	var requisitionCost : int;
@@ -169,6 +172,8 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.coordinate = buildingData.coordinate;
 	buildingOnGrid.tileType = buildingData.tileType;
 	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
+	buildingOnGrid.heldUpgrade = buildingData.heldUpgrade;
+	buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;
 	buildingOnGrid.event = buildingData.event;

@@ -358,7 +358,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	
 	var resourceNum : int = 0;
 	
-	if(outputBuilding.isActive || inputBuilding.isActive) return;
+	if((outputBuilding.isActive && !hasOptionalOutput) || inputBuilding.isActive) return;
 	
 	// Checks to see if output is there, the amount of the resource
 	// is above 0, meaning it is avaliable.
@@ -369,6 +369,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
         if(resourceName == outputName && resourceNum > 0)
         {
         	hasResource = true;
+        	break;
         }
         
         if(!hasResource)
@@ -382,6 +383,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     // Will take optional resource if resource not found among original output
     if( hasOptionalOutput && !hasResource )
     {
+    	Debug.Log("optional");
     	resourceOutputIndex = 0;
     	   	
 	    for (var optionalOutputName : String in outputBuilding.optionalOutputName)
@@ -471,6 +473,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link buildings");
 		
 		IntelSystem.addTurn();		// NEW: Intel System
