@@ -17,11 +17,6 @@ Author: Chris Peterson
 // PUBLIC VARS
 public var event: BuildingEvent;
 
-/*Textures*/
-public var upgrade_green: Texture;
-public var upgrade_blue: Texture;
-public var upgrade_orange: Texture;
-public var upgrade_yellow: Texture;
 public var showUpgrade: boolean = true;
 
 // PRIVATE VARS
@@ -38,7 +33,6 @@ private var screenPosition:Vector3;
 
 private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
-
 function Start () {
 	colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
 	upgradeWidth = Screen.width * upgradeWidthPercent;
@@ -53,8 +47,12 @@ function Update () {
 	
 	//Updage Position of Image
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
+	
 	//Update bounds, and convert screen coords to GUI coords
-	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y  - floatHeight, upgradeWidth, upgradeWidth);
+	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, 
+						Screen.height - screenPosition.y  - floatHeight, 
+						upgradeWidth, 
+						upgradeWidth);
 	
 }
 
@@ -70,6 +68,34 @@ function OnGUI()
 private function Draw_Upgrade()
 {		
 	GUI.color = colorOpacity;
-		GUI.DrawTexture(upgradeBounds, upgrade_blue);	
+		GUI.DrawTexture(upgradeBounds, event.icon);	
 	GUI.color = Color(1.0, 1.0, 1.0, 1.0);
+	
+	var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); 
+	GUI.Label(tempRect, event.time.ToString());
+}
+
+//Changes the current opacity of the upgrade icon.
+// Accepts floats between 0.0-1.0
+// 0.0: Invisible 
+// 1.0: Normal
+public function changeOpacity(newOpacity: float)
+{
+	upgradeOpacity = Mathf.Clamp01(newOpacity);
+	colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
+}
+
+// Decrements the time variable of the attached BuildingEvent
+// If the new time = 0, it will return false. If it above 0, it will return true  
+public function decrementTime()
+{
+	if(event.time - 1 > 0){
+		event.time--;
+		return true;
+	}
+	else
+	{
+		event.time--;
+		return false;
+	}	
 }
