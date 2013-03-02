@@ -46,10 +46,7 @@ public class IntelMenu extends GUIControl
 	public var border:Texture;
 	
 	// Intel Menu Icon textures
-	public var negative:Texture;
-	public var positive_blue:Texture;
-	public var positive_green:Texture;
-	public var positive_yellow:Texture;
+	public var defaultIcon:Texture;
 	
 	public function Start () 
 	{
@@ -174,48 +171,21 @@ public class IntelMenu extends GUIControl
 			/*
 				Render Node Type
 			*/
-			switch(currNode.data.type){
-				case 0:				
-					GUI.DrawTexture(eventNodeIcon, negative);
-					break;
-				case 1:
-					GUI.DrawTexture(eventNodeIcon, positive_green);
-					break;
-				case 2:
-					GUI.DrawTexture(eventNodeIcon, positive_blue);
-					break;
-				case 3:
-					GUI.DrawTexture(eventNodeIcon, positive_yellow);
-					break;
-				default:
-					GUI.DrawTexture(eventNodeIcon, positive_blue);
-					break;
+			if(currNode.data.icon == null)
+			{
+				GUI.DrawTexture(eventNodeIcon, defaultIcon);							
+			}
+			else{
+				GUI.DrawTexture(eventNodeIcon, currNode.data.icon);						
 			}
 			
-			//GUI.Label(eventNodeIcon, "Icon");
-			
-			/*Skin Modification for Title display*/
-				intelMenuSkin.label.alignment = TextAnchor.MiddleLeft;
-				intelMenuSkin.label.fontStyle = FontStyle.Bold;
-				
-				GUI.Label(eventNodeTitle, currNode.data.title);	//Display Title as Label
-				
-				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
-				intelMenuSkin.label.fontStyle = FontStyle.Normal;
-			/*End of Skin Modification*/
+			drawTitle(currNode.data.title, currNode.data.type);
+
 			
 			eventNodeDescription.y += fontHeight/2;
 			GUI.Label(eventNodeDescription, currNode.data.description);
 			
-			/*Skin Modification for Turns Display*/
-				intelMenuSkin.label.alignment = TextAnchor.MiddleRight;
-				intelMenuSkin.label.fontStyle = FontStyle.Bold;
-				
-				GUI.Label(eventNodeTurns, currNode.data.time.ToString());
-				
-				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
-				intelMenuSkin.label.fontStyle = FontStyle.Normal;
-			/*End of Skin Modification*/
+			drawTurns(currNode.data.time);
 			
 			if (GUI.Button(eventNodeHitbox, ""))
 			{
@@ -226,5 +196,40 @@ public class IntelMenu extends GUIControl
 			++i;
 		}
 		GUI.EndScrollView();
+	}
+	
+	//Draws the Title of an Event
+	private function drawTitle(newTitle:String, newType: int)
+	{
+		/*Skin Modification for Title display*/
+				intelMenuSkin.label.alignment = TextAnchor.MiddleLeft;
+				intelMenuSkin.label.fontStyle = FontStyle.Bold;
+				
+				if(newType)
+				{
+					GUI.Label(eventNodeTitle, newTitle + " :: Primary");	//Display Title as Label
+				}
+				else
+				{
+					GUI.Label(eventNodeTitle, newTitle + " :: Secondary");	//Display Title as Label
+				}								
+				
+				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
+				intelMenuSkin.label.fontStyle = FontStyle.Normal;
+			/*End of Skin Modification*/
+	}
+	
+	//Draws the Turns remaining of each event
+	private function drawTurns(time:int)
+	{
+		/*Skin Modification for Turns Display*/
+			intelMenuSkin.label.alignment = TextAnchor.MiddleRight;
+			intelMenuSkin.label.fontStyle = FontStyle.Bold;
+			
+			GUI.Label(eventNodeTurns, time.ToString());
+			
+			intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
+			intelMenuSkin.label.fontStyle = FontStyle.Normal;
+		/*End of Skin Modification*/
 	}
 }
