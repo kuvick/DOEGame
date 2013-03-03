@@ -77,47 +77,18 @@ public class IntelMenu extends GUIControl
 		eventNodeTurns = Rect(eventNodeDescription.x + eventNodeDescription.width - eventNodeHeight * 1.4, 0, eventNodeHeight, eventNodeHeight);
 	    eventNodeHitbox = Rect(eventNodeIcon.x, 0, eventNodeIcon.width + eventNodeDescription.width + eventNodeTurns.width, eventNodeHeight);
 		
-		/**/
 		eventNodeIcon.x = eventNodeDescription.x + eventNodeIcon.width/1.6;			
 		
-		eventList = new EventLinkedList();
-		var bE1:BuildingEvent = new BuildingEvent();
-		bE1.title = "Game On!";
-		bE1.description = "The game has started!";
-		bE1.type = 1;
-		bE1.time = 1;
-		var bE2:BuildingEvent = new BuildingEvent();
-		bE2.title = "Coal Mine Gridlock!";
-		bE2.description = "The Coal Mine needs new equipment to continue to ship out coal.";
-		bE2.type = 0;
-		bE2.time = 22;
-		var bE3:BuildingEvent = new BuildingEvent();
-		bE3.title = "Wasteful Spending!";
-		bE3.description = "The local Waste Disposal Facility is willing to help fund our project!.";
-		bE3.type = 1;
-		bE3.time = 19;
-		var bE4:BuildingEvent = new BuildingEvent();
-		bE4.title = "New Manager Available!";
-		bE4.description = "A Manager is looking to make his next career move.";
-		bE4.type = 1;
-		bE4.time = 15;
-		var bE5:BuildingEvent = new BuildingEvent();
-		bE5.title = "Seeking Employment!";
-		bE5.description = "A new Researcher is about to graduate from the University.";
-		bE5.type = 1;
-		bE5.time = 12;
-		var bE6:BuildingEvent = new BuildingEvent();
-		bE6.title = "Factory Needs Fuel!";
-		bE6.description = "The factory is going to shut down if they don't get cheaper fuel.";
-		bE6.type = 0;
-		bE6.time = 8;
+		/*Build Event List*/
+		eventList = new EventLinkedList();						
+		var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);						
+		var tempList : List.<BuildingEvent> = intelSystem.getEventList();
 		
-		eventList.InsertNode(bE1);
-		eventList.InsertNode(bE2);
-		eventList.InsertNode(bE3);
-		eventList.InsertNode(bE4);
-		eventList.InsertNode(bE5);
-		eventList.InsertNode(bE6);
+		/*Query active BuildingEvents from IntelSystem*/
+		for(var event: BuildingEvent in tempList)		
+		{
+			eventList.InsertNode(event);			
+		}						
 		
 		// Add the background's rect to the rectList for checking input collision
 		rectList.Add(background);
@@ -139,7 +110,7 @@ public class IntelMenu extends GUIControl
 		if (GUI.Button(closeButton, "Close"))
 		{
 			currentResponse.type = EventTypes.MAIN;
-		}
+		}		
 		
 		// Scroll bar
 		intelMenuScrollPos = GUI.BeginScrollView

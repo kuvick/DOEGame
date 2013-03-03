@@ -285,11 +285,11 @@ public function decreaseTurns()
 
 // Returns a list of the events
 public function getEventList():List.<BuildingEvent>
-{
-	var eventList : List.<BuildingEvent>;
+{	
+	var eventList : List.<BuildingEvent> = new List.<BuildingEvent>();
 	for (var script : EventScript in events)
-	{
+	{		
 		eventList.Add(script.event);
-	}
+	}	
 	return eventList;
 }
