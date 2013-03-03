@@ -16,9 +16,13 @@ referred to as “preventing” an event."
 
 #pragma strict
 
-static public var currentTurn : int;
-private var score : int;
-private var events : List.<BuildingEvent>;		// must use this intel system to edit actual events
+public var currentTurn : int;
+private var primaryScore : int;
+private var optionalScore : int;
+public var events : List.<EventScript>;
+public var linkedEvents : List.<EventScript>;
+public var numOfObjectivesLeft : int;
+public var victory : boolean;
 
 
 class BuildingEvent
@@ -31,7 +35,9 @@ class BuildingEvent
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: String = "";			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
-	var isChild : boolean = false;
+	var isChild : boolean = false;		// set if it is a child event
+	var childEvent : GameObject;		// if there is a linked event to this event
+	var buildingReference : GameObject;	// The gameobject the event is attached to
 }
 
 
@@ -45,13 +51,17 @@ enum BuildingEventType
 
 function Start ()
 {
+	Debug.Log("Adding events to the list:");
 	currentTurn = 0;
+	numOfObjectivesLeft = 0;
+	primaryScore = 0;
+	optionalScore = 0;
+	victory = false;
 	
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
 	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
-	var tempEvent : BuildingEvent;
-	var tempEventClass : Event;
+	var tempEventClass : EventScript = new EventScript();
 	
 	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
 	{
@@ -60,25 +70,57 @@ function Start ()
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 		if (tempBuilding.hasEvent)
 		{
-			//tempEvent = new BuildingEvent();
-			//tempEventClass = buildingObject.GetComponent("Event");
-			//tempEvent = tempEventClass.event;
-			//events.Add(tempEvent);
-			//Debug.Log(tempEvent.name + " - event as added");	
+			tempEventClass = new EventScript();
+			tempEventClass = buildingObject.GetComponent(EventScript);
+			if(tempEventClass != null)
+			{
+				tempEventClass.event.buildingReference = buildingObject;
+				
+				if(!tempEventClass.event.isChild)
+				{
+					// If the event is the first in a linked event set
+					// or a singular event
+					events.Add(tempEventClass);
+					
+					if(tempEventClass.event.type == 1)
+					{
+						numOfObjectivesLeft++;
+					}				
+					Debug.Log(tempEventClass.event.name + " - event as added");	
+				}
+				else
+				{
+					//If the event is a child...
+					tempEventClass.changeOpacity(0f);
+					tempEventClass.showUpgrade = false;
+					linkedEvents.Add(tempEventClass);
+					
+					if(tempEventClass.event.type == 1)
+					{
+						numOfObjectivesLeft++;
+					}				
+					Debug.Log(tempEventClass.event.name + " - a linked event");	
+				}			
+			}
+			else
+			{
+				Debug.Log(tempBuilding.buildingName + " incorrectly marked as having an event.");
+			}
 		}
 				
 	}
-	
+	Debug.Log("Finished adding events to the list.");
 }
 
 //Can use this functio to check for events
-static function addTurn()
+public function addTurn()
 {
 	UnitManager.DoUnitActions();
+	decreaseTurns();
 	currentTurn++;
 }
 
-static function subtractTurn()
+public function subtractTurn()
 {
 	currentTurn--;
 }
@@ -89,7 +131,90 @@ static function subtractTurn()
 // that does not require an upgrade, it resolves it.
 public function buildingActivated( reference : GameObject ):boolean
 {
+	var script : EventScript = findEvent(reference);
+	if(script != null)
+	{
+		if(script.event.upgrade == "")
+		{
+			Debug.Log("Event requires upgrade to be resolved");
+			return false;
+		}
+		else
+		{
+			resolveEvent(script);
+		}
+	}
+	else
+	{
+		Debug.Log("This newly activated building does not have an event!");
+		return false;
+	}
+	
+}
 
+// Resolves the event, removes it from the list
+// also adds any linked events the event may have had
+public function resolveEvent( script : EventScript)
+{
+	Debug.Log(script.event.name + " was resolved!");
+	var tempScript : EventScript = script;
+	events.Remove(script);
+	
+	tempScript.changeOpacity(0f);
+	
+	if(tempScript.event.childEvent != null)
+	{	
+		var childEvent : EventScript = findLinkedEvent(tempScript.event.childEvent);
+		childEvent.changeOpacity(0f);
+		childEvent.showUpgrade = false;
+		linkedEvents.Remove(childEvent);
+		events.Add(childEvent);
+	}
+	
+	if(tempScript.event.type == BuildingEventType.Primary)
+	{
+		primaryScore += tempScript.event.points;
+		numOfObjectivesLeft--;
+		if(numOfObjectivesLeft <= 0)
+		{
+			triggerWin();
+		}
+	}
+	else
+	{
+		optionalScore += tempScript.event.points;
+	}
+	
+}
+
+
+// Returns the event script that the specified building, or returns
+// null if the building does not have an event
+public function findEvent( building : GameObject): EventScript
+{
+	for (var script : EventScript in events)
+	{
+		if(script.event.buildingReference == building)
+		{
+			return script;
+		}
+	}
+	
+	return null;
+}
+
+// Returns the linked event script
+public function findLinkedEvent( building : GameObject): EventScript
+{
+	for (var script : EventScript in linkedEvents)
+	{
+		if(script.event.buildingReference == building)
+		{
+			return script;
+		}
+	}
+	
+	return null;
 }
 
 
@@ -97,36 +222,74 @@ public function buildingActivated( reference : GameObject ):boolean
 // To be used by the researcher unit when it arrives at a building site
 // it checks the given upgrade name with the upgrade the building needs
 // assumes that in order to arrive at a building, it must be already activated
-public function unitArrival( upgradeName : String ): boolean
+public function unitArrival( upgradeName : String, buildingRef : GameObject ): boolean
 {
-
+	var script = findEvent( buildingRef );
+	if(script.event.upgrade == upgradeName)
+	{
+		resolveEvent(script);
+		return true;
+	}
+	return false;
 }
 
 // provides the score to whoever calls the function
 // to be used by Score.js to get the score
 // that is a result of resolving events
-public function getScore():int
+public function getPrimaryScore():int
 {
-	return score;
+	return primaryScore;
+}
+
+// provides the score to whoever calls the function
+// to be used by Score.js to get the score
+// that is a result of resolving events
+public function getOptionalScore():int
+{
+	return optionalScore;
 }
 
 // placeholder function, to be called when a win state is triggered
 public function triggerWin()
 {
-
+	victory = true;
+	Application.LoadLevel ("ScoreScreen");
 }
 
 // placeholder function to be called when a lose state is triggered
-public function triggerLose()
+public function triggerLoss()
 {
-
+	victory = false;
+	Application.LoadLevel ("ScoreScreen");
 }
 
-// placeholder function, goes through the events and decreases the
+// Goes through the events and decreases the
 // the turn amount both on the GUI and in the system. Also does a check
 // to see if any of the primary events have reached zero and then triggers
 // a lose state
 public function decreaseTurns()
 {
+	for (var script : EventScript in events)
+	{
+		if(script.event.type == BuildingEventType.Secondary)
+			script.decrementTime();
+		else
+		{
+			if(!script.decrementTime())
+			{
+				triggerLoss();
+			}
+		}
+	}
+}
 
+// Returns a list of the events
+public function getEventList():List.<BuildingEvent>
+{
+	var eventList : List.<BuildingEvent>;
+	for (var script : EventScript in events)
+	{
+		eventList.Add(script.event);
+	}
+	return eventList;
 }

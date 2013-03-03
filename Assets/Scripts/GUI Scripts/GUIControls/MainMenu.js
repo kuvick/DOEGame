@@ -44,10 +44,12 @@ public class MainMenu extends GUIControl
 	// Score and turn ints
 	private var score:int;
 	private var turn:int;
+	private var intelSystem : IntelSystem;
 	
 	public function Start () 
 	{
 		super.Start();
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	}
 	
 	public function Initialize()
@@ -133,7 +135,7 @@ public class MainMenu extends GUIControl
 		}
 		
 		GUI.Label(scoreRect, score.ToString());
-		GUI.Label(turnRect, "Turn: " + IntelSystem.currentTurn);
+		GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
 	}
 	
 	private function HexCalc(position:Vector2, length:float, side:int):Vector2

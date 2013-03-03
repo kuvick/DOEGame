@@ -10,9 +10,9 @@ Author: Chris Peterson
 
 var showScore : boolean = false;
 
-var eventScore : int = 190;
-var bonusScore : int = 10;
-var totalScore : int = 200;
+var eventScore : int = 0;
+var bonusScore : int = 0;
+var totalScore : int = 0;
 
 //The Bounds for the 4 Buttons
 var eventRetryLevelRect : Rect;
@@ -37,7 +37,15 @@ private static var toastMsg : String = "";
 
 public var backgroundTexture : Texture;
 
+private var database : GameObject;
+private var intelSystem : IntelSystem;
+
 function Start(){
+	database = GameObject.Find("Database");
+	intelSystem = database.GetComponent(IntelSystem);
+	eventScore = intelSystem.getPrimaryScore();
+	bonusScore = intelSystem.getOptionalScore();
+
 	/*
 		Initialize the Bounds for the 4 buttons
 	*/
@@ -147,7 +155,8 @@ function DrawScores(){
 
 	var text: String = "Event Score:      " + eventScore +
 					 "\nBonus Score:     " + bonusScore +
-				     "\nTotal Score:        " + totalScore;
+				     "\nTotal Score:        " + totalScore +
+				     "\nVictory?        " + intelSystem.victory;
 
 	GUI.Box(RectFactory.NewRect(.38,.38,.3,.3), text, newStyle);
 }

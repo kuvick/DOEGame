@@ -66,6 +66,8 @@ enum ResourceType
 
 function Start()
 {
+	DontDestroyOnLoad (gameObject);	// So the Database will carry over to the score page
+	
 	buildings = new Array();
 	buildingsOnGrid = new Array();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
@@ -203,7 +205,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		cleanUpPreviousBuildings();
 		
-		IntelSystem.addTurn();		// NEW: for the Intel System
+		intelSystem.addTurn();		// NEW: for the Intel System
 		
 		ModeController.setSelectedBuilding(temp.buildingPointer);
 		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
@@ -481,7 +483,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link buildings");
 		
-		IntelSystem.addTurn();		// NEW: Intel System
+		intelSystem.addTurn();		// NEW: Intel System
     }
     else
     {

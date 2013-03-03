@@ -52,6 +52,8 @@ private var levelSelectMenu:LevelSelectMenu;
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
 
+private var intelSystem : IntelSystem;
+
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
 	and only the first initialization of it will remain.
@@ -97,6 +99,8 @@ public static function Instance():GUIManager
 */
 public function Start () 
 {
+	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+
 	activeControls = new List.<GUIControl>();
 	
 	uiMessages = new Queue.<GUIEvent>();
@@ -267,7 +271,7 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(marquee);
 			break;
 		case EventTypes.WAIT:
-			IntelSystem.addTurn();
+			intelSystem.addTurn();
 			ClearControls();
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
