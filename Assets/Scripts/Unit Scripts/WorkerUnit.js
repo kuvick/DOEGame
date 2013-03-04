@@ -10,4 +10,11 @@ class WorkerUnit extends Unit {
 		super();
 		type = UnitType.Worker; // set unit type
 	}
+	
+	protected function BuildingCheck (target : BuildingOnGrid)
+	{
+		if (!super(target) || target.optionalOutputNum.length <= 0)
+			return false;
+		return true;
+	}
 }

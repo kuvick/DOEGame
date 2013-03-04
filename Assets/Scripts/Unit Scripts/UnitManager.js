@@ -35,7 +35,7 @@ function OnGUI ()
 	var buildings : BuildingOnGrid[] = Database.getBuildingsOnGrid().ToBuiltin(BuildingOnGrid);
 	for (var b : BuildingOnGrid in buildings)
 	{
-		if (b.heldUpgrade != UpgradeType.NONE)
+		if (b.heldUpgrade != UpgradeType.None)
 		{
 			var point : Vector3 = Camera.main.WorldToScreenPoint(b.buildingPointer.transform.position);
 			
@@ -49,7 +49,7 @@ function OnGUI ()
 	
 			GUI.Button(heldUpgradeRect, upgradeTextures[b.heldUpgrade - 1]);
 		}
-		if (b.neededUpgrade != UpgradeType.NONE)
+		if (b.neededUpgrade != UpgradeType.None)
 		{
 			point = Camera.main.WorldToScreenPoint(b.buildingPointer.transform.position);
 			
