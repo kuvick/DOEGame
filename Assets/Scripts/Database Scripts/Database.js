@@ -109,14 +109,14 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 		ModeController.selectedBuilding = null;
 	    return;
 	}
-	Debug.Log("adding buidling to grid");
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
 	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
-	buildingsOnGrid[findBuildingIndex(coord)] = tempBuilding;
+	buildingsOnGrid.Add(tempBuilding);
 	BroadcastBuildingUpdate();
 	
 	if(findBuildingIndex(tempBuilding.coordinate) != -1)
@@ -129,11 +129,7 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 	{
 		Debug.Log("Error, building not added...");
 	}
-	
 }
-
-
-
 
 /*
 The addingBuildingToGrid function adds a building to the
@@ -241,11 +237,10 @@ public static function BroadcastBuildingUpdate():void
 	
 	for(var gos:GameObject in gameObjInScene)
 	{
-		if(gos && gos.transform.parent == null) // make sure the GO exists and is the parent, since BroadcastMessage sends to all children
+		if(gos.transform.parent == null)
 		{
-			//Debug.Log("Game object in scene is: " + gos.name);
-			gos.gameObject.SendMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
-		}
+			gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+		} 
 	}
 }
 
@@ -877,9 +872,8 @@ function testWinState(): boolean
 
 static public function deleteBuildingSite( coordinate : Vector3 )
 {
-
 	var buildingSiteID : int = findBuildingIndex( coordinate );	// find location in array of buildings
-	Debug.Log("Removing at Index: " + buildingSiteID);
+	Debug.Log("Removing at Index: " + buildingSiteID + " for coordinate " + coordinate);
 	buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
 	BroadcastBuildingUpdate();
 	

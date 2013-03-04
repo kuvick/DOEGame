@@ -322,15 +322,17 @@ public class BuildingMenu extends GUIControl
 			var buildingData : BuildingSiteScript = selectedBuildingSite.GetComponent("BuildingSiteScript");
 			//Database.deleteBuildingSite(buildingData.GetLocation());
 		
-			
 			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
 			var build: GameObject;
 			
 			build = Instantiate(buildingChoices[index].building, position, Quaternion.identity);
 			
+			
+			Database.deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
+			GameObject.DestroyImmediate(selectedBuildingSite);
+			
 			Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
 			
-			Destroy(selectedBuildingSite);
 			RemoveBuildingFromList(index);
 	}
 	
