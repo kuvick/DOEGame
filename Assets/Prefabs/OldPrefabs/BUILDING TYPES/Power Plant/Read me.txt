@@ -1,0 +1,2 @@
+Power plant:
+Scale factor = 25
