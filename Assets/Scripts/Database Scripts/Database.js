@@ -641,6 +641,10 @@ class BuildingOnGrid
 	var inputNum = new Array();
 	var outputName = new Array();
 	var outputNum = new Array();
+	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
 	
 	var optionalOutputName = new Array();
 	var optionalOutputNum = new Array();

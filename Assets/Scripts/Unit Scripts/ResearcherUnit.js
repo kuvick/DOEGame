@@ -20,6 +20,7 @@ class ResearcherUnit extends Unit {
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 	}
 	
+	// Checks that the target building either is holding or needs an upgrade
 	protected function BuildingCheck (target : BuildingOnGrid)
 	{
 		if (!super(target) || (target.heldUpgrade == UpgradeType.None && target.neededUpgrade == UpgradeType.None))

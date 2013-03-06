@@ -8,7 +8,7 @@ import System.Collections.Generic;
 protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
 protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
-protected var foundPathIndex : int = 0;
+protected var foundPathIndex : int = 0; // used to keep track of undo actions
 protected var type : UnitType;
 
 private var open = new List.<BuildingOnGrid>();
@@ -41,10 +41,9 @@ function Initiate() {
 // sees if there is a valid path between the unit's current building and the target building
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
 function FindPath (target : BuildingOnGrid) : boolean {
-	if (!BuildingCheck(target))//!Database.isActive(Database.findBuildingIndex(target)))
+	if (target == null || !BuildingCheck(target)) // Check if building is a valid target
 		return false;
-	if (target == null)
-		return false;
+		
 	// reset pathing variables and lists
 	var found : boolean = false;
 	foundPath.Clear();
@@ -87,6 +86,7 @@ function FindPath (target : BuildingOnGrid) : boolean {
 	return found;
 }
 
+// Checks if a building a valid target, overridden by children for specific checks
 protected function BuildingCheck (target : BuildingOnGrid)
 {
 	if (Database.isActive(Database.findBuildingIndex(target)))
