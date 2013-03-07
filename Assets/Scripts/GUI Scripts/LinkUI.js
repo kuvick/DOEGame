@@ -157,7 +157,7 @@ function OnGUI()
 			gridBuilding = Database.getBuildingOnGrid(target.position);
 			if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
 				return;
-			Debug.Log("building: " + gridBuilding.buildingName);// + " input count: " + inputCount);	
+			//Debug.Log("building: " + gridBuilding.buildingName);// + " input count: " + inputCount);	
 			inputCount = gridBuilding.unallocatedInputs.Count;//gridBuilding.inputNum.length;
 			outputCount = gridBuilding.unallocatedOutputs.Count;//gridBuilding.outputNum.length;
 			
@@ -181,7 +181,7 @@ function OnGUI()
 			{
 				
 				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
-				
+				//Debug.Log("should draw" + gridBuilding.buildingName);
 				// iterate through input arrays and draw appropriate input buttons
 				for(var input = 0; input < inputCount; input++)
 				{
@@ -245,7 +245,7 @@ function OnGUI()
 			else
 			{	
 				if(gridBuilding.unallocatedOutputs.Count <= 0)//outputNum.length <= 0)
-					return;
+					continue;//return;
 				ModeController.setCurrentMode(GameState.LINK);
 				//buildingOutputNum = gridBuilding.outputNum[0];
 				// iterate through output arrays and draw appropriate output buttons
@@ -275,13 +275,13 @@ function OnGUI()
 					GUILayout.EndArea();
 				}
 				if (gridBuilding.optionalOutput == ResourceType.None)//optionalOutputNum.length <= 0)
-					return;
+					continue;//return;
 				//buildingOutputNum = gridBuilding.optionalOutputNum[0];
 				// iterate through optional output arrays and draw appropriate output buttons
 				/*for (j = 0; j < buildingOutputNum; j++)
-				{
+				{*/
 					outputRect.y += 30;
-					*/
+					
 					GUILayout.BeginArea(outputRect);
 					// if the selected building's optional outputs aren't active, deactivate button
 					if (gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
@@ -304,6 +304,7 @@ function OnGUI()
 					else mouseOverGUI = false;*/
 					GUI.enabled = true;
 					GUILayout.EndArea();
+				
 				//}
 			}
 		}
