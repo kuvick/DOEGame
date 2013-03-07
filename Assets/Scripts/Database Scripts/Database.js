@@ -364,12 +364,12 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	if (usedOptionalOutput)
 	{
 		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
-			&& outputBuilding.unallocatedInputs.Contains(resourceName))
+			&& inputBuilding.unallocatedInputs.Contains(resourceName))
 			hasResource = true;
 	}
 	else
 	{
-		if (outputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
+		if (inputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
 			hasResource = true;
 	}
 	

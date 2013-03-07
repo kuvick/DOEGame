@@ -93,10 +93,11 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		resource = linkBuilding.optionalOutput;
 	else
 		resource = linkBuilding.unallocatedOutputs[selectedOutputIndex];
-	
-	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
+	Debug.Log("resource: " + resource.ToString());
+	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
+		Debug.Log("should link");
 		//These next two lines may not have to be here, will test further -WF
 		/*inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
 		outputCount = linkBuilding.outputNum.length;*/
@@ -112,7 +113,7 @@ static function isInRange(b1:GameObject, b2:GameObject)
 	
 		
 	//if(Mathf.Abs(b2Position.x - b1Position.x) < (HexagonGrid.tileWidth * tileRange))
-	if(Vector3.Distance(b1Position, b2Position) < (HexagonGrid.tileWidth * tileRange))
+	if(Vector3.Distance(b1Position, b2Position) < (HexagonGrid.tileWidth * (tileRange)))
 	{
 		//Debug.Log("in range");
 		return true;
@@ -154,10 +155,9 @@ function OnGUI()
 			
 			target = building.transform;
 			gridBuilding = Database.getBuildingOnGrid(target.position);
-			
 			if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
 				return;
-				
+			Debug.Log("building: " + gridBuilding.buildingName);// + " input count: " + inputCount);	
 			inputCount = gridBuilding.unallocatedInputs.Count;//gridBuilding.inputNum.length;
 			outputCount = gridBuilding.unallocatedOutputs.Count;//gridBuilding.outputNum.length;
 			
@@ -179,19 +179,23 @@ function OnGUI()
 			//prototype
 			if(building != selectedBuilding)
 			{
+				
 				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
+				
 				// iterate through input arrays and draw appropriate input buttons
 				for(var input = 0; input < inputCount; input++)
 				{
+					//Debug.Log("should draw");
 					//buildingInputNum = gridBuilding.inputNum[input];
 					if(input > 0)
 						inputRect.y += 30;
-						
-					for(var i = 0; i < buildingInputNum; i++)
-					{
-						if(i > 0)
-							inputRect.y += 30;
+					
+					//for(var i = 0; i < gridBuilding.unallocatedInputs.Count; i++)
+					//{
+						/*if(input > 0)
+							inputRect.y += 30;*/
 						GUI.enabled = false;
+						
 						// check if the selected building has a matching output, if so make input button active
 						if (selectedBuildingOutputs.Contains(gridBuilding.unallocatedInputs[input]))
 						//for (var outp:String in selectedBuildingOutputs)
@@ -199,7 +203,7 @@ function OnGUI()
 							//if (gridBuilding.inputName[input] == outName)
 						{
 							GUI.enabled = true;
-							break;
+							//break;
 						}
 						//}
 						// if selected building's optional outputs are active, check if it has a matching output
@@ -211,10 +215,11 @@ function OnGUI()
 								if (gridBuilding.unallocatedInputs[input] == selectedGridBuilding.optionalOutput)//gridBuilding.inputName[input] == outName)
 								{
 									GUI.enabled = true;
-									break;
+									//break;
 								}
 						//}
 						}
+						
 						GUILayout.BeginArea(inputRect);
 						if (GUILayout.Button("I"))
 							inputBuilding = building;
@@ -231,7 +236,7 @@ function OnGUI()
 						else mouseOverGUI = false;*/
 						GUILayout.EndArea();
 						GUI.enabled = true;
-					}
+					//}
 				}
 	
 			}
@@ -254,6 +259,7 @@ function OnGUI()
 					{
 						outputBuilding = building;
 						selectedOutputIndex = j;
+						Debug.Log("output index: " + selectedOutputIndex);
 					}
 					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
