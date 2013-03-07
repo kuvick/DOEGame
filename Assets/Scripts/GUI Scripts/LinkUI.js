@@ -244,8 +244,8 @@ function OnGUI()
 			//Instructions for output button
 			else
 			{	
-				if(gridBuilding.unallocatedOutputs.Count <= 0)//outputNum.length <= 0)
-					continue;//return;
+				//if(gridBuilding.unallocatedOutputs.Count <= 0)//outputNum.length <= 0)
+					//continue;//return;
 				ModeController.setCurrentMode(GameState.LINK);
 				//buildingOutputNum = gridBuilding.outputNum[0];
 				// iterate through output arrays and draw appropriate output buttons
