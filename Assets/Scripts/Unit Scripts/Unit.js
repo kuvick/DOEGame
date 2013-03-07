@@ -121,9 +121,21 @@ private function PopulateNextOpen (targ : BuildingOnGrid) {
 private function FindActiveLinkedNeighbors (bUnit : BuildingOnGrid) : List.<BuildingOnGrid> {
 	var activeLinked : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 	var temp : BuildingOnGrid;
-	for (var i:int = 0; i < bUnit.linkedTo.length; i++)
+	/*for (var i:int = 0; i < bUnit.linkedTo.length; i++)
 	{
 		temp = Database.getBuildingOnGridAtIndex(bUnit.linkedTo[i]);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}*/
+	for (var i : int in bUnit.inputLinkedTo)
+	{
+		temp = Database.getBuildingOnGridAtIndex(i);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}
+	for (var i : int in bUnit.outputLinkedTo)
+	{
+		temp = Database.getBuildingOnGridAtIndex(i);
 		if (temp.isActive)
 			activeLinked.Add(temp);
 	}

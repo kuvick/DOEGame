@@ -58,6 +58,7 @@ static var intelSystem : IntelSystem;
 
 enum ResourceType
 {
+	None,
 	Power,
 	Coal,
 	Petroleum,
@@ -155,13 +156,15 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 			temp.buildingName = buildingType;
 			
-			temp.inputName = new Array();
+			/*temp.inputName = new Array();
 			temp.inputName = temp.inputName.Concat(defaultBuilding.inputName);
 			
 			temp.inputNum = new Array();
-			temp.inputNum = temp.inputNum.Concat(defaultBuilding.inputNum);
+			temp.inputNum = temp.inputNum.Concat(defaultBuilding.inputNum);*/
 			
-			temp.outputName = new Array();
+			//temp.unallocatedInputs.Concat(defaultBuilding.unallocatedInputs);
+			
+			/*temp.outputName = new Array();
 			temp.outputName = temp.outputName.Concat(defaultBuilding.outputName);
 			
 			temp.outputNum = new Array();
@@ -171,7 +174,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 			temp.optionalOutputName = temp.optionalOutputName.Concat(defaultBuilding.optionalOutputName);
 			
 			temp.optionalOutputNum = new Array();
-			temp.optionalOutputNum = temp.optionalOutputNum.Concat(defaultBuilding.optionalOutputNum);
+			temp.optionalOutputNum = temp.optionalOutputNum.Concat(defaultBuilding.optionalOutputNum);*/
 			
 			temp.requisitionCost = defaultBuilding.requisitionCost;
 			
@@ -349,22 +352,34 @@ another function listed later on, although for distance that will have to be
 another check)
 
 */
-public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:String, hasOptionalOutput:boolean):boolean
+public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean//hasOptionalOutput:boolean):boolean
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
 	
-	var resourceOutputIndex = 0;
-	var resourceInputIndex = 0;
+	/*var resourceOutputIndex = 0;
+	var resourceInputIndex = 0;*/
 	var hasResource = false;
 	
-	var resourceNum : int = 0;
+	if (usedOptionalOutput)
+	{
+		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
+			&& outputBuilding.unallocatedInputs.Contains(resourceName))
+			hasResource = true;
+	}
+	else
+	{
+		if (outputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
+			hasResource = true;
+	}
 	
-	if((outputBuilding.isActive && !hasOptionalOutput) || inputBuilding.isActive) return;
+	/*var resourceNum : int = 0;
+	
+	if((outputBuilding.isActive && !hasOptionalOutput) || inputBuilding.isActive) return;*/
 	
 	// Checks to see if output is there, the amount of the resource
 	// is above 0, meaning it is avaliable.
-	for (var outputName : String in outputBuilding.outputName)
+	/*for (var outputName : String in outputBuilding.outputName)
     {
     	resourceNum = outputBuilding.outputNum[resourceOutputIndex];
     	
@@ -381,7 +396,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     }
     
 
-    var usedOptionalOutput : boolean = false;
+    //var usedOptionalOutput : boolean = false;
     // Will take optional resource if resource not found among original output
     if( hasOptionalOutput && !hasResource )
     {
@@ -425,7 +440,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	        	resourceInputIndex++;
 	        }
 	    }
-    }
+    }*/
     
     // If the resource has been found in both buildings,
     // decrease the amount and add the index of the other building
@@ -452,26 +467,31 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		cleanUpPreviousBuildings();
 		
 		//****************
-    
+
     	if(usedOptionalOutput)
     	{
-		    resourceNum = outputBuilding.optionalOutputNum[resourceOutputIndex];
+		    /*resourceNum = outputBuilding.optionalOutputNum[resourceOutputIndex];
 		    resourceNum--;
-		    outputBuilding.optionalOutputNum[resourceOutputIndex] = resourceNum;
+		    outputBuilding.optionalOutputNum[resourceOutputIndex] = resourceNum;*/
+		    outputBuilding.optionalOutputAllocated = true;
     	}
     	else
     	{
-		    resourceNum = outputBuilding.outputNum[resourceOutputIndex];
+		    /*resourceNum = outputBuilding.outputNum[resourceOutputIndex];
 		    resourceNum--;
-		    outputBuilding.outputNum[resourceOutputIndex] = resourceNum;
+		    outputBuilding.outputNum[resourceOutputIndex] = resourceNum;*/
+		    outputBuilding.allocatedOutputs.Add(resourceName);
+		    outputBuilding.unallocatedOutputs.Remove(resourceName);
 	    }
 	    
-	    resourceNum = inputBuilding.inputNum[resourceInputIndex];
+	    /*resourceNum = inputBuilding.inputNum[resourceInputIndex];
 	    resourceNum--;
-	    inputBuilding.inputNum[resourceInputIndex] = resourceNum;
+	    inputBuilding.inputNum[resourceInputIndex] = resourceNum;*/
+	    inputBuilding.allocatedInputs.Add(resourceName);
+		inputBuilding.unallocatedInputs.Remove(resourceName);
 		
-		outputBuilding.linkedTo.push(inputBuildingIndex);
-		inputBuilding.linkedTo.push(outputBuildingIndex);
+		outputBuilding.outputLinkedTo.Add(inputBuildingIndex);//linkedTo.push(inputBuildingIndex);
+		inputBuilding.inputLinkedTo.Add(outputBuildingIndex);//linkedTo.push(outputBuildingIndex);
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
@@ -507,13 +527,13 @@ public function activateBuilding( buildingIndex:int ): boolean
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	
-	for (var inputAmount : int in building.inputNum)
-    {
-		if(inputAmount != 0)
+	//for (var inputAmount : int in building.inputNum)
+    //{
+		if(building.unallocatedInputs.Count > 0)//inputAmount != 0)
 		{
 			canActivate = false;
 		}
-    }
+    //}
     
     building.isActive = canActivate;
     buildingsOnGrid[buildingIndex] = building;
@@ -603,14 +623,20 @@ class Building
 {
 	var buildingName = "nameOfBuilding";
 
-	var inputName = new Array();
+	/*var inputName = new Array();
 	var inputNum = new Array();
 	
 	var outputName = new Array();
-	var outputNum = new Array();
+	var outputNum = new Array();*/
+	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
 	
-	var optionalOutputName = new Array();
-	var optionalOutputNum = new Array();
+	/*var optionalOutputName = new Array();
+	var optionalOutputNum = new Array();*/
+	var optionalOutput : ResourceType = ResourceType.None;
+	var optionalOutputAllocated : boolean = false;
 	
 	var requisitionCost : int;
 	
@@ -637,24 +663,28 @@ class BuildingOnGrid
 {
 
 	var buildingName = "nameOfBuilding";
-	var inputName = new Array();
+	/*var inputName = new Array();
 	var inputNum = new Array();
 	var outputName = new Array();
-	var outputNum = new Array();
+	var outputNum = new Array();*/
 	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
 	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
 	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
 	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
 	
-	var optionalOutputName = new Array();
-	var optionalOutputNum = new Array();
+	/*var optionalOutputName = new Array();
+	var optionalOutputNum = new Array();*/
+	var optionalOutput : ResourceType = ResourceType.None;
+	var optionalOutputAllocated : boolean = false;
 	
 	var isActive = false;
 	
 	var coordinate : Vector3 = new Vector3(0,0,0);
 	var tileType = "tileType";
 	var buildingPointer: GameObject;
-	var linkedTo = new Array();	// will contain an array of the buildings it is connected to, by index of the building in the array
+	//var linkedTo = new Array();	// will contain an array of the buildings it is connected to, by index of the building in the array
+	var inputLinkedTo : List.<int> = new List.<int>();
+	var outputLinkedTo : List.<int> = new List.<int>();
 	
 	var requisitionCost : int;
 	
@@ -696,7 +726,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.buildingName = copyFrom.buildingName;
 	
-	copyTo.inputName.Clear();
+	/*copyTo.inputName.Clear();
 	copyTo.inputName = copyTo.inputName.Concat(copyFrom.inputName);
 	copyTo.inputNum.Clear();
 	copyTo.inputNum = copyTo.inputNum.Concat(copyFrom.inputNum);
@@ -709,14 +739,28 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	copyTo.optionalOutputName.Clear();
 	copyTo.optionalOutputName = copyTo.optionalOutputName.Concat(copyFrom.optionalOutputName);
 	copyTo.optionalOutputNum.Clear();
-	copyTo.optionalOutputNum = copyTo.optionalOutputNum.Concat(copyFrom.optionalOutputNum);
+	copyTo.optionalOutputNum = copyTo.optionalOutputNum.Concat(copyFrom.optionalOutputNum);*/
+	copyTo.unallocatedInputs.Clear();
+	copyTo.unallocatedInputs.AddRange(copyFrom.unallocatedInputs);
+	copyTo.allocatedInputs.Clear();
+	copyTo.allocatedInputs.AddRange(copyFrom.allocatedInputs);
+	
+	copyTo.unallocatedOutputs.Clear();
+	copyTo.unallocatedOutputs.AddRange(copyFrom.unallocatedOutputs);
+	copyTo.allocatedOutputs.Clear();
+	copyTo.allocatedOutputs.AddRange(copyFrom.allocatedOutputs);
+	
+	copyTo.optionalOutput = copyFrom.optionalOutput;
+	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
 
 	copyTo.isActive = copyFrom.isActive;
 	copyTo.coordinate = copyFrom.coordinate;
 	copyTo.tileType = copyFrom.tileType;
 
-	copyTo.linkedTo.Clear();
-	copyTo.linkedTo = copyTo.linkedTo.Concat(copyFrom.linkedTo);
+	copyTo.inputLinkedTo.Clear();//linkedTo.Clear();
+	copyTo.inputLinkedTo.AddRange(copyTo.inputLinkedTo);//linkedTo = copyTo.linkedTo.Concat(copyFrom.linkedTo);
+	copyTo.outputLinkedTo.Clear();
+	copyTo.outputLinkedTo.AddRange(copyTo.outputLinkedTo);
 	
 	copyTo.requisitionCost = copyFrom.requisitionCost;
 	copyTo.pollutionOutput = copyFrom.pollutionOutput;

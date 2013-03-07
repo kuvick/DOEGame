@@ -13,6 +13,7 @@
 private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
+private var selectedOutputIndex : int;
 private var inputOffset:Vector2 = new Vector2(-20, -40);	//Used to set position of button relative to building
 private var outputOffset:Vector2 = new Vector2(20, -40);
 private var ioButtonWidth = 27;
@@ -37,9 +38,10 @@ static public var linkRange:Vector3;// = Vector3(400, 400, 400);
 static var tileRange = Database.TILE_RANGE;
 private var gridBuilding:BuildingOnGrid;
 private var selectedGridBuilding:BuildingOnGrid;
-private var selectedBuildingOutputs:String[];
+private var selectedBuildingOutputs:List.<ResourceType>;
 private var buildingInputNum:int;
 private var buildingOutputNum:int;
+private var optionalOutputUsed : boolean = false;
 private var outputCount:int;
 private var inputCount:int;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
@@ -81,20 +83,25 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
-	var resource:String = "";
-	var hasOptional:boolean = (linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
+	var resource:ResourceType;
+	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
 	
-	if(linkBuilding.outputName.length > 0)
-		resource = linkBuilding.outputName[0];
+	/*if(linkBuilding.outputName.length > 0)
+		resource = linkBuilding.outputName[0];*/
+	if (optionalOutputUsed)
+		resource = linkBuilding.optionalOutput;
+	else
+		resource = linkBuilding.unallocatedOutputs[selectedOutputIndex];
 	
 	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, hasOptional) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
 		//These next two lines may not have to be here, will test further -WF
-		inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
-		outputCount = linkBuilding.outputNum.length;
+		/*inputCount = Database.getBuildingOnGrid(b1.transform.position).inputNum.length;
+		outputCount = linkBuilding.outputNum.length;*/
 	}
+	optionalOutputUsed = false;
 }
 
 //This function returns true if b2 is in b1's range
@@ -135,7 +142,7 @@ function OnGUI()
 		return;
 		
 	selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-	selectedBuildingOutputs = selectedGridBuilding.outputName;
+	selectedBuildingOutputs = selectedGridBuilding.unallocatedOutputs;
 	
 	if(selectedGridBuilding.buildingName != "BuildingSite")
 	{
@@ -151,8 +158,8 @@ function OnGUI()
 			if(gridBuilding == null)// || gridBuilding.outputNum.length <= 0)// || gridBuilding.inputNum.length <= 0)
 				return;
 				
-			inputCount = gridBuilding.inputNum.length;
-			outputCount = gridBuilding.outputNum.length;
+			inputCount = gridBuilding.unallocatedInputs.Count;//gridBuilding.inputNum.length;
+			outputCount = gridBuilding.unallocatedOutputs.Count;//gridBuilding.outputNum.length;
 			
 			//buildingOutputNum = gridBuilding.outputNum[0];
 																	
@@ -176,7 +183,7 @@ function OnGUI()
 				// iterate through input arrays and draw appropriate input buttons
 				for(var input = 0; input < inputCount; input++)
 				{
-					buildingInputNum = gridBuilding.inputNum[input];
+					//buildingInputNum = gridBuilding.inputNum[input];
 					if(input > 0)
 						inputRect.y += 30;
 						
@@ -186,26 +193,27 @@ function OnGUI()
 							inputRect.y += 30;
 						GUI.enabled = false;
 						// check if the selected building has a matching output, if so make input button active
-						for (var outName:String in selectedBuildingOutputs)
+						if (selectedBuildingOutputs.Contains(gridBuilding.unallocatedInputs[input]))
+						//for (var outp:String in selectedBuildingOutputs)
+						//{
+							//if (gridBuilding.inputName[input] == outName)
 						{
-							if (gridBuilding.inputName[input] == outName)
-							{
-								GUI.enabled = true;
-								break;
-							}
+							GUI.enabled = true;
+							break;
 						}
+						//}
 						// if selected building's optional outputs are active, check if it has a matching output
 						// if so make input button active
 						if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
 						{
-							for (outName in selectedGridBuilding.optionalOutputName)
-							{
-								if (gridBuilding.inputName[input] == outName)
+							//for (outName in selectedGridBuilding.optionalOutputName)
+							//{
+								if (gridBuilding.unallocatedInputs[input] == selectedGridBuilding.optionalOutput)//gridBuilding.inputName[input] == outName)
 								{
 									GUI.enabled = true;
 									break;
 								}
-						}
+						//}
 						}
 						GUILayout.BeginArea(inputRect);
 						if (GUILayout.Button("I"))
@@ -231,19 +239,22 @@ function OnGUI()
 			//Instructions for output button
 			else
 			{	
-				if(gridBuilding.outputNum.length <= 0)
+				if(gridBuilding.unallocatedOutputs.Count <= 0)//outputNum.length <= 0)
 					return;
 				ModeController.setCurrentMode(GameState.LINK);
-				buildingOutputNum = gridBuilding.outputNum[0];
+				//buildingOutputNum = gridBuilding.outputNum[0];
 				// iterate through output arrays and draw appropriate output buttons
-				for(var j = 0; j < buildingOutputNum; j++)
+				for(var j = 0; j < gridBuilding.unallocatedOutputs.Count; j++)
 				{
 					if(j > 0)
 						outputRect.y += 30;
 					
 					GUILayout.BeginArea(outputRect);
 					if (GUILayout.Button("O")) 
+					{
 						outputBuilding = building;
+						selectedOutputIndex = j;
+					}
 					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 					{
@@ -257,20 +268,23 @@ function OnGUI()
 					else mouseOverGUI = false;*/
 					GUILayout.EndArea();
 				}
-				if (gridBuilding.optionalOutputNum.length <= 0)
+				if (gridBuilding.optionalOutput == ResourceType.None)//optionalOutputNum.length <= 0)
 					return;
-				buildingOutputNum = gridBuilding.optionalOutputNum[0];
+				//buildingOutputNum = gridBuilding.optionalOutputNum[0];
 				// iterate through optional output arrays and draw appropriate output buttons
-				for (j = 0; j < buildingOutputNum; j++)
+				/*for (j = 0; j < buildingOutputNum; j++)
 				{
 					outputRect.y += 30;
-					
+					*/
 					GUILayout.BeginArea(outputRect);
 					// if the selected building's optional outputs aren't active, deactivate button
 					if (gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 						GUI.enabled = false;
 					if (GUILayout.Button("OO")) 
+					{
 						outputBuilding = building;
+						optionalOutputUsed = true;
+					}
 					/*if(mousePos.x >= outputRect.x && mousePos.x <= outputRect.x + outputRect.width &&
 						mousePos.y >= outputRect.y && mousePos.y <= outputRect.y + outputRect.height)
 					{
@@ -284,7 +298,7 @@ function OnGUI()
 					else mouseOverGUI = false;*/
 					GUI.enabled = true;
 					GUILayout.EndArea();
-				}
+				//}
 			}
 		}
 		

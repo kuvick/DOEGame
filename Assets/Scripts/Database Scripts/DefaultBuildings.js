@@ -28,14 +28,17 @@ class DefaultBuildingData
 {
 	var buildingName = "nameOfBuilding";
 
-	var inputName : String[];
+	/*var inputName : String[];
 	var inputNum : int[];
 	
 	var outputName : String[];
 	var outputNum : int[];
 	
 	var optionalOutputName : String[];
-	var optionalOutputNum : int[];
+	var optionalOutputNum : int[];*/
+	var unallocatedInputs : ResourceType[];
+	var unallocatedOutputs : ResourceType[];
+	var optionalOutput : ResourceType;
 	
 	var requisitionCost : int;
 	
@@ -47,14 +50,18 @@ class BuildingOnGridData
 
 	var buildingName = "nameOfBuilding";
 
-	var inputName : String[];
+	/*var inputName : String[];
 	var inputNum : int[];
 	
 	var outputName : String[];
-	var outputNum : int[];
+	var outputNum : int[];*/
 	
-	var optionalOutputName : String[];
-	var optionalOutputNum : int[];
+	var unallocatedInputs : ResourceType[];
+	var unallocatedOutputs : ResourceType[];
+	
+	/*var optionalOutputName : String[];
+	var optionalOutputNum : int[];*/
+	var optionalOutput : ResourceType;
 	
 	var isActive : boolean = false;
 	
@@ -85,34 +92,34 @@ public function convertDefaultBuildingDataIntoBuilding( defaultBuilding : Defaul
 
 	databaseBuilding.buildingName = defaultBuilding.buildingName;
 
-	databaseBuilding.inputName = new Array();
+	/*databaseBuilding.inputName = new Array();
 	databaseBuilding.inputNum = new Array();
 	databaseBuilding.outputName = new Array();
 	databaseBuilding.outputNum = new Array();
 	databaseBuilding.optionalOutputName = new Array();
-	databaseBuilding.optionalOutputNum = new Array();
+	databaseBuilding.optionalOutputNum = new Array();*/
 	
-	for (var tempVar : String in defaultBuilding.inputName)
+	for (var tempVar : ResourceType in defaultBuilding.unallocatedInputs)//String in defaultBuilding.inputName)
 	{
-		databaseBuilding.inputName.Push(tempVar);
+		databaseBuilding.unallocatedInputs.Add(tempVar);//inputName.Push(tempVar);
 	}
 	
-	for (var tempVar : int in defaultBuilding.inputNum)
+	/*for (var tempVar : int in defaultBuilding.inputNum)
 	{
 		databaseBuilding.inputNum.Push(tempVar);
-	}
+	}*/
 	
-	for (var tempVar : String in defaultBuilding.outputName)
+	for (var tempVar : ResourceType in defaultBuilding.unallocatedOutputs)//String in defaultBuilding.outputName)
 	{
-		databaseBuilding.outputName.Push(tempVar);
+		databaseBuilding.unallocatedOutputs.Add(tempVar);//outputName.Push(tempVar);
 	}
 	
-	for (var tempVar : int in defaultBuilding.outputNum)
+	/*for (var tempVar : int in defaultBuilding.outputNum)
 	{
 		databaseBuilding.outputNum.Push(tempVar);
-	}
+	}*/
 	
-	for (var tempVar : String in defaultBuilding.optionalOutputName)
+	/*for (var tempVar : String in defaultBuilding.optionalOutputName)
 	{
 		databaseBuilding.optionalOutputName.Push(tempVar);
 	}
@@ -120,7 +127,8 @@ public function convertDefaultBuildingDataIntoBuilding( defaultBuilding : Defaul
 	for (var tempVar : int in defaultBuilding.optionalOutputNum)
 	{
 		databaseBuilding.optionalOutputNum.Push(tempVar);
-	}
+	}*/
+	databaseBuilding.optionalOutput = defaultBuilding.optionalOutput;
 	
 	databaseBuilding.requisitionCost = defaultBuilding.requisitionCost;
 	databaseBuilding.pollutionOutput = defaultBuilding.pollutionOutput;	
@@ -135,7 +143,7 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	
 	buildingOnGrid.buildingName = buildingData.buildingName;
 	
-	for (var tempVar : String in buildingData.inputName)
+	/*for (var tempVar : String in buildingData.inputName)
 	{
 		buildingOnGrid.inputName.Add(tempVar);
 	}
@@ -143,9 +151,19 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	for (var tempVar : int in buildingData.inputNum)
 	{
 		buildingOnGrid.inputNum.Add(tempVar);
+	}*/
+	
+	for (var tempVar : ResourceType in buildingData.unallocatedInputs)
+	{
+		buildingOnGrid.unallocatedInputs.Add(tempVar);
 	}
 	
-	for (var tempVar : String in buildingData.outputName)
+	for (var tempVar : ResourceType in buildingData.unallocatedOutputs)
+	{
+		buildingOnGrid.unallocatedOutputs.Add(tempVar);
+	}
+	
+	/*for (var tempVar : String in buildingData.outputName)
 	{
 		buildingOnGrid.outputName.Add(tempVar);
 	}
@@ -153,9 +171,9 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	for (var tempVar : int in buildingData.outputNum)
 	{
 		buildingOnGrid.outputNum.Add(tempVar);
-	}
+	}*/
 	
-	for (var tempVar : String in buildingData.optionalOutputName)
+	/*for (var tempVar : String in buildingData.optionalOutputName)
 	{
 		buildingOnGrid.optionalOutputName.Add(tempVar);
 	}
@@ -163,11 +181,12 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	for (var tempVar : int in buildingData.optionalOutputNum)
 	{
 		buildingOnGrid.optionalOutputNum.Add(tempVar);
-	}
+	}*/
+	buildingOnGrid.optionalOutput = buildingData.optionalOutput;
 	
 	buildingOnGrid.requisitionCost = buildingData.requisitionCost;
 	buildingOnGrid.pollutionOutput = buildingData.pollutionOutput;
-	buildingOnGrid.linkedTo = new Array();
+	//buildingOnGrid.linkedTo = new Array();
 	buildingOnGrid.isActive = buildingData.isActive;
 	buildingOnGrid.coordinate = buildingData.coordinate;
 	buildingOnGrid.tileType = buildingData.tileType;
@@ -201,12 +220,15 @@ public function convertDefaultBuildingIntoBuildingOnGrid( defaultBuildingName : 
 	
 	buildingOnGrid.buildingName = defaultBuilding.buildingName;
 
-	buildingOnGrid.inputName = defaultBuilding.inputName;
+	/*buildingOnGrid.inputName = defaultBuilding.inputName;
 	buildingOnGrid.inputNum = defaultBuilding.inputNum;
 	buildingOnGrid.outputName = defaultBuilding.outputName;
 	buildingOnGrid.outputNum = defaultBuilding.outputNum;
 	buildingOnGrid.optionalOutputName = defaultBuilding.optionalOutputName;
-	buildingOnGrid.optionalOutputNum = defaultBuilding.optionalOutputNum;
+	buildingOnGrid.optionalOutputNum = defaultBuilding.optionalOutputNum;*/
+	buildingOnGrid.unallocatedInputs = defaultBuilding.unallocatedInputs;
+	buildingOnGrid.unallocatedOutputs = defaultBuilding.unallocatedOutputs;
+	buildingOnGrid.optionalOutput = defaultBuilding.optionalOutput;
 	buildingOnGrid.requisitionCost = defaultBuilding.requisitionCost;
 	buildingOnGrid.pollutionOutput = defaultBuilding.pollutionOutput;
 	
