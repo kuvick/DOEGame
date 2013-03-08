@@ -14,7 +14,7 @@ class WorkerUnit extends Unit {
 	// Checks that the target building has optional outputs
 	protected function BuildingCheck (target : BuildingOnGrid)
 	{
-		if (!super(target) || target.optionalOutput == ResourceType.None)//optionalOutputNum.length <= 0)
+		if (!super(target) || target.optionalOutput == ResourceType.None)
 			return false;
 		return true;
 	}
