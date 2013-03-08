@@ -16,8 +16,8 @@ private var outputBuilding:GameObject;
 private var selectedOutputIndex : int;
 private var inputOffset:Vector2 = new Vector2(-20, -40);	//Used to set position of button relative to building
 private var outputOffset:Vector2 = new Vector2(20, -40);
-private var ioButtonWidth = 27;
-private var ioButtonHeight = 27;
+private var ioButtonWidth = 35;
+private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
 private var target:Transform;			//Transform of building that button corresponds to
@@ -45,6 +45,11 @@ private var optionalOutputUsed : boolean = false;
 private var outputCount:int;
 private var inputCount:int;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
+
+public var unallocatedInputTex : Texture2D[];
+public var allocatedInputTex : Texture2D[];
+public var unallocatedOutputTex : Texture2D[];
+public var allocatedOutputTex : Texture2D[];
 
 private var displayLink : DisplayLinkRange;
 
@@ -188,7 +193,7 @@ function OnGUI()
 					//Debug.Log("should draw");
 					//buildingInputNum = gridBuilding.inputNum[input];
 					if(input > 0)
-						inputRect.y += 30;
+						inputRect.y += ioButtonHeight + 3;
 					
 					//for(var i = 0; i < gridBuilding.unallocatedInputs.Count; i++)
 					//{
@@ -221,7 +226,7 @@ function OnGUI()
 						}
 						
 						GUILayout.BeginArea(inputRect);
-						if (GUILayout.Button("I"))
+						if (GUILayout.Button(unallocatedInputTex[gridBuilding.unallocatedInputs[input] - 1]))//"I"))
 							inputBuilding = building;
 						/*if(mousePos.x >= inputRect.x && mousePos.x <= inputRect.x + inputRect.width &&
 							mousePos.y >= inputRect.y && mousePos.y <= inputRect.y + inputRect.height)
@@ -252,10 +257,10 @@ function OnGUI()
 				for(var j = 0; j < gridBuilding.unallocatedOutputs.Count; j++)
 				{
 					if(j > 0)
-						outputRect.y += 30;
+						outputRect.y += ioButtonHeight + 3;
 					
 					GUILayout.BeginArea(outputRect);
-					if (GUILayout.Button("O")) 
+					if (GUILayout.Button(unallocatedOutputTex[gridBuilding.unallocatedOutputs[j] - 1]))//"O")) 
 					{
 						outputBuilding = building;
 						selectedOutputIndex = j;
@@ -280,7 +285,7 @@ function OnGUI()
 				// iterate through optional output arrays and draw appropriate output buttons
 				/*for (j = 0; j < buildingOutputNum; j++)
 				{*/
-					outputRect.y += 30;
+					outputRect.y += ioButtonHeight + 3;
 					
 					GUILayout.BeginArea(outputRect);
 					// if the selected building's optional outputs aren't active, deactivate button

@@ -59,10 +59,12 @@ static var intelSystem : IntelSystem;
 enum ResourceType
 {
 	None,
-	Power,
 	Coal,
-	Petroleum,
-	Car
+	Fund,
+	Gas,
+	Petrol,
+	Power,
+	Waste
 }
 
 function Start()
