@@ -14,8 +14,8 @@ private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
 private var selectedOutputIndex : int;
-private var inputOffset:Vector2 = new Vector2(-20, -40);	//Used to set position of button relative to building
-private var outputOffset:Vector2 = new Vector2(20, -40);
+private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
+private var allocatedOffset:Vector2 = new Vector2(20, -40);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
@@ -166,10 +166,10 @@ function OnGUI()
 				point.y -= Screen.height;
 			
 			//Set position of buttons
-			var inputRect:Rect = Rect(point.x + inputOffset.x, 
-							point.y + inputOffset.y, ioButtonWidth, ioButtonHeight);
-			var outputRect:Rect = Rect(point.x + outputOffset.x, 
-							point.y + outputOffset.y, ioButtonWidth, ioButtonHeight);
+			var unallocatedRect:Rect = Rect(point.x + unallocatedOffset.x, 
+							point.y + unallocatedOffset.y, ioButtonWidth, ioButtonHeight);
+			var allocatedRect:Rect = Rect(point.x + allocatedOffset.x, 
+							point.y + allocatedOffset.y, ioButtonWidth, ioButtonHeight);
 						
 			//prototype
 			if(building != selectedBuilding)
@@ -177,62 +177,30 @@ function OnGUI()
 				
 				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
 				// iterate through input arrays and draw appropriate input buttons
-				for(var input = 0; input < inputCount; input++)
-				{
-					if(input > 0)
-						inputRect.y += ioButtonHeight + 3;
-					
-					GUI.enabled = false;
-						
-					// check if the selected building has a matching output, if so make input button active
-					if (selectedBuildingOutputs.Contains(gridBuilding.unallocatedInputs[input]))
-					{
-						GUI.enabled = true;
-					}
-					// if selected building's optional outputs are active, check if it has a matching output
-					// if so make input button active
-					if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
-					{
-						if (gridBuilding.unallocatedInputs[input] == selectedGridBuilding.optionalOutput)
-						{
-							GUI.enabled = true;
-						}
-					}
-						
-					GUILayout.BeginArea(inputRect);
-					if (GUILayout.Button(unallocatedInputTex[gridBuilding.unallocatedInputs[input] - 1]))
-						inputBuilding = building;
-
-					GUILayout.EndArea();
-					GUI.enabled = true;
-				}
+				DrawResourceButtons(unallocatedRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, true);
+				DrawResourceButtons(allocatedRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
 			}
 			
 			//Instructions for output button
 			else
 			{	
 				ModeController.setCurrentMode(GameState.LINK);
-				// iterate through output arrays and draw appropriate output buttons
-				for(var j = 0; j < gridBuilding.unallocatedOutputs.Count; j++)
-				{
-					if(j > 0)
-						outputRect.y += ioButtonHeight + 3;
-					
-					GUILayout.BeginArea(outputRect);
-					if (GUILayout.Button(unallocatedOutputTex[gridBuilding.unallocatedOutputs[j] - 1]))
-					{
-						outputBuilding = building;
-						selectedOutputIndex = j;
-						Debug.Log("output index: " + selectedOutputIndex);
-					}
-					GUILayout.EndArea();
-				}
+
+				unallocatedRect = DrawResourceButtons(unallocatedRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
+				allocatedRect = DrawResourceButtons(allocatedRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, false);
+				
 				if (gridBuilding.optionalOutput == ResourceType.None)
 					continue;
 
-				outputRect.y += ioButtonHeight + 3;
+				var optionalRect : Rect;
+				if (gridBuilding.optionalOutputAllocated)
+					optionalRect = allocatedRect;
+				else
+					optionalRect = unallocatedRect;
 					
-				GUILayout.BeginArea(outputRect);
+				optionalRect.y += ioButtonHeight + 3;
+					
+				GUILayout.BeginArea(optionalRect);
 				// if the selected building's optional outputs aren't active, deactivate button
 				if (gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 					GUI.enabled = false;
@@ -266,6 +234,51 @@ function OnGUI()
 			GUILayout.EndArea();
 		}
 	}
+}
+
+// iterates through the given resource list and draws the appropriate input or output buttons
+function DrawResourceButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
+								building : GameObject, isInput : boolean) : Rect
+{
+	for(var i = 0; i < resourceList.Count; i++)
+	{
+		if(i > 0)
+			buttonRect.y += ioButtonHeight + 3;
+					
+		if (isInput)
+		{
+			GUI.enabled = false;
+							
+			// check if the selected building has a matching output, if so make input button active
+			if (selectedBuildingOutputs.Contains(resourceList[i]))
+			{
+				GUI.enabled = true;
+			}
+			// if selected building's optional outputs are active, check if it has a matching output
+			// if so make input button active
+			if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
+			{
+				if (resourceList[i] == selectedGridBuilding.optionalOutput)
+				{
+					GUI.enabled = true;
+				}
+			}
+		}
+		GUILayout.BeginArea(buttonRect);
+		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
+		{
+			if (isInput)
+				inputBuilding = building;
+			else
+			{
+				outputBuilding = building;
+				selectedOutputIndex = i;
+			}
+		}
+		GUILayout.EndArea();
+		GUI.enabled = true;
+	}
+	return buttonRect;
 }
 
 function Update() 
