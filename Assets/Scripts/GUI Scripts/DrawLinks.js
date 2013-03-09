@@ -113,7 +113,6 @@ function addObjectsToBuildings(){
 										b1 != b2 &&
 										(!linkProspects[b1, b2] ||
 										!linkProspects[b2, b1])){
-				Debug.Log("Buildings : " + buildings[b1].name + " and " + buildings[b2].name + " can be linked");						
 				numLinks++;
 				linkProspects[b1, b2] = true;
 			}
@@ -124,7 +123,6 @@ function addObjectsToBuildings(){
 			lineAnchor.transform.parent = buildings[b1].transform;
 		}
 	}
-	Debug.Log(numLinks + " possible links");
 	
 	return numLinks;
 }

@@ -134,6 +134,11 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
+		if (GUI.Button(RectFactory.NewRect(0, .95, .1, .05), "Toggle ViewType")){ // This is just temporary until we find another place for it
+			var camera : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
+			camera.ToggleZoomType();
+		}
+		
 		GUI.Label(scoreRect, score.ToString());
 		GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
 	}

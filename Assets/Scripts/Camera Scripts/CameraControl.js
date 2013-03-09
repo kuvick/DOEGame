@@ -18,6 +18,8 @@ static public var zoomingIncrement: float = 10;
 static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
 
+static private var cameraViewOverhead : boolean = false;
+
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 
@@ -67,12 +69,27 @@ private static function CanZoomOut() : boolean{
 	return (thisCamera.transform.position.y < farthestZoomDistnace);
 }
 
+public static function ToggleZoomType(){
+	cameraViewOverhead = !cameraViewOverhead;
+	if (cameraViewOverhead){
+		thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+	} else {
+		thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
+	}
+}
+
 private static function ZoomIn(){
-	var updatedLocation: Vector3 = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z + zoomingIncrement);
+	var updatedLocation: Vector3 = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z);
+	if (!cameraViewOverhead){ // if we are not overhead then add the z change
+		updatedLocation.z += zoomingIncrement;
+	}
 	thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speedOfZoom);
 }
 
 private static function ZoomOut(){
-	var updatedLocation: Vector3 = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z - zoomingIncrement );
+	var updatedLocation: Vector3 = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z);
+	if (!cameraViewOverhead){ // if we are not overhead then add the z change
+		updatedLocation.z -= zoomingIncrement;
+	}
 	thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speedOfZoom);
 }

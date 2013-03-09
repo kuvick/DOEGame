@@ -79,7 +79,6 @@ function HighlightBuildingsInRange(selectedBuilding:GameObject){
 		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
 		
 		if(selectedBuilding != b && isInRange){
-			Debug.Log("Changing Color of " + b.ToString());
 			(b.GetComponentInChildren(Renderer) as Renderer).material.color = inRangeColor;
 		}
 	}

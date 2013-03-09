@@ -27,7 +27,7 @@ if ( Input.GetMouseButtonDown(0) )
       
       if (Physics.Raycast (ray, hit, 1000.0))
       {
-         Debug.Log(hit.collider.gameObject.name);
+         //Debug.Log(hit.collider.gameObject.name);
          
       }
    }
