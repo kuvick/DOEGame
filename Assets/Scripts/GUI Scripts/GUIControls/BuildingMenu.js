@@ -64,6 +64,12 @@ public class BuildingMenu extends GUIControl
 	private var leftScrollVisible:boolean = false;
 	private var rightScrollVisible:boolean = true;
 	
+	private var unallocatedInputTex : Texture2D[];
+	private var unallocatedOutputTex : Texture2D[];
+	private var resourceIconList:List.<Rect>;
+	private var resourceIconHeight:float;
+	private var resourceIconHeightPercent:float = 0.08;
+	
 	
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
@@ -82,6 +88,7 @@ public class BuildingMenu extends GUIControl
 	class BuildingSiteChoice
 	{
 		public var building : GameObject;
+		public var data : BuildingOnGridData;
 		public var icon : Texture;
 	}
 	
@@ -95,15 +102,32 @@ public class BuildingMenu extends GUIControl
 	
 	public function Start () 
 	{
-		super.Start();
-		
-		gridObject = GameObject.Find("HexagonGrid");
-		grid = gridObject.GetComponent(HexagonGrid);
+		super.Start();		
 	}
 	
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		//**Added by Katharine start
+		gridObject = GameObject.Find("HexagonGrid");
+		grid = gridObject.GetComponent(HexagonGrid);
+		
+		var cameraObj : GameObject = GameObject.Find("Main Camera");
+		var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
+		unallocatedInputTex = linkUI.allocatedInputTex;
+		unallocatedOutputTex = linkUI.allocatedOutputTex;
+		resourceIconHeight = resourceIconHeightPercent * screenHeight;
+		
+		var i : int = 0;
+		for (var choice : BuildingSiteChoice in buildingChoices)
+		{
+			var setData : BuildingData = choice.building.GetComponent(BuildingData);
+			setData.buildingData = buildingChoices[i].data;
+			i++;
+		}
+		
+		//** Added by Katharine end
 		
 		scrollHeight = scrollHeightPercent * screenHeight;
 		scrollWidth = scrollHeight * scrollRatio;
@@ -177,16 +201,42 @@ public class BuildingMenu extends GUIControl
 		// The first group represents the clip area 
 		// The second group represents the entire list of building icons
 		// Change the second group's rect's x position in order to scroll the building icons
+		var j : int = 0;
 		GUI.BeginGroup(buildingClip);
 			GUI.BeginGroup(buildingGroup);
 				for (var i:int = 0; i < buildingChoices.length; i++)
 				{
-					//Katharine: I will eventually set it up for it to print the input/output on top of the button (?)
-					//so we don't have to include the input int the image
-					//var buildingData : BuildingData = buildingChoices[i].building.GetComponent("BuildingData");
-					//Debug.Log(i + "Input: " + buildingData.buildingData.inputName[0]);
-				
+					// Drawings Building Icon
 					GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
+					// Draws Input Icons:
+					for(var input : ResourceType in buildingChoices[i].data.unallocatedInputs)
+					{
+						if(input != ResourceType.None)
+						{
+							GUI.DrawTexture(resourceIconList[j], unallocatedInputTex[input - 1]);
+							
+						}
+						else
+						{
+							Debug.Log("Check inputs of BuildingMenu, one of them is marked None...for " + buildingChoices[i].data.buildingName);
+						}
+						j++;
+					}
+					
+					// Draws Output Icons:
+					for(var output : ResourceType in buildingChoices[i].data.unallocatedOutputs)
+					{
+						if(output != ResourceType.None)
+						{
+							GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[output - 1]);
+						}
+						else
+						{
+							Debug.Log("Check outputs of BuildingMenu, one of them is marked None...for " + buildingChoices[i].data.buildingName);
+						}
+						j++;
+					}
+					
 					if(GUI.Button(buildingIconList[i], "" ))
 					{
 						Place(i);						
@@ -236,7 +286,10 @@ public class BuildingMenu extends GUIControl
 		var currentUpperRowX:float = 0;
 		var currentLowerRowX:float = 0;
 		
+		var resourceIcon:Rect;
+		
 		buildingIconList = new List.<Rect>();
+		resourceIconList = new List.<Rect>();
 		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);
 		if (numPages > 6)
 		{
@@ -244,6 +297,8 @@ public class BuildingMenu extends GUIControl
 		}	
 		sumWidth = buildingIconHeight + buildingIconPadding;
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
+		
+		var buildingNum : int = 0;
 		
 		// Calculate the rect dimensions of every page of building icons
 		// Each page consists of up to six icons split into two rows of three
@@ -262,6 +317,24 @@ public class BuildingMenu extends GUIControl
 				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 				
+				//Resource Icon Input Display:
+				var l : int = 0;
+				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					l++;
+				}
+				//Resource Icon Output Display:
+				l = 0;
+				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					l++;
+				}				
+				buildingNum++;
+				
 			}
 			
 			// Calculate the second row of building icons
@@ -275,7 +348,25 @@ public class BuildingMenu extends GUIControl
 				}
 				currentLowerRowX = k * sumWidth + lowerRowOffset;
 				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
-				buildingIconList.Add(buildingIcon);
+				buildingIconList.Add(buildingIcon);;
+				
+				//Resource Icon Input Display
+				var m : int = 0;
+				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					m++;
+				}
+				//Resource Icon Output Display
+				m = 0;
+				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					m++;
+				}
+				buildingNum++;
 			}
 		}
 	}
