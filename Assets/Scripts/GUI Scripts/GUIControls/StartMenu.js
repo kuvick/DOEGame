@@ -64,9 +64,16 @@ public class StartMenu extends GUIControl
 	private var showSplash:boolean = true;
 	private var currentTexture:Texture = firstSlide;
 	
+	private var levelToResume:String;
+	
 	public function Start ()
 	{
 		super.Start();
+		if (!PlayerPrefs.HasKey(Strings.RESUME)){
+			Debug.LogError("There was no level to resume.");
+		} else {
+			levelToResume = PlayerPrefs.GetString(Strings.RESUME);
+		}
 	}
 	
 	public function Initialize()
@@ -114,10 +121,14 @@ public class StartMenu extends GUIControl
 			
 			GUI.skin = startMenuSkin;
 		
-			if (GUI.Button(resumeGameButton, "resume"))
-			{
-				currentResponse.type = EventTypes.RESUME;
-				PlayButtonPress(2);
+			if (PlayerPrefs.HasKey(Strings.RESUME)){ // Only display the resume button if there is a level to resume
+				if (GUI.Button(resumeGameButton, "resume"))
+				{
+					currentResponse.type = EventTypes.RESUME;
+					
+					PlayButtonPress(2);
+					Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
+				}
 			}
 			
 			if (GUI.Button(newGameButton, "new game"))

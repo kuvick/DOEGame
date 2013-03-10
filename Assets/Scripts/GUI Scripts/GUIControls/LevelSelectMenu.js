@@ -201,6 +201,13 @@ public class LevelSelectMenu extends GUIControl
 		if (GUI.Button(backButton, "Back"))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			if (!PlayerPrefs.HasKey(Strings.RESUME)){
+				Debug.LogError("There was no level to resume.");
+			} else {
+				var levelToResume : String = PlayerPrefs.GetString(Strings.RESUME);
+				Debug.Log("Going to load " + levelToResume);
+				Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
+			}
 		}
 	}
 	

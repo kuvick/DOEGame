@@ -134,6 +134,7 @@ public function Start ()
 	{
 		case "StartScreen":
 			activeControls.Add(startMenu);
+			Debug.Log("Added start menu");
 			break;
 		
 		case "LevelSelectScreen":

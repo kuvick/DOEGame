@@ -97,7 +97,7 @@ function OnGUI(){
 			Note: Derrick, possibly done, taking int the current level from ToolBar
 		*/
 		
-		Application.LoadLevel(GUIManager.currLevel);//"Prototype - Level1");
+		Application.LoadLevel(Application.loadedLevelName);//GUIManager.currLevel);//"Prototype - Level1");
 	}
 	
 	/* 

@@ -11,6 +11,10 @@ function Awake() {
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
 }
 
+function OnDestroy () {
+	PlayerPrefs.SetString(Strings.RESUME, Application.loadedLevelName); // when we exit the level mark it as the one we should resume to
+}
+
 function ConvertRatio(setRatio : Ratio)
 {
 	var converted:float = 0;
