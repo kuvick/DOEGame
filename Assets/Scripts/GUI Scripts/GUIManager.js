@@ -53,6 +53,7 @@ private var levelSelectMenu:LevelSelectMenu;
 static var buildingMenuOpen;
 
 private var intelSystem : IntelSystem;
+private var database: Database;
 
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
@@ -100,6 +101,7 @@ public static function Instance():GUIManager
 public function Start () 
 {
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	database = GameObject.Find("Database").GetComponent(Database);
 
 	activeControls = new List.<GUIControl>();
 	
@@ -273,11 +275,19 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.WAIT:
 			intelSystem.addTurn();
+			database.UndoStack.Add(UndoType.Wait);
 			ClearControls();
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);
 			break;
 		case EventTypes.UNDO:
+			if(database.undo())
+			{
+				intelSystem.subtractTurn();
+			}
+			ClearControls();
+			activeControls.Add(mainMenu);
+			activeControls.Add(marquee);
 			break;
 			
 		// Pause Menu responses

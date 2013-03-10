@@ -122,6 +122,7 @@ public function addTurn()
 
 public function subtractTurn()
 {
+	increaseTurns();
 	currentTurn--;
 }
 
@@ -282,6 +283,22 @@ public function decreaseTurns()
 		}
 	}
 }
+
+// Goes through the events and increases the
+// the turn amount both on the GUI and in the system. 
+public function increaseTurns()
+{
+	for (var script : EventScript in events)
+	{
+		if(!script.incrementTime())
+		{
+			/*
+				TODO: De-Activate Events
+			*/
+		}		
+	}
+}
+
 
 // Returns a list of the events
 public function getEventList():List.<BuildingEvent>

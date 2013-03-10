@@ -99,3 +99,18 @@ public function decrementTime()
 		return false;
 	}	
 }
+
+// Decrements the time variable of the attached BuildingEvent
+// If the old time = 0, it will return false. If it above 0, it will return true  
+public function incrementTime()
+{
+	if(event.time == 0){
+		event.time++;
+		return false;
+	}
+	else
+	{
+		event.time++;
+		return true;
+	}	
+}

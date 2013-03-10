@@ -126,3 +126,8 @@ function addObjectsToBuildings(){
 	
 	return numLinks;
 }
+
+function removeLink(b1: int, b2: int)
+{
+	linksDrawn[b1,b2] = false;
+}

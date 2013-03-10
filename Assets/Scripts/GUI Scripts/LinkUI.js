@@ -78,6 +78,46 @@ function isLinked(b1:GameObject, b2:GameObject){
 	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
 }
 
+//Removes links between b1 and  b2
+function removeLink(b1: GameObject, b2:GameObject)
+{
+	var b1Index: int;
+	var b2Index: int;
+	for(var b: int = 0; b < buildings.length; b++)
+	{
+		if(buildings[b] == b1)
+			b1Index = b;
+		else if(buildings[b] == b2)
+			b2Index = b;
+	}
+	
+	if(linkReference[b1Index, b2Index])
+		linkReference[b1Index, b2Index] = false;
+	if(linkReference[b2Index, b1Index]) 
+		linkReference[b2Index, b1Index] = false;
+	
+	
+	// Destroys LineRenderer within game object	 
+ 	for(var child:Transform in b1.transform)
+	{
+		if (child.name==b2.transform.position.ToString())
+		{
+			Destroy(child.gameObject.GetComponent(LineRenderer));			
+			break;
+		}
+	}
+	for(var child:Transform in b2.transform)
+	{
+		if (child.name==b1.transform.position.ToString())
+		{
+			Destroy(child.gameObject.GetComponent(LineRenderer));			
+			break;
+		}
+	}
+	
+	this.gameObject.GetComponent(DrawLinks).removeLink(b1Index, b2Index);
+}
+
 // This function is used to link buildings b1 and b2
 // An error message is printed if the buildings are already linked
 function linkBuildings(b1:GameObject, b2:GameObject){

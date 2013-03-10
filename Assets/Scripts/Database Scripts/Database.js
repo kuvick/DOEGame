@@ -35,6 +35,9 @@ static public var TILE_RANGE = 3;
 
 
 //Undo-related variables:
+static public var UndoStack : List.<UndoType>;
+	//List holding information pertaining to links. When they were created, and which building they are attached to.
+static public var linkList: List.<LinkTurnNode>;
 	// Keeps track of the moves and indexes of placed buildings so they can be removed:
 static private var previousBuildings = new Array();
 		//For use if we want to limit the number of undos:
@@ -67,6 +70,13 @@ enum ResourceType
 	Waste
 }
 
+enum UndoType
+{
+	Link = 0,
+	Add = 1,
+	Wait = 2
+}
+
 function Start()
 {
 	DontDestroyOnLoad (gameObject);	// So the Database will carry over to the score page
@@ -94,6 +104,8 @@ function Start()
 	grid = gridObject.GetComponent(HexagonGrid);
 	UnitManager.InitiateUnits();
 	intelSystem = gameObject.GetComponent(IntelSystem);
+	linkList = new List.<LinkTurnNode>();
+	UndoStack = new List.<UndoType>();
 }
 
 
@@ -191,6 +203,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		
 		cleanUpPreviousBuildings();
 		
+		UndoStack.Add(UndoType.Add);
 		intelSystem.addTurn();		// NEW: for the Intel System
 		
 		ModeController.setSelectedBuilding(temp.buildingPointer);
@@ -405,6 +418,18 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link buildings");
 		
+		//Stores links into list organized by when they were created	
+		var tempNode : LinkTurnNode = new LinkTurnNode();
+		tempNode.b1 = inputBuilding.buildingPointer;
+		tempNode.b1Coord = inputBuilding.coordinate;
+		tempNode.b2 = outputBuilding.buildingPointer;
+		tempNode.b2Coord = outputBuilding.coordinate;
+		tempNode.turnCreated = intelSystem.currentTurn + 1;
+		tempNode.type = resourceName;
+		linkList.Add(tempNode);
+		
+		UndoStack.Add(UndoType.Link);
+		
 		intelSystem.addTurn();		// NEW: Intel System
     }
     else
@@ -598,6 +623,17 @@ class BuildingOnGrid
 	var neededUpgrade : UpgradeType = UpgradeType.None;
 }
 
+
+class LinkTurnNode
+{
+	var b1: GameObject;
+	var b2: GameObject;
+	var b1Coord: Vector3 = new Vector3(0,0,0);
+	var b2Coord: Vector3 = new Vector3(0,0,0);;
+	var turnCreated: int;
+	var type: ResourceType;
+}
+
 // From Design Document, 3.3 Units
 enum UnitType
 {
@@ -663,49 +699,56 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 
 function undo(): boolean
 {
-
-	if ( previousBuildings.length > 0 )
+	if(intelSystem.currentTurn != 0)
 	{
-		var typeOfUndo = previousBuildings.Pop();
-	
-		if( typeOfUndo == "Link" )
+		switch(UndoStack[intelSystem.currentTurn - 1])
 		{
-			// resetting the output building:
-			var buildingIndex = previousBuildings.Pop();
-			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
-			
-			//resetting the input building:
-			buildingIndex = previousBuildings.Pop();
-			copyBuildingOnGrid(previousBuildings.Pop(), buildingsOnGrid[buildingIndex]);
-			BroadcastBuildingUpdate();
-			
-			return true;
-			
-		}		
-		else if( typeOfUndo == "Add")
-		{
-			//buildingPointer
-			var buildingID = previousBuildings.Pop();
-			var buildingToDelete : BuildingOnGrid = buildingsOnGrid[buildingID];
-			Destroy(buildingToDelete.buildingPointer);
-			buildingsOnGrid.Splice(buildingID, 1);
-			previousBuildings.Pop();
-			BroadcastBuildingUpdate();
-			
-			return true;
+			case UndoType.Link:
+				//Debug.Log("This is a Link Undo");
+				UndoLink();				
+				break;
+			case UndoType.Add:
+				//Debug.Log("This is a Add Undo");
+				break;
+			default:
+				break;
+		
 		}
-		else
-		{
-			return false;
-		}
-	
+//		Debug.Log("SIZE OF STACK: " + UndoStack.Count);
+		UndoStack.RemoveAt(UndoStack.Count - 1);
+		return true;
+				
 	}
 	else
-	{
+	{		
+		Debug.Log("You cannot undo any more!");
 		return false;
 	}
 
 }// end of undo()
+
+function UndoLink()
+{
+	var lastIndex : int = linkList.Count - 1;
+	
+	var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);			
+	linkUIRef.removeLink(linkList[lastIndex].b1, linkList[lastIndex].b2);										
+		
+	var b1Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b1Coord);
+	var b2Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b2Coord);
+	
+	b1Building.unallocatedInputs.Add(linkList[lastIndex].type);	
+	b2Building.unallocatedOutputs.Add(linkList[lastIndex].type);    
+	
+	b1Building.allocatedInputs.RemoveAt(b1Building.allocatedInputs.Count - 1);	
+	b2Building.allocatedOutputs.RemoveAt(b2Building.allocatedOutputs.Count - 1);
+	
+	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
+	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
+		
+	//Removes the latest link
+	linkList.RemoveAt(lastIndex);	
+}
 
 // Cleans up the array used to keep track of previous states
 // by removing the least recent change
