@@ -81,6 +81,10 @@ function isLinked(b1:GameObject, b2:GameObject){
 // This function is used to link buildings b1 and b2
 // An error message is printed if the buildings are already linked
 function linkBuildings(b1:GameObject, b2:GameObject){
+	if (!linkClear(b1.transform.position, b2.transform.position)){
+		Debug.Log("Link was not clear");
+		return;
+	} 
 
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
@@ -102,6 +106,15 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		linkReference[building1Index, building2Index] = true;
 	}
 	optionalOutputUsed = false;
+}
+
+// See if we can draw a line between the two points without hitting a barrier
+static function linkClear(point1 : Vector3, point2 : Vector3) : boolean{
+	var mask : int = Masks.BARRIER_MASK;
+	
+	var outHit : RaycastHit;
+	
+	return (!Physics.Linecast(point1, point2, outHit, mask));
 }
 
 //This function returns true if b2 is in b1's range
