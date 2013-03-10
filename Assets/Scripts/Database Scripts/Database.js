@@ -422,6 +422,120 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 
 }// End of linkBuildings
 
+public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedInIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean
+{
+	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
+	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
+	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuilding.inputLinkedTo[selectedInIndex]];
+	var hasResource = false;
+	
+	if (usedOptionalOutput)
+	{
+		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
+			&& inputBuilding.allocatedInputs[selectedInIndex] == resourceName)
+			hasResource = true;
+	}
+	else
+	{
+		if (inputBuilding.allocatedInputs[selectedInIndex] == resourceName && outputBuilding.unallocatedOutputs.Contains(resourceName))
+			hasResource = true;
+	}
+	
+	if (hasResource)
+	{
+		if(usedOptionalOutput)
+    	{
+		    outputBuilding.optionalOutputAllocated = true;
+    	}
+    	else
+    	{
+		    outputBuilding.allocatedOutputs.Add(resourceName);
+		    outputBuilding.unallocatedOutputs.Remove(resourceName);
+	    }
+	    
+	    var oldOutIndex : int = oldOutputBuilding.outputLinkedTo.IndexOf(inputBuildingIndex);
+	    oldOutputBuilding.unallocatedOutputs.Add(resourceName);
+	    oldOutputBuilding.allocatedOutputs.RemoveAt(oldOutIndex);
+	    oldOutputBuilding.outputLinkedTo.RemoveAt(oldOutIndex);
+	    
+		inputBuilding.inputLinkedTo[selectedInIndex] = outputBuildingIndex;
+		outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
+		
+		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
+		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		
+		Debug.Log("End of link overload");
+		intelSystem.addTurn();
+	}
+	
+	return hasResource;
+}
+
+public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedOutIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean
+{
+	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
+	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
+	var oldInputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuilding.outputLinkedTo[selectedOutIndex]];
+	var hasResource = false;
+	
+	if (usedOptionalOutput)
+	{
+		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
+			&& inputBuilding.unallocatedInputs.Contains(resourceName))
+			hasResource = true;
+	}
+	else
+	{
+		if (inputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.allocatedOutputs[selectedOutIndex] == resourceName)
+			hasResource = true;
+	}
+	
+	if (hasResource)
+	{
+		/*if(usedOptionalOutput)
+    	{
+		    outputBuilding.optionalOutputAllocated = true;
+    	}
+    	else
+    	{
+		    outputBuilding.allocatedOutputs.Add(resourceName);
+		    outputBuilding.unallocatedOutputs.Remove(resourceName);
+	    }*/
+	    inputBuilding.allocatedInputs.Add(resourceName);
+		inputBuilding.unallocatedInputs.Remove(resourceName);
+	    
+	    var oldInIndex : int = oldInputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex);
+	    oldInputBuilding.unallocatedInputs.Add(resourceName);
+	    oldInputBuilding.allocatedInputs.RemoveAt(oldInIndex);
+	    oldInputBuilding.inputLinkedTo.RemoveAt(oldInIndex);
+	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex]);
+	    
+		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex;
+		inputBuilding.inputLinkedTo.Add(outputBuildingIndex);
+		
+		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
+		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		
+		Debug.Log("End of link chain break");
+		intelSystem.addTurn();
+	}
+	
+	return hasResource;
+}
+
+private function DeactivateChain (buildingIndex : int)
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	toggleActiveness(buildingIndex);
+	for (var i : int in building.outputLinkedTo)
+	{
+		Debug.Log("Deactivate " + i);
+		DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
+		DeactivateChain(i);
+	}
+	Debug.Log("Deactivate Chain");
+}
+
 /*
 
 activateBuilding, when given an index, checks to make sure
@@ -578,6 +692,7 @@ class BuildingOnGrid
 	// will contain an array of the buildings it is connected to, by index of the building in the array
 	var inputLinkedTo : List.<int> = new List.<int>();
 	var outputLinkedTo : List.<int> = new List.<int>();
+	var optionalOutputLinkedTo : int = -1;
 	
 	var requisitionCost : int;
 	

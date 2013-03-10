@@ -13,7 +13,7 @@
 private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
-private var selectedOutputIndex : int;
+private var selectedResource : ResourceType;
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
 private var ioButtonWidth = 35;
@@ -41,7 +41,11 @@ private var selectedGridBuilding:BuildingOnGrid;
 private var selectedBuildingOutputs:List.<ResourceType>;
 private var buildingInputNum:int;
 private var buildingOutputNum:int;
+private var allocatedInSelected : boolean = false;
+private var allocatedOutSelected : boolean = false;
 private var optionalOutputUsed : boolean = false;
+private var selectedInIndex : int;
+private var selectedOutIndex : int;
 private var outputCount:int;
 private var inputCount:int;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
@@ -96,12 +100,25 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
 	
-	if (optionalOutputUsed)
+	/*if (optionalOutputUsed)
 		resource = linkBuilding.optionalOutput;
 	else
-		resource = linkBuilding.unallocatedOutputs[selectedOutputIndex];
+		resource = linkBuilding.unallocatedOutputs[selectedOutputIndex];*/
 	Debug.Log("resource: " + resource.ToString());
-	if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, resource, optionalOutputUsed) && (!isLinked(b1, b2)))
+	if (allocatedOutSelected && GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed))
+	{
+		linkReference[building1Index, building2Index] = true;
+		var oldInputBuilding : GameObject = Database.getBuildingAtIndex(linkBuilding.outputLinkedTo[selectedOutIndex]);
+		//RemoveLink(b2, oldInputBuilding); // pending Chris's addition of RemoveLink
+	}
+	else if (allocatedInSelected && GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed))
+	{
+		linkReference[building1Index, building2Index] = true;
+		var inputGridBuilding : BuildingOnGrid = Database.getBuildingOnGrid(b1.transform.position);
+		var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(inputGridBuilding.inputLinkedTo[selectedInIndex]);
+		//RemoveLink(b1, oldOutputBuilding); // pending Chris's addition of RemoveLink
+	}
+	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
 	}
@@ -190,8 +207,8 @@ function OnGUI()
 				
 				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
 				// iterate through input arrays and draw appropriate input buttons
-				DrawResourceButtons(unallocatedRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, true);
-				DrawResourceButtons(allocatedRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
+				DrawInputButtons(unallocatedRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
+				DrawInputButtons(allocatedRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
 			}
 			
 			//Instructions for output button
@@ -199,8 +216,8 @@ function OnGUI()
 			{	
 				ModeController.setCurrentMode(GameState.LINK);
 
-				unallocatedRect = DrawResourceButtons(unallocatedRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
-				allocatedRect = DrawResourceButtons(allocatedRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, false);
+				unallocatedRect = DrawOutputButtons(unallocatedRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
+				allocatedRect = DrawOutputButtons(allocatedRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
 				
 				if (gridBuilding.optionalOutput == ResourceType.None)
 					continue;
@@ -221,6 +238,7 @@ function OnGUI()
 				{
 					outputBuilding = building;
 					optionalOutputUsed = true;
+					selectedResource = selectedGridBuilding.optionalOutput;
 				}
 				GUI.enabled = true;
 				GUILayout.EndArea();
@@ -250,48 +268,73 @@ function OnGUI()
 }
 
 // iterates through the given resource list and draws the appropriate input or output buttons
-function DrawResourceButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
-								building : GameObject, isInput : boolean) : Rect
+function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
+								building : GameObject, isAllocated : boolean) : Rect
 {
 	for(var i = 0; i < resourceList.Count; i++)
 	{
+		// increment position offset
 		if(i > 0)
 			buttonRect.y += ioButtonHeight + 3;
-					
-		if (isInput)
+		GUI.enabled = false;			
+		// check if the selected building has a matching output, if so make input button active
+		if (selectedBuildingOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i]))
 		{
-			GUI.enabled = false;
-							
-			// check if the selected building has a matching output, if so make input button active
-			if (selectedBuildingOutputs.Contains(resourceList[i]))
+			GUI.enabled = true;
+		}
+		// if selected building's optional outputs are active, check if it has a matching output
+		// if so make input button active
+		if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
+		{
+			if (resourceList[i] == selectedGridBuilding.optionalOutput)
 			{
 				GUI.enabled = true;
-			}
-			// if selected building's optional outputs are active, check if it has a matching output
-			// if so make input button active
-			if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
-			{
-				if (resourceList[i] == selectedGridBuilding.optionalOutput)
-				{
-					GUI.enabled = true;
-				}
 			}
 		}
 		GUILayout.BeginArea(buttonRect);
 		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
 		{
-			if (isInput)
-				inputBuilding = building;
-			else
-			{
-				outputBuilding = building;
-				selectedOutputIndex = i;
-			}
+			inputBuilding = building;
+			selectedInIndex = i;
+			allocatedInSelected = isAllocated;
 		}
 		GUILayout.EndArea();
 		GUI.enabled = true;
 	}
 	return buttonRect;
+}
+
+function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
+								building : GameObject, isAllocated : boolean) : Rect
+{
+	for(var i = 0; i < resourceList.Count; i++)
+	{
+		// increment position offset
+		if(i > 0)
+			buttonRect.y += ioButtonHeight + 3;
+		GUI.enabled = false;		
+		
+		// output buttons only active if building is active
+		if (selectedGridBuilding.isActive)
+			GUI.enabled = true;
+		GUILayout.BeginArea(buttonRect);
+		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
+		{
+			outputBuilding = building;
+			selectedResource = resourceList[i];
+			selectedOutIndex = i;
+			allocatedOutSelected = isAllocated;
+		}
+		GUILayout.EndArea();
+		GUI.enabled = true;
+	}
+	return buttonRect;
+}
+
+private function ResetLinkVariables()
+{
+	inputBuilding = null;
+	outputBuilding = null;
 }
 
 function Update() 
@@ -301,6 +344,8 @@ function Update()
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
+	/*if (selectedBuilding != outputBuilding)
+		ResetLinkVariables();*/
 	
 	if(inputBuilding != null && outputBuilding != null)
 	{
