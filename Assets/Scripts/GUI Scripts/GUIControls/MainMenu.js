@@ -48,13 +48,14 @@ public class MainMenu extends GUIControl
 	
 	public function Start () 
 	{
-		super.Start();
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		super.Start();		
 	}
 	
 	public function Initialize()
 	{	
 		super.Initialize();
+		
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
