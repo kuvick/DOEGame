@@ -457,7 +457,94 @@ public class BuildingMenu extends GUIControl
 			leftScrollVisible = false;
 			rightScrollVisible = false;
 			targetPage = 0;
-		}		
+		}
+		
+		resetResourceIcons();
 	}
+	
+	// Recalculates all of the resource icons to their proper positions
+	// to be used when a building is removed from the list.
+	private function resetResourceIcons()
+	{
+		var sumWidth:int;
+		var buildingIcon:Rect;
+		var counter:int = 0;
+		var currentPageX:float = 0;
+		var currentUpperRowX:float = 0;
+		var currentLowerRowX:float = 0;
+		
+		var resourceIcon:Rect;
+		resourceIconList = new List.<Rect>();	
+		sumWidth = buildingIconHeight + buildingIconPadding;
+		
+		var buildingNum : int = 0;
+		
+		// Calculate the rect dimensions of every page of building icons
+		// Each page consists of up to six icons split into two rows of three
+		for (var i:int = 0; i < numPages; i++)
+		{	
+			currentPageX = i * screenWidth;
+			// Calculate the first row of building icons
+			for (var j:int = 0; j < 3; j++)
+			{
+				counter++;
+				if (counter > buildingChoices.Length)
+				{
+					break;
+				}
+				currentUpperRowX = j * sumWidth;
+				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
+				
+				//Resource Icon Input Display:
+				var l : int = 0;
+				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					l++;
+				}
+				//Resource Icon Output Display:
+				l = 0;
+				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					l++;
+				}				
+				buildingNum++;
+			}
+			
+			// Calculate the second row of building icons
+			var lowerRowOffset = buildingClipWidth - (3 * buildingIconHeight) - (2 * buildingIconPadding);
+			for (var k:int = 0; k < 3; k++)
+			{
+				counter++;
+				if (counter > buildingChoices.Length)
+				{
+					break;
+				}
+				currentLowerRowX = k * sumWidth + lowerRowOffset;
+				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
+				
+				//Resource Icon Input Display
+				var m : int = 0;
+				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					m++;
+				}
+				//Resource Icon Output Display
+				m = 0;
+				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				{
+					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIconList.Add(resourceIcon);
+					m++;
+				}
+				buildingNum++;
+			}
+		}		
+	}	
 
 }
