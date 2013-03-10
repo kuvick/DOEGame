@@ -27,8 +27,9 @@ public class NarrativeUI extends GUIControl
 	private var slideRatio:float = 0.5625;
 	
 	private var topSlide: float;
+	private var bottomSlide: float;
 	
-	private var currentSlide;
+	private var currentSlide: float;
 	
 
 	public function Start () 
