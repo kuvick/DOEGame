@@ -447,13 +447,16 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 
 }// End of linkBuildings
 
-public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedInIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean
+// Used for the overload type of link reallocation.
+public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedInIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : int
 {
-	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
-	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
-	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuilding.inputLinkedTo[selectedInIndex]];
+	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
+	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
+	var oldOutputBuildingIndex : int = inputBuilding.inputLinkedTo[selectedInIndex]; // save the old output building index
+	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[oldOutputBuildingIndex]; // get the old output building on grid
 	var hasResource = false;
 	
+	// Check whether the resource is valid
 	if (usedOptionalOutput)
 	{
 		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
@@ -466,25 +469,29 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 			hasResource = true;
 	}
 	
+	// if resource is valid
 	if (hasResource)
 	{
 		if(usedOptionalOutput)
     	{
 		    outputBuilding.optionalOutputAllocated = true;
     	}
+    	// move the resource from the output building's unallocated list to allocated
     	else
     	{
 		    outputBuilding.allocatedOutputs.Add(resourceName);
 		    outputBuilding.unallocatedOutputs.Remove(resourceName);
 	    }
 	    
+	    // swap the resource from the allocated list back into the unallocated list of the old output building
+	    // and remove the link
 	    var oldOutIndex : int = oldOutputBuilding.outputLinkedTo.IndexOf(inputBuildingIndex);
 	    oldOutputBuilding.unallocatedOutputs.Add(resourceName);
 	    oldOutputBuilding.allocatedOutputs.RemoveAt(oldOutIndex);
 	    oldOutputBuilding.outputLinkedTo.RemoveAt(oldOutIndex);
 	    
-		inputBuilding.inputLinkedTo[selectedInIndex] = outputBuildingIndex;
-		outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
+		inputBuilding.inputLinkedTo[selectedInIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
+		outputBuilding.outputLinkedTo.Add(inputBuildingIndex); // add the link to the output building
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
@@ -493,16 +500,21 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		intelSystem.addTurn();
 	}
 	
-	return hasResource;
+	if (hasResource)
+		return oldOutputBuildingIndex;//hasResource;
+	return -1;
 }
 
-public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedOutIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean
+// Used for the chain break type of link reallocation
+public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedOutIndex : int, resourceName:ResourceType, usedOptionalOutput : boolean) : int
 {
-	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
-	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
-	var oldInputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuilding.outputLinkedTo[selectedOutIndex]];
+	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
+	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
+	var oldInputBuildingIndex = outputBuilding.outputLinkedTo[selectedOutIndex]; // save the old input building index
+	var oldInputBuilding : BuildingOnGrid = buildingsOnGrid[oldInputBuildingIndex]; // get the old input building on grid
 	var hasResource = false;
 	
+	// check whether resource is valid
 	if (usedOptionalOutput)
 	{
 		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
@@ -515,28 +527,23 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			hasResource = true;
 	}
 	
+	// if resource is valid
 	if (hasResource)
 	{
-		/*if(usedOptionalOutput)
-    	{
-		    outputBuilding.optionalOutputAllocated = true;
-    	}
-    	else
-    	{
-		    outputBuilding.allocatedOutputs.Add(resourceName);
-		    outputBuilding.unallocatedOutputs.Remove(resourceName);
-	    }*/
+		// move the resource from the inputs unallocated list to allocated list
 	    inputBuilding.allocatedInputs.Add(resourceName);
 		inputBuilding.unallocatedInputs.Remove(resourceName);
 	    
+	    // swap the resource from the allocated list back into the unallocated list of the old input building
+	    // and remove the link.  Deactivate the chain of all output linked buildings
 	    var oldInIndex : int = oldInputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex);
 	    oldInputBuilding.unallocatedInputs.Add(resourceName);
 	    oldInputBuilding.allocatedInputs.RemoveAt(oldInIndex);
 	    oldInputBuilding.inputLinkedTo.RemoveAt(oldInIndex);
 	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex]);
 	    
-		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex;
-		inputBuilding.inputLinkedTo.Add(outputBuildingIndex);
+		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
+		inputBuilding.inputLinkedTo.Add(outputBuildingIndex); // add the link to the input building
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
@@ -545,16 +552,21 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		intelSystem.addTurn();
 	}
 	
-	return hasResource;
+	if (hasResource)
+		return oldInputBuildingIndex;//hasResource;
+	return -1;
 }
 
+// Recursively deactivates all of the buildings in the chain of output links
 private function DeactivateChain (buildingIndex : int)
 {
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
-	toggleActiveness(buildingIndex);
+	// if the building is active, deactivate it
+	if (building.isActive)
+		toggleActiveness(buildingIndex);
+	// change all output links' colors to reflect deactivation
 	for (var i : int in building.outputLinkedTo)
 	{
-		Debug.Log("Deactivate " + i);
 		DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
 		DeactivateChain(i);
 	}

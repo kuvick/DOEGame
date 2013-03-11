@@ -140,24 +140,29 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
 	
-	/*if (optionalOutputUsed)
-		resource = linkBuilding.optionalOutput;
-	else
-		resource = linkBuilding.unallocatedOutputs[selectedOutputIndex];*/
-	Debug.Log("resource: " + resource.ToString());
-	if (allocatedOutSelected && GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed))
+	// if an allocated output was selected, perform a chain break link reallocation
+	if (allocatedOutSelected)
 	{
-		linkReference[building1Index, building2Index] = true;
-		var oldInputBuilding : GameObject = Database.getBuildingAtIndex(linkBuilding.outputLinkedTo[selectedOutIndex]);
-		//RemoveLink(b2, oldInputBuilding); // pending Chris's addition of RemoveLink
+		var oldInputBuildingIndex : int = GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed);
+		if (oldInputBuildingIndex > -1)
+		{
+			linkReference[building1Index, building2Index] = true;
+			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
+			removeLink(b2, oldInputBuilding);
+		}
 	}
-	else if (allocatedInSelected && GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed))
+	// if an allocated input was selected, perform an overload link reallocation
+	else if (allocatedInSelected)
 	{
-		linkReference[building1Index, building2Index] = true;
-		var inputGridBuilding : BuildingOnGrid = Database.getBuildingOnGrid(b1.transform.position);
-		var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(inputGridBuilding.inputLinkedTo[selectedInIndex]);
-		//RemoveLink(b1, oldOutputBuilding); // pending Chris's addition of RemoveLink
+		var oldOutputBuildingIndex : int = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed);
+		if (oldOutputBuildingIndex > -1)
+		{
+			linkReference[building1Index, building2Index] = true;
+			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
+			removeLink(b1, oldOutputBuilding);
+		}
 	}
+	// otherwise, perform a normal building link
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
