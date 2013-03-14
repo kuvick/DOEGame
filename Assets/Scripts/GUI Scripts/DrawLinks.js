@@ -19,6 +19,8 @@ private var b1Position:Vector3;
 private var b2Position:Vector3;			//These hold position of linked buildings
 var color1:Color = Color.blue;		
 var color2:Color = Color.blue;			//Color of link line
+public var linkTexture : Texture;
+public var linkMaterial : Material;
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
@@ -85,8 +87,9 @@ function Update(){
 						!linksDrawn[b1, b2]){
 						var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
 						lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+						//lineRenderer.material.mainTexture = linkTexture;
 						lineRenderer.SetColors(color1, color2);
-						lineRenderer.SetWidth(10, 10);
+						lineRenderer.SetWidth(20, 20);
 						lineRenderer.SetPosition(0, b1Position);
 						lineRenderer.SetPosition(1, b2Position);
 						linksDrawn[b1, b2] = true;

@@ -35,6 +35,7 @@ function Initiate() {
 	var buildingCoord : Vector3 = gameObject.transform.position;
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
+	SetPosition();
 	Debug.Log("Building is: " + currentBuilding.buildingName);
 }
 
@@ -181,6 +182,8 @@ function DoAction () {
 	foundPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
 	SetPosition(); // move unit to its new position
+	currentBuilding.unit = type;
+	previousBuilding.unit = UnitType.None;
 }
 
 function UndoAction () {
@@ -193,8 +196,6 @@ private function SetPosition() {
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	worldCoord += unitOffset;
 	gameObject.transform.position = worldCoord;
-	currentBuilding.unit = type;
-	previousBuilding.unit = UnitType.None;
 	Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
