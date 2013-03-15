@@ -488,6 +488,9 @@ public class BuildingMenu extends GUIControl
 			rightScrollVisible = false;
 			targetPage = 0;
 		}
+		else{
+			rightScrollVisible = true;
+		}
 		
 		resetResourceIcons();
 	}
