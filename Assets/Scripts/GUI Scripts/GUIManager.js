@@ -283,8 +283,9 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.UNDO:
 			if(database.undo())
 			{
-				intelSystem.subtractTurn();
-			}
+								
+				intelSystem.subtractTurn();				
+			}			
 			ClearControls();
 			activeControls.Add(mainMenu);
 			activeControls.Add(marquee);

@@ -36,8 +36,11 @@ static public var TILE_RANGE = 3;
 
 //Undo-related variables:
 static public var UndoStack : List.<UndoType>;
-	//List holding information pertaining to links. When they were created, and which building they are attached to.
+//List holding information pertaining to links. When they were created, and which building they are attached to.
 static public var linkList: List.<LinkTurnNode>;
+//List holding information pertaining to adds. A reference to the building site, as well as the object that replaced it.
+static public var addList: List.<AddTurnNode>;
+
 	// Keeps track of the moves and indexes of placed buildings so they can be removed:
 static private var previousBuildings = new Array();
 		//For use if we want to limit the number of undos:
@@ -105,6 +108,7 @@ function Start()
 	UnitManager.InitiateUnits();
 	intelSystem = gameObject.GetComponent(IntelSystem);
 	linkList = new List.<LinkTurnNode>();
+	addList = new List.<AddTurnNode>();
 	UndoStack = new List.<UndoType>();
 }
 
@@ -119,11 +123,13 @@ This will place the building at the building site's index
 static public function addBuildingToGrid(buildingObject: GameObject, coord : Vector3)
 {
 	var temp = new BuildingOnGrid();
+	/*
 	if(ModeController.getCurrentMode() == GameState.LINK)
 	{
 		ModeController.selectedBuilding = null;
 	    return;
 	}
+	*/
 	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
@@ -156,11 +162,13 @@ and the tile type.
 static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, hasEvent:boolean) : boolean
 {
 	var temp = new BuildingOnGrid();
+	/*
 	if(ModeController.getCurrentMode() == GameState.LINK)
 	{
 		ModeController.selectedBuilding = null;
 	    return;
 	}
+	*/
 
 	Debug.Log("adding buidling to grid");
 	for (var defaultBuilding : Building in buildings)
@@ -202,9 +210,8 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 		numberOfUndos++;
 		
 		cleanUpPreviousBuildings();
-		
-		UndoStack.Add(UndoType.Add);
-		intelSystem.addTurn();		// NEW: for the Intel System
+				
+		//intelSystem.addTurn();		// NEW: for the Intel System
 		
 		ModeController.setSelectedBuilding(temp.buildingPointer);
 		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
@@ -761,6 +768,12 @@ class LinkTurnNode
 	var type: ResourceType;
 }
 
+class AddTurnNode
+{
+	var buildingSite: BuildingOnGrid;
+	var worldCoordinates: Vector3;
+}
+
 // From Design Document, 3.3 Units
 enum UnitType
 {
@@ -836,12 +849,12 @@ function undo(): boolean
 				break;
 			case UndoType.Add:
 				//Debug.Log("This is a Add Undo");
+				UndoAdd();
 				break;
 			default:
 				break;
 		
-		}
-//		Debug.Log("SIZE OF STACK: " + UndoStack.Count);
+		}		
 		UndoStack.RemoveAt(UndoStack.Count - 1);
 		return true;
 				
@@ -875,6 +888,37 @@ function UndoLink()
 		
 	//Removes the latest link
 	linkList.RemoveAt(lastIndex);	
+}
+
+function UndoAdd()
+{
+	var lastIndex : int = addList.Count - 1;
+	var buildingIndex : int = findBuildingIndex(getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate));		
+	var building : GameObject = getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate).buildingPointer;
+	GameObject.DestroyImmediate(building);
+	// Remove building from BuildingsOnGrid
+	buildingsOnGrid.Splice(buildingIndex, 1);	
+	
+	// Add BuildingSite to BuildingsOnGrid
+	addBuildingSite(addList[lastIndex].buildingSite.coordinate);		
+	
+	//TODO: Add Element back to BuildingMenu.BuildingChoices
+	
+	//Remove element from the list
+	var buildingMenuRef : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+	buildingMenuRef.AddBuildingAfterUndo();
+	addList.RemoveAt(lastIndex);	
+}
+
+//Adds an element to the AddNodeList
+static public function AddToAddList(coordinate: Vector3)
+{
+	var tempNode = new AddTurnNode();	
+	tempNode.buildingSite = getBuildingOnGrid(coordinate);		
+	tempNode.worldCoordinates = tempNode.buildingSite.buildingPointer.transform.position;
+	addList.Add(tempNode);
+	UndoStack.Add(UndoType.Add);
+	intelSystem.addTurn();
 }
 
 // Cleans up the array used to keep track of previous states
@@ -981,3 +1025,21 @@ static public function deleteBuildingSite( coordinate : Vector3 )
 		Debug.Log("Error, building not removed...");
 	}
 }// end of deleteBuildingSite()
+
+// This function will properly add a building site to the database
+static public function addBuildingSite( coordinate : Vector3)
+{
+	var index : int = findBuildingIndex(coordinate);
+	var addIndex : int = addList.Count - 1;		
+	var tileType : String = addList[addIndex].buildingSite.tileType;	
+	var isPreplaced : boolean = false;
+	var idea : String = addList[addIndex].buildingSite.idea;
+	var hasEvent : boolean = addList[addIndex].buildingSite.hasEvent;
+	
+	var building : GameObject = Instantiate(Resources.Load("BuildingSite"));	
+	building.transform.position = addList[addIndex].worldCoordinates;
+	building.name = "BuildingSite";
+	ModeController.setSelectedBuilding(building);
+	addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
+	BroadcastBuildingUpdate();
+} // End of addBuildingSite()

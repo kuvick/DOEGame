@@ -93,6 +93,7 @@ public class BuildingMenu extends GUIControl
 	}
 	
 	public var buildingChoices : BuildingSiteChoice[];
+	private var buildingsChosen : List.<BuildingSiteChoice>;
 	
 	// Used for placing buildings:
 	private var gridObject : GameObject;
@@ -152,6 +153,7 @@ public class BuildingMenu extends GUIControl
 		rectList.Add(background);
 		
 		LoadBuildingList();
+		buildingsChosen = new List.<BuildingSiteChoice>();
 	}
 	
 	public function Render()
@@ -227,7 +229,7 @@ public class BuildingMenu extends GUIControl
 					for(var output : ResourceType in buildingChoices[i].data.unallocatedOutputs)
 					{
 						if(output != ResourceType.None)
-						{
+						{							
 							GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[output - 1]);
 						}
 						else
@@ -418,7 +420,8 @@ public class BuildingMenu extends GUIControl
 			
 			build = Instantiate(buildingChoices[index].building, position, Quaternion.identity);
 			
-			
+			Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
+						
 			Database.deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
 			GameObject.DestroyImmediate(selectedBuildingSite);
 			
@@ -435,6 +438,7 @@ public class BuildingMenu extends GUIControl
 	
 	private function RemoveBuildingFromList(index : int)
 	{
+		buildingsChosen.Add(buildingChoices[index]);
 		var tempBuildingChoices : BuildingSiteChoice[] = new BuildingSiteChoice[buildingChoices.length - 1];
 		
 		var i : int = 0;
@@ -448,6 +452,32 @@ public class BuildingMenu extends GUIControl
 			}
 		}
 		
+		buildingChoices = tempBuildingChoices;
+		
+		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);	
+		Debug.Log(numPages + " pages");
+		if (numPages <= 1)
+		{
+			leftScrollVisible = false;
+			rightScrollVisible = false;
+			targetPage = 0;
+		}
+		
+		resetResourceIcons();
+	}
+	
+	//Adds the most recent building to be removed
+	public function AddBuildingAfterUndo()
+	{
+		var tempChoice : BuildingSiteChoice = buildingsChosen[buildingsChosen.Count - 1];
+		buildingsChosen.RemoveAt(buildingsChosen.Count - 1);
+		var tempBuildingChoices : BuildingSiteChoice[] = new BuildingSiteChoice[buildingChoices.length + 1];
+				
+		for(var i = 0; i < buildingChoices.length; i++)
+		{
+				tempBuildingChoices[i] = buildingChoices[i];				
+		}
+		tempBuildingChoices[tempBuildingChoices.length - 1] = tempChoice;
 		buildingChoices = tempBuildingChoices;
 		
 		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);	

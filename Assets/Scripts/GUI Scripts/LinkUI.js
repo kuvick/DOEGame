@@ -405,6 +405,8 @@ function Update()
 
 }
 
+
+
 static function MouseOverLinkGUI():boolean{
 	return mouseOverGUI;
 }
