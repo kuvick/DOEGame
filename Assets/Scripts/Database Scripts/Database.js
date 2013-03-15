@@ -445,10 +445,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     }
     
     // If the building is activated and has an event, sends a message to the intel system
-	if(activateBuilding( inputBuildingIndex ) && inputBuilding.hasEvent)
+	/*if(activateBuilding( inputBuildingIndex ) && inputBuilding.hasEvent)
     {
     	intelSystem.buildingActivated(inputBuilding.buildingPointer);
-    }
+    }*/
     
     return hasResource;
 
@@ -502,7 +502,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-		
+		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link overload");
 		intelSystem.addTurn();
 	}
@@ -554,7 +554,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-		
+		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link chain break");
 		intelSystem.addTurn();
 	}
@@ -598,8 +598,11 @@ public function activateBuilding( buildingIndex:int ): boolean
 	}
     
     building.isActive = canActivate;
+    if (building.isActive && building.hasEvent)
+    	intelSystem.buildingActivated(building.buildingPointer);
     buildingsOnGrid[buildingIndex] = building;
-    
+    for(var outLink : int in building.outputLinkedTo)
+    	activateBuilding(outLink);
     return canActivate;
 	
 }
