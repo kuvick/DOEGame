@@ -203,6 +203,14 @@ public function OnGUI()
 	{
 		activeControls[i].Render();
 	}
+	
+	if(!activeControls.Contains(pauseMenu)
+		&& !activeControls.Contains(intelMenu)
+		&& !activeControls.Contains(buildingMenu)
+		&& activeControls.Contains(mainMenu))
+	{
+		intelSystem.renderEvents();
+	}
 }
 
 /*

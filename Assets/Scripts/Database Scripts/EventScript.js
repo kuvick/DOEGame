@@ -55,24 +55,28 @@ function Update () {
 						upgradeWidth);
 	
 }
-
+/*
 function OnGUI()
 {
 	if(showUpgrade)
 	{
-		Draw_Upgrade();
+		//Draw_Upgrade();
 	}
 }
+*/
 
 //Draws the Upgrade Image to the Screen
-private function Draw_Upgrade()
+public function Draw_Upgrade()
 {		
-	GUI.color = colorOpacity;
-		GUI.DrawTexture(upgradeBounds, event.icon);	
-	GUI.color = Color(1.0, 1.0, 1.0, 1.0);
-	
-	var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); 
-	GUI.Label(tempRect, event.time.ToString());
+	if(showUpgrade)
+	{
+		GUI.color = colorOpacity;
+			GUI.DrawTexture(upgradeBounds, event.icon);	
+		GUI.color = Color(1.0, 1.0, 1.0, 1.0);
+		
+		var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); 
+		GUI.Label(tempRect, event.time.ToString());
+	}
 }
 
 //Changes the current opacity of the upgrade icon.

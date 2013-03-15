@@ -310,3 +310,11 @@ public function getEventList():List.<BuildingEvent>
 	}	
 	return eventList;
 }
+
+public function renderEvents()
+{
+	for(var script : EventScript in events)
+	{
+		script.Draw_Upgrade();
+	}
+}
