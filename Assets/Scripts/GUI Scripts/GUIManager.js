@@ -55,6 +55,8 @@ static var buildingMenuOpen;
 private var intelSystem : IntelSystem;
 private var database: Database;
 
+public var thisIsALevel : boolean = false;
+
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
 	and only the first initialization of it will remain.
@@ -156,14 +158,7 @@ public function Start ()
 		case "LoadingScreen":
 			activeControls.Add(loading);
 			loading.DelayLoad(4);
-			break;
-			
-		case "DOEGame":
-			//activeControls.Add(buildingMenu);
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
-			break;
-		
+			break;		
 		// temporary for unit testing purposes	
 		case "UnitTest":
 			//activeControls.Add(buildingMenu);
@@ -171,6 +166,13 @@ public function Start ()
 			activeControls.Add(marquee);
 			break;
 	}
+	
+	if(thisIsALevel)
+	{
+		activeControls.Add(mainMenu);
+		activeControls.Add(marquee);
+	}
+	
 }
 
 /*

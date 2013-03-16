@@ -10,16 +10,30 @@ Author: Francis Yuan
 public class LevelNode
 {
 	public var texture:Texture;
-	public var name:String = "";
+	public var displayName:String = "";
+	public var sceneName:String = "";
 	public var difficulty:int = 0;
-	public var score:int = 0;
+	private var score:int = 0;
 	
-	public function LevelNode(tex:Texture, lvlName:String, dif:int, bestScore:int)
+	public function LevelNode(tex:Texture, dispName: String, lvlName:String, dif:int, bestScore:int)
 	{
 		texture = tex;
-		name = lvlName;
+		displayName = dispName;
+		sceneName = lvlName;
 		difficulty = dif;
 		score = bestScore;
+	}
+	
+	// Eventually need to find way for saving scores and then calling them back up here
+	// and it will use these functions to get the score
+	public function setScore(num:int)
+	{
+		score = num;
+	}
+	
+	public function getScore():int
+	{
+		return score;
 	}
 }
 
@@ -93,6 +107,8 @@ public class LevelSelectMenu extends GUIControl
 	private var leftScrollVisible:boolean = false;
 	private var rightScrollVisible:boolean = false;
 	
+	public var levels : LevelNode[];
+	
 	public function Start () 
 	{
 		super.Start();
@@ -127,13 +143,17 @@ public class LevelSelectMenu extends GUIControl
 		backButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - backButtonHeight, backButtonHeight, backButtonHeight);	
 		
 		// For testing
+		/*
 		testLevels = new List.<LevelNode>();
 		testLevels.Add(new LevelNode(levelNodeTexture, "\nIntro", 1, 0));
 		testLevels.Add(new LevelNode(levelNodeTexture, "\nEast Coast Surge", 2, 0));
 		testLevels.Add(new LevelNode(levelNodeTexture, "\nHurricanes", 3, 0));
 		testLevels.Add(new LevelNode(levelNodeTexture, "\nWe Ran Out of Oil", 5, 0));
-		testLevels.Add(new LevelNode(levelNodeTexture, "\nMr. Fusion", 6, 0));
-		testLevels.Add(new LevelNode(levelNodeTexture, "\nInvaders from\nOuter Space", 10, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nIntro", 1, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nEast Coast Surge", 2, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nHurricanes", 3, 0));
+		testLevels.Add(new LevelNode(levelNodeTexture, "\nWe Ran Out of Oil", 5, 0));
+		*/
 		
 		LoadLevelList();
 	}
@@ -189,8 +209,11 @@ public class LevelSelectMenu extends GUIControl
 			GUI.BeginGroup(levelGroup);
 				for (var i:int = 0; i < levelList.Count; i++)
 				{
-					GUI.DrawTexture(levelList[i], testLevels[i].texture);
-					GUI.Button(levelList[i], testLevels[i].name + "\n\nDifficulty: " + testLevels[i].difficulty + "\nScore: " + testLevels[i].score);
+					GUI.DrawTexture(levelList[i], levels[i].texture);
+					if(GUI.Button(levelList[i], levels[i].displayName + "\n\nDifficulty: " + levels[i].difficulty + "\nScore: " + levels[i].getScore()))
+					{
+						Application.LoadLevel (levels[i].sceneName);
+					}
 				}
 			GUI.EndGroup();
 		GUI.EndGroup();
@@ -239,7 +262,7 @@ public class LevelSelectMenu extends GUIControl
 		var currentRowY:float = 0;
 		levelList = new List.<Rect>();
 		
-		numLevels = testLevels.Count;	
+		numLevels = levels.Length;
 		if (numLevels > 3)
 		{
 			rightScrollVisible = true;
@@ -275,12 +298,19 @@ public class LevelSelectMenu extends GUIControl
 		isScrolling = true;
 		targetLevel = Mathf.Clamp(targetLevel + direction, 0, numLevels);
 		
-		if (targetLevel == 0)
+		if(numLevels <= 3)
 		{
 			leftScrollVisible = false;
+			rightScrollVisible = false;
+		}
+		else if (targetLevel == 0)
+		{
+			leftScrollVisible = false;
+			rightScrollVisible = true;
 		}
 		else if (targetLevel + 3 >= numLevels)
 		{
+			leftScrollVisible = true;
 			rightScrollVisible = false;
 		}
 		else
