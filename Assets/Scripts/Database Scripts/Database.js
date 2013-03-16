@@ -547,7 +547,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	    oldInputBuilding.unallocatedInputs.Add(resourceName);
 	    oldInputBuilding.allocatedInputs.RemoveAt(oldInIndex);
 	    oldInputBuilding.inputLinkedTo.RemoveAt(oldInIndex);
-	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex]);
+	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex], -1);
 	    
 		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
 		inputBuilding.inputLinkedTo.Add(outputBuildingIndex); // add the link to the input building
@@ -565,17 +565,21 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 }
 
 // Recursively deactivates all of the buildings in the chain of output links
-private function DeactivateChain (buildingIndex : int)
+private function DeactivateChain (buildingIndex : int, parentIndex : int)
 {
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	// if the building is active, deactivate it
 	if (building.isActive)
 		toggleActiveness(buildingIndex);
+	if (parentIndex >= 0)
+	{
+		building.deactivatedInputs.Add(building.inputLinkedTo.IndexOf(parentIndex));
+	}
 	// change all output links' colors to reflect deactivation
 	for (var i : int in building.outputLinkedTo)
 	{
 		DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
-		DeactivateChain(i);
+		DeactivateChain(i, buildingIndex);
 	}
 	Debug.Log("Deactivate Chain");
 }
@@ -592,7 +596,7 @@ public function activateBuilding( buildingIndex:int ): boolean
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	
-	if(building.unallocatedInputs.Count > 0)
+	if(building.unallocatedInputs.Count > 0 || building.deactivatedInputs.Count > 0)
 	{
 		canActivate = false;
 	}
@@ -601,8 +605,15 @@ public function activateBuilding( buildingIndex:int ): boolean
     if (building.isActive && building.hasEvent)
     	intelSystem.buildingActivated(building.buildingPointer);
     buildingsOnGrid[buildingIndex] = building;
-    for(var outLink : int in building.outputLinkedTo)
-    	activateBuilding(outLink);
+    if (building.isActive)
+    	for(var outLink : int in building.outputLinkedTo)
+    	{
+    		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
+    		var outLinkInputIndex = outLinkBuilding.inputLinkedTo.IndexOf(buildingIndex);
+    		if (outLinkInputIndex >= 0 && outLinkBuilding.deactivatedInputs.Contains(outLinkInputIndex))
+    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
+    		activateBuilding(outLink);
+    	}
     return canActivate;
 	
 }
@@ -738,6 +749,7 @@ class BuildingOnGrid
 	
 	// will contain an array of the buildings it is connected to, by index of the building in the array
 	var inputLinkedTo : List.<int> = new List.<int>();
+	var deactivatedInputs : List.<int> = new List.<int>();
 	var outputLinkedTo : List.<int> = new List.<int>();
 	var optionalOutputLinkedTo : int = -1;
 	
