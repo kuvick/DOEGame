@@ -114,13 +114,19 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
 {
 	var toAddTo : int;
-	if (useFirst)
-		toAddTo = b1;
-	else
-		toAddTo = b2;
-		
+	var childName : String;
 	b1Position = buildings[b1].transform.position;
 	b2Position = buildings[b2].transform.position;
+	if (useFirst)
+	{
+		toAddTo = b1;
+		childName = b2Position.ToString();
+	}
+	else
+	{
+		toAddTo = b2;
+		childName = b1Position.ToString();
+	}
 	
 	for(var child:Transform in buildings[toAddTo].transform)
 	{
@@ -135,7 +141,7 @@ function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
 			lineRenderer.SetPosition(0, b1Position);
 			lineRenderer.SetPosition(1, b2Position);
 			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
-			child.name = b2Position.ToString(); // used for changing the colors of specific links
+			child.name = childName; // used for changing the colors of specific links
 			break;
 		}
 	}
