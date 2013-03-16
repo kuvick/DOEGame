@@ -596,22 +596,30 @@ public function activateBuilding( buildingIndex:int ): boolean
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	
+	// only activate if building has no unallocated or deactivated inputs
 	if(building.unallocatedInputs.Count > 0 || building.deactivatedInputs.Count > 0)
 	{
 		canActivate = false;
 	}
     
     building.isActive = canActivate;
+    // if building is activated and has an event, activate the event
     if (building.isActive && building.hasEvent)
     	intelSystem.buildingActivated(building.buildingPointer);
     buildingsOnGrid[buildingIndex] = building;
+    // if building has been activated
     if (building.isActive)
     	for(var outLink : int in building.outputLinkedTo)
     	{
     		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
     		var outLinkInputIndex = outLinkBuilding.inputLinkedTo.IndexOf(buildingIndex);
+    		// reactivate its output links
     		if (outLinkInputIndex >= 0 && outLinkBuilding.deactivatedInputs.Contains(outLinkInputIndex))
+    		{
     			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
+    			DrawLinks.SetLinkColor(buildingIndex, outLink, Color.blue);
+    		}
+    		// attempt to recursively reactivate the chain
     		activateBuilding(outLink);
     	}
     return canActivate;
