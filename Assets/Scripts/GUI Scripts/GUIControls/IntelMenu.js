@@ -48,9 +48,16 @@ public class IntelMenu extends GUIControl
 	// Intel Menu Icon textures
 	public var defaultIcon:Texture;
 	
+	private var intelSystem : IntelSystem;
+	
 	public function Start () 
 	{
 		super.Start();
+	}
+	
+	public function LoadLevelReferences()
+	{
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	}
 	
 	public function Initialize()
@@ -80,16 +87,17 @@ public class IntelMenu extends GUIControl
 		eventNodeIcon.x = eventNodeDescription.x + eventNodeIcon.width/1.6;			
 		
 		/*Build Event List*/
-		eventList = new EventLinkedList();						
-		var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);						
-		var tempList : List.<BuildingEvent> = intelSystem.getEventList();
-		
-		/*Query active BuildingEvents from IntelSystem*/
-		for(var event: BuildingEvent in tempList)		
+		eventList = new EventLinkedList();
+		if(intelSystem != null)					
 		{
-			eventList.InsertNode(event);			
-		}						
-		
+			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
+			
+			/*Query active BuildingEvents from IntelSystem*/
+			for(var event: BuildingEvent in tempList)		
+			{
+				eventList.InsertNode(event);			
+			}						
+		}
 		// Add the background's rect to the rectList for checking input collision
 		rectList.Add(background);
 	}

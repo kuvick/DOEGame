@@ -84,6 +84,16 @@ function Start()
 {
 	DontDestroyOnLoad (gameObject);	// So the Database will carry over to the score page
 	
+	
+	// Telling the GUISystem to get the references to scripts specific to the level:
+	var manager : GUIManager = GameObject.Find("GUI System").GetComponent(GUIManager);
+	manager.LoadLevelReferences();
+	var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	mainMenu.LoadLevelReferences();
+	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+	buildMenu.LoadLevelReferences();	
+	
+	
 	buildings = new Array();
 	buildingsOnGrid = new Array();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);

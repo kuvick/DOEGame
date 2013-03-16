@@ -61,6 +61,9 @@ private var database: Database;
 */
 public function Awake () 
 {
+	/*
+	This is temporarily removed to allow for the transition between scenes
+	
 	if(!exists)
 	{
 		DontDestroyOnLoad(this);
@@ -70,6 +73,7 @@ public function Awake ()
 	{	
 		Destroy(this.gameObject);
 	}
+	*/
 }
 
 /*
@@ -94,15 +98,21 @@ public static function Instance():GUIManager
     return gm_instance;
 }
 
+// Since the GUIManager is present throughtout, this prevents the searching
+// for the Intel System and such before it is on a level.
+public function LoadLevelReferences()
+{
+	Debug.Log("Loading Database and Intel System ref into GUIManager");
+	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	database = GameObject.Find("Database").GetComponent(Database);
+}
+
 /*
 	Initializes all variables and gets GUIControl components from the same
 	GameObject that GUIManager is a component of.
 */
 public function Start () 
 {
-	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-	database = GameObject.Find("Database").GetComponent(Database);
-
 	activeControls = new List.<GUIControl>();
 	
 	uiMessages = new Queue.<GUIEvent>();
@@ -209,7 +219,8 @@ public function OnGUI()
 		&& !activeControls.Contains(buildingMenu)
 		&& activeControls.Contains(mainMenu))
 	{
-		intelSystem.renderEvents();
+		if(intelSystem != null)
+			intelSystem.renderEvents();
 	}
 }
 
@@ -282,7 +293,10 @@ private function RespondTo(response:GUIEvent)
 			activeControls.Add(marquee);
 			break;
 		case EventTypes.WAIT:
-			intelSystem.addTurn();
+			if(intelSystem != null)
+				intelSystem.addTurn();
+			else
+				Debug.Log("Intel System not loaded yet");
 			database.UndoStack.Add(UndoType.Wait);
 			ClearControls();
 			activeControls.Add(mainMenu);

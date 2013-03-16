@@ -106,11 +106,9 @@ public class BuildingMenu extends GUIControl
 		super.Start();		
 	}
 	
-	public function Initialize()
+	// For when the level is loaded and there is an intel system
+	public function LoadLevelReferences()
 	{
-		super.Initialize();
-		
-		//**Added by Katharine start
 		gridObject = GameObject.Find("HexagonGrid");
 		grid = gridObject.GetComponent(HexagonGrid);
 		
@@ -118,6 +116,14 @@ public class BuildingMenu extends GUIControl
 		var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
 		unallocatedInputTex = linkUI.allocatedInputTex;
 		unallocatedOutputTex = linkUI.allocatedOutputTex;
+	}
+	
+	
+	public function Initialize()
+	{
+		super.Initialize();
+		
+		//**Added by Katharine start
 		resourceIconHeight = resourceIconHeightPercent * screenHeight;
 		
 		var i : int = 0;

@@ -51,6 +51,9 @@ enum BuildingEventType
 
 function Start ()
 {
+	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
+	intelMenu.LoadLevelReferences();
+
 	Debug.Log("Adding events to the list:");
 	currentTurn = 0;
 	numOfObjectivesLeft = 0;

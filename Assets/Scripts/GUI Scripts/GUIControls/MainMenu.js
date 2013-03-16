@@ -51,11 +51,15 @@ public class MainMenu extends GUIControl
 		super.Start();		
 	}
 	
+	// For when the level is loaded and there is an intel system
+	public function LoadLevelReferences()
+	{
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	}
+	
 	public function Initialize()
 	{	
 		super.Initialize();
-		
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
@@ -141,7 +145,10 @@ public class MainMenu extends GUIControl
 		}
 		
 		GUI.Label(scoreRect, score.ToString());
-		GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+		if(intelSystem != null)
+		{
+			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+		}
 	}
 	
 	private function HexCalc(position:Vector2, length:float, side:int):Vector2
