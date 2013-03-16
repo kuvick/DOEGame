@@ -24,6 +24,7 @@ public var linkMaterial : Material;
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
+private static var linkColors : Color[,];
 private var resourceColors : Color[];
 private var numResourceTypes : int = 8;
 
@@ -31,6 +32,7 @@ function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	linkProspects = new boolean[buildings.Length, buildings.Length];
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
+	linkColors = new Color[buildings.Length, buildings.Length];
 	Debug.Log("drawlinks");
 	addObjectsToBuildings();
 	resourceColors = new Color[numResourceTypes];
@@ -44,7 +46,9 @@ function Start() {
 	resourceColors[ResourceType.Uranium - 1] = new Color(0.49, 0.149, 0.804); // purple
 }
 
-static function SetLinkColor (b1 : int, b2 : int, c : Color) {
+// used to set links to a specific color
+static function SetLinkColor (b1 : int, b2 : int, c : Color) 
+{
 	for(var child:Transform in buildings[b1].transform)
 	{
 		if (child.name==buildings[b2].transform.position.ToString())
@@ -65,6 +69,78 @@ static function SetLinkColor (b1 : int, b2 : int, c : Color) {
 	}
 }
 
+// used to reset links to their original color
+static function SetLinkColor (b1 : int, b2 : int, reset : boolean) 
+{
+	for(var child:Transform in buildings[b1].transform)
+	{
+		if (child.name==buildings[b2].transform.position.ToString())
+		{
+			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
+			temp.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
+			break;
+		}
+	}
+	for(var child:Transform in buildings[b2].transform)
+	{
+		if (child.name==buildings[b1].transform.position.ToString())
+		{
+			temp = child.gameObject.GetComponent(LineRenderer);
+			temp.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
+			break;
+		}
+	}
+}
+
+function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
+{
+	// make sure buildings are valid
+	if (buildings[b1] == null || buildings[b2] == null)
+		return;
+		
+	// make sure buildings are linked
+	var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
+	if (!isLinked)
+		return;
+	
+	// set the link color based on resource type
+	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
+	
+	// create the line renderer to draw
+	AddLineRenderer(b1, b2, true);
+	AddLineRenderer(b1, b2, false);
+}
+
+function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
+{
+	var toAddTo : int;
+	if (useFirst)
+		toAddTo = b1;
+	else
+		toAddTo = b2;
+		
+	b1Position = buildings[b1].transform.position;
+	b2Position = buildings[b2].transform.position;
+	
+	for(var child:Transform in buildings[toAddTo].transform)
+	{
+		if(child.gameObject.GetComponent(LineRenderer) == null && 
+			!linksDrawn[b1, b2])
+		{
+			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
+			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+			//lineRenderer.material.mainTexture = linkTexture;
+			lineRenderer.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
+			lineRenderer.SetWidth(20, 20);
+			lineRenderer.SetPosition(0, b1Position);
+			lineRenderer.SetPosition(1, b2Position);
+			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
+			child.name = b2Position.ToString(); // used for changing the colors of specific links
+			break;
+		}
+	}
+}
+
 function UpdateBuildingCount(curBuildings:GameObject[]):void
 {
 	buildings = curBuildings;
@@ -74,43 +150,9 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	Debug.Log("Updating building count from DrawLinks.js " + buildings.Length);
 }
 
-function Update(){
+function Update()
+{
 	
-	if(buildings.Length <= 0) return;
-	
-	//Iterate through linkReference array. If buildings are linked, draw line.
-	for(var b1 = 0; b1 < buildings.Length; b1++){
-	
-		if(buildings[b1].gameObject == null) return;
-		
-		b1Position = buildings[b1].transform.position;
-
-		for(var b2 = 0; b2 < buildings.Length; b2++){
-		
-			if(buildings[b2] == null) return;
-			
-			b2Position = buildings[b2].transform.position;
-			var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
-			
-			if(isLinked){
-				for(var child:Transform in buildings[b1].transform){
-					if(child.gameObject.GetComponent(LineRenderer) == null && 
-						!linksDrawn[b1, b2]){
-						var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
-						lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-						//lineRenderer.material.mainTexture = linkTexture;
-						lineRenderer.SetColors(color1, color2);
-						lineRenderer.SetWidth(20, 20);
-						lineRenderer.SetPosition(0, b1Position);
-						lineRenderer.SetPosition(1, b2Position);
-						linksDrawn[b1, b2] = true;
-						child.name = b2Position.ToString(); // used for changing the colors of specific links
-						break;
-					}
-				}
-			}
-		}
-	}
 }
 
 
@@ -143,5 +185,5 @@ function addObjectsToBuildings(){
 
 function removeLink(b1: int, b2: int)
 {
-	linksDrawn[b1,b2] = false;
+	linksDrawn[b1,b2] = linksDrawn[b2, b1] = false;
 }

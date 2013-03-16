@@ -149,6 +149,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			linkReference[building1Index, building2Index] = true;
 			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
 			removeLink(b2, oldInputBuilding);
+			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 		}
 	}
 	// if an allocated input was selected, perform an overload link reallocation
@@ -160,12 +161,14 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			linkReference[building1Index, building2Index] = true;
 			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
 			removeLink(b1, oldOutputBuilding);
+			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 		}
 	}
 	// otherwise, perform a normal building link
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
+		gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 	}
 	optionalOutputUsed = false;
 }

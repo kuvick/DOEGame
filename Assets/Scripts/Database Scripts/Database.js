@@ -653,7 +653,7 @@ public function activateBuilding( buildingIndex:int ): boolean
 	    		if (outLinkInputIndex >= 0 && outLinkBuilding.deactivatedInputs.Contains(outLinkInputIndex))
 	    		{
 	    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
-	    			DrawLinks.SetLinkColor(buildingIndex, outLink, Color.blue);
+	    			DrawLinks.SetLinkColor(buildingIndex, outLink, true);
 	    		}
 	    		// attempt to recursively reactivate the chain
 				activateBuilding(outLink);

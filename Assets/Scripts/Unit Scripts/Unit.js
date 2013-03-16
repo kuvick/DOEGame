@@ -180,7 +180,7 @@ function DoAction () {
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = foundPath[0]; // set current building to next building in the path
 	foundPath.RemoveAt(0);
-	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), Color.blue);
+	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
