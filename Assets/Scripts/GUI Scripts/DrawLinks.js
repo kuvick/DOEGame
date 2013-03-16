@@ -24,6 +24,8 @@ public var linkMaterial : Material;
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
+private var resourceColors : Color[];
+private var numResourceTypes : int = 8;
 
 function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -31,6 +33,15 @@ function Start() {
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
 	Debug.Log("drawlinks");
 	addObjectsToBuildings();
+	resourceColors = new Color[numResourceTypes];
+	resourceColors[ResourceType.Coal - 1] = Color.gray;
+	resourceColors[ResourceType.Gas - 1] = Color.red;
+	resourceColors[ResourceType.Power - 1] = Color.blue;
+	resourceColors[ResourceType.Petrol - 1] = new Color(1.0, 0.5, 0.0); // orange
+	resourceColors[ResourceType.Fund - 1] = Color.green;
+	resourceColors[ResourceType.Waste - 1] = new Color(0.588, 0.294, 0.0); // brown
+	resourceColors[ResourceType.Ethanol - 1] = Color.yellow;
+	resourceColors[ResourceType.Uranium - 1] = new Color(0.49, 0.149, 0.804); // purple
 }
 
 static function SetLinkColor (b1 : int, b2 : int, c : Color) {
