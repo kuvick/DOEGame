@@ -49,7 +49,7 @@ function OnGUI ()
 	
 			GUI.Button(heldUpgradeRect, upgradeTextures[b.heldUpgrade - 1]);
 		}
-		if (b.neededUpgrade != UpgradeType.None)
+		/*if (b.neededUpgrade != UpgradeType.None)
 		{
 			point = Camera.main.WorldToScreenPoint(b.buildingPointer.transform.position);
 			
@@ -63,7 +63,7 @@ function OnGUI ()
 			GUI.enabled = false;
 			GUI.Button(neededUpgradeRect, upgradeTextures[b.neededUpgrade - 1]);
 			GUI.enabled = true;
-		}
+		}*/
 	}
 }
 

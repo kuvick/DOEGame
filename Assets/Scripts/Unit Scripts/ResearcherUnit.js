@@ -11,11 +11,13 @@ class ResearcherUnit extends Unit {
 	private var upgradeButtonWidth = 27;
 	private var upgradeButtonHeight = 27;
 	private var manager : UnitManager;
+	private var intelSystem : IntelSystem;
 
 	function Start () {
 		super();
 		type = UnitType.Researcher; // set unit type
 		manager = gameObject.FindGameObjectWithTag("MainCamera").GetComponent("UnitManager"); // find Unit Manager
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 		if (heldUpgrade != UpgradeType.None) // if holding an upgrade, get the appropriate icon
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 	}
@@ -23,9 +25,17 @@ class ResearcherUnit extends Unit {
 	// Checks that the target building either is holding or needs an upgrade
 	protected function BuildingCheck (target : BuildingOnGrid)
 	{
-		if (!super(target) || (target.heldUpgrade == UpgradeType.None && target.neededUpgrade == UpgradeType.None))
+		if (!super(target) || (target.heldUpgrade == UpgradeType.None && GetBuildingEventUpgrade(target) == UpgradeType.None))
 			return false;
 		return true;
+	}
+	
+	private function GetBuildingEventUpgrade (building : BuildingOnGrid) : UpgradeType
+	{
+		if (!building.hasEvent)
+			return UpgradeType.None;
+		var buildingEventScript : EventScript = building.buildingPointer.GetComponent("EventScript");
+		return buildingEventScript.event.upgrade;
 	}
 	
 	function DoAction() {
@@ -40,11 +50,12 @@ class ResearcherUnit extends Unit {
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 		}
 		// or needs the currently held upgrade
-		else if (currentBuilding.neededUpgrade != UpgradeType.None &&
-					currentBuilding.neededUpgrade == heldUpgrade)
+		else if (GetBuildingEventUpgrade(currentBuilding) != UpgradeType.None &&
+					GetBuildingEventUpgrade(currentBuilding) == heldUpgrade)
 		{
 			// if so, satisfy upgrade need and display a temporary message on the status marquee
-			currentBuilding.neededUpgrade = UpgradeType.None;
+			//currentBuilding.neededUpgrade = UpgradeType.None;
+			intelSystem.resolveEvent(currentBuilding.buildingPointer.GetComponent("EventScript"));
 			StatusMarquee.SetText("Upgrade delivered", true);	
 		}
 	}

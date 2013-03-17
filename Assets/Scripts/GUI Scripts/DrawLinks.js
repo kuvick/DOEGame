@@ -17,10 +17,7 @@ private var linkProspects:boolean[,];	//Used to determine the number of possible
 private static var linksDrawn:boolean[,];		//Used to determine if links have already been drawn.
 private var b1Position:Vector3;		
 private var b2Position:Vector3;			//These hold position of linked buildings
-var color1:Color = Color.blue;		
-var color2:Color = Color.blue;			//Color of link line
 public var linkTexture : Texture;
-public var linkMaterial : Material;
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
@@ -135,9 +132,10 @@ function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
 		{
 			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
 			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-			//lineRenderer.material.mainTexture = linkTexture;
+			lineRenderer.material.mainTexture = linkTexture;
+			//lineRenderer.material.SetColor ("_TintColor", linkColors[b1,b2]);
 			lineRenderer.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
-			lineRenderer.SetWidth(20, 20);
+			lineRenderer.SetWidth(10, 10);
 			lineRenderer.SetPosition(0, b1Position);
 			lineRenderer.SetPosition(1, b2Position);
 			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
