@@ -11,13 +11,13 @@ class ResearcherUnit extends Unit {
 	private var upgradeButtonWidth = 27;
 	private var upgradeButtonHeight = 27;
 	private var manager : UnitManager;
-	private var intelSystem : IntelSystem;
+	//private var intelSystem : IntelSystem;
 
 	function Start () {
 		super();
 		type = UnitType.Researcher; // set unit type
 		manager = gameObject.FindGameObjectWithTag("MainCamera").GetComponent("UnitManager"); // find Unit Manager
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem); // find Intel System
+		//intelSystem = GameObject.Find("Database").GetComponent(IntelSystem); // find Intel System
 		if (heldUpgrade != UpgradeType.None) // if holding an upgrade, get the appropriate icon
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 	}
@@ -39,14 +39,21 @@ class ResearcherUnit extends Unit {
 		return buildingEventScript.event.upgrade;
 	}
 	
-	function DoAction() {
+	function DoAction() 
+	{
+		if (foundPath.Count < 1)
+			return;
 		super();
+		var tempHeld : UpgradeType = UpgradeType.None; // used if an upgrade was picked up
+		var tempPickUp : UpgradeType = UpgradeType.None; // used for if an upgrade was picked up
 		// after moving buildings, checks if the new building is either 
 		// holding a new upgrade
 		if (currentBuilding.heldUpgrade != UpgradeType.None)
 		{
 			// if so, discard currently held upgrade and pick up the new one
+			tempHeld = heldUpgrade;
 			heldUpgrade = currentBuilding.heldUpgrade;
+			tempPickUp = heldUpgrade;
 			currentBuilding.heldUpgrade = UpgradeType.None;
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 		}
@@ -59,6 +66,26 @@ class ResearcherUnit extends Unit {
 			intelSystem.resolveEvent(currentBuilding.buildingPointer.GetComponent("EventScript"));
 			StatusMarquee.SetText("Upgrade delivered", true);	
 		}
+		else
+			tempHeld = heldUpgrade;
+		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, tempPickUp, tempHeld));
+	}
+	
+	function UndoAction ()
+	{
+		if (actionList.Count < 1)
+			return;
+		// if the current turn is the proper undo turn
+		if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
+		{
+			// replace a picked up upgrade and regains the old held upgrade
+			currentBuilding.heldUpgrade = actionList[actionList.Count - 1].pickedUpUpgrade;
+			heldUpgrade = actionList[actionList.Count - 1].heldUpgrade;
+			if (heldUpgrade != UpgradeType.None)
+				heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
+			super();
+		}
+		
 	}
 	
 	function OnGUI()

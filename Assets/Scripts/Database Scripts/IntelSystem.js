@@ -118,15 +118,16 @@ function Start ()
 //Can use this functio to check for events
 public function addTurn()
 {
-	UnitManager.DoUnitActions();
 	decreaseTurns();
 	currentTurn++;
+	UnitManager.DoUnitActions();
 }
 
 public function subtractTurn()
 {
 	increaseTurns();
 	currentTurn--;
+	UnitManager.UndoUnitActions();
 }
 
 

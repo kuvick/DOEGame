@@ -10,6 +10,9 @@ protected var previousBuilding : BuildingOnGrid;
 protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var foundPathIndex : int = 0; // used to keep track of undo actions
 protected var type : UnitType;
+protected var actionList : List.<UnitAction> = new List.<UnitAction>();
+
+protected var intelSystem : IntelSystem;
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
@@ -37,6 +40,7 @@ function Initiate() {
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	SetPosition();
 	Debug.Log("Building is: " + currentBuilding.buildingName);
+	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 }
 
 // sees if there is a valid path between the unit's current building and the target building
@@ -56,7 +60,7 @@ function FindPath (target : BuildingOnGrid) : boolean {
 	var current : BuildingOnGrid = currentBuilding;
 	open.Add(current);
 	
-	while (!closed.Contains(target) && current != target && current != null)
+	while (!closed.Contains(target) && open.Count > 0 && current != target && current != null)
 	{
 		PopulateNextOpen(target);
 		if (nextOpen.Contains(target))
@@ -167,7 +171,8 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 }
 
 // changes the color of all links in the found path to red
-private function SetLinkColors() {
+private function SetLinkColors() 
+{
 	for (var temp : BuildingOnGrid in foundPath)
 	{
 		DrawLinks.SetLinkColor(Database.findBuildingIndex(temp), Database.findBuildingIndex(temp.pathParent), Color.red);
@@ -175,7 +180,8 @@ private function SetLinkColors() {
 }
 
 // performs unit actions on new turn
-function DoAction () {
+function DoAction () 
+{
 	if (foundPath.Count < 1) return;
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = foundPath[0]; // set current building to next building in the path
@@ -184,10 +190,28 @@ function DoAction () {
 	SetPosition(); // move unit to its new position
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
+	if (type != UnitType.Researcher)
+		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeType.None, UpgradeType.None));
+	Debug.Log(actionList.Count);
 }
 
-function UndoAction () {
-
+function UndoAction () 
+{
+	if (actionList.Count < 1)
+		return;
+	// if the current turn is the proper undo turn
+	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
+	{
+		// re-add the current building to the path list and move back to the previous building
+		DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
+								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);
+		currentBuilding.unit = UnitType.None;
+		foundPath.Insert(0, currentBuilding);
+		currentBuilding = actionList[actionList.Count - 1].move;
+		SetPosition();
+		currentBuilding.unit = type;
+		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
+	}
 }
 
 // moves unit to the position of the current building
@@ -251,3 +275,18 @@ function OnGUI() {
 	}
 }
 
+class UnitAction extends System.ValueType
+{
+    var move : BuildingOnGrid;
+    var turn : int;
+    var pickedUpUpgrade : UpgradeType;
+    var heldUpgrade : UpgradeType;
+    
+    public function UnitAction (m : BuildingOnGrid, t : int, p : UpgradeType, h : UpgradeType)
+    {
+        move = m;
+        turn = t;
+        pickedUpUpgrade = p;
+        heldUpgrade = h;
+    }
+}
