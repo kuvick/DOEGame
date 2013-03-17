@@ -16,7 +16,6 @@ function Start () {
 	
 	test.outputLinkedTo.Add(2);//linkedTo.Add(2);
 	test = Database.getBuildingOnGridAtIndex(2);
-	test.neededUpgrade = UpgradeType.Blue;
 	test.inputLinkedTo.Add(1);//linkedTo.Add(1);
 	testb.linkReference[2,1] = testb.linkReference[1,2] = true;
 	Database.toggleActiveness(2);

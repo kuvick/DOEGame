@@ -17,10 +17,7 @@ private var linkProspects:boolean[,];	//Used to determine the number of possible
 private static var linksDrawn:boolean[,];		//Used to determine if links have already been drawn.
 private var b1Position:Vector3;		
 private var b2Position:Vector3;			//These hold position of linked buildings
-var color1:Color = Color.blue;		
-var color2:Color = Color.blue;			//Color of link line
-public var linkTexture : Texture;
-public var linkMaterial : Material;
+public var linkTextures : Texture[];
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
@@ -77,7 +74,7 @@ static function SetLinkColor (b1 : int, b2 : int, reset : boolean)
 		if (child.name==buildings[b2].transform.position.ToString())
 		{
 			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
+			temp.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
 			break;
 		}
 	}
@@ -86,7 +83,7 @@ static function SetLinkColor (b1 : int, b2 : int, reset : boolean)
 		if (child.name==buildings[b1].transform.position.ToString())
 		{
 			temp = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
+			temp.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
 			break;
 		}
 	}
@@ -107,11 +104,11 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
 	
 	// create the line renderer to draw
-	AddLineRenderer(b1, b2, true);
-	AddLineRenderer(b1, b2, false);
+	AddLineRenderer(b1, b2, resource, true);
+	AddLineRenderer(b1, b2, resource, false);
 }
 
-function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
+function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst : boolean)
 {
 	var toAddTo : int;
 	var childName : String;
@@ -135,9 +132,10 @@ function AddLineRenderer(b1 : int, b2 : int, useFirst : boolean)
 		{
 			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
 			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-			//lineRenderer.material.mainTexture = linkTexture;
-			lineRenderer.SetColors(linkColors[b1, b2], linkColors[b1, b2]);
-			lineRenderer.SetWidth(20, 20);
+			lineRenderer.material.mainTexture = linkTextures[resource - 1];
+			//lineRenderer.material.SetColor ("_TintColor", linkColors[b1,b2]);
+			lineRenderer.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
+			lineRenderer.SetWidth(10, 10);
 			lineRenderer.SetPosition(0, b1Position);
 			lineRenderer.SetPosition(1, b2Position);
 			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;

@@ -814,7 +814,7 @@ class BuildingOnGrid
 	var pathParentDist : float = -1;
 	
 	var heldUpgrade : UpgradeType = UpgradeType.None;
-	var neededUpgrade : UpgradeType = UpgradeType.None;
+	//var neededUpgrade : UpgradeType = UpgradeType.None;
 }
 
 
