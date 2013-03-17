@@ -17,7 +17,7 @@ class ResearcherUnit extends Unit {
 		super();
 		type = UnitType.Researcher; // set unit type
 		manager = gameObject.FindGameObjectWithTag("MainCamera").GetComponent("UnitManager"); // find Unit Manager
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem); // find Intel System
 		if (heldUpgrade != UpgradeType.None) // if holding an upgrade, get the appropriate icon
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 	}
@@ -30,6 +30,7 @@ class ResearcherUnit extends Unit {
 		return true;
 	}
 	
+	// finds and returns the upgrade type associated with the passed in building's event
 	private function GetBuildingEventUpgrade (building : BuildingOnGrid) : UpgradeType
 	{
 		if (!building.hasEvent)
