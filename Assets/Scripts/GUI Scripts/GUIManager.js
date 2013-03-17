@@ -133,44 +133,34 @@ public function Start ()
 	buildingMenu = GetComponent(BuildingMenu);
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	
-	// Initialize all GUIControls;
-	startMenu.Initialize();
-	loading.Initialize();
-	mainMenu.Initialize();
-	marquee.Initialize();
-	pauseMenu.Initialize();
-	intelMenu.Initialize();
-	buildingMenu.Initialize();
-	levelSelectMenu.Initialize();
-	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
 		case "StartScreen":
-			activeControls.Add(startMenu);
+			AddGUIToControls(startMenu);
 			Debug.Log("Added start menu");
 			break;
 		
 		case "LevelSelectScreen":
-			activeControls.Add(levelSelectMenu);
+			AddGUIToControls(levelSelectMenu);
 			break;
 			
 		case "LoadingScreen":
-			activeControls.Add(loading);
+			AddGUIToControls(loading);
 			loading.DelayLoad(4);
 			break;		
 		// temporary for unit testing purposes	
 		case "UnitTest":
 			//activeControls.Add(buildingMenu);
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 	}
 	
 	if(thisIsALevel)
 	{
-		activeControls.Add(mainMenu);
-		activeControls.Add(marquee);
+		AddGUIToControls(mainMenu);
+		AddGUIToControls(marquee);
 	}
 	
 }
@@ -244,31 +234,31 @@ private function RespondTo(response:GUIEvent)
 		// Non-unique responses
 		case EventTypes.MAIN:
 			ClearControls();
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
 			ClearControls();
-			activeControls.Add(levelSelectMenu);
+			AddGUIToControls(levelSelectMenu);
 			break;
 		case EventTypes.BUILDING:
 			ClearControls();
-			activeControls.Add(buildingMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(buildingMenu);
+			AddGUIToControls(marquee);
 			break;
 		
 		// Start Menu responses
 		case EventTypes.RESUME:
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
-			activeControls.Add(loading);
+			AddGUIToControls(loading);
 			loading.DelayLoad(3);
 			break;
 		case EventTypes.NEWGAME:
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
-			activeControls.Add(loading);
+			AddGUIToControls(loading);
 			loading.DelayLoad(3);
 			break;
 		case EventTypes.FACEBOOK:
@@ -280,19 +270,19 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.DONELOADING:
 			ClearControls();
 			Application.LoadLevel("DOEGame");
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 			
 		// Main Menu responses
 		case EventTypes.PAUSE:
 			ClearControls();
-			activeControls.Add(pauseMenu);
+			AddGUIToControls(pauseMenu);
 			break;
 		case EventTypes.INTEL:
 			ClearControls();
-			activeControls.Add(intelMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(intelMenu);
+			AddGUIToControls(marquee);
 			break;
 		case EventTypes.WAIT:
 			if(intelSystem != null)
@@ -301,8 +291,8 @@ private function RespondTo(response:GUIEvent)
 				Debug.Log("Intel System not loaded yet");
 			database.UndoStack.Add(UndoType.Wait);
 			ClearControls();
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 		case EventTypes.UNDO:
 			if(database.undo())
@@ -311,21 +301,21 @@ private function RespondTo(response:GUIEvent)
 				intelSystem.subtractTurn();				
 			}			
 			ClearControls();
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 			
 		// Pause Menu responses
 		case EventTypes.RESTART:
 			Application.LoadLevel(Application.loadedLevel);
 			ClearControls();
-			activeControls.Add(mainMenu);
-			activeControls.Add(marquee);
+			AddGUIToControls(mainMenu);
+			AddGUIToControls(marquee);
 			break;
 		case EventTypes.STARTMENU:
 			Application.LoadLevel("StartScreen");
 			ClearControls();
-			activeControls.Add(startMenu);
+			AddGUIToControls(startMenu);
 			startMenu.SetSplash(false);
 			break;
 		case EventTypes.SAVEQUIT:
@@ -367,4 +357,11 @@ public function NotOnGUI(screenInputPosition: Vector2):boolean
 	}
 	
 	return true;
+}
+
+public function AddGUIToControls(guiControlToAdd : GUIControl){
+	if (!guiControlToAdd.isInitialized){
+		guiControlToAdd.Initialize();
+	}
+	activeControls.Add(guiControlToAdd);
 }

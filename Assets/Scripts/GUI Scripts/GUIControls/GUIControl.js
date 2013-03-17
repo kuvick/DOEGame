@@ -39,6 +39,8 @@ public class GUIControl extends MonoBehaviour
 	// Audio object
 	protected var audioSource:AudioSourceSetup;
 	
+	public var isInitialized : boolean = false;
+	
 	/*
 		Starts the GUIControl's update cycle.
 		Should be overridden in child classes.
@@ -68,6 +70,8 @@ public class GUIControl extends MonoBehaviour
 		{
 			audioSource = GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup);
 		}
+		
+		isInitialized = true;
 	}
 	
 	/*
