@@ -20,11 +20,9 @@ static function Login(){
 		if (InternetConnection.isConnected()){
 			FacebookAndroid.loginWithRequestedPermissions(permisions);
 			hasLoggedIn = true;
-			Score.ShowMessage("Logged In");
 			Debug.Log("FacebookProtocol : Logged In");
 		} else {
 			Debug.Log("FacebookProtocol : no internet connection");
-			Score.ShowMessage("No Internet Connection Detected");
 		}
 	#endif
 }
@@ -40,11 +38,9 @@ static function PostScoreToFacebook(score:int, level:String){
 				PostComment(comment);
 			} else {
 				Debug.Log("FacebookProtocol : needed to log in");
-				Score.ShowMessage("Need to Log In");
 			}
 		} else {
 			Debug.Log("FacebookProtocol : no internet connection");
-			Score.ShowMessage("No Internet Connection Detected");
 		}
 		
 	#endif
@@ -84,13 +80,11 @@ static function PostAchievmentToFacebook(achievment:String, description:String){
 	} else {
 		Debug.Log("FacebookProtocol : needed to log in");
 		Login();
-		Score.ShowMessage("Need to Log In");
 	}
 }
 
 private static function PostComment(comment:String){
-	FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);	
-	Score.ShowMessage("Successfully Posted");
+	FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);
 }
 
 #endif
