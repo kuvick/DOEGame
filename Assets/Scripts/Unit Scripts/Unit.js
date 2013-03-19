@@ -29,6 +29,8 @@ private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
 private var pathDrawn : boolean = false;
+private var pathDrawnTimer : float;
+private var pathDrawnTimerDuration : float = 3.0f;
 
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
@@ -253,6 +255,12 @@ function Update() {
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
+			if (foundPath.Count > 0)
+			{
+				SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
+				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+				pathDrawn = true;
+			}
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
@@ -288,14 +296,15 @@ function OnGUI() {
 		GUI.enabled = true;
 		GUILayout.EndArea();
 		// highlight the unit's path if its current building is selected
-		if (foundPath.Count > 0)
+		if (foundPath.Count > 0 && !pathDrawn)
 		{
 			SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
+			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 			pathDrawn = true;
 		}
 	}
 	// if unit's path has been highlighted and a different building is selected, de-highlight the path
-	else if(pathDrawn && foundPath.Count > 0 && selectedBuilding != currentBuilding.buildingPointer)
+	else if(pathDrawn && foundPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
 	{
 		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
 		pathDrawn = false;
