@@ -63,6 +63,7 @@ static var defaultBuildingScript : DefaultBuildings;
 static var intelSystem : IntelSystem;
 
 private var drawLinks : DrawLinks;
+private var buildingWithUnitActivatedScore : int = 20;
 
 enum ResourceType
 {
@@ -645,6 +646,11 @@ public function activateBuilding( buildingIndex:int ): boolean
     // if building is activated and has an event, activate the event
     if (building.isActive && building.hasEvent)
     	intelSystem.buildingActivated(building.buildingPointer);
+    if(building.isActive && building.unit != UnitType.None)
+    {
+    	intelSystem.incrementScore(true, buildingWithUnitActivatedScore);
+    	Debug.Log("A Building has been activated with a Unit");
+    }
     buildingsOnGrid[buildingIndex] = building;
     // if building has been activated
     if (building.isActive)
@@ -907,6 +913,7 @@ function undo(): boolean
 {
 	if(intelSystem.currentTurn != 0)
 	{
+		//UnitManager.UndoUnitActions();
 		switch(UndoStack[intelSystem.currentTurn - 1])
 		{
 			case UndoType.Link:
@@ -951,7 +958,20 @@ function UndoLink()
 	
 	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
 	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
-		
+	
+	/*
+	if(b1Building.isActive)
+	{
+		activateBuilding(findBuildingIndex(b1Building));
+		if(!b1Building.isActive)
+		{
+			if(b1Building.unit != UnitType.None)
+			{
+				intelSystem.decrementScore(true, buildingWithUnitActivatedScore);
+			}
+		}
+	}*/
+	
 	//Removes the latest link
 	linkList.RemoveAt(lastIndex);	
 }

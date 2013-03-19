@@ -11,6 +11,8 @@ class ResearcherUnit extends Unit {
 	private var upgradeButtonWidth = 27;
 	private var upgradeButtonHeight = 27;
 	private var manager : UnitManager;
+	
+	public var upgradePickedUpScore : int = 15;
 	//private var intelSystem : IntelSystem;
 
 	function Start () {
@@ -53,7 +55,8 @@ class ResearcherUnit extends Unit {
 			// if so, discard currently held upgrade and pick up the new one
 			tempHeld = heldUpgrade;
 			heldUpgrade = currentBuilding.heldUpgrade;
-			tempPickUp = heldUpgrade;
+			tempPickUp = heldUpgrade;  // Unit picks up an Upgrade
+			intelSystem.incrementScore(true, upgradePickedUpScore); //If an Upgrade with picked up, increment score
 			currentBuilding.heldUpgrade = UpgradeType.None;
 			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 		}
@@ -80,12 +83,16 @@ class ResearcherUnit extends Unit {
 		{
 			// replace a picked up upgrade and regains the old held upgrade
 			currentBuilding.heldUpgrade = actionList[actionList.Count - 1].pickedUpUpgrade;
+			
+			//If an Upgrade with picked up, decrement score
+			if(actionList[actionList.Count - 1].pickedUpUpgrade != UpgradeType.None)
+				intelSystem.decrementScore(true, upgradePickedUpScore);
+			
 			heldUpgrade = actionList[actionList.Count - 1].heldUpgrade;
 			if (heldUpgrade != UpgradeType.None)
 				heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 			super();
-		}
-		
+		}		
 	}
 	
 	function OnGUI()

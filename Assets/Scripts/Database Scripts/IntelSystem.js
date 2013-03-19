@@ -157,6 +157,32 @@ public function buildingActivated( reference : GameObject ):boolean
 	
 }
 
+public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
+{
+	if(modifyPrimaryScore)
+	{
+		primaryScore += scoreModifier;
+	}
+	else
+	{
+		optionalScore += scoreModifier;	
+	}
+	Debug.Log("Score Incremented: " + primaryScore);
+}
+
+public function decrementScore(modifyPrimaryScore : boolean, scoreModifier: int)
+{
+	if(modifyPrimaryScore)
+	{
+		primaryScore -= scoreModifier;
+	}
+	else
+	{
+		optionalScore -= scoreModifier;
+	}
+	Debug.Log("Score Decremented: " + primaryScore);
+}
+
 // Resolves the event, removes it from the list
 // also adds any linked events the event may have had
 public function resolveEvent( script : EventScript)

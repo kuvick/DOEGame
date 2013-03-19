@@ -296,8 +296,7 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.UNDO:
 			if(database.undo())
-			{
-								
+			{					
 				intelSystem.subtractTurn();				
 			}			
 			ClearControls();

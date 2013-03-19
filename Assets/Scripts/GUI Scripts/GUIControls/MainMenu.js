@@ -83,13 +83,15 @@ public class MainMenu extends GUIControl
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
-		rectList.Add(intelButton);
+		rectList.Add(intelButton);		
 		
 	}
 	
 	public function Render()
 	{   
 		GUI.skin = mainMenuSkin;
+		
+		score = intelSystem.getPrimaryScore();
 		
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;
