@@ -28,6 +28,7 @@ private var unitButtonHeight = 27;
 private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
+private var pathDrawn : boolean = false;
 
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
@@ -48,7 +49,11 @@ function Initiate() {
 function FindPath (target : BuildingOnGrid) : boolean {
 	if (target == null || !BuildingCheck(target)) // Check if building is a valid target
 		return false;
-		
+	
+	// reset colors of current found path
+	if (foundPath.Count > 0)
+		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+	
 	// reset pathing variables and lists
 	var found : boolean = false;
 	foundPath.Clear();
@@ -86,7 +91,7 @@ function FindPath (target : BuildingOnGrid) : boolean {
 		foundPath.RemoveAt(0);
 		found = true;
 	}
-	SetLinkColors();
+	//SetLinkColors(Color.red);
 	ClearAllPathVars ();
 	return found;
 }
@@ -171,12 +176,22 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 }
 
 // changes the color of all links in the found path to red
-private function SetLinkColors() 
+private function SetLinkColors(col : Color) 
 {
 	for (var temp : BuildingOnGrid in foundPath)
 	{
-		DrawLinks.SetLinkColor(Database.findBuildingIndex(temp), Database.findBuildingIndex(temp.pathParent), Color.red);
+		DrawLinks.SetLinkColor(Database.findBuildingIndex(temp), Database.findBuildingIndex(temp.pathParent), col);
 	}
+}
+
+// recursively changes the color of all links in the found path to red
+private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : int, col : Color) 
+{
+	DrawLinks.SetLinkColor(Database.findBuildingIndex(b1), Database.findBuildingIndex(b2), col);
+	// terminating case: if b2 is the last building in foundPath
+	if (foundPath.Count < 1 || b2 == foundPath[foundPath.Count - 1])
+		return;
+	SetLinkColors(foundPath[index], foundPath[index + 1], index + 1, col);
 }
 
 // performs unit actions on new turn
@@ -272,6 +287,18 @@ function OnGUI() {
 		}
 		GUI.enabled = true;
 		GUILayout.EndArea();
+		// highlight the unit's path if its current building is selected
+		if (foundPath.Count > 0)
+		{
+			SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
+			pathDrawn = true;
+		}
+	}
+	// if unit's path has been highlighted and a different building is selected, de-highlight the path
+	else if(pathDrawn && foundPath.Count > 0 && selectedBuilding != currentBuilding.buildingPointer)
+	{
+		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+		pathDrawn = false;
 	}
 }
 
