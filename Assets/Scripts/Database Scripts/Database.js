@@ -62,6 +62,8 @@ static var defaultBuildingScript : DefaultBuildings;
 
 static var intelSystem : IntelSystem;
 
+private var drawLinks : DrawLinks;
+
 enum ResourceType
 {
 	None,
@@ -95,6 +97,7 @@ function Start()
 	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
 	buildMenu.LoadLevelReferences();	
 	
+	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
 	
 	buildings = new Array();
 	buildingsOnGrid = new Array();
@@ -525,7 +528,8 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link overload");
-		intelSystem.addTurn();
+		if (!allocatedOutSelected)
+			intelSystem.addTurn();
 	}
 	
 	if (hasResource)
@@ -612,7 +616,8 @@ private function DeactivateChain (buildingIndex : int, parentIndex : int)
 	// change all output links' colors to reflect deactivation
 	for (var i : int in building.outputLinkedTo)
 	{
-		DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
+		//DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
+		drawLinks.SetLinkTexture(buildingIndex, i, false);
 		DeactivateChain(i, buildingIndex);
 	}
 	Debug.Log("Deactivate Chain");
@@ -653,7 +658,8 @@ public function activateBuilding( buildingIndex:int ): boolean
 	    		if (outLinkInputIndex >= 0 && outLinkBuilding.deactivatedInputs.Contains(outLinkInputIndex))
 	    		{
 	    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
-	    			DrawLinks.SetLinkColor(buildingIndex, outLink, true);
+	    			//DrawLinks.SetLinkColor(buildingIndex, outLink, true);
+	    			drawLinks.SetLinkTexture(buildingIndex, outLink, true);
 	    		}
 	    		// attempt to recursively reactivate the chain
 				activateBuilding(outLink);

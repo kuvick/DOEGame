@@ -18,6 +18,8 @@ private static var linksDrawn:boolean[,];		//Used to determine if links have alr
 private var b1Position:Vector3;		
 private var b2Position:Vector3;			//These hold position of linked buildings
 public var linkTextures : Texture[];
+public var deactivatedTexture : Texture;
+private var linkResources : ResourceType[,];
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
 private var numLinks:int;
@@ -30,6 +32,7 @@ function Start() {
 	linkProspects = new boolean[buildings.Length, buildings.Length];
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
 	linkColors = new Color[buildings.Length, buildings.Length];
+	linkResources = new ResourceType[buildings.Length, buildings.Length];
 	Debug.Log("drawlinks");
 	addObjectsToBuildings();
 	resourceColors = new Color[numResourceTypes];
@@ -89,6 +92,40 @@ static function SetLinkColor (b1 : int, b2 : int, reset : boolean)
 	}
 }
 
+// used for visually deactivating or reactivating links
+function SetLinkTexture (b1 : int, b2 : int, reset : boolean)
+{
+	// set whether to use deactivated link or activated link texture
+	var tempTex : Texture;
+	if (reset)
+		tempTex = linkTextures[linkResources[b1, b2] - 1];
+	else
+		tempTex = deactivatedTexture;
+	
+	// loop through b1's transforms
+	for(var child:Transform in buildings[b1].transform)
+	{
+		// find the appropriate line renderer and change to the new texture
+		if (child.name==buildings[b2].transform.position.ToString())
+		{
+			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
+			temp.material.mainTexture = tempTex;
+			break;
+		}
+	}
+	// loop through b2's transforms
+	for(var child:Transform in buildings[b2].transform)
+	{
+		// find the appropriate line renderer and change to the new texture
+		if (child.name==buildings[b1].transform.position.ToString())
+		{
+			temp = child.gameObject.GetComponent(LineRenderer);
+			temp.material.mainTexture = tempTex;
+			break;
+		}
+	}
+}
+
 function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 {
 	// make sure buildings are valid
@@ -99,6 +136,9 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 	var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
 	if (!isLinked)
 		return;
+	
+	// set link resource type
+	linkResources[b1, b2] = linkResources[b2, b1] = resource;
 	
 	// set the link color based on resource type
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
