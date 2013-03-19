@@ -299,7 +299,7 @@ function OnGUI() {
 		if (foundPath.Count > 0 && !pathDrawn)
 		{
 			SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
-			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+			//pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 			pathDrawn = true;
 		}
 	}
