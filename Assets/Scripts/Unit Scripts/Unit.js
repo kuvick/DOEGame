@@ -17,6 +17,8 @@ protected var intelSystem : IntelSystem;
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
+private var currentTarget : BuildingOnGrid;
+private var test : boolean = false;
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 2, 50, HexagonGrid.tileWidth / 2);
 
@@ -48,17 +50,20 @@ function Initiate() {
 
 // sees if there is a valid path between the unit's current building and the target building
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
-function FindPath (target : BuildingOnGrid) : boolean {
+function FindPath (target : BuildingOnGrid, onUndo : boolean) : boolean {
+	if (foundPath.Count > 0 && !onUndo)
+		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+	foundPath.Clear();
+	//foundPath.TrimExcess();
 	if (target == null || !BuildingCheck(target)) // Check if building is a valid target
 		return false;
-	
+	Debug.Log("finding" + onUndo);
 	// reset colors of current found path
-	if (foundPath.Count > 0)
-		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+	
 	
 	// reset pathing variables and lists
 	var found : boolean = false;
-	foundPath.Clear();
+	
 	open.Clear();
 	nextOpen.Clear();
 	closed.Clear();
@@ -189,7 +194,10 @@ private function SetLinkColors(col : Color)
 // recursively changes the color of all links in the found path to red
 private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : int, col : Color) 
 {
-	DrawLinks.SetLinkColor(Database.findBuildingIndex(b1), Database.findBuildingIndex(b2), col);
+	var b1Index : int = Database.findBuildingIndex(b1);
+	var b2Index : int = Database.findBuildingIndex(b2);
+	if (b1.outputLinkedTo.Contains(b2Index) || b1.inputLinkedTo.Contains(b2Index))
+		DrawLinks.SetLinkColor(b1Index, b2Index, col);
 	// terminating case: if b2 is the last building in foundPath
 	if (foundPath.Count < 1 || b2 == foundPath[foundPath.Count - 1])
 		return;
@@ -199,7 +207,7 @@ private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : 
 // performs unit actions on new turn
 function DoAction () 
 {
-	if (foundPath.Count < 1) return;
+	if (foundPath.Count < 1 || !FindPath(currentTarget, false)) return;
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = foundPath[0]; // set current building to next building in the path
 	foundPath.RemoveAt(0);
@@ -214,14 +222,19 @@ function DoAction ()
 
 function UndoAction () 
 {
+	foundPath.Clear();
+	test = FindPath(currentTarget, true);
+	Debug.Log("test" + test);
+	
 	if (actionList.Count < 1)
 		return;
+	
 	// if the current turn is the proper undo turn
 	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
 	{
 		// re-add the current building to the path list and move back to the previous building
-		DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
-								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);
+		/*DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
+								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);*/
 		currentBuilding.unit = UnitType.None;
 		foundPath.Insert(0, currentBuilding);
 		currentBuilding = actionList[actionList.Count - 1].move;
@@ -251,7 +264,7 @@ function Update() {
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
-		if (FindPath(selectedGridBuilding)) // if so, display message indicating so on status marquee
+		if (FindPath(selectedGridBuilding, false)) // if so, display message indicating so on status marquee
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
@@ -261,6 +274,7 @@ function Update() {
 				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 				pathDrawn = true;
 			}
+			currentTarget = selectedGridBuilding;
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
