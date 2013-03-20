@@ -913,7 +913,7 @@ function undo(): boolean
 {
 	if(intelSystem.currentTurn != 0)
 	{
-		//UnitManager.UndoUnitActions();
+		UnitManager.UndoUnitActions();
 		switch(UndoStack[intelSystem.currentTurn - 1])
 		{
 			case UndoType.Link:
@@ -959,7 +959,7 @@ function UndoLink()
 	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
 	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
 	
-	/*
+	
 	if(b1Building.isActive)
 	{
 		activateBuilding(findBuildingIndex(b1Building));
@@ -970,7 +970,7 @@ function UndoLink()
 				intelSystem.decrementScore(true, buildingWithUnitActivatedScore);
 			}
 		}
-	}*/
+	}
 	
 	//Removes the latest link
 	linkList.RemoveAt(lastIndex);	
