@@ -913,7 +913,7 @@ function undo(): boolean
 {
 	if(intelSystem.currentTurn != 0)
 	{
-		UnitManager.UndoUnitActions();
+		
 		switch(UndoStack[intelSystem.currentTurn - 1])
 		{
 			case UndoType.Link:
@@ -927,7 +927,7 @@ function undo(): boolean
 			default:
 				break;
 		
-		}		
+		}				
 		UndoStack.RemoveAt(UndoStack.Count - 1);
 		return true;
 				
@@ -971,6 +971,7 @@ function UndoLink()
 			}
 		}
 	}
+	
 	
 	//Removes the latest link
 	linkList.RemoveAt(lastIndex);	

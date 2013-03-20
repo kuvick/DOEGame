@@ -81,7 +81,7 @@ class ResearcherUnit extends Unit {
 		if (actionList.Count < 1)
 			return;
 		// if the current turn is the proper undo turn
-		if (intelSystem.currentTurn - 1 == actionList[actionList.Count - 1].turn)
+		if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
 		{
 			// replace a picked up upgrade and regains the old held upgrade
 			currentBuilding.heldUpgrade = actionList[actionList.Count - 1].pickedUpUpgrade;

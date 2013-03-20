@@ -127,7 +127,7 @@ public function subtractTurn()
 {
 	increaseTurns();
 	currentTurn--;
-	//UnitManager.UndoUnitActions();
+	UnitManager.UndoUnitActions();
 }
 
 

@@ -234,7 +234,7 @@ function UndoAction ()
 		return;
 	
 	// if the current turn is the proper undo turn
-	if (intelSystem.currentTurn - 1 == actionList[actionList.Count - 1].turn)
+	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
 	{
 		// re-add the current building to the path list and move back to the previous building
 		/*DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
