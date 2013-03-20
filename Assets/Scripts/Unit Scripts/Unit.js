@@ -11,13 +11,14 @@ protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var foundPathIndex : int = 0; // used to keep track of undo actions
 protected var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
+protected var currentTarget : BuildingOnGrid;
 
 protected var intelSystem : IntelSystem;
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
-private var currentTarget : BuildingOnGrid;
+
 private var test : boolean = false;
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 2, 50, HexagonGrid.tileWidth / 2);
@@ -222,8 +223,11 @@ function DoAction ()
 
 function UndoAction () 
 {
-	foundPath.Clear();
-	test = FindPath(currentTarget, true);
+	if (type != UnitType.Researcher)
+	{
+		foundPath.Clear();
+		FindPath(currentTarget, true);
+	}
 	Debug.Log("test" + test);
 	
 	if (actionList.Count < 1)

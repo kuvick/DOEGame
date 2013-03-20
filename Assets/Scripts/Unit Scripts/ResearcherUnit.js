@@ -76,6 +76,8 @@ class ResearcherUnit extends Unit {
 	
 	function UndoAction ()
 	{
+		foundPath.Clear();
+		FindPath(currentTarget, true);
 		if (actionList.Count < 1)
 			return;
 		// if the current turn is the proper undo turn
