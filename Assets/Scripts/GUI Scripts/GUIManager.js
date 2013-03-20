@@ -269,9 +269,10 @@ private function RespondTo(response:GUIEvent)
 		// Loading responses
 		case EventTypes.DONELOADING:
 			ClearControls();
-			Application.LoadLevel("DOEGame");
 			AddGUIToControls(mainMenu);
 			AddGUIToControls(marquee);
+			var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+			Application.LoadLevel(nextLevel.nextLevel);
 			break;
 			
 		// Main Menu responses

@@ -10,6 +10,10 @@ Author: Katharine Uvick, Francis Yuan
 
 public class StartMenu extends GUIControl
 {
+	// Set the first level the game is to load when the player
+	// clicks "new game"
+	public var firstLevel:String = "DOEGame";
+
 	// Skins for Start Screen
 	public var startMenuSkin:GUISkin;
 	public var hexButtonSkin:GUISkin;
@@ -133,6 +137,9 @@ public class StartMenu extends GUIControl
 			
 			if (GUI.Button(newGameButton, "new game"))
 			{
+				//So it can pass to the loading screen where to go next
+				var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+				nextLevel.nextLevel = firstLevel;
 				currentResponse.type = EventTypes.NEWGAME;
 				PlayButtonPress(2);
 			}
@@ -152,6 +159,7 @@ public class StartMenu extends GUIControl
 			GUI.skin = hexButtonSkin;
 			if (GUI.Button(quitButton, quitTexture))
 			{
+				Application.Quit();
 			}
 		}
 		else

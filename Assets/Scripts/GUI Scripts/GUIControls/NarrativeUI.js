@@ -85,6 +85,9 @@ public class NarrativeUI extends GUIControl
 	//Would eventually set this to the loading screen, but for now since there are errors...
 	private function LoadLevel()
 	{
-		Application.LoadLevel(levelToLoad);
+		//So it can pass to the loading screen where to go next
+		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+		nextLevel.nextLevel = levelToLoad;
+		Application.LoadLevel("LoadingScreen");
 	}
 }

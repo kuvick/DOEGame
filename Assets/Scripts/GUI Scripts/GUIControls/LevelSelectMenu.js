@@ -201,6 +201,10 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		
+		//So it can pass to the loading screen where to go next
+		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+
+		
 		// Draws every building icon in the building icon list in two nested GUI groups
 		// The first group represents the clip area 
 		// The second group represents the entire list of building icons
@@ -212,7 +216,8 @@ public class LevelSelectMenu extends GUIControl
 					GUI.DrawTexture(levelList[i], levels[i].texture);
 					if(GUI.Button(levelList[i], levels[i].displayName + "\n\nDifficulty: " + levels[i].difficulty + "\nScore: " + levels[i].getScore()))
 					{
-						Application.LoadLevel (levels[i].sceneName);
+						nextLevel.nextLevel = levels[i].sceneName;
+						Application.LoadLevel("LoadingScreen");
 					}
 				}
 			GUI.EndGroup();
