@@ -11,7 +11,7 @@ protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var foundPathIndex : int = 0; // used to keep track of undo actions
 protected var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
-protected var currentTarget : BuildingOnGrid;
+protected var currentTarget : BuildingOnGrid = null;
 
 protected var intelSystem : IntelSystem;
 
@@ -51,20 +51,17 @@ function Initiate() {
 
 // sees if there is a valid path between the unit's current building and the target building
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
-function FindPath (target : BuildingOnGrid, onUndo : boolean) : boolean {
-	if (foundPath.Count > 0 && !onUndo)
-		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
-	foundPath.Clear();
-	//foundPath.TrimExcess();
+function FindPath (target : BuildingOnGrid) : boolean 
+{
 	if (target == null || !BuildingCheck(target)) // Check if building is a valid target
 		return false;
-	Debug.Log("finding" + onUndo);
 	// reset colors of current found path
-	
+	if (foundPath.Count > 0)
+		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
 	
 	// reset pathing variables and lists
 	var found : boolean = false;
-	
+	foundPath.Clear();
 	open.Clear();
 	nextOpen.Clear();
 	closed.Clear();
@@ -99,7 +96,7 @@ function FindPath (target : BuildingOnGrid, onUndo : boolean) : boolean {
 		foundPath.RemoveAt(0);
 		found = true;
 	}
-	//SetLinkColors(Color.red);
+	
 	ClearAllPathVars ();
 	return found;
 }
@@ -208,7 +205,7 @@ private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : 
 // performs unit actions on new turn
 function DoAction () 
 {
-	if (foundPath.Count < 1 || !FindPath(currentTarget, false)) return;
+	if (foundPath.Count < 1 || !FindPath(currentTarget)) return;
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = foundPath[0]; // set current building to next building in the path
 	foundPath.RemoveAt(0);
@@ -226,9 +223,8 @@ function UndoAction ()
 	if (type != UnitType.Researcher)
 	{
 		foundPath.Clear();
-		FindPath(currentTarget, true);
+		FindPath(currentTarget);
 	}
-	Debug.Log("test" + test);
 	
 	if (actionList.Count < 1)
 		return;
@@ -268,7 +264,7 @@ function Update() {
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
-		if (FindPath(selectedGridBuilding, false)) // if so, display message indicating so on status marquee
+		if (FindPath(selectedGridBuilding)) // if so, display message indicating so on status marquee
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
