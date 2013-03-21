@@ -35,6 +35,9 @@ private var largeButtonSize : float;
 private var buttonSpacingScale : float = 0.01;
 private var buttonSpacing : float;
 
+private var guiEnabledColor : Color = new Color(1,1,1,1);
+private var guiDisabledColor : Color = new Color(1,1,1,2);
+
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
@@ -396,13 +399,15 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		// increment position offset
 		if(i > 0)
 			buttonRect.x += drawnButtonSize + buttonSpacing;
-		GUI.enabled = false;			
+		GUI.enabled = false;
+		GUI.color = guiDisabledColor;
 		// check if the selected building has a matching output, if so make input button active
 		if (buildingIsSelected && building != selectedBuilding && isInRange(selectedBuilding, building) && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
 								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
 			drawnButtonSize = largeButtonSize;
 			GUI.enabled = true;
+			GUI.color = guiEnabledColor;
 		}
 		else
 			drawnButtonSize = smallButtonSize;
@@ -414,6 +419,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 			{
 				drawnButtonSize = largeButtonSize;
 				GUI.enabled = true;
+				GUI.color = guiEnabledColor;
 			}
 			else
 				drawnButtonSize = smallButtonSize;
@@ -431,6 +437,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		GUILayout.EndArea();
 		GUI.enabled = true;
 	}
+	GUI.color = guiEnabledColor;
 	return buttonRect;
 }
 
@@ -444,12 +451,13 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 		if(i > 0)
 			buttonRect.x += drawnButtonSize + buttonSpacing;
 		GUI.enabled = false;		
-		
+		GUI.color = guiDisabledColor;
 		// output buttons only active if building is active
 		if (building == selectedBuilding && selectedGridBuilding.isActive)
 		{
 			drawnButtonSize = largeButtonSize;
 			GUI.enabled = true;
+			GUI.color = guiEnabledColor;
 		}
 		else
 			drawnButtonSize = smallButtonSize;
@@ -467,6 +475,7 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 		GUILayout.EndArea();
 		GUI.enabled = true;
 	}
+	GUI.color = guiEnabledColor;
 	return buttonRect;
 }
 
