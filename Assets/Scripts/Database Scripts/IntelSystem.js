@@ -23,6 +23,7 @@ public var events : List.<EventScript>;
 public var linkedEvents : List.<EventScript>;
 public var numOfObjectivesLeft : int;
 public var victory : boolean;
+public var currentLevelName : String;
 
 
 class BuildingEvent
@@ -53,6 +54,7 @@ function Start ()
 {
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
 	intelMenu.LoadLevelReferences();
+	currentLevelName = Application.loadedLevelName;
 
 	Debug.Log("Adding events to the list:");
 	currentTurn = 0;

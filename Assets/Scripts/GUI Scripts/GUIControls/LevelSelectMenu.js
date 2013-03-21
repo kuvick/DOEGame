@@ -213,6 +213,11 @@ public class LevelSelectMenu extends GUIControl
 			GUI.BeginGroup(levelGroup);
 				for (var i:int = 0; i < levelList.Count; i++)
 				{
+					if(PlayerPrefs.HasKey(levels[i].sceneName + "Score"))
+					{
+						levels[i].setScore(PlayerPrefs.GetInt(levels[i].sceneName + "Score"));
+					}
+				
 					GUI.DrawTexture(levelList[i], levels[i].texture);
 					if(GUI.Button(levelList[i], levels[i].displayName + "\n\nDifficulty: " + levels[i].difficulty + "\nScore: " + levels[i].getScore()))
 					{

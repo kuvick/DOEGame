@@ -37,16 +37,20 @@ private var database : GameObject;
 private var intelSystem : IntelSystem;
 
 function Start(){
+	Debug.Log("Level:" + Application.loadedLevelName);
 	database = GameObject.Find("Database");
 	intelSystem = database.GetComponent(IntelSystem);
 	eventScore = intelSystem.getPrimaryScore();
 	bonusScore = intelSystem.getOptionalScore();
-				
+		
 	/*
 		Initialize the GUIStyle for the Score Text
 	*/
 	newStyle = GUIStyle();
 	newStyle.fontSize = 20;		
+	
+	totalScore  = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore();
+	PlayerPrefs.SetInt(intelSystem.currentLevelName + "Score", totalScore);
 							
 	SetupButtons();
 }
