@@ -15,10 +15,13 @@ private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
 private var selectedResource : ResourceType;
 
+private var buildingIsSelected : boolean = false;
+
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
-private var inputOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
-private var outputOffset:Vector2 = new Vector2(20, -40);
+private var offsetScale : float = 0.06;
+private var inputOffset:Vector2 = new Vector2(-1, 1);	//Used to set position of button relative to building
+private var outputOffset:Vector2 = new Vector2(-1, -1);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
@@ -27,6 +30,8 @@ private var smallButtonScale : float = 0.03; // normal resource icon/button size
 private var smallButtonSize : float;
 private var largeButtonScale : float = 0.06; // resource icon/button size when building selected
 private var largeButtonSize : float;
+private var buttonSpacingScale : float = 0.01;
+private var buttonSpacing : float;
 
 // Screen width and height
 private var screenWidth: float;
@@ -94,6 +99,10 @@ function Start () {
 	
 	smallButtonSize = screenHeight * smallButtonScale;
 	largeButtonSize = screenHeight * largeButtonScale;
+	buttonSpacing = screenHeight * buttonSpacingScale;
+	
+	inputOffset *= offsetScale * screenHeight;
+	outputOffset *= offsetScale * screenHeight;
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -240,9 +249,39 @@ function OnGUI()
 		cancelLinkMode = true;
 	
 	if(buildings.Length == 0)
-		return; 
+		return;
+		
+	buildingIsSelected = (selectedBuilding != null);
+	if (buildingIsSelected)
+		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+		
+	for (var building : GameObject in buildings)
+	{
+		if(building == null) return;
+		
+		target = building.transform;
+		gridBuilding = Database.getBuildingOnGrid(target.position);
+		if(gridBuilding == null)
+			return;
+			
+		point = Camera.main.WorldToScreenPoint(target.position);
+		point.y = Screen.height - point.y; //adjust height point
+		if(point.y < 0) //Adjust y value of button for screen space
+			point.y -= Screen.height;
+		
+		outputRect = Rect(point.x + outputOffset.x, point.y + outputOffset.y, smallButtonSize, smallButtonSize);
+		inputRect = Rect(point.x + inputOffset.x, point.y + inputOffset.y, smallButtonSize, smallButtonSize);
+		
+		DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
+		inputRect.x += smallButtonSize + (2 * buttonSpacing);
+		DrawInputButtons(inputRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
+		
+		DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
+		outputRect.x += smallButtonSize + (2 * buttonSpacing);
+		DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
+	}
 	
-	if(selectedBuilding == null)
+	/*if(selectedBuilding == null)
 		return;
 		
 	selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
@@ -340,33 +379,44 @@ function OnGUI()
 			else mouseOverGUI = false;
 			GUILayout.EndArea();
 		}
-	}
+	}*/
 }
 
 // iterates through the given resource list and draws the appropriate input or output buttons
 function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
 								building : GameObject, isAllocated : boolean) : Rect
 {
+	var drawnButtonSize : float = smallButtonSize;
 	for(var i = 0; i < resourceList.Count; i++)
 	{
 		// increment position offset
 		if(i > 0)
-			buttonRect.y += ioButtonHeight + 3;
+			buttonRect.x += drawnButtonSize + buttonSpacing;
 		GUI.enabled = false;			
 		// check if the selected building has a matching output, if so make input button active
-		if (selectedBuildingOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i]))
+		if (buildingIsSelected && building != selectedBuilding && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
+								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
+			drawnButtonSize = largeButtonSize;
 			GUI.enabled = true;
 		}
+		else
+			drawnButtonSize = smallButtonSize;
 		// if selected building's optional outputs are active, check if it has a matching output
 		// if so make input button active
-		if (selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
+		if (buildingIsSelected && selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
 		{
 			if (resourceList[i] == selectedGridBuilding.optionalOutput)
 			{
+				drawnButtonSize = largeButtonSize;
 				GUI.enabled = true;
 			}
+			else
+				drawnButtonSize = smallButtonSize;
 		}
+		
+		buttonRect.width = drawnButtonSize;
+		buttonRect.height = drawnButtonSize;
 		GUILayout.BeginArea(buttonRect);
 		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
 		{
@@ -383,16 +433,25 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType>, textureArray : Texture2D[],
 								building : GameObject, isAllocated : boolean) : Rect
 {
+	var drawnButtonSize : float = smallButtonSize;
 	for(var i = 0; i < resourceList.Count; i++)
 	{
 		// increment position offset
 		if(i > 0)
-			buttonRect.y += ioButtonHeight + 3;
+			buttonRect.x += drawnButtonSize + buttonSpacing;
 		GUI.enabled = false;		
 		
 		// output buttons only active if building is active
-		if (selectedGridBuilding.isActive)
+		if (building == selectedBuilding && selectedGridBuilding.isActive)
+		{
+			drawnButtonSize = largeButtonSize;
 			GUI.enabled = true;
+		}
+		else
+			drawnButtonSize = smallButtonSize;
+			
+		buttonRect.width = drawnButtonSize;
+		buttonRect.height = drawnButtonSize;
 		GUILayout.BeginArea(buttonRect);
 		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
 		{

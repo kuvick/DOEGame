@@ -66,6 +66,7 @@ class ResearcherUnit extends Unit {
 		{
 			// if so, satisfy upgrade need and display a temporary message on the status marquee
 			//currentBuilding.neededUpgrade = UpgradeType.None;
+			tempHeld = heldUpgrade;
 			intelSystem.resolveEvent(currentBuilding.buildingPointer.GetComponent("EventScript"));
 			StatusMarquee.SetText("Upgrade delivered", true);	
 		}
