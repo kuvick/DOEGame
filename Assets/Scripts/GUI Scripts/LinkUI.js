@@ -10,6 +10,8 @@
 	
 */
 
+public var linkUISkin : GUISkin;
+
 private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
@@ -26,9 +28,9 @@ private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
-private var smallButtonScale : float = 0.03; // normal resource icon/button size
+private var smallButtonScale : float = 0.05; // normal resource icon/button size
 private var smallButtonSize : float;
-private var largeButtonScale : float = 0.06; // resource icon/button size when building selected
+private var largeButtonScale : float = 0.08; // resource icon/button size when building selected
 private var largeButtonSize : float;
 private var buttonSpacingScale : float = 0.01;
 private var buttonSpacing : float;
@@ -251,6 +253,8 @@ function OnGUI()
 	if(buildings.Length == 0)
 		return;
 		
+	GUI.skin = linkUISkin;
+	
 	buildingIsSelected = (selectedBuilding != null);
 	if (buildingIsSelected)
 		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
