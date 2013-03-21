@@ -49,6 +49,7 @@ public class IntelMenu extends GUIControl
 	public var defaultIcon:Texture;
 	
 	private var intelSystem : IntelSystem;
+	private var turn : int = 0;
 	
 	public function Start () 
 	{
@@ -102,6 +103,20 @@ public class IntelMenu extends GUIControl
 		rectList.Add(background);
 	}
 	
+	public function UpdateEventList()
+	{
+		if(intelSystem != null)					
+		{
+			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
+			eventList.Clear();
+			/*Query active BuildingEvents from IntelSystem*/
+			for(var event: BuildingEvent in tempList)		
+			{
+				eventList.InsertNode(event);			
+			}						
+		}	
+	}
+	
 	/*
 		Draws all the buttons in the Intel Menu.
 		
@@ -111,6 +126,11 @@ public class IntelMenu extends GUIControl
 	*/
 	public function Render()
 	{
+		if(turn != intelSystem.currentTurn)
+		{
+			UpdateEventList();
+			turn = intelSystem.currentTurn;
+		}
 		GUI.Box(background, "");
 		
 		GUI.skin = hexButtonSkin;
@@ -184,7 +204,7 @@ public class IntelMenu extends GUIControl
 				intelMenuSkin.label.alignment = TextAnchor.MiddleLeft;
 				intelMenuSkin.label.fontStyle = FontStyle.Bold;
 				
-				if(newType)
+				if(newType == 0)
 				{
 					GUI.Label(eventNodeTitle, newTitle + " :: Primary");	//Display Title as Label
 				}

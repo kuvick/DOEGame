@@ -26,6 +26,9 @@ public var victory : boolean;
 public var currentLevelName : String;
 
 
+private var eventStack : List.<EventStackNode>;
+
+
 class BuildingEvent
 {
 	var name : String = "";				// Used for accessing in editor				(?) may want to cut out
@@ -50,11 +53,18 @@ enum BuildingEventType
 	Secondary = 1,
 }
 
+class EventStackNode
+{
+	var event : EventScript;
+	var turnAdded: int;
+}
+
 function Start ()
 {
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
 	intelMenu.LoadLevelReferences();
 	currentLevelName = Application.loadedLevelName;
+	eventStack = new List.<EventStackNode>();
 
 	Debug.Log("Adding events to the list:");
 	currentTurn = 0;
@@ -130,6 +140,7 @@ public function subtractTurn()
 	increaseTurns();
 	currentTurn--;
 	UnitManager.UndoUnitActions();
+	undoResolution();
 }
 
 
@@ -191,6 +202,10 @@ public function resolveEvent( script : EventScript)
 {
 	Debug.Log(script.event.name + " was resolved!");
 	var tempScript : EventScript = script;
+	var tempNode : EventStackNode = new EventStackNode();
+	tempNode.event = script;
+	tempNode.turnAdded = currentTurn;
+	eventStack.Add(tempNode);
 	events.Remove(script);
 	
 	tempScript.changeOpacity(0f);
@@ -198,8 +213,8 @@ public function resolveEvent( script : EventScript)
 	if(tempScript.event.childEvent != null)
 	{	
 		var childEvent : EventScript = findLinkedEvent(tempScript.event.childEvent);
-		childEvent.changeOpacity(0f);
-		childEvent.showUpgrade = false;
+		childEvent.changeOpacity(.5f);
+		childEvent.showUpgrade = true;
 		linkedEvents.Remove(childEvent);
 		events.Add(childEvent);
 	}
@@ -218,6 +233,53 @@ public function resolveEvent( script : EventScript)
 		optionalScore += tempScript.event.points;
 	}
 	
+}
+
+public function undoResolution()
+{
+	if(eventStack.Count > 0)
+	{
+		var index = eventStack.Count - 1;
+		if(eventStack[index].turnAdded == currentTurn + 1)
+		{	
+			var tempEvent : BuildingEvent = eventStack[index].event.event;		
+			
+			//If the event had a child, that child will now be in play
+			if(tempEvent.childEvent != null)
+			{
+				var tempChildEvent = findEvent(tempEvent.childEvent);
+				//Remove child from events list
+				events.Remove(tempChildEvent);
+				
+				//Reset 
+				tempChildEvent.changeOpacity(0.5f);
+				tempChildEvent.showUpgrade = true;
+			
+				//Add child to linkedEvents list
+				linkedEvents.Add(tempChildEvent);
+			}
+			
+			//If the event was a Primary Event
+			if(tempEvent.type == BuildingEventType.Primary){
+				// Decrement Primary Score
+				primaryScore -= tempEvent.points; 
+				// Increment the Number of Objectives Remaining
+				numOfObjectivesLeft++;  
+			}
+			else // Otherwise...
+			{
+				// Decrement Optional Score
+				optionalScore -= tempEvent.points; 
+			}
+			
+			eventStack[index].event.changeOpacity(.5f);
+			eventStack[index].event.showUpgrade = true;
+			eventStack[index].event.event.time++;
+			
+			events.Add(eventStack[index].event);  // Add to event list
+			eventStack.RemoveAt(index);  // Remove element from eventStack
+		}
+	}
 }
 
 
