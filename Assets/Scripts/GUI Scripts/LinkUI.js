@@ -398,7 +398,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 			buttonRect.x += drawnButtonSize + buttonSpacing;
 		GUI.enabled = false;			
 		// check if the selected building has a matching output, if so make input button active
-		if (buildingIsSelected && building != selectedBuilding && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
+		if (buildingIsSelected && building != selectedBuilding && isInRange(selectedBuilding, building) && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
 								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
 			drawnButtonSize = largeButtonSize;
