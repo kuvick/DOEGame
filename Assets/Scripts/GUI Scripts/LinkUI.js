@@ -14,12 +14,30 @@ private var numBuildings:int;
 private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
 private var selectedResource : ResourceType;
+
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
+private var inputOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
+private var outputOffset:Vector2 = new Vector2(20, -40);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
+private var smallButtonScale : float = 0.03; // normal resource icon/button size
+private var smallButtonSize : float;
+private var largeButtonScale : float = 0.06; // resource icon/button size when building selected
+private var largeButtonSize : float;
+
+// Screen width and height
+private var screenWidth: float;
+private var screenHeight: float;
+// Bars to account for resolution differences
+private var horizontalBarHeight:float;
+private var verticalBarWidth:float;
+// Padding as a percent of total screen height and padding in pixels
+protected var paddingPercent = .02;
+protected var padding: float;
+
 private var target:Transform;			//Transform of building that button corresponds to
 private var point:Vector3;				//Used to obtain position of IO button in screen space
 private var inputRect:Rect;				//Rect for Area of input button
@@ -66,6 +84,16 @@ function Start () {
 	mouseOverGUI = false;
 	displayLink = gameObject.GetComponent(DisplayLinkRange);
 	Debug.Log("linkui" + buildings.Length);
+	
+	// Store window dimensions and calculate padding
+	screenWidth = ScreenSettingsManager.instance.screenWidth;
+	screenHeight = ScreenSettingsManager.instance.screenHeight;
+	horizontalBarHeight = ScreenSettingsManager.instance.horizontalBarHeight;
+	verticalBarWidth = ScreenSettingsManager.instance.verticalBarWidth;
+	padding = screenHeight * paddingPercent;
+	
+	smallButtonSize = screenHeight * smallButtonScale;
+	largeButtonSize = screenHeight * largeButtonScale;
 }
 
 //This function returns true if buildings b1 and b2 are linked
