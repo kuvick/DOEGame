@@ -16,6 +16,16 @@ ModelImporter:
     4300022: polySurface23
     4300024: polySurface24
     4300026: polySurface25
+    4300028: pCylinder008
+    4300030: pCylinder007
+    4300032: pCube4
+    4300034: polySurface13
+    4300036: pCylinder6
+    4300038: pPlane3
+    4300040: pPlane2
+    4300042: pPlane1
+    4300044: polySurface3
+    4300046: pCube1
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -60,72 +70,7 @@ ModelImporter:
       data:
         first: 111
         second: 605fa900
-    polySurface16:
-      data:
-        first: 1
-        second: ac860100
-      data:
-        first: 4
-        second: 8c1a0600
-      data:
-        first: 23
-        second: 6a182300
-      data:
-        first: 33
-        second: aa5a3200
-    polySurface17:
-      data:
-        first: 1
-        second: ba860100
-      data:
-        first: 4
-        second: 9a1a0600
-      data:
-        first: 23
-        second: 76182300
-      data:
-        first: 33
-        second: b65a3200
-    polySurface18:
-      data:
-        first: 1
-        second: b6860100
-      data:
-        first: 4
-        second: 961a0600
-      data:
-        first: 23
-        second: 72182300
-      data:
-        first: 33
-        second: b25a3200
-    polySurface19:
-      data:
-        first: 1
-        second: be860100
-      data:
-        first: 4
-        second: 9e1a0600
-      data:
-        first: 23
-        second: 7a182300
-      data:
-        first: 33
-        second: ba5a3200
-    polySurface20:
-      data:
-        first: 1
-        second: a2860100
-      data:
-        first: 4
-        second: 821a0600
-      data:
-        first: 23
-        second: 62182300
-      data:
-        first: 33
-        second: a25a3200
-    polySurface21:
+    pCube1:
       data:
         first: 1
         second: a0860100
@@ -138,33 +83,20 @@ ModelImporter:
       data:
         first: 33
         second: a05a3200
-    polySurface22:
+    pCube4:
       data:
         first: 1
-        second: a8860100
+        second: a2860100
       data:
         first: 4
-        second: 881a0600
+        second: 821a0600
       data:
         first: 23
-        second: 68182300
+        second: 62182300
       data:
         first: 33
-        second: a85a3200
-    polySurface23:
-      data:
-        first: 1
-        second: bc860100
-      data:
-        first: 4
-        second: 9c1a0600
-      data:
-        first: 23
-        second: 78182300
-      data:
-        first: 33
-        second: b85a3200
-    polySurface24:
+        second: a25a3200
+    pCylinder007:
       data:
         first: 1
         second: a4860100
@@ -177,7 +109,7 @@ ModelImporter:
       data:
         first: 33
         second: a45a3200
-    polySurface25:
+    pCylinder008:
       data:
         first: 1
         second: a6860100
@@ -190,40 +122,20 @@ ModelImporter:
       data:
         first: 33
         second: a65a3200
-    polySurface3:
+    pCylinder6:
       data:
         first: 1
-        second: ae860100
+        second: a8860100
       data:
         first: 4
-        second: 8e1a0600
-    polySurface4:
-      data:
-        first: 1
-        second: b4860100
-      data:
-        first: 4
-        second: 941a0600
+        second: 881a0600
       data:
         first: 23
-        second: 70182300
+        second: 6a182300
       data:
         first: 33
-        second: b05a3200
-    polySurface5:
-      data:
-        first: 1
-        second: b2860100
-      data:
-        first: 4
-        second: 921a0600
-      data:
-        first: 23
-        second: 6e182300
-      data:
-        first: 33
-        second: ae5a3200
-    polySurface6:
+        second: aa5a3200
+    pPlane1:
       data:
         first: 1
         second: b0860100
@@ -232,20 +144,59 @@ ModelImporter:
         second: 901a0600
       data:
         first: 23
+        second: 6e182300
+      data:
+        first: 33
+        second: ae5a3200
+    pPlane2:
+      data:
+        first: 1
+        second: b2860100
+      data:
+        first: 4
+        second: 921a0600
+      data:
+        first: 23
+        second: 70182300
+      data:
+        first: 33
+        second: b05a3200
+    pPlane3:
+      data:
+        first: 1
+        second: b4860100
+      data:
+        first: 4
+        second: 941a0600
+      data:
+        first: 23
+        second: 72182300
+      data:
+        first: 33
+        second: b25a3200
+    polySurface13:
+      data:
+        first: 1
+        second: ac860100
+      data:
+        first: 4
+        second: 8c1a0600
+      data:
+        first: 23
         second: 6c182300
       data:
         first: 33
         second: ac5a3200
-    polySurface9:
+    polySurface3:
       data:
         first: 1
-        second: b8860100
+        second: ae860100
       data:
         first: 4
-        second: 981a0600
+        second: 8e1a0600
       data:
         first: 23
-        second: 74182300
+        second: 68182300
       data:
         first: 33
-        second: b45a3200
+        second: a85a3200
