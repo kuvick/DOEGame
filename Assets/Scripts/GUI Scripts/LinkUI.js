@@ -38,6 +38,12 @@ private var buttonSpacing : float;
 private var guiEnabledColor : Color = new Color(1,1,1,1);
 private var guiDisabledColor : Color = new Color(1,1,1,2);
 
+private var noHighlightColor : Color = new Color(1,1,1,0);
+private var usableHighlightColor : Color = new Color(1,1,0,.5);
+private var targetHighlightColor : Color = new Color(0,1,0,.5);
+private var selectedHighlightColor : Color = new Color(0,0,0,.5);
+private var buildingHighlightColor : Color;
+
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
@@ -265,12 +271,13 @@ function OnGUI()
 	for (var building : GameObject in buildings)
 	{
 		if(building == null) return;
-		
+		buildingHighlightColor = noHighlightColor;
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		if(gridBuilding == null)
 			return;
-			
+		if (!buildingIsSelected && (gridBuilding.isActive || building.name == "BuildingSite"))
+			buildingHighlightColor = usableHighlightColor;
 		point = Camera.main.WorldToScreenPoint(target.position);
 		point.y = Screen.height - point.y; //adjust height point
 		if(point.y < 0) //Adjust y value of button for screen space
@@ -280,12 +287,15 @@ function OnGUI()
 		inputRect = Rect(point.x + inputOffset.x, point.y + inputOffset.y, smallButtonSize, smallButtonSize);
 		
 		DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
-		inputRect.x += smallButtonSize + (2 * buttonSpacing);
+		//inputRect.x += smallButtonSize + (2 * buttonSpacing);
 		DrawInputButtons(inputRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
 		
 		DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
-		outputRect.x += smallButtonSize + (2 * buttonSpacing);
+		//outputRect.x += smallButtonSize + (2 * buttonSpacing);
 		DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
+		if (building == selectedBuilding)
+			buildingHighlightColor = selectedHighlightColor;
+		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 	}
 	
 	/*if(selectedBuilding == null)
@@ -406,6 +416,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
 			drawnButtonSize = largeButtonSize;
+			buildingHighlightColor = targetHighlightColor;
 			GUI.enabled = true;
 			GUI.color = guiEnabledColor;
 		}

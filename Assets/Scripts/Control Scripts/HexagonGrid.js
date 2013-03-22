@@ -39,6 +39,7 @@ class Tile{
 var tileMap:Tile[] = new Tile[15 * 10];
 static var mainCamera: Camera;									//set this in the editor, although the script fallbacks to the default camera.
 var selectionMaterial: Material;								//material for highlighting a specific hexagon.
+var highlightMaterial : Material;
 private var hexParticles: ParticleSystem.Particle[];			//particles for creating the hex grid
 static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0);	//plane for raycasting, uses y = 0 as the ground, y-up
 var width: int = 15; 											//number of tiles horizontally
@@ -183,6 +184,24 @@ private function CreateSelectionHexagon(){
 		Debug.LogError ("selection material not linked for HexagonGrid");
 	}
 	selectionHexagon.renderer.material = selectionMaterial;
+}
+
+/*
+ * Creates the hexagon that will highlight specific tiles
+ * */
+public function CreateHighlightHexagon(tilePos : Vector3):GameObject{
+	var highlightHexagon = new GameObject("HighlightHexagon");
+	var meshFilter: MeshFilter = highlightHexagon.AddComponent(MeshFilter);
+	meshFilter.mesh = hexagon;
+	var meshRenderer: MeshRenderer = highlightHexagon.AddComponent(MeshRenderer);
+	if(highlightMaterial == null){
+		Debug.LogError ("selection material not linked for HexagonGrid");
+	}
+	(highlightHexagon.GetComponentInChildren(Renderer) as Renderer).material = highlightMaterial;
+	highlightHexagon.tag = "HighlightTile";
+	highlightHexagon.transform.position = TileToWorldCoordinates(tilePos.x, tilePos.y);
+	highlightHexagon.transform.position.y = 0.3;
+	return highlightHexagon;
 }
 
 /*hexagon vertex ordering, registration point is the 'o', lower left corner (not on the hexagon)

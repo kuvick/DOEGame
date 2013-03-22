@@ -100,6 +100,9 @@ function Start()
 	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
 	
+	gridObject = GameObject.Find("HexagonGrid");
+	grid = gridObject.GetComponent(HexagonGrid);
+	
 	buildings = new Array();
 	buildingsOnGrid = new Array();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
@@ -113,14 +116,14 @@ function Start()
 		tempBuilding = new BuildingOnGrid();
 		tempBuildingData = buildingObject.GetComponent(BuildingData);
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		// create the building's highlight hexagon
+		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 		buildingsOnGrid.Push(tempBuilding);
 		BroadcastBuildingUpdate();
 		
 		Debug.Log(tempBuilding.buildingName + " was added to the grid");
 	}
 	
-	gridObject = GameObject.Find("HexagonGrid");
-	grid = gridObject.GetComponent(HexagonGrid);
 	UnitManager.InitiateUnits();
 	intelSystem = gameObject.GetComponent(IntelSystem);
 	linkList = new List.<LinkTurnNode>();
@@ -153,6 +156,7 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 	buildingsOnGrid.Add(tempBuilding);
 	BroadcastBuildingUpdate();
 	
@@ -827,6 +831,8 @@ class BuildingOnGrid
 	
 	var heldUpgrade : UpgradeType = UpgradeType.None;
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
+	
+	var highlighter : GameObject;
 }
 
 
