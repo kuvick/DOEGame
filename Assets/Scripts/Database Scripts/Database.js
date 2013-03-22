@@ -215,7 +215,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     temp.tileType = tileType;
     temp.idea = idea;				// will be blank for buildings placed in game?
     temp.hasEvent = hasEvent;				// will be blank for buildings placed in game?
-    
+    temp.highlighter = grid.CreateHighlightHexagon(temp.coordinate);
     	
    if( !isPreplaced )
    {
@@ -1105,6 +1105,8 @@ function testWinState(): boolean
 static public function deleteBuildingSite( coordinate : Vector3 )
 {
 	var buildingSiteID : int = findBuildingIndex( coordinate );	// find location in array of buildings
+	if (buildingSiteID >= 0)
+		Destroy(getBuildingOnGridAtIndex(buildingSiteID).highlighter);
 	Debug.Log("Removing at Index: " + buildingSiteID + " for coordinate " + coordinate);
 	buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
 	BroadcastBuildingUpdate();
