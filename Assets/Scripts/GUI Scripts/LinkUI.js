@@ -293,8 +293,8 @@ function OnGUI()
 		DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
 		//outputRect.x += smallButtonSize + (2 * buttonSpacing);
 		DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
-		if (building == selectedBuilding)
-			buildingHighlightColor = selectedHighlightColor;
+		/*if (building == selectedBuilding)
+			buildingHighlightColor = selectedHighlightColor;*/
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 	}
 	
