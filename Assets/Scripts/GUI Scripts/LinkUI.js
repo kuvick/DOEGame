@@ -32,7 +32,7 @@ private var smallButtonScale : float = 0.05; // normal resource icon/button size
 private var smallButtonSize : float;
 private var largeButtonScale : float = 0.08; // resource icon/button size when building selected
 private var largeButtonSize : float;
-private var buttonSpacingScale : float = 0.01;
+private var buttonSpacingScale : float = 0.0005;
 private var buttonSpacing : float;
 
 private var guiEnabledColor : Color = new Color(1,1,1,1);
@@ -40,7 +40,7 @@ private var guiDisabledColor : Color = new Color(1,1,1,2);
 
 private var noHighlightColor : Color = new Color(1,1,1,0);
 private var usableHighlightColor : Color = new Color(1,1,0,.5);
-private var targetHighlightColor : Color = new Color(0,1,0,.5);
+private var targetHighlightColor : Color = new Color(0,1,1,.5);
 private var selectedHighlightColor : Color = new Color(0,0,0,.5);
 private var buildingHighlightColor : Color;
 
@@ -286,13 +286,13 @@ function OnGUI()
 		outputRect = Rect(point.x + outputOffset.x, point.y + outputOffset.y, smallButtonSize, smallButtonSize);
 		inputRect = Rect(point.x + inputOffset.x, point.y + inputOffset.y, smallButtonSize, smallButtonSize);
 		
-		DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
+		inputRect = DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
 		//inputRect.x += smallButtonSize + (2 * buttonSpacing);
-		DrawInputButtons(inputRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
+		inputRect = DrawInputButtons(inputRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
 		
-		DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
+		outputRect = DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
 		//outputRect.x += smallButtonSize + (2 * buttonSpacing);
-		DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
+		outputRect = DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
 		/*if (building == selectedBuilding)
 			buildingHighlightColor = selectedHighlightColor;*/
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
@@ -406,12 +406,9 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 	var drawnButtonSize : float = smallButtonSize;
 	for(var i = 0; i < resourceList.Count; i++)
 	{
-		// increment position offset
-		if(i > 0)
-			buttonRect.x += drawnButtonSize + buttonSpacing;
-		GUI.enabled = false;
-		GUI.color = guiDisabledColor;
-		// check if the selected building has a matching output, if so make input button active
+		GUI.enabled = false;	// input buttons that don't correspond to the selected building's outputs are disabled
+		GUI.color = guiDisabledColor;	// counteracts inactive button transparency
+		// check if the selected building has a matching output, if so make input button active and enlarge
 		if (buildingIsSelected && building != selectedBuilding && isInRange(selectedBuilding, building) && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
 								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
@@ -447,6 +444,8 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		}
 		GUILayout.EndArea();
 		GUI.enabled = true;
+		// increment position offset
+		buttonRect.x += drawnButtonSize + buttonSpacing;
 	}
 	GUI.color = guiEnabledColor;
 	return buttonRect;
@@ -458,12 +457,9 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 	var drawnButtonSize : float = smallButtonSize;
 	for(var i = 0; i < resourceList.Count; i++)
 	{
-		// increment position offset
-		if(i > 0)
-			buttonRect.x += drawnButtonSize + buttonSpacing;
-		GUI.enabled = false;		
-		GUI.color = guiDisabledColor;
-		// output buttons only active if building is active
+		GUI.enabled = false;	// output buttons unselected buildings are disabled
+		GUI.color = guiDisabledColor;	// counteracts inactive button transparency
+		// output buttons only active if building is active and selected
 		if (building == selectedBuilding && selectedGridBuilding.isActive)
 		{
 			drawnButtonSize = largeButtonSize;
@@ -482,9 +478,12 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			selectedResource = resourceList[i];
 			selectedOutIndex = i;
 			allocatedOutSelected = isAllocated;
+			selectedGridBuilding.unitSelected = false;
 		}
 		GUILayout.EndArea();
 		GUI.enabled = true;
+		// increment position offset
+		buttonRect.x += drawnButtonSize + buttonSpacing;
 	}
 	GUI.color = guiEnabledColor;
 	return buttonRect;
