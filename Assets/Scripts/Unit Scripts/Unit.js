@@ -258,9 +258,10 @@ function Update() {
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
-	
+	if (isSelected && selectedBuilding == null)
+		isSelected = false;
 	// if unit is selected, and a different building has been selected
-	if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)
+	else if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
