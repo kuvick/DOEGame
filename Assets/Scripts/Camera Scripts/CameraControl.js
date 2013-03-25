@@ -12,8 +12,10 @@
 // Variables for altering the camera's movement
 static public var speedOfZoom: float = 100;	
 static public var closestZoomDistance: float = 400;	
-static public var farthestZoomDistnace: float = 550;
+static public var farthestZoomDistnace: float = 650;
 static public var zoomingIncrement: float = 10;
+
+static public var zoomedIn:boolean = false;
 
 static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
@@ -24,6 +26,8 @@ function Start () {
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 
 	thisCamera = Camera.main;
+	thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, farthestZoomDistnace, thisCamera.transform.position.z);
 }
 
 // The function uses the difference in the mouse's position between frames
@@ -54,11 +58,12 @@ static public function Drag(currentInputPos: Vector2){
 // This function is used to zoom the camera in and out.
 // Assumes the camera is at a 45 degree angle towards the terrain.
 static function Zoom(isZoomingIn: boolean){
+	/* No more manual zoom
 	if (isZoomingIn && CanZoomIn()){
 		ZoomIn();
 	} else if (!isZoomingIn && CanZoomOut()) {
 		ZoomOut();
-	}
+	}*/
 }
 
 private static function CanZoomIn() : boolean{
@@ -70,12 +75,15 @@ private static function CanZoomOut() : boolean{
 }
 
 public static function ToggleZoomType(){
-	cameraViewOverhead = !cameraViewOverhead;
-	if (cameraViewOverhead){
-		thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+	zoomedIn = !zoomedIn;
+	var yPos : float;
+	if (zoomedIn){
+		yPos = closestZoomDistance; 
 	} else {
-		thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
+		yPos = farthestZoomDistnace; 
 	}
+	
+	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, yPos, thisCamera.transform.position.z);
 }
 
 private static function ZoomIn(){
