@@ -48,6 +48,8 @@ private var pauseMenu:PauseMenu;
 private var intelMenu:IntelMenu;
 private var buildingMenu:BuildingMenu;
 private var levelSelectMenu:LevelSelectMenu;
+private var scoreMenu:ScoreMenu;
+private var failureMenu:FailureMenu;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -132,6 +134,8 @@ public function Start ()
 	intelMenu = GetComponent(IntelMenu);
 	buildingMenu = GetComponent(BuildingMenu);
 	levelSelectMenu = GetComponent(LevelSelectMenu);
+	scoreMenu = GetComponent(ScoreMenu);
+	failureMenu = GetComponent(FailureMenu);
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
@@ -323,6 +327,17 @@ private function RespondTo(response:GUIEvent)
 			break;
 			
 		// Intel Menu responses
+		
+		// Score Menu responses
+		case EventTypes.SCORESCREEN:
+			//Application.LoadLevel("ScoreScreen");
+			ClearControls();
+			AddGUIToControls(scoreMenu);
+			break;
+		case EventTypes.FAILUREMENU:
+			ClearControls();
+			AddGUIToControls(failureMenu);
+			break;
 	}
 }
 
