@@ -439,14 +439,12 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		
 		buttonRect.width = drawnButtonSize;
 		buttonRect.height = drawnButtonSize;
-		GUILayout.BeginArea(buttonRect);
-		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
+		if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
 		{
 			inputBuilding = building;
 			selectedInIndex = i;
 			allocatedInSelected = isAllocated;
 		}
-		GUILayout.EndArea();
 		GUI.enabled = true;
 		// increment position offset
 		buttonRect.x += drawnButtonSize + buttonSpacing;
@@ -475,8 +473,7 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			
 		buttonRect.width = drawnButtonSize;
 		buttonRect.height = drawnButtonSize;
-		GUILayout.BeginArea(buttonRect);
-		if (GUILayout.Button(textureArray[resourceList[i] - 1]))
+		if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
 		{
 			outputBuilding = building;
 			selectedResource = resourceList[i];
@@ -484,7 +481,6 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			allocatedOutSelected = isAllocated;
 			//selectedGridBuilding.unitSelected = false;
 		}
-		GUILayout.EndArea();
 		GUI.enabled = true;
 		// increment position offset
 		buttonRect.x += drawnButtonSize + buttonSpacing;
