@@ -82,7 +82,9 @@ enum UndoType
 {
 	Link = 0,
 	Add = 1,
-	Wait = 2
+	Wait = 2,
+	Chain = 3,
+	Overload = 4
 }
 
 function Start()
@@ -533,8 +535,24 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link overload");
+		
+		//Stores links into list organized by when they were created	
+		var tempNode : LinkTurnNode = new LinkTurnNode();
+		tempNode.b1 = inputBuilding.buildingPointer;
+		tempNode.b1Coord = inputBuilding.coordinate;
+		tempNode.b2 = outputBuilding.buildingPointer;
+		tempNode.b2Coord = outputBuilding.coordinate;
+		tempNode.b3 = oldOutputBuilding.buildingPointer;
+		tempNode.b3Coord = oldOutputBuilding.coordinate;
+		tempNode.turnCreated = intelSystem.currentTurn + 1;
+		tempNode.type = resourceName;
+		linkList.Add(tempNode);
+		
+		UndoStack.Add(UndoType.Overload);
 		if (!allocatedOutSelected)
+		{			
 			intelSystem.addTurn();
+		}
 	}
 	
 	if (hasResource)
@@ -598,6 +616,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link chain break");
+		UndoStack.Add(UndoType.Chain);
 		intelSystem.addTurn();
 	}
 	
@@ -840,8 +859,10 @@ class LinkTurnNode
 {
 	var b1: GameObject;
 	var b2: GameObject;
+	var b3: GameObject;
 	var b1Coord: Vector3 = new Vector3(0,0,0);
-	var b2Coord: Vector3 = new Vector3(0,0,0);;
+	var b2Coord: Vector3 = new Vector3(0,0,0);
+	var b3Coord: Vector3 = new Vector3(0,0,0);
 	var turnCreated: int;
 	var type: ResourceType;
 }
@@ -924,15 +945,20 @@ function undo(): boolean
 		{
 			case UndoType.Link:
 				//Debug.Log("This is a Link Undo");
-				UndoLink();				
+				UndoLink(0);				
 				break;
 			case UndoType.Add:
 				//Debug.Log("This is a Add Undo");
 				UndoAdd();
 				break;
+			case UndoType.Chain:
+				UndoLink(1);								
+				break;
+			case UndoType.Overload:
+				UndoLink(2);				
+				break;
 			default:
 				break;
-		
 		}				
 		UndoStack.RemoveAt(UndoStack.Count - 1);
 		return true;
@@ -946,7 +972,11 @@ function undo(): boolean
 
 }// end of undo()
 
-function UndoLink()
+//typeOfUndo : int
+//0 = Normal Link
+//1 = Chain Break
+//2 = Overload
+function UndoLink(typeOfUndo : int)
 {
 	var lastIndex : int = linkList.Count - 1;
 	
@@ -965,6 +995,25 @@ function UndoLink()
 	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
 	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
 	
+	if(typeOfUndo == 2)
+	{	
+		var b3Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b3Coord);
+		//Link B1 to B3
+		b1Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
+		b3Building.unallocatedOutputs.Remove(linkList[lastIndex].type);
+		
+		
+		b1Building.allocatedInputs.Add(linkList[lastIndex].type);
+		b3Building.allocatedOutputs.Add(linkList[lastIndex].type);
+		
+		b1Building.inputLinkedTo.Add(findBuildingIndex(b3Building));
+		b3Building.outputLinkedTo.Add(findBuildingIndex(b1Building));
+		
+		linkUIRef.linkReference[findBuildingIndex(b1Building), findBuildingIndex(b3Building)] = true;		
+		//Draw New Link
+		GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(b1Building), findBuildingIndex(b3Building), linkList[lastIndex].type);
+	}
+	
 	
 	if(b1Building.isActive)
 	{
@@ -977,7 +1026,6 @@ function UndoLink()
 			}
 		}
 	}
-	
 	
 	//Removes the latest link
 	linkList.RemoveAt(lastIndex);	
