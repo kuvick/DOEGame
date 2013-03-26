@@ -56,18 +56,18 @@ function Update() {
 	
 	if(selectedBuilding == null)
 	{
-		RestoreColors();
+		//RestoreColors();
 		return;
 	}
 	
-	if(selectedBuilding.name != "BuildingSite")
+	/*if(selectedBuilding.name != "BuildingSite")
 	{
 		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
-	}
+	}*/
 	
 	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding))
 	{
-		HighlightBuildingsInRange(selectedBuilding);
+		//HighlightBuildingsInRange(selectedBuilding);
 		HighlightTilesInRange();
 	}
 	previousBuilding = selectedBuilding;

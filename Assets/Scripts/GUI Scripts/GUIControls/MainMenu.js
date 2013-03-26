@@ -39,12 +39,16 @@ public class MainMenu extends GUIControl
 	public var waitTexture_Inactive:Texture;
 	public var waitTexture_Active:Texture;		
 	public var intelTexture_Inactive:Texture;		
-	public var intelTexture_Active:Texture;		
+	public var intelTexture_Active:Texture;	
+	public var zoomInTexture:Texture;	
+	public var zoomOutTexture:Texture;	
 	
 	// Score and turn ints
 	private var score:int;
 	private var turn:int;
 	private var intelSystem : IntelSystem;
+	
+	var cameraMain : CameraControl;
 	
 	public function Start () 
 	{
@@ -83,8 +87,9 @@ public class MainMenu extends GUIControl
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
-		rectList.Add(intelButton);		
-		
+		rectList.Add(intelButton);	
+			
+		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 	}
 	
 	public function Render()
@@ -141,9 +146,8 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
-		if (GUI.Button(RectFactory.NewRect(0, .95, .1, .05), "Toggle ViewType")){ // This is just temporary until we find another place for it
-			var camera : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
-			camera.ToggleZoomType();
+		if (GUI.Button(RectFactory.NewRect(.9, .68, .1, .12), (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){ 
+			cameraMain.ToggleZoomType();
 		}
 		
 		GUI.Label(scoreRect, score.ToString());

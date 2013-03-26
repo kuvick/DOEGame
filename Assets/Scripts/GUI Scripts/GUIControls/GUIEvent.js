@@ -37,12 +37,17 @@ public enum EventTypes
 	// Pause Menu events
 	RESTART,
 	STARTMENU,
-	SAVEQUIT
+	SAVEQUIT,
 	
 	// Intel Menu events
 	
 	// Building Menu events
 	
+	// Score Menu events
+	SCORESCREEN,
+	
+	// Failure Menu events
+	FAILUREMENU
 }
 
 public class GUIEvent

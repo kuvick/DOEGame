@@ -348,14 +348,18 @@ public function getOptionalScore():int
 public function triggerWin()
 {
 	victory = true;
-	Application.LoadLevel ("ScoreScreen");
+	var event : GUIEvent = new GUIEvent();
+	event.type = EventTypes.SCORESCREEN;
+	GUIManager.Instance().RecieveEvent(event);
 }
 
 // placeholder function to be called when a lose state is triggered
 public function triggerLoss()
 {
 	victory = false;
-	Application.LoadLevel ("ScoreScreen");
+	var event : GUIEvent = new GUIEvent();
+	event.type = EventTypes.FAILUREMENU;
+	GUIManager.Instance().RecieveEvent(event);
 }
 
 // Goes through the events and decreases the
