@@ -50,7 +50,7 @@ static function HandleTapAtPoint(position: Vector2){
 		var buildings = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
-		ModeController.selectedBuilding = building;
+		ModeController.setSelectedBuilding(building);
 		if(building.name == "BuildingSite")
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);

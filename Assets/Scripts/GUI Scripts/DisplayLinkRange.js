@@ -65,7 +65,8 @@ function Update() {
 		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
 	}*/
 	
-	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding))
+	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding) &&
+			Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
 	{
 		//HighlightBuildingsInRange(selectedBuilding);
 		HighlightTilesInRange();

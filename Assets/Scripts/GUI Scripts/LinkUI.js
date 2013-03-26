@@ -274,12 +274,13 @@ function OnGUI()
 	for (var building : GameObject in buildings)
 	{
 		if(building == null) return;
+		//if (buildingIsSelected && selectedGridBuilding.isActive)
 		buildingHighlightColor = noHighlightColor;
 		target = building.transform;
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		if(gridBuilding == null)
 			return;
-		if (!buildingIsSelected && (gridBuilding.isActive || building.name == "BuildingSite"))
+		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
 			buildingHighlightColor = usableHighlightColor;
 		point = Camera.main.WorldToScreenPoint(target.position);
 		point.y = Screen.height - point.y; //adjust height point
@@ -412,8 +413,8 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		GUI.enabled = false;	// input buttons that don't correspond to the selected building's outputs are disabled
 		GUI.color = guiDisabledColor;	// counteracts inactive button transparency
 		// check if the selected building has a matching output, if so make input button active and enlarge
-		if (buildingIsSelected && building != selectedBuilding && isInRange(selectedBuilding, building) && (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) 
-								|| selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
+		if (buildingIsSelected && selectedGridBuilding.isActive && building != selectedBuilding && isInRange(selectedBuilding, building) 
+				&& (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
 			drawnButtonSize = largeButtonSize;
 			buildingHighlightColor = targetHighlightColor;
