@@ -58,6 +58,7 @@ public class ScoreMenu extends GUIControl{
 		//Retry Level Button
 		if(GUI.Button(retryLevelButtonRect, scoreStrings[0]))
 		{
+			PlayButtonPress(1);
 			Application.LoadLevel(Application.loadedLevelName);//GUIManager.currLevel);//"Prototype - Level1");
 		}
 
@@ -67,17 +68,20 @@ public class ScoreMenu extends GUIControl{
 			/*
 				TODO: Continue to the next level(not just return to level 1)
 			*/
+			PlayButtonPress(1);
 			Application.LoadLevel("Prototype - Level1");
 		}
 		
 		//Return to Start Screen
 		if(GUI.Button(backToMainMenuButtonRect, scoreStrings[2]))
 		{
+			PlayButtonPress(1);
 			Application.LoadLevel("StartScreen");
 		}
 		
 		// X close button
 		if (GUI.Button(closeButtonRect, "X")){
+			PlayButtonPress(1);
 			currentResponse.type = EventTypes.MAIN;
 		}
 	}

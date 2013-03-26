@@ -111,22 +111,29 @@ public class PauseMenu extends GUIControl
 		
 		if (GUI.Button(levelSelectButton, "level select"))
 		{
+			PlayButtonPress(1);
 			currentResponse.type = EventTypes.LEVELSELECT;
 		}
 		
 		if (GUI.Button(restartButton, "restart"))
 		{
 			currentResponse.type = EventTypes.RESTART;
+			PlayButtonPress(1);
+			
 		}
 		
 		if (GUI.Button(StartMenuButton, "start screen"))
 		{
 			currentResponse.type = EventTypes.STARTMENU;
+			PlayButtonPress(1);
+			
 		}
 		
 		if (GUI.Button(saveQuitButton, "save and quit"))
 		{
 			currentResponse.type = EventTypes.SAVEQUIT;
+			PlayButtonPress(1);
+			
 		}
 		
 		GUI.skin = hexButtonSkin;
@@ -134,6 +141,8 @@ public class PauseMenu extends GUIControl
 		if (GUI.Button(resumeGameButton, "Resume"))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			PlayButtonPress(1);
+			
 		}
 	}
 }

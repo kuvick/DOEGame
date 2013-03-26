@@ -260,6 +260,7 @@ public class BuildingMenu extends GUIControl
 		
 		if (GUI.Button(cancelButton, "Cancel"))
 		{
+			PlayButtonPress(1);
 			currentResponse.type = EventTypes.MAIN;
 		}
 	}

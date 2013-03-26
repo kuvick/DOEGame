@@ -481,7 +481,7 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			selectedResource = resourceList[i];
 			selectedOutIndex = i;
 			allocatedOutSelected = isAllocated;
-			selectedGridBuilding.unitSelected = false;
+//			selectedGridBuilding.unitSelected = false;
 		}
 		GUILayout.EndArea();
 		GUI.enabled = true;

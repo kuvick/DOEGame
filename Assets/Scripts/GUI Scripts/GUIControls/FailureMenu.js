@@ -29,18 +29,21 @@ public class FailureMenu extends GUIControl{
 		//Retry Level Button
 		if(GUI.Button(retryLevelButtonRect, scoreStrings[0]))
 		{
+			PlayButtonPress(1);
 			Application.LoadLevel(Application.loadedLevelName);//GUIManager.currLevel);//"Prototype - Level1");
 		}
 
 		// level select
 		if(GUI.Button(levelSelectButtonRect, scoreStrings[1]))
 		{
+			PlayButtonPress(1);
 			currentResponse.type = EventTypes.LEVELSELECT;
 		}
 		
 		// quit
 		if(GUI.Button(quitButtonRect, scoreStrings[2]))
 		{
+			PlayButtonPress(1);
 			Application.Quit();
 		}
 	}
