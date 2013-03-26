@@ -58,9 +58,7 @@ public class MainMenu extends GUIControl
 	// For when the level is loaded and there is an intel system
 	public function LoadLevelReferences()
 	{
-		if (GameObject.Find("Database") != null){
-			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-		}
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	}
 	
 	public function Initialize()
@@ -98,11 +96,8 @@ public class MainMenu extends GUIControl
 	{   
 		GUI.skin = mainMenuSkin;
 		
-		if (intelSystem == null) {
-			LoadLevelReferences();
-		} else {
-			score = intelSystem.getPrimaryScore();
-		}
+		score = intelSystem.getPrimaryScore();
+		
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;
 		undoTexture = undoTexture_Inactive;
@@ -132,36 +127,26 @@ public class MainMenu extends GUIControl
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, "Pause"))
 		{
-			PlayButtonPress(1);
-			
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
 		if(GUI.Button(intelButton, intelTexture))
 		{
-			PlayButtonPress(1);
-			
 			currentResponse.type = EventTypes.INTEL;
 		}
 		
 		if(GUI.Button(waitButton, waitTexture))
 		{
-			PlayButtonPress(1);
-		
 			currentResponse.type = EventTypes.WAIT;
 			//currentResponse.type = EventTypes.BUILDING;
 		}
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
-			PlayButtonPress(1);
-		
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
 		if (GUI.Button(RectFactory.NewRect(.9, .68, .1, .12), (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){ 
-			PlayButtonPress(1);
-		
 			cameraMain.ToggleZoomType();
 		}
 		

@@ -40,7 +40,6 @@ public class GUIControl extends MonoBehaviour
 	protected var audioSource:AudioSourceSetup;
 	
 	public var isInitialized : boolean = false;
-	public var backgroundMusic : AudioClip = null;
 	
 	/*
 		Starts the GUIControl's update cycle.
@@ -67,21 +66,12 @@ public class GUIControl extends MonoBehaviour
 		rectList = new List.<Rect>();
 		currentResponse = new GUIEvent();
 		
-		
-		audioSource = gameObject.GetComponent(AudioSourceSetup);
+		if (GameObject.Find("AudioSource Object") != null)
+		{
+			audioSource = GameObject.Find("AudioSource Object").GetComponent(AudioSourceSetup);
+		}
 		
 		isInitialized = true;
-	}
-	
-	/*
-		Called when the menu is opened for the user to see
-	*/
-	public function OnOpen(){
-		Debug.Log("on open " + typeof(this));
-		if (backgroundMusic != null){
-			Debug.Log("Playing");
-			audioSource.playSoundOnLoop(backgroundMusic);
-		}
 	}
 	
 	/*

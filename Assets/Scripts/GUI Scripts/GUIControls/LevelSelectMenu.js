@@ -221,7 +221,6 @@ public class LevelSelectMenu extends GUIControl
 					GUI.DrawTexture(levelList[i], levels[i].texture);
 					if(GUI.Button(levelList[i], levels[i].displayName + "\n\nDifficulty: " + levels[i].difficulty + "\nScore: " + levels[i].getScore()))
 					{
-						PlayButtonPress(1);
 						nextLevel.nextLevel = levels[i].sceneName;
 						Application.LoadLevel("LoadingScreen");
 					}
