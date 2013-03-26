@@ -68,12 +68,12 @@ function Start ()
 	var replaceName : String = thisBuilding.name.Replace("(Clone)", "");
 	thisBuilding.name = replaceName;
 
-	if(loadDefaultData)
+	/*if(loadDefaultData)
 	{
 		buildingData = new BuildingOnGridData();
 		defaultBuildingsScript = GameObject.Find("Database").GetComponent(DefaultBuildings);
 		buildingData = defaultBuildingsScript.convertDefaultBuildingIntoBuildingOnGrid( gameObject.name );		//MAKE SURE THE NAME OF THE GAME OBJECT IS THE BUILDING NAME
-	}
+	}*/
 	buildingData.coordinate = HexagonGrid.worldToTileCoordinates(thisBuilding.transform.position.x, thisBuilding.transform.position.z);
 	buildingData.buildingPointer = thisBuilding;	// points to the GameObject to which the script is attached.
 }// end of start

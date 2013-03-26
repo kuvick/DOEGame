@@ -13,7 +13,7 @@ private var upgradeButtonWidth = 27;
 private var upgradeButtonHeight = 27;
 
 function Start () {
-	
+	InitiateUnits();
 }
 
 function Awake()
@@ -73,7 +73,7 @@ static function AddUnit (temp : Unit) {
 }
 
 static function InitiateUnits() {
-	Debug.Log("Initiating units");
+	Debug.Log("Initiating units " + unitList.Count);
 	for (var temp : Unit in unitList)
 	{
 		temp.Initiate();

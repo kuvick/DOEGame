@@ -123,10 +123,10 @@ function Start()
 		buildingsOnGrid.Push(tempBuilding);
 		BroadcastBuildingUpdate();
 		
-		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+		Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
-	UnitManager.InitiateUnits();
+	//UnitManager.InitiateUnits();
 	intelSystem = gameObject.GetComponent(IntelSystem);
 	linkList = new List.<LinkTurnNode>();
 	addList = new List.<AddTurnNode>();
@@ -839,6 +839,7 @@ class BuildingOnGrid
 	var linkCount : int = 0; // How many links are currently on the building
 	
 	var unit : UnitType = UnitType.None;
+	var unitSelected : boolean = false;
 	
 	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
 	
