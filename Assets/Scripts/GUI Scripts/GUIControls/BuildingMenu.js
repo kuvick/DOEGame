@@ -428,10 +428,10 @@ public class BuildingMenu extends GUIControl
 			
 			Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
 						
-			Database.deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
+			//deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
 			GameObject.DestroyImmediate(selectedBuildingSite);
-			
-			Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
+			Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
+			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
 			
 			RemoveBuildingFromList(index);
 	}

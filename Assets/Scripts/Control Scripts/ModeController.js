@@ -65,6 +65,11 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	buildings = curBuildings;
 }
 
+function ReplaceBuilding (replacement : BuildingReplacement)
+{
+	buildings[replacement.buildingIndex] = replacement.buildingObject;
+}
+
 function BuildingClicked():boolean
 {
 	return (selectedBuilding != null);

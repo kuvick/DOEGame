@@ -276,6 +276,19 @@ public static function BroadcastBuildingUpdate():void
 	}
 }
 
+public static function BroadcastBuildingUpdate(buildingObject : GameObject, buildingIndex : int):void
+{
+	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
+	var replacement : BuildingReplacement = new BuildingReplacement(buildingObject, buildingIndex);
+	for(var gos:GameObject in gameObjInScene)
+	{
+		if(gos.transform.parent == null)
+		{
+			gos.gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+		} 
+	}
+}
+
 
 /*
 
@@ -1170,6 +1183,31 @@ static public function deleteBuildingSite( coordinate : Vector3 )
 	}
 }// end of deleteBuildingSite()
 
+static public function ReplaceBuildingSite (buildingObject: GameObject, coord : Vector3)
+{
+	var buildingSiteID : int = findBuildingIndex( coord );	// find location in array of buildings
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
+
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
+	
+	buildingsOnGrid[buildingSiteID] = tempBuilding;
+	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
+	BroadcastBuildingUpdate(buildingObject, buildingSiteID);
+}
+
 // This function will properly add a building site to the database
 static public function addBuildingSite( coordinate : Vector3)
 {
@@ -1187,3 +1225,15 @@ static public function addBuildingSite( coordinate : Vector3)
 	addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
 	BroadcastBuildingUpdate();
 } // End of addBuildingSite()
+
+class BuildingReplacement extends System.ValueType
+{
+	var buildingObject : GameObject;
+	var buildingIndex : int;
+	
+	public function BuildingReplacement (bO : GameObject, bI : int)
+	{
+		buildingObject = bO;
+		buildingIndex = bI;
+	}
+}

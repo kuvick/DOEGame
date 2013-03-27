@@ -246,6 +246,11 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	linkReference = new boolean[numBuildings, numBuildings];
 }
 
+function ReplaceBuilding (replacement : BuildingReplacement)
+{
+	buildings[replacement.buildingIndex] = replacement.buildingObject;
+}
+
 function OnGUI()
 {
 	if(ModeController.getCurrentMode() == GameState.LINK)

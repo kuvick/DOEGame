@@ -47,7 +47,7 @@ function OnGUI ()
 			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
 							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
 	
-			GUI.Button(heldUpgradeRect, upgradeTextures[b.heldUpgrade - 1]);
+			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[b.heldUpgrade - 1]);
 		}
 		/*if (b.neededUpgrade != UpgradeType.None)
 		{

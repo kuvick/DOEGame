@@ -194,6 +194,11 @@ function UpdateBuildingCount(curBuildings:GameObject[]):void
 	Debug.Log("Updating building count from DrawLinks.js " + buildings.Length);
 }
 
+function ReplaceBuilding (replacement : BuildingReplacement)
+{
+	buildings[replacement.buildingIndex] = replacement.buildingObject;
+}
+
 function Update()
 {
 	
