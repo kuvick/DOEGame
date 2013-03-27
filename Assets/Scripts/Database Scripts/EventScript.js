@@ -75,7 +75,8 @@ public function Draw_Upgrade()
 		GUI.color = Color(1.0, 1.0, 1.0, 1.0);
 		
 		var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); 
-		GUI.Label(tempRect, event.time.ToString());
+		if (event.type == BuildingEventType.Primary)
+			GUI.Label(tempRect, event.time.ToString());
 	}
 }
 
