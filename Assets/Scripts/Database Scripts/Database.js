@@ -499,6 +499,12 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[oldOutputBuildingIndex]; // get the old output building on grid
 	var hasResource = false;
 	
+	if (oldOutputBuildingIndex == outputBuildingIndex)
+	{
+		Debug.Log("Overload failed");
+		return -1;
+	}
+	
 	var outputList : List.<ResourceType>;
 	
 	if (allocatedOutSelected)
@@ -584,6 +590,12 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	var oldInputBuilding : BuildingOnGrid = buildingsOnGrid[oldInputBuildingIndex]; // get the old input building on grid
 	var hasResource = false;
 	var inputList : List.<ResourceType>;
+	
+	if (oldInputBuildingIndex == inputBuildingIndex)
+	{
+		Debug.Log("Chain break failed");
+		return -1;
+	}
 	
 	if (allocatedInSelected)
 		inputList = inputBuilding.allocatedInputs;

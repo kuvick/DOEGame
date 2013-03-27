@@ -178,24 +178,13 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var resource:ResourceType;
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
+	var oldInputBuildingIndex : int = 0;
+	var oldOutputBuildingIndex : int = 0;
 	
-	// if an allocated output was selected, perform a chain break link reallocation
-	if (allocatedOutSelected)
-	{
-		var oldInputBuildingIndex : int = GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed, allocatedInSelected);
-		if (oldInputBuildingIndex > -1)
-		{
-			linkReference[building1Index, building2Index] = true;
-			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
-			removeLink(b2, oldInputBuilding);
-			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
-			allocatedOutSelected = false;
-		}
-	}
 	// if an allocated input was selected, perform an overload link reallocation
 	if (allocatedInSelected)
 	{
-		var oldOutputBuildingIndex : int = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
+		oldOutputBuildingIndex = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
 		if (oldOutputBuildingIndex > -1)
 		{
 			linkReference[building1Index, building2Index] = true;
@@ -205,6 +194,20 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			allocatedInSelected = false;
 		}
 		
+	}
+	
+	// if an allocated output was selected, perform a chain break link reallocation
+	if (allocatedOutSelected && oldOutputBuildingIndex > -1)
+	{
+		oldInputBuildingIndex = GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed, allocatedInSelected);
+		if (oldInputBuildingIndex > -1)
+		{
+			linkReference[building1Index, building2Index] = true;
+			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
+			removeLink(b2, oldInputBuilding);
+			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
+			allocatedOutSelected = false;
+		}
 	}
 	// otherwise, perform a normal building link
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
