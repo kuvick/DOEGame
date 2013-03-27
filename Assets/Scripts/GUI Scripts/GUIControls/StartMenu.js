@@ -12,7 +12,7 @@ public class StartMenu extends GUIControl
 {
 	// Set the first level the game is to load when the player
 	// clicks "new game"
-	public var firstLevel:String = "DOEGame";
+	public var firstLevel:String = "CE9Narr";
 
 	// Skins for Start Screen
 	public var startMenuSkin:GUISkin;
@@ -119,6 +119,7 @@ public class StartMenu extends GUIControl
 	
 	public function Render()
 	{
+		Debug.Log("firstlevel = " + firstLevel);
 		GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
 		if (!showSplash)
 		{
@@ -142,6 +143,7 @@ public class StartMenu extends GUIControl
 				//So it can pass to the loading screen where to go next
 				var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 				nextLevel.nextLevel = firstLevel;
+				Debug.Log("Going to " + firstLevel);
 				currentResponse.type = EventTypes.NEWGAME;
 				PlayButtonPress(2);
 			}
