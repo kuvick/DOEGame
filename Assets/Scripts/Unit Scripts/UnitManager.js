@@ -93,3 +93,13 @@ static function UndoUnitActions() {
 		unitList[i].UndoAction();
 	}
 }
+
+static function CheckMouseNotOverGUI() : boolean
+{
+	for (var u : Unit in unitList)
+	{
+		if (u.MouseOnGUI())
+			return false;
+	}
+	return true;
+}

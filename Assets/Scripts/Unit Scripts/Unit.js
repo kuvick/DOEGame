@@ -38,7 +38,7 @@ private var pathDrawnTimerDuration : float = 3.0f;
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
-private var buttonOffset:Vector2 = new Vector2(.75, .5);
+private var buttonOffset:Vector2 = new Vector2(.5, .5);
 private var offsetScale : float = 0.06;
 private var smallButtonScale : float = 0.05; // normal resource icon/button size
 private var smallButtonSize : float;
@@ -344,6 +344,7 @@ function OnGUI() {
 	var unitRect:Rect = Rect(point.x + buttonOffset.x, 
 						point.y + buttonOffset.y, unitButtonSize, unitButtonSize);
 	GUI.skin = unitSkin;
+	mouseOverGUI = unitRect.Contains(mousePos);
 	if (GUI.Button(unitRect, "U"))
 	{
 		currentBuilding.unitSelected = true;
@@ -373,6 +374,11 @@ function OnGUI() {
 		for (var b : BuildingOnGrid in validTargets)
 			(b.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
 	}
+}
+
+public function MouseOnGUI() : boolean
+{
+	return mouseOverGUI;
 }
 
 class UnitAction extends System.ValueType
