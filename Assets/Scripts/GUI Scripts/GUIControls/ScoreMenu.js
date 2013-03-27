@@ -62,16 +62,18 @@ public class ScoreMenu extends GUIControl{
 		}
 
 		//Next Level Button
-		if(GUI.Button(nextLevelButtonRect, scoreStrings[1]))
+		if(GUI.Button(nextLevelButtonRect, scoreStrings[2]))
 		{
 			/*
 				TODO: Continue to the next level(not just return to level 1)
 			*/
-			Application.LoadLevel("Prototype - Level1");
+			PlayerPrefs.SetString(Strings.RESUME, GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel);
+			currentResponse.type = EventTypes.NEWGAME;
+			//Application.LoadLevel(levelToLoad);
 		}
 		
 		//Return to Start Screen
-		if(GUI.Button(backToMainMenuButtonRect, scoreStrings[2]))
+		if(GUI.Button(backToMainMenuButtonRect, scoreStrings[1]))
 		{
 			Application.LoadLevel("StartScreen");
 		}
@@ -114,8 +116,8 @@ public class ScoreMenu extends GUIControl{
 		totalScoreDisplayLabelRect = RectFactory.NewRect(.7, .667, TEXTWIDTH, TEXTHEIGHT);
 		
 		retryLevelButtonRect = RectFactory.NewRect(0.097, .83, .267, .1);
-		nextLevelButtonRect = RectFactory.NewRect(.656, .83, .267, .1);
-		backToMainMenuButtonRect = RectFactory.NewRect(.375, .83, .267, .1);
+		nextLevelButtonRect = RectFactory.NewRect(.375, .83, .267, .1);
+		backToMainMenuButtonRect = RectFactory.NewRect(.656, .83, .267, .1);
 		closeButtonRect = RectFactory.NewRect(.938, .04, .052, .07);
 		
 		rectList.Add(RectFactory.NewRect(0,0,1,1));
