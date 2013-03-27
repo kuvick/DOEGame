@@ -416,10 +416,10 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		if (buildingIsSelected && selectedGridBuilding.isActive && building != selectedBuilding && isInRange(selectedBuilding, building) 
 				&& resourceList[i] == selectedResource)//(selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
-			drawnButtonSize = largeButtonSize;
+			//drawnButtonSize = largeButtonSize;
 			buildingHighlightColor = targetHighlightColor;
-			GUI.enabled = true;
-			GUI.color = guiEnabledColor;
+			//GUI.enabled = true;
+			//GUI.color = guiEnabledColor;
 		}
 		else
 			drawnButtonSize = smallButtonSize;
@@ -430,7 +430,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 			if (resourceList[i] == selectedGridBuilding.optionalOutput)
 			{
 				drawnButtonSize = largeButtonSize;
-				GUI.enabled = true;
+				//GUI.enabled = true;
 				GUI.color = guiEnabledColor;
 			}
 			else
@@ -506,6 +506,11 @@ function Update()
 	selectedBuilding = ModeController.getSelectedBuilding();
 	/*if (selectedBuilding != outputBuilding)
 		ResetLinkVariables();*/
+	if (selectedResource != ResourceType.None && selectedBuilding != outputBuilding)
+	{
+		inputBuilding = selectedBuilding;
+		allocatedInSelected = Database.getBuildingOnGrid(selectedBuilding.transform.position).allocatedInputs.Contains(selectedResource);
+	}
 	if (selectedBuilding == null)
 		ResetLinkVariables();
 	if(inputBuilding != null && outputBuilding != null)

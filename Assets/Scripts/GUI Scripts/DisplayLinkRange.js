@@ -71,6 +71,8 @@ function Update() {
 		//HighlightBuildingsInRange(selectedBuilding);
 		HighlightTilesInRange();
 	}
+	else if (!Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
+		DestroyRangeTiles();
 	previousBuilding = selectedBuilding;
 }
 
