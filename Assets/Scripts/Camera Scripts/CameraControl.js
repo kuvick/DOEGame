@@ -26,8 +26,7 @@ function Start () {
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 
 	thisCamera = Camera.main;
-	thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
-	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, farthestZoomDistnace, thisCamera.transform.position.z);
+	ZoomIn();
 }
 
 // The function uses the difference in the mouse's position between frames
@@ -66,38 +65,21 @@ static function Zoom(isZoomingIn: boolean){
 	}*/
 }
 
-private static function CanZoomIn() : boolean{
-	return (thisCamera.transform.position.y > closestZoomDistance);
-}
-
-private static function CanZoomOut() : boolean{
-	return (thisCamera.transform.position.y < farthestZoomDistnace);
-}
-
 public static function ToggleZoomType(){
 	zoomedIn = !zoomedIn;
-	var yPos : float;
 	if (zoomedIn){
-		yPos = closestZoomDistance; 
+		ZoomOut();
 	} else {
-		yPos = farthestZoomDistnace; 
+		ZoomIn();
 	}
-	
-	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, yPos, thisCamera.transform.position.z);
 }
 
 private static function ZoomIn(){
-	var updatedLocation: Vector3 = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y - zoomingIncrement, thisCamera.transform.position.z);
-	if (!cameraViewOverhead){ // if we are not overhead then add the z change
-		updatedLocation.z += zoomingIncrement;
-	}
-	thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speedOfZoom);
+	thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
+	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
 }
 
 private static function ZoomOut(){
-	var updatedLocation: Vector3 = new Vector3( thisCamera.transform.position.x, thisCamera.transform.position.y + zoomingIncrement, thisCamera.transform.position.z);
-	if (!cameraViewOverhead){ // if we are not overhead then add the z change
-		updatedLocation.z -= zoomingIncrement;
-	}
-	thisCamera.transform.position = Vector3.MoveTowards(thisCamera.transform.position, updatedLocation, speedOfZoom);
+	thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, farthestZoomDistnace, thisCamera.transform.position.z);
 }
