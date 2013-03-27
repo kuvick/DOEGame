@@ -95,6 +95,7 @@ function Start ()
 				{
 					// If the event is the first in a linked event set
 					// or a singular event
+					tempEventClass.showIcon = true;
 					events.Add(tempEventClass);
 					
 					if(tempEventClass.event.type == BuildingEventType.Primary)
