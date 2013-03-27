@@ -36,16 +36,20 @@ static public function Drag(currentInputPos: Vector2){
 	var totalDimensions: Vector2 = HexagonGrid.totalTileDimensions();
 	
 	//Detects the edge of the map - Left
-	if(thisCamera.transform.position.x <= hexOrigin.x){
-		thisCamera.transform.position = new Vector3(hexOrigin.x, thisCamera.transform.position.y, thisCamera.transform.position.z);
+	if(thisCamera.transform.position.x <= hexOrigin.x + Screen.width / 2){
+		thisCamera.transform.position = new Vector3(hexOrigin.x + Screen.width / 2, thisCamera.transform.position.y, thisCamera.transform.position.z);
 	}
 	//Detects the edge of the map - Right
-	if(thisCamera.transform.position.x >= hexOrigin.x + totalDimensions.x){
-		thisCamera.transform.position = new Vector3(hexOrigin.x + totalDimensions.x, thisCamera.transform.position.y, thisCamera.transform.position.z);
+	if(thisCamera.transform.position.x >= hexOrigin.x + totalDimensions.x - Screen.width / 2){
+		thisCamera.transform.position = new Vector3(hexOrigin.x + totalDimensions.x - Screen.width / 2, thisCamera.transform.position.y, thisCamera.transform.position.z);
 	}
-	//Detects the edge of the map - Bottom
-	if(thisCamera.transform.position.z <= hexOrigin.z){
+	//Detects the edge of the map - Bottom when zoomed in
+	if(thisCamera.transform.position.z <= hexOrigin.z && zoomedIn){
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
+	}
+	//Detects the edge of the map - Bottom when zoomed out
+	if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5 && !zoomedIn){
+		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + Screen.height / 1.5);		
 	}
 	//Detects the edge of the map - Top
 	if(thisCamera.transform.position.z >= hexOrigin.z + totalDimensions.y - Screen.height /2){
