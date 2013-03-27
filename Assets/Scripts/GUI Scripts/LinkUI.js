@@ -221,7 +221,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		linkReference[building1Index, building2Index] = true;
 		gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 	}
-	optionalOutputUsed = false;
+	
 }
 
 // See if we can draw a line between the two points without hitting a barrier
@@ -414,7 +414,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		GUI.color = guiDisabledColor;	// counteracts inactive button transparency
 		// check if the selected building has a matching output, if so make input button active and enlarge
 		if (buildingIsSelected && selectedGridBuilding.isActive && building != selectedBuilding && isInRange(selectedBuilding, building) 
-				&& (selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
+				&& resourceList[i] == selectedResource)//(selectedGridBuilding.unallocatedOutputs.Contains(resourceList[i]) || selectedGridBuilding.allocatedOutputs.Contains(resourceList[i])))
 		{
 			drawnButtonSize = largeButtonSize;
 			buildingHighlightColor = targetHighlightColor;
@@ -493,6 +493,8 @@ private function ResetLinkVariables()
 {
 	inputBuilding = null;
 	outputBuilding = null;
+	optionalOutputUsed = false;
+	selectedResource = ResourceType.None;
 }
 
 function Update() 
@@ -504,7 +506,8 @@ function Update()
 	selectedBuilding = ModeController.getSelectedBuilding();
 	/*if (selectedBuilding != outputBuilding)
 		ResetLinkVariables();*/
-	
+	if (selectedBuilding == null)
+		ResetLinkVariables();
 	if(inputBuilding != null && outputBuilding != null)
 	{
 		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
@@ -512,7 +515,7 @@ function Update()
 			linkBuildings(inputBuilding, outputBuilding);
 		}
 		
-		inputBuilding = null; outputBuilding = null; //resets either way
+		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
 	}
 	
 
