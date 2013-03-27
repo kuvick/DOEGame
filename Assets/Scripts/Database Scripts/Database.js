@@ -629,6 +629,19 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex);
 		Debug.Log("End of link chain break");
+		
+		//Stores links into list organized by when they were created	
+		var tempNode : LinkTurnNode = new LinkTurnNode();
+		tempNode.b1 = inputBuilding.buildingPointer;
+		tempNode.b1Coord = inputBuilding.coordinate;
+		tempNode.b2 = outputBuilding.buildingPointer;
+		tempNode.b2Coord = outputBuilding.coordinate;
+		tempNode.b3 = oldInputBuilding.buildingPointer;
+		tempNode.b3Coord = oldInputBuilding.coordinate;
+		tempNode.turnCreated = intelSystem.currentTurn + 1;
+		tempNode.type = resourceName;
+		linkList.Add(tempNode);						
+		
 		UndoStack.Add(UndoType.Chain);
 		intelSystem.addTurn();
 	}
@@ -1009,9 +1022,37 @@ function UndoLink(typeOfUndo : int)
 	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
 	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
 	
+	var b3Building : BuildingOnGrid;
+	if(typeOfUndo != 0)
+	{
+		b3Building = getBuildingOnGrid(linkList[lastIndex].b3Coord);
+	}
+	if(typeOfUndo == 1)
+	{
+		//B3 is oldInput
+		//B1 is Input
+		//B2 is Output
+		
+		//Link B3 and B2		
+		b3Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
+		b2Building.unallocatedOutputs.Remove(linkList[lastIndex].type);
+		
+		
+		b3Building.allocatedInputs.Add(linkList[lastIndex].type);
+		b2Building.allocatedOutputs.Add(linkList[lastIndex].type);
+		
+		b3Building.inputLinkedTo.Add(findBuildingIndex(b3Building));
+		b2Building.outputLinkedTo.Add(findBuildingIndex(b1Building));
+		
+		linkUIRef.linkReference[findBuildingIndex(b3Building), findBuildingIndex(b2Building)] = true;		
+		//Draw New Link
+		GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(b3Building), findBuildingIndex(b2Building), linkList[lastIndex].type);
+		
+		//Activate chain
+		activateBuilding(findBuildingIndex(b3Building));
+	}
 	if(typeOfUndo == 2)
-	{	
-		var b3Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b3Coord);
+	{			
 		//Link B1 to B3
 		b1Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
 		b3Building.unallocatedOutputs.Remove(linkList[lastIndex].type);
