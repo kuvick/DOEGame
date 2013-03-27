@@ -17,7 +17,7 @@ Author: Chris Peterson
 // PUBLIC VARS
 public var event: BuildingEvent;
 
-public var showUpgrade: boolean = true;
+public var showIcon: boolean = true;
 
 // PRIVATE VARS
 private var upgradeBounds: Rect;	
@@ -68,7 +68,7 @@ function OnGUI()
 //Draws the Upgrade Image to the Screen
 public function Draw_Upgrade()
 {		
-	if(showUpgrade)
+	if(showIcon)
 	{
 		GUI.color = colorOpacity;
 			GUI.DrawTexture(upgradeBounds, event.icon);	

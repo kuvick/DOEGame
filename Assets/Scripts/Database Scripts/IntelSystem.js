@@ -35,7 +35,7 @@ class BuildingEvent
 	var title: String = "";				// Displayed Title in the Intel Menu
 	var description : String = "";		// Displayed Description in the Intel Menu
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
-	var type : BuildingEventType = 1;	// Primary or Secondary
+	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: UpgradeType = UpgradeType.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
@@ -49,8 +49,8 @@ class BuildingEvent
 // or secondary (optional objectives).
 enum BuildingEventType
 {
-	Primary = 0,
-	Secondary = 1,
+	Primary,
+	Secondary,
 }
 
 class EventStackNode
@@ -97,7 +97,7 @@ function Start ()
 					// or a singular event
 					events.Add(tempEventClass);
 					
-					if(tempEventClass.event.type == 1)
+					if(tempEventClass.event.type == BuildingEventType.Primary)
 					{
 						numOfObjectivesLeft++;
 					}				
@@ -107,10 +107,10 @@ function Start ()
 				{
 					//If the event is a child...
 					tempEventClass.changeOpacity(0f);
-					tempEventClass.showUpgrade = false;
+					tempEventClass.showIcon = false;
 					linkedEvents.Add(tempEventClass);
 					
-					if(tempEventClass.event.type == 1)
+					if(tempEventClass.event.type == BuildingEventType.Primary)
 					{
 						numOfObjectivesLeft++;
 					}				
@@ -214,7 +214,7 @@ public function resolveEvent( script : EventScript)
 	{	
 		var childEvent : EventScript = findLinkedEvent(tempScript.event.childEvent);
 		childEvent.changeOpacity(.5f);
-		childEvent.showUpgrade = true;
+		childEvent.showIcon = true;
 		linkedEvents.Remove(childEvent);
 		events.Add(childEvent);
 	}
@@ -253,7 +253,7 @@ public function undoResolution()
 				
 				//Reset 
 				tempChildEvent.changeOpacity(0.5f);
-				tempChildEvent.showUpgrade = true;
+				tempChildEvent.showIcon = true;
 			
 				//Add child to linkedEvents list
 				linkedEvents.Add(tempChildEvent);
@@ -273,7 +273,7 @@ public function undoResolution()
 			}
 			
 			eventStack[index].event.changeOpacity(.5f);
-			eventStack[index].event.showUpgrade = true;
+			eventStack[index].event.showIcon = true;
 			eventStack[index].event.event.time++;
 			
 			events.Add(eventStack[index].event);  // Add to event list
