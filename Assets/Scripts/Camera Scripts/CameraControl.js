@@ -15,12 +15,11 @@ static public var closestZoomDistance: float = 400;
 static public var farthestZoomDistnace: float = 650;
 static public var zoomingIncrement: float = 10;
 
-static public var zoomedIn:boolean = false;
+static public var zoomedIn:boolean = true;
 
 static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
 
-static private var cameraViewOverhead : boolean = false;
 
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
@@ -66,12 +65,12 @@ static function Zoom(isZoomingIn: boolean){
 }
 
 public static function ToggleZoomType(){
-	zoomedIn = !zoomedIn;
 	if (zoomedIn){
 		ZoomOut();
 	} else {
 		ZoomIn();
 	}
+	zoomedIn = !zoomedIn;
 }
 
 private static function ZoomIn(){

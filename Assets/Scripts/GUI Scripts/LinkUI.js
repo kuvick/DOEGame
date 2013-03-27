@@ -318,106 +318,6 @@ function OnGUI()
 		GUI.enabled = true;
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 	}
-	
-	/*if(selectedBuilding == null)
-		return;
-		
-	selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-	selectedBuildingOutputs = selectedGridBuilding.unallocatedOutputs;
-	
-	if(selectedGridBuilding.buildingName != "BuildingSite")
-	{
-		//Draw IO buttons
-		for(var building:GameObject in buildings)
-		{
-			//Debug.Log("GUI GUI");
-			if(building == null) return;
-			
-			target = building.transform;
-			gridBuilding = Database.getBuildingOnGrid(target.position);
-			if(gridBuilding == null)
-				return;
-	
-			inputCount = gridBuilding.unallocatedInputs.Count;//gridBuilding.inputNum.length;
-			outputCount = gridBuilding.unallocatedOutputs.Count;//gridBuilding.outputNum.length;
-																	
-			point = Camera.main.WorldToScreenPoint(target.position);
-			
-			point.y = Screen.height - point.y; //adjust height point
-			
-			if(point.y < 0) //Adjust y value of button for screen space
-				point.y -= Screen.height;
-			
-			//Set position of buttons
-			var unallocatedRect:Rect = Rect(point.x + unallocatedOffset.x, 
-							point.y + unallocatedOffset.y, ioButtonWidth, ioButtonHeight);
-			var allocatedRect:Rect = Rect(point.x + allocatedOffset.x, 
-							point.y + allocatedOffset.y, ioButtonWidth, ioButtonHeight);
-						
-			//prototype
-			if(building != selectedBuilding)
-			{
-				
-				if(building == null || selectedBuilding == null || !isInRange(building, selectedBuilding)) continue;
-				// iterate through input arrays and draw appropriate input buttons
-				DrawInputButtons(unallocatedRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
-				DrawInputButtons(allocatedRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
-			}
-			
-			//Instructions for output button
-			else
-			{	
-				ModeController.setCurrentMode(GameState.LINK);
-
-				unallocatedRect = DrawOutputButtons(unallocatedRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
-				allocatedRect = DrawOutputButtons(allocatedRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
-				
-				if (gridBuilding.optionalOutput == ResourceType.None)
-					continue;
-
-				var optionalRect : Rect;
-				if (gridBuilding.optionalOutputAllocated)
-					optionalRect = allocatedRect;
-				else
-					optionalRect = unallocatedRect;
-					
-				optionalRect.y += ioButtonHeight + 3;
-					
-				GUILayout.BeginArea(optionalRect);
-				// if the selected building's optional outputs aren't active, deactivate button
-				if (gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
-					GUI.enabled = false;
-				if (GUILayout.Button("OO")) 
-				{
-					outputBuilding = building;
-					optionalOutputUsed = true;
-					selectedResource = selectedGridBuilding.optionalOutput;
-				}
-				GUI.enabled = true;
-				GUILayout.EndArea();
-			}
-		}
-		
-		if(!cancelLinkMode)
-		{
-			//Draw Cancel button
-			GUILayout.BeginArea(cancelRect);
-			GUILayout.Button("Cancel");
-			if(mousePos.x >= cancelRect.x && mousePos.x <= cancelRect.x + cancelRect.width &&
-						mousePos.y >= cancelRect.y && mousePos.y <= cancelRect.y + cancelRect.height)
-			{
-				if(Input.GetMouseButtonDown(0))
-				{
-					cancelLinkMode = true;
-					displayLink.DestroyRangeTiles();
-					outputBuilding = null;
-				}
-				mouseOverGUI = true;
-			}
-			else mouseOverGUI = false;
-			GUILayout.EndArea();
-		}
-	}*/
 }
 
 // iterates through the given resource list and draws the appropriate input or output buttons
@@ -449,14 +349,16 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		
 		buttonRect.width = drawnButtonSize;
 		buttonRect.height = drawnButtonSize;
-		if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
-		{
-			inputBuilding = building;
-			selectedInIndex = i;
-			allocatedInSelected = isAllocated;
+		if (RectInsideGUI(buttonRect)){
+			if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
+			{
+				inputBuilding = building;
+				selectedInIndex = i;
+				allocatedInSelected = isAllocated;
+			}
+			GUI.enabled = true;
+			// increment position offset
 		}
-		GUI.enabled = true;
-		// increment position offset
 		buttonRect.x += drawnButtonSize + buttonSpacing;
 	}
 	GUI.color = guiEnabledColor;
@@ -483,17 +385,19 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			
 		buttonRect.width = drawnButtonSize;
 		buttonRect.height = drawnButtonSize;
-		GUIManager.Instance().SetNotOnOtherGUI(!buttonRect.Contains(mousePos));
-		if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
-		{
-			outputBuilding = building;
-			selectedResource = resourceList[i];
-			selectedOutIndex = i;
-			allocatedOutSelected = isAllocated;
-			selectedGridBuilding.unitSelected = false;
+		if (RectInsideGUI(buttonRect)){
+			GUIManager.Instance().SetNotOnOtherGUI(!buttonRect.Contains(mousePos));
+			if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
+			{
+				outputBuilding = building;
+				selectedResource = resourceList[i];
+				selectedOutIndex = i;
+				allocatedOutSelected = isAllocated;
+				selectedGridBuilding.unitSelected = false;
+			}
+			GUI.enabled = true;
+			// increment position offset
 		}
-		GUI.enabled = true;
-		// increment position offset
 		buttonRect.x += drawnButtonSize + buttonSpacing;
 	}
 	GUI.color = guiEnabledColor;
@@ -538,7 +442,10 @@ function Update()
 
 }
 
-
+private function RectInsideGUI(rectangle : Rect){
+	var screen : Rect = RectFactory.NewRect(0,0,1,1);
+	return (screen.Contains(rectangle.center));
+}
 
 static function MouseOverLinkGUI():boolean{
 	return mouseOverGUI;
