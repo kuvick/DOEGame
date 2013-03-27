@@ -61,7 +61,7 @@ function singleClickEvent(inputPos: Vector2){
 	// we need to check if the point overlaps with a gui element
 	// if it does then we do nothing and let the gui handle it, otherwise
 	// we let the builing interaction manager handle it
-	if (GUIManager.Instance().NotOnGUI(inputPos))
+	if (GUIManager.Instance().NotOnGUI(inputPos) && GUIManager.Instance().NotOnOtherGUI())
 	{
     	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }

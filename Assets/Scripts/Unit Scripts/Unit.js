@@ -19,15 +19,15 @@ private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
 
+private var validTargets = new List.<BuildingOnGrid>();
+private var targetHighlightColor : Color = new Color(0,1,1,.5);
+
 private var test : boolean = false;
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 2, 50, HexagonGrid.tileWidth / 2);
 
 private var point:Vector3;
 private var mouseOverGUI : boolean;
-private var unitButtonOffset:Vector2 = new Vector2(-20, -40);	//Used to set position of button relative to building
-private var unitButtonWidth = 27;
-private var unitButtonHeight = 27;
 private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
@@ -35,8 +35,30 @@ private var pathDrawn : boolean = false;
 private var pathDrawnTimer : float;
 private var pathDrawnTimerDuration : float = 3.0f;
 
+// Screen width and height
+private var screenWidth: float;
+private var screenHeight: float;
+private var buttonOffset:Vector2 = new Vector2(.75, .5);
+private var offsetScale : float = 0.06;
+private var smallButtonScale : float = 0.05; // normal resource icon/button size
+private var smallButtonSize : float;
+private var largeButtonScale : float = 0.10; // resource icon/button size when building selected
+private var largeButtonSize : float;
+private var guiEnabledColor : Color = new Color(1,1,1,1);
+private var guiDisabledColor : Color = new Color(1,1,1,2);
+
+public var unitSkin : GUISkin;
+
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
+	
+	// Store window dimensions and calculate padding
+	screenWidth = ScreenSettingsManager.instance.screenWidth;
+	screenHeight = ScreenSettingsManager.instance.screenHeight;
+	
+	smallButtonSize = screenHeight * smallButtonScale;
+	largeButtonSize = screenHeight * largeButtonScale;
+	buttonOffset *= offsetScale * screenHeight;
 }
 
 function Initiate() {
@@ -258,10 +280,10 @@ function Update() {
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
-	if (isSelected && selectedBuilding == null)
-		isSelected = false;
+	if (currentBuilding.unitSelected && selectedBuilding == null)
+		currentBuilding.unitSelected = false;
 	// if unit is selected, and a different building has been selected
-	else if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)
+	else if (currentBuilding.unitSelected && selectedBuilding != null && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
@@ -282,35 +304,56 @@ function Update() {
 			Debug.Log("Path not found");
 			StatusMarquee.SetText("Invalid unit target", true);
 		}
-		isSelected = false;
+		currentBuilding.unitSelected = false;
 	}
 }
 
+private function FindValidTargets()
+{
+	validTargets.Clear();
+	var buildings = Database.getBuildingsOnGrid();
+	for (var b : BuildingOnGrid in buildings)
+	{
+		if (b == currentBuilding)
+			continue;
+		if (FindPath(b))
+			validTargets.Add(b);
+	}
+	foundPath.Clear();
+}
+
 function OnGUI() {
-	// if the current building is the one that is selected, draw button to select unit for movement
+	var unitButtonSize : float = smallButtonSize;
+	
+	var point : Vector3 = Camera.main.WorldToScreenPoint(currentBuilding.buildingPointer.transform.position);
+		
+	point.y = Screen.height - point.y; //adjust height point
+		
+	if(point.y < 0) //Adjust y value of button for screen space
+		point.y -= Screen.height;
+	GUI.enabled = false;	// output buttons unselected buildings are disabled
+	GUI.color = guiDisabledColor;	// counteracts inactive button transparency
+	
+	if (selectedBuilding == currentBuilding.buildingPointer && currentBuilding.isActive)
+	{
+		GUI.enabled = true;
+		GUI.color = guiEnabledColor;
+		unitButtonSize = largeButtonSize;
+	}
+	
+	var unitRect:Rect = Rect(point.x + buttonOffset.x, 
+						point.y + buttonOffset.y, unitButtonSize, unitButtonSize);
+	GUI.skin = unitSkin;
+	if (GUI.Button(unitRect, "U"))
+	{
+		currentBuilding.unitSelected = true;
+		FindValidTargets();
+		Debug.Log("Unit selected");
+	}
+	GUI.enabled = true;
+	// highlight the unit's path if its current building is selected
 	if (selectedBuilding == currentBuilding.buildingPointer)
 	{
-		var point : Vector3 = Camera.main.WorldToScreenPoint(currentBuilding.buildingPointer.transform.position);
-			
-		point.y = Screen.height - point.y; //adjust height point
-			
-		if(point.y < 0) //Adjust y value of button for screen space
-			point.y -= Screen.height;
-			
-		var unitRect:Rect = Rect(point.x + unitButtonOffset.x, 
-							point.y + unitButtonOffset.y, unitButtonWidth, unitButtonHeight);
-	
-		GUILayout.BeginArea(unitRect);
-		if (!currentBuilding.isActive)
-			GUI.enabled = false;
-		if (GUILayout.Button("U"))
-		{
-			isSelected = true;
-			Debug.Log("Unit selected");
-		}
-		GUI.enabled = true;
-		GUILayout.EndArea();
-		// highlight the unit's path if its current building is selected
 		if (foundPath.Count > 0 && !pathDrawn)
 		{
 			SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
@@ -323,6 +366,12 @@ function OnGUI() {
 	{
 		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
 		pathDrawn = false;
+	}
+	
+	if (currentBuilding.unitSelected)
+	{
+		for (var b : BuildingOnGrid in validTargets)
+			(b.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
 	}
 }
 

@@ -59,6 +59,8 @@ private var database: Database;
 
 public var thisIsALevel : boolean = false;
 
+private var inputNotOnOtherGUI : boolean = true;
+
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
 	and only the first initialization of it will remain.
@@ -370,8 +372,17 @@ public function NotOnGUI(screenInputPosition: Vector2):boolean
 			return false;
 		}
 	}
-	
 	return true;
+}
+
+public function NotOnOtherGUI()
+{
+	return inputNotOnOtherGUI;
+}
+
+public function SetNotOnOtherGUI(b : boolean)
+{
+	inputNotOnOtherGUI = b;
 }
 
 public function AddGUIToControls(guiControlToAdd : GUIControl){

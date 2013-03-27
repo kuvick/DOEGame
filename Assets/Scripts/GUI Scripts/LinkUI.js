@@ -22,15 +22,15 @@ private var buildingIsSelected : boolean = false;
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
 private var offsetScale : float = 0.06;
-private var inputOffset:Vector2 = new Vector2(-1, .5);	//Used to set position of button relative to building
-private var outputOffset:Vector2 = new Vector2(-1, -1);
+private var inputOffset:Vector2 = new Vector2(-1.5, .5);	//Used to set position of button relative to building
+private var outputOffset:Vector2 = new Vector2(-1.5, -1.5);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
 private var smallButtonScale : float = 0.05; // normal resource icon/button size
 private var smallButtonSize : float;
-private var largeButtonScale : float = 0.08; // resource icon/button size when building selected
+private var largeButtonScale : float = 0.10; // resource icon/button size when building selected
 private var largeButtonSize : float;
 private var buttonSpacingScale : float = 0.0005;
 private var buttonSpacing : float;
@@ -47,12 +47,6 @@ private var buildingHighlightColor : Color;
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
-// Bars to account for resolution differences
-private var horizontalBarHeight:float;
-private var verticalBarWidth:float;
-// Padding as a percent of total screen height and padding in pixels
-protected var paddingPercent = .02;
-protected var padding: float;
 
 private var target:Transform;			//Transform of building that button corresponds to
 private var point:Vector3;				//Used to obtain position of IO button in screen space
@@ -104,9 +98,6 @@ function Start () {
 	// Store window dimensions and calculate padding
 	screenWidth = ScreenSettingsManager.instance.screenWidth;
 	screenHeight = ScreenSettingsManager.instance.screenHeight;
-	horizontalBarHeight = ScreenSettingsManager.instance.horizontalBarHeight;
-	verticalBarWidth = ScreenSettingsManager.instance.verticalBarWidth;
-	padding = screenHeight * paddingPercent;
 	
 	smallButtonSize = screenHeight * smallButtonScale;
 	largeButtonSize = screenHeight * largeButtonScale;
@@ -299,6 +290,32 @@ function OnGUI()
 		outputRect = DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
 		/*if (building == selectedBuilding)
 			buildingHighlightColor = selectedHighlightColor;*/
+		var optionalButtonSize = largeButtonSize;
+		if (selectedBuilding != building || gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
+		{
+			GUI.enabled = false;
+			GUI.color = guiDisabledColor;
+			optionalButtonSize = smallButtonSize;
+		}
+		outputRect.width = optionalButtonSize;
+		outputRect.height = optionalButtonSize;
+		if (gridBuilding.optionalOutput != ResourceType.None) 
+		{
+			var optionalOutTex : Texture;
+			if (!gridBuilding.optionalOutputAllocated)
+				optionalOutTex = unallocatedOutputTex[gridBuilding.optionalOutput - 1];
+			else
+				optionalOutTex = allocatedOutputTex[gridBuilding.optionalOutput - 1];
+			if (GUI.Button(outputRect, optionalOutTex))
+			{
+				outputBuilding = building;
+				optionalOutputUsed = true;
+				if (gridBuilding.optionalOutputAllocated)
+					allocatedOutSelected = true;
+				selectedResource = gridBuilding.optionalOutput;
+			}
+		}
+		GUI.enabled = true;
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 	}
 	
@@ -421,20 +438,13 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 			//GUI.enabled = true;
 			//GUI.color = guiEnabledColor;
 		}
-		else
-			drawnButtonSize = smallButtonSize;
+
 		// if selected building's optional outputs are active, check if it has a matching output
 		// if so make input button active
-		if (buildingIsSelected && selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive)
+		if (buildingIsSelected && selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive &&
+			resourceList[i] == selectedGridBuilding.optionalOutput && optionalOutputUsed)
 		{
-			if (resourceList[i] == selectedGridBuilding.optionalOutput)
-			{
-				drawnButtonSize = largeButtonSize;
-				//GUI.enabled = true;
-				GUI.color = guiEnabledColor;
-			}
-			else
-				drawnButtonSize = smallButtonSize;
+			buildingHighlightColor = targetHighlightColor;
 		}
 		
 		buttonRect.width = drawnButtonSize;
@@ -473,13 +483,14 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 			
 		buttonRect.width = drawnButtonSize;
 		buttonRect.height = drawnButtonSize;
+		GUIManager.Instance().SetNotOnOtherGUI(!buttonRect.Contains(mousePos));
 		if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
 		{
 			outputBuilding = building;
 			selectedResource = resourceList[i];
 			selectedOutIndex = i;
 			allocatedOutSelected = isAllocated;
-			//selectedGridBuilding.unitSelected = false;
+			selectedGridBuilding.unitSelected = false;
 		}
 		GUI.enabled = true;
 		// increment position offset
@@ -504,6 +515,8 @@ function Update()
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
+	if (selectedBuilding == null)
+		ResetLinkVariables();
 	/*if (selectedBuilding != outputBuilding)
 		ResetLinkVariables();*/
 	if (selectedResource != ResourceType.None && selectedBuilding != outputBuilding)
@@ -511,8 +524,7 @@ function Update()
 		inputBuilding = selectedBuilding;
 		allocatedInSelected = Database.getBuildingOnGrid(selectedBuilding.transform.position).allocatedInputs.Contains(selectedResource);
 	}
-	if (selectedBuilding == null)
-		ResetLinkVariables();
+	
 	if(inputBuilding != null && outputBuilding != null)
 	{
 		if(isInRange(inputBuilding, outputBuilding)) //If the buildings are within range, connect them
