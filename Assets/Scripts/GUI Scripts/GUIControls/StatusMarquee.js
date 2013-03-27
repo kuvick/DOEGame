@@ -28,11 +28,14 @@ public class StatusMarquee extends GUIControl
 	private var backgroundWidth:float;
 	
 	// Marquee Text
-	private static var text:String = "Welcome to Prototype City!";	// Default text
+	private static var text:String = "Welcome to ";	// Default text
 	private static var prevText:String = "";
 	private static var timed : boolean = false;
 	private static var timedDuration : float = 3.0f;
 	private static var timedStart : float;
+	
+	public var startingText : String;
+	//private var defaultText : String = "Welcome to ";
 
 	// Mode variables
 	private var mode:int = 0;
@@ -56,6 +59,7 @@ public class StatusMarquee extends GUIControl
 		backgroundHeight = backgroundHeightPercent * screenHeight;
 		backgroundWidth = backgroundWidthRatio * backgroundHeight;
 		backgroundRect = Rect(position.x - backgroundWidth/2, position.y - backgroundHeight/2, backgroundWidth, backgroundHeight);
+		text = startingText;
 	}
 	
 	public function Render()
