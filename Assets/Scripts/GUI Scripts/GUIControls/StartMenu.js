@@ -65,7 +65,7 @@ public class StartMenu extends GUIControl
 	public var quitTexture:Texture;
 
 	// Screen flow control variables
-	private var showSplash:boolean = true;
+	private static var showSplash:boolean = true;
 	private var currentTexture:Texture = firstSlide;
 	
 	private var levelToResume:String;
@@ -77,6 +77,7 @@ public class StartMenu extends GUIControl
 			Debug.LogError("There was no level to resume.");
 		} else {
 			levelToResume = PlayerPrefs.GetString(Strings.RESUME);
+			Debug.Log("resume: " + levelToResume);
 		}
 	}
 	
@@ -125,15 +126,16 @@ public class StartMenu extends GUIControl
 			
 			GUI.skin = startMenuSkin;
 		
-			if (PlayerPrefs.HasKey(Strings.RESUME)){ // Only display the resume button if there is a level to resume
-				if (GUI.Button(resumeGameButton, "resume"))
-				{
-					currentResponse.type = EventTypes.RESUME;
-					
-					PlayButtonPress(2);
-					Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
-				}
+			if (!PlayerPrefs.HasKey(Strings.RESUME) || levelToResume == "StartScreen") // Only display the resume button if there is a level to resume
+				GUI.enabled = false;
+			if (GUI.Button(resumeGameButton, "resume"))
+			{
+				currentResponse.type = EventTypes.RESUME;
+				
+				PlayButtonPress(2);
+				Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
 			}
+			GUI.enabled = true;
 			
 			if (GUI.Button(newGameButton, "new game"))
 			{
@@ -182,12 +184,15 @@ public class StartMenu extends GUIControl
 	
 	private function RiffSplashScreens():IEnumerator
 	{
-		showSplash = true;
-		currentTexture = firstSlide;
-		yield WaitForSeconds(2);
-		currentTexture = secondSlide;
-		yield WaitForSeconds(2);
+		//showSplash = true;
+		if (showSplash)
+		{
+			currentTexture = firstSlide;
+			yield WaitForSeconds(2);
+			currentTexture = secondSlide;
+			yield WaitForSeconds(2);
+			showSplash = false;
+		}
 		currentTexture = startMenu;
-		showSplash = false;
 	}
 }
