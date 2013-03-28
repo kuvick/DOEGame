@@ -302,7 +302,7 @@ function OnGUI()
 		if (selectedBuilding != building || gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 		{
 			GUI.enabled = false;
-			GUI.color = guiDisabledColor;
+			//GUI.color = guiDisabledColor;
 			optionalButtonSize = smallButtonSize;
 		}
 		outputRect.width = optionalButtonSize;
