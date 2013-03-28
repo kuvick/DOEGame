@@ -96,7 +96,7 @@ public class MainMenu extends GUIControl
 	{   
 		GUI.skin = mainMenuSkin;
 		
-		score = intelSystem.getPrimaryScore();
+		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 		
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;
