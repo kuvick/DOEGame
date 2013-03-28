@@ -12,7 +12,7 @@
 // Variables for altering the camera's movement
 static public var speedOfZoom: float = 100;	
 static public var closestZoomDistance: float = 400;	
-static public var farthestZoomDistnace: float = 485;
+static public var farthestZoomDistnace: float = 580;//650;
 static public var zoomingIncrement: float = 10;
 
 static public var zoomedIn:boolean = true;
@@ -23,7 +23,7 @@ static private var thisCamera: Camera;
 
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
-
+	zoomedIn = true;
 	thisCamera = Camera.main;
 	ZoomIn();
 }
