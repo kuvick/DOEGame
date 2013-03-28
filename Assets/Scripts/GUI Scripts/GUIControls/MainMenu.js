@@ -19,6 +19,7 @@ public class MainMenu extends GUIControl
 	private var intelButton:Rect; 	
 	private var scoreRect:Rect;
 	private var turnRect:Rect;
+	private var zoomButton:Rect;
 	
 	// Main Menu Scaling
 	private var hexButtonHeightPercent:float = 0.2;		// Height of the hex button font as a percentage of screen height
@@ -79,6 +80,7 @@ public class MainMenu extends GUIControl
 		var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
 		undoButton = Rect(undoButtonPos.x, undoButtonPos.y, hexButtonHeight , hexButtonHeight);																					
 		intelButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
+		zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
 		
 		scoreRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
@@ -88,6 +90,7 @@ public class MainMenu extends GUIControl
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
 		rectList.Add(intelButton);	
+		rectList.Add(zoomButton);	
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 	}
@@ -146,7 +149,7 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
-		if (GUI.Button(RectFactory.NewRect(.9, .68, .1, .12), (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){ 
+		if (GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){ 
 			cameraMain.ToggleZoomType();
 		}
 		

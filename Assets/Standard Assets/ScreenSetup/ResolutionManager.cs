@@ -57,7 +57,7 @@ public class ResolutionManager : MonoBehaviour {
 			
 			heightShift = rect.y;
 	        
-	        camera.rect = rect;
+	        //camera.rect = rect;
 	    } 
 		else // add pillarbox
 	    {
@@ -73,7 +73,7 @@ public class ResolutionManager : MonoBehaviour {
 			
 			widthShift = rect.x;
 	
-	        camera.rect = rect;
+	        //camera.rect = rect;
 	    }
 	}
 }
