@@ -36,7 +36,7 @@ public class ScoreMenu extends GUIControl{
 	public var nextLevelToLoad : String;
 
 	//need to replace text with GUI texture (if needed)
-	private var scoreStrings : String[] = ["Retry Level", "Facebook", "Next Level"];
+	private var scoreStrings : String[] = ["Retry Level", "Start Screen", "Next Level"];
 
 	public function Initialize(){
 		super.Initialize();
@@ -92,7 +92,12 @@ public class ScoreMenu extends GUIControl{
 		var primaryScore : int = intelSystem.getPrimaryScore();
 		var bonusScore : int = intelSystem.getOptionalScore();
 		var totalScore : int  = primaryScore + bonusScore;
-
+		var highScore : int = 0;
+		if (PlayerPrefs.HasKey(intelSystem.currentLevelName + "NarrScore"))
+			highScore = PlayerPrefs.GetInt(intelSystem.currentLevelName + "NarrScore");
+		if (totalScore > highScore)
+			PlayerPrefs.SetInt(intelSystem.currentLevelName + "NarrScore", totalScore);
+		
 	 	GUI.Box(scoreBoxRect, "");
 	 	GUI.Label(scoreTextLabelRect, "Score", largeLabelsStyle);
 	 	GUI.Label(eventTextLabelRect, "Events Completed", largeLabelsStyle);

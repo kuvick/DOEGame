@@ -127,7 +127,8 @@ public class StartMenu extends GUIControl
 			
 			GUI.skin = startMenuSkin;
 		
-			if (!PlayerPrefs.HasKey(Strings.RESUME) || levelToResume == "StartScreen" || levelToResume == "LoadingScreen") // Only display the resume button if there is a level to resume
+			if (!PlayerPrefs.HasKey(Strings.RESUME) || levelToResume == "StartScreen" || levelToResume == "LoadingScreen"
+				|| levelToResume == "LevelSelectScreen") // Only display the resume button if there is a level to resume
 				GUI.enabled = false;
 			if (GUI.Button(resumeGameButton, "resume"))
 			{
