@@ -32,6 +32,8 @@ public class ScoreMenu extends GUIControl{
 	private var totalLabelStyle:GUIStyle;
 	public var background : Texture;
 	private var intelSystem : IntelSystem;
+	
+	public var nextLevelToLoad : String;
 
 	//need to replace text with GUI texture (if needed)
 	private var scoreStrings : String[] = ["Retry Level", "Facebook", "Next Level"];
@@ -67,7 +69,8 @@ public class ScoreMenu extends GUIControl{
 			/*
 				TODO: Continue to the next level(not just return to level 1)
 			*/
-			PlayerPrefs.SetString(Strings.RESUME, GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel);
+			PlayerPrefs.SetString(Strings.RESUME, nextLevelToLoad);
+			GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel = nextLevelToLoad;
 			currentResponse.type = EventTypes.NEWGAME;
 			//Application.LoadLevel(levelToLoad);
 		}
