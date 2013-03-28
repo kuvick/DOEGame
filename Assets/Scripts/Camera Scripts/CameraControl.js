@@ -12,7 +12,7 @@
 // Variables for altering the camera's movement
 static public var speedOfZoom: float = 100;	
 static public var closestZoomDistance: float = 400;	
-static public var farthestZoomDistnace: float = 580;//650;
+static public var farthestZoomDistnace: float = 570;//580;//650;
 static public var zoomingIncrement: float = 10;
 
 static public var zoomedIn:boolean = true;
@@ -80,7 +80,7 @@ public static function ToggleZoomType(){
 private static function ZoomIn(){
 	thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
 	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
-	if(thisCamera.transform.position.z >= hexOrigin.z + Screen.height / 1.5){
+	if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
 	}
 }
