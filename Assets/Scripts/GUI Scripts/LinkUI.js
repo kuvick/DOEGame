@@ -434,7 +434,8 @@ function Update()
 	if (selectedResource != ResourceType.None && selectedBuilding != outputBuilding)
 	{
 		inputBuilding = selectedBuilding;
-		allocatedInSelected = Database.getBuildingOnGrid(selectedBuilding.transform.position).allocatedInputs.Contains(selectedResource);
+		var inputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+		allocatedInSelected = (inputBuildingOnGrid.allocatedInputs.Contains(selectedResource) && !inputBuildingOnGrid.unallocatedInputs.Contains(selectedResource));
 	}
 	
 	if(inputBuilding != null && outputBuilding != null)
