@@ -38,9 +38,9 @@ private var pathDrawnTimerDuration : float = 3.0f;
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
-private var buttonOffset:Vector2 = new Vector2(.75, .5);
+private var buttonOffset:Vector2 = new Vector2(.75, .75);
 private var offsetScale : float = 0.06;
-private var smallButtonScale : float = 0.10; // normal resource icon/button size
+private var smallButtonScale : float = 0.075; // normal resource icon/button size
 private var smallButtonSize : float;
 private var largeButtonScale : float = 0.20; // resource icon/button size when building selected
 private var largeButtonSize : float;

@@ -57,6 +57,7 @@ function Update() {
 	if(selectedBuilding == null)
 	{
 		//RestoreColors();
+		DestroyRangeTiles();
 		return;
 	}
 	

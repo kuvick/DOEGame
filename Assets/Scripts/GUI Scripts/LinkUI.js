@@ -22,13 +22,13 @@ private var buildingIsSelected : boolean = false;
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
 private var offsetScale : float = 0.06;
-private var inputOffset:Vector2 = new Vector2(-1.75, .5);	//Used to set position of button relative to building
-private var outputOffset:Vector2 = new Vector2(-1.5, -1.5);
+private var inputOffset:Vector2 = new Vector2(-1.75, .75);	//Used to set position of button relative to building
+private var outputOffset:Vector2 = new Vector2(-1.5, -2.0);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
-private var smallButtonScale : float = 0.10; // normal resource icon/button size
+private var smallButtonScale : float = 0.075; // normal resource icon/button size
 private var smallButtonSize : float;
 private var largeButtonScale : float = 0.20; // resource icon/button size when building selected
 private var largeButtonSize : float;
@@ -462,7 +462,7 @@ function Update()
 		{
 			linkBuildings(inputBuilding, outputBuilding);
 		}
-		
+		ModeController.setSelectedBuilding(null);
 		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
 	}
 	
