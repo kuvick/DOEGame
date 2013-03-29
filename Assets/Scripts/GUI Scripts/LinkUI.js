@@ -22,15 +22,15 @@ private var buildingIsSelected : boolean = false;
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
 private var allocatedOffset:Vector2 = new Vector2(20, -40);
 private var offsetScale : float = 0.06;
-private var inputOffset:Vector2 = new Vector2(-1.5, .5);	//Used to set position of button relative to building
+private var inputOffset:Vector2 = new Vector2(-1.75, .5);	//Used to set position of button relative to building
 private var outputOffset:Vector2 = new Vector2(-1.5, -1.5);
 private var ioButtonWidth = 35;
 private var ioButtonHeight = 35;
 private var cancelBtnHeight:int = 27;
 private var cancelBtnWidth:int = 80;
-private var smallButtonScale : float = 0.05; // normal resource icon/button size
+private var smallButtonScale : float = 0.10; // normal resource icon/button size
 private var smallButtonSize : float;
-private var largeButtonScale : float = 0.10; // resource icon/button size when building selected
+private var largeButtonScale : float = 0.20; // resource icon/button size when building selected
 private var largeButtonSize : float;
 private var buttonSpacingScale : float = 0.0005;
 private var buttonSpacing : float;
@@ -83,6 +83,8 @@ public var allocatedInputTex : Texture2D[];
 public var unallocatedOutputTex : Texture2D[];
 public var allocatedOutputTex : Texture2D[];
 
+private var activeButtonRects : List.<Rect> = new List.<Rect>();
+
 private var displayLink : DisplayLinkRange;
 
 
@@ -105,6 +107,7 @@ function Start () {
 	
 	inputOffset *= offsetScale * screenHeight;
 	outputOffset *= offsetScale * screenHeight;
+	activeButtonRects.Clear();
 }
 
 //This function returns true if buildings b1 and b2 are linked
@@ -286,8 +289,12 @@ function OnGUI()
 		if(point.y < 0) //Adjust y value of button for screen space
 			point.y -= Screen.height;
 		
-		outputRect = Rect(point.x + outputOffset.x, point.y + outputOffset.y, smallButtonSize, smallButtonSize);
 		inputRect = Rect(point.x + inputOffset.x, point.y + inputOffset.y, smallButtonSize, smallButtonSize);
+		var outputOffsetScale : float = 1.0f;
+		if (buildingIsSelected && building == selectedBuilding && selectedGridBuilding.isActive)
+			outputOffsetScale = 2.0f;
+		outputRect = Rect(point.x + outputOffset.x * outputOffsetScale, point.y + outputOffset.y * outputOffsetScale, 
+							smallButtonSize, smallButtonSize);
 		
 		inputRect = DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
 		//inputRect.x += smallButtonSize + (2 * buttonSpacing);
@@ -299,11 +306,13 @@ function OnGUI()
 		/*if (building == selectedBuilding)
 			buildingHighlightColor = selectedHighlightColor;*/
 		var optionalButtonSize = largeButtonSize;
+		var optionalActive : boolean = true;
 		if (selectedBuilding != building || gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 		{
 			GUI.enabled = false;
 			//GUI.color = guiDisabledColor;
 			optionalButtonSize = smallButtonSize;
+			optionalActive = false;
 		}
 		outputRect.width = optionalButtonSize;
 		outputRect.height = optionalButtonSize;
@@ -314,6 +323,8 @@ function OnGUI()
 				optionalOutTex = unallocatedOutputTex[gridBuilding.optionalOutput - 1];
 			else
 				optionalOutTex = allocatedOutputTex[gridBuilding.optionalOutput - 1];
+			if (optionalActive && !activeButtonRects.Contains(outputRect))
+				activeButtonRects.Add(outputRect);
 			if (GUI.Button(outputRect, optionalOutTex))
 			{
 				outputBuilding = building;
@@ -377,24 +388,30 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 								building : GameObject, isAllocated : boolean) : Rect
 {
 	var drawnButtonSize : float = smallButtonSize;
+	var thisBuildingSelected : boolean = false;
+	
+	GUI.enabled = false;	// output buttons unselected buildings are disabled
+	GUI.color = guiDisabledColor;	// counteracts inactive button transparency
+	// output buttons only active if building is active and selected
+	if (building == selectedBuilding && selectedGridBuilding.isActive)
+	{
+		drawnButtonSize = largeButtonSize;
+		GUI.enabled = true;
+		GUI.color = guiEnabledColor;
+		thisBuildingSelected = true;
+	}
+	else
+		drawnButtonSize = smallButtonSize;
+		
+	buttonRect.width = drawnButtonSize;
+	buttonRect.height = drawnButtonSize;
+	
 	for(var i = 0; i < resourceList.Count; i++)
 	{
-		GUI.enabled = false;	// output buttons unselected buildings are disabled
-		GUI.color = guiDisabledColor;	// counteracts inactive button transparency
-		// output buttons only active if building is active and selected
-		if (building == selectedBuilding && selectedGridBuilding.isActive)
-		{
-			drawnButtonSize = largeButtonSize;
-			GUI.enabled = true;
-			GUI.color = guiEnabledColor;
-		}
-		else
-			drawnButtonSize = smallButtonSize;
-			
-		buttonRect.width = drawnButtonSize;
-		buttonRect.height = drawnButtonSize;
 		if (RectInsideGUI(buttonRect)){
 			GUIManager.Instance().SetNotOnOtherGUI(!buttonRect.Contains(mousePos));
+			if (thisBuildingSelected && !activeButtonRects.Contains(buttonRect))
+				activeButtonRects.Add(buttonRect);
 			if (GUI.Button(buttonRect, textureArray[resourceList[i] - 1]))
 			{
 				outputBuilding = building;
@@ -403,12 +420,12 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 				allocatedOutSelected = isAllocated;
 				selectedGridBuilding.unitSelected = false;
 			}
-			GUI.enabled = true;
 			// increment position offset
 		}
 		buttonRect.x += drawnButtonSize + buttonSpacing;
 	}
 	GUI.color = guiEnabledColor;
+	GUI.enabled = true;
 	return buttonRect;
 }
 
@@ -418,6 +435,7 @@ private function ResetLinkVariables()
 	outputBuilding = null;
 	optionalOutputUsed = false;
 	selectedResource = ResourceType.None;
+	activeButtonRects.Clear();
 }
 
 function Update() 
@@ -466,4 +484,14 @@ static function CancelLinkMode():boolean{
 
 static function setLinkMode(mode:boolean){
 	cancelLinkMode = mode;
+}
+
+function CheckMouseNotOverGUI() : boolean
+{
+	for (var r : Rect in activeButtonRects)
+	{
+		if (r.Contains(mousePos))
+			return false;
+	}
+	return true;
 }

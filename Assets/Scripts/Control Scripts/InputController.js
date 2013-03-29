@@ -43,6 +43,8 @@ private var firstTouchTime : float;
 private var firstClickTime: float;
 private var clickPosition: Vector2;
 
+private var linkUI : LinkUI;
+
 var touchCount : int;
 
 // this will point to the funciton that will perform input checking based on the device
@@ -61,7 +63,7 @@ function singleClickEvent(inputPos: Vector2){
 	// we need to check if the point overlaps with a gui element
 	// if it does then we do nothing and let the gui handle it, otherwise
 	// we let the builing interaction manager handle it
-	if (GUIManager.Instance().NotOnGUI(inputPos) && UnitManager.CheckMouseNotOverGUI())//GUIManager.Instance().NotOnOtherGUI())
+	if (GUIManager.Instance().NotOnGUI(inputPos) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())//GUIManager.Instance().NotOnOtherGUI())
 	{
     	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }
@@ -93,6 +95,7 @@ function ResetControlState() {
 }
 
 function Start () {
+	linkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
 	ResetControlState();
 	// Check what type of input we should be expecting
 	// if we are running on android or iOS then use touch controls else

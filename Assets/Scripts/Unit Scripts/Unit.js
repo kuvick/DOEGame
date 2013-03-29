@@ -24,7 +24,7 @@ private var targetHighlightColor : Color = new Color(0,1,1,.5);
 
 private var test : boolean = false;
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 2, 50, HexagonGrid.tileWidth / 2);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 4 * 3, 25, HexagonGrid.tileWidth / 4);
 
 private var point:Vector3;
 private var mouseOverGUI : boolean;
@@ -38,11 +38,11 @@ private var pathDrawnTimerDuration : float = 3.0f;
 // Screen width and height
 private var screenWidth: float;
 private var screenHeight: float;
-private var buttonOffset:Vector2 = new Vector2(.5, .5);
+private var buttonOffset:Vector2 = new Vector2(.75, .5);
 private var offsetScale : float = 0.06;
-private var smallButtonScale : float = 0.05; // normal resource icon/button size
+private var smallButtonScale : float = 0.10; // normal resource icon/button size
 private var smallButtonSize : float;
-private var largeButtonScale : float = 0.10; // resource icon/button size when building selected
+private var largeButtonScale : float = 0.20; // resource icon/button size when building selected
 private var largeButtonSize : float;
 private var guiEnabledColor : Color = new Color(1,1,1,1);
 private var guiDisabledColor : Color = new Color(1,1,1,2);
