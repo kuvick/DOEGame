@@ -59,12 +59,20 @@ public class MainMenu extends GUIControl
 	// For when the level is loaded and there is an intel system
 	public function LoadLevelReferences()
 	{
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		if (GameObject.Find("Database") != null){
+      		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+    	} 
 	}
 	
 	public function Initialize()
 	{	
 		super.Initialize();
+		
+	    if (intelSystem == null) {
+    		LoadLevelReferences();
+    	} 
+  		score = intelSystem.getPrimaryScore();
+    	
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;

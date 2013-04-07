@@ -389,5 +389,6 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 	if (!guiControlToAdd.isInitialized){
 		guiControlToAdd.Initialize();
 	}
+	guiControlToAdd.OnOpen();
 	activeControls.Add(guiControlToAdd);
 }
