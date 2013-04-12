@@ -418,13 +418,15 @@ public class BuildingMenu extends GUIControl
 	public function Place(index : int)
 	{
 			var position : Vector3 = selectedBuildingSite.transform.position;
-			var buildingData : BuildingSiteScript = selectedBuildingSite.GetComponent("BuildingSiteScript");
+			
 			//Database.deleteBuildingSite(buildingData.GetLocation());
 		
 			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
 			var build: GameObject;
 			
 			build = Instantiate(buildingChoices[index].building, position, Quaternion.identity);
+			
+			ReplaceBuildingData (build, buildingChoices[index].data);
 			
 			Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
 						
@@ -434,6 +436,18 @@ public class BuildingMenu extends GUIControl
 			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
 			
 			RemoveBuildingFromList(index);
+	}
+	
+	private function ReplaceBuildingData(building : GameObject, newData : BuildingOnGridData)
+	{
+		var buildingData : BuildingData = building.GetComponent("BuildingData");
+		buildingData.buildingData.buildingName = newData.buildingName;
+		buildingData.buildingData.unallocatedInputs = newData.unallocatedInputs;
+		buildingData.buildingData.unallocatedOutputs = newData.unallocatedOutputs;
+		
+		buildingData.buildingData.optionalOutput = newData.optionalOutput;
+		
+		buildingData.buildingData.isActive = newData.isActive;
 	}
 	
 	// Used by building site to give this menu its location.
