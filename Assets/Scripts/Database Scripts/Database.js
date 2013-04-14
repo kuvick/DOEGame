@@ -1034,7 +1034,7 @@ function UndoLink(typeOfUndo : int)
 	var b1Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b1Coord);
 	var b2Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b2Coord);
 	
-	//Undo Link
+	//Undo Previous Link
 	b1Building.unallocatedInputs.Add(linkList[lastIndex].type);	
 	b2Building.unallocatedOutputs.Add(linkList[lastIndex].type);    
 	
@@ -1045,53 +1045,62 @@ function UndoLink(typeOfUndo : int)
 	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
 	
 	var b3Building : BuildingOnGrid;
+	
 	if(typeOfUndo != 0)
 	{
 		b3Building = getBuildingOnGrid(linkList[lastIndex].b3Coord);
 	}
+	
+	switch(typeOfUndo)
+	{
+		case 1: // Chain Break
+			//Link B3 and B2
+			AddLink(b3Building, b2Building, lastIndex);				
+			
+			//Activate chain
+			activateBuilding(findBuildingIndex(b3Building));
+			
+			//If Overload-Chain Break
+			if(linkList[lastIndex].OverloadChainBreak)
+			{
+				//Old Output
+				var b4Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex - 1].b3Coord);		
+				AddLink(b1Building, b4Building, lastIndex);
+							
+				linkList.RemoveAt(lastIndex - 1);
+				lastIndex--;
+				UndoStack.RemoveAt(UndoStack.Count - 2);
+			}		
+			break;
+		case 2:
+			AddLink(b1Building, b3Building, lastIndex);		
+			break;
+		default: 
+			break;
+	
+	}
+	
+	
 	//Chain Break
-	if(typeOfUndo == 1)
+	/*if(typeOfUndo == 1)
 	{		
 		//B1 is Input
 		//B2 is Output
 		//B3 is oldInput
 		
-		//Link B3 and B2		
-		b3Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
-		b2Building.unallocatedOutputs.Remove(linkList[lastIndex].type);		
-		
-		b3Building.allocatedInputs.Add(linkList[lastIndex].type);
-		b2Building.allocatedOutputs.Add(linkList[lastIndex].type);
-		
-		b3Building.inputLinkedTo.Add(findBuildingIndex(b3Building));
-		b2Building.outputLinkedTo.Add(findBuildingIndex(b1Building));
-		
-		linkUIRef.linkReference[findBuildingIndex(b3Building), findBuildingIndex(b2Building)] = true;		
-		//Draw New Link
-		GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(b3Building), findBuildingIndex(b2Building), linkList[lastIndex].type);
+		//Link B3 and B2
+		AddLink(b3Building, b2Building, lastIndex);				
 		
 		//Activate chain
 		activateBuilding(findBuildingIndex(b3Building));
 		
+		//If Overload-Chain Break
 		if(linkList[lastIndex].OverloadChainBreak)
 		{
 			//Old Output
 			var b4Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex - 1].b3Coord);		
-			
-			b1Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
-			b4Building.unallocatedOutputs.Remove(linkList[lastIndex].type);
-			
-			
-			b1Building.allocatedInputs.Add(linkList[lastIndex].type);
-			b4Building.allocatedOutputs.Add(linkList[lastIndex].type);
-			
-			b1Building.inputLinkedTo.Add(findBuildingIndex(b4Building));
-			b4Building.outputLinkedTo.Add(findBuildingIndex(b1Building));
-			
-			linkUIRef.linkReference[findBuildingIndex(b1Building), findBuildingIndex(b4Building)] = true;		
-			//Draw New Link
-			GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(b1Building), findBuildingIndex(b4Building), linkList[lastIndex].type);			
-			
+			AddLink(b1Building, b4Building, lastIndex);
+						
 			linkList.RemoveAt(lastIndex - 1);
 			lastIndex--;
 			UndoStack.RemoveAt(UndoStack.Count - 2);
@@ -1099,10 +1108,12 @@ function UndoLink(typeOfUndo : int)
 	}
 	//Overload
 	else if(typeOfUndo == 2)
-	{			
-		UndoOverloadLink(b1Building, b2Building, b3Building, lastIndex);		
+	{		
+		//Link B1 and B3	
+		AddLink(b1Building, b3Building, lastIndex);		
 	}
-		
+	*/
+	//Units
 	if(b1Building.isActive)
 	{
 		activateBuilding(findBuildingIndex(b1Building));
@@ -1119,27 +1130,23 @@ function UndoLink(typeOfUndo : int)
 	linkList.RemoveAt(lastIndex);	
 }
 
-function UndoOverloadLink(b1Building : BuildingOnGrid, b2Building : BuildingOnGrid, b3Building : BuildingOnGrid, lastIndex : int)
+function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid, lastIndex : int)
 {
-	//B1 is Input
-	//B2 is Output
-	//B3 is oldOutput
 	var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
 					
 	//Link B1 to B3
-	b1Building.unallocatedInputs.Remove(linkList[lastIndex].type);	
-	b3Building.unallocatedOutputs.Remove(linkList[lastIndex].type);
+	inputBuilding.unallocatedInputs.Remove(linkList[lastIndex].type);	
+	outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
 	
+	inputBuilding.allocatedInputs.Add(linkList[lastIndex].type);
+	outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
 	
-	b1Building.allocatedInputs.Add(linkList[lastIndex].type);
-	b3Building.allocatedOutputs.Add(linkList[lastIndex].type);
+	inputBuilding.inputLinkedTo.Add(findBuildingIndex(outputBuilding));
+	outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
 	
-	b1Building.inputLinkedTo.Add(findBuildingIndex(b3Building));
-	b3Building.outputLinkedTo.Add(findBuildingIndex(b1Building));
-	
-	linkUIRef.linkReference[findBuildingIndex(b1Building), findBuildingIndex(b3Building)] = true;		
+	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
 	//Draw New Link
-	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(b1Building), findBuildingIndex(b3Building), linkList[lastIndex].type);
+	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type);
 }
 
 function UndoAdd()
