@@ -438,6 +438,7 @@ public class BuildingMenu extends GUIControl
 			RemoveBuildingFromList(index);
 	}
 	
+	// replaces the building data of the passed in building with the newData
 	private function ReplaceBuildingData(building : GameObject, newData : BuildingOnGridData)
 	{
 		var buildingData : BuildingData = building.GetComponent("BuildingData");

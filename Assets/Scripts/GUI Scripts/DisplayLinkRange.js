@@ -147,7 +147,7 @@ static function DestroyRangeTiles(){
 	
 	if(tileArray.Length == 0)
 	{
-		Debug.Log("No range tiles to destroy");
+		//Debug.Log("No range tiles to destroy");
 		return;
 	}
 

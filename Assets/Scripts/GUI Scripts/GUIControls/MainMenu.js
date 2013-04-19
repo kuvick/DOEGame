@@ -61,6 +61,7 @@ public class MainMenu extends GUIControl
 	{
 		if (GameObject.Find("Database") != null){
       		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+      		score = intelSystem.getPrimaryScore();
     	} 
 	}
 	
@@ -71,8 +72,6 @@ public class MainMenu extends GUIControl
 	    if (intelSystem == null) {
     		LoadLevelReferences();
     	} 
-  		score = intelSystem.getPrimaryScore();
-    	
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
