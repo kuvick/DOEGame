@@ -545,9 +545,17 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	    // swap the resource from the allocated list back into the unallocated list of the old output building
 	    // and remove the link
 	    var oldOutIndex : int = oldOutputBuilding.outputLinkedTo.IndexOf(inputBuildingIndex);
-	    oldOutputBuilding.unallocatedOutputs.Add(resourceName);
-	    oldOutputBuilding.allocatedOutputs.RemoveAt(oldOutIndex);
-	    oldOutputBuilding.outputLinkedTo.RemoveAt(oldOutIndex);
+	    if (oldOutIndex > -1)
+	    {
+		    oldOutputBuilding.unallocatedOutputs.Add(resourceName);
+		    oldOutputBuilding.allocatedOutputs.RemoveAt(oldOutIndex);
+		    oldOutputBuilding.outputLinkedTo.RemoveAt(oldOutIndex);
+	    }
+	    else
+	    {
+	    	oldOutputBuilding.optionalOutputAllocated = false;
+	    	oldOutputBuilding.optionalOutputLinkedTo = -1;
+	    }
 	    
 		inputBuilding.inputLinkedTo[selectedInIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
 		
@@ -583,7 +591,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 
 // Used for the chain break type of link reallocation
 public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedOutIndex : int, 
-	resourceName:ResourceType, usedOptionalOutput : boolean, allocatedInSelected : boolean, allocatedInOutSelected : boolean) : int
+	resourceName:ResourceType, usedOptionalOutput : boolean, allocatedInSelected : boolean) : int
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
@@ -653,7 +661,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		tempNode.b3Coord = oldInputBuilding.coordinate;
 		tempNode.turnCreated = intelSystem.currentTurn + 1;
 		tempNode.type = resourceName;
-		if(allocatedInOutSelected)
+		if(allocatedInSelected)
 			tempNode.OverloadChainBreak = true;		
 		
 		linkList.Add(tempNode);						
