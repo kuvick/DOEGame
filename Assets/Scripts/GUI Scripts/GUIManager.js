@@ -293,10 +293,11 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.WAIT:
 			if(intelSystem != null)
-				intelSystem.addTurn();
+				intelSystem.addTurn();				
 			else
 				Debug.Log("Intel System not loaded yet");
 			database.UndoStack.Add(UndoType.Wait);
+			database.Save("Wait");
 			ClearControls();
 			AddGUIToControls(mainMenu);
 			AddGUIToControls(marquee);
@@ -333,6 +334,7 @@ private function RespondTo(response:GUIEvent)
 		// Score Menu responses
 		case EventTypes.SCORESCREEN:
 			//Application.LoadLevel("ScoreScreen");
+			//database.SaveMetrics();
 			ClearControls();
 			AddGUIToControls(scoreMenu);
 			break;

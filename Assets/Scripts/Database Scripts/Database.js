@@ -88,6 +88,9 @@ enum UndoType
 	ChainOverload = 5
 }
 
+//Metric Variables
+private var metrics : MetricContainer;
+
 function Start()
 {
 	DontDestroyOnLoad (gameObject);	// So the Database will carry over to the score page
@@ -132,6 +135,8 @@ function Start()
 	linkList = new List.<LinkTurnNode>();
 	addList = new List.<AddTurnNode>();
 	UndoStack = new List.<UndoType>();
+	
+	metrics = new MetricContainer();
 }
 
 
@@ -474,6 +479,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		UndoStack.Add(UndoType.Link);
 		
 		intelSystem.addTurn();	// NEW: Intel System
+		metrics.addLinkData(new LinkData("Link", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
+		Save("Building Link");
     }
     else
     {
@@ -566,12 +573,14 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		tempNode.b3Coord = oldOutputBuilding.coordinate;
 		tempNode.turnCreated = intelSystem.currentTurn + 1;
 		tempNode.type = resourceName;
-		linkList.Add(tempNode);
+		linkList.Add(tempNode);		
 		
-		UndoStack.Add(UndoType.Overload);
+		UndoStack.Add(UndoType.Overload);		
 		if (!allocatedOutSelected)
-		{			
+		{						
 			intelSystem.addTurn();
+			metrics.addLinkData(new LinkData("Overload", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
+			Save("Overload Link");
 		}
 	}
 	
@@ -663,6 +672,9 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		//If the Chain Break was the result of an Overload/Chain Break combo: Do not add another turn
 //		if(!allocatedInOutSelected)
 			intelSystem.addTurn();
+			metrics.addLinkData(new LinkData("Link", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
+			Save("Chainbreak");
+
 	}
 	
 	if (hasResource)
@@ -1178,6 +1190,7 @@ static public function AddToAddList(coordinate: Vector3)
 	addList.Add(tempNode);
 	UndoStack.Add(UndoType.Add);
 	intelSystem.addTurn();
+//	SaveMetric("BuildingSite");
 }
 
 // Cleans up the array used to keep track of previous states
@@ -1329,6 +1342,13 @@ static public function addBuildingSite( coordinate : Vector3)
 	addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
 	BroadcastBuildingUpdate();
 } // End of addBuildingSite()
+
+
+public function Save(type : String) : void
+{
+	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));
+	metrics.Save(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + ".xml"));
+}
 
 class BuildingReplacement extends System.ValueType
 {
