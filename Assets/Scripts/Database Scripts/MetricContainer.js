@@ -11,6 +11,7 @@ public class TurnData
 	public var Turn: int;	
 	public var RemainingEvents: int;
 	public var Type : String;
+	public var TimeSinceLevelLoad: float;
 
 	function TurnData(){}
 	
@@ -20,6 +21,7 @@ public class TurnData
 		this.Turn = Turn;		
 		this.RemainingEvents = RemainingEvents;
 		this.Type = Type;
+		this.TimeSinceLevelLoad = Time.timeSinceLevelLoad;
 	}
 }
 
@@ -27,6 +29,7 @@ public class LinkData
 {
 	@XmlAttribute("LinkData")
 	public var Type : String;
+	public var Turn : int;
 	
 	public var InputBuildingIndex : int;
 	public var InputBuildingName : String;
@@ -40,6 +43,7 @@ public class LinkData
 	function LinkData(){}
 	
 	function LinkData(Type: String, 
+				Turn: int,
 				InputBuildingIndex : int, 
 				InputBuildingName : String,
 				OutputBuildingIndex : int,
@@ -48,12 +52,35 @@ public class LinkData
 				oldInputBuildingIndex : int )
 	{
 		this.Type = Type;
+		this.Turn = Turn;
 		this.InputBuildingIndex = InputBuildingIndex;
 		this.InputBuildingName = InputBuildingName;
 		this.OutputBuildingIndex = OutputBuildingIndex;
 		this.OutputBuildingName = OutputBuildingName;
 		this.oldOutputBuildingIndex = oldOutputBuildingIndex;
 		this.oldInputBuildingIndex = oldInputBuildingIndex;
+	}
+}
+
+public class EndGameData
+{	
+	public var TimeInSeconds : int;
+	public var Score : int;
+	public var TotalEvents: int;
+	public var EventsIncomplete : int;
+	public var Turns : int;
+	public var TimesUndoPressed : int;
+	
+	function EndGameData(){};
+	
+	function EndGameData(Score : int, totalEvents : int, eventsIncomplete : int, turns : int, TimesUndoPressed : int)
+	{
+		this.TimeInSeconds = Time.timeSinceLevelLoad;
+		this.Score = Score;
+		this.TotalEvents = totalEvents;
+		this.EventsIncomplete = eventsIncomplete;
+		this.Turns = turns;
+		this.TimesUndoPressed = TimesUndoPressed;
 	}
 }
 
@@ -67,7 +94,10 @@ public class MetricContainer
 	
 	@XmlArray("Links")
 	@XmlArrayItem("Link")
-	public var Links : List.<LinkData>;
+	public var Links : List.<LinkData>;	
+	
+	@XmlAttribute("EndGameData")	
+	public var EndGame : EndGameData;
 	
 	function MetricContainer()
 	{
@@ -82,6 +112,22 @@ public class MetricContainer
 		serializer.Serialize(stream, this);		
 		stream.Close();		
 	} 
+	
+	public function SaveLink(path : String)
+	{
+		var serializer : XmlSerializer = new XmlSerializer(List.<LinkData>);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.Links);		
+		stream.Close();	
+	}
+	
+	public function SaveEndGame(path: String)
+	{
+		var serializer : XmlSerializer = new XmlSerializer(EndGameData);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.EndGame);		
+		stream.Close();	
+	}
 	
 	public static function Load(path : String) : MetricContainer
 	{
@@ -105,6 +151,7 @@ public class MetricContainer
 	}
 	
 	public function addLinkData(Type: String, 
+				Turn: int,
 				InputBuildingIndex : int, 
 				InputBuildingName : String,
 				OutputBuildingIndex : int,
@@ -113,12 +160,9 @@ public class MetricContainer
 				oldInputBuildingIndex : int )
 	{
 		Links.Add(new LinkData(
-					Type, 
-					InputBuildingIndex, 
-					InputBuildingName, 
-					OutputBuildingIndex, 
-					OutputBuildingName,
-					oldOutputBuildingIndex, 
-					oldInputBuildingIndex));
+					Type, Turn,
+					InputBuildingIndex, InputBuildingName, 
+					OutputBuildingIndex, OutputBuildingName,
+					oldOutputBuildingIndex, oldInputBuildingIndex));
 	}
 }

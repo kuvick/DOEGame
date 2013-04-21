@@ -25,8 +25,9 @@ public var numOfObjectivesLeft : int;
 public var victory : boolean;
 public var currentLevelName : String;
 
-
+public var totalEvents : int = 0;
 private var eventStack : List.<EventStackNode>;
+
 
 
 class BuildingEvent
@@ -125,6 +126,7 @@ function Start ()
 		}
 				
 	}
+	totalEvents = events.Count + linkedEvents.Count;
 	Debug.Log("Finished adding events to the list.");
 }
 

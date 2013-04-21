@@ -60,6 +60,7 @@ private var database: Database;
 public var thisIsALevel : boolean = false;
 
 private var inputNotOnOtherGUI : boolean = true;
+private var UndoPressed : int = 0;
 
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
@@ -305,7 +306,8 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.UNDO:
 			if(database.undo())
 			{					
-				intelSystem.subtractTurn();				
+				intelSystem.subtractTurn();
+				UndoPressed++;				
 			}			
 			ClearControls();
 			AddGUIToControls(mainMenu);
@@ -335,6 +337,16 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.SCORESCREEN:
 			//Application.LoadLevel("ScoreScreen");
 			//database.SaveMetrics();
+			database.metrics.EndGame = new EndGameData(
+														intelSystem.getPrimaryScore() + intelSystem.getOptionalScore(),
+														intelSystem.totalEvents,
+														intelSystem.events.Count + intelSystem.linkedEvents.Count,
+														intelSystem.currentTurn,
+														UndoPressed);
+			database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_END.xml"));
+			
+			UndoPressed = 0;
+			intelSystem.totalEvents = 0;
 			ClearControls();
 			AddGUIToControls(scoreMenu);
 			break;

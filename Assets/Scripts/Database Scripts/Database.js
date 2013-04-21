@@ -89,7 +89,7 @@ enum UndoType
 }
 
 //Metric Variables
-private var metrics : MetricContainer;
+public var metrics : MetricContainer;
 
 function Start()
 {
@@ -479,7 +479,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		UndoStack.Add(UndoType.Link);
 		
 		intelSystem.addTurn();	// NEW: Intel System
-		metrics.addLinkData(new LinkData("Link", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
+		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
 		Save("Building Link");
     }
     else
@@ -587,7 +587,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		if (!allocatedOutSelected)
 		{						
 			intelSystem.addTurn();
-			metrics.addLinkData(new LinkData("Overload", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
+			metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
 			Save("Overload Link");
 		}
 	}
@@ -680,7 +680,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		//If the Chain Break was the result of an Overload/Chain Break combo: Do not add another turn
 //		if(!allocatedInOutSelected)
 			intelSystem.addTurn();
-			metrics.addLinkData(new LinkData("Link", findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
+			metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
 			Save("Chainbreak");
 
 	}
@@ -1356,6 +1356,7 @@ public function Save(type : String) : void
 {
 	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));
 	metrics.Save(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + ".xml"));
+	metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_LINK.xml"));
 }
 
 class BuildingReplacement extends System.ValueType
