@@ -6,11 +6,6 @@
       <RemainingEvents>1</RemainingEvents>
       <Type>Building Link</Type>
     </Turn>
-    <Turn TurnData="Turn Data">
-      <Turn>2</Turn>
-      <RemainingEvents>1</RemainingEvents>
-      <Type>Chainbreak</Type>
-    </Turn>
   </Turns>
   <Links>
     <Link LinkData="Link">
@@ -20,14 +15,6 @@
       <OutputBuildingName>OilDrill</OutputBuildingName>
       <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
       <oldInputBuildingIndex>-1</oldInputBuildingIndex>
-    </Link>
-    <Link LinkData="Link">
-      <InputBuildingIndex>3</InputBuildingIndex>
-      <InputBuildingName>Refinery</InputBuildingName>
-      <OutputBuildingIndex>4</OutputBuildingIndex>
-      <OutputBuildingName>OilDrill</OutputBuildingName>
-      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
-      <oldInputBuildingIndex>1</oldInputBuildingIndex>
     </Link>
   </Links>
 </MetricCollection>
