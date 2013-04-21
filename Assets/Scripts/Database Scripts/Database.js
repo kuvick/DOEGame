@@ -503,7 +503,8 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
-	var oldOutputBuildingIndex : int = inputBuilding.inputLinkedTo[selectedInIndex]; // save the old output building index
+	var inputIndex : int = inputBuilding.allocatedInputs.IndexOf(resourceName);
+	var oldOutputBuildingIndex : int = inputBuilding.inputLinkedTo[inputIndex];//selectedInIndex]; // save the old output building index
 	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[oldOutputBuildingIndex]; // get the old output building on grid
 	var hasResource = false;
 	
@@ -529,7 +530,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	}
 	else
 	{
-		if (inputBuilding.allocatedInputs[selectedInIndex] == resourceName && outputList.Contains(resourceName))
+		if (inputBuilding.allocatedInputs.Contains(resourceName) && outputList.Contains(resourceName))
 			hasResource = true;
 	}
 	
@@ -564,7 +565,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	    	oldOutputBuilding.optionalOutputLinkedTo = -1;
 	    }
 	    
-		inputBuilding.inputLinkedTo[selectedInIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
+		inputBuilding.inputLinkedTo[inputIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;

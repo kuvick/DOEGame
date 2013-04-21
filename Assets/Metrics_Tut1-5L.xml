@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<MetricCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Turns>
+    <Turn TurnData="Turn Data">
+      <Turn>1</Turn>
+      <RemainingEvents>2</RemainingEvents>
+      <Type>Building Link</Type>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>2</Turn>
+      <RemainingEvents>2</RemainingEvents>
+      <Type>Building Link</Type>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>3</Turn>
+      <RemainingEvents>2</RemainingEvents>
+      <Type>Building Link</Type>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>4</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>5</Turn>
+      <RemainingEvents>0</RemainingEvents>
+      <Type>Building Link</Type>
+    </Turn>
+  </Turns>
+  <Links>
+    <Link LinkData="Link">
+      <InputBuildingIndex>3</InputBuildingIndex>
+      <InputBuildingName>nameOfBuilding</InputBuildingName>
+      <OutputBuildingIndex>2</OutputBuildingIndex>
+      <OutputBuildingName>HydroDam</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <InputBuildingIndex>4</InputBuildingIndex>
+      <InputBuildingName>nameOfBuilding</InputBuildingName>
+      <OutputBuildingIndex>3</OutputBuildingIndex>
+      <OutputBuildingName>nameOfBuilding</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <InputBuildingIndex>0</InputBuildingIndex>
+      <InputBuildingName>nameOfBuilding</InputBuildingName>
+      <OutputBuildingIndex>2</OutputBuildingIndex>
+      <OutputBuildingName>HydroDam</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <InputBuildingIndex>4</InputBuildingIndex>
+      <InputBuildingName>nameOfBuilding</InputBuildingName>
+      <OutputBuildingIndex>0</OutputBuildingIndex>
+      <OutputBuildingName>nameOfBuilding</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <InputBuildingIndex>1</InputBuildingIndex>
+      <InputBuildingName>House</InputBuildingName>
+      <OutputBuildingIndex>0</OutputBuildingIndex>
+      <OutputBuildingName>nameOfBuilding</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+  </Links>
+</MetricCollection>
