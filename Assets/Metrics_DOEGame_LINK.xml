@@ -4,8 +4,8 @@
     <Turn>1</Turn>
     <InputBuildingIndex>12</InputBuildingIndex>
     <InputBuildingName>City</InputBuildingName>
-    <OutputBuildingIndex>4</OutputBuildingIndex>
-    <OutputBuildingName>Refinery</OutputBuildingName>
+    <OutputBuildingIndex>2</OutputBuildingIndex>
+    <OutputBuildingName>PowerPlant</OutputBuildingName>
     <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
     <oldInputBuildingIndex>-1</oldInputBuildingIndex>
   </LinkData>
@@ -13,8 +13,8 @@
     <Turn>2</Turn>
     <InputBuildingIndex>12</InputBuildingIndex>
     <InputBuildingName>City</InputBuildingName>
-    <OutputBuildingIndex>2</OutputBuildingIndex>
-    <OutputBuildingName>PowerPlant</OutputBuildingName>
+    <OutputBuildingIndex>4</OutputBuildingIndex>
+    <OutputBuildingName>Refinery</OutputBuildingName>
     <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
     <oldInputBuildingIndex>-1</oldInputBuildingIndex>
   </LinkData>
@@ -24,16 +24,16 @@
     <InputBuildingName>City</InputBuildingName>
     <OutputBuildingIndex>9</OutputBuildingIndex>
     <OutputBuildingName>HydroDam</OutputBuildingName>
-    <oldOutputBuildingIndex>4</oldOutputBuildingIndex>
+    <oldOutputBuildingIndex>2</oldOutputBuildingIndex>
     <oldInputBuildingIndex>-1</oldInputBuildingIndex>
   </LinkData>
   <LinkData LinkData="Overload">
     <Turn>4</Turn>
     <InputBuildingIndex>12</InputBuildingIndex>
     <InputBuildingName>City</InputBuildingName>
-    <OutputBuildingIndex>4</OutputBuildingIndex>
-    <OutputBuildingName>Refinery</OutputBuildingName>
-    <oldOutputBuildingIndex>2</oldOutputBuildingIndex>
+    <OutputBuildingIndex>2</OutputBuildingIndex>
+    <OutputBuildingName>PowerPlant</OutputBuildingName>
+    <oldOutputBuildingIndex>4</oldOutputBuildingIndex>
     <oldInputBuildingIndex>-1</oldInputBuildingIndex>
   </LinkData>
   <LinkData LinkData="Overload">
@@ -49,9 +49,27 @@
     <Turn>6</Turn>
     <InputBuildingIndex>12</InputBuildingIndex>
     <InputBuildingName>City</InputBuildingName>
+    <OutputBuildingIndex>9</OutputBuildingIndex>
+    <OutputBuildingName>HydroDam</OutputBuildingName>
+    <oldOutputBuildingIndex>4</oldOutputBuildingIndex>
+    <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+  </LinkData>
+  <LinkData LinkData="Overload">
+    <Turn>7</Turn>
+    <InputBuildingIndex>12</InputBuildingIndex>
+    <InputBuildingName>City</InputBuildingName>
+    <OutputBuildingIndex>4</OutputBuildingIndex>
+    <OutputBuildingName>Refinery</OutputBuildingName>
+    <oldOutputBuildingIndex>2</oldOutputBuildingIndex>
+    <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+  </LinkData>
+  <LinkData LinkData="Overload">
+    <Turn>8</Turn>
+    <InputBuildingIndex>12</InputBuildingIndex>
+    <InputBuildingName>City</InputBuildingName>
     <OutputBuildingIndex>2</OutputBuildingIndex>
     <OutputBuildingName>PowerPlant</OutputBuildingName>
-    <oldOutputBuildingIndex>4</oldOutputBuildingIndex>
+    <oldOutputBuildingIndex>9</oldOutputBuildingIndex>
     <oldInputBuildingIndex>-1</oldInputBuildingIndex>
   </LinkData>
 </ArrayOfLinkData>

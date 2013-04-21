@@ -291,13 +291,14 @@ function Update() {
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
+			currentTarget = selectedGridBuilding;
 			if (foundPath.Count > 0)
 			{
 				SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
 				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 				pathDrawn = true;
+				intelSystem.addTurn();
 			}
-			currentTarget = selectedGridBuilding;
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
