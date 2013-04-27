@@ -1356,8 +1356,8 @@ static public function addBuildingSite( coordinate : Vector3)
 public function Save(type : String) : void
 {
 	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));
-	metrics.Save(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + ".xml"));
-	metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_LINK.xml"));
+	//metrics.Save(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + ".xml"));
+	//metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_LINK.xml"));
 }
 
 class BuildingReplacement extends System.ValueType
