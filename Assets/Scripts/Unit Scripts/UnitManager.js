@@ -32,7 +32,7 @@ function GetUpgradeIcon (i : int) : Texture
 
 function OnGUI ()
 {
-	var buildings : BuildingOnGrid[] = Database.getBuildingsOnGrid().ToBuiltin(BuildingOnGrid);
+	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 	for (var b : BuildingOnGrid in buildings)
 	{
 		if (b.heldUpgrade != UpgradeType.None)

@@ -21,13 +21,15 @@ Attach to a blank GameObject
 */
 
 #pragma strict
+import System.Collections.Generic;
 
 // The two main structures for holding data:
 	// Default buildings stored here:
 static public var buildings : Array;// = new Array();
 
 	// Buildings on grid stored here:
-static public var buildingsOnGrid : Array;// = new Array(); 
+//static public var buildingsOnGrid : Array;// = new Array(); 
+public static var buildingsOnGrid : List.<BuildingOnGrid>;
 
 
 	// The amount of tiles a building has in range, can be specific to building later on
@@ -111,7 +113,8 @@ function Start()
 	grid = gridObject.GetComponent(HexagonGrid);
 	
 	buildings = new Array();
-	buildingsOnGrid = new Array();
+	//buildingsOnGrid = new Array();
+	buildingsOnGrid = new List.<BuildingOnGrid>();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
@@ -125,7 +128,8 @@ function Start()
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 		// create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
-		buildingsOnGrid.Push(tempBuilding);
+		//buildingsOnGrid.Push(tempBuilding);
+		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		
 		Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
@@ -229,12 +233,13 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
     	
    if( !isPreplaced )
    {
-	    buildingsOnGrid.push(temp);
+	    //buildingsOnGrid.push(temp);
+	    buildingsOnGrid.Add(temp);
 	    	        
 	    //adding for undo:
 		
 		previousBuildings.Add("EndOfAdd");
-		previousBuildings.Add(buildingsOnGrid.length - 1); 	// index of new building
+		previousBuildings.Add(buildingsOnGrid.Count - 1); 	// index of new building
 		previousBuildings.Add("Add");
 		
 		numberOfUndos++;
@@ -254,7 +259,7 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 	else
 	{
 	
-		buildingsOnGrid.push(temp);	   	
+		buildingsOnGrid.Add(temp);//push(temp);	   	
 		return true;
 	
 	}
@@ -1179,7 +1184,7 @@ function UndoAdd()
 	var building : GameObject = getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate).buildingPointer;
 	GameObject.DestroyImmediate(building);
 	// Remove building from BuildingsOnGrid
-	buildingsOnGrid.Splice(buildingIndex, 1);	
+	buildingsOnGrid.RemoveAt(buildingIndex);//buildingsOnGrid.Splice(buildingIndex, 1);	
 	
 	// Add BuildingSite to BuildingsOnGrid
 	addBuildingSite(addList[lastIndex].buildingSite.coordinate);		
@@ -1298,7 +1303,7 @@ static public function deleteBuildingSite( coordinate : Vector3 )
 	if (buildingSiteID >= 0)
 		Destroy(getBuildingOnGridAtIndex(buildingSiteID).highlighter);
 	Debug.Log("Removing at Index: " + buildingSiteID + " for coordinate " + coordinate);
-	buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
+	buildingsOnGrid.RemoveAt(buildingSiteID);//buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
 	BroadcastBuildingUpdate();
 	
 	if(findBuildingIndex(coordinate) == -1)
