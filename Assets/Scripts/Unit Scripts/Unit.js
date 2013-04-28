@@ -67,7 +67,7 @@ function Initiate() {
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	SetPosition();
-	Debug.Log("Building is: " + currentBuilding.buildingName);
+	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 }
 

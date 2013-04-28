@@ -119,7 +119,6 @@ public class StartMenu extends GUIControl
 	
 	public function Render()
 	{
-		Debug.Log("firstlevel = " + firstLevel);
 		GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
 		if (!showSplash)
 		{

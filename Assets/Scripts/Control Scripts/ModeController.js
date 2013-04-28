@@ -61,7 +61,6 @@ function Update ()
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
 {
-	Debug.Log("Sucessfully broadcasted update building count from ModeController.js");
 	buildings = curBuildings;
 }
 
