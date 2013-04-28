@@ -284,6 +284,8 @@ private function RespondTo(response:GUIEvent)
 			
 		// Main Menu responses
 		case EventTypes.PAUSE:
+			database.m_display.GatherData(intelSystem.currentLevelName);
+			database.m_display.AnalyzeData();
 			ClearControls();
 			AddGUIToControls(pauseMenu);
 			break;
@@ -362,10 +364,12 @@ private function RecordEndGameData()
 								intelSystem.currentTurn,
 								UndoPressed);
 																											
-	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName));													
-	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
-	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
-	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
+	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
+	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
+	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
 	
 	UndoPressed = 0;
 	intelSystem.totalEvents = 0;

@@ -90,6 +90,7 @@ enum UndoType
 
 //Metric Variables
 public var metrics : MetricContainer;
+public var m_display : MetricDisplay;
 
 function Start()
 {
@@ -137,6 +138,7 @@ function Start()
 	UndoStack = new List.<UndoType>();
 	
 	metrics = new MetricContainer();
+	m_display = new MetricDisplay();
 }
 
 
