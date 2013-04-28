@@ -154,7 +154,8 @@ public function Start ()
 			
 		case "LoadingScreen":
 			AddGUIToControls(loading);
-			loading.DelayLoad(4);
+			//loading.DelayLoad(4);
+			SetupLoading();
 			break;		
 		// temporary for unit testing purposes	
 		case "UnitTest":
@@ -260,13 +261,15 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
 			AddGUIToControls(loading);
-			loading.DelayLoad(3);
+			//loading.DelayLoad(3);
+			SetupLoading();
 			break;
 		case EventTypes.NEWGAME:
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
 			AddGUIToControls(loading);
-			loading.DelayLoad(3);
+			//loading.DelayLoad(3);
+			SetupLoading();
 			break;
 		case EventTypes.FACEBOOK:
 			break;
@@ -351,6 +354,11 @@ private function RespondTo(response:GUIEvent)
 	}
 }
 
+private function SetupLoading()
+{
+	loading.GetNewJob();
+	loading.DelayLoad(20);
+}
 
 private function RecordEndGameData()
 {
