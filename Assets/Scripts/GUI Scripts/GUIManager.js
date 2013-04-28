@@ -337,26 +337,39 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.SCORESCREEN:
 			//Application.LoadLevel("ScoreScreen");
 			//database.SaveMetrics();
-			database.metrics.EndGame = new EndGameData(
-														intelSystem.getPrimaryScore() + intelSystem.getOptionalScore(),
-														intelSystem.totalEvents,
-														intelSystem.events.Count + intelSystem.linkedEvents.Count,
-														intelSystem.currentTurn,
-														UndoPressed);
-			database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_END.xml"));
+			RecordEndGameData();
 			
-			UndoPressed = 0;
-			intelSystem.totalEvents = 0;
 			ClearControls();
 			AddGUIToControls(scoreMenu);
 			break;
 		case EventTypes.FAILUREMENU:
+			RecordEndGameData();
+		
 			ClearControls();
 			AddGUIToControls(failureMenu);
 			break;
 	}
 }
 
+
+private function RecordEndGameData()
+{
+
+	database.metrics.EndGame = new EndGameData(
+								intelSystem.getPrimaryScore() + intelSystem.getOptionalScore(),
+								intelSystem.totalEvents,
+								intelSystem.events.Count + intelSystem.linkedEvents.Count,
+								intelSystem.currentTurn,
+								UndoPressed);
+																											
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName));													
+	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
+	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
+	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
+	
+	UndoPressed = 0;
+	intelSystem.totalEvents = 0;
+}
 /*
 	Clears every control from the list of active controls
 */

@@ -3,6 +3,7 @@ import System.Collections.Generic;
 import System.Xml;
 import System.Xml.Serialization;
 import System.IO;
+import System.Text.RegularExpressions;
 
 public class TurnData
 {
@@ -115,14 +116,53 @@ public class MetricContainer
 	
 	public function SaveLink(path : String)
 	{
+		var pattern : String = "[^0-9]";
+		var Now : String = System.DateTime.Now.ToString();		
+		
+		//Remove all characters except numbers
+		Now = Regex.Replace(Now, pattern, String.Empty);
+		
+		Debug.Log("Now : " + Now);
+		
+		path = Path.Combine(path, Now + "_LINK.xml");
+	
+	
 		var serializer : XmlSerializer = new XmlSerializer(List.<LinkData>);		
 		var stream : FileStream = new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this.Links);		
 		stream.Close();	
 	}
-	
-	public function SaveEndGame(path: String)
+
+	public function SaveTurn(path : String)
 	{
+		var pattern : String = "[^0-9]";
+		var Now : String = System.DateTime.Now.ToString();		
+		
+		//Remove all characters except numbers
+		Now = Regex.Replace(Now, pattern, String.Empty);
+		
+		Debug.Log("Now : " + Now);
+		
+		path = Path.Combine(path, Now + "_TURN.xml");
+		
+		var serializer : XmlSerializer = new XmlSerializer(List.<TurnData>);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.Turns);		
+		stream.Close();	
+	}
+			
+	public function SaveEndGame(path: String)
+	{		
+		var pattern : String = "[^0-9]";
+		var Now : String = System.DateTime.Now.ToString();		
+		
+		//Remove all characters except numbers
+		Now = Regex.Replace(Now, pattern, String.Empty);
+		
+		Debug.Log("Now : " + Now);
+		
+		path = Path.Combine(path, Now + "_END.xml");
+	
 		var serializer : XmlSerializer = new XmlSerializer(EndGameData);		
 		var stream : FileStream = new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this.EndGame);		

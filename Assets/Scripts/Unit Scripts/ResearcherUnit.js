@@ -27,7 +27,7 @@ class ResearcherUnit extends Unit {
 	// Checks that the target building either is holding or needs an upgrade
 	protected function BuildingCheck (target : BuildingOnGrid)
 	{
-		if (!super(target) || (target.heldUpgrade == UpgradeType.None && GetBuildingEventUpgrade(target) == UpgradeType.None))
+		if (!super(target) || heldUpgrade != GetBuildingEventUpgrade(target) || (target.heldUpgrade == UpgradeType.None && GetBuildingEventUpgrade(target) == UpgradeType.None))
 			return false;
 		return true;
 	}
