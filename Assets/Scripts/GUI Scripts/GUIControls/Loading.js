@@ -34,6 +34,7 @@ public class Loading extends GUIControl
 	private var descFontSize : float;
 	
 	private var leftOffsetScale : float = 0.01;
+	private var leftOffset : float;
 	
 	private var titleTopOffsetScale : float = .25;
 	private var titleWidthScale : float = .4;
@@ -57,12 +58,14 @@ public class Loading extends GUIControl
 		super.Initialize();
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		
-		titleRect = Rect(screenWidth * leftOffsetScale, screenHeight * titleTopOffsetScale,
+		leftOffset = screenWidth * leftOffsetScale;
+		
+		titleRect = Rect(leftOffset, screenHeight * titleTopOffsetScale,
 							screenWidth * titleWidthScale, screenHeight * titleHeightScale);
 		titleFontSize = screenHeight * titleFontScale;
 		
-		descRect = Rect(screenWidth * leftOffsetScale, screenHeight * descTopOffsetScale,
-							screenWidth * descWidthScale, screenHeight * descHeightScale);
+		descRect = Rect(leftOffset, screenHeight * descTopOffsetScale,
+							screenWidth - leftOffset, screenHeight * descHeightScale);
 		descFontSize = screenHeight * descFontScale;
 		style.normal.textColor = Color.white;
 		//style.richText = true;
