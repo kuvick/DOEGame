@@ -9,6 +9,7 @@ function Awake() {
 	var ratioAmount : float = ConvertRatio(wantedScreenRatio);
 	
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
+	SoundManager.Instance(); // load up the sounds if needed
 }
 
 function OnDestroy () {

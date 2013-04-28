@@ -435,6 +435,8 @@ public class BuildingMenu extends GUIControl
 			Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
 			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
 			
+			SoundManager.Instance().PlayBuildingPlaced();
+			
 			RemoveBuildingFromList(index);
 	}
 	

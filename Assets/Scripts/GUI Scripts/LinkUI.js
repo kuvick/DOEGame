@@ -219,7 +219,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	
+	SoundManager.Instance().PlayLinkMade();	
 }
 
 // See if we can draw a line between the two points without hitting a barrier

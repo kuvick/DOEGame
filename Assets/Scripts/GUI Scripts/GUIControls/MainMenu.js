@@ -153,10 +153,13 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
+			SoundManager.Instance().playButtonClick(0);
+			
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
-		if (GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){ 
+		if (GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){
+			PlayButtonPress();	 
 			cameraMain.ToggleZoomType();
 		}
 		

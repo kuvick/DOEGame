@@ -36,9 +36,6 @@ public class GUIControl extends MonoBehaviour
 	// Most recently interacted element that generate a response
 	protected var currentResponse:GUIEvent;
 	
-	// Audio object
-	protected var audioSource:AudioSourceSetup;
-	
 	public var isInitialized : boolean = false;
 	
 	public var backgroundMusic : AudioClip = null; 
@@ -68,7 +65,6 @@ public class GUIControl extends MonoBehaviour
 		rectList = new List.<Rect>();
 		currentResponse = new GUIEvent();
 		
-		audioSource = gameObject.GetComponent(AudioSourceSetup); 
 		isInitialized = true;
 	}
 	
@@ -139,21 +135,19 @@ public class GUIControl extends MonoBehaviour
     Called when the menu is opened for the user to see
 	  */
 	public function OnOpen(){
-		Debug.Log("on open " + typeof(this));
 		if (backgroundMusic != null){
-			Debug.Log("Playing");
-			audioSource.playSoundOnLoop(backgroundMusic);
+			//SoundManager.Instance().playSoundOnLoop(backgroundMusic);
 		}
 	} 
 	
 	/*
-		Plays a sound using the audio source
-	*/
-	protected function PlayButtonPress(soundNumber)
-	{
-		if (audioSource != null)
-		{
-			audioSource.playButtonClick(soundNumber);
-		}
+		Plays a sound using the SoundManager
+	*/	
+	protected function PlayButtonPress(soundNumber:int){
+		SoundManager.Instance().playButtonClick(soundNumber);
+	}
+	
+	protected function PlayButtonPress(){
+		PlayButtonPress(0);
 	}
 }
