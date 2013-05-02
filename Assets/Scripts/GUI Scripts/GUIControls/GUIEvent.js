@@ -31,6 +31,7 @@ public enum EventTypes
 	// Main Menu events
 	PAUSE,
 	INTEL,
+	METRIC,
 	WAIT,
 	UNDO,
 	

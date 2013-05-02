@@ -6,6 +6,7 @@ public class MetricDisplay
 	private var container :  MetricContainer;
 	
 	private var EndData : List.<EndGameData>;
+	private var LinkDataList : List.<LinkData>;
 	
 	private var numberOfFiles : int = 0;
 	
@@ -21,42 +22,23 @@ public class MetricDisplay
 	private var averageTimesUndone : int = 0;	
 	private var undoCount : int = 0;
 	
+	public var linkArray : int[,];	
+	public var numberOfLinks : int = 0;	
+	
 	public function MetricDisplay()
 	{
+		container = new MetricContainer();
 		EndData = new List.<EndGameData>();
+		LinkDataList = new List.<LinkData>();			
 	}
 	
-	public function GatherData(sceneName : String)
+	public function GatherData(sceneName : String) : boolean
 	{
-		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/END/");
-		var info : DirectoryInfo = new DirectoryInfo(path);
-		var fileInfo = info.GetFiles();
-		
-		numberOfFiles = fileInfo.Length;
-		
-		for(var i = 0; i < fileInfo.Length; i++)
-		{	
-        	if(fileInfo[i].Name.Contains("_END") && !fileInfo[i].Name.Contains(".meta"))
-        	{
-				EndData.Add(container.LoadEndData(Path.Combine(path,fileInfo[i].Name)));	
-			}							        		     
-		}
-		
-		//Calculate Averages for EndGameData
-		for(var end : EndGameData in EndData)
+		if(GatherEndData(sceneName) && GatherLinkData(sceneName))
 		{
-			averageScore += end.Score;
-			scoreCount++;
-			
-			averageTimeInSeconds += end.TimeInSeconds;
-			timeCount++;
-			
-			averageTurns += end.Turns;
-			turnCount++;
-			
-			averageTimesUndone += end.TimesUndoPressed;											
-			undoCount++;
+			return true;
 		}
+		return false;
 	}
 	
 	public function AnalyzeData()
@@ -72,5 +54,98 @@ public class MetricDisplay
 		Debug.Log("Average Time: " + averageTimeInSeconds);
 		Debug.Log("Average Turns: " + averageTurns);
 		Debug.Log("Average Undo's: " + averageTimesUndone);		
+	}
+	
+	private function GatherEndData(sceneName : String) : boolean
+	{
+		
+		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/END/");
+		
+		if(Directory.Exists(path))
+		{	
+			var info : DirectoryInfo = new DirectoryInfo(path);
+			var fileInfo = info.GetFiles();
+
+			numberOfFiles = fileInfo.Length;
+			
+			for(var i = 0; i < fileInfo.Length; i++)
+			{	
+	        	if(fileInfo[i].Name.Contains("_END") && !fileInfo[i].Name.Contains(".meta"))
+	        	{
+					EndData.Add(container.LoadEndData(Path.Combine(path,fileInfo[i].Name)));	
+				}							        		     
+			}
+			
+			//Calculate Averages for EndGameData
+			for(var end : EndGameData in EndData)
+			{
+				averageScore += end.Score;
+				scoreCount++;
+				
+				averageTimeInSeconds += end.TimeInSeconds;
+				timeCount++;
+				
+				averageTurns += end.Turns;
+				turnCount++;
+				
+				averageTimesUndone += end.TimesUndoPressed;											
+				undoCount++;
+			}
+			return true;
+		}
+		else
+		{
+			Debug.Log("Path: " + path + " Does Not Exist");
+			return false;
+		}
+	}
+	
+	private function GatherLinkData(sceneName : String) : boolean
+	{
+		//Debug.Log("Gathering Link Data");
+		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/LINK/");
+		
+		if(Directory.Exists(path))
+		{	
+			var info : DirectoryInfo = new DirectoryInfo(path);
+			var fileInfo = info.GetFiles();		
+				
+			numberOfFiles = fileInfo.Length;
+			
+			//Debug.Log("There are " + numberOfFiles + " files in this directory");
+			for(var i = 0; i < fileInfo.Length; i++)
+			{	
+	        	if(fileInfo[i].Name.Contains("_LINK") && !fileInfo[i].Name.Contains(".meta"))
+	        	{	
+	        		//Debug.Log("Reading File: " + fileInfo[i].Name);
+	        		var list : List.<LinkData> = container.LoadLinkData(Path.Combine(path,fileInfo[i].Name));
+	        		for(var link : LinkData in list)
+	        		{
+	        			LinkDataList.Add(link);
+	        		}				
+				}							        		     
+			}
+			//Debug.Log("Number of Links: " + LinkDataList.Count);
+			numberOfLinks = LinkDataList.Count;
+			return true;
+		}
+		else
+		{
+			Debug.Log("Path: " + path + " Does Not Exist");
+			return false;
+		}
+	}
+	
+	public function CreateLinkArray(numberOfBuildings : int)
+	{
+		linkArray = new int[numberOfBuildings, numberOfBuildings];
+		
+		for(var i = 0; i < LinkDataList.Count; i++)
+		{
+			var output : int = LinkDataList[i].OutputBuildingIndex;
+			var input : int = LinkDataList[i].InputBuildingIndex;
+			
+			linkArray[output, input]++;			
+		}
 	}
 }

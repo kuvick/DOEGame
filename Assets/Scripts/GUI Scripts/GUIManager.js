@@ -50,6 +50,7 @@ private var buildingMenu:BuildingMenu;
 private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
+private var metricMenu:MetricMenu;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -139,6 +140,7 @@ public function Start ()
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
+	metricMenu = GetComponent(MetricMenu);
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
@@ -287,10 +289,17 @@ private function RespondTo(response:GUIEvent)
 			
 		// Main Menu responses
 		case EventTypes.PAUSE:
-			database.m_display.GatherData(intelSystem.currentLevelName);
-			database.m_display.AnalyzeData();
 			ClearControls();
 			AddGUIToControls(pauseMenu);
+			break;
+		case EventTypes.METRIC:
+			if(database.m_display.GatherData(intelSystem.currentLevelName))
+			{
+				database.m_display.AnalyzeData();
+			}
+				
+			ClearControls();
+			AddGUIToControls(metricMenu);
 			break;
 		case EventTypes.INTEL:
 			ClearControls();

@@ -1378,3 +1378,9 @@ class BuildingReplacement extends System.ValueType
 		buildingIndex = bI;
 	}
 }
+
+public function SayHello()
+{
+	Debug.Log("Hello!");
+
+}
