@@ -178,6 +178,33 @@ public class MetricContainer
 		return result;	
 	}
 	
+	public static function LoadLinkData(path : String) : List.<LinkData>
+	{
+		var serializer : XmlSerializer = new XmlSerializer(List.<LinkData>);
+		var stream : FileStream = new FileStream(path, FileMode.Open);
+		var result : List.<LinkData> = serializer.Deserialize(stream) as List.<LinkData>;
+		stream.Close();
+		return result;		
+	}
+	
+	public static function LoadTurnData(path : String) : List.<TurnData>
+	{
+		var serializer : XmlSerializer = new XmlSerializer(List.<TurnData>);
+		var stream : FileStream = new FileStream(path, FileMode.Open);
+		var result : List.<TurnData> = serializer.Deserialize(stream) as List.<TurnData>;
+		stream.Close();
+		return result;		
+	}
+	
+	public static function LoadEndData(path : String) : EndGameData
+	{
+		var serializer : XmlSerializer = new XmlSerializer(EndGameData);
+		var stream : FileStream = new FileStream(path, FileMode.Open);
+		var result : EndGameData = serializer.Deserialize(stream) as EndGameData;
+		stream.Close();
+		return result;	
+	}
+	
 	public static function LoadFromText(text : String) : MetricContainer
 	{
 		var serializer : XmlSerializer = new XmlSerializer(MetricContainer);

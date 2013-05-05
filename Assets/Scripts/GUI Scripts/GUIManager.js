@@ -50,6 +50,7 @@ private var buildingMenu:BuildingMenu;
 private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
+private var metricMenu:MetricMenu;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -139,6 +140,7 @@ public function Start ()
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
+	metricMenu = GetComponent(MetricMenu);
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
@@ -154,7 +156,8 @@ public function Start ()
 			
 		case "LoadingScreen":
 			AddGUIToControls(loading);
-			loading.DelayLoad(4);
+			//loading.DelayLoad(4);
+			SetupLoading();
 			break;		
 		// temporary for unit testing purposes	
 		case "UnitTest":
@@ -260,13 +263,15 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
 			AddGUIToControls(loading);
-			loading.DelayLoad(3);
+			//loading.DelayLoad(3);
+			SetupLoading();
 			break;
 		case EventTypes.NEWGAME:
 			ClearControls();
 			Application.LoadLevel("LoadingScreen");
 			AddGUIToControls(loading);
-			loading.DelayLoad(3);
+			//loading.DelayLoad(3);
+			SetupLoading();
 			break;
 		case EventTypes.FACEBOOK:
 			break;
@@ -286,6 +291,16 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.PAUSE:
 			ClearControls();
 			AddGUIToControls(pauseMenu);
+			break;
+		case EventTypes.METRIC:
+			if(database.m_display.GatherData(intelSystem.currentLevelName))
+			{
+				database.m_display.AnalyzeData();
+			}
+			metricMenu.Initialize();
+				
+			ClearControls();
+			AddGUIToControls(metricMenu);
 			break;
 		case EventTypes.INTEL:
 			ClearControls();
@@ -351,6 +366,11 @@ private function RespondTo(response:GUIEvent)
 	}
 }
 
+private function SetupLoading()
+{
+	loading.GetNewJob();
+	loading.DelayLoad(3);
+}
 
 private function RecordEndGameData()
 {
@@ -362,10 +382,12 @@ private function RecordEndGameData()
 								intelSystem.currentTurn,
 								UndoPressed);
 																											
-	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName));													
-	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
-	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
-	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/"));
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
+	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
+	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
+	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
 	
 	UndoPressed = 0;
 	intelSystem.totalEvents = 0;

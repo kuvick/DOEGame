@@ -300,7 +300,7 @@ function HandleComputerInput(){
 
 	// if the user has not clicked then keep cheking for a click
 	if (state == ControlState.WaitingForFirstInput){
-		// if a click occurs then start waiting for movement
+		// if a click occurs then start waiting for movement		
 		if (Input.GetKey(KeyCode.Mouse0) && GUIManager.Instance().NotOnGUI(Input.mousePosition)) {
 			state = ControlState.WaitingForNoInput;
 			firstClickTime = Time.time;

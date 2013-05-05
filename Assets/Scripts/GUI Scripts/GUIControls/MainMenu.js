@@ -158,6 +158,11 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
+		if(Input.GetKeyDown(KeyCode.M))
+		{
+			currentResponse.type = EventTypes.METRIC;
+		}
+		
 		if (GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){
 			PlayButtonPress();	 
 			cameraMain.ToggleZoomType();

@@ -74,15 +74,15 @@ public function convertDefaultBuildingDataIntoBuilding( defaultBuilding : Defaul
 
 	databaseBuilding.buildingName = defaultBuilding.buildingName;
 	
-	for (var tempVar : ResourceType in defaultBuilding.unallocatedInputs)//String in defaultBuilding.inputName)
+	for (var i : int = 0; i < defaultBuilding.unallocatedInputs.length; i++)//var tempVar : ResourceType in defaultBuilding.unallocatedInputs)//String in defaultBuilding.inputName)
 	{
-		databaseBuilding.unallocatedInputs.Add(tempVar);//inputName.Push(tempVar);
+		databaseBuilding.unallocatedInputs.Add(defaultBuilding.unallocatedInputs[i]);//tempVar);//inputName.Push(tempVar);
 	}
 
 	
-	for (var tempVar : ResourceType in defaultBuilding.unallocatedOutputs)//String in defaultBuilding.outputName)
+	for (i = 0; i < defaultBuilding.unallocatedOutputs.length; i++)//var tempVar : ResourceType in defaultBuilding.unallocatedOutputs)//String in defaultBuilding.outputName)
 	{
-		databaseBuilding.unallocatedOutputs.Add(tempVar);
+		databaseBuilding.unallocatedOutputs.Add(defaultBuilding.unallocatedOutputs[i]);//tempVar);
 	}
 	
 	databaseBuilding.optionalOutput = defaultBuilding.optionalOutput;
@@ -100,14 +100,14 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	
 	buildingOnGrid.buildingName = buildingData.buildingName;
 	
-	for (var tempVar : ResourceType in buildingData.unallocatedInputs)
+	for (var i : int = 0; i < buildingData.unallocatedInputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedInputs)
 	{
-		buildingOnGrid.unallocatedInputs.Add(tempVar);
+		buildingOnGrid.unallocatedInputs.Add(buildingData.unallocatedInputs[i]);//tempVar);
 	}
 	
-	for (var tempVar : ResourceType in buildingData.unallocatedOutputs)
+	for (i = 0; i < buildingData.unallocatedOutputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedOutputs)
 	{
-		buildingOnGrid.unallocatedOutputs.Add(tempVar);
+		buildingOnGrid.unallocatedOutputs.Add(buildingData.unallocatedOutputs[i]);//tempVar);
 	}
 	
 	buildingOnGrid.optionalOutput = buildingData.optionalOutput;
@@ -134,11 +134,11 @@ public function convertDefaultBuildingIntoBuildingOnGrid( defaultBuildingName : 
 	var defaultBuilding : DefaultBuildingData = new DefaultBuildingData();
 	
 	// Search for specified building in defaultBuildings array
-	for (var buildingFromArray : DefaultBuildingData in defaultBuildings)
+	for (var i : int = 0; i < defaultBuildings.length; i++)//var buildingFromArray : DefaultBuildingData in defaultBuildings)
 	{
-		if(buildingFromArray.buildingName == defaultBuildingName )
+		if(defaultBuildings[i].buildingName == defaultBuildingName )//buildingFromArray.buildingName == defaultBuildingName )
 		{
-			defaultBuilding = buildingFromArray;
+			defaultBuilding = defaultBuildings[i];//buildingFromArray;
 		}
     }
 
@@ -166,10 +166,10 @@ public function createDefaultBuildingArray(): Array
 	var tempBuilding : Building;
 	
 	
-	for (var defaultBuildingData : DefaultBuildingData in defaultBuildings)
+	for (var i : int = 0; i < defaultBuildings.length; i++)//var defaultBuildingData : DefaultBuildingData in defaultBuildings)
 	{
 		tempBuilding = new Building();
-		tempBuilding = convertDefaultBuildingDataIntoBuilding( defaultBuildingData );
+		tempBuilding = convertDefaultBuildingDataIntoBuilding( defaultBuildings[i]);//defaultBuildingData );
 		defaultBuildingArray.Push(tempBuilding);
 	}
 	

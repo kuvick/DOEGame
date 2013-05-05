@@ -82,9 +82,9 @@ function switchTo(mode:int){
 			break;
 			
 		case GameState.EXPLORE:
-			DisplayLinkRange.RestoreColors();
-			DisplayLinkRange.DestroyRangeTiles();
-			DisplayLinkRange.ClearSelection();
+			//DisplayLinkRange.RestoreColors();
+			//DisplayLinkRange.DestroyRangeTiles();
+			//DisplayLinkRange.ClearSelection();
 			selectedBuilding = null;
 			currentMode = GameState.EXPLORE;
 			break;
