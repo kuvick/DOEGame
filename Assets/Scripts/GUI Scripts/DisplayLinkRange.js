@@ -28,6 +28,8 @@ private static var sideSize:float;
 
 private var rangeRing:GameObject;
 
+private var rangeTiles : GameObject[];
+
 function Start () 
 {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -77,13 +79,20 @@ function Update() {
 	previousBuilding = selectedBuilding;
 }
 
+private function GenerateRangeTiles()
+{
+	
+}
+
 function HighlightBuildingsInRange(selectedBuilding:GameObject){
 	buildings = GameObject.FindGameObjectsWithTag("Building");
-	for(var b:GameObject in buildings){
-		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, b);
+	for(var i : int = 0; i < buildings.length; i++)
+	{//var b:GameObject in buildings){
+		var isInRange:boolean = LinkUI.isInRange(selectedBuilding, buildings[i]);//b);
 		
-		if(selectedBuilding != b && isInRange){
-			(b.GetComponentInChildren(Renderer) as Renderer).material.color = inRangeColor;
+		if(selectedBuilding != buildings[i] && isInRange)
+		{//b && isInRange){
+			(buildings[i].GetComponentInChildren(Renderer) as Renderer).material.color = inRangeColor;
 		}
 	}
 }
@@ -151,9 +160,9 @@ static function DestroyRangeTiles(){
 		return;
 	}
 
-	for(var tile:GameObject in tileArray)
+	for(var i : int = 0; i < tileArray.length; i++)//var tile:GameObject in tileArray)
 	{
-		GameObject.Destroy(tile);
+		GameObject.Destroy(tileArray[i]);//tile);
 	}
 }
 

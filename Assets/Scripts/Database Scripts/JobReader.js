@@ -21,8 +21,10 @@ public class JobReader
 	public function GetJobList() : List.<Job>
 	{
 		var tempList : List.<Job> = new List.<Job>();
-		for (var node : XmlNode in jobNodes)
+		var node : XmlNode;
+		for (var i : int = 0; i < jobNodes.Count; i++)//var node : XmlNode in jobNodes)
 		{
+			node = jobNodes[i];
 			var tempJob = new Job();
 			
 			tempJob.title = node.Item["PositionTitle"].InnerText;

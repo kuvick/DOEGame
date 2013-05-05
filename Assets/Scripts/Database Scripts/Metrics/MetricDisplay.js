@@ -77,8 +77,10 @@ public class MetricDisplay
 			}
 			
 			//Calculate Averages for EndGameData
-			for(var end : EndGameData in EndData)
+			var end : EndGameData;
+			for(i = 0; i < EndData.Count; i++)//var end : EndGameData in EndData)
 			{
+				end = EndData[i];
 				averageScore += end.Score;
 				scoreCount++;
 				
@@ -119,9 +121,9 @@ public class MetricDisplay
 	        	{	
 	        		//Debug.Log("Reading File: " + fileInfo[i].Name);
 	        		var list : List.<LinkData> = container.LoadLinkData(Path.Combine(path,fileInfo[i].Name));
-	        		for(var link : LinkData in list)
+	        		for(i = 0; i < list.Count; i++)//var link : LinkData in list)
 	        		{
-	        			LinkDataList.Add(link);
+	        			LinkDataList.Add(list[i]);//link);
 	        		}				
 				}							        		     
 			}

@@ -71,6 +71,7 @@ public class Loading extends GUIControl
 		descFontSize = screenHeight * descFontScale;
 		style.normal.textColor = Color.white;
 		style.font = regularFont;
+		style.wordWrap = true;
 		//style.richText = true;
 		// Add the background rect to the rectList for checking input collision
 		rectList.Add(background);

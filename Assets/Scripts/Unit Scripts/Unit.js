@@ -205,9 +205,9 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 // changes the color of all links in the found path to red
 private function SetLinkColors(col : Color) 
 {
-	for (var temp : BuildingOnGrid in foundPath)
+	for (var i : int = 0; i < foundPath.Count; i++)//var temp : BuildingOnGrid in foundPath)
 	{
-		DrawLinks.SetLinkColor(Database.findBuildingIndex(temp), Database.findBuildingIndex(temp.pathParent), col);
+		DrawLinks.SetLinkColor(Database.findBuildingIndex(foundPath[i]), Database.findBuildingIndex(foundPath[i].pathParent), col);
 	}
 }
 
@@ -312,13 +312,13 @@ function Update() {
 private function FindValidTargets()
 {
 	validTargets.Clear();
-	var buildings = Database.getBuildingsOnGrid();
-	for (var b : BuildingOnGrid in buildings)
+	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
+	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
 	{
-		if (b == currentBuilding)
+		if (buildings[i] == currentBuilding)
 			continue;
-		if (FindPath(b))
-			validTargets.Add(b);
+		if (FindPath(buildings[i]))
+			validTargets.Add(buildings[i]);
 	}
 	foundPath.Clear();
 }
@@ -372,8 +372,8 @@ function OnGUI() {
 	
 	if (currentBuilding.unitSelected)
 	{
-		for (var b : BuildingOnGrid in validTargets)
-			(b.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
+		for (var i : int = 0; i < validTargets.Count; i++)//var b : BuildingOnGrid in validTargets)
+			(validTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
 	}
 }
 

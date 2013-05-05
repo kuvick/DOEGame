@@ -79,8 +79,10 @@ function Start ()
 	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
 	var tempEventClass : EventScript = new EventScript();
 	
-	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
+	var buildings : GameObject[] = GameObject.FindGameObjectsWithTag("Building");
+	for (var i : int = 0; i < buildings.length; i++)//var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
 	{
+		var buildingObject : GameObject = buildings[i];
 		tempBuilding = new BuildingOnGrid();
 		tempBuildingData = buildingObject.GetComponent(BuildingData);
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
@@ -290,11 +292,11 @@ public function undoResolution()
 // null if the building does not have an event
 public function findEvent( building : GameObject): EventScript
 {
-	for (var script : EventScript in events)
+	for (var i : int = 0; i < events.Count; i++)//var script : EventScript in events)
 	{
-		if(script.event.buildingReference == building)
+		if(events[i].event.buildingReference == building)//script.event.buildingReference == building)
 		{
-			return script;
+			return events[i];//script;
 		}
 	}
 	
@@ -304,11 +306,11 @@ public function findEvent( building : GameObject): EventScript
 // Returns the linked event script
 public function findLinkedEvent( building : GameObject): EventScript
 {
-	for (var script : EventScript in linkedEvents)
+	for (var i : int = 0; i < linkedEvents.Count; i++)//var script : EventScript in linkedEvents)
 	{
-		if(script.event.buildingReference == building)
+		if(linkedEvents[i].event.buildingReference == building)//script.event.buildingReference == building)
 		{
-			return script;
+			return linkedEvents[i];//script;
 		}
 	}
 	
@@ -371,8 +373,10 @@ public function triggerLoss()
 // a lose state
 public function decreaseTurns()
 {
-	for (var script : EventScript in events)
+	var script : EventScript;
+	for (var i : int = 0; i < events.Count; i++)//var script : EventScript in events)
 	{
+		script = events[i];
 		if(script.event.type == BuildingEventType.Secondary)
 			script.decrementTime();
 		else
@@ -389,9 +393,9 @@ public function decreaseTurns()
 // the turn amount both on the GUI and in the system. 
 public function increaseTurns()
 {
-	for (var script : EventScript in events)
+	for (var i : int = 0; i < events.Count; i++)//var script : EventScript in events)
 	{
-		if(!script.incrementTime())
+		if(!events[i].incrementTime())//script.incrementTime())
 		{
 			/*
 				TODO: De-Activate Events
@@ -405,17 +409,17 @@ public function increaseTurns()
 public function getEventList():List.<BuildingEvent>
 {	
 	var eventList : List.<BuildingEvent> = new List.<BuildingEvent>();
-	for (var script : EventScript in events)
+	for (var i : int = 0; i < events.Count; i++)//var script : EventScript in events)
 	{		
-		eventList.Add(script.event);
+		eventList.Add(events[i].event);//script.event);
 	}	
 	return eventList;
 }
 
 public function renderEvents()
 {
-	for(var script : EventScript in events)
+	for(var i : int = 0; i < events.Count; i++)//var script : EventScript in events)
 	{
-		script.Draw_Upgrade();
+		events[i].Draw_Upgrade();//script.Draw_Upgrade();
 	}
 }

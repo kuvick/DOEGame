@@ -94,9 +94,9 @@ public class IntelMenu extends GUIControl
 			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
 			
 			/*Query active BuildingEvents from IntelSystem*/
-			for(var event: BuildingEvent in tempList)		
+			for(var i : int = 0; i < tempList.Count; i++)//var event: BuildingEvent in tempList)		
 			{
-				eventList.InsertNode(event);			
+				eventList.InsertNode(tempList[i]);//event);			
 			}						
 		}
 		// Add the background's rect to the rectList for checking input collision
@@ -110,9 +110,9 @@ public class IntelMenu extends GUIControl
 			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
 			eventList.Clear();
 			/*Query active BuildingEvents from IntelSystem*/
-			for(var event: BuildingEvent in tempList)		
+			for(var i : int = 0; i < tempList.Count; i++)//var event: BuildingEvent in tempList)		
 			{
-				eventList.InsertNode(event);			
+				eventList.InsertNode(tempList[i]);//event);			
 			}						
 		}	
 	}
