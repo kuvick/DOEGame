@@ -29,6 +29,7 @@ private static var sideSize:float;
 private var rangeRing:GameObject;
 
 private var rangeTiles : GameObject[];
+private var rangeTilesDisabled : boolean = false;
 
 function Start () 
 {
@@ -50,6 +51,9 @@ function Start ()
 		rangeRing.AddComponent(SphereCollider);
 		rangeRing.GetComponent(SphereCollider).radius = LinkUI.linkRange.x;
 	}	
+	GenerateRangeTiles();
+	rangeTiles = GameObject.FindGameObjectsWithTag("RangeTile");
+	SetRangeTilesEnabled(false);
 }
 
 
@@ -59,7 +63,9 @@ function Update() {
 	if(selectedBuilding == null)
 	{
 		//RestoreColors();
-		DestroyRangeTiles();
+		//DestroyRangeTiles();
+		if (!rangeTilesDisabled)
+			SetRangeTilesEnabled(false);
 		return;
 	}
 	
@@ -71,17 +77,86 @@ function Update() {
 	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding) &&
 			Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
 	{
+		var position:Vector3 = selectedBuilding.transform.position;
+		var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
+		SetRangeTilesPosition(mouseTile.x, mouseTile.y);
+		SetRangeTilesEnabled(true);
 		//HighlightBuildingsInRange(selectedBuilding);
-		HighlightTilesInRange();
+		//HighlightTilesInRange();
 	}
 	else if (!Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
-		DestroyRangeTiles();
+		SetRangeTilesEnabled(false);
+		//DestroyRangeTiles();
 	previousBuilding = selectedBuilding;
 }
 
 private function GenerateRangeTiles()
 {
+	var x = 6;
+	var y = 6;
+	var minX = x - Database.TILE_RANGE;
+	var maxX = x + Database.TILE_RANGE;
 	
+	for(var i = minX; i <= maxX; i++){
+		if(i != x){
+			selectionPosition = TileToWorldCoordinates(i, y);
+			selectionPosition.y = 0.2f;
+			CreateSelectionHexagon().transform.position = selectionPosition;
+		}
+	}
+	
+	for(var yOff = 1; yOff <= Database.TILE_RANGE; yOff++){
+		if((y + yOff) % 2 == 1) maxX--;
+		else minX++;
+		for(var j = minX; j <= maxX; j++){
+			selectionPosition = TileToWorldCoordinates(j, (y + yOff));
+			selectionPosition.y = 0.2f;
+			CreateSelectionHexagon().transform.position = selectionPosition;//
+			
+			selectionPosition = TileToWorldCoordinates(j, (y - yOff));
+			selectionPosition.y = 0.2f;
+			CreateSelectionHexagon().transform.position = selectionPosition;
+		}
+	}
+}
+
+private function SetRangeTilesEnabled(enable : boolean)
+{
+	for (var i : int = 0; i < rangeTiles.length; i++)
+	{
+		rangeTiles[i].renderer.enabled = enable;
+	}
+	rangeTilesDisabled = !enable;
+}
+
+private function SetRangeTilesPosition(x : int, y : int)
+{
+	var minX = x - Database.TILE_RANGE;
+	var maxX = x + Database.TILE_RANGE;
+	
+	var index = 0;
+	
+	for(var i = minX; i <= maxX; i++){
+		if(i != x){
+			selectionPosition = TileToWorldCoordinates(i, y);
+			selectionPosition.y = 0.2f;
+			rangeTiles[index++].transform.position = selectionPosition;
+		}
+	}
+	
+	for(var yOff = 1; yOff <= Database.TILE_RANGE; yOff++){
+		if((y + yOff) % 2 == 1) maxX--;
+		else minX++;
+		for(var j = minX; j <= maxX; j++){
+			selectionPosition = TileToWorldCoordinates(j, (y + yOff));
+			selectionPosition.y = 0.2f;
+			rangeTiles[index++].transform.position = selectionPosition;//
+			
+			selectionPosition = TileToWorldCoordinates(j, (y - yOff));
+			selectionPosition.y = 0.2f;
+			rangeTiles[index++].transform.position = selectionPosition;
+		}
+	}
 }
 
 function HighlightBuildingsInRange(selectedBuilding:GameObject){
