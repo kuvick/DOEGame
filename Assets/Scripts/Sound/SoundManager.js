@@ -12,12 +12,14 @@ Last Modified By: Jared Mavis
 
 public class SoundManager extends MonoBehaviour {
 	private var audioSource : AudioSource;
-	public var buttonClick1 : AudioClip;
-	public var buttonClick2 : AudioClip;
-	public var linkingSound : AudioClip;
 	public var buildingPlacedSound : AudioClip;
+	public var linkSounds : LinkSounds;
+	public var unitSounds : UnitSounds;
+	public var menuSounds : MenuSounds;
+	public var objectiveSounds : ObjectiveSounds;
+	public var buildingSelcted : AudioClip;
 	
-	public static var instance : SoundManager = null; 
+	private static var instance : SoundManager = null; 
 	
 	public function Awake() {
 		audioSource = gameObject.GetComponent(AudioSource);
@@ -25,6 +27,7 @@ public class SoundManager extends MonoBehaviour {
 			Debug.LogWarning("No audio source attached to AudioManager making a new one");
 			audioSource = gameObject.AddComponent("AudioSource");
 		}
+		linkSounds.Init();
 	}
 	
 	//Returns an instance of the SoundManager, if any exists. If not, an instance will be created.
@@ -37,14 +40,47 @@ public class SoundManager extends MonoBehaviour {
 	    // If it is still null, create a new instance
 	    if (instance == null) {
 	        var obj:GameObject = Instantiate(Resources.Load("SoundManager"));
+	        instance = obj as SoundManager;
 	        Debug.Log("Could not locate a SoundManager object. SoundManager was generated automaticly.");
 	    }
 		
 	    return instance;
 	}
 
-	public function PlayLinkMade(){
-		PlayOneShot(linkingSound);
+	public function PlayLinkMade(linkResource: ResourceType){
+		PlayOneShot(linkSounds.GetSound(linkResource));
+	}
+	
+	public function PlayUnitSelected(unitSelected : Unit){
+		Debug.Log("Playing unit selected");
+		switch (unitSelected.type){
+			case (UnitType.Researcher):
+				PlayOneShot(unitSounds.resercherSelection);
+				break;
+			case (UnitType.Worker):
+				PlayOneShot(unitSounds.workerSelection);
+				break;
+			case (UnitType.Regulator):
+				PlayOneShot(unitSounds.regulatorSelection);
+				break;
+			case (UnitType.EnergyAgent):
+				PlayOneShot(unitSounds.energyAgentSelection);
+				break;
+			default:
+				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
+		}
+	}
+	
+	public function PlayPrimaryObjectiveComplete(){
+		PlayOneShot(objectiveSounds.primaryObjectiveCompleted);
+	}
+	
+	public function PlayPrimaryObjectiveExpired(){
+		PlayOneShot(objectiveSounds.primaryObjectiveExpired);
+	}
+	
+	public function PlaySecondaryObjectiveComplete(){
+		PlayOneShot(objectiveSounds.secondaryObjectiveCompleted);
 	}
 	
 	public function PlayBuildingPlaced(){
@@ -68,24 +104,14 @@ public class SoundManager extends MonoBehaviour {
 		audioSource.Stop();
 	}
 	
-	public function playButtonClick(buttonAudioNumber){
+	public function playButtonClick(){
 		Debug.Log("Playing click");
-		switch(buttonAudioNumber) {
-			case 1:
-				PlayOneShot(buttonClick1);
-				break;
-			case 2:
-				PlayOneShot(buttonClick2);
-				break;
-			default:
-				PlayOneShot(buttonClick1);
-				break;	
-		};
+		PlayOneShot(menuSounds.menuButtonClicked);
 	}
 	
 	private function PlayOneShot(clipToPlay : AudioClip){
 		if (clipToPlay == null) {
-			Debug.LogError("Trying to play clip that was not set");
+			Debug.LogError("Trying to play clip: " + clipToPlay.ToString() + " and it was not set");
 			return;
 		}
 		audioSource.PlayOneShot(clipToPlay);

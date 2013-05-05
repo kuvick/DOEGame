@@ -143,11 +143,7 @@ public class GUIControl extends MonoBehaviour
 	/*
 		Plays a sound using the SoundManager
 	*/	
-	protected function PlayButtonPress(soundNumber:int){
-		SoundManager.Instance().playButtonClick(soundNumber);
-	}
-	
 	protected function PlayButtonPress(){
-		PlayButtonPress(0);
+		SoundManager.Instance().playButtonClick();
 	}
 }

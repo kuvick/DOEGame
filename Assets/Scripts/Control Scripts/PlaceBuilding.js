@@ -45,7 +45,6 @@ function Awake()
 	for (var prefab : GameObject in rawPrefabs)
 	{
 		buildingPrefabs[i] = prefab;
-		Debug.Log(buildingPrefabs[i].ToString());
 		i++;
 	}
 	

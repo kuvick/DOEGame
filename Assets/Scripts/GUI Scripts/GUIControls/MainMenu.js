@@ -153,7 +153,7 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
-			SoundManager.Instance().playButtonClick(0);
+			SoundManager.Instance().playButtonClick();
 			
 			currentResponse.type = EventTypes.UNDO;
 		}
