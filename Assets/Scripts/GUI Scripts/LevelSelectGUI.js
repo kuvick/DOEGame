@@ -6,7 +6,7 @@ var levelsPerRow : int = 5;
 var levelsCompleted : int = 0; //not sure how you want to integrate this into the full game but for
 					      //now levelsUnlocked is how you test locking and unlocking levels
 var nonLevelScenes : int = 4; // number of non-level scenes, change as necessary
-var baseLevelScene : int; // 
+var baseLevelScene : int;
 					  
 
 @HideInInspector
