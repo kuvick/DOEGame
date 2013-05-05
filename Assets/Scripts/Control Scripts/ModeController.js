@@ -106,13 +106,11 @@ static function setCurrentMode(state:int)
 
 static function getSelectedBuilding(){
 	return selectedBuilding;
-	Debug.Log("test");
 }
 
 static function setSelectedBuilding(selected:GameObject)
 {
 	selectedBuilding = selected;
-	Debug.Log("test2");
 }
 
 static function getCurrentMode(){

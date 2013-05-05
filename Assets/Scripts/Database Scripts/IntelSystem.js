@@ -67,7 +67,6 @@ function Start ()
 	currentLevelName = Application.loadedLevelName;
 	eventStack = new List.<EventStackNode>();
 
-	Debug.Log("Adding events to the list:");
 	currentTurn = 0;
 	numOfObjectivesLeft = 0;
 	primaryScore = 0;
@@ -127,7 +126,6 @@ function Start ()
 				
 	}
 	totalEvents = events.Count + linkedEvents.Count;
-	Debug.Log("Finished adding events to the list.");
 }
 
 //Can use this functio to check for events
@@ -220,6 +218,7 @@ public function resolveEvent( script : EventScript)
 		childEvent.showIcon = true;
 		linkedEvents.Remove(childEvent);
 		events.Add(childEvent);
+		SoundManager.Instance().PlaySecondaryObjectiveComplete();
 	}
 	
 	if(tempScript.event.type == BuildingEventType.Primary)
@@ -230,6 +229,7 @@ public function resolveEvent( script : EventScript)
 		{
 			triggerWin();
 		}
+		SoundManager.Instance().PlayPrimaryObjectiveComplete();
 	}
 	else
 	{
@@ -363,6 +363,7 @@ public function triggerLoss()
 	var event : GUIEvent = new GUIEvent();
 	event.type = EventTypes.FAILUREMENU;
 	GUIManager.Instance().RecieveEvent(event);
+	SoundManager.Instance().PlayPrimaryObjectiveExpired();
 }
 
 // Goes through the events and decreases the

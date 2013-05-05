@@ -127,7 +127,7 @@ function Start()
 		buildingsOnGrid.Push(tempBuilding);
 		BroadcastBuildingUpdate();
 		
-		Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
+		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
 	//UnitManager.InitiateUnits();

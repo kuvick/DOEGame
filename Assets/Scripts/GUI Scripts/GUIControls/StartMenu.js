@@ -133,7 +133,7 @@ public class StartMenu extends GUIControl
 			{
 				currentResponse.type = EventTypes.RESUME;
 				
-				PlayButtonPress(2);
+				PlayButtonPress();
 				Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
 			}
 			GUI.enabled = true;
@@ -145,19 +145,19 @@ public class StartMenu extends GUIControl
 				nextLevel.nextLevel = firstLevel;
 				Debug.Log("Going to " + firstLevel);
 				currentResponse.type = EventTypes.NEWGAME;
-				PlayButtonPress(2);
+				PlayButtonPress();
 			}
 			
 			if (GUI.Button(levelSelectButton, "level select"))
 			{
 				currentResponse.type = EventTypes.LEVELSELECT;
-				PlayButtonPress(1);
+				PlayButtonPress();
 			}
 		
 			if (GUI.Button(linkFacebookButton, "link to facebook"))
 			{
 				currentResponse.type = EventTypes.FACEBOOK;
-				PlayButtonPress(1);
+				PlayButtonPress();
 			}
 			
 			GUI.skin = hexButtonSkin;

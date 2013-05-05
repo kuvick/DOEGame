@@ -9,7 +9,7 @@ protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
 protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var foundPathIndex : int = 0; // used to keep track of undo actions
-protected var type : UnitType;
+public var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
 protected var currentTarget : BuildingOnGrid = null;
 
@@ -48,6 +48,8 @@ private var guiEnabledColor : Color = new Color(1,1,1,1);
 private var guiDisabledColor : Color = new Color(1,1,1,2);
 
 public var unitSkin : GUISkin;
+
+protected var selectionSound : AudioClip;
 
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
@@ -351,6 +353,7 @@ function OnGUI() {
 		currentBuilding.unitSelected = true;
 		FindValidTargets();
 		Debug.Log("Unit selected");
+		SoundManager.Instance().PlayUnitSelected(this);
 	}
 	GUI.enabled = true;
 	// highlight the unit's path if its current building is selected
