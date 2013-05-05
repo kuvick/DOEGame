@@ -205,8 +205,10 @@ static public function addBuildingToGrid(buildingType:String, coordinate:Vector3
 	*/
 
 	Debug.Log("adding buidling to grid");
-	for (var defaultBuilding : Building in buildings)
+	var defaultBuilding : Building;
+	for (var i : int = 0; i < buildings.length; i++)//var defaultBuilding : Building in buildings)
 	{
+		defaultBuilding = buildings[i] as Building;
 		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
 		{
 		
@@ -280,11 +282,11 @@ public static function BroadcastBuildingUpdate():void
 {
 	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
 	
-	for(var gos:GameObject in gameObjInScene)
+	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
 	{
-		if(gos.transform.parent == null)
+		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
 		{
-			gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+			gameObjInScene[i].gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
 		} 
 	}
 }
@@ -293,11 +295,11 @@ public static function BroadcastBuildingUpdate(buildingObject : GameObject, buil
 {
 	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
 	var replacement : BuildingReplacement = new BuildingReplacement(buildingObject, buildingIndex);
-	for(var gos:GameObject in gameObjInScene)
+	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
 	{
-		if(gos.transform.parent == null)
+		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
 		{
-			gos.gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+			gameObjInScene[i].gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
 		} 
 	}
 }
@@ -312,18 +314,18 @@ given coordinate.
 */
 static public function findBuildingIndex( coordinate:Vector3 ): int
 {
-	var index = 0;
+	//var index = 0;
 
-	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	for (var index : int = 0; index < buildingsOnGrid.Count; index++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
 		//Debug.Log("coordinate: " + coordinate + " building coord: " + placedBuilding.coordinate);
-		if(coordinate == placedBuilding.coordinate)
+		if(coordinate == buildingsOnGrid[index].coordinate)//placedBuilding.coordinate)
 		{
 			//Debug.Log("Found match at " + index);
 			return index;
 		}
 		
-		index++;
+		//index++;
 	}
 	return -1;			// will return -1 if there is no building at the
 						// given coordinate, to be used as a check as
@@ -334,18 +336,18 @@ static public function findBuildingIndex( coordinate:Vector3 ): int
 }// end of findBuildingIndex
 
 static public function findBuildingIndex (build : BuildingOnGrid) : int {
-	var index = 0;
+	//var index = 0;
 
-	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	for (var index = 0; index < buildingsOnGrid.Count; index++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
 		//Debug.Log("coordinate: " + coordinate + " building coord: " + placedBuilding.coordinate);
-		if(build == placedBuilding)
+		if(build == buildingsOnGrid[index])//placedBuilding)
 		{
 			//Debug.Log("Found match at " + index);
 			return index;
 		}
 		
-		index++;
+		//index++;
 	}
 	return -1;	
 }
@@ -1250,9 +1252,9 @@ static public function totalPollution(): int
 {
 	var pollution : int = 0;
 
-	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
-		pollution += placedBuilding.pollutionOutput;
+		pollution += buildingsOnGrid[i].pollutionOutput;//placedBuilding.pollutionOutput;
 	}
 	return pollution;
 
@@ -1275,12 +1277,12 @@ static public function totalPollution(): int
 function testWinState(): boolean
 {
 	
-	for (var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
 	{
 		//only checks houses and cities
-		if(placedBuilding.buildingName == "House" || placedBuilding.buildingName == "City")
+		if(buildingsOnGrid[i].buildingName == "House" || buildingsOnGrid[i].buildingName == "City")//placedBuilding.buildingName == "House" || placedBuilding.buildingName == "City")
 		{
-			if(placedBuilding.isActive == false)
+			if(buildingsOnGrid[i].isActive == false)//placedBuilding.isActive == false)
 			{
 				//if any of the buildings are not active, will return false
 				return false;

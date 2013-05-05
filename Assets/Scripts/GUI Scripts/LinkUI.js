@@ -273,9 +273,10 @@ function OnGUI()
 	buildingIsSelected = (selectedBuilding != null);
 	if (buildingIsSelected)
 		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-		
-	for (var building : GameObject in buildings)
+	var building : GameObject;	
+	for (var i : int = 0; i < buildings.length; i++)//var building : GameObject in buildings)
 	{
+		building = buildings[i];
 		if(building == null) return;
 		//if (buildingIsSelected && selectedGridBuilding.isActive)
 		buildingHighlightColor = noHighlightColor;
@@ -489,9 +490,9 @@ static function setLinkMode(mode:boolean){
 
 function CheckMouseNotOverGUI() : boolean
 {
-	for (var r : Rect in activeButtonRects)
+	for (var i : int = 0; i < activeButtonRects.Count; i++)//var r : Rect in activeButtonRects)
 	{
-		if (r.Contains(mousePos))
+		if (activeButtonRects[i].Contains(mousePos))//r.Contains(mousePos))
 			return false;
 	}
 	return true;

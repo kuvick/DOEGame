@@ -33,11 +33,11 @@ function GetUpgradeIcon (i : int) : Texture
 function OnGUI ()
 {
 	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
-	for (var b : BuildingOnGrid in buildings)
+	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
 	{
-		if (b.heldUpgrade != UpgradeType.None)
+		if (buildings[i].heldUpgrade != UpgradeType.None)
 		{
-			var point : Vector3 = Camera.main.WorldToScreenPoint(b.buildingPointer.transform.position);
+			var point : Vector3 = Camera.main.WorldToScreenPoint(buildings[i].buildingPointer.transform.position);
 			
 			point.y = Screen.height - point.y; //adjust height point
 			
@@ -47,7 +47,7 @@ function OnGUI ()
 			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
 							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
 	
-			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[b.heldUpgrade - 1]);
+			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[buildings[i].heldUpgrade - 1]);
 		}
 		/*if (b.neededUpgrade != UpgradeType.None)
 		{
@@ -74,9 +74,9 @@ static function AddUnit (temp : Unit) {
 
 static function InitiateUnits() {
 	Debug.Log("Initiating units " + unitList.Count);
-	for (var temp : Unit in unitList)
+	for (var i : int = 0; i < unitList.Count; i++)//var temp : Unit in unitList)
 	{
-		temp.Initiate();
+		unitList[i].Initiate();
 	}
 }
 
@@ -96,9 +96,9 @@ static function UndoUnitActions() {
 
 static function CheckMouseNotOverGUI() : boolean
 {
-	for (var u : Unit in unitList)
+	for (var i : int = 0; i < unitList.Count; i++)//var u : Unit in unitList)
 	{
-		if (u.MouseOnGUI())
+		if (unitList[i].MouseOnGUI())
 			return false;
 	}
 	return true;

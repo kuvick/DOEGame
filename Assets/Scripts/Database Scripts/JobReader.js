@@ -8,6 +8,9 @@ public class JobReader
 	private var xmlDoc : XmlDocument;
 	private var jobNodes : XmlNodeList;
 	
+	private var months : String[] = ["January","February","March","April","May","June",
+				"July","August","September","October","November","December"];
+	
 	public function LoadFile(file : String)
 	{
 		fileAsset = Resources.Load(file) as TextAsset;
@@ -21,16 +24,18 @@ public class JobReader
 	public function GetJobList() : List.<Job>
 	{
 		var tempList : List.<Job> = new List.<Job>();
-		for (var node : XmlNode in jobNodes)
+		var node : XmlNode;
+		for (var i : int = 0; i < jobNodes.Count; i++)//var node : XmlNode in jobNodes)
 		{
+			node = jobNodes[i];
 			var tempJob = new Job();
 			
 			tempJob.title = node.Item["PositionTitle"].InnerText;
 			tempJob.agency = node.Item["PositionOrganization"].Item["OrganizationIdentifiers"].Item["OrganizationName"].InnerText;
 			tempJob.salaryMin = node.Item["OfferedRemunerationPackage"].Item["RemunerationRange"].Item["RemunerationMinimumAmount"].InnerText;
 			tempJob.salaryMax = node.Item["OfferedRemunerationPackage"].Item["RemunerationRange"].Item["RemunerationMaximumAmount"].InnerText;
-			tempJob.openPeriodStart = node.Item["PositionPeriod"].Item["StartDate"].InnerText;
-			tempJob.openPeriodEnd = node.Item["PositionPeriod"].Item["EndDate"].InnerText;
+			tempJob.openPeriodStart = FormatDate(node.Item["PositionPeriod"].Item["StartDate"].InnerText);
+			tempJob.openPeriodEnd = FormatDate(node.Item["PositionPeriod"].Item["EndDate"].InnerText);
 			tempJob.positionInformation = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobStatusText"].InnerText;
 			tempJob.location = node.Item["PositionLocation"].Item["LocationName"].InnerText;
 			tempJob.whoConsidered = node.Item["UserArea"].Item["GOVT_WhoMayApply"].InnerText;
@@ -38,6 +43,13 @@ public class JobReader
 			//Debug.Log(node.Item["PositionTitle"].InnerText);
 		}
 		return tempList;
+	}
+	
+	private function FormatDate(date : String) : String
+	{
+		var dateSplit : String[] = date.Split("-"[0]);
+		Debug.Log(dateSplit.length);
+		return months[parseInt(dateSplit[1]) - 1] + " " + parseInt(dateSplit[2]) + ", " + parseInt(dateSplit[0]);
 	}
 }
 

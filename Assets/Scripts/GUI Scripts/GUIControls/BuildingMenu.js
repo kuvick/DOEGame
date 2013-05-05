@@ -127,11 +127,11 @@ public class BuildingMenu extends GUIControl
 		resourceIconHeight = resourceIconHeightPercent * screenHeight;
 		
 		var i : int = 0;
-		for (var choice : BuildingSiteChoice in buildingChoices)
+		for (i = 0; i < buildingChoices.length; i++)//for (var choice : BuildingSiteChoice in buildingChoices)
 		{
-			var setData : BuildingData = choice.building.GetComponent(BuildingData);
+			var setData : BuildingData = buildingChoices[i].building.GetComponent(BuildingData);//choice.building.GetComponent(BuildingData);
 			setData.buildingData = buildingChoices[i].data;
-			i++;
+			//i++;
 		}
 		
 		//** Added by Katharine end
@@ -217,11 +217,11 @@ public class BuildingMenu extends GUIControl
 					// Drawings Building Icon
 					GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
 					// Draws Input Icons:
-					for(var output : ResourceType in buildingChoices[i].data.unallocatedOutputs)
+					for (var k : int = 0; k < buildingChoices[i].data.unallocatedOutputs.length; k++)//for(var output : ResourceType in buildingChoices[i].data.unallocatedOutputs)
 					{
-						if(output != ResourceType.None)
+						if(buildingChoices[i].data.unallocatedOutputs[k] != ResourceType.None)//output != ResourceType.None)
 						{
-							GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[output - 1]);
+							GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[buildingChoices[i].data.unallocatedOutputs[k] - 1]);//output - 1]);
 							
 						}
 						else
@@ -232,11 +232,11 @@ public class BuildingMenu extends GUIControl
 					}
 					
 					// Draws Output Icons:
-					for(var input : ResourceType in buildingChoices[i].data.unallocatedInputs)
+					for(k = 0; k < buildingChoices[i].data.unallocatedInputs.length; k++)//var input : ResourceType in buildingChoices[i].data.unallocatedInputs)
 					{
-						if(input != ResourceType.None)
+						if(buildingChoices[i].data.unallocatedInputs[k] != ResourceType.None)//input != ResourceType.None)
 						{							
-							GUI.DrawTexture(resourceIconList[j], unallocatedInputTex[input - 1]);
+							GUI.DrawTexture(resourceIconList[j], unallocatedInputTex[buildingChoices[i].data.unallocatedInputs[k] - 1]);//input - 1]);
 						}
 						else
 						{
@@ -326,20 +326,20 @@ public class BuildingMenu extends GUIControl
 				buildingIconList.Add(buildingIcon);
 				
 				//Resource Icon Input Display:
-				var l : int = 0;
-				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				//var l : int = 0;
+				for(var l : int = 0; l < buildingChoices[buildingNum].data.unallocatedOutputs.length; l++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					l++;
+					//l++;
 				}
 				//Resource Icon Output Display:
-				l = 0;
-				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				//l = 0;
+				for(l = 0; l < buildingChoices[buildingNum].data.unallocatedInputs.length; l++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					l++;
+					//l++;
 				}				
 				buildingNum++;
 				
@@ -359,20 +359,20 @@ public class BuildingMenu extends GUIControl
 				buildingIconList.Add(buildingIcon);;
 				
 				//Resource Icon Input Display
-				var m : int = 0;
-				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				//var m : int = 0;
+				for(var m : int = 0; m < buildingChoices[buildingNum].data.unallocatedOutputs.length; m++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					m++;
+					//m++;
 				}
 				//Resource Icon Output Display
-				m = 0;
-				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				//m = 0;
+				for(m = 0; m < buildingChoices[buildingNum].data.unallocatedInputs.length; m++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					m++;
+					//m++;
 				}
 				buildingNum++;
 			}
@@ -554,20 +554,20 @@ public class BuildingMenu extends GUIControl
 				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				
 				//Resource Icon Input Display:
-				var l : int = 0;
-				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				//var l : int = 0;
+				for(var l : int = 0; l < buildingChoices[buildingNum].data.unallocatedOutputs.length; l++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					l++;
+					//l++;
 				}
 				//Resource Icon Output Display:
-				l = 0;
-				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				//l = 0;
+				for(l = 0; l < buildingChoices[buildingNum].data.unallocatedInputs.length; l++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					l++;
+					//l++;
 				}				
 				buildingNum++;
 			}
@@ -585,20 +585,20 @@ public class BuildingMenu extends GUIControl
 				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
 				
 				//Resource Icon Input Display
-				var m : int = 0;
-				for(var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
+				//var m : int = 0;
+				for(var m : int = 0; m < buildingChoices[buildingNum].data.unallocatedOutputs.length; m++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					m++;
+					//m++;
 				}
 				//Resource Icon Output Display
-				m = 0;
-				for(var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
+				//m = 0;
+				for(m = 0; m < buildingChoices[buildingNum].data.unallocatedInputs.length; m++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
-					m++;
+					//m++;
 				}
 				buildingNum++;
 			}

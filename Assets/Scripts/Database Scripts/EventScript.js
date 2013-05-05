@@ -33,6 +33,8 @@ private var screenPosition:Vector3;
 
 private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
+private var indicator : ObjectiveIndicator = new ObjectiveIndicator();
+
 function Start () {
 	colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
 	upgradeWidth = Screen.width * upgradeWidthPercent;
@@ -41,6 +43,7 @@ function Start () {
 	
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);
+	indicator.Initialize(gameObject);
 }
 
 function Update () {
@@ -53,7 +56,7 @@ function Update () {
 						Screen.height - screenPosition.y  - floatHeight, 
 						upgradeWidth, 
 						upgradeWidth);
-	
+	indicator.Update();
 }
 /*
 function OnGUI()
@@ -78,6 +81,8 @@ public function Draw_Upgrade()
 		if (event.type == BuildingEventType.Primary)
 			GUI.Label(tempRect, event.time.ToString());
 	}
+	
+	indicator.Draw();
 }
 
 //Changes the current opacity of the upgrade icon.

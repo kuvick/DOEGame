@@ -17,7 +17,7 @@ public var speed : int = 25;
 // Generated particles by the system:
 var generatedParticles: List.<Particle>;
 var mainCamera : GameObject;
-var particlesToDestory : List.<Particle>;
+var particlesToDestroy : List.<Particle>;
 
 function Start ()
 {
@@ -43,8 +43,10 @@ function OnBecameInvisible()
 
 function Update ()
 {
-	for(var particle : Particle in generatedParticles)
+	var particle : Particle;
+	for(var i : int = 0; i < generatedParticles.Count; i++)//var particle : Particle in generatedParticles)
 	{
+		particle = generatedParticles[i];
 		// So the particle is always facing the camera, a way to deal with
 		// the different views, although still figuring out the best way to
 		// freeze them so they don't rotate as much as they do at the moment.
@@ -59,26 +61,27 @@ function Update ()
 		// If a particle becomes completely transparent, delete it.
 		if(particle.gameObject.renderer.material.color.a <= 0)
 		{
-			particlesToDestory.Add(particle);
+			particlesToDestroy.Add(particle);
 		}
 	}
 	
 	// Delete particles that have been marked for deletion.
-	if(particlesToDestory.Count > 0)
+	if(particlesToDestroy.Count > 0)
 	{
-		for(var particle : Particle in particlesToDestory)
+		for(i = 0; i < particlesToDestroy.Count; i++)//var particle : Particle in particlesToDestory)
 		{
+			particle = particlesToDestroy[i];
 			generatedParticles.Remove(particle);
 			GameObject.Destroy(particle.gameObject);
 		}
-		particlesToDestory.Clear();
+		particlesToDestroy.Clear();
 	}
 
 	// If the number of particles present is less than the number of specified
 	// particles, generate a new particle
 	if(generatedParticles.Count < numOfParticles)
 	{
-		var particle : Particle = new Particle(particles, transform);
+		particle = new Particle(particles, transform);
 		generatedParticles.Add(particle);
 	}
 	
