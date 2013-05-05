@@ -428,6 +428,8 @@ public class BuildingMenu extends GUIControl
 			
 			ReplaceBuildingData (build, buildingChoices[index].data);
 			
+			GameObject.Find("Database").GetComponent(Database).Save("BuildingSite");
+
 			Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
 						
 			//deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));

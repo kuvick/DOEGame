@@ -1206,7 +1206,7 @@ static public function AddToAddList(coordinate: Vector3)
 	addList.Add(tempNode);
 	UndoStack.Add(UndoType.Add);
 	intelSystem.addTurn();
-//	SaveMetric("BuildingSite");
+	//Database.Save("BuildingSite");
 }
 
 // Cleans up the array used to keep track of previous states
@@ -1362,9 +1362,7 @@ static public function addBuildingSite( coordinate : Vector3)
 
 public function Save(type : String) : void
 {
-	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));
-	//metrics.Save(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + ".xml"));
-	//metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics_" + intelSystem.currentLevelName + "_LINK.xml"));
+	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));	
 }
 
 class BuildingReplacement extends System.ValueType

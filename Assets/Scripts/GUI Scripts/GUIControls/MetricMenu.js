@@ -2,10 +2,6 @@
 
 public class MetricMenu extends GUIControl
 {
-	// Skins for GUI components
-	public var hexButtonSkin:GUISkin;
-	public var intelMenuSkin:GUISkin;			// GUISkin component for the event icon, set in Inspector
-	
 	// Event List
 	private var eventList:EventLinkedList;
 
@@ -27,6 +23,10 @@ public class MetricMenu extends GUIControl
 	
 	private var graph : Graph;
 	private var buildings : List.<GameObject>;
+	
+	private var endGameString : String;
+	
+	private var showGraph : boolean = true;
 	
 	public function Start () 
 	{
@@ -63,8 +63,11 @@ public class MetricMenu extends GUIControl
 			buildings.Add(building);
 		}
 		
-		graph = new Graph();
 		GenerateLinks();
+		
+		graph = new Graph(6, 6);
+		graph.CreateBars(database.m_display.GetTurnList());
+		endGameString = database.m_display.GetEndGameDataAsString();
 		
 	}
 	
@@ -120,10 +123,15 @@ public class MetricMenu extends GUIControl
 	public function Render()
 	{
 		//GUI.Box(background, "");
+				
 		
-		GUI.skin = hexButtonSkin;		
-		
-		//graph.Render();
+		if(showGraph){
+			rectList.Add(graph.border);
+			graph.Render();
+		}
+		else{
+			rectList.Remove(graph.border);
+		}
 		
 		// Closes the event list
 		if (GUI.Button(closeButton, "Close"))
@@ -137,6 +145,9 @@ public class MetricMenu extends GUIControl
 			
 			isInitialized = false;
 			currentResponse.type = EventTypes.MAIN;
-		}					
+		}	
+		
+		GUI.Label(new Rect(this.graph.border.x, this.graph.border.y + this.graph.border.height, 200, 200), endGameString);
+		showGraph = GUI.Toggle(new Rect(Screen.width - 100, Screen.height - 25, 100, 25), showGraph, "Toggle Graph");
 	}
 }

@@ -7,8 +7,10 @@ public class MetricDisplay
 	
 	private var EndData : List.<EndGameData>;
 	private var LinkDataList : List.<LinkData>;
+	private var TurnDataList : List.<TurnData>;
 	
 	private var numberOfFiles : int = 0;
+	private var numberOfTurnFiles : int = 0;
 	
 	private var averageScore : int = 0;
 	private var scoreCount : int = 0;
@@ -24,17 +26,19 @@ public class MetricDisplay
 	
 	public var linkArray : float[,];	
 	public var numberOfLinks : float = 0;	
+	public var numberOfTurns : float = 0;
 	
 	public function MetricDisplay()
 	{
 		container = new MetricContainer();
 		EndData = new List.<EndGameData>();
-		LinkDataList = new List.<LinkData>();			
+		LinkDataList = new List.<LinkData>();					
+		TurnDataList = new List.<TurnData>();
 	}
 	
 	public function GatherData(sceneName : String) : boolean
 	{
-		if(GatherEndData(sceneName) && GatherLinkData(sceneName))
+		if(GatherEndData(sceneName) && GatherLinkData(sceneName) && GatherTurnData(sceneName))
 		{
 			return true;
 		}
@@ -48,12 +52,6 @@ public class MetricDisplay
 		averageTimeInSeconds /= timeCount;
 		averageTurns /= turnCount;
 		averageTimesUndone /= undoCount;
-		
-		Debug.Log("Files In Directory: " + numberOfFiles);
-		Debug.Log("Average Score: " + averageScore);
-		Debug.Log("Average Time: " + averageTimeInSeconds);
-		Debug.Log("Average Turns: " + averageTurns);
-		Debug.Log("Average Undo's: " + averageTimesUndone);		
 	}
 	
 	private function GatherEndData(sceneName : String) : boolean
@@ -134,6 +132,56 @@ public class MetricDisplay
 			Debug.Log("Path: " + path + " Does Not Exist");
 			return false;
 		}
+	}
+	
+	private function GatherTurnData(sceneName : String) : boolean
+	{
+		//Debug.Log("Gathering Link Data");
+		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/TURN/");
+		
+		if(Directory.Exists(path))
+		{	
+			var info : DirectoryInfo = new DirectoryInfo(path);
+			var fileInfo = info.GetFiles();		
+				
+			numberOfTurnFiles = fileInfo.Length;
+			
+			//Debug.Log("There are " + numberOfFiles + " files in this directory");
+			for(var i = 0; i < fileInfo.Length; i++)
+			{	
+	        	if(fileInfo[i].Name.Contains("_TURN") && !fileInfo[i].Name.Contains(".meta"))
+	        	{	
+	        		//Debug.Log("Reading File: " + fileInfo[i].Name);
+	        		var list : List.<TurnData> = container.LoadTurnData(Path.Combine(path,fileInfo[i].Name));
+	        		for(var turn : TurnData in list)
+	        		{
+	        			TurnDataList.Add(turn);
+	        		}				
+				}							        		     
+			}
+			//Debug.Log("Number of Links: " + LinkDataList.Count);
+			numberOfTurns = TurnDataList.Count;
+			return true;
+		}
+		else
+		{
+			Debug.Log("Path: " + path + " Does Not Exist");
+			return false;
+		}
+	}
+	
+	public function GetEndGameDataAsString() : String
+	{	
+		return "Files In Directory: " + numberOfFiles + "\n"
+				+ "Average Score: " + averageScore + "\n"
+				+ "Average Time: " + averageTimeInSeconds + "\n"
+				+ "Average Turns: " + averageTurns + "\n"
+				+ "Average Undo's: " + averageTimesUndone;		
+	}
+	
+	public function GetTurnList() : List.<TurnData>
+	{
+		return TurnDataList;		
 	}
 	
 	public function CreateLinkArray(numberOfBuildings : int)

@@ -297,6 +297,7 @@ private function RespondTo(response:GUIEvent)
 			{
 				database.m_display.AnalyzeData();
 			}
+			metricMenu.Initialize();
 				
 			ClearControls();
 			AddGUIToControls(metricMenu);
