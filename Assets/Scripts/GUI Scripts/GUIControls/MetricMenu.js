@@ -48,11 +48,11 @@ public class MetricMenu extends GUIControl
 		fontHeight = fontHeightPercent * screenHeight;
 		
 		//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
-		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
+		//background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		closeButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, closeButtonHeight, closeButtonHeight);					
 		
 		// Add the background's rect to the rectList for checking input collision
-		rectList.Add(background);
+		//rectList.Add(background);
 		
 		buildings = new List.<GameObject>();
 		
@@ -65,6 +65,7 @@ public class MetricMenu extends GUIControl
 		
 		graph = new Graph();
 		GenerateLinks();
+		
 	}
 	
 	public function GenerateLinks()
@@ -80,9 +81,24 @@ public class MetricMenu extends GUIControl
 				{					
 					//Create Line Renderer between buildings[i] and buildings[j]
 					var lr : LineRenderer = buildings[i].AddComponent(LineRenderer);
-					lr.material = new Material(Shader.Find("Particles/Additive"));
+					lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
 										
-					var lineColor : Color = Color.red;					
+					var redValue : float = (database.m_display.linkArray[i,j] / (database.m_display.numberOfLinks / 2));
+					
+					var lineColor : Color;
+					if(redValue < .33)
+					{
+						lineColor = new Color(0,0,redValue);		
+					}
+					else if(redValue < .66)
+					{
+						lineColor = new Color(0,redValue,0.5f);		
+					}
+					else
+					{
+						lineColor = new Color(redValue,0.5f,0.5f);		
+					}
+								
 					
 					lr.SetColors(lineColor, lineColor);
 					lr.SetWidth(10, 10);
@@ -103,10 +119,9 @@ public class MetricMenu extends GUIControl
 	*/
 	public function Render()
 	{
-		GUI.Box(background, "");
-
+		//GUI.Box(background, "");
 		
-		GUI.skin = hexButtonSkin;
+		GUI.skin = hexButtonSkin;		
 		
 		//graph.Render();
 		

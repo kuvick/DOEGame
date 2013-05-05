@@ -22,8 +22,8 @@ public class MetricDisplay
 	private var averageTimesUndone : int = 0;	
 	private var undoCount : int = 0;
 	
-	public var linkArray : int[,];	
-	public var numberOfLinks : int = 0;	
+	public var linkArray : float[,];	
+	public var numberOfLinks : float = 0;	
 	
 	public function MetricDisplay()
 	{
@@ -138,7 +138,7 @@ public class MetricDisplay
 	
 	public function CreateLinkArray(numberOfBuildings : int)
 	{
-		linkArray = new int[numberOfBuildings, numberOfBuildings];
+		linkArray = new float[numberOfBuildings, numberOfBuildings];
 		
 		for(var i = 0; i < LinkDataList.Count; i++)
 		{
