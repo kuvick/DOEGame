@@ -85,6 +85,21 @@ public class EndGameData
 	}
 }
 
+public class NarrativeData
+{	
+	public var timeSpentTotal : float;
+	public var timeBeforeClick : List.<float>;
+	public var wasSkipped : boolean = false;
+	
+	function NarrativeData(){}
+	
+	function NarrativeData(timeSpentTotal : float,wasSkipped : boolean)
+	{
+		this.timeSpentTotal = timeSpentTotal;
+		this.wasSkipped = wasSkipped;
+	}	
+}
+
 @XmlRoot("MetricCollection")
 public class MetricContainer
 {
@@ -100,10 +115,14 @@ public class MetricContainer
 	@XmlAttribute("EndGameData")	
 	public var EndGame : EndGameData;
 	
+	@XmlAttribute("Narratives")
+	public var Narrative : NarrativeData;
+	
 	function MetricContainer()
 	{
 		Turns = new List.<TurnData>();	
 		Links = new List.<LinkData>();	
+		Narrative = new NarrativeData();
 	}
 	
 	public function Save(path : String)	
@@ -169,6 +188,24 @@ public class MetricContainer
 		stream.Close();	
 	}
 	
+	public function SaveNarrative(path : String)
+	{
+		var pattern : String = "[^0-9]";
+		var Now : String = System.DateTime.Now.ToString();		
+		
+		//Remove all characters except numbers
+		Now = Regex.Replace(Now, pattern, String.Empty);
+		
+		Debug.Log("Now : " + Now);
+		
+		path = Path.Combine(path, Now + "_NAR.xml");
+	
+		var serializer : XmlSerializer = new XmlSerializer(NarrativeData);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.Narrative);		
+		stream.Close();
+	}
+	
 	public static function Load(path : String) : MetricContainer
 	{
 		var serializer : XmlSerializer = new XmlSerializer(MetricContainer);
@@ -201,6 +238,15 @@ public class MetricContainer
 		var serializer : XmlSerializer = new XmlSerializer(EndGameData);
 		var stream : FileStream = new FileStream(path, FileMode.Open);
 		var result : EndGameData = serializer.Deserialize(stream) as EndGameData;
+		stream.Close();
+		return result;	
+	}
+	
+	public static function LoadNarrativeData(path : String) : NarrativeData
+	{
+		var serializer : XmlSerializer = new XmlSerializer(NarrativeData);
+		var stream : FileStream = new FileStream(path, FileMode.Open);
+		var result : NarrativeData = serializer.Deserialize(stream) as NarrativeData;
 		stream.Close();
 		return result;	
 	}

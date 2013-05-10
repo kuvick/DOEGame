@@ -31,6 +31,11 @@ public class NarrativeUI extends GUIControl
 	
 	private var currentSlide: float;
 	
+	//Metrics
+	public var metrics : MetricContainer;
+	private var skipTimes : List.<float>;
+	//public var m_display : MetricDisplay;
+	
 
 	public function Start () 
 	{
@@ -55,6 +60,10 @@ public class NarrativeUI extends GUIControl
 		skip = Rect(screenWidth + verticalBarWidth - skipButtonWidth, topSlide, skipButtonWidth, skipButtonHeight);
 		next = Rect(screenWidth + verticalBarWidth - nextButtonWidth, bottomSlide - nextButtonHeight, nextButtonWidth, nextButtonHeight);
 		
+		skipTimes  = new List.<float>();
+		
+		metrics = new MetricContainer();
+		m_display = new MetricDisplay();
 	}
 	
 	public function OnGUI()
@@ -64,8 +73,9 @@ public class NarrativeUI extends GUIControl
 		
 		GUI.DrawTexture(skip, skipButton);
 		if (GUI.Button(skip, ""))
-		{
-			LoadLevel();
+		{	
+			metrics.Narrative.wasSkipped = true;
+			LoadLevel();			
 		}
 		
 		GUI.DrawTexture(next, nextButton);
@@ -73,6 +83,13 @@ public class NarrativeUI extends GUIControl
 		{
 			if(currentSlide < narrativeSlides.Length - 1)
 			{
+				if(skipTimes.Count > 0)
+				{
+					skipTimes.Add(Time.timeSinceLevelLoad - skipTimes[skipTimes.Count - 1]);
+				}
+				else
+					skipTimes.Add(Time.timeSinceLevelLoad);
+								
 				currentSlide++;
 			}
 			else
@@ -85,9 +102,25 @@ public class NarrativeUI extends GUIControl
 	//Would eventually set this to the loading screen, but for now since there are errors...
 	private function LoadLevel()
 	{
+		WriteMetricData();		
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 		nextLevel.nextLevel = levelToLoad;
 		Application.LoadLevel("LoadingScreen");
+	}
+	
+	private function WriteMetricData()
+	{
+		metrics.Narrative.timeSpentTotal = Time.timeSinceLevelLoad;
+		metrics.Narrative.timeBeforeClick = skipTimes;				
+		
+		var sceneName :String = Application.loadedLevelName;
+		if(sceneName.Contains(".unity"))
+			sceneName.Remove(sceneName.Count - 6);
+		
+		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE");
+		if(!Directory.Exists(path))
+			System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE"));													
+		metrics.SaveNarrative(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE/"));	
 	}
 }

@@ -25,6 +25,7 @@ public class MetricMenu extends GUIControl
 	private var buildings : List.<GameObject>;
 	
 	private var endGameString : String;
+	private var narrString : String;
 	
 	private var showGraph : boolean = true;
 	
@@ -68,6 +69,7 @@ public class MetricMenu extends GUIControl
 		graph = new Graph(6, 6);
 		graph.CreateBars(database.m_display.GetTurnList());
 		endGameString = database.m_display.GetEndGameDataAsString();
+		narrString = database.m_display.GetNarrativeDataAsString();
 		
 	}
 	
@@ -147,7 +149,8 @@ public class MetricMenu extends GUIControl
 			currentResponse.type = EventTypes.MAIN;
 		}	
 		
-		GUI.Label(new Rect(this.graph.border.x, this.graph.border.y + this.graph.border.height, 200, 200), endGameString);
+		GUI.Label(new Rect(this.graph.border.x, this.graph.border.y + this.graph.border.height, 400, 200), endGameString);
+		GUI.Label(new Rect(this.graph.border.x + 420, this.graph.border.y + this.graph.border.height, 400, 200), narrString);
 		showGraph = GUI.Toggle(new Rect(Screen.width - 100, Screen.height - 25, 100, 25), showGraph, "Toggle Graph");
 	}
 }
