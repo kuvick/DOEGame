@@ -49,6 +49,8 @@ public class ScoreMenu extends GUIControl{
 		largeLabelsStyle.fontSize += 5;
 		totalLabelStyle = largeLabelsStyle;
 		totalLabelStyle.active.textColor = Color.yellow;
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.scoreMenuMusic;
 	}
 	
 	public function Render(){   

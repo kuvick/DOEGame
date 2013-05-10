@@ -156,6 +156,8 @@ public class LevelSelectMenu extends GUIControl
 		*/
 		
 		LoadLevelList();
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
 	}
 	
 	public function Render()

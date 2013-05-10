@@ -115,6 +115,8 @@ public class StartMenu extends GUIControl
 		title = Rect((resumeGameButton.x + buttonWidth) - (titleWidth + titleOffsetX), resumeGameButton.y - (titleHeight + titleOffsetY), titleWidth, titleHeight);
 		
 		RiffSplashScreens();
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.startMenuMusic;
 	}
 	
 	public function Render()

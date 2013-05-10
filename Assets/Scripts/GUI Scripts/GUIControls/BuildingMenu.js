@@ -160,6 +160,8 @@ public class BuildingMenu extends GUIControl
 		
 		LoadBuildingList();
 		buildingsChosen = new List.<BuildingSiteChoice>();
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.buildingMenuMusic;
 	}
 	
 	public function Render()

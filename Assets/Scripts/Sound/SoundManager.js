@@ -18,6 +18,7 @@ public class SoundManager extends MonoBehaviour {
 	public var menuSounds : MenuSounds;
 	public var objectiveSounds : ObjectiveSounds;
 	public var buildingSelcted : AudioClip;
+	public var backgroundSounds : BackgroundSounds;
 	
 	private static var instance : SoundManager = null; 
 	

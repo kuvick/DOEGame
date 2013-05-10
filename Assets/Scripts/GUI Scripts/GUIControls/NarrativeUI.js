@@ -34,7 +34,7 @@ public class NarrativeUI extends GUIControl
 	//Metrics
 	public var metrics : MetricContainer;
 	private var skipTimes : List.<float>;
-	//public var m_display : MetricDisplay;
+	public var m_display : MetricDisplay;
 	
 
 	public function Start () 
@@ -116,7 +116,7 @@ public class NarrativeUI extends GUIControl
 		
 		var sceneName :String = Application.loadedLevelName;
 		if(sceneName.Contains(".unity"))
-			sceneName.Remove(sceneName.Count - 6);
+			sceneName.Remove(sceneName.Length - 6);
 		
 		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE");
 		if(!Directory.Exists(path))

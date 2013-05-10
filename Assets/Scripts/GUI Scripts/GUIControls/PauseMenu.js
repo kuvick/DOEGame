@@ -100,6 +100,8 @@ public class PauseMenu extends GUIControl
 		
 		// Add the background's rect to the rectList for checking input collision
 		rectList.Add(background);
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
 	}
 	
 	public function Render()

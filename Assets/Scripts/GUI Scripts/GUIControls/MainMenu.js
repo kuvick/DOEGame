@@ -100,6 +100,8 @@ public class MainMenu extends GUIControl
 		rectList.Add(zoomButton);	
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
+		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 	}
 	
 	public function Render()

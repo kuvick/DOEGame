@@ -38,7 +38,7 @@ public class GUIControl extends MonoBehaviour
 	
 	public var isInitialized : boolean = false;
 	
-	public var backgroundMusic : AudioClip = null; 
+	protected var backgroundMusic : AudioClip = null; 
 	
 	/*
 		Starts the GUIControl's update cycle.
@@ -136,7 +136,7 @@ public class GUIControl extends MonoBehaviour
 	  */
 	public function OnOpen(){
 		if (backgroundMusic != null){
-			//SoundManager.Instance().playSoundOnLoop(backgroundMusic);
+			SoundManager.Instance().playSoundOnLoop(backgroundMusic);
 		}
 	} 
 	
