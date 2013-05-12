@@ -43,7 +43,7 @@ class ResearcherUnit extends Unit {
 	
 	function DoAction() 
 	{
-		if (foundPath.Count < 1)
+		if (currentPath.Count < 1)
 			return;
 		super();
 		var tempHeld : UpgradeType = UpgradeType.None; // used if an upgrade was picked up
@@ -78,8 +78,9 @@ class ResearcherUnit extends Unit {
 	
 	function UndoAction ()
 	{
-		foundPath.Clear();
-		FindPath(currentTarget);
+		//foundPath.Clear();
+		//currentPath = FindPath(currentTarget);
+		//CheckPathBroken();
 		if (actionList.Count < 1)
 			return;
 		// if the current turn is the proper undo turn

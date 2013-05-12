@@ -596,6 +596,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		UndoStack.Add(UndoType.Overload);		
 		if (!allocatedOutSelected)
 		{						
+			UnitManager.CheckUnitPathsBroken();
 			intelSystem.addTurn();
 			metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
 			Save("Overload Link");
@@ -689,6 +690,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		
 		//If the Chain Break was the result of an Overload/Chain Break combo: Do not add another turn
 //		if(!allocatedInOutSelected)
+		UnitManager.CheckUnitPathsBroken();
 			intelSystem.addTurn();
 			metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
 			Save("Chainbreak");

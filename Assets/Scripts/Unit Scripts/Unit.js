@@ -8,7 +8,7 @@ import System.Collections.Generic;
 protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
 protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
-protected var foundPathIndex : int = 0; // used to keep track of undo actions
+protected var currentPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 public var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
 protected var currentTarget : BuildingOnGrid = null;
@@ -75,17 +75,17 @@ function Initiate() {
 
 // sees if there is a valid path between the unit's current building and the target building
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
-function FindPath (target : BuildingOnGrid) : boolean 
+function FindPath (target : BuildingOnGrid, checkValid : boolean) : List.<BuildingOnGrid>//boolean 
 {
-	if (target == null || !BuildingCheck(target)) // Check if building is a valid target
-		return false;
+	foundPath.Clear();
+	if (target == null || (checkValid && !BuildingCheck(target))) // Check if building is a valid target
+		return foundPath;
 	// reset colors of current found path
-	if (foundPath.Count > 0)
-		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+	/*if (foundPath.Count > 0)
+		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);*/
 	
 	// reset pathing variables and lists
 	var found : boolean = false;
-	foundPath.Clear();
 	open.Clear();
 	nextOpen.Clear();
 	closed.Clear();
@@ -122,7 +122,8 @@ function FindPath (target : BuildingOnGrid) : boolean
 	}
 	
 	ClearAllPathVars ();
-	return found;
+	//return found;
+	return foundPath;
 }
 
 // Checks if a building a valid target, overridden by children for specific checks
@@ -207,9 +208,9 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 // changes the color of all links in the found path to red
 private function SetLinkColors(col : Color) 
 {
-	for (var i : int = 0; i < foundPath.Count; i++)//var temp : BuildingOnGrid in foundPath)
+	for (var i : int = 0; i < currentPath.Count; i++)//var temp : BuildingOnGrid in foundPath)
 	{
-		DrawLinks.SetLinkColor(Database.findBuildingIndex(foundPath[i]), Database.findBuildingIndex(foundPath[i].pathParent), col);
+		DrawLinks.SetLinkColor(Database.findBuildingIndex(currentPath[i]), Database.findBuildingIndex(currentPath[i].pathParent), col);
 	}
 }
 
@@ -221,19 +222,19 @@ private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : 
 	if (b1.outputLinkedTo.Contains(b2Index) || b1.inputLinkedTo.Contains(b2Index))
 		DrawLinks.SetLinkColor(b1Index, b2Index, col);
 	// terminating case: if b2 is the last building in foundPath
-	if (foundPath.Count < 1 || b2 == foundPath[foundPath.Count - 1])
+	if (currentPath.Count < 1 || b2 == currentPath[currentPath.Count - 1])
 		return;
-	SetLinkColors(foundPath[index], foundPath[index + 1], index + 1, col);
+	SetLinkColors(currentPath[index], currentPath[index + 1], index + 1, col);
 }
 
 // performs unit actions on new turn
 function DoAction () 
 {
-	if (foundPath.Count < 1 || !FindPath(currentTarget)) return;
+	if (currentPath.Count < 1) return;// || !FindPath(currentTarget)) return;
 	previousBuilding = currentBuilding; // set previous building in case of undo
-	currentBuilding = foundPath[0]; // set current building to next building in the path
-	foundPath.RemoveAt(0);
-	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
+	currentBuilding = currentPath[0]; // set current building to next building in the path
+	currentPath.RemoveAt(0);
+	//DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
@@ -244,11 +245,12 @@ function DoAction ()
 
 function UndoAction () 
 {
-	if (type != UnitType.Researcher)
+	/*if (type != UnitType.Researcher)
 	{
-		foundPath.Clear();
-		FindPath(currentTarget);
-	}
+		/*currentPath.Clear();
+		currentPath = FindPath(currentTarget);*/
+		//CheckPathBroken();
+	//}
 	
 	if (actionList.Count < 1)
 		return;
@@ -260,11 +262,12 @@ function UndoAction ()
 		/*DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
 								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);*/
 		currentBuilding.unit = UnitType.None;
-		foundPath.Insert(0, currentBuilding);
+		currentPath.Insert(0, currentBuilding);
 		currentBuilding = actionList[actionList.Count - 1].move;
 		SetPosition();
 		currentBuilding.unit = type;
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
+		CheckPathBroken();
 	}
 }
 
@@ -285,18 +288,19 @@ function Update() {
 	if (currentBuilding.unitSelected && selectedBuilding == null)
 		currentBuilding.unitSelected = false;
 	// if unit is selected, and a different building has been selected
-	else if (currentBuilding.unitSelected && selectedBuilding != null && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
+	else if (currentBuilding.unitSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
-		if (FindPath(selectedGridBuilding)) // if so, display message indicating so on status marquee
+		currentPath = FindPath(selectedGridBuilding, false);
+		if (currentPath.Count > 0) // if so, display message indicating so on status marquee
 		{
 			Debug.Log("Path found");
 			StatusMarquee.SetText("Unit target set", true);
 			currentTarget = selectedGridBuilding;
-			if (foundPath.Count > 0)
+			if (currentPath.Count > 0)
 			{
-				SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
+				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 				pathDrawn = true;
 				intelSystem.addTurn();
@@ -319,10 +323,34 @@ private function FindValidTargets()
 	{
 		if (buildings[i] == currentBuilding)
 			continue;
-		if (FindPath(buildings[i]))
+		if (FindPath(buildings[i], true).Count > 0)
 			validTargets.Add(buildings[i]);
 	}
-	foundPath.Clear();
+	//foundPath.Clear();
+}
+
+// Checks if any links in the current path have been broken, and if so clears it
+public function CheckPathBroken()
+{
+	Debug.Log("checking path");
+	//if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))// != currentPath)
+	if (FindPath(currentTarget, false) != currentPath)
+	{
+		currentPath.Clear();
+		Debug.Log("Path cleared");
+	}
+}
+
+private function CheckPathsEqual(pathA : List.<BuildingOnGrid>, pathB : List.<BuildingOnGrid>) : boolean
+{
+	if (pathA.Count != pathB.Count)
+		return false;
+	for (var i : int = 0; i < pathA.Count; i++)
+	{
+		if (pathA[i] != pathB[i])
+			return false;
+	}
+	return true;
 }
 
 function OnGUI() {
@@ -359,17 +387,17 @@ function OnGUI() {
 	// highlight the unit's path if its current building is selected
 	if (selectedBuilding == currentBuilding.buildingPointer)
 	{
-		if (foundPath.Count > 0 && !pathDrawn)
+		if (currentPath.Count > 0 && !pathDrawn)
 		{
-			SetLinkColors(currentBuilding, foundPath[0], 0, Color.red);
+			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 			//pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 			pathDrawn = true;
 		}
 	}
 	// if unit's path has been highlighted and a different building is selected, de-highlight the path
-	else if(pathDrawn && foundPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
+	else if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
 	{
-		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);
+		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
 		pathDrawn = false;
 	}
 	

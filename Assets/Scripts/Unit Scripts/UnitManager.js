@@ -94,6 +94,14 @@ static function UndoUnitActions() {
 	}
 }
 
+static function CheckUnitPathsBroken()
+{
+	for (var i:int = 0; i < unitList.Count; i++)
+	{
+		unitList[i].CheckPathBroken();
+	}
+}
+
 static function CheckMouseNotOverGUI() : boolean
 {
 	for (var i : int = 0; i < unitList.Count; i++)//var u : Unit in unitList)
