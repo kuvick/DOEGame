@@ -369,7 +369,7 @@ private function RespondTo(response:GUIEvent)
 private function SetupLoading()
 {
 	loading.GetNewJob();
-	loading.DelayLoad(3);
+	loading.DelayLoad(20);
 }
 
 private function RecordEndGameData()

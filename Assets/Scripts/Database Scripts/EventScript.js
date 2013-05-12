@@ -33,30 +33,33 @@ private var screenPosition:Vector3;
 
 private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
-private var indicator : ObjectiveIndicator = new ObjectiveIndicator();
+private var indicator : ObjectiveIndicator = ObjectiveIndicator();
+private var icon : ObjectiveIcon = ObjectiveIcon();
 
 function Start () {
-	colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
+	/*colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
 	upgradeWidth = Screen.width * upgradeWidthPercent;
 	
 	floatHeight = floatPercent * Screen.height;
 	
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
-	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);
-	indicator.Initialize(gameObject);
+	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
+	indicator.Initialize(gameObject.transform, event.description, event.type);
+	icon.Initialize(gameObject.transform, event.icon, event.description);
 }
 
 function Update () {
 	
 	//Updage Position of Image
-	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
+	/*screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	
 	//Update bounds, and convert screen coords to GUI coords
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, 
 						Screen.height - screenPosition.y  - floatHeight, 
 						upgradeWidth, 
-						upgradeWidth);
+						upgradeWidth);*/
 	indicator.Update();
+	icon.Update();
 }
 /*
 function OnGUI()
@@ -73,13 +76,15 @@ public function Draw_Upgrade()
 {		
 	if(showIcon)
 	{
-		GUI.color = colorOpacity;
+		icon.Draw();
+		/*GUI.color = colorOpacity;
 			GUI.DrawTexture(upgradeBounds, event.icon);	
 		GUI.color = Color(1.0, 1.0, 1.0, 1.0);
 		
-		var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); 
+		var tempRect : Rect = Rect(upgradeBounds.x + upgradeWidth, upgradeBounds.y, 30, 30); */
 		if (event.type == BuildingEventType.Primary)
-			GUI.Label(tempRect, event.time.ToString());
+			icon.DrawTime(event.time.ToString());
+			//GUI.Label(tempRect, event.time.ToString());
 	}
 	
 	indicator.Draw();

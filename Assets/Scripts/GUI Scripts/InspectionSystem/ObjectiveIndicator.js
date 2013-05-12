@@ -1,10 +1,9 @@
 #pragma strict
-public class ObjectiveIndicator
+public class ObjectiveIndicator extends InspectionComponent
 {
-	private var texture : Texture2D;
-	private var textureSize : float;
+	//private var textureSize : float;
 	private var rotAngle : float = 0;
-	private var rect : Rect;
+	//private var rect : Rect;
 	 
 	private var screenPos : Vector2;
 	
@@ -14,13 +13,15 @@ public class ObjectiveIndicator
 	
 	private var doDraw : boolean = false;
 	
-	public function Initialize(targ : GameObject)
+	public function Initialize(targ : Transform, desc : String, type : int)
 	{
-		texture = Resources.Load("indicator_arrow") as Texture2D;
-	    target = targ.transform;
+		texture = Resources.Load("indicator_arrow" + type) as Texture2D;
+	    target = targ;
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
 	    textureSize = .1 * Screen.height;
 	    rect = Rect(screenMiddle.x - textureSize / 2, Screen.height - (.1 * Screen.height), textureSize, textureSize);
+	    //display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+	    Initialize(desc);
 	} 
 	
 	 
@@ -43,9 +44,11 @@ public class ObjectiveIndicator
 	{
 		if (doDraw)
 		{
+			BlankButtonStyle();
 		    var matrixBackup : Matrix4x4 = GUI.matrix;
 		    GUIUtility.RotateAroundPivot(rotAngle, screenMiddle);
-		    GUI.DrawTexture(rect, texture);
+		    if(GUI.Button(rect, texture))
+		    	display.Activate(dispText);
 		    GUI.matrix = matrixBackup;
 	    }
 	}
