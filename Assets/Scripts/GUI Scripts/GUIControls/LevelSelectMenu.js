@@ -23,6 +23,9 @@ public class LevelNode
 	public var isPrimary = true;
 	public var wasRead : boolean = false;
 	
+	public var senderTexture : Texture;
+	public var senderName : String;
+	
 	public function LevelNode(tex:Texture, dispName: String, lvlName:String, dif:int, bestScore:int)
 	{
 		texture = tex;
@@ -80,6 +83,7 @@ public class LevelSelectMenu extends GUIControl
 	public var primaryTexture : Texture;	
 	public var secondaryTexture : Texture;
 	private var statusRectangle : Rect;
+	private var senderRectangle : Rect;
 	
 	//Splash Screen / Message View
 	private var showSplash = false;
@@ -94,9 +98,6 @@ public class LevelSelectMenu extends GUIControl
 	
 	private var messageBuffer : Vector2;
 	private var messageRect : Rect;
-	
-	// For testing
-	private var testLevels:List.<LevelNode>;
 	
 	// Level Select Menu scaling
 		
@@ -119,10 +120,7 @@ public class LevelSelectMenu extends GUIControl
 	public var levelNodeTexture:Texture;
 	
 	// Level Select Menu animation
-	private var numLevels:int;
-	private var maxVisibleLevels:int = 3;
-	private var isScrolling:boolean = false;
-	private var currentLevel:float = 0;
+	private var numLevels:int;			
 	
 	public var levels : LevelNode[];
 	public var unlockedLevels : List.<LevelNode>;
@@ -165,6 +163,7 @@ public class LevelSelectMenu extends GUIControl
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
 		
 		statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), scrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x), statusRectangle.y, statusRectangle.width, statusRectangle.height);
 	}
 	
 	public function Render()
@@ -212,8 +211,8 @@ public class LevelSelectMenu extends GUIControl
 						GUI.Box(unlockedLevels[i].bounds, "");
 						//statusRectangle.x = unlockedLevels[i].bounds.x;
 						statusRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - statusRectangle.height) / 2);
-						
-						if(unlockedLevels[i].wasRead)
+						senderRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - senderRectangle.height) / 2);
+						if(!unlockedLevels[i].wasRead)
 						{
 							GUI.DrawTexture(statusRectangle, unreadTexture,ScaleMode.StretchToFill);	
 						}		
@@ -229,7 +228,16 @@ public class LevelSelectMenu extends GUIControl
 							}
 						}		
 						
-						if(GUI.Button(unlockedLevels[i].bounds, "Subject: " + unlockedLevels[i].subjectText + "\n\n"))
+						//If there is an image of the sender, draw it
+						if(unlockedLevels[i].senderTexture != null)
+							GUI.DrawTexture(senderRectangle, unlockedLevels[i].senderTexture, ScaleMode.StretchToFill);
+							
+						//If there is a name of the sender, write it
+						var subjectString : String = "Subject: " + unlockedLevels[i].subjectText + "\n\n";
+						if(unlockedLevels[i].senderName != "")		
+							subjectString += "Sender: " + unlockedLevels[i].senderName;						
+						//If a message has been selected, show the splash screen
+						if(GUI.Button(unlockedLevels[i].bounds, subjectString))
 						{
 							showSplash = true;
 							activeLevelIndex = i;							
@@ -252,9 +260,7 @@ public class LevelSelectMenu extends GUIControl
 				}
 				GUI.skin = levelSelectSkin;		
 				if(!unlockedLevels[activeLevelIndex].wasRead)
-					unlockedLevels[activeLevelIndex].wasRead = true;
-							
-							
+					unlockedLevels[activeLevelIndex].wasRead = true;														
 				
 				GUI.Label(messageRect, "Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText);						
 			GUI.EndGroup();
