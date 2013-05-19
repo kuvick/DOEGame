@@ -57,7 +57,7 @@ class BuildingOnGridData
 	public var loadDefaultData : boolean = false;	// be sure to set false before the game starts, else it might replace the changed data
 	
 	private var firstLoad : boolean = false;
-
+	private var centerOffset : Vector3 = new Vector3(HexagonGrid.tileHalfWidth, 0, HexagonGrid.tileHalfHeight); // add to tile-to-world coordinate to get center of tile
 
 // This function temporarily loads a database
 function Start ()
@@ -76,6 +76,7 @@ function Start ()
 	}*/
 	buildingData.coordinate = HexagonGrid.worldToTileCoordinates(thisBuilding.transform.position.x, thisBuilding.transform.position.z);
 	buildingData.buildingPointer = thisBuilding;	// points to the GameObject to which the script is attached.
+	//CenterBuilding();
 }// end of start
 
 function Update()
@@ -84,6 +85,15 @@ function Update()
 	if(!Application.isPlaying)
 	{
 	    buildingData.coordinate = HexagonGrid.worldToTileCoordinates(thisBuilding.transform.position.x, thisBuilding.transform.position.z);
+	    CenterBuilding();
 	}
 	
 }// end of update
+
+// positions the building at the center of the current tile
+private function CenterBuilding()
+{
+	var worldCoord = HexagonGrid.TileToWorldCoordinates(buildingData.coordinate.x, buildingData.coordinate.y);
+	worldCoord += centerOffset;
+	gameObject.transform.position = worldCoord;
+}
