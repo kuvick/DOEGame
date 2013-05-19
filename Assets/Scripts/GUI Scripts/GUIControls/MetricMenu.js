@@ -85,32 +85,35 @@ public class MetricMenu extends GUIControl
 				if(database.m_display.linkArray[i,j] > 0)
 				{					
 					//Create Line Renderer between buildings[i] and buildings[j]
-					var lr : LineRenderer = buildings[i].AddComponent(LineRenderer);
-					lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-										
-					var redValue : float = (database.m_display.linkArray[i,j] / (database.m_display.numberOfLinks / 2));
-					
-					var lineColor : Color;
-					if(redValue < .33)
-					{
-						lineColor = new Color(0,0,redValue);		
-					}
-					else if(redValue < .66)
-					{
-						lineColor = new Color(0,redValue,0.5f);		
-					}
-					else
-					{
-						lineColor = new Color(redValue,0.5f,0.5f);		
-					}
-								
-					
-					lr.SetColors(lineColor, lineColor);
-					lr.SetWidth(10, 10);
-					lr.SetVertexCount(2);
-
-					lr.SetPosition(0, buildings[i].transform.position);
-					lr.SetPosition(1, buildings[j].transform.position);				
+				//	if(buildings[i].GetComponent(LineRenderer) != null)
+				//	{
+						var lr : LineRenderer = buildings[i].AddComponent(LineRenderer);
+						lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));						
+									
+						var redValue : float = (database.m_display.linkArray[i,j] / (database.m_display.numberOfLinks / 2));
+						
+						var lineColor : Color;
+						if(redValue < .33)
+						{
+							lineColor = new Color(0,0,redValue);		
+						}
+						else if(redValue < .66)
+						{
+							lineColor = new Color(0,redValue,0.5f);		
+						}
+						else
+						{
+							lineColor = new Color(redValue,0.5f,0.5f);		
+						}
+									
+						
+						lr.SetColors(lineColor, lineColor);
+						lr.SetWidth(10, 10);
+						lr.SetVertexCount(2);
+	
+						lr.SetPosition(0, buildings[i].transform.position);
+						lr.SetPosition(1, buildings[j].transform.position);	
+					//}			
 				}
 			}
 		}

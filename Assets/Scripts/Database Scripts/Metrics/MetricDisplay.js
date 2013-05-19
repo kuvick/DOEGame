@@ -323,11 +323,11 @@ public class MetricDisplay
 	public function CreateLinkArray(numberOfBuildings : int)
 	{
 		linkArray = new float[numberOfBuildings, numberOfBuildings];
-		
+		var db : Database = GameObject.Find("Database").GetComponent(Database);
 		for(var i = 0; i < LinkDataList.Count; i++)
 		{
-			var output : int = LinkDataList[i].OutputBuildingIndex;
-			var input : int = LinkDataList[i].InputBuildingIndex;
+			var output : int = db.findBuildingIndex(db.getBuildingOnGrid(LinkDataList[i].OutputBuildingLocation));
+			var input : int = db.findBuildingIndex(db.getBuildingOnGrid(LinkDataList[i].InputBuildingLocation));
 			
 			linkArray[output, input]++;			
 		}

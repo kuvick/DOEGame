@@ -32,34 +32,34 @@ public class LinkData
 	public var Type : String;
 	public var Turn : int;
 	
-	public var InputBuildingIndex : int;
+	public var InputBuildingLocation : Vector3;
 	public var InputBuildingName : String;
 	
-	public var OutputBuildingIndex : int;
+	public var OutputBuildingLocation : Vector3;
 	public var OutputBuildingName : String;
 	
-	public var oldOutputBuildingIndex : int = -1;
-	public var oldInputBuildingIndex : int = -1;
+	public var oldOutputBuildingLocation : Vector3;
+	public var oldInputBuildingLocation: Vector3;
 	
 	function LinkData(){}
 	
 	function LinkData(Type: String, 
 				Turn: int,
-				InputBuildingIndex : int, 
+				InputBuildingLocation : Vector3, 
 				InputBuildingName : String,
-				OutputBuildingIndex : int,
+				OutputBuildingLocation : Vector3,
 				OutputBuildingName : String,
-				oldOutputBuildingIndex : int,
-				oldInputBuildingIndex : int )
+				oldOutputBuildingLocation : Vector3,
+				oldInputBuildingLocation : Vector3 )
 	{
 		this.Type = Type;
 		this.Turn = Turn;
-		this.InputBuildingIndex = InputBuildingIndex;
+		this.InputBuildingLocation = InputBuildingLocation;
 		this.InputBuildingName = InputBuildingName;
-		this.OutputBuildingIndex = OutputBuildingIndex;
+		this.OutputBuildingLocation = OutputBuildingLocation;
 		this.OutputBuildingName = OutputBuildingName;
-		this.oldOutputBuildingIndex = oldOutputBuildingIndex;
-		this.oldInputBuildingIndex = oldInputBuildingIndex;
+		this.oldOutputBuildingLocation = oldOutputBuildingLocation;
+		this.oldInputBuildingLocation = oldInputBuildingLocation;
 	}
 }
 
@@ -265,17 +265,17 @@ public class MetricContainer
 	
 	public function addLinkData(Type: String, 
 				Turn: int,
-				InputBuildingIndex : int, 
+				InputBuildingLocation : Vector3, 
 				InputBuildingName : String,
-				OutputBuildingIndex : int,
+				OutputBuildingLocation : Vector3,
 				OutputBuildingName : String,
-				oldOutputBuildingIndex : int,
-				oldInputBuildingIndex : int )
+				oldOutputBuildingLocation : Vector3,
+				oldInputBuildingLocation : Vector3 )
 	{
 		Links.Add(new LinkData(
 					Type, Turn,
-					InputBuildingIndex, InputBuildingName, 
-					OutputBuildingIndex, OutputBuildingName,
-					oldOutputBuildingIndex, oldInputBuildingIndex));
+					InputBuildingLocation, InputBuildingName, 
+					OutputBuildingLocation, OutputBuildingName,
+					oldOutputBuildingLocation, oldInputBuildingLocation));
 	}
 }

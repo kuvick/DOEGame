@@ -488,7 +488,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		UndoStack.Add(UndoType.Link);
 		
 		intelSystem.addTurn();	// NEW: Intel System
-		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
+		//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
+		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
 		Save("Building Link");
     }
     else
@@ -598,7 +599,8 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		{						
 			UnitManager.CheckUnitPathsBroken();
 			intelSystem.addTurn();
-			metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
+			//metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
+			metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, oldOutputBuilding.coordinate, new Vector3(-100,0,0)));
 			Save("Overload Link");
 		}
 	}
@@ -692,7 +694,8 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 //		if(!allocatedInOutSelected)
 		UnitManager.CheckUnitPathsBroken();
 			intelSystem.addTurn();
-			metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
+			//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
+			metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), oldInputBuilding.coordinate));
 			Save("Chainbreak");
 
 	}
