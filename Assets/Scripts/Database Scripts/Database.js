@@ -929,7 +929,8 @@ class BuildingOnGrid
 	var pathParent : BuildingOnGrid = null;
 	var pathParentDist : float = -1;
 	
-	var heldUpgrade : UpgradeType = UpgradeType.None;
+	var heldUpgradeID : UpgradeID;
+	var heldUpgradeText : String;
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;

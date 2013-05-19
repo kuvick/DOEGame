@@ -8,6 +8,7 @@ public class InspectionComponent
 	protected var texture : Texture2D;
 	protected var textureSize : float;
 	protected var rect : Rect;
+	protected var isActive : boolean = true;
 	
 	public function Initialize(text : String)
 	{
@@ -23,6 +24,21 @@ public class InspectionComponent
 	public function Draw()
 	{
 		
+	}
+	
+	public function SetActive(active : boolean)
+	{
+		isActive = active;
+	}
+	
+	public function SetRect (rect : Rect)
+	{
+		this.rect = rect;
+	}
+	
+	public function SetTexture (tex : Texture2D)
+	{
+		texture = tex;
 	}
 	
 	protected function BlankButtonStyle()

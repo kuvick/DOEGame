@@ -39,7 +39,8 @@ class BuildingEvent
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
-	var upgrade: UpgradeType = UpgradeType.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
+	var upgrade: UpgradeID = UpgradeID.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
+	var upgradeText : String;
 	var isChild : boolean = false;		// set if it is a child event
 	var childEvent : GameObject;		// if there is a linked event to this event
 	var buildingReference : GameObject;	// The gameobject the event is attached to
@@ -155,7 +156,7 @@ public function buildingActivated( reference : GameObject ):boolean
 	var script : EventScript = findEvent(reference);
 	if(script != null)
 	{
-		if(script.event.upgrade != UpgradeType.None)
+		if(script.event.upgrade != UpgradeID.None)
 		{
 			Debug.Log("Event requires upgrade to be resolved");
 			return false;
@@ -322,7 +323,7 @@ public function findLinkedEvent( building : GameObject): EventScript
 // To be used by the researcher unit when it arrives at a building site
 // it checks the given upgrade name with the upgrade the building needs
 // assumes that in order to arrive at a building, it must be already activated
-public function unitArrival( upgradeName : UpgradeType, buildingRef : GameObject ): boolean
+public function unitArrival( upgradeName : UpgradeID, buildingRef : GameObject ): boolean
 {
 	var script = findEvent( buildingRef );
 	if(script.event.upgrade == upgradeName)

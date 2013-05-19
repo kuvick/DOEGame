@@ -239,7 +239,7 @@ function DoAction ()
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
 	if (type != UnitType.Researcher)
-		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeType.None, UpgradeType.None));
+		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeID.None, UpgradeID.None));
 	Debug.Log(actionList.Count);
 }
 
@@ -417,10 +417,10 @@ class UnitAction extends System.ValueType
 {
     var move : BuildingOnGrid;
     var turn : int;
-    var pickedUpUpgrade : UpgradeType;
-    var heldUpgrade : UpgradeType;
+    var pickedUpUpgrade : UpgradeID;
+    var heldUpgrade : UpgradeID;
     
-    public function UnitAction (m : BuildingOnGrid, t : int, p : UpgradeType, h : UpgradeType)
+    public function UnitAction (m : BuildingOnGrid, t : int, p : UpgradeID, h : UpgradeID)
     {
         move = m;
         turn = t;

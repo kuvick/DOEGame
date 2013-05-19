@@ -54,7 +54,8 @@ class BuildingOnGridData
 	var buildingPointer: GameObject;
 	
 	//var neededUpgrade : UpgradeType;
-	var heldUpgrade : UpgradeType;
+	var heldUpgrade : UpgradeID;
+	var heldUpgradeText : String;
 	
 	var requisitionCost : int;
 	var pollutionOutput : int;
@@ -118,7 +119,8 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.coordinate = buildingData.coordinate;
 	buildingOnGrid.tileType = buildingData.tileType;
 	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
-	buildingOnGrid.heldUpgrade = buildingData.heldUpgrade;
+	buildingOnGrid.heldUpgradeID = buildingData.heldUpgrade;
+	buildingOnGrid.heldUpgradeText = buildingData.heldUpgradeText;
 	//buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;

@@ -32,10 +32,10 @@ function GetUpgradeIcon (i : int) : Texture
 
 function OnGUI ()
 {
-	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
+	/*var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
 	{
-		if (buildings[i].heldUpgrade != UpgradeType.None)
+		if (buildings[i].heldUpgradeID != UpgradeID.None)
 		{
 			var point : Vector3 = Camera.main.WorldToScreenPoint(buildings[i].buildingPointer.transform.position);
 			
@@ -47,7 +47,7 @@ function OnGUI ()
 			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
 							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
 	
-			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[buildings[i].heldUpgrade - 1]);
+			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[buildings[i].heldUpgradeID - 1]);
 		}
 		/*if (b.neededUpgrade != UpgradeType.None)
 		{
@@ -64,7 +64,7 @@ function OnGUI ()
 			GUI.Button(neededUpgradeRect, upgradeTextures[b.neededUpgrade - 1]);
 			GUI.enabled = true;
 		}*/
-	}
+	//}
 }
 
 static function AddUnit (temp : Unit) {
