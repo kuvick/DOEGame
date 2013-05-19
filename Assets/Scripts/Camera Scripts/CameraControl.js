@@ -20,12 +20,27 @@ static public var zoomedIn:boolean = true;
 static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
 
+static public var testingCameras : boolean = false;
 
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 	zoomedIn = true;
-	thisCamera = Camera.main;
+	thisCamera = this.camera;
+	if(camera.tag == "TestCamera")
+	{
+		testingCameras = true;
+	}
+	else
+	{
+		testingCameras = false;
+	}
 	ZoomIn();
+}
+
+// Only used when testing cameras, to set the current camera
+public function setCamera(camera : Camera)
+{
+	thisCamera = camera;
 }
 
 // The function uses the difference in the mouse's position between frames
@@ -78,18 +93,24 @@ public static function ToggleZoomType(){
 }
 
 private static function ZoomIn(){
-	thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
-	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
-	if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
-		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
+	if(!testingCameras)
+	{
+		thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
+		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
+		if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
+			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
+		}
 	}
 }
 
 private static function ZoomOut(){
-	thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
-	thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, farthestZoomDistnace, thisCamera.transform.position.z);
-	//Detects the edge of the map - Bottom when zoomed out
-	if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
-		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + Screen.height / 1.5);		
+	if(!testingCameras)
+	{
+		thisCamera.transform.rotation = Quaternion.AngleAxis(90, Vector3.right);
+		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, farthestZoomDistnace, thisCamera.transform.position.z);
+		//Detects the edge of the map - Bottom when zoomed out
+		if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
+			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + Screen.height / 1.5);		
+		}
 	}
 }
