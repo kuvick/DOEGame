@@ -9,6 +9,14 @@ Author: Francis Yuan
 
 public class MainMenu extends GUIControl
 {
+
+	// For testing different camera angles
+	public var testCameras : boolean = false;
+	public var cameraLocations : List.<GameObject>;
+	private var currentCamera : int;
+	public var mainCameraObject : GameObject;
+
+
 	// Skin for Main Menu
 	public var mainMenuSkin:GUISkin;
 			
@@ -53,7 +61,29 @@ public class MainMenu extends GUIControl
 	
 	public function Start () 
 	{
-		super.Start();		
+		super.Start();
+		
+		// If testing different camera angles, going through and adding
+		// the cameras to the list.
+		if(testCameras)
+		{
+			// index of current camera
+			currentCamera = 0;
+			
+			// getting the original camera's information
+			mainCameraObject = GameObject.Find("Main Camera");
+			cameraLocations.Add(mainCameraObject);
+			
+			// collecting the different cameras for testing
+			for(var camera : GameObject in GameObject.FindGameObjectsWithTag("TestCamera"))
+			{
+				camera.camera.enabled = false;
+				cameraLocations.Add(camera);
+			}
+			
+			Debug.Log("# of Cameras to test: " + cameraLocations.Count);
+		}// end of if(testCameras)
+		
 	}
 	
 	// For when the level is loaded and there is an intel system
@@ -100,6 +130,14 @@ public class MainMenu extends GUIControl
 		rectList.Add(zoomButton);	
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
+		if(!testCameras)
+		{
+			cameraMain.testingCameras = false;
+		}
+		else
+		{
+			cameraMain.testingCameras = true;
+		}	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 	}
@@ -165,10 +203,30 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.METRIC;
 		}
 		
-		if (GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture))){
+		if (!testCameras && GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture)))
+		{
 			PlayButtonPress();	 
 			cameraMain.ToggleZoomType();
 		}
+		// *** FOR TESTING CAMERAS, TO LOOP THROUGH VARIOUS ONES ***
+		else if(testCameras  && GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture)))
+		{
+			// "Powering down" previous camera:
+			cameraLocations[currentCamera].camera.tag = "TestCamera";
+			cameraLocations[currentCamera].camera.enabled = false;
+			
+			currentCamera = (currentCamera + 1) % cameraLocations.Count;
+			
+			// "Powering up" next camera:
+			cameraLocations[currentCamera].camera.enabled = true;
+			cameraLocations[currentCamera].camera.tag = "MainCamera";
+			
+			var cameraComp : CameraControl = cameraLocations[currentCamera].camera.GetComponent(CameraControl);
+			cameraComp.setCamera(cameraLocations[currentCamera].camera);
+			cameraMain = cameraComp;
+				
+		}
+		// *** End for testing cameras ***
 		
 		GUI.Label(scoreRect, score.ToString());
 		if(intelSystem != null)
