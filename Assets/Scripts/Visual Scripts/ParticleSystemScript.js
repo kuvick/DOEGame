@@ -17,7 +17,7 @@ public var speed : int = 25;
 // Generated particles by the system:
 var generatedParticles: List.<Particle>;
 var mainCamera : GameObject;
-var particlesToDestroy : List.<Particle>;
+var particlesToDestory : List.<Particle>;
 
 function Start ()
 {
@@ -43,10 +43,8 @@ function OnBecameInvisible()
 
 function Update ()
 {
-	var particle : Particle;
-	for(var i : int = 0; i < generatedParticles.Count; i++)//var particle : Particle in generatedParticles)
+	for(var particle : Particle in generatedParticles)
 	{
-		particle = generatedParticles[i];
 		// So the particle is always facing the camera, a way to deal with
 		// the different views, although still figuring out the best way to
 		// freeze them so they don't rotate as much as they do at the moment.
@@ -61,27 +59,26 @@ function Update ()
 		// If a particle becomes completely transparent, delete it.
 		if(particle.gameObject.renderer.material.color.a <= 0)
 		{
-			particlesToDestroy.Add(particle);
+			particlesToDestory.Add(particle);
 		}
 	}
 	
 	// Delete particles that have been marked for deletion.
-	if(particlesToDestroy.Count > 0)
+	if(particlesToDestory.Count > 0)
 	{
-		for(i = 0; i < particlesToDestroy.Count; i++)//var particle : Particle in particlesToDestory)
+		for(var particle : Particle in particlesToDestory)
 		{
-			particle = particlesToDestroy[i];
-			generatedParticles.Remove(particle);
-			GameObject.Destroy(particle.gameObject);
+			// Uses same particle, but resets it and possibly changes its texture
+			particle.regenerateParticle(particles, transform);
 		}
-		particlesToDestroy.Clear();
+		particlesToDestory.Clear();
 	}
 
 	// If the number of particles present is less than the number of specified
 	// particles, generate a new particle
 	if(generatedParticles.Count < numOfParticles)
 	{
-		particle = new Particle(particles, transform);
+		var particle : Particle = new Particle(particles, transform);
 		generatedParticles.Add(particle);
 	}
 	
@@ -101,6 +98,17 @@ class Particle
 		var index : int = Random.Range(0,particles.Length);
 		
 		this.gameObject = GameObject.Instantiate(particles[index], transform.position, transform.rotation);
+		this.direction = Vector3.ClampMagnitude(transform.position + new Vector3(Random.Range(-1000,1000), Random.Range(0,2000), Random.Range(-1000,1000)), 1);
+		this.gameObject.renderer.material.color.a = Random.Range(0.6,1.0);
+	}
+	
+	//Uses this to reset the particle, and possibly choose a new texture at random
+	public function regenerateParticle(particles : GameObject[], transform : Transform)
+	{
+		var index : int = Random.Range(0,particles.Length);
+		this.gameObject.renderer.material.mainTexture = particles[index].renderer.material.mainTexture;
+		this.gameObject.transform.position = transform.position;
+		this.gameObject.transform.rotation = transform.rotation;
 		this.direction = Vector3.ClampMagnitude(transform.position + new Vector3(Random.Range(-1000,1000), Random.Range(0,2000), Random.Range(-1000,1000)), 1);
 		this.gameObject.renderer.material.color.a = Random.Range(0.6,1.0);
 	}
