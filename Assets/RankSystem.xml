@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<RankSystem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!-- Currently using a system that automatically calculates min exp 
+	If we want to do it hard-coded, or only have it automatically calculate min exp
+	for past the level cap, would need to add min_exp attribute to the rank-->
+	<exp_multiplier>1.5</exp_multiplier>
+	<base_experience>25</base_experience>
+	<Ranks>
+		<Rank>
+			<Name>Rookie Intern</Name>
+			<Level>0</Level>
+		</Rank>
+		<Rank>
+			<Name>Junior Agent</Name>
+			<Level>1</Level>
+		</Rank>
+		<Rank>
+			<Name>Agent</Name>
+			<Level>2</Level>
+		</Rank>
+	</Ranks>
+</RankSystem>
