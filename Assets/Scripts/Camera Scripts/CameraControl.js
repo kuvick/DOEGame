@@ -22,6 +22,12 @@ static private var thisCamera: Camera;
 
 static public var testingCameras : boolean = false;
 
+static public var bCP : Vector3;
+static public var bD : Vector3;
+
+public var borderCenterPosition : Vector3;
+public var borderDimensions : Vector3;
+
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 	zoomedIn = true;
@@ -35,6 +41,9 @@ function Start () {
 		testingCameras = false;
 	}
 	ZoomIn();
+	
+	bCP = borderCenterPosition;
+	bD = borderDimensions;
 }
 
 // Only used when testing cameras, to set the current camera
@@ -50,6 +59,8 @@ static public function Drag(currentInputPos: Vector2){
 	
 	var totalDimensions: Vector2 = HexagonGrid.totalTileDimensions();
 	
+	//OLD EDGE DETECTION - Keeping it just in case current implementation is not desired.
+	/*
 	//Detects the edge of the map - Left
 	if(thisCamera.transform.position.x <= hexOrigin.x + Screen.width / 2){
 		thisCamera.transform.position = new Vector3(hexOrigin.x + Screen.width / 2, thisCamera.transform.position.y, thisCamera.transform.position.z);
@@ -69,6 +80,27 @@ static public function Drag(currentInputPos: Vector2){
 	//Detects the edge of the map - Top
 	if(thisCamera.transform.position.z >= hexOrigin.z + totalDimensions.y - Screen.height /2){
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + totalDimensions.y - Screen.height/2);		
+	}*/
+	
+	//Left
+	if(thisCamera.transform.position.x < (bCP.x - (bD.x / 2)))
+	{
+		thisCamera.transform.position = new Vector3(bCP.x - (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+	}
+	//Right
+	if(thisCamera.transform.position.x > (bCP.x + (bD.x / 2)))
+	{
+		thisCamera.transform.position = new Vector3(bCP.x + (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+	}
+	//Top
+	if(thisCamera.transform.position.z > (bCP.z + (bD.z / 2)))
+	{
+		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z + (bD.z / 2));
+	}
+	//Bottom
+	if(thisCamera.transform.position.z < (bCP.z - (bD.z / 2)))
+	{
+		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
 	}
 }
 
@@ -113,4 +145,10 @@ private static function ZoomOut(){
 			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z + Screen.height / 1.5);		
 		}
 	}
+}
+
+public function OnDrawGizmos()
+{
+	Gizmos.color = Color.red;
+	Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
 }
