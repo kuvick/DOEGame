@@ -70,6 +70,10 @@ public class StartMenu extends GUIControl
 	
 	private var levelToResume:String;
 	
+	
+	// Variables for Profile Selection
+	
+	
 	public function Start ()
 	{
 		super.Start();

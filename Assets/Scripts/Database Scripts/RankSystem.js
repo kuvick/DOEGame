@@ -1,3 +1,20 @@
+/**********************************************************
+RankSystem.js
+
+Description: Used to load the information about ranks from
+a pre-made XML sheet with the levels and the rank names,
+and the experience multiplier (how much is the previous score
+multiplied by in order to get the next score).
+
+Currently the experience per level is all calculated, not hardcoded,
+but we might want to change this for balancing purposes (which shouldn't
+be too hard). What it does is that each rank's minimum experience is:
+the base min exp. (how much it is to get from lvl 0 to 1) times the
+exp. multiplier raised to whatever level it is going to be next.
+
+Originally by Katharine Uvick
+**********************************************************/
+
 import System.Collections.Generic;
 import System.Xml;
 import System.IO;

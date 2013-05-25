@@ -125,6 +125,9 @@ public class LevelSelectMenu extends GUIControl
 	public var levels : LevelNode[];
 	public var unlockedLevels : List.<LevelNode>;
 	
+	// Used to display player information:
+	private var saveSystem : SaveSystem;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -132,6 +135,9 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Initialize()
 	{
+		var playerData : GameObject = GameObject.Find("Player Data");
+		saveSystem = playerData.GetComponent("SaveSystem");
+	
 		super.Initialize();
 		levelGroupY = 0;//screenHeight * levelGroupYPercent;
 		levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
@@ -148,7 +154,19 @@ public class LevelSelectMenu extends GUIControl
 				
 		backButton = new Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - backButtonHeight, backButtonHeight, backButtonHeight);	
 		
-		loginText  = "Logged in as: -Username-";
+		if(saveSystem.currentPlayer != null)
+		{
+			loginText  = "Logged in as: " + saveSystem.currentPlayer.name;
+		}
+		if(saveSystem.currentPlayer.name != "")
+		{
+			loginText  = "Logged in as: -Username-";
+		}
+		else
+		{
+			loginText  = "Logged in as: -Username-";
+		}
+
 		loginRect = new Rect(background.x + background.width - (loginText.length * levelSelectSkin.label.fontSize), 0, loginText.length * levelSelectSkin.label.fontSize * 10, levelSelectSkin.label.fontSize * 10);
 		
 		scrollPosition = new Vector2(0.125, 0.125);
