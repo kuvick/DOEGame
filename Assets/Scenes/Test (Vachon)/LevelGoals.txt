@@ -1,0 +1,52 @@
+
+//////////VACHON TEST LEVELS///////////
+
+----------------------------------------------------
+
+Test01
+
+Goal: Provide power to the City and House then find a way to dispose of the waste
+
+Note: include some message about how waste can be used and burned to create power
+
+----------------------------------------------------
+
+Test02
+
+Goal: Unclear. Need to do further work on this level or scrap it
+
+----------------------------------------------------
+
+Test03
+
+Goal: Provide power to the new city so that the families to the west can earn their income
+
+----------------------------------------------------
+
+Test04
+
+Goal: Find a use for all that corn
+
+----------------------------------------------------
+
+Test05
+
+Goal: Provide power to the four construction sites so work can begin
+
+----------------------------------------------------
+
+Test06
+
+Goal: Find a way to dispose of the nuclear waste
+
+Note: include some message about nuclear waste disposal
+
+----------------------------------------------------
+
+Test06
+
+Goal: Provide power to the city and surrounding neighborhoods
+
+Note: include some message about nuclear waste disposal
+
+----------------------------------------------------
