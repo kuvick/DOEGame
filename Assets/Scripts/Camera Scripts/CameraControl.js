@@ -27,6 +27,22 @@ static public var bD : Vector3;
 
 public var borderCenterPosition : Vector3;
 public var borderDimensions : Vector3;
+public var cameraStartObject : GameObject;
+private var aspectRatioWidth : float = 5;
+private var aspectRatioHeight : float = 4;
+public var aspectRatio : AspectRatios;
+public var useDefaultAspectRatio : boolean = false;
+private var revertedToDefault = true;
+
+
+private enum AspectRatios
+{
+	FourByFive,
+	FourByThree,
+	ThreeByTwo,
+	SixteenByTen,
+	SixteenByNine	
+};
 
 function Start () {	
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
@@ -42,8 +58,23 @@ function Start () {
 	}
 	ZoomIn();
 	
+	if(borderDimensions.x == 0 || borderDimensions.z == 0)
+	{
+		Debug.Log("WARNING: Camera Dimensions Not Set. Reverting to Default");
+		borderDimensions.x = HexagonGrid.totalDimensions.x;
+		borderDimensions.z = HexagonGrid.totalDimensions.y;
+		borderCenterPosition.x = borderDimensions.x / 2;
+		borderCenterPosition.z = borderDimensions.z / 2;
+	}
+	
 	bCP = borderCenterPosition;
 	bD = borderDimensions;
+	
+	thisCamera.transform.position = new Vector3(cameraStartObject.transform.position.x, thisCamera.transform.position.y, cameraStartObject.transform.position.z);
+	
+	if(useDefaultAspectRatio)
+		if(aspectRatioWidth != 0 && aspectRatioHeight != 0)
+			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
 }
 
 // Only used when testing cameras, to set the current camera
@@ -101,7 +132,7 @@ static public function Drag(currentInputPos: Vector2){
 	if(thisCamera.transform.position.z < (bCP.z - (bD.z / 2)))
 	{
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
-	}
+	}	
 }
 
 // This function is used to zoom the camera in and out.
@@ -147,8 +178,66 @@ private static function ZoomOut(){
 	}
 }
 
+public function Update()
+{	
+	if(useDefaultAspectRatio)
+	{
+		switch(aspectRatio)
+		{
+			case AspectRatios.FourByFive:
+				aspectRatioWidth = 4;
+				aspectRatioHeight = 5;
+				break;
+			case AspectRatios.FourByThree:
+				aspectRatioWidth = 4;	
+				aspectRatioHeight = 3;
+				break;
+			case AspectRatios.ThreeByTwo:
+				aspectRatioWidth = 3;
+				aspectRatioHeight = 2;
+				break;
+			case AspectRatios.SixteenByTen:
+				aspectRatioWidth = 16;
+				aspectRatioHeight = 10;
+				break;
+			case AspectRatios.SixteenByNine:
+				aspectRatioWidth = 16;
+				aspectRatioHeight = 9;
+				break;
+		}
+		
+		if(revertedToDefault)
+			revertedToDefault = false;
+		
+		if((thisCamera.aspect != (aspectRatioWidth / aspectRatioHeight)) && aspectRatioWidth != 0 && aspectRatioHeight != 0)
+			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
+	}
+	else
+	{
+		if(!revertedToDefault)
+		{
+			revertedToDefault = true;
+			thisCamera.ResetAspect();
+		}
+	}
+	
+	if(borderDimensions.x == 0 || borderDimensions.z == 0)
+	{
+		Debug.Log("WARNING: Camera Dimensions Not Set. Reverting to Default");
+		borderDimensions.x = HexagonGrid.totalDimensions.x;
+		borderDimensions.z = HexagonGrid.totalDimensions.y;
+		borderCenterPosition.x = borderDimensions.x / 2;
+		borderCenterPosition.z = borderDimensions.z / 2;
+		
+		CameraControl.bCP = borderCenterPosition;
+		CameraControl.bD = borderDimensions;
+	}
+
+}
+
 public function OnDrawGizmos()
 {
 	Gizmos.color = Color.red;
 	Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
+	//thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
 }

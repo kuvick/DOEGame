@@ -124,9 +124,15 @@ public class LevelSelectMenu extends GUIControl
 	
 	public var levels : LevelNode[];
 	public var unlockedLevels : List.<LevelNode>;
+	private var secondaryLevels : LevelNode[];
+	private var primaryLevels : LevelNode[];
 	
 	// Used to display player information:
 	private var saveSystem : SaveSystem;
+	
+	//Tabs
+	private var primaryTab : Rect;
+	private var secondaryTab : Rect;
 	
 	public function Start () 
 	{
@@ -176,6 +182,9 @@ public class LevelSelectMenu extends GUIControl
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		startLevelButton = new Rect((splashBounds.width * (startLevelButtonWidth / 2)), splashBounds.height - (splashBounds.height * .30), splashBounds.width * startLevelButtonWidth, splashBounds.height * startLevelButtonHeight);
 		
+		primaryTab = new Rect(0, scrollArea.y, (screenWidth - scrollArea.x/2), messageHeightPercent * screenHeight);
+		secondaryTab = new Rect(primaryTab.x, primaryTab.y + primaryTab.height, primaryTab.width, primaryTab.height);
+		
 		LoadLevelList();
 		scrollContent = Rect(0, 0, scrollArea.width, levels.Length * (messageHeightPercent * screenHeight) + (levels.Length * .05));// - 2 * padding, 1000);
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
@@ -204,6 +213,15 @@ public class LevelSelectMenu extends GUIControl
 		if(!showSplash)	//Renders the Inbox Screen
 		{
 			GUI.Box(scrollArea,"Inbox");
+			
+			if(GUI.Button(primaryTab, "Primary"))
+			{
+				Debug.Log("LOL1");
+			}
+			if(GUI.Button(secondaryTab, "Secondary"))
+			{
+				Debug.Log("LOL2");
+			}
 			// Scroll bar
 			levelSelectScrollPos = GUI.BeginScrollView
 			(
