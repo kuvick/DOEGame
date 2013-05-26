@@ -63,6 +63,9 @@ public var thisIsALevel : boolean = false;
 private var inputNotOnOtherGUI : boolean = true;
 private var UndoPressed : int = 0;
 
+public static var addLevel : boolean = false;
+public static var levelToAdd : String;
+
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
 	and only the first initialization of it will remain.
@@ -249,6 +252,7 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
+			
 			ClearControls();
 			AddGUIToControls(levelSelectMenu);
 			break;
@@ -352,6 +356,9 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.SCORESCREEN:
 			//Application.LoadLevel("ScoreScreen");
 			//database.SaveMetrics();
+			GUIManager.addLevel = true;
+			GUIManager.levelToAdd = Application.loadedLevelName;
+						
 			RecordEndGameData();
 			
 			ClearControls();
@@ -441,3 +448,4 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 	guiControlToAdd.OnOpen();
 	activeControls.Add(guiControlToAdd);
 }
+

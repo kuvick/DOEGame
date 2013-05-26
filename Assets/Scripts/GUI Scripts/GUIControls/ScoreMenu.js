@@ -3,7 +3,8 @@
 public class ScoreMenu extends GUIControl{	
 	//The Bounds for the recangles
 	private var retryLevelButtonRect : Rect;
-	private var nextLevelButtonRect : Rect;
+	//private var nextLevelButtonRect : Rect;
+	private var missionHubButtonRect : Rect;
 	private var backToMainMenuButtonRect : Rect;
 	private var closeButtonRect : Rect;
 	
@@ -36,7 +37,7 @@ public class ScoreMenu extends GUIControl{
 	public var nextLevelToLoad : String;
 
 	//need to replace text with GUI texture (if needed)
-	private var scoreStrings : String[] = ["Retry Level", "Start Screen", "Next Level"];
+	private var scoreStrings : String[] = ["Retry Level", "Start Screen", "Mission Hub"];
 
 	public function Initialize(){
 		super.Initialize();
@@ -64,16 +65,26 @@ public class ScoreMenu extends GUIControl{
 		{
 			Application.LoadLevel(Application.loadedLevelName);//GUIManager.currLevel);//"Prototype - Level1");
 		}
-
+/*
 		//Next Level Button
 		if(GUI.Button(nextLevelButtonRect, scoreStrings[2]))
+		{		
+	//		TODO: Continue to the next level(not just return to level 1)			
+			PlayerPrefs.SetString(Strings.RESUME, nextLevelToLoad);
+			GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel = nextLevelToLoad;
+			currentResponse.type = EventTypes.NEWGAME;
+			//Application.LoadLevel(levelToLoad);
+		}
+*/
+		//Mission Selection Button
+		if(GUI.Button(missionHubButtonRect, scoreStrings[2]))
 		{
 			/*
 				TODO: Continue to the next level(not just return to level 1)
 			*/
-			PlayerPrefs.SetString(Strings.RESUME, nextLevelToLoad);
-			GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel = nextLevelToLoad;
-			currentResponse.type = EventTypes.NEWGAME;
+			//PlayerPrefs.SetString(Strings.RESUME, nextLevelToLoad);
+			//GameObject.Find("NextLevel").GetComponent(NextLevelScript).nextLevel = nextLevelToLoad;
+			currentResponse.type = EventTypes.LEVELSELECT;
 			//Application.LoadLevel(levelToLoad);
 		}
 		
@@ -126,7 +137,8 @@ public class ScoreMenu extends GUIControl{
 		totalScoreDisplayLabelRect = RectFactory.NewRect(.7, .667, TEXTWIDTH, TEXTHEIGHT);
 		
 		retryLevelButtonRect = RectFactory.NewRect(0.097, .83, .267, .1);
-		nextLevelButtonRect = RectFactory.NewRect(.375, .83, .267, .1);
+		//nextLevelButtonRect = RectFactory.NewRect(.375, .83, .267, .1);
+		missionHubButtonRect = RectFactory.NewRect(.375, .83, .267, .1);
 		backToMainMenuButtonRect = RectFactory.NewRect(.656, .83, .267, .1);
 		closeButtonRect = RectFactory.NewRect(.938, .04, .052, .07);
 		
