@@ -5,8 +5,16 @@ Description:
 
 Author: Francis Yuan
 **********************************************************/
-
 #pragma strict
+enum UnlockType
+{
+	NONE,
+	RANK,
+	MISSION,
+	CONTACT
+}
+
+
 public class LevelNode
 {
 	public var texture:Texture;
@@ -26,6 +34,11 @@ public class LevelNode
 	
 	public var senderTexture : Texture;
 	public var senderName : String;
+	
+	public var howToUnlock : UnlockType;
+	public var rankRequirement : int = -1;
+	public var missionRequirementIndex : int = -1;
+	public var contactRequirement : String;
 	
 	public function LevelNode(tex:Texture, dispName: String, lvlName:String, dif:int, bestScore:int)
 	{
@@ -380,7 +393,7 @@ public class LevelSelectMenu extends GUIControl
 	{
 		for(var i :int = 0; i < levels.length; i++)
 		{
-			if(levels[i].sceneName == sceneName + "Narr"){
+			if(levels[i].sceneName == sceneName){
 				if(!unlockedLevels.Contains(levels[i])){
 					levels[i].completed = true;
 					//unlockedLevels.Insert(0, levels[i]);
@@ -425,6 +438,8 @@ public class LevelSelectMenu extends GUIControl
 			GUIManager.levelToAdd = "";
 		}
 		
+		checkForUnlocks();
+		
 		// Calculate the rect dimensions of every level
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{					
@@ -456,6 +471,31 @@ public class LevelSelectMenu extends GUIControl
 		}
 		//scrollContent.height = unlockedLevels.Count * messageHeightPercent * screenHeight * 2;
 			
+	}
+	
+	private function checkForUnlocks()
+	{
+		for(var i :int = 0; i < levels.length; i++)
+		{
+			switch(levels[i].howToUnlock)
+			{
+				case UnlockType.RANK:
+					if(saveSystem.currentPlayer.rank >= levels[i].rankRequirement)
+					{
+						levels[i].unlocked = true;
+					}
+					break;
+				case UnlockType.MISSION:
+					if(levels[levels[i].missionRequirementIndex].completed)
+						levels[i].unlocked = true;
+					break;
+				case UnlockType.CONTACT:
+					break;
+				case UnlockType.NONE:
+					levels[i].unlocked = true;
+					break;
+			}
+		}
 	}
 
 	private function changeTab()
