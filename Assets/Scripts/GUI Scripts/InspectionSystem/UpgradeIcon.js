@@ -27,18 +27,18 @@ public class UpgradeIcon extends InspectionComponent
 	{
 		if (isActive)
 		{
-		var point : Vector3 = Camera.main.WorldToScreenPoint(building.transform.position);
-		
-		point.y = Screen.height - point.y; //adjust height point
-		
-		if(point.y < 0) //Adjust y value of button for screen space
-			point.y -= Screen.height;
-		
-		var rect = Rect(point.x + heldUpgradeButtonOffset.x, 
-						point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-		BlankButtonStyle();
-		if (GUI.Button(rect, texture))
-			display.Activate(dispText);
+			var point : Vector3 = Camera.main.WorldToScreenPoint(building.transform.position);
+			
+			point.y = Screen.height - point.y; //adjust height point
+			
+			if(point.y < 0) //Adjust y value of button for screen space
+				point.y -= Screen.height;
+			
+			var rect = Rect(point.x + heldUpgradeButtonOffset.x, 
+							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
+			BlankButtonStyle();
+			if (GUI.Button(rect, texture))
+				display.Activate(dispText);
 		}
 	}
 }

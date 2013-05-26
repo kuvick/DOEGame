@@ -96,9 +96,6 @@ public var m_display : MetricDisplay;
 
 function Start()
 {
-	DontDestroyOnLoad (gameObject);	// So the Database will carry over to the score page
-	
-	
 	// Telling the GUISystem to get the references to scripts specific to the level:
 	var manager : GUIManager = GameObject.Find("GUI System").GetComponent(GUIManager);
 	manager.LoadLevelReferences();
