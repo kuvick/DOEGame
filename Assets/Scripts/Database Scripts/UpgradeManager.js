@@ -2,6 +2,7 @@
 import System.Collections.Generic;
 
 private var iconSet : List.<UpgradeIcon>[];
+private var dummyIconSet : List.<UpgradeIcon>;
 private var counterSet : List.<UpgradeCounter>;
 private var i : int = 0;
 private var j : int = 0;
@@ -10,6 +11,7 @@ private var unitManager : UnitManager;
 
 function Start () {
 	CreateCounters();
+	SetCounterRects();
 	CreateIcons();
 }
 
@@ -34,6 +36,8 @@ function OnGUI()
 		for (j = 0; j < iconSet[i].Count; j++)
 			iconSet[i][j].Draw();
 	}
+	for (i = 0; i < dummyIconSet.Count; i++)
+		dummyIconSet[i].Draw();
 }
 
 private function CreateCounters()
@@ -69,10 +73,30 @@ private function CreateCounters()
 	}
 }
 
+private function SetCounterRects()
+{
+	var topOffsetScale : float = 0.1;
+	var topOffset = topOffsetScale * Screen.height;
+	var counterWidthScale : float = 0.1;
+	var counterWidth : float = Screen.width * counterWidthScale;
+	var counterSpacingScale : float = .05;
+	var counterSpacing : float = counterSpacingScale * Screen.width;
+	
+	var totalWidth : float = counterSet.Count * counterWidth + (counterSet.Count - 1) * counterSpacing;
+	var left : float = Screen.width / 2 - totalWidth / 2;
+	
+	for (i = 0; i < counterSet.Count; i++)
+	{
+		counterSet[i].SetRect(Rect(left, topOffset, counterWidth, topOffset));
+		left += counterWidth + counterSpacing;
+	}
+}
+
 private function CreateIcons()
 {
 	var buildingDataSet : BuildingData[] = FindObjectsOfType(BuildingData) as BuildingData[];
 	iconSet = new List.<UpgradeIcon>[counterSet.Count];
+	dummyIconSet = new List.<UpgradeIcon>();
 	for (i = 0; i < iconSet.length; i++)
 		iconSet[i] = new List.<UpgradeIcon>();
 	for (i = 0; i < buildingDataSet.length; i++)
@@ -82,18 +106,34 @@ private function CreateIcons()
 			var temp : UpgradeIcon = new UpgradeIcon();
 			var tempData : BuildingOnGridData = buildingDataSet[i].buildingData;
 			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, tempData.heldUpgradeText);
-			iconSet[buildingDataSet[i].buildingData.heldUpgrade - 1].Add(temp);
-			counterSet[buildingDataSet[i].buildingData.heldUpgrade - 1].IncrementTotal();
+			if (tempData.heldUpgrade == UpgradeID.Dummy)
+				dummyIconSet.Add(temp);
+			else
+			{
+				iconSet[buildingDataSet[i].buildingData.heldUpgrade - 1].Add(temp);
+				counterSet[buildingDataSet[i].buildingData.heldUpgrade - 1].IncrementTotal();
+			}
 		}
 	}
 }
 
 private function FindUpgradeIconByBuilding(building : GameObject, id : UpgradeID) : UpgradeIcon
 {
-	for (i = 0; i < iconSet[id - 1].Count; i++)
+	if (id != UpgradeID.Dummy)
 	{
-		if (iconSet[id - 1][i].BuildingEquals(building))
-			return iconSet[id - 1][i];
+		for (i = 0; i < iconSet[id - 1].Count; i++)
+		{
+			if (iconSet[id - 1][i].BuildingEquals(building))
+				return iconSet[id - 1][i];
+		}
+	}
+	else
+	{
+		for (i = 0; i < dummyIconSet.Count; i++)
+		{
+			if (dummyIconSet[i].BuildingEquals(building))
+				return dummyIconSet[i];
+		}
 	}
 	return null;
 }
@@ -104,7 +144,8 @@ public function PickupUpgrade(building : GameObject, id : UpgradeID)
 	if (temp)
 	{
 		temp.SetActive(false);
-		counterSet[id - 1].IncrementObtained();
+		if (id != UpgradeID.Dummy)
+			counterSet[id - 1].IncrementObtained();
 	}
 }
 

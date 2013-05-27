@@ -104,26 +104,6 @@ class ResearcherUnit extends Unit {
 			super();
 		}		
 	}
-	
-	function OnGUI()
-	{
-		super();
-		// if holding an upgrade, draw an icon to indicate so
-		if (heldUpgrade != UpgradeID.None)
-		{
-			GUI.enabled = true;
-			var point : Vector3 = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-			
-			point.y = Screen.height - point.y; //adjust height point
-				
-			if(point.y < 0) //Adjust y value of button for screen space
-				point.y -= Screen.height;
-			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
-							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-	
-			GUI.Button(heldUpgradeRect, heldUpgradeIcon);
-		}
-	}
 }
 
 // represents upgrades
@@ -136,5 +116,5 @@ enum UpgradeID // to be changed
 	Fourth,
 	Fifth,
 	Sixth,
-	Seventh
+	Dummy
 }

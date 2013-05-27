@@ -38,9 +38,10 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	public function Draw()
 	{
+		super();
 		GUI.color = colorOpacity;
 		if (GUI.Button(rect, texture))
-			display.Activate(dispText);
+			display.Activate(dispText, this);
 		GUI.color = Color(1.0, 1.0, 1.0, 1.0);
 	}
 	

@@ -2,7 +2,8 @@
 public class ObjectiveIndicator extends InspectionComponent
 {
 	//private var textureSize : float;
-	private var rotAngle : float = 0;
+	private var rotAngleDeg : float = 0;
+	private var rotAngleRad : float = 0;
 	//private var rect : Rect;
 	 
 	private var screenPos : Vector2;
@@ -11,18 +12,33 @@ public class ObjectiveIndicator extends InspectionComponent
 	private var targetScreenPos : Vector3;
 	private var screenMiddle : Vector3;
 	
+	private var radius : float;
+	private var radiusScale : float = .375;
+	
+	private var turnRect : Rect;
+	private var turnSize : float;
+	private var turnSizeScale : float = .075;
+	
+	private var textureSizeScale = .1;
+	
+	private var attachedEvent : BuildingEvent;
+	
 	//private var doDraw : boolean = false;
 	
-	public function Initialize(targ : Transform, desc : String, type : int)
+	public function Initialize(targ : Transform, event : BuildingEvent, type : int)//desc : String, type : int)
 	{
+		attachedEvent = event;
 		texture = Resources.Load("indicator_arrow" + type) as Texture2D;
 	    target = targ;
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
-	    textureSize = .1 * Screen.height;
+	    textureSize = textureSizeScale * Screen.height;
 	    rect = Rect(screenMiddle.x - textureSize / 2, Screen.height - (.1 * Screen.height), textureSize, textureSize);
+	    turnSize = turnSizeScale * Screen.height;
+	    turnRect = Rect(0,0, turnSize, turnSize);
+	    radius = Screen.height * radiusScale;
 	    isActive = false;
 	    //display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-	    Initialize(desc);
+	    Initialize(event.description);
 	} 
 	
 	 
@@ -37,20 +53,27 @@ public class ObjectiveIndicator extends InspectionComponent
 	    	isActive = false;
 	    else
 	    	isActive = true;
-	    rotAngle = (Mathf.Atan2(targetScreenPos.x-screenMiddle.x,Screen.height-targetScreenPos.y-screenMiddle.y) * Mathf.Rad2Deg) * -1;
+	    rotAngleRad = Mathf.Atan2(targetScreenPos.x-screenMiddle.x,Screen.height-targetScreenPos.y-screenMiddle.y) * -1;
+	    rotAngleDeg = rotAngleRad * Mathf.Rad2Deg;
+	    turnRect.x = (screenMiddle.x + (Mathf.Cos(rotAngleRad + (Mathf.PI / 2)) * radius)) - (turnSize / 2);
+	    turnRect.y = screenMiddle.y + (Mathf.Sin(rotAngleRad + (Mathf.PI / 2)) * radius) - (turnSize / 2);
 	    //if (rotAngle < 0) rotAngle +=360;
 	}
 	 
 	public function Draw() 
 	{
+		super();
 		if (isActive)
 		{
-			BlankButtonStyle();
 		    var matrixBackup : Matrix4x4 = GUI.matrix;
-		    GUIUtility.RotateAroundPivot(rotAngle, screenMiddle);
+		    GUIUtility.RotateAroundPivot(rotAngleDeg, screenMiddle);
 		    if(GUI.Button(rect, texture))
-		    	display.Activate(dispText);
+		    {
+		    	display.Activate(dispText, this);
+		    	Debug.Log("Angle: " + rotAngleDeg);
+		    }
 		    GUI.matrix = matrixBackup;
+		    GUI.Button(turnRect, String.Empty + attachedEvent.time);
 	    }
 	}
 }

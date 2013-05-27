@@ -44,7 +44,8 @@ public class UpgradeCounter extends InspectionComponent
 	
 	public function Draw()
 	{
+		super();
 		if (GUI.Button(rect, String.Empty + obtainedParts + "/" + totalParts))
-			display.Activate(dispText);
+			display.Activate(dispText, this);
 	}
 }

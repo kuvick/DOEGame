@@ -25,6 +25,7 @@ public class UpgradeIcon extends InspectionComponent
 	
 	public function Draw()
 	{
+		super();
 		if (isActive)
 		{
 			var point : Vector3 = Camera.main.WorldToScreenPoint(building.transform.position);
@@ -36,9 +37,8 @@ public class UpgradeIcon extends InspectionComponent
 			
 			var rect = Rect(point.x + heldUpgradeButtonOffset.x, 
 							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-			BlankButtonStyle();
 			if (GUI.Button(rect, texture))
-				display.Activate(dispText);
+				display.Activate(dispText, this);
 		}
 	}
 }
