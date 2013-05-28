@@ -51,7 +51,7 @@ public function SavePlayer(playerName : String)
 {
 	for(var i : int = 0; i < profileSystem.Players.Count; i++)
 	{
-		if(profileSystem.Players[i].name == name)
+		if(profileSystem.Players[i].name == playerName)
 		{
 			profileSystem.Players[i] = currentPlayer;
 			profileSystem.lastLoggedInPlayer = currentPlayer;
@@ -67,9 +67,11 @@ public function LoadPlayer(playerName : String):boolean
 {
 	for(var i : int = 0; i < profileSystem.Players.Count; i++)
 	{
-		if(profileSystem.Players[i].name == name)
+		if(profileSystem.Players[i].name == playerName)
 		{
 			currentPlayer = profileSystem.Players[i];
+			profileSystem.lastLoggedInPlayer = currentPlayer;
+			profileSystem.Save();
 			return true;
 		}
 	}
@@ -91,17 +93,32 @@ public function LoadNames(): List.<String>
 // Adds new player, returns false if player already exists
 public function createPlayer(name : String):boolean
 {
-	for(var i : int = 0; i < profileSystem.Players.Count; i++)
+	if(name != "")
 	{
-		if(profileSystem.Players[i].name == name)
+		for(var i : int = 0; i < profileSystem.Players.Count; i++)
 		{
-			Debug.Log("Player already exists");
-			return false;
+			if(profileSystem.Players[i].name == name)
+			{
+				Debug.Log("Player already exists");
+				return false;
+			}
 		}
+		var newPlayer : Player = rankSystem.generateNewPlayer(name);
+		profileSystem.Players.Add(newPlayer);
+		return true;
 	}
-	var newPlayer : Player = rankSystem.generateNewPlayer(name);
-	profileSystem.Players.Add(newPlayer);
-	return true;
+	else
+	{
+		Debug.Log("Name was blank...");
+		return false;
+	}
+}
+
+public function logout()
+{
+	currentPlayer = null;
+	profileSystem.lastLoggedInPlayer = currentPlayer;
+	profileSystem.Save();
 }
 
 // Delete player from list, returns true if successful
@@ -112,7 +129,15 @@ public function deletePlayer(name : String): boolean
 		if(profileSystem.Players[i].name == name)
 		{
 			profileSystem.Players.Remove(profileSystem.Players[i]);
-			Debug.Log("Player removed");
+			Debug.Log("Player " + name + " removed");
+			
+			if(currentPlayer.name == name)
+			{
+				currentPlayer = null;
+				profileSystem.lastLoggedInPlayer = currentPlayer;
+				profileSystem.Save();
+			}
+			
 			return true;
 		}
 	}

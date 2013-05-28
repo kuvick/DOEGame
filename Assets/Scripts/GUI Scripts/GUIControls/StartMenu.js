@@ -77,6 +77,8 @@ public class StartMenu extends GUIControl
 	private var profileSelectHeight : float;
 	private var showProfiles : boolean;
 	private var saveSystem : SaveSystem;
+	private var players : List.<String>;
+	private var newUsername : String = "";
 		
 	
 	public function Start ()
@@ -186,38 +188,56 @@ public class StartMenu extends GUIControl
 			
 			
 			// Added for profile selection:
-			if (saveSystem.currentPlayer != null && saveSystem.currentPlayer.name != "")
+			if (saveSystem.currentPlayer == null || saveSystem.currentPlayer.name == "" || saveSystem.currentPlayer.name == null)
+			{
+				if (GUI.Button(profileSelectButton, "Select Profile"))
+				{
+				showProfiles = true;
+				}
+			}
+			else
 			{
 				if (GUI.Button(profileSelectButton, "Logged In: " + saveSystem.currentPlayer.name))
 				{
 					showProfiles = true;
 				}
-			}
-			else if (GUI.Button(profileSelectButton, "Select Profile"))
-			{
-				showProfiles = true;
+				
 			}
 			
 			if(showProfiles)
 			{
-				var players : List.<String> = saveSystem.LoadNames();
+				players = saveSystem.LoadNames();
 				
+				newUsername = GUI.TextField (Rect (screenWidth * 0.01 + profileSelectWidth, 5, 200, 20), newUsername, 25);
 				if (GUI.Button(Rect(screenWidth * 0.01, 0, profileSelectWidth, profileSelectHeight), "Create Profile"))
 				{
-					Debug.Log("create");
+					saveSystem.createPlayer(newUsername);
+					saveSystem.LoadPlayer(newUsername);
+					showProfiles = false;
 				}
 				
 				for(var i : int = 0; i < players.Count; i++)
 				{
 					var profileButton : Rect = Rect(screenWidth * 0.01, profileSelectHeight * (i+1), profileSelectWidth, profileSelectHeight);
+					var deteteButton : Rect = Rect(screenWidth * 0.01 + profileSelectWidth, profileSelectHeight * (i+1), profileSelectWidth, profileSelectHeight);
+					
 					if (GUI.Button(profileButton, players[i]))
 					{
 						saveSystem.LoadPlayer(players[i]);
 						showProfiles = false;
 					}
+					if (GUI.Button(deteteButton, "Delete"))
+					{
+						saveSystem.deletePlayer(players[i]);
+						showProfiles = false;
+					}
 				}
-				
-				if (GUI.Button(Rect(screenWidth * 0.01, 0, profileSelectWidth, profileSelectHeight), "Cancel"))
+				if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 1), profileSelectWidth, profileSelectHeight), "Logout"))
+				{
+					saveSystem.logout();
+					showProfiles = false;
+				}
+				if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 2), profileSelectWidth, profileSelectHeight), "Cancel"))
 				{
 					showProfiles = false;
 				}
