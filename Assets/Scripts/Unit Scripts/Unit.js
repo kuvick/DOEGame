@@ -303,6 +303,7 @@ function Update() {
 				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 				pathDrawn = true;
+				Database.UndoStack.Add(UndoType.Wait);
 				intelSystem.addTurn();
 			}
 		}

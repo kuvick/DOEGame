@@ -480,6 +480,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		tempNode.b2Coord = outputBuilding.coordinate;
 		tempNode.turnCreated = intelSystem.currentTurn + 1;
 		tempNode.type = resourceName;
+		tempNode.usedOptionalOutput = usedOptionalOutput;
 		linkList.Add(tempNode);
 		
 		UndoStack.Add(UndoType.Link);
@@ -589,6 +590,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		tempNode.b3Coord = oldOutputBuilding.coordinate;
 		tempNode.turnCreated = intelSystem.currentTurn + 1;
 		tempNode.type = resourceName;
+		tempNode.usedOptionalOutput = usedOptionalOutput;
 		linkList.Add(tempNode);		
 		
 		UndoStack.Add(UndoType.Overload);		
@@ -680,6 +682,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		tempNode.b3Coord = oldInputBuilding.coordinate;
 		tempNode.turnCreated = intelSystem.currentTurn + 1;
 		tempNode.type = resourceName;
+		tempNode.usedOptionalOutput = usedOptionalOutput;		
 		if(allocatedInSelected)
 			tempNode.OverloadChainBreak = true;		
 		
@@ -945,6 +948,7 @@ class LinkTurnNode
 	var turnCreated: int;
 	var type: ResourceType;
 	var OverloadChainBreak : boolean = false; // True only if this turn was both a Chain Break and Overload
+	var usedOptionalOutput : boolean = false; // True only if this turn used an optional output	
 }
 
 class AddTurnNode
@@ -1020,8 +1024,6 @@ function undo(): boolean
 {
 	if(intelSystem.currentTurn != 0)
 	{
-		
-		//switch(UndoStack[intelSystem.currentTurn - 1])
 		switch(UndoStack[UndoStack.Count - 1])
 		{
 			case UndoType.Link:
@@ -1037,7 +1039,7 @@ function undo(): boolean
 				break;
 			case UndoType.Overload:
 				UndoLink(2);				
-				break;
+				break;	
 			default:
 				break;
 		}				
@@ -1068,14 +1070,27 @@ function UndoLink(typeOfUndo : int)
 	var b2Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b2Coord);
 	
 	//Undo Previous Link
-	b1Building.unallocatedInputs.Add(linkList[lastIndex].type);	
-	b2Building.unallocatedOutputs.Add(linkList[lastIndex].type);    
-	
+	b1Building.unallocatedInputs.Add(linkList[lastIndex].type);			
 	b1Building.allocatedInputs.RemoveAt(b1Building.allocatedInputs.Count - 1);	
-	b2Building.allocatedOutputs.RemoveAt(b2Building.allocatedOutputs.Count - 1);
+	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);		
 	
-	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
-	b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
+	
+	//Undo Optional Output
+	if(linkList[lastIndex].usedOptionalOutput)
+	{
+		var optionalOutputLinkedTo : int = -1;
+		
+		b2Building.optionalOutput = linkList[lastIndex].type;
+		b2Building.optionalOutputAllocated = false;
+		b2Building.optionalOutputLinkedTo = -1;
+	}
+	//Undo Normal Output
+	else
+	{
+		b2Building.unallocatedOutputs.Add(linkList[lastIndex].type);    
+		b2Building.allocatedOutputs.RemoveAt(b2Building.allocatedOutputs.Count - 1);
+		b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
+	}
 	
 	var b3Building : BuildingOnGrid;
 	
@@ -1166,16 +1181,30 @@ function UndoLink(typeOfUndo : int)
 function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid, lastIndex : int)
 {
 	var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
+	
 					
+	if(outputBuilding.optionalOutput == linkList[lastIndex].type && 
+				outputBuilding.optionalOutputAllocated == false &&
+				outputBuilding.optionalOutputLinkedTo == -1)
+	{
+		outputBuilding.optionalOutputAllocated = true;
+		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);	
+	}
+	else
+	{
+		outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
+		outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
+		outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
+	}
 	//Link B1 to B3
 	inputBuilding.unallocatedInputs.Remove(linkList[lastIndex].type);	
-	outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
+	//outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
 	
 	inputBuilding.allocatedInputs.Add(linkList[lastIndex].type);
-	outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
+	//outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
 	
 	inputBuilding.inputLinkedTo.Add(findBuildingIndex(outputBuilding));
-	outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
+	//outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
 	
 	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
 	//Draw New Link
