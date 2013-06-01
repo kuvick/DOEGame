@@ -18,13 +18,16 @@ to build mode can be added later.
 
 
 static public var currentMode:GameState;
-static public var selectedBuilding:GameObject = null;
+static public var selectedBuilding : GameObject = null;
+static public var selectedInputBuilding : GameObject = null;  //Only used for Drag Link System
 private var buildings:GameObject[];
 private var linkMode:GameObject;
 private var object:String;
 private var previousBuildingLength:int;
 private var mouseOverGUI:boolean;
 public var defaultColors:Color[];			//stores the default color of all buildings
+
+
 
 enum GameState{ EXPLORE, LINK, INTEL}; // The states that can currently exist in the game
 
@@ -111,6 +114,16 @@ static function getSelectedBuilding(){
 static function setSelectedBuilding(selected:GameObject)
 {
 	selectedBuilding = selected;
+}
+
+static function getSelectedInputBuilding()
+{
+	return selectedInputBuilding;
+}
+
+static function setSelectedInputBuilding(selected: GameObject)
+{
+	selectedInputBuilding = selected;
 }
 
 static function getCurrentMode(){

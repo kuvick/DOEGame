@@ -76,3 +76,23 @@ static function HandleTapAtPoint(position: Vector2){
 		//}
 	}
 }
+
+static function HandleReleaseAtPoint(position: Vector2)
+{
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
+	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
+	//var buildingIndex = Database.findBuildingIndex(buildPos);
+	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	
+	if (buildingIndex != -1){
+		//Debug.Log("Tap on building");
+		var buildings = Database.getBuildingsOnGrid();
+		var building: GameObject;
+		building = Database.getBuildingAtIndex(buildingIndex);
+		if(building.name != "BuildingSite")
+		{
+			ModeController.setSelectedInputBuilding(building);
+		}
+	}
+}

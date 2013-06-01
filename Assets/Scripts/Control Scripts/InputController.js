@@ -18,7 +18,8 @@ enum ControlState {
 	WaitingForMovement, // the user has pressed 2 fingers down and we are waiting to see what gesture is performed
 	DragingCamera, // the user has one finger down/clicked and is moving across the screen greater than some minimum amount
 	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out or if using mouse when using the wheel
-	WaitingForNoInput // The final state where the user's input has been performed but the user is still touching the screen/ clicking
+	WaitingForNoInput, // The final state where the user's input has been performed but the user is still touching the screen/ clicking
+	DraggingLink
 }
 
 // General input system settings to be altered as seen fit
@@ -298,7 +299,7 @@ function HandleComputerInput(){
 		zoomEvent(zoomOut);
 	}
 
-	// if the user has not clicked then keep cheking for a click
+	// if the user has not clicked then keep checking for a click
 	if (state == ControlState.WaitingForFirstInput){
 		// if a click occurs then start waiting for movement		
 		if (Input.GetKey(KeyCode.Mouse0) && GUIManager.Instance().NotOnGUI(Input.mousePosition)) {
@@ -311,9 +312,14 @@ function HandleComputerInput(){
 	if (state == ControlState.WaitingForNoInput){
 		var deltaSinceDown = Input.mousePosition - clickPosition;
 		// if the mouse has moved over the threshhold then consider it a drag
-		if (DragMovementDetected(deltaSinceDown)) {
+		if (DragMovementDetected(deltaSinceDown) && ModeController.selectedBuilding == null) {
 			state = ControlState.DragingCamera;
-		} else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
+		} 
+		else if(DragMovementDetected(deltaSinceDown) && ModeController.selectedBuilding != null)
+		{
+			state = ControlState.DraggingLink;			
+		}
+		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
 			singleClickEvent(Input.mousePosition);
 			state = ControlState.WaitingForFirstInput;
 		}
@@ -327,6 +333,25 @@ function HandleComputerInput(){
 		if (Input.GetKey(KeyCode.Mouse0)){
 			DragEvent(deltaSinceDown);
 		} else {
+			state = ControlState.WaitingForFirstInput;
+		}
+	}
+	
+	if(state == ControlState.DraggingLink)
+	{
+		deltaSinceDown = Input.mousePosition - clickPosition;
+		clickPosition = Input.mousePosition;
+		
+		//If Button is released
+		if(!Input.GetKey(KeyCode.Mouse0))
+		{
+			Debug.Log("Mouse Released");
+			Debug.Log("Mouse Pos: " + clickPosition);
+			if (GUIManager.Instance().NotOnGUI(clickPosition) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+			{
+				BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);
+		    }
+		
 			state = ControlState.WaitingForFirstInput;
 		}
 	}
