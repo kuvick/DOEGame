@@ -20,6 +20,12 @@ private var dispTopOffsetScale : float = .2;
 private var fontScale : float = .035;
 private var screenMiddle : Vector2;
 
+private var dispPic : Texture2D;
+private var dispPicRect : Rect;
+private var dispPicSize : float;
+private var dispPicSizeScale : float = .1;
+private var doDispPic : boolean = false;
+
 private var selectedComponent : InspectionComponent;
 
 function Start () 
@@ -31,6 +37,8 @@ function Start ()
 	dispRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset,dispWidth,dispHeight);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
+	dispPicSize = Screen.width * dispPicSizeScale;
+	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
 	skin.label.fontSize = fontScale * Screen.height;
 	skin.label.fontStyle = FontStyle.Bold;
 }
@@ -40,8 +48,10 @@ function Update ()
 	if (componentSelected && Input.GetMouseButtonDown(0))
 	{
 		componentSelected = false;
-		selectedComponent.SetSelected(false);
+		if (selectedComponent)
+			selectedComponent.SetSelected(false);
 		selectedComponent = null;
+		doDispPic = false;
 	}
 }
 
@@ -60,7 +70,9 @@ public function Activate(disp : String)
 
 public function Activate(pic : Texture2D, disp : String)
 {
-
+	doDispPic = true;
+	dispPic = pic;
+	Activate(disp);
 }
 
 public function Activate(disp : String, selected : InspectionComponent)
@@ -72,7 +84,9 @@ public function Activate(disp : String, selected : InspectionComponent)
 
 public function Activate(pic : Texture2D, disp : String, selected : InspectionComponent)
 {
-
+	selectedComponent = selected;
+	selectedComponent.SetSelected(true);
+	Activate(pic, disp);
 }
 
 // calculates and sets the proper rectangle height and centers it on the screen
@@ -91,6 +105,9 @@ private function Render()
 	GUI.Box(dispRect, String.Empty);
 	GUI.DrawTexture(borderRect, border);
 	GUI.Label(dispRect, dispText);
+	
+	if (doDispPic)
+		GUI.DrawTexture(dispPicRect, dispPic);
 }
 
 // class to define a tooltip turn trigger
@@ -98,4 +115,5 @@ public class TurnTrigger
 {
 	public var turn : int;
 	public var dispText : String;
+	public var dispPic : Texture2D;
 }

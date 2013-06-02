@@ -162,7 +162,10 @@ private function CheckTriggerToDisplay()
 		return;
 	if (currentTurn == turnTriggers[currentTriggerIndex].turn)
 	{
-		display.Activate(turnTriggers[currentTriggerIndex].dispText);
+		if (turnTriggers[currentTriggerIndex].dispPic == null)
+			display.Activate(turnTriggers[currentTriggerIndex].dispText);
+		else
+			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);
 		currentTriggerIndex++;
 	}
 }
