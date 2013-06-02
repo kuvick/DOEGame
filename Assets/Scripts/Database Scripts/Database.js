@@ -67,6 +67,8 @@ static var intelSystem : IntelSystem;
 private var drawLinks : DrawLinks;
 private var buildingWithUnitActivatedScore : int = 20;
 
+private var display : InspectionDisplay;
+
 enum ResourceType
 {
 	None,
@@ -102,7 +104,9 @@ function Start()
 	var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	mainMenu.LoadLevelReferences();
 	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
-	buildMenu.LoadLevelReferences();	
+	buildMenu.LoadLevelReferences();
+	
+	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);	
 	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
 	
@@ -757,6 +761,7 @@ public function activateBuilding( buildingIndex:int ): boolean
     buildingsOnGrid[buildingIndex] = building;
     // if building has been activated
     if (building.isActive)
+    {
     	for(var outLink : int in building.outputLinkedTo)
     	{
     		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
@@ -774,6 +779,10 @@ public function activateBuilding( buildingIndex:int ): boolean
 				activateBuilding(outLink);
 			}
     	}
+    	
+    	if (building.hasTooltipTrigger)
+    		display.Activate(building.tooltipText);
+    }
     return canActivate;
 	
 }
@@ -934,6 +943,9 @@ class BuildingOnGrid
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
+	
+	var hasTooltipTrigger : boolean = false;
+	var tooltipText : String;
 }
 
 
@@ -1005,6 +1017,9 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	copyTo.unit = copyFrom.unit;
 	copyTo.idea = copyFrom.idea;
 	copyTo.hasEvent = copyFrom.hasEvent;
+	
+	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
+	copyTo.tooltipText = copyFrom.tooltipText;
 } // end of copyBuildingOnGridd
 
 

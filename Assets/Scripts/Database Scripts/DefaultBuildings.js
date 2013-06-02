@@ -63,6 +63,8 @@ class BuildingOnGridData
 	var idea : String = "";
 	var hasEvent : boolean = false;
 	
+	var hasTooltipTrigger : boolean = false;
+	var tooltipText : String;
 }// end of BuildingOnGridData
 
 
@@ -126,7 +128,8 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.idea = buildingData.idea;
 	buildingOnGrid.hasEvent = buildingData.hasEvent;
 	
-	
+	buildingOnGrid.hasTooltipTrigger = buildingData.hasTooltipTrigger;
+	buildingOnGrid.tooltipText = buildingData.tooltipText;
 	
 	return buildingOnGrid;
 }// end of convertBuildingOnGridDataIntoBuildingOnGrid
