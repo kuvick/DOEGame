@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfTurnData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TurnData TurnData="Turn Data">
+    <Turn>0</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>BuildingSite</Type>
+    <TimeSinceLevelLoad>23.6453133</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>1</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>BuildingSite</Type>
+    <TimeSinceLevelLoad>26.1481342</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>2</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>BuildingSite</Type>
+    <TimeSinceLevelLoad>28.800745</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>3</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>BuildingSite</Type>
+    <TimeSinceLevelLoad>30.0944061</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>5</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>33.4456367</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>6</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>35.21323</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>7</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Chainbreak</Type>
+    <TimeSinceLevelLoad>37.93809</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>8</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>40.2610359</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>9</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>43.77869</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>10</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>45.4219666</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>11</Turn>
+    <RemainingEvents>0</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>46.95613</TimeSinceLevelLoad>
+  </TurnData>
+</ArrayOfTurnData>
