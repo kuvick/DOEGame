@@ -28,6 +28,10 @@ public var currentLevelName : String;
 public var totalEvents : int = 0;
 private var eventStack : List.<EventStackNode>;
 
+public var turnTriggers : TurnTrigger[];
+private var currentTriggerIndex : int = 0;
+
+private var display : InspectionDisplay; // tooltip display reference
 
 
 class BuildingEvent
@@ -64,6 +68,7 @@ class EventStackNode
 function Start ()
 {
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
+	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
 	currentLevelName = Application.loadedLevelName;
 	eventStack = new List.<EventStackNode>();
@@ -137,6 +142,7 @@ public function addTurn()
 	decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();
+	CheckTriggerToDisplay();
 }
 
 public function subtractTurn()
@@ -145,6 +151,29 @@ public function subtractTurn()
 	currentTurn--;
 	UnitManager.UndoUnitActions();
 	undoResolution();
+	CheckTriggerUndo();
+	CheckTriggerToDisplay();
+}
+
+// checks whether the current turn triggers a tooltip display
+private function CheckTriggerToDisplay()
+{
+	if (currentTriggerIndex >= turnTriggers.length)
+		return;
+	if (currentTurn == turnTriggers[currentTriggerIndex].turn)
+	{
+		display.Activate(turnTriggers[currentTriggerIndex].dispText);
+		currentTriggerIndex++;
+	}
+}
+
+// checks whether the trigger index needs to be decremented
+private function CheckTriggerUndo()
+{
+	if (currentTriggerIndex <= 0)
+		return;
+	if (currentTurn <= turnTriggers[currentTriggerIndex - 1].turn)
+		currentTriggerIndex--;
 }
 
 

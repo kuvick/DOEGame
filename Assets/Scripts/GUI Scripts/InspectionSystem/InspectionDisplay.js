@@ -51,13 +51,28 @@ function OnGUI()
 		Render();
 }
 
-public function Activate(disp : String, selected : InspectionComponent)
+public function Activate(disp : String)
 {
 	componentSelected = true;
-	selectedComponent = selected;
-	selectedComponent.SetSelected(true);
 	dispText = disp;
 	FormatDisplay();
+}
+
+public function Activate(pic : Texture2D, disp : String)
+{
+
+}
+
+public function Activate(disp : String, selected : InspectionComponent)
+{
+	selectedComponent = selected;
+	selectedComponent.SetSelected(true);
+	Activate(disp);
+}
+
+public function Activate(pic : Texture2D, disp : String, selected : InspectionComponent)
+{
+
 }
 
 // calculates and sets the proper rectangle height and centers it on the screen
@@ -76,4 +91,11 @@ private function Render()
 	GUI.Box(dispRect, String.Empty);
 	GUI.DrawTexture(borderRect, border);
 	GUI.Label(dispRect, dispText);
+}
+
+// class to define a tooltip turn trigger
+public class TurnTrigger
+{
+	public var turn : int;
+	public var dispText : String;
 }
