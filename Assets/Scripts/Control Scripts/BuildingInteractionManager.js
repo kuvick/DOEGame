@@ -34,6 +34,21 @@ function OnResumeGame()
 	paused = false;
 }
 
+static function PointOnBuilding(position : Vector2)
+{
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
+	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
+	//var buildingIndex = Database.findBuildingIndex(buildPos);
+	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	var building : GameObject = null;
+	if(buildingIndex != -1)
+	{		
+		building = Database.getBuildingAtIndex(buildingIndex);
+	}
+	return building;
+}
+
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building

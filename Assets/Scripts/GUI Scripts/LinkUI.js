@@ -264,7 +264,7 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 	}				
 	
 	//Case : Optional Output 
-	if(b2.isActive && b2.optionalOutput != ResourceType.None)
+	if(b2.isActive && b2.optionalOutput != ResourceType.None && b2.unit != UnitType.None)
 	{
 		//Case: Input is Unallocated
 		if(b1.unallocatedInputs.Count > 0)
