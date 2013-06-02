@@ -67,6 +67,9 @@ static var intelSystem : IntelSystem;
 private var drawLinks : DrawLinks;
 private var buildingWithUnitActivatedScore : int = 20;
 
+private var display : InspectionDisplay;
+private static var linkUIRef : LinkUI;
+
 enum ResourceType
 {
 	None,
@@ -102,9 +105,13 @@ function Start()
 	var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	mainMenu.LoadLevelReferences();
 	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
-	buildMenu.LoadLevelReferences();	
+	buildMenu.LoadLevelReferences();
+	
+	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);	
 	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
+	
+	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
@@ -126,6 +133,7 @@ function Start()
 		// create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 		//buildingsOnGrid.Push(tempBuilding);
+		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		
@@ -433,6 +441,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     	//adding for undo:
     	var tempOutputBuilding: BuildingOnGrid = new BuildingOnGrid();
 		var tempInputBuilding: BuildingOnGrid = new BuildingOnGrid();
+		
+		var tempFoundIndex : int;
+		var tempIcon : ResourceIcon;
 	
 		copyBuildingOnGrid(buildingsOnGrid[outputBuildingIndex], tempOutputBuilding);
 		copyBuildingOnGrid(buildingsOnGrid[inputBuildingIndex], tempInputBuilding);
@@ -458,14 +469,28 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     	else
     	{
 		    outputBuilding.allocatedOutputs.Add(resourceName);
+		    
+		    tempFoundIndex = outputBuilding.unallocatedOutputs.IndexOf(resourceName);
 		    outputBuilding.unallocatedOutputs.Remove(resourceName);
 		    outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
+		    
+		    tempIcon = outputBuilding.unallocatedOutputIcons[tempFoundIndex];
+		    outputBuilding.unallocatedOutputIcons.Remove(tempIcon);
+		    tempIcon.SetAllocated(true);
+		    outputBuilding.allocatedOutputIcons.Add(tempIcon);
+		    tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);
 	    }
 	    
 	    inputBuilding.allocatedInputs.Add(resourceName);
+	    tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(resourceName);
 		inputBuilding.unallocatedInputs.Remove(resourceName);
-		
 		inputBuilding.inputLinkedTo.Add(outputBuildingIndex);
+		
+		tempIcon = inputBuilding.unallocatedInputIcons[tempFoundIndex];
+		inputBuilding.unallocatedInputIcons.Remove(tempIcon);
+		tempIcon.SetAllocated(true);
+		inputBuilding.allocatedInputIcons.Add(tempIcon);
+		tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
@@ -545,6 +570,9 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	// if resource is valid
 	if (hasResource)
 	{
+		var tempFoundIndex : int;
+		var tempIcon : ResourceIcon;
+		
 		if(usedOptionalOutput)
     	{
 		    outputBuilding.optionalOutputAllocated = true;
@@ -554,8 +582,15 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
     	else if (!allocatedOutSelected)
     	{
 		    outputBuilding.allocatedOutputs.Add(resourceName);
+		    tempFoundIndex = outputBuilding.unallocatedOutputs.IndexOf(resourceName);
 		    outputBuilding.unallocatedOutputs.Remove(resourceName);
 		    outputBuilding.outputLinkedTo.Add(inputBuildingIndex); // add the link to the output building
+		    
+		    tempIcon = outputBuilding.unallocatedOutputIcons[tempFoundIndex];
+		    outputBuilding.unallocatedOutputIcons.Remove(tempIcon);
+		    tempIcon.SetAllocated(true);
+		    outputBuilding.allocatedOutputIcons.Add(tempIcon);
+		    tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);
 	    }
 	    
 	    // swap the resource from the allocated list back into the unallocated list of the old output building
@@ -566,6 +601,12 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		    oldOutputBuilding.unallocatedOutputs.Add(resourceName);
 		    oldOutputBuilding.allocatedOutputs.RemoveAt(oldOutIndex);
 		    oldOutputBuilding.outputLinkedTo.RemoveAt(oldOutIndex);
+		    
+		    tempIcon = oldOutputBuilding.allocatedOutputIcons[oldOutIndex];
+		    oldOutputBuilding.allocatedOutputIcons.Remove(tempIcon);
+		    tempIcon.SetAllocated(false);
+		    oldOutputBuilding.unallocatedOutputIcons.Add(tempIcon);
+		    tempIcon.SetIndex(oldOutputBuilding.unallocatedOutputIcons.Count - 1);
 	    }
 	    else
 	    {
@@ -648,12 +689,22 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	// if resource is valid
 	if (hasResource)
 	{
+		var tempFoundIndex : int;
+		var tempIcon : ResourceIcon;
+		
 		// move the resource from the inputs unallocated list to allocated list
 		if (!allocatedInSelected)
 		{
 		    inputBuilding.allocatedInputs.Add(resourceName);
+		    tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(resourceName);
 			inputBuilding.unallocatedInputs.Remove(resourceName);
 			inputBuilding.inputLinkedTo.Add(outputBuildingIndex); // add the link to the input building
+			
+			tempIcon = inputBuilding.unallocatedInputIcons[tempFoundIndex];
+			inputBuilding.unallocatedInputIcons.Remove(tempIcon);
+			tempIcon.SetAllocated(true);
+			inputBuilding.allocatedInputIcons.Add(tempIcon);
+			tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);
 		}
 	    
 	    // swap the resource from the allocated list back into the unallocated list of the old input building
@@ -663,6 +714,12 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	    oldInputBuilding.allocatedInputs.RemoveAt(oldInIndex);
 	    oldInputBuilding.inputLinkedTo.RemoveAt(oldInIndex);
 	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex], -1);
+	    
+	    tempIcon = oldInputBuilding.allocatedInputIcons[oldInIndex];
+	    oldInputBuilding.allocatedInputIcons.Remove(tempIcon);
+	    tempIcon.SetAllocated(false);
+	    oldInputBuilding.unallocatedInputIcons.Add(tempIcon);
+	    tempIcon.SetIndex(oldInputBuilding.unallocatedInputIcons.Count - 1);
 	    
 		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
 		
@@ -757,6 +814,7 @@ public function activateBuilding( buildingIndex:int ): boolean
     buildingsOnGrid[buildingIndex] = building;
     // if building has been activated
     if (building.isActive)
+    {
     	for(var outLink : int in building.outputLinkedTo)
     	{
     		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
@@ -774,6 +832,10 @@ public function activateBuilding( buildingIndex:int ): boolean
 				activateBuilding(outLink);
 			}
     	}
+    	
+    	if (building.hasTooltipTrigger)
+    		display.Activate(building.tooltipText);
+    }
     return canActivate;
 	
 }
@@ -894,9 +956,14 @@ class BuildingOnGrid
 	var buildingName = "nameOfBuilding";
 
 	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
 	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
+	
 	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
 	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
 	
 	var optionalOutput : ResourceType = ResourceType.None;
 	var optionalOutputAllocated : boolean = false;
@@ -934,6 +1001,9 @@ class BuildingOnGrid
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
+	
+	var hasTooltipTrigger : boolean = false;
+	var tooltipText : String;
 }
 
 
@@ -1005,6 +1075,9 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	copyTo.unit = copyFrom.unit;
 	copyTo.idea = copyFrom.idea;
 	copyTo.hasEvent = copyFrom.hasEvent;
+	
+	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
+	copyTo.tooltipText = copyFrom.tooltipText;
 } // end of copyBuildingOnGridd
 
 
@@ -1063,7 +1136,9 @@ function UndoLink(typeOfUndo : int)
 {
 	var lastIndex : int = linkList.Count - 1;
 	
-	var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);			
+	var tempIcon : ResourceIcon;
+	
+	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);			
 	linkUIRef.removeLink(linkList[lastIndex].b1, linkList[lastIndex].b2);										
 		
 	var b1Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b1Coord);
@@ -1072,7 +1147,13 @@ function UndoLink(typeOfUndo : int)
 	//Undo Previous Link
 	b1Building.unallocatedInputs.Add(linkList[lastIndex].type);			
 	b1Building.allocatedInputs.RemoveAt(b1Building.allocatedInputs.Count - 1);	
-	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);		
+	b1Building.inputLinkedTo.RemoveAt(b1Building.inputLinkedTo.Count - 1);	
+	
+	tempIcon = b1Building.allocatedInputIcons[b1Building.allocatedInputIcons.Count - 1];
+	b1Building.allocatedInputIcons.Remove(tempIcon);
+	tempIcon.SetAllocated(false);
+	b1Building.unallocatedInputIcons.Add(tempIcon);
+	tempIcon.SetIndex(b1Building.unallocatedInputIcons.Count - 1);
 	
 	
 	//Undo Optional Output
@@ -1090,6 +1171,12 @@ function UndoLink(typeOfUndo : int)
 		b2Building.unallocatedOutputs.Add(linkList[lastIndex].type);    
 		b2Building.allocatedOutputs.RemoveAt(b2Building.allocatedOutputs.Count - 1);
 		b2Building.outputLinkedTo.RemoveAt(b2Building.outputLinkedTo.Count - 1);
+		
+		tempIcon = b2Building.allocatedOutputIcons[b2Building.allocatedOutputIcons.Count - 1];
+		b2Building.allocatedOutputIcons.Remove(tempIcon);
+		tempIcon.SetAllocated(false);
+		b2Building.unallocatedOutputIcons.Add(tempIcon);
+		tempIcon.SetIndex(b2Building.unallocatedOutputIcons.Count - 1);
 	}
 	
 	var b3Building : BuildingOnGrid;
@@ -1180,8 +1267,9 @@ function UndoLink(typeOfUndo : int)
 
 function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid, lastIndex : int)
 {
-	var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
-	
+	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
+	var tempFoundIndex : int;
+	var tempIcon : ResourceIcon;
 					
 	if(outputBuilding.optionalOutput == linkList[lastIndex].type && 
 				outputBuilding.optionalOutputAllocated == false &&
@@ -1192,10 +1280,18 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	}
 	else
 	{
+		tempFoundIndex = outputBuilding.unallocatedOutputs.IndexOf(linkList[lastIndex].type);
 		outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
 		outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
 		outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
+		
+		tempIcon = outputBuilding.unallocatedOutputIcons[tempFoundIndex];
+		outputBuilding.unallocatedOutputIcons.Remove(tempIcon);
+		tempIcon.SetAllocated(true);
+		outputBuilding.allocatedOutputIcons.Add(tempIcon);
+		tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);
 	}
+	tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(linkList[lastIndex].type);
 	//Link B1 to B3
 	inputBuilding.unallocatedInputs.Remove(linkList[lastIndex].type);	
 	//outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
@@ -1206,6 +1302,12 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	inputBuilding.inputLinkedTo.Add(findBuildingIndex(outputBuilding));
 	//outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
 	
+	tempIcon = inputBuilding.unallocatedInputIcons[tempFoundIndex];
+	inputBuilding.unallocatedInputIcons.Remove(tempIcon);
+	tempIcon.SetAllocated(true);
+	inputBuilding.allocatedInputIcons.Add(tempIcon);
+	tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);
+	
 	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
 	//Draw New Link
 	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type);
@@ -1214,8 +1316,13 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 function UndoAdd()
 {
 	var lastIndex : int = addList.Count - 1;
-	var buildingIndex : int = findBuildingIndex(getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate));		
-	var building : GameObject = getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate).buildingPointer;
+	var buildingIndex : int = findBuildingIndex(getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate));	
+	var tempBuildingOnGrid : BuildingOnGrid = getBuildingOnGrid(addList[lastIndex].buildingSite.coordinate);
+	DestroyResourceIconSet(tempBuildingOnGrid.allocatedInputIcons);
+	DestroyResourceIconSet(tempBuildingOnGrid.unallocatedInputIcons);
+	DestroyResourceIconSet(tempBuildingOnGrid.allocatedOutputIcons);
+	DestroyResourceIconSet(tempBuildingOnGrid.unallocatedOutputIcons);
+	var building : GameObject = tempBuildingOnGrid.buildingPointer;
 	GameObject.DestroyImmediate(building);
 	// Remove building from BuildingsOnGrid
 	buildingsOnGrid.RemoveAt(buildingIndex);//buildingsOnGrid.Splice(buildingIndex, 1);	
@@ -1229,6 +1336,12 @@ function UndoAdd()
 	var buildingMenuRef : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
 	buildingMenuRef.AddBuildingAfterUndo();
 	addList.RemoveAt(lastIndex);	
+}
+
+private function DestroyResourceIconSet(iconSet : List.<ResourceIcon>)
+{
+	for (var i : int = 0; i < iconSet.Count; i++)
+		DestroyImmediate(iconSet[i].gameObject);
 }
 
 //Adds an element to the AddNodeList
@@ -1369,7 +1482,7 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
-	
+	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 	buildingsOnGrid[buildingSiteID] = tempBuilding;
 	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
 	BroadcastBuildingUpdate(buildingObject, buildingSiteID);
