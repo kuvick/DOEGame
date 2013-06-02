@@ -24,7 +24,6 @@ public class MainMenu extends GUIControl
 	private var pauseButton:Rect;   		
 	private var waitButton:Rect; 				
 	private var undoButton:Rect;				
-	private var intelButton:Rect; 	
 	private var scoreRect:Rect;
 	private var turnRect:Rect;
 	private var zoomButton:Rect;
@@ -40,15 +39,12 @@ public class MainMenu extends GUIControl
 	
 	// Main Menu Textures
 	private var undoTexture:Texture;				
-	private var waitTexture:Texture;				
-	private var intelTexture:Texture;					
+	private var waitTexture:Texture;								
 	
 	public var undoTexture_Inactive:Texture;			
 	public var undoTexture_Active:Texture;				
 	public var waitTexture_Inactive:Texture;
 	public var waitTexture_Active:Texture;		
-	public var intelTexture_Inactive:Texture;		
-	public var intelTexture_Active:Texture;	
 	public var zoomInTexture:Texture;	
 	public var zoomOutTexture:Texture;	
 	
@@ -116,8 +112,8 @@ public class MainMenu extends GUIControl
 		waitButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - (1.7 * totalButtonPadding), hexButtonHeight, hexButtonHeight);						
 		var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
 		undoButton = Rect(undoButtonPos.x, undoButtonPos.y, hexButtonHeight , hexButtonHeight);																					
-		intelButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
-		zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
+		zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
+		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
 		
 		scoreRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
@@ -126,7 +122,6 @@ public class MainMenu extends GUIControl
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
-		rectList.Add(intelButton);	
 		rectList.Add(zoomButton);	
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
@@ -151,7 +146,6 @@ public class MainMenu extends GUIControl
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;
 		undoTexture = undoTexture_Inactive;
-		intelTexture = intelTexture_Inactive;
 		
 		// Calculate the mouse position
 		var mousePos:Vector2;
@@ -169,20 +163,10 @@ public class MainMenu extends GUIControl
 			undoTexture = undoTexture_Active;
 		}
 		
-		if (intelButton.Contains(mousePos))
-		{
-			intelTexture = intelTexture_Active;
-		}
-		
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, "Pause"))
 		{
 			currentResponse.type = EventTypes.PAUSE;
-		}
-		
-		if(GUI.Button(intelButton, intelTexture))
-		{
-			currentResponse.type = EventTypes.INTEL;
 		}
 		
 		if(GUI.Button(waitButton, waitTexture))
