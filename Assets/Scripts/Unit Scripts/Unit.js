@@ -377,13 +377,13 @@ function OnGUI() {
 						point.y + buttonOffset.y, unitButtonSize, unitButtonSize);
 	GUI.skin = unitSkin;
 	mouseOverGUI = unitRect.Contains(mousePos);
-	if (GUI.Button(unitRect, "U"))
+	/*if (GUI.Button(unitRect, "U"))
 	{
 		currentBuilding.unitSelected = true;
 		FindValidTargets();
 		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
-	}
+	}*/
 	GUI.enabled = true;
 	// highlight the unit's path if its current building is selected
 	if (selectedBuilding == currentBuilding.buildingPointer)
@@ -406,6 +406,17 @@ function OnGUI() {
 	{
 		for (var i : int = 0; i < validTargets.Count; i++)//var b : BuildingOnGrid in validTargets)
 			(validTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
+	}
+}
+
+function OnMouseDown()
+{
+	if (selectedBuilding == currentBuilding.buildingPointer && currentBuilding.isActive)
+	{
+		currentBuilding.unitSelected = true;
+		FindValidTargets();
+		Debug.Log("Unit selected");
+		SoundManager.Instance().PlayUnitSelected(this);
 	}
 }
 
