@@ -7,7 +7,7 @@ import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
-protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+//protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var currentPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 public var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
@@ -77,7 +77,8 @@ function Initiate() {
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
 function FindPath (target : BuildingOnGrid, checkValid : boolean) : List.<BuildingOnGrid>//boolean 
 {
-	foundPath.Clear();
+	var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+	//foundPath.Clear();
 	if (target == null || (checkValid && !BuildingCheck(target))) // Check if building is a valid target
 		return foundPath;
 	// reset colors of current found path
@@ -334,8 +335,7 @@ private function FindValidTargets()
 public function CheckPathBroken()
 {
 	Debug.Log("checking path");
-	//if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))// != currentPath)
-	if (FindPath(currentTarget, false) != currentPath)
+	if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))
 	{
 		currentPath.Clear();
 		Debug.Log("Path cleared");
