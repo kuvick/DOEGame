@@ -18,6 +18,7 @@ enum TapType {
 
 public static var tapMode = TapType.Place;
 private static var paused : boolean = false;
+private static var objSelected : boolean = false;
 
 function Start () {
 
@@ -37,7 +38,7 @@ function OnResumeGame()
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
-	if(paused) return;
+	if(paused || objSelected) return;
 
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
@@ -95,4 +96,9 @@ static function HandleReleaseAtPoint(position: Vector2)
 			ModeController.setSelectedInputBuilding(building);
 		}
 	}
+}
+
+public static function SetObjSelected (selected : boolean)
+{
+	objSelected = selected;
 }

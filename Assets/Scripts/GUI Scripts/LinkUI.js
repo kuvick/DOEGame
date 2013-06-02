@@ -83,6 +83,8 @@ public var unallocatedInputTex : Texture2D[];
 public var allocatedInputTex : Texture2D[];
 public var unallocatedOutputTex : Texture2D[];
 public var allocatedOutputTex : Texture2D[];
+public var inputIcons : GameObject[];
+public var outputIcons : GameObject[];
 
 private var activeButtonRects : List.<Rect> = new List.<Rect>();
 
@@ -125,6 +127,36 @@ function isLinked(b1:GameObject, b2:GameObject){
 			b2Index = b;
 	}
 	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
+}
+
+public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
+{
+	var startPos : Vector3 = building.buildingPointer.transform.position;
+	startPos.y = 50;
+	startPos.x -= 50;
+	startPos.z -= 35;
+	GenerateIconSet(building.unallocatedInputs, inputIcons, 
+					building.unallocatedInputIcons, startPos, building);
+	startPos.z += 70;
+	GenerateIconSet(building.unallocatedOutputs, outputIcons, 
+					building.unallocatedOutputIcons, startPos, building);
+}
+
+private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[],
+									buildingIconSet : List.<ResourceIcon>, startPos : Vector3,
+									building : BuildingOnGrid)
+{
+	var spacing : float = 100;
+	var pos : Vector3 = startPos;
+	for (var i : int = 0; i < ioputSet.Count; i++)
+	{
+		var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
+		var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
+		tempScript.Initialize(building);
+		tempScript.SetIndex(i);
+		buildingIconSet.Add(tempScript);
+		pos.x += spacing;
+	}
 }
 
 //Removes links between b1 and  b2
@@ -472,13 +504,13 @@ function OnGUI()
 		outputRect = Rect(point.x + outputOffset.x * outputOffsetScale, point.y + outputOffset.y * outputOffsetScale, 
 							smallButtonSize, smallButtonSize);
 		
-		inputRect = DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
+		/*inputRect = DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
 		//inputRect.x += smallButtonSize + (2 * buttonSpacing);
 		inputRect = DrawInputButtons(inputRect, gridBuilding.allocatedInputs, allocatedInputTex, building, true);
 		
 		outputRect = DrawOutputButtons(outputRect, gridBuilding.unallocatedOutputs, unallocatedOutputTex, building, false);
 		//outputRect.x += smallButtonSize + (2 * buttonSpacing);
-		outputRect = DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);
+		outputRect = DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);*/
 		/*if (building == selectedBuilding)
 			buildingHighlightColor = selectedHighlightColor;*/
 		var optionalButtonSize = largeButtonSize;
@@ -603,6 +635,31 @@ function DrawOutputButtons (buttonRect : Rect, resourceList : List.<ResourceType
 	GUI.color = guiEnabledColor;
 	GUI.enabled = true;
 	return buttonRect;
+}
+
+public function SetOutputBuilding (outBuilding : GameObject)
+{
+	outputBuilding = outBuilding;
+}
+
+public function SetSelectedResource (resource : ResourceType)
+{
+	selectedResource = resource;
+}
+
+public function SetSelectedOutIndex (outIndex : int)
+{
+	selectedOutIndex = outIndex;
+}
+
+public function SetAllocatedOutSelected (allocatedSelected : boolean)
+{
+	allocatedOutSelected = allocatedSelected;
+}
+
+public function SetUnitSelected (selected : boolean)
+{
+	selectedGridBuilding.unitSelected = selected;
 }
 
 private function ResetLinkVariables()
