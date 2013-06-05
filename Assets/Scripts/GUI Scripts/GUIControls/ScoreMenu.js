@@ -35,6 +35,8 @@ public class ScoreMenu extends GUIControl{
 	private var intelSystem : IntelSystem;
 	
 	public var nextLevelToLoad : String;
+	
+	private var saveSystem : SaveSystem;
 
 	//need to replace text with GUI texture (if needed)
 	private var scoreStrings : String[] = ["Retry Level", "Start Screen", "Mission Hub"];
@@ -52,6 +54,14 @@ public class ScoreMenu extends GUIControl{
 		totalLabelStyle.active.textColor = Color.yellow;
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.scoreMenuMusic;
+		
+		var playerData : GameObject = GameObject.Find("Player Data");
+		saveSystem = playerData.GetComponent("SaveSystem");
+		
+		if(saveSystem != null)
+		{
+			//saveSystem. updateScore(levelName : String, levelScore : int): int
+		}
 	}
 	
 	public function Render(){   
