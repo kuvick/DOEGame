@@ -13,11 +13,23 @@ public class InspectionComponent
 	
 	protected var selectedTexture : Texture2D;
 	
+	protected var skin : GUISkin;
+	private var textSize : float;
+	private var textSizeScale : float = .015;
+	
 	public function Initialize(text : String)
 	{
 		display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 		dispText = text;
 		selectedTexture = Resources.Load("hex_click") as Texture2D;
+		skin = GUISkin();
+		skin.font = Resources.Load("Orbitron-Bold") as Font;
+		textSize = Screen.width * textSizeScale;
+		skin.button.fontSize = textSize;
+		skin.button.normal.textColor = Color.white;
+		skin.button.hover.textColor = Color.white;
+		skin.button.active.textColor = Color.white;
+		skin.button.alignment = TextAnchor.MiddleCenter;
 	}
 	
 	public function Update()
@@ -27,6 +39,7 @@ public class InspectionComponent
 	
 	public function Draw()
 	{
+		GUI.skin = skin;
 		if (isSelected)
 			SelectedButtonStyle();
 		else
