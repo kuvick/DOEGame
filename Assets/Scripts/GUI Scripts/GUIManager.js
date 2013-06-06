@@ -43,7 +43,7 @@ private var currentResponse:GUIEvent;
 private var startMenu:StartMenu;
 private var loading:Loading;
 private var mainMenu:MainMenu;
-private var marquee:StatusMarquee;
+//private var marquee:StatusMarquee;
 private var pauseMenu:PauseMenu;
 private var intelMenu:IntelMenu;
 private var buildingMenu:BuildingMenu;
@@ -136,7 +136,7 @@ public function Start ()
 	startMenu = GetComponent(StartMenu);
 	loading = GetComponent(Loading);
 	mainMenu = GetComponent(MainMenu);
-	marquee = GetComponent(StatusMarquee);
+	//marquee = GetComponent(StatusMarquee);
 	pauseMenu = GetComponent(PauseMenu);
 	intelMenu = GetComponent(IntelMenu);
 	buildingMenu = GetComponent(BuildingMenu);
@@ -166,14 +166,14 @@ public function Start ()
 		case "UnitTest":
 			//activeControls.Add(buildingMenu);
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 	}
 	
 	if(thisIsALevel)
 	{
 		AddGUIToControls(mainMenu);
-		AddGUIToControls(marquee);
+		//AddGUIToControls(marquee);
 	}
 	
 }
@@ -248,7 +248,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.MAIN:
 			ClearControls();
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
@@ -259,7 +259,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.BUILDING:
 			ClearControls();
 			AddGUIToControls(buildingMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 		
 		// Start Menu responses
@@ -286,7 +286,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.DONELOADING:
 			ClearControls();
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 			Application.LoadLevel(nextLevel.nextLevel);
 			break;
@@ -309,7 +309,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.INTEL:
 			ClearControls();
 			AddGUIToControls(intelMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.WAIT:
 			if(intelSystem != null)
@@ -320,7 +320,7 @@ private function RespondTo(response:GUIEvent)
 			database.Save("Wait");
 			ClearControls();
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.UNDO:
 			if(database.undo())
@@ -330,7 +330,7 @@ private function RespondTo(response:GUIEvent)
 			}			
 			ClearControls();
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 			
 		// Pause Menu responses
@@ -338,7 +338,7 @@ private function RespondTo(response:GUIEvent)
 			Application.LoadLevel(Application.loadedLevel);
 			ClearControls();
 			AddGUIToControls(mainMenu);
-			AddGUIToControls(marquee);
+			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.STARTMENU:
 			Application.LoadLevel("StartScreen");

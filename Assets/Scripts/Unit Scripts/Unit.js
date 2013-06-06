@@ -297,7 +297,7 @@ function Update() {
 		if (currentPath.Count > 0) // if so, display message indicating so on status marquee
 		{
 			Debug.Log("Path found");
-			StatusMarquee.SetText("Unit target set", true);
+			//StatusMarquee.SetText("Unit target set", true);
 			currentTarget = selectedGridBuilding;
 			if (currentPath.Count > 0)
 			{
@@ -311,7 +311,7 @@ function Update() {
 		else // if not, display message that a path was not found on status marquee
 		{
 			Debug.Log("Path not found");
-			StatusMarquee.SetText("Invalid unit target", true);
+			//StatusMarquee.SetText("Invalid unit target", true);
 		}
 		currentBuilding.unitSelected = false;
 	}

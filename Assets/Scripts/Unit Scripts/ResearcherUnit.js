@@ -70,7 +70,7 @@ class ResearcherUnit extends Unit {
 			//currentBuilding.neededUpgrade = UpgradeID.None;
 			tempHeld = heldUpgrade;
 			intelSystem.resolveEvent(currentBuilding.buildingPointer.GetComponent("EventScript"));
-			StatusMarquee.SetText("Upgrade delivered", true);	
+			//StatusMarquee.SetText("Upgrade delivered", true);	
 			tempHeld = heldUpgrade;
 		}
 		else
