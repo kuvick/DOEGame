@@ -25,11 +25,11 @@ enum IOType
 
 function Update () {
 	selectedBuilding = ModeController.getSelectedBuilding();
-	if (selectedBuilding == building.buildingPointer && ioType == IOType.Out && building.isActive)
+	/*if (selectedBuilding == building.buildingPointer && ioType == IOType.Out && building.isActive)
 		currentScale = bigScale;
 	else
 		currentScale = smallScale;
-	gameObject.transform.localScale = currentScale;
+	gameObject.transform.localScale = currentScale;*/
 }
 
 public function OnMouseDown()
