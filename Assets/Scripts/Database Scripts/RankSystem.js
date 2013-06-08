@@ -55,6 +55,7 @@ public class RankSystem
 	 	return player;
 	 }
 	 
+	 // Generates it for all that are currently in the list
 	 public function generateMinExp()
 	 {
 	 	for(var i : int = 0; i < Ranks.Count; i++)
@@ -70,6 +71,12 @@ public class RankSystem
 	 	}
 	 }
 	 
+	 // Generates and returns the minexp for a specific rank
+	 public function generateMinExp(rank : int)
+	 {
+	 	return base_experience * Mathf.Pow(exp_multiplier, rank - 1);
+	 }
+	 
 	 // Assumes that you're handing it a rank that's above the count
 	 public function generatePostCapRank(rank : int): String
 	 {
@@ -80,13 +87,14 @@ public class RankSystem
 	 
 	 public function updateRank(player : Player): Player
 	 {	 	
-	 	if(player.rank < Ranks.Count - 1)
+	 	if(player.rank < Ranks.Count - 2)
 	 	{
 	 		// If the player meets the min. exp. of the next rank:
 	 		if(player.exp >= Ranks[player.rank + 1].MinExp)
 	 		{
 	 			player.rank += 1;
 	 			player.rankName = Ranks[player.rank + 1].Name;
+	 			Debug.Log("The player was promoted!");
 	 		}
 	 		else
 	 		{
@@ -101,6 +109,7 @@ public class RankSystem
 	 		{
 	 			player.rank += 1;
 	 			player.rankName = generatePostCapRank(player.rank);
+	 			Debug.Log("The player was promoted!");
 	 		}
 	 		else
 	 		{
@@ -110,6 +119,17 @@ public class RankSystem
 	 	
 	 	return player; 	
 	 	
+	 }
+	 
+	 // Generates the experience earned while this current rank
+	 public function expForThisRank(rank : int, totalExp : int) : int
+	 {
+	 	if(rank < Ranks.Count)
+	 		return (totalExp - Ranks[rank].MinExp);
+ 		else
+ 		{
+ 			return (totalExp - generateMinExp(rank));
+ 		}
 	 }
  	
 }

@@ -33,6 +33,8 @@ private var currentTriggerIndex : int = 0;
 
 private var display : InspectionDisplay; // tooltip display reference
 
+public var levelName : String;
+
 
 class BuildingEvent
 {
@@ -67,6 +69,8 @@ class EventStackNode
 
 function Start ()
 {
+	levelName = Application.loadedLevelName;
+
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
 	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
