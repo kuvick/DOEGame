@@ -306,6 +306,8 @@ function Update() {
 				pathDrawn = true;
 				Database.UndoStack.Add(UndoType.Wait);
 				intelSystem.addTurn();
+				ModeController.setSelectedBuilding(null);
+				ModeController.setSelectedInputBuilding(null);
 			}
 		}
 		else // if not, display message that a path was not found on status marquee
