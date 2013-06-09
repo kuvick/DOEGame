@@ -18,7 +18,6 @@ enum TapType {
 
 public static var tapMode = TapType.Place;
 private static var paused : boolean = false;
-private static var objSelected : boolean = false;
 
 function Start () {
 
@@ -53,12 +52,10 @@ static function PointOnBuilding(position : Vector2)
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
-	if(paused || objSelected) return;
-
+	if(paused || CheckObjSelected(position)) return;
+	
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
-	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
-	//var buildingIndex = Database.findBuildingIndex(buildPos);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
 
 	if (buildingIndex != -1){
@@ -91,6 +88,21 @@ static function HandleTapAtPoint(position: Vector2){
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
 		//}
 	}
+	
+	UnitManager.DeselectUnits();
+}
+
+private static function CheckObjSelected (position : Vector2) : boolean
+{
+	var hit : RaycastHit;
+	var ray : Ray = Camera.main.ScreenPointToRay (position);
+	if (Physics.Raycast(ray, hit, 1000))
+	{
+		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
+		Debug.Log("collided");
+		return true;
+	}
+	return false;
 }
 
 static function HandleReleaseAtPoint(position: Vector2)
@@ -111,9 +123,4 @@ static function HandleReleaseAtPoint(position: Vector2)
 			ModeController.setSelectedInputBuilding(building);
 		}
 	}
-}
-
-public static function SetObjSelected (selected : boolean)
-{
-	objSelected = selected;
 }
