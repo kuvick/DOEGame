@@ -157,9 +157,7 @@ public function Start ()
 	switch (Application.loadedLevelName)
 	{
 		case "StartScreen":
-			//AddGUIToControls(startMenu);
-			//AddGUIToControls(codexMenu);
-			AddGUIToControls(contactsMenu);
+			AddGUIToControls(startMenu);
 			break;
 		
 		case "LevelSelectScreen":
