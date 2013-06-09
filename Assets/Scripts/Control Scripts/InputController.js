@@ -148,6 +148,12 @@ function HandleMobileInput(){
 	                    fingerDown[ 0 ] = touch.fingerId;
 	                    fingerDownPosition[ 0 ] = touch.position;
 	                    fingerDownFrame[ 0 ] = Time.frameCount;
+	                    
+	                    if(!hasFirstClick){
+							firstClickPosition = touch.position;		
+							hasFirstClick = true;
+							Debug.Log("MODIFIED!");			
+						}
 	                    break; // break out of the rest of the checks for efficiency
 	                }
                 }
@@ -188,10 +194,15 @@ function HandleMobileInput(){
 								state = ControlState.DraggingLink;		
 								break;	
 							} */
-	                        else if (DragMovementDetected(deltaSinceDown)){ // else if the single touch has moved more than the minimum amount we take it to be a drag
+	                        else if (DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null){ // else if the single touch has moved more than the minimum amount we take it to be a drag
 	                        	state = ControlState.DragingCamera;
 	                        	break;
-	                        }	                   
+	                        }
+	                        else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+							{
+								ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+								state = ControlState.DraggingLink;	
+							}	                   
 	                    }                                           
                     }
                 }
