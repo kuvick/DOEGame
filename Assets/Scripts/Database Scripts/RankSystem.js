@@ -41,7 +41,6 @@ public class RankSystem
 	 	var system : RankSystem = serializer.Deserialize(stream) as RankSystem;
 	 	stream.Close();
 	 	return system;
-	 	
 	 }
 	 
 	 public function generateNewPlayer(name : String): Player
@@ -161,7 +160,6 @@ public class RankSystem
  			return (totalExp - generateMinExp(rank));
  		}
 	 }
- 	
 }
 
 

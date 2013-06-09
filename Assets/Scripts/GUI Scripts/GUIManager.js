@@ -479,5 +479,3 @@ public function AddContact(){
 public function AddTimedControl(timedControlToAdd : TimedControl){
 	
 }
-
-}
