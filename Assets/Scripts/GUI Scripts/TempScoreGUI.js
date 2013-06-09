@@ -218,7 +218,7 @@ public function OnGUI()
 	
 	if(GUI.Button(shareButtonRect, shareButton))
 	{
-		Debug.Log("Share");
+		//
 	}
 	if(GUI.Button(retryButtonRect, retryButton))
 	{
