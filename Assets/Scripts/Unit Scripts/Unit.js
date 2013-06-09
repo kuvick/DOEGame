@@ -235,7 +235,7 @@ function DoAction ()
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
-	//DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
+	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
@@ -286,6 +286,11 @@ function Update() {
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
+	if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
+	{
+		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
+		pathDrawn = false;
+	}
 }
 
 private function FindValidTargets()
@@ -392,6 +397,12 @@ public function OnSelected()
 		FindValidTargets();
 		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
+	}
+	if (currentPath.Count > 0 && !pathDrawn)
+	{
+		SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
+		pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+		pathDrawn = true;
 	}
 }
 
