@@ -7,7 +7,7 @@ import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
-protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+//protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var currentPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 public var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
@@ -19,10 +19,10 @@ private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
 
-private var validTargets = new List.<BuildingOnGrid>();
-private var targetHighlightColor : Color = new Color(0,1,1,.5);
-
-private var test : boolean = false;
+private var validSpecificTargets = new List.<BuildingOnGrid>();
+private var validGeneralTargets = new List.<BuildingOnGrid>();
+private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
+private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 4 * 3, 25, HexagonGrid.tileWidth / 4);
 
@@ -77,7 +77,8 @@ function Initiate() {
 // uses a modified breadth-first search that uses distance from the target as a weight when necessary
 function FindPath (target : BuildingOnGrid, checkValid : boolean) : List.<BuildingOnGrid>//boolean 
 {
-	foundPath.Clear();
+	var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+	//foundPath.Clear();
 	if (target == null || (checkValid && !BuildingCheck(target))) // Check if building is a valid target
 		return foundPath;
 	// reset colors of current found path
@@ -234,7 +235,7 @@ function DoAction ()
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
-	//DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
+	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
@@ -285,56 +286,34 @@ function Update() {
 	
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
-	if (currentBuilding.unitSelected && selectedBuilding == null)
-		currentBuilding.unitSelected = false;
-	// if unit is selected, and a different building has been selected
-	else if (currentBuilding.unitSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
+	if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
 	{
-		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-		// check if a path has been found to the selected building
-		currentPath = FindPath(selectedGridBuilding, false);
-		if (currentPath.Count > 0) // if so, display message indicating so on status marquee
-		{
-			Debug.Log("Path found");
-			StatusMarquee.SetText("Unit target set", true);
-			currentTarget = selectedGridBuilding;
-			if (currentPath.Count > 0)
-			{
-				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
-				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
-				pathDrawn = true;
-				intelSystem.addTurn();
-			}
-		}
-		else // if not, display message that a path was not found on status marquee
-		{
-			Debug.Log("Path not found");
-			StatusMarquee.SetText("Invalid unit target", true);
-		}
-		currentBuilding.unitSelected = false;
+		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
+		pathDrawn = false;
 	}
 }
 
 private function FindValidTargets()
 {
-	validTargets.Clear();
+	validSpecificTargets.Clear();
+	validGeneralTargets.Clear();
 	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
 	{
 		if (buildings[i] == currentBuilding)
 			continue;
 		if (FindPath(buildings[i], true).Count > 0)
-			validTargets.Add(buildings[i]);
+			validSpecificTargets.Add(buildings[i]);
+		else if (FindPath(buildings[i], false).Count > 0)
+			validGeneralTargets.Add(buildings[i]);
 	}
-	//foundPath.Clear();
 }
 
 // Checks if any links in the current path have been broken, and if so clears it
 public function CheckPathBroken()
 {
 	Debug.Log("checking path");
-	//if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))// != currentPath)
-	if (FindPath(currentTarget, false) != currentPath)
+	if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))
 	{
 		currentPath.Clear();
 		Debug.Log("Path cleared");
@@ -376,13 +355,13 @@ function OnGUI() {
 						point.y + buttonOffset.y, unitButtonSize, unitButtonSize);
 	GUI.skin = unitSkin;
 	mouseOverGUI = unitRect.Contains(mousePos);
-	if (GUI.Button(unitRect, "U"))
+	/*if (GUI.Button(unitRect, "U"))
 	{
 		currentBuilding.unitSelected = true;
 		FindValidTargets();
 		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
-	}
+	}*/
 	GUI.enabled = true;
 	// highlight the unit's path if its current building is selected
 	if (selectedBuilding == currentBuilding.buildingPointer)
@@ -403,9 +382,63 @@ function OnGUI() {
 	
 	if (currentBuilding.unitSelected)
 	{
-		for (var i : int = 0; i < validTargets.Count; i++)//var b : BuildingOnGrid in validTargets)
-			(validTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
+		for (var i : int = 0; i < validGeneralTargets.Count; i++)
+			(validGeneralTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", generalHighlightColor);
+		for (i = 0; i < validSpecificTargets.Count; i++)
+			(validSpecificTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
 	}
+}
+
+public function OnSelected()
+{
+	if (currentBuilding.isActive)// && selectedBuilding == currentBuilding.buildingPointer)
+	{
+		currentBuilding.unitSelected = true;
+		FindValidTargets();
+		Debug.Log("Unit selected");
+		SoundManager.Instance().PlayUnitSelected(this);
+	}
+	if (currentPath.Count > 0 && !pathDrawn)
+	{
+		SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
+		pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+		pathDrawn = true;
+	}
+}
+
+public function OnDeselect()
+{
+	selectedBuilding = ModeController.getSelectedBuilding();
+	// if unit is selected, and a different building has been selected, try to path
+	if (currentBuilding.unitSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
+	{
+		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+		// check if a path has been found to the selected building
+		currentPath = FindPath(selectedGridBuilding, false);
+		if (currentPath.Count > 0) // if so, display message indicating so on status marquee
+		{
+			Debug.Log("Path found");
+			//StatusMarquee.SetText("Unit target set", true);
+			currentTarget = selectedGridBuilding;
+			if (currentPath.Count > 0)
+			{
+				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
+				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+				pathDrawn = true;
+				Database.UndoStack.Add(UndoType.Wait);
+				intelSystem.addTurn();
+				ModeController.setSelectedBuilding(null);
+				ModeController.setSelectedInputBuilding(null);
+			}
+		}
+		else // if not, display message that a path was not found on status marquee
+		{
+			Debug.Log("Path not found");
+			//StatusMarquee.SetText("Invalid unit target", true);
+		}
+	}
+	isSelected = false;
+	currentBuilding.unitSelected = false;
 }
 
 public function MouseOnGUI() : boolean

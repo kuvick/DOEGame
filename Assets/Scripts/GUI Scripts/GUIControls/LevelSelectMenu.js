@@ -5,8 +5,16 @@ Description:
 
 Author: Francis Yuan
 **********************************************************/
-
 #pragma strict
+enum UnlockType
+{
+	NONE,
+	RANK,
+	MISSION,
+	CONTACT
+}
+
+
 public class LevelNode
 {
 	public var texture:Texture;
@@ -22,9 +30,15 @@ public class LevelNode
 	public var bounds : Rect;
 	public var isPrimary = true;
 	public var wasRead : boolean = false;
+	public var completed : boolean = false;
 	
 	public var senderTexture : Texture;
 	public var senderName : String;
+	
+	public var howToUnlock : UnlockType;
+	public var rankRequirement : int = -1;
+	public var missionRequirementIndex : int = -1;
+	public var contactRequirement : String;
 	
 	public function LevelNode(tex:Texture, dispName: String, lvlName:String, dif:int, bestScore:int)
 	{
@@ -131,8 +145,9 @@ public class LevelSelectMenu extends GUIControl
 	private var saveSystem : SaveSystem;
 	
 	//Tabs
-	private var primaryTab : Rect;
-	private var secondaryTab : Rect;
+	private var activeTab : Rect;
+	private var completedTab : Rect;
+	private var showActive : boolean = true;
 	
 	public function Start () 
 	{
@@ -182,8 +197,8 @@ public class LevelSelectMenu extends GUIControl
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		startLevelButton = new Rect((splashBounds.width * (startLevelButtonWidth / 2)), splashBounds.height - (splashBounds.height * .30), splashBounds.width * startLevelButtonWidth, splashBounds.height * startLevelButtonHeight);
 		
-		primaryTab = new Rect(0, scrollArea.y, (screenWidth - scrollArea.x/2), messageHeightPercent * screenHeight);
-		secondaryTab = new Rect(primaryTab.x, primaryTab.y + primaryTab.height, primaryTab.width, primaryTab.height);
+		activeTab = new Rect(0, scrollArea.y, ((screenWidth - scrollArea.width)/2), messageHeightPercent * screenHeight);
+		completedTab = new Rect(activeTab.x, activeTab.y + activeTab.height, activeTab.width, activeTab.height);
 		
 		LoadLevelList();
 		scrollContent = Rect(0, 0, scrollArea.width, levels.Length * (messageHeightPercent * screenHeight) + (levels.Length * .05));// - 2 * padding, 1000);
@@ -193,36 +208,9 @@ public class LevelSelectMenu extends GUIControl
 		senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x), statusRectangle.y, statusRectangle.width, statusRectangle.height);
 	}
 	
-	public function Render()
+	private function RenderLevels()
 	{
-		GUI.skin = levelSelectSkin;
-		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleAndCrop);
-		
-		// Calculate the mouse position
-		var mousePos:Vector2;
-		mousePos.x = Input.mousePosition.x;
-		mousePos.y = Screen.height - Input.mousePosition.y;
-		
-		//So it can pass to the loading screen where to go next
-		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);		
-		
-		loginRect = new Rect(background.x + background.width - (loginText.length * GUI.skin.label.fontSize), background.y, loginText.length * levelSelectSkin.label.fontSize, 50);
-		GUI.skin.label.alignment = TextAnchor.UpperRight;
-		GUI.Label(background, loginText);
-		GUI.skin.label.alignment = TextAnchor.UpperLeft;
-		if(!showSplash)	//Renders the Inbox Screen
-		{
-			GUI.Box(scrollArea,"Inbox");
-			
-			if(GUI.Button(primaryTab, "Primary"))
-			{
-				Debug.Log("LOL1");
-			}
-			if(GUI.Button(secondaryTab, "Secondary"))
-			{
-				Debug.Log("LOL2");
-			}
-			// Scroll bar
+		// Scroll bar
 			levelSelectScrollPos = GUI.BeginScrollView
 			(
 				scrollArea,
@@ -243,9 +231,10 @@ public class LevelSelectMenu extends GUIControl
 						{
 							unlockedLevels[i].setScore(PlayerPrefs.GetInt(unlockedLevels[i].sceneName + "Score"));
 						}
-												
+						
+																								
 						GUI.Box(unlockedLevels[i].bounds, "");
-						//statusRectangle.x = unlockedLevels[i].bounds.x;
+												
 						statusRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - statusRectangle.height) / 2);
 						senderRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - senderRectangle.height) / 2);
 						if(!unlockedLevels[i].wasRead)
@@ -281,7 +270,47 @@ public class LevelSelectMenu extends GUIControl
 					}
 				GUI.EndGroup();   // End of Message Group
 			GUI.EndScrollView();  //End Scroll bar
+	}
+	
+	public function Render()
+	{
+		GUI.skin = levelSelectSkin;
+		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleAndCrop);
+		
+		// Calculate the mouse position
+		var mousePos:Vector2;
+		mousePos.x = Input.mousePosition.x;
+		mousePos.y = Screen.height - Input.mousePosition.y;
+		
+		//So it can pass to the loading screen where to go next
+		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);		
+		
+		loginRect = new Rect(background.x + background.width - (loginText.length * GUI.skin.label.fontSize), background.y, loginText.length * levelSelectSkin.label.fontSize, 50);
+		GUI.skin.label.alignment = TextAnchor.UpperRight;
+		GUI.Label(background, loginText);
+		GUI.skin.label.alignment = TextAnchor.UpperLeft;
+		if(!showSplash)	//Renders the Inbox Screen
+		{
+			GUI.Box(scrollArea,"Inbox");
 			
+			
+			//Tabs
+			GUI.Box(activeTab, "");
+			GUI.Box(completedTab, "");
+			if(GUI.Button(activeTab, "Active\nMissions") && !showActive)
+			{
+				changeTab();
+				Debug.Log("Accessing Active Missions");
+				showActive = true;
+			}
+			if(GUI.Button(completedTab, "Completed\nMissions") && showActive)
+			{
+				changeTab();
+				Debug.Log("Accessing Completed Missions");
+				showActive = false;
+			}
+			
+			RenderLevels();
 		}				
 		else	//Renders the Splash Screen
 		{
@@ -354,15 +383,25 @@ public class LevelSelectMenu extends GUIControl
 					unlockedLevels.Insert(0, levels[i]);
 					shuffleLevels();
 				}
+			}			
+		
+		}
+		LoadLevelList();
+	}
+	
+	public function completeLevel(sceneName : String)
+	{
+		for(var i :int = 0; i < levels.length; i++)
+		{
+			if(levels[i].sceneName == sceneName){
+				if(!unlockedLevels.Contains(levels[i])){
+					levels[i].completed = true;
+					//unlockedLevels.Insert(0, levels[i]);
+					shuffleLevels();
+				}
 			}
 		
 		}
-		
-		//reloadLevelList();
-		
-		//unlockedLevels.Clear();
-		//LoadLevelList();
-		//scrollContent = Rect(0, 0, scrollArea.width, unlockedLevels.Count * (messageHeightPercent * screenHeight) + (unlockedLevels.Count * .05));
 	}
 	
 	private function shuffleLevels()
@@ -392,18 +431,84 @@ public class LevelSelectMenu extends GUIControl
 		
 		var count : int = 0;
 		
+		if(GUIManager.addLevel)
+		{
+			GUIManager.addLevel = false;				
+			completeLevel(GUIManager.levelToAdd);;
+			GUIManager.levelToAdd = "";
+		}
+		
+		checkForUnlocks();
+		
 		// Calculate the rect dimensions of every level
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{					
 			if(levels[i].unlocked)
-			{				
-				level = new Rect(0, count * (messageHeightPercent * screenHeight), messageWidthPercent * screenWidth, messageHeightPercent * screenHeight);											
-				level.y += count * (level.height * .05);
-				levels[i].bounds = level;				
-				
-				unlockedLevels.Add(levels[i]);
-				count++;
+			{	if(showActive) // If in the Active Tab
+				{
+					if(!levels[i].completed) //If the level is not completed
+					{
+						level = new Rect(0, count * (messageHeightPercent * screenHeight), messageWidthPercent * screenWidth, messageHeightPercent * screenHeight);											
+						level.y += count * (level.height * .05);
+						levels[i].bounds = level;
+						unlockedLevels.Add(levels[i]);
+						count++;				
+					}
+				}
+				else // If in the Compeleted Tab
+				{
+					if(levels[i].completed) // If the level is completed
+					{
+						level = new Rect(0, count * (messageHeightPercent * screenHeight), messageWidthPercent * screenWidth, messageHeightPercent * screenHeight);											
+						level.y += count * (level.height * .05);
+						levels[i].bounds = level;				
+						unlockedLevels.Add(levels[i]);
+						count++;
+					}
+				}		
+								
 			}
+		}
+		//scrollContent.height = unlockedLevels.Count * messageHeightPercent * screenHeight * 2;
+			
+	}
+	
+	private function checkForUnlocks()
+	{
+		for(var i :int = 0; i < levels.length; i++)
+		{
+			switch(levels[i].howToUnlock)
+			{
+				case UnlockType.RANK:
+					if(saveSystem.currentPlayer.rank >= levels[i].rankRequirement)
+					{
+						levels[i].unlocked = true;
+					}
+					break;
+				case UnlockType.MISSION:
+					if(levels[levels[i].missionRequirementIndex].completed)
+						levels[i].unlocked = true;
+					break;
+				case UnlockType.CONTACT:
+					break;
+				case UnlockType.NONE:
+					levels[i].unlocked = true;
+					break;
+			}
+		}
+	}
+
+	private function changeTab()
+	{
+		if(showActive){ // Switch to Compeleted Tab
+			showActive = false;
+			//TODO: Modify Scroll Area Height
+			LoadLevelList();
+		}
+		else{ // Switch to Active Tab
+			showActive = true;
+			//TODO: Modify Scroll Area Height
+			LoadLevelList();
 		}
 	}
 }

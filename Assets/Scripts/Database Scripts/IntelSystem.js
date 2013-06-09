@@ -28,6 +28,12 @@ public var currentLevelName : String;
 public var totalEvents : int = 0;
 private var eventStack : List.<EventStackNode>;
 
+public var turnTriggers : TurnTrigger[];
+private var currentTriggerIndex : int = 0;
+
+private var display : InspectionDisplay; // tooltip display reference
+
+public var levelName : String;
 
 
 class BuildingEvent
@@ -35,12 +41,14 @@ class BuildingEvent
 	var name : String = "";				// Used for accessing in editor				(?) may want to cut out
 	var title: String = "";				// Displayed Title in the Intel Menu
 	var description : String = "";		// Displayed Description in the Intel Menu
+	var tooltipPic : Texture2D;         // Displayed image in tooltip
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: UpgradeID = UpgradeID.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
 	var upgradeText : String;
+	var upgradeTooltipPic : Texture2D;
 	var isChild : boolean = false;		// set if it is a child event
 	var childEvent : GameObject;		// if there is a linked event to this event
 	var buildingReference : GameObject;	// The gameobject the event is attached to
@@ -63,7 +71,10 @@ class EventStackNode
 
 function Start ()
 {
+	levelName = Application.loadedLevelName;
+
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
+	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
 	currentLevelName = Application.loadedLevelName;
 	eventStack = new List.<EventStackNode>();
@@ -137,6 +148,7 @@ public function addTurn()
 	decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();
+	CheckTriggerToDisplay();
 }
 
 public function subtractTurn()
@@ -145,6 +157,32 @@ public function subtractTurn()
 	currentTurn--;
 	UnitManager.UndoUnitActions();
 	undoResolution();
+	CheckTriggerUndo();
+	CheckTriggerToDisplay();
+}
+
+// checks whether the current turn triggers a tooltip display
+private function CheckTriggerToDisplay()
+{
+	if (currentTriggerIndex >= turnTriggers.length)
+		return;
+	if (currentTurn == turnTriggers[currentTriggerIndex].turn)
+	{
+		if (turnTriggers[currentTriggerIndex].dispPic == null)
+			display.Activate(turnTriggers[currentTriggerIndex].dispText);
+		else
+			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);
+		currentTriggerIndex++;
+	}
+}
+
+// checks whether the trigger index needs to be decremented
+private function CheckTriggerUndo()
+{
+	if (currentTriggerIndex <= 0)
+		return;
+	if (currentTurn <= turnTriggers[currentTriggerIndex - 1].turn)
+		currentTriggerIndex--;
 }
 
 

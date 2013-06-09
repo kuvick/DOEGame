@@ -72,7 +72,14 @@ public class StartMenu extends GUIControl
 	
 	
 	// Variables for Profile Selection
-	
+	private var profileSelectButton : Rect;
+	private var profileSelectWidth : float;
+	private var profileSelectHeight : float;
+	private var showProfiles : boolean;
+	private var saveSystem : SaveSystem;
+	private var players : List.<String>;
+	private var newUsername : String = "";
+		
 	
 	public function Start ()
 	{
@@ -115,6 +122,13 @@ public class StartMenu extends GUIControl
 		levelSelectButton = Rect(resumeGameButton.x, newGameButton.y + buttonOffset, buttonWidth, buttonHeight);
 		linkFacebookButton = Rect(resumeGameButton.x, levelSelectButton.y + buttonOffset, buttonWidth, buttonHeight);
 		quitButton = Rect(verticalBarWidth + screenWidth - quitButtonHeight, horizontalBarHeight, quitButtonHeight, quitButtonHeight);	
+		
+		profileSelectWidth = 100;
+		profileSelectHeight = 50;
+		profileSelectButton = Rect(screenWidth * 0.01, (screenHeight - profileSelectHeight) * 0.95, profileSelectWidth, profileSelectHeight);
+		showProfiles = false;
+		var playerData : GameObject = GameObject.Find("Player Data");
+		saveSystem = playerData.GetComponent("SaveSystem");
 		
 		title = Rect((resumeGameButton.x + buttonWidth) - (titleWidth + titleOffsetX), resumeGameButton.y - (titleHeight + titleOffsetY), titleWidth, titleHeight);
 		
@@ -171,6 +185,65 @@ public class StartMenu extends GUIControl
 			{
 				Application.Quit();
 			}
+			
+			
+			// Added for profile selection:
+			if (saveSystem.currentPlayer == null || saveSystem.currentPlayer.name == "" || saveSystem.currentPlayer.name == null)
+			{
+				if (GUI.Button(profileSelectButton, "Select Profile"))
+				{
+				showProfiles = true;
+				}
+			}
+			else
+			{
+				if (GUI.Button(profileSelectButton, "Logged In: " + saveSystem.currentPlayer.name))
+				{
+					showProfiles = true;
+				}
+				
+			}
+			
+			if(showProfiles)
+			{
+				players = saveSystem.LoadNames();
+				
+				newUsername = GUI.TextField (Rect (screenWidth * 0.01 + profileSelectWidth, 5, 200, 20), newUsername, 25);
+				if (GUI.Button(Rect(screenWidth * 0.01, 0, profileSelectWidth, profileSelectHeight), "Create Profile"))
+				{
+					saveSystem.createPlayer(newUsername);
+					saveSystem.LoadPlayer(newUsername);
+					showProfiles = false;
+				}
+				
+				for(var i : int = 0; i < players.Count; i++)
+				{
+					var profileButton : Rect = Rect(screenWidth * 0.01, profileSelectHeight * (i+1), profileSelectWidth, profileSelectHeight);
+					var deteteButton : Rect = Rect(screenWidth * 0.01 + profileSelectWidth, profileSelectHeight * (i+1), profileSelectWidth, profileSelectHeight);
+					
+					if (GUI.Button(profileButton, players[i]))
+					{
+						saveSystem.LoadPlayer(players[i]);
+						showProfiles = false;
+					}
+					if (GUI.Button(deteteButton, "Delete"))
+					{
+						saveSystem.deletePlayer(players[i]);
+						showProfiles = false;
+					}
+				}
+				if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 1), profileSelectWidth, profileSelectHeight), "Logout"))
+				{
+					saveSystem.logout();
+					showProfiles = false;
+				}
+				if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 2), profileSelectWidth, profileSelectHeight), "Cancel"))
+				{
+					showProfiles = false;
+				}
+			}
+			
+			
 		}
 		else
 		{

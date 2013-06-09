@@ -31,8 +31,10 @@ public var cameraStartObject : GameObject;
 private var aspectRatioWidth : float = 5;
 private var aspectRatioHeight : float = 4;
 public var aspectRatio : AspectRatios;
-public var useDefaultAspectRatio : boolean = false;
+public var useDefaultAspectRatio : boolean = true;
 private var revertedToDefault = true;
+
+static public var cameraAngle : float = 60;
 
 
 private enum AspectRatios
@@ -72,7 +74,7 @@ function Start () {
 	
 	thisCamera.transform.position = new Vector3(cameraStartObject.transform.position.x, thisCamera.transform.position.y, cameraStartObject.transform.position.z);
 	
-	if(useDefaultAspectRatio)
+	if(!useDefaultAspectRatio)
 		if(aspectRatioWidth != 0 && aspectRatioHeight != 0)
 			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
 }
@@ -158,7 +160,7 @@ public static function ToggleZoomType(){
 private static function ZoomIn(){
 	if(!testingCameras)
 	{
-		thisCamera.transform.rotation = Quaternion.AngleAxis(60, Vector3.right);
+		thisCamera.transform.rotation = Quaternion.AngleAxis(cameraAngle, Vector3.right);
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
 		if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
 			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
@@ -180,7 +182,7 @@ private static function ZoomOut(){
 
 public function Update()
 {	
-	if(useDefaultAspectRatio)
+	if(!useDefaultAspectRatio)
 	{
 		switch(aspectRatio)
 		{

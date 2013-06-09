@@ -55,7 +55,8 @@ class BuildingOnGridData
 	
 	//var neededUpgrade : UpgradeType;
 	var heldUpgrade : UpgradeID;
-	var heldUpgradeText : String;
+	var heldUpgradeTooltipText : String;
+	var heldUpgradeTooltipPic : Texture2D;
 	
 	var requisitionCost : int;
 	var pollutionOutput : int;
@@ -63,6 +64,9 @@ class BuildingOnGridData
 	var idea : String = "";
 	var hasEvent : boolean = false;
 	
+	var hasTooltipTrigger : boolean = false;
+	var tooltipText : String;
+	var tooltipPic : Texture2D;
 }// end of BuildingOnGridData
 
 
@@ -120,13 +124,16 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.tileType = buildingData.tileType;
 	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
 	buildingOnGrid.heldUpgradeID = buildingData.heldUpgrade;
-	buildingOnGrid.heldUpgradeText = buildingData.heldUpgradeText;
+	buildingOnGrid.heldUpgradeTooltipText = buildingData.heldUpgradeTooltipText;
+	buildingOnGrid.heldUpgradeTooltipPic = buildingData.heldUpgradeTooltipPic;
 	//buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;
 	buildingOnGrid.hasEvent = buildingData.hasEvent;
 	
-	
+	buildingOnGrid.hasTooltipTrigger = buildingData.hasTooltipTrigger;
+	buildingOnGrid.tooltipText = buildingData.tooltipText;
+	buildingOnGrid.tooltipPic = buildingData.tooltipPic;
 	
 	return buildingOnGrid;
 }// end of convertBuildingOnGridDataIntoBuildingOnGrid

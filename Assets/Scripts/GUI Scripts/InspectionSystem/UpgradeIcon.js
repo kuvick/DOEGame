@@ -10,12 +10,12 @@ public class UpgradeIcon extends InspectionComponent
 	private var upgradeButtonWidth = 32;
 	private var upgradeButtonHeight = 32;
 	
-	public function Initialize (building : GameObject, id : UpgradeID, text : String)
+	public function Initialize (building : GameObject, id : UpgradeID, text : String, pic : Texture2D)
 	{
 		this.building = building;
 		this.id = id;
 		texture = (GameObject.FindObjectOfType(UnitManager) as UnitManager).GetUpgradeIcon(this.id - 1);
-		Initialize(text);
+		Initialize(text, pic);
 	}
 	
 	public function BuildingEquals (b : GameObject) : boolean
@@ -25,6 +25,7 @@ public class UpgradeIcon extends InspectionComponent
 	
 	public function Draw()
 	{
+		super();
 		if (isActive)
 		{
 			var point : Vector3 = Camera.main.WorldToScreenPoint(building.transform.position);
@@ -36,9 +37,8 @@ public class UpgradeIcon extends InspectionComponent
 			
 			var rect = Rect(point.x + heldUpgradeButtonOffset.x, 
 							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-			BlankButtonStyle();
 			if (GUI.Button(rect, texture))
-				display.Activate(dispText);
+				SendToDisplay();//display.Activate(dispText, this);
 		}
 	}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfLinkData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LinkData LinkData="Link">
+    <Turn>1</Turn>
+    <InputBuildingLocation>
+      <x>1</x>
+      <y>5</y>
+      <z>0</z>
+    </InputBuildingLocation>
+    <InputBuildingName>City</InputBuildingName>
+    <OutputBuildingLocation>
+      <x>3</x>
+      <y>5</y>
+      <z>0</z>
+    </OutputBuildingLocation>
+    <OutputBuildingName>PowerPlant</OutputBuildingName>
+    <oldOutputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldOutputBuildingLocation>
+    <oldInputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldInputBuildingLocation>
+  </LinkData>
+</ArrayOfLinkData>

@@ -34,15 +34,28 @@ function OnResumeGame()
 	paused = false;
 }
 
-// will determine what to do with the tap at the given point
-static function HandleTapAtPoint(position: Vector2){
-	// check if the click is on a building
-	if(paused) return;
-
+static function PointOnBuilding(position : Vector2)
+{
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
 	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
 	//var buildingIndex = Database.findBuildingIndex(buildPos);
+	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	var building : GameObject = null;
+	if(buildingIndex != -1)
+	{		
+		building = Database.getBuildingAtIndex(buildingIndex);
+	}
+	return building;
+}
+
+// will determine what to do with the tap at the given point
+static function HandleTapAtPoint(position: Vector2){
+	// check if the click is on a building
+	if(paused || CheckObjSelected(position)) return;
+	
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
 
 	if (buildingIndex != -1){
@@ -74,5 +87,40 @@ static function HandleTapAtPoint(position: Vector2){
 			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
 		//}
+	}
+	
+	UnitManager.DeselectUnits();
+}
+
+private static function CheckObjSelected (position : Vector2) : boolean
+{
+	var hit : RaycastHit;
+	var ray : Ray = Camera.main.ScreenPointToRay (position);
+	if (Physics.Raycast(ray, hit, 1000))
+	{
+		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
+		Debug.Log("collided");
+		return true;
+	}
+	return false;
+}
+
+static function HandleReleaseAtPoint(position: Vector2)
+{
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
+	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
+	//var buildingIndex = Database.findBuildingIndex(buildPos);
+	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	
+	if (buildingIndex != -1){
+		//Debug.Log("Tap on building");
+		var buildings = Database.getBuildingsOnGrid();
+		var building: GameObject;
+		building = Database.getBuildingAtIndex(buildingIndex);
+		if(building.name != "BuildingSite")
+		{
+			ModeController.setSelectedInputBuilding(building);
+		}
 	}
 }

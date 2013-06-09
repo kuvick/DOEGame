@@ -18,7 +18,8 @@ enum ControlState {
 	WaitingForMovement, // the user has pressed 2 fingers down and we are waiting to see what gesture is performed
 	DragingCamera, // the user has one finger down/clicked and is moving across the screen greater than some minimum amount
 	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out or if using mouse when using the wheel
-	WaitingForNoInput // The final state where the user's input has been performed but the user is still touching the screen/ clicking
+	WaitingForNoInput, // The final state where the user's input has been performed but the user is still touching the screen/ clicking
+	DraggingLink
 }
 
 // General input system settings to be altered as seen fit
@@ -42,6 +43,8 @@ private var firstTouchTime : float;
 // used for mouse
 private var firstClickTime: float;
 private var clickPosition: Vector2;
+private var firstClickPosition : Vector2;
+private var hasFirstClick : boolean = false;
 
 private var linkUI : LinkUI;
 
@@ -67,7 +70,7 @@ function singleClickEvent(inputPos: Vector2){
 	{
     	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }
-}
+} 
 
 // calculates the distance between touches to determine if the gesture is to zoom in or out
 function determineZoomingInOrOut(touch0 : Touch, touch1 : Touch){
@@ -145,6 +148,12 @@ function HandleMobileInput(){
 	                    fingerDown[ 0 ] = touch.fingerId;
 	                    fingerDownPosition[ 0 ] = touch.position;
 	                    fingerDownFrame[ 0 ] = Time.frameCount;
+	                    
+	                    if(!hasFirstClick){
+							firstClickPosition = touch.position;		
+							hasFirstClick = true;
+							Debug.Log("MODIFIED!");			
+						}
 	                    break; // break out of the rest of the checks for efficiency
 	                }
                 }
@@ -178,10 +187,22 @@ function HandleMobileInput(){
 	                            singleClickEvent(deltaSinceDown);
 	                            state = ControlState.WaitingForNoInput;
 	                            break;
-	                        } else if (DragMovementDetected(deltaSinceDown)){ // else if the single touch has moved more than the minimum amount we take it to be a drag
+	                            
+	                        }
+	                  		/*else if(DragMovementDetected(deltaSinceDown) && ModeController.selectedBuilding != null)
+							{
+								state = ControlState.DraggingLink;		
+								break;	
+							} */
+	                        else if (DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null){ // else if the single touch has moved more than the minimum amount we take it to be a drag
 	                        	state = ControlState.DragingCamera;
 	                        	break;
 	                        }
+	                        else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+							{
+								ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+								state = ControlState.DraggingLink;	
+							}	                   
 	                    }                                           
                     }
                 }
@@ -258,6 +279,22 @@ function HandleMobileInput(){
 	        }
         }
         
+        if(state == ControlState.DraggingLink)
+		{
+			touch = theseTouches[ 0 ];
+			
+			if(touch.phase == TouchPhase.Ended)
+			{
+				if (GUIManager.Instance().NotOnGUI(touch.position) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+				{
+					BuildingInteractionManager.HandleReleaseAtPoint(touch.position);
+			    }
+			
+				state = ControlState.WaitingForFirstInput;
+			}
+		}
+        
+        
         // Now that we are zooming the camera, let's keep
 	    // feeding those changes until we no longer have two fingers
 	    if ( state == ControlState.ZoomingCamera ){
@@ -298,22 +335,35 @@ function HandleComputerInput(){
 		zoomEvent(zoomOut);
 	}
 
-	// if the user has not clicked then keep cheking for a click
+	// if the user has not clicked then keep checking for a click
 	if (state == ControlState.WaitingForFirstInput){
 		// if a click occurs then start waiting for movement		
 		if (Input.GetKey(KeyCode.Mouse0) && GUIManager.Instance().NotOnGUI(Input.mousePosition)) {
 			state = ControlState.WaitingForNoInput;
-			firstClickTime = Time.time;
+			firstClickTime = Time.time;			
 			clickPosition = Input.mousePosition;
+			
+			if(!hasFirstClick){
+				firstClickPosition = Input.mousePosition;		
+				hasFirstClick = true;
+				Debug.Log("MODIFIED!");			
+			}
 		}
 	}
 	
 	if (state == ControlState.WaitingForNoInput){
 		var deltaSinceDown = Input.mousePosition - clickPosition;
 		// if the mouse has moved over the threshhold then consider it a drag
-		if (DragMovementDetected(deltaSinceDown)) {
-			state = ControlState.DragingCamera;
-		} else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
+		if (DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null)//&& ModeController.selectedBuilding == null) {
+		{	
+			state = ControlState.DragingCamera;			
+		} 
+		else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+		{
+			ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+			state = ControlState.DraggingLink;	
+		}
+		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
 			singleClickEvent(Input.mousePosition);
 			state = ControlState.WaitingForFirstInput;
 		}
@@ -327,6 +377,29 @@ function HandleComputerInput(){
 		if (Input.GetKey(KeyCode.Mouse0)){
 			DragEvent(deltaSinceDown);
 		} else {
+			state = ControlState.WaitingForFirstInput;
+		}
+	}
+	
+	
+	if(state == ControlState.DraggingLink)
+	{
+		deltaSinceDown = Input.mousePosition - clickPosition;
+		clickPosition = Input.mousePosition;
+		
+		//If Button is released
+		if(!Input.GetKey(KeyCode.Mouse0))
+		{
+			//Debug.Log("MODIFIED2!");
+			//if(BuildingInteractionManager.PointOnBuilding(firstClickPosition) == ModeController.selectedBuilding)
+		//	{
+				if (GUIManager.Instance().NotOnGUI(clickPosition) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+				{
+					BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);				
+			    }
+		 //   }
+		
+			hasFirstClick = false;			
 			state = ControlState.WaitingForFirstInput;
 		}
 	}

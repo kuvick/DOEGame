@@ -11,13 +11,13 @@ public class UpgradeCounter extends InspectionComponent
 	private var width : float;
 	private var widthScale : float = 0.1;
 	
-	public function Initialize(id : UpgradeID, text : String)
+	public function Initialize(id : UpgradeID, text : String, pic : Texture2D)
 	{
 		this.id = id;
 		topOffset = Screen.height * topOffsetScale;
 		width = Screen.width * widthScale;
 		rect = Rect((Screen.width / 2) - (width / 2), topOffset, width, topOffset);
-		Initialize(text);
+		Initialize(text, pic);
 	}
 	
 	public function IncrementTotal()
@@ -44,7 +44,8 @@ public class UpgradeCounter extends InspectionComponent
 	
 	public function Draw()
 	{
+		super();
 		if (GUI.Button(rect, String.Empty + obtainedParts + "/" + totalParts))
-			display.Activate(dispText);
+			SendToDisplay();//display.Activate(dispText, this);
 	}
 }
