@@ -1,5 +1,8 @@
 /* (Original) Coding by Katharine Uvick
 
+	Eventually will be moved into the Score Menu script.
+	The following is the code needed to display the score screen.
+
 	Calculating percentages based on design of Score Screen
 	which involved a 1920 x 1080 size design (hence why
 	these numbers are used in the calculations).
@@ -80,14 +83,32 @@ private var honorScoreRect : List.<Rect> = new List.<Rect>();
 
 // Promotion Bar
 private var expWithinRank : float = 0;
-private var expMissionScore : float = 0;
-private var expBonusScore : float = 0;
+private var expEarned : float = 0;
+private var expBarX : float = 846;
+private var expBarY : float = 728;
+private var expBarRect : Rect;
 
+public var expBarBG : Texture;
+public var expBarExp : Texture;
+private var expFill : float = 0;
+public var expEarnedBar : Texture;
+private var expEarnedFill : float = 0;
+private var currentMinExpGoal : float = 0;
+private var goalWidth : float = 0;
+private var filledUp : boolean = false;
+private var timesFilled : int = 0;
+private var counter : int = 0;
+
+
+private var barDisplay : float = 0;			//Used for when the bar fills
+private var barFillSpeed : float = 0.005;	//Speed at which bar fills
+private var timesRankIncreased : int = -1;
+private var startRank : int = 0;
 
 // Initialize/start stuff goes here
 function Start ()
 {
-	
+	counter = 0;
 	var playerData : GameObject = GameObject.Find("Player Data");
 	saveSystem = playerData.GetComponent("SaveSystem");
 	
@@ -168,6 +189,19 @@ function Start ()
 		honorsRect.Add(rect);
 		honorScoreRect.Add(rectScore);
 	}
+	
+		// Exp Bar:
+	expBarRect = RectFactory.NewRect( expBarX / designWidth, 
+									  expBarY / designHeight,
+									  expBarBG.width / designWidth,
+									  expBarBG.height / designHeight);
+									  
+	expFill = expWithinRank / currentMinExpGoal;
+	expEarnedFill = (expWithinRank + expEarned) / currentMinExpGoal;
+	barDisplay = expFill;	// starts off at exp length
+	Debug.Log("EXP FILL" + expFill);
+	Debug.Log("EXP EARNED FILL" + expEarnedFill);
+	goalWidth = expEarnedFill * expBarRect.width;
 
 }// End of Start
 
@@ -180,23 +214,8 @@ public function OnGUI()
 	GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
 	GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), infoBox);
 	
-	renderButtons();
-	renderText();
-	renderHonors();
-}
-
-function renderText()
-{
-	//Debug.Log(GUI.skin.label.CalcSize(new GUIContent("text")));
+	// Buttons are rendered:
 	
-	GUI.Label(agentNameRect, agentName);
-	GUI.Label(agentRankRect, agentRank);
-	GUI.Label(missionScoreRect, missionScore);
-	GUI.Label(totalScoreRect, totalScore);
-}
-
-function renderButtons()
-{
 	if(GUI.Button(shareButtonRect, shareButton))
 	{
 		Debug.Log("Share");
@@ -210,10 +229,14 @@ function renderButtons()
 		Debug.Log("Cont");
 	}
 	
-}
-
-function renderHonors()
-{
+	
+	// Text is rendered:
+	GUI.Label(agentNameRect, agentName);
+	GUI.Label(agentRankRect, agentRank);
+	GUI.Label(missionScoreRect, missionScore);
+	GUI.Label(totalScoreRect, totalScore);
+	
+	// Honors/bonus icons and scores are rendered:
 	GUI.skin.label.alignment = TextAnchor.UpperLeft;
 	for(var i: int = 0; i < honorsTextures.Count; i++)
 	{
@@ -226,6 +249,28 @@ function renderHonors()
 		
 	}
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+	
+	// Exp Bar:
+	
+	GUI.BeginGroup (expBarRect);
+		GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarBG);
+		
+		// SCORE FILL:
+		GUI.BeginGroup (new Rect (0, 0, expBarRect.width * barDisplay, expBarRect.height));
+			GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expEarnedBar);
+		GUI.EndGroup ();
+		 
+		// EXP FILL:
+		if(!filledUp)
+		{
+			GUI.BeginGroup (new Rect (0, 0, expBarRect.width * expFill, expBarRect.height));
+				GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarExp);
+			GUI.EndGroup ();
+		}
+		 
+	GUI.EndGroup ();
+	
+	
 }
 
 // Used to find out the actual values for all the text that will be displayed,
@@ -234,27 +279,45 @@ function generateText()
 {
 	agentName = saveSystem.currentPlayer.name;
 	agentRank = saveSystem.currentPlayer.rankName;
+	if(saveSystem.currentPlayer.rank > 0)
+		currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank) -
+		saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank - 1);
+	else
+		currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank);
 	
 	// Need to program the bonuses...
-	expBonusScore = 0;
 	
-	expMissionScore = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore();
-	missionScore = expMissionScore.ToString();	
+	var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore();
+	missionScore = tempScore.ToString();
 	expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 	
-	var totScore : int = expBonusScore + expMissionScore;
+	var totScore : int = tempScore; // + bonus score
 	
 	totalScore = totScore.ToString();
 	
-	var expEarned : int = saveSystem.currentPlayer.updateScore(intelSystem.levelName, totScore);
-	
+	expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, totScore);
 	saveSystem.currentPlayer.exp += expEarned;
+	Debug.Log("EXP EARNED: " + expEarned);
 	
-	saveSystem.currentPlayer = saveSystem.rankSystem.updateRank(saveSystem.currentPlayer);
+	var previousRank : int = -1;
+	var timesRankIncreased : int = -1;
+	while(saveSystem.currentPlayer.rank != previousRank)
+	{
+		previousRank = saveSystem.currentPlayer.rank;
+		saveSystem.currentPlayer = saveSystem.rankSystem.updateRank(saveSystem.currentPlayer);
+		timesRankIncreased++;
+	}
+	Debug.Log("Rank increased " + timesRankIncreased + " times.");
+	
 	saveSystem.SavePlayer(saveSystem.currentPlayer.name);
+	
 	
 }
 
+// class for the honors/bonus icons
+// each has an HonorType (an enum),
+// a texture for whether or not it was
+// earned, and a score
 public class HonorIcon
 {
 	var type : HonorType;
@@ -272,38 +335,87 @@ enum HonorType
 	TurnBonus
 }
 
+function Update()
+{
+
+	var currentWidth : float = expBarRect.width * barDisplay;
+	
+	if(currentWidth < goalWidth)
+	{
+		barDisplay = (counter * barFillSpeed) + expFill;
+		counter++;
+	}
+
+	// Resets the bar for the next fill:
+	if(currentWidth > expBarRect.width)
+	{
+		filledUp = true;
+		timesFilled++;
+		startRank++;
+		
+		agentRank = saveSystem.rankSystem.getRankName(startRank);
+		expEarned = (expEarned + expWithinRank) - currentMinExpGoal;		
+		currentMinExpGoal = saveSystem.rankSystem.expGoal(startRank) -
+							saveSystem.rankSystem.expGoal(startRank - 1);
+							
+		expEarnedFill = expEarned / currentMinExpGoal;
+		barDisplay = 0;
+		goalWidth = expEarnedFill * expBarRect.width;
+
+		goalWidth = expEarnedFill * expBarRect.width;
+		expFill = 0;
+		counter = 0;
+		barDisplay = 0;
+		expWithinRank = 0;
+		Debug.Log("******earned exp bar" + expEarned);
+		Debug.Log("******current min exp goal" + currentMinExpGoal);
+		Debug.Log("******exp earn fill" + expEarnedFill);
+	}
+	
+
+}
+
 //*******************************************************For Testing Purposes:
 /*
-public var GOTSCORE : int;
-public var USER : String;
-public var LEVELNAME : String;
+The purpose of the below is to make up level data for
+testing the score screen:
 */
 function test()
 {
 	saveSystem.LoadPlayer(USER);
 	agentName = saveSystem.currentPlayer.name;
 	agentRank = saveSystem.currentPlayer.rankName;
+	startRank = saveSystem.currentPlayer.rank;
 	
-	expBonusScore = 0;
+	if(saveSystem.currentPlayer.rank > 0)
+		currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank) -
+		saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank - 1);
+	else
+		currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank);
+	
+	Debug.Log("CurrentGoal" + currentMinExpGoal);
+	var bonusScore : int = 0;
 	for(var i: int = 0; i < honorsTextures.Count; i++)
 	{
-		honorsTextures[i].score = i * 100;
-		expBonusScore = expBonusScore + honorsTextures[i].score;
+		//honorsTextures[i].score = ((i + 1) * 15) + 99;
+		honorsTextures[i].score = 0;
+		bonusScore = bonusScore + honorsTextures[i].score;
 	}
 	
-	expMissionScore = GOTSCORE;
 	missionScore = GOTSCORE.ToString();
+
 	expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
-	Debug.Log("Exp within rank" + expWithinRank);
-	var totScore : int = expBonusScore + expMissionScore;
+	Debug.Log("Current bar exp: " + expWithinRank);
+	var totScore : int = bonusScore + GOTSCORE;
 	totalScore = totScore.ToString();
 	
-	var expEarned : int = saveSystem.currentPlayer.updateScore(LEVELNAME, totScore);
-	Debug.Log("exp earned" + expEarned);
+	expEarned = saveSystem.currentPlayer.updateScore(LEVELNAME, totScore);
 	saveSystem.currentPlayer.exp += expEarned;
 	
+	Debug.Log("EXP EARNED: " + expEarned);
+	
 	var previousRank : int = -1;
-	var timesRankIncreased : int = -1;
+	timesRankIncreased = -1;
 	while(saveSystem.currentPlayer.rank != previousRank)
 	{
 		previousRank = saveSystem.currentPlayer.rank;
