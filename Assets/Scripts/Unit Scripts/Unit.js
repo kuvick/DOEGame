@@ -19,8 +19,10 @@ private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
 
-private var validTargets = new List.<BuildingOnGrid>();
-private var targetHighlightColor : Color = new Color(0,1,1,.5);
+private var validSpecificTargets = new List.<BuildingOnGrid>();
+private var validGeneralTargets = new List.<BuildingOnGrid>();
+private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
+private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
 private var test : boolean = false;
 
@@ -321,14 +323,16 @@ function Update() {
 
 private function FindValidTargets()
 {
-	validTargets.Clear();
+	validSpecificTargets.Clear();
 	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
 	{
 		if (buildings[i] == currentBuilding)
 			continue;
 		if (FindPath(buildings[i], true).Count > 0)
-			validTargets.Add(buildings[i]);
+			validSpecificTargets.Add(buildings[i]);
+		else if (FindPath(buildings[i], false).Count > 0)
+			validGeneralTargets.Add(buildings[i]);
 	}
 	//foundPath.Clear();
 }
@@ -406,8 +410,10 @@ function OnGUI() {
 	
 	if (currentBuilding.unitSelected)
 	{
-		for (var i : int = 0; i < validTargets.Count; i++)//var b : BuildingOnGrid in validTargets)
-			(validTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
+		for (var i : int = 0; i < validGeneralTargets.Count; i++)
+			(validGeneralTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", generalHighlightColor);
+		for (i = 0; i < validSpecificTargets.Count; i++)
+			(validSpecificTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
 	}
 }
 

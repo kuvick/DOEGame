@@ -161,6 +161,8 @@ public function ReturnUpgrade(building : GameObject, id : UpgradeID)
 
 public function CheckUpgradeComplete (id : UpgradeID) : boolean
 {
+	if (id == UpgradeID.None)
+		return false;
 	return counterSet[id - 1].CheckIsComplete();
 }
 
