@@ -102,6 +102,12 @@ static function CheckUnitPathsBroken()
 	}
 }
 
+static function DeselectUnits()
+{
+	for (var i : int = 0; i < unitList.Count; i++)
+		unitList[i].OnDeselect();
+}
+
 static function CheckMouseNotOverGUI() : boolean
 {
 	for (var i : int = 0; i < unitList.Count; i++)//var u : Unit in unitList)

@@ -32,7 +32,7 @@ function Update () {
 	gameObject.transform.localScale = currentScale;*/
 }
 
-public function OnMouseDown()
+public function OnSelected()
 {
 	if (selectedBuilding == building.buildingPointer && building.isActive)
 	{
@@ -44,16 +44,16 @@ public function OnMouseDown()
 	}
 }
 
-public function OnMouseExit()
+/*public function OnMouseExit()
 {
 	BuildingInteractionManager.SetObjSelected(false);
-}
+}*/
 
-public function OnMouseOver()
+/*public function OnMouseOver()
 {
 	if (selectedBuilding == building.buildingPointer && building.isActive)
 		BuildingInteractionManager.SetObjSelected(true);
-}
+}*/
 
 public function Initialize(building : BuildingOnGrid)
 {
