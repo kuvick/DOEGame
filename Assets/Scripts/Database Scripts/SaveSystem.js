@@ -149,6 +149,18 @@ public class ProfileSystem
 	 	var stream : Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
 	 	stream.Close();
+	 	
+	 	for(var i : int = 0; i < Players.Count; i++)
+		{
+		/*
+			if (Players[i].contactDataStorage.contacts == null){
+				Players[i].contactDataStorage = ContactData.Instance();
+			}
+			if (Players[i].codexDataStorage.codices == null){
+				Players[i].codexDataStorage = CodexData.Instance();
+			}*/
+		}
+	 	
 	 	return system;
 	 	
 	 }
@@ -167,6 +179,12 @@ public class Player
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelScores : List.<LevelData> = new List.<LevelData>();
+	//@XmlArray("contactData")
+  	//@XmlArrayItem("ContactData")
+  	//public var contactDataStorage : ContactData;
+  	//@XmlArray("codexData")
+  	//@XmlArrayItem("CodexData")
+  	//public var codexDataStorage : CodexData;
 	
 	
 	// This updates the score or adds it if it wasn't there before
@@ -216,6 +234,10 @@ public class Player
 		}
 		
 		return 0;
+	}
+	
+	function unlockContact(contactName : String){
+		
 	}
 	
 }// End of Player

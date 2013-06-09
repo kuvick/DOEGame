@@ -51,6 +51,10 @@ private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
 private var metricMenu:MetricMenu;
+private var contactsMenu:ContactsMenu;
+private var codexMenu:CodexMenu;
+private var contactInspectorMenu:ContactInspectorMenu;
+private var popUpMessageDisplay:PopUpMessageDisplay;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -141,13 +145,18 @@ public function Start ()
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
 	metricMenu = GetComponent(MetricMenu);
+	contactsMenu = GetComponent(ContactsMenu);
+	codexMenu = GetComponent(CodexMenu);
+	contactInspectorMenu = GetComponent(ContactInspectorMenu);
+	popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
 		case "StartScreen":
-			AddGUIToControls(startMenu);
-			Debug.Log("Added start menu");
+			//AddGUIToControls(startMenu);
+			//AddGUIToControls(codexMenu);
+			AddGUIToControls(contactsMenu);
 			break;
 		
 		case "LevelSelectScreen":
@@ -171,6 +180,7 @@ public function Start ()
 	{
 		AddGUIToControls(mainMenu);
 		AddGUIToControls(marquee);
+		AddGUIToControls(popUpMessageDisplay);
 	}
 	
 }
@@ -363,6 +373,19 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			AddGUIToControls(failureMenu);
 			break;
+		case EventTypes.CONTACTSMENU:
+			ClearControls();
+			AddGUIToControls(contactsMenu);
+			break;
+		case EventTypes.CONTACTINPECTIONMENU:
+			contactInspectorMenu.SetContact(contactsMenu.currentContact);
+			ClearControls();
+			AddGUIToControls(contactInspectorMenu);
+			break;
+		case EventTypes.CODEXMENU:
+			ClearControls();
+			AddGUIToControls(codexMenu);
+			break;
 	}
 }
 
@@ -440,4 +463,12 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 	}
 	guiControlToAdd.OnOpen();
 	activeControls.Add(guiControlToAdd);
+}
+
+public function AddContact(){
+	//popUpMessageDisplay.AddMessage(new ContactUnlocked(contactsMenu.contacts[0]));
+}
+
+public function AddTimedControl(timedControlToAdd : TimedControl){
+	
 }

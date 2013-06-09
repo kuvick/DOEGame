@@ -239,6 +239,13 @@ public function resolveEvent( script : EventScript)
 		optionalScore += tempScript.event.points;
 	}
 	
+	for (var contactToUnlock : String in tempScript.contactsUnlocked){
+		ContactData.Instance().UnlockContact(contactToUnlock);
+	}
+	
+	for (var codexToUnlock : String in tempScript.codicesUnlocked){
+		CodexData.Instance().UnlockCodex(codexToUnlock);
+	}
 }
 
 public function undoResolution()
@@ -284,6 +291,14 @@ public function undoResolution()
 			
 			events.Add(eventStack[index].event);  // Add to event list
 			eventStack.RemoveAt(index);  // Remove element from eventStack
+			
+			for (var contactToUnlock : String in eventStack[index].event.contactsUnlocked){
+				ContactData.Instance().LockContact(contactToUnlock);
+			}
+			
+			for (var codexToUnlock : String in eventStack[index].event.codicesUnlocked){
+				CodexData.Instance().LockCodex(codexToUnlock);
+			}
 		}
 	}
 }

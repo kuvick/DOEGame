@@ -48,7 +48,14 @@ public enum EventTypes
 	SCORESCREEN,
 	
 	// Failure Menu events
-	FAILUREMENU
+	FAILUREMENU,
+	
+	// ContacsMenu events
+	CONTACTSMENU,
+	CONTACTINPECTIONMENU,
+	
+	// CodexMenu
+	CODEXMENU,
 }
 
 public class GUIEvent

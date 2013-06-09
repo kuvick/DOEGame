@@ -10,6 +10,8 @@ function Awake() {
 	
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
 	SoundManager.Instance(); // load up the sounds if needed
+	ContactData.Instance();
+	CodexData.Instance();
 }
 
 function OnDestroy () {

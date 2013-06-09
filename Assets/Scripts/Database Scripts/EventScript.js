@@ -13,11 +13,16 @@ Author: Chris Peterson
 **********************************************************/
 
 #pragma strict
+import System.Collections.Generic;
+
 
 // PUBLIC VARS
 public var event: BuildingEvent;
 
 public var showIcon: boolean = true;
+
+public var contactsUnlocked : List.<String>;
+public var codicesUnlocked : List.<String>;
 
 // PRIVATE VARS
 private var upgradeBounds: Rect;	
