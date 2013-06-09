@@ -45,7 +45,7 @@ function Start () {
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
 	indicator.Initialize(gameObject.transform, event, event.type);
-	icon.Initialize(gameObject.transform, event.icon, event.description);
+	icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic);
 }
 
 function Update () {

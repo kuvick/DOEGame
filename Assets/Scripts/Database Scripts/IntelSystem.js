@@ -41,12 +41,14 @@ class BuildingEvent
 	var name : String = "";				// Used for accessing in editor				(?) may want to cut out
 	var title: String = "";				// Displayed Title in the Intel Menu
 	var description : String = "";		// Displayed Description in the Intel Menu
+	var tooltipPic : Texture2D;         // Displayed image in tooltip
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: UpgradeID = UpgradeID.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
 	var upgradeText : String;
+	var upgradeTooltipPic : Texture2D;
 	var isChild : boolean = false;		// set if it is a child event
 	var childEvent : GameObject;		// if there is a linked event to this event
 	var buildingReference : GameObject;	// The gameobject the event is attached to

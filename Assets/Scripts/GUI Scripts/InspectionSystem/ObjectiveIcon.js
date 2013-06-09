@@ -15,7 +15,7 @@ public class ObjectiveIcon extends InspectionComponent
 	private var iconOpacity:float = .50; 		//The opacity of the upgrade 1 = Normal, 0 = Invisible
 	private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
-	public function Initialize(pos : Transform, icon : Texture2D, text : String)
+	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic)
 	{
 		colorOpacity = Color(1.0, 1.0, 1.0, iconOpacity);
 		texture = icon;
@@ -23,7 +23,7 @@ public class ObjectiveIcon extends InspectionComponent
 		iconWidth = Screen.width * iconWidthScale;
 		floatHeight = floatPercent * Screen.height;
 		rect = Rect(0,0, iconWidth, iconWidth);
-		Initialize(text);
+		Initialize(text, pic);
 	}
 
 	public function Update()
@@ -41,7 +41,7 @@ public class ObjectiveIcon extends InspectionComponent
 		super();
 		GUI.color = colorOpacity;
 		if (GUI.Button(rect, texture))
-			display.Activate(dispText, this);
+			SendToDisplay();//display.Activate(dispText, this);
 		GUI.color = Color(1.0, 1.0, 1.0, 1.0);
 	}
 	

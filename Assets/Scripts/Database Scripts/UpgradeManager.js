@@ -52,7 +52,8 @@ private function CreateCounters()
 		counterSet.Add(new UpgradeCounter());
 		if (events[i].event.upgrade != UpgradeID.None)
 		{
-			counterSet[i].Initialize(events[i].event.upgrade, events[i].event.upgradeText);
+			counterSet[i].Initialize(events[i].event.upgrade, events[i].event.upgradeText, 
+										events[i].event.upgradeTooltipPic);
 		}
 	}
 	
@@ -60,7 +61,8 @@ private function CreateCounters()
 	{
 		if (events[i].event.upgrade != UpgradeID.None)
 		{
-			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, events[i].event.upgradeText);
+			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, events[i].event.upgradeText,
+																events[i].event.upgradeTooltipPic);
 			numCounters++;
 		}
 	}
@@ -105,7 +107,8 @@ private function CreateIcons()
 		{
 			var temp : UpgradeIcon = new UpgradeIcon();
 			var tempData : BuildingOnGridData = buildingDataSet[i].buildingData;
-			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, tempData.heldUpgradeText);
+			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, tempData.heldUpgradeTooltipText, 
+							tempData.heldUpgradeTooltipPic);
 			if (tempData.heldUpgrade == UpgradeID.Dummy)
 				dummyIconSet.Add(temp);
 			else

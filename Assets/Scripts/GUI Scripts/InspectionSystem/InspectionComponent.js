@@ -3,6 +3,7 @@
 public class InspectionComponent
 {
 	public var dispText : String = String.Empty;
+	public var dispPic : Texture2D = null;
 	protected var display : InspectionDisplay;
 	
 	protected var texture : Texture2D;
@@ -17,10 +18,13 @@ public class InspectionComponent
 	private var textSize : float;
 	private var textSizeScale : float = .015;
 	
-	public function Initialize(text : String)
+	public function Initialize(text : String, pic : Texture2D)
 	{
 		display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+		if (!display)
+			Debug.Log("display not found");
 		dispText = text;
+		dispPic = pic;
 		selectedTexture = Resources.Load("hex_click") as Texture2D;
 		skin = GUISkin();
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
@@ -64,6 +68,14 @@ public class InspectionComponent
 	public function SetTexture (tex : Texture2D)
 	{
 		texture = tex;
+	}
+	
+	protected function SendToDisplay()
+	{
+		if (dispPic != null)
+			display.Activate(dispPic, dispText);
+		else
+			display.Activate(dispText);
 	}
 	
 	protected function BlankButtonStyle()

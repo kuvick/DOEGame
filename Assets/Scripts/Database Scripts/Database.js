@@ -834,7 +834,12 @@ public function activateBuilding( buildingIndex:int ): boolean
     	}
     	
     	if (building.hasTooltipTrigger)
-    		display.Activate(building.tooltipText);
+    	{
+    		if (building.tooltipPic != null)
+    			display.Activate(building.tooltipPic, building.tooltipText);
+    		else
+    			display.Activate(building.tooltipText);
+    	}
     }
     return canActivate;
 	
@@ -997,13 +1002,15 @@ class BuildingOnGrid
 	var pathParentDist : float = -1;
 	
 	var heldUpgradeID : UpgradeID;
-	var heldUpgradeText : String;
+	var heldUpgradeTooltipText : String;
+	var heldUpgradeTooltipPic : Texture2D;
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
 	
 	var hasTooltipTrigger : boolean = false;
 	var tooltipText : String;
+	var tooltipPic : Texture2D;
 }
 
 
@@ -1078,6 +1085,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
 	copyTo.tooltipText = copyFrom.tooltipText;
+	copyTo.tooltipPic = copyFrom.tooltipPic;
 } // end of copyBuildingOnGridd
 
 

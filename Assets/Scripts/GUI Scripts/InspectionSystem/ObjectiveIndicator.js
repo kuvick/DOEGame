@@ -38,7 +38,7 @@ public class ObjectiveIndicator extends InspectionComponent
 	    radius = Screen.height * radiusScale;
 	    isActive = false;
 	    //display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-	    Initialize(event.description);
+	    Initialize(event.description, event.tooltipPic);
 	} 
 	
 	 
@@ -69,7 +69,7 @@ public class ObjectiveIndicator extends InspectionComponent
 		    GUIUtility.RotateAroundPivot(rotAngleDeg, screenMiddle);
 		    if(GUI.Button(rect, texture))
 		    {
-		    	display.Activate(dispText, this);
+		    	SendToDisplay();//display.Activate(dispText, this);
 		    	Debug.Log("Angle: " + rotAngleDeg);
 		    }
 		    GUI.matrix = matrixBackup;
