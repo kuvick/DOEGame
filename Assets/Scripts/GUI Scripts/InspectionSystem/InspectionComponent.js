@@ -26,6 +26,8 @@ public class InspectionComponent
 		dispText = text;
 		dispPic = pic;
 		selectedTexture = Resources.Load("hex_click") as Texture2D;
+		if (selectedTexture)
+			Debug.Log("selected loaded properly");
 		skin = GUISkin();
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
 		textSize = Screen.width * textSizeScale;
@@ -73,9 +75,9 @@ public class InspectionComponent
 	protected function SendToDisplay()
 	{
 		if (dispPic != null)
-			display.Activate(dispPic, dispText);
+			display.Activate(dispPic, dispText, this);
 		else
-			display.Activate(dispText);
+			display.Activate(dispText, this);
 	}
 	
 	protected function BlankButtonStyle()
