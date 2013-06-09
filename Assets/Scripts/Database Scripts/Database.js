@@ -465,6 +465,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     	{
 		    outputBuilding.optionalOutputAllocated = true;
 		    outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
+		    outputBuilding.optionalOutputIcon.SetAllocated(true);
     	}
     	else
     	{
@@ -577,6 +578,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
     	{
 		    outputBuilding.optionalOutputAllocated = true;
 		    outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
+		    outputBuilding.optionalOutputIcon.SetAllocated(true);
     	}
     	// move the resource from the output building's unallocated list to allocated
     	else if (!allocatedOutSelected)
@@ -612,6 +614,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	    {
 	    	oldOutputBuilding.optionalOutputAllocated = false;
 	    	oldOutputBuilding.optionalOutputLinkedTo = -1;
+	    	oldOutputBuilding.optionalOutputIcon.SetAllocated(false);
 	    }
 	    
 		inputBuilding.inputLinkedTo[inputIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
@@ -972,6 +975,7 @@ class BuildingOnGrid
 	
 	var optionalOutput : ResourceType = ResourceType.None;
 	var optionalOutputAllocated : boolean = false;
+	var optionalOutputIcon : ResourceIcon;
 	
 	var isActive = false;
 	
@@ -1066,6 +1070,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.optionalOutput = copyFrom.optionalOutput;
 	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
+	copyTo.optionalOutputIcon = copyTo.optionalOutputIcon;
 
 	copyTo.isActive = copyFrom.isActive;
 	copyTo.coordinate = copyFrom.coordinate;
@@ -1172,6 +1177,7 @@ function UndoLink(typeOfUndo : int)
 		b2Building.optionalOutput = linkList[lastIndex].type;
 		b2Building.optionalOutputAllocated = false;
 		b2Building.optionalOutputLinkedTo = -1;
+		b2Building.optionalOutputIcon.SetAllocated(false);
 	}
 	//Undo Normal Output
 	else
@@ -1284,7 +1290,8 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 				outputBuilding.optionalOutputLinkedTo == -1)
 	{
 		outputBuilding.optionalOutputAllocated = true;
-		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);	
+		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);
+		outputBuilding.optionalOutputIcon.SetAllocated(true);	
 	}
 	else
 	{

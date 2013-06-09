@@ -20,7 +20,8 @@ private var linkUIRef : LinkUI;
 enum IOType
 {
 	In,
-	Out
+	Out,
+	OptOut
 }
 
 function Update () {
@@ -68,6 +69,9 @@ public function Initialize(building : BuildingOnGrid)
 	gameObject.transform.localScale = currentScale;
 	
 	gameObject.renderer.material.mainTextureScale = Vector2(-1,-1);
+	
+	if (ioType == IOType.OptOut)
+		index = -1;
 }
 
 public function SetAllocated (allo : boolean)

@@ -85,6 +85,7 @@ public var unallocatedOutputTex : Texture2D[];
 public var allocatedOutputTex : Texture2D[];
 public var inputIcons : GameObject[];
 public var outputIcons : GameObject[];
+public var optionalOutputIcons : GameObject[];
 
 private var activeButtonRects : List.<Rect> = new List.<Rect>();
 
@@ -138,15 +139,22 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 
 					building.unallocatedInputIcons, startPos, building);
 	startPos.z += 70;
-	GenerateIconSet(building.unallocatedOutputs, outputIcons, 
+	startPos.x = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
 					building.unallocatedOutputIcons, startPos, building);
+	if (building.optionalOutput != ResourceType.None)
+	{
+		var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optionalOutput - 1], startPos, Quaternion.identity);
+		var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
+		tempScript.Initialize(building);
+		building.optionalOutputIcon = tempScript;
+	}
 }
 
 private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[],
 									buildingIconSet : List.<ResourceIcon>, startPos : Vector3,
-									building : BuildingOnGrid)
+									building : BuildingOnGrid) : float
 {
-	var spacing : float = 100;
+	var spacing : float = 35;
 	var pos : Vector3 = startPos;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
@@ -157,6 +165,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 		buildingIconSet.Add(tempScript);
 		pos.x += spacing;
 	}
+	return pos.x;
 }
 
 //Removes links between b1 and  b2
@@ -533,14 +542,14 @@ function OnGUI()
 				optionalOutTex = allocatedOutputTex[gridBuilding.optionalOutput - 1];
 			if (optionalActive && !activeButtonRects.Contains(outputRect))
 				activeButtonRects.Add(outputRect);
-			if (GUI.Button(outputRect, optionalOutTex))
+			/*if (GUI.Button(outputRect, optionalOutTex))
 			{
 				outputBuilding = building;
 				optionalOutputUsed = true;
 				if (gridBuilding.optionalOutputAllocated)
 					allocatedOutSelected = true;
 				selectedResource = gridBuilding.optionalOutput;
-			}
+			}*/
 		}
 		GUI.enabled = true;
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
@@ -649,7 +658,10 @@ public function SetSelectedResource (resource : ResourceType)
 
 public function SetSelectedOutIndex (outIndex : int)
 {
-	selectedOutIndex = outIndex;
+	if (outIndex < 0)
+		optionalOutputUsed = true;
+	else
+		selectedOutIndex = outIndex;
 }
 
 public function SetAllocatedOutSelected (allocatedSelected : boolean)
