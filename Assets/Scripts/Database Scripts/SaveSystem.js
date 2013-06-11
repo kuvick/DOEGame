@@ -21,6 +21,7 @@ public var profileSystem : ProfileSystem = new ProfileSystem();
 public var currentPlayer : Player;
 private static var exists : boolean = false;
 
+/*
 function Awake ()
 {
 	if(!exists)
@@ -33,6 +34,7 @@ function Awake ()
 		Destroy(this.gameObject);
 	}
 }
+*/
 
 // Loads the ranks, generates the min. experience per rank,
 // loads the profile system, and sets the current player

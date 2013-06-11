@@ -179,7 +179,7 @@ public class LevelSelectMenu extends GUIControl
 		{
 			loginText  = "Logged in as: " + saveSystem.currentPlayer.name;
 		}
-		if(saveSystem.currentPlayer.name != "")
+		else if(saveSystem.currentPlayer.name != "")
 		{
 			loginText  = "Logged in as: -Username-";
 		}
