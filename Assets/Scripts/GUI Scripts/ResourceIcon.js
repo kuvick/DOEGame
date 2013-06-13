@@ -26,6 +26,9 @@ enum IOType
 
 function Update () {
 	selectedBuilding = ModeController.getSelectedBuilding();
+	/*var look : Vector3 = Camera.main.transform.position - transform.position;
+	transform.up = look.normalized;*/
+	//transform.rotation = Quaternion.LookRotation(look) * Quaternion.Euler(90, 0, 0);
 	/*if (selectedBuilding == building.buildingPointer && ioType == IOType.Out && building.isActive)
 		currentScale = bigScale;
 	else

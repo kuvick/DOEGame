@@ -177,10 +177,10 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
-			//SoundManager.Instance().playButtonClick();
+			SoundManager.Instance().playButtonClick();
 			
-			//currentResponse.type = EventTypes.UNDO;
-			GUIManager.Instance().AddContact();
+			currentResponse.type = EventTypes.UNDO;
+			//GUIManager.Instance().AddContact();
 		}
 		
 		if(Input.GetKeyDown(KeyCode.M))

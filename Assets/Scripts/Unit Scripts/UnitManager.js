@@ -108,6 +108,12 @@ static function DeselectUnits()
 		unitList[i].OnDeselect();
 }
 
+static function CheckUnitsActive()
+{
+	for (var i : int = 0; i < unitList.Count; i++)
+		unitList[i].CheckActive();
+}
+
 static function CheckMouseNotOverGUI() : boolean
 {
 	for (var i : int = 0; i < unitList.Count; i++)//var u : Unit in unitList)
