@@ -289,6 +289,7 @@ public class ScoreMenu extends GUIControl{
 	{
 		agentName = saveSystem.currentPlayer.name;
 		agentRank = saveSystem.currentPlayer.rankName;
+		startRank = saveSystem.currentPlayer.rank;
 		if(saveSystem.currentPlayer.rank > 0)
 			currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank) -
 			saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank - 1);
