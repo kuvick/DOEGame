@@ -1,5 +1,4 @@
 #pragma strict
-
 /*	LinkUI.js
 	Author: Justin Hinson
 	
