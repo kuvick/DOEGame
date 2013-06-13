@@ -105,8 +105,9 @@ private function CreateIcons()
 	{
 		if (buildingDataSet[i].buildingData.heldUpgrade != UpgradeID.None)
 		{
-			var temp : UpgradeIcon = new UpgradeIcon();
 			var tempData : BuildingOnGridData = buildingDataSet[i].buildingData;
+			var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, tempData.buildingPointer.transform.position, Quaternion.identity);
+			var temp : UpgradeIcon = tempPlane.AddComponent(UpgradeIcon);
 			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, tempData.heldUpgradeTooltipText, 
 							tempData.heldUpgradeTooltipPic);
 			if (tempData.heldUpgrade == UpgradeID.Dummy)

@@ -39,7 +39,7 @@ private var screenPosition:Vector3;
 private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
 private var indicator : ObjectiveIndicator = ObjectiveIndicator();
-private var icon : ObjectiveIcon = ObjectiveIcon();
+private var icon : ObjectiveIcon;
 
 function Start () {
 	/*colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
@@ -50,6 +50,8 @@ function Start () {
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
 	indicator.Initialize(gameObject.transform, event, event.type);
+	var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
+	icon = tempPlane.AddComponent(ObjectiveIcon);
 	icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic);
 }
 

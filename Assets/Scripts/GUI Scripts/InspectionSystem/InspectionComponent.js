@@ -1,6 +1,6 @@
 #pragma strict
 
-public class InspectionComponent
+public class InspectionComponent extends MonoBehaviour
 {
 	public var dispText : String = String.Empty;
 	public var dispPic : Texture2D = null;

@@ -432,6 +432,7 @@ public function OnDeselect()
 				intelSystem.addTurn();
 				ModeController.setSelectedBuilding(null);
 				ModeController.setSelectedInputBuilding(null);
+				SetState(UnitState.InTransit);
 			//}
 		}
 		else // if not, display message that a path was not found on status marquee
