@@ -785,6 +785,7 @@ private function DeactivateChain (buildingIndex : int, parentIndex : int)
 		DeactivateChain(i, buildingIndex);
 	}
 	Debug.Log("Deactivate Chain");
+	UnitManager.CheckUnitsActive();
 }
 
 /*
@@ -844,6 +845,7 @@ public function activateBuilding( buildingIndex:int ): boolean
     			display.Activate(building.tooltipText);
     	}
     }
+    UnitManager.CheckUnitsActive();
     return canActivate;
 	
 }

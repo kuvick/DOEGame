@@ -24,7 +24,7 @@ private var validGeneralTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 4 * 3, 25, HexagonGrid.tileWidth / 4);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 4 * 3, 50, HexagonGrid.tileWidth / 4);
 
 private var point:Vector3;
 private var mouseOverGUI : boolean;
@@ -47,9 +47,20 @@ private var largeButtonSize : float;
 private var guiEnabledColor : Color = new Color(1,1,1,1);
 private var guiDisabledColor : Color = new Color(1,1,1,2);
 
+private var currentState : UnitState;
+public var unitIcons : Texture2D[];
+
 public var unitSkin : GUISkin;
 
 protected var selectionSound : AudioClip;
+
+enum UnitState
+{
+	Inactive,
+	Active,
+	Selected,
+	InTransit
+}
 
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
@@ -61,6 +72,8 @@ function Start () {
 	smallButtonSize = screenHeight * smallButtonScale;
 	largeButtonSize = screenHeight * largeButtonScale;
 	buttonOffset *= offsetScale * screenHeight;
+	
+	renderer.material.mainTextureScale = Vector2(-1,-1);
 }
 
 function Initiate() {
@@ -69,8 +82,23 @@ function Initiate() {
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	SetPosition();
+	CheckActive();
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+}
+
+private function SetState(state : UnitState)
+{
+	currentState = state;
+	renderer.material.mainTexture = unitIcons[state];
+}
+
+public function CheckActive()
+{
+	if (currentBuilding.isActive)
+		SetState(UnitState.Active);
+	else
+		SetState(UnitState.Inactive);
 }
 
 // sees if there is a valid path between the unit's current building and the target building
@@ -237,6 +265,8 @@ function DoAction ()
 	currentPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
+	if (currentPath.Count < 1)
+		SetState(UnitState.Active);
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
 	if (type != UnitType.Researcher)
@@ -269,6 +299,8 @@ function UndoAction ()
 		currentBuilding.unit = type;
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
 		CheckPathBroken();
+		if (currentPath.Count > 0)
+			SetState(UnitState.InTransit);
 	}
 }
 
@@ -333,36 +365,6 @@ private function CheckPathsEqual(pathA : List.<BuildingOnGrid>, pathB : List.<Bu
 }
 
 function OnGUI() {
-	var unitButtonSize : float = smallButtonSize;
-	
-	var point : Vector3 = Camera.main.WorldToScreenPoint(currentBuilding.buildingPointer.transform.position);
-		
-	point.y = Screen.height - point.y; //adjust height point
-		
-	if(point.y < 0) //Adjust y value of button for screen space
-		point.y -= Screen.height;
-	GUI.enabled = false;	// output buttons unselected buildings are disabled
-	GUI.color = guiDisabledColor;	// counteracts inactive button transparency
-	
-	if (selectedBuilding == currentBuilding.buildingPointer && currentBuilding.isActive)
-	{
-		GUI.enabled = true;
-		GUI.color = guiEnabledColor;
-		unitButtonSize = largeButtonSize;
-	}
-	
-	var unitRect:Rect = Rect(point.x + buttonOffset.x, 
-						point.y + buttonOffset.y, unitButtonSize, unitButtonSize);
-	GUI.skin = unitSkin;
-	mouseOverGUI = unitRect.Contains(mousePos);
-	/*if (GUI.Button(unitRect, "U"))
-	{
-		currentBuilding.unitSelected = true;
-		FindValidTargets();
-		Debug.Log("Unit selected");
-		SoundManager.Instance().PlayUnitSelected(this);
-	}*/
-	GUI.enabled = true;
 	// highlight the unit's path if its current building is selected
 	if (selectedBuilding == currentBuilding.buildingPointer)
 	{
@@ -397,6 +399,7 @@ public function OnSelected()
 		FindValidTargets();
 		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
+		SetState(UnitState.Selected);
 	}
 	if (currentPath.Count > 0 && !pathDrawn)
 	{
@@ -420,8 +423,8 @@ public function OnDeselect()
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
 			currentTarget = selectedGridBuilding;
-			if (currentPath.Count > 0)
-			{
+			//if (currentPath.Count > 0)
+			//{
 				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 				pathDrawn = true;
@@ -429,13 +432,20 @@ public function OnDeselect()
 				intelSystem.addTurn();
 				ModeController.setSelectedBuilding(null);
 				ModeController.setSelectedInputBuilding(null);
-			}
+			//}
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
 			Debug.Log("Path not found");
 			//StatusMarquee.SetText("Invalid unit target", true);
 		}
+	}
+	if (currentBuilding.unitSelected)
+	{
+		if (currentPath.Count > 0)
+			SetState(UnitState.InTransit);
+		else
+			SetState(UnitState.Active);
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;
