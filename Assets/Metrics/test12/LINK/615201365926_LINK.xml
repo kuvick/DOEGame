@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfLinkData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LinkData LinkData="Link">
+    <Turn>3</Turn>
+    <InputBuildingLocation>
+      <x>3</x>
+      <y>5</y>
+      <z>0</z>
+    </InputBuildingLocation>
+    <InputBuildingName>Wind Farm</InputBuildingName>
+    <OutputBuildingLocation>
+      <x>2</x>
+      <y>7</y>
+      <z>0</z>
+    </OutputBuildingLocation>
+    <OutputBuildingName>City</OutputBuildingName>
+    <oldOutputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldOutputBuildingLocation>
+    <oldInputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldInputBuildingLocation>
+  </LinkData>
+  <LinkData LinkData="Link">
+    <Turn>4</Turn>
+    <InputBuildingLocation>
+      <x>4</x>
+      <y>3</y>
+      <z>0</z>
+    </InputBuildingLocation>
+    <InputBuildingName>Energy Storage</InputBuildingName>
+    <OutputBuildingLocation>
+      <x>3</x>
+      <y>5</y>
+      <z>0</z>
+    </OutputBuildingLocation>
+    <OutputBuildingName>Wind Farm</OutputBuildingName>
+    <oldOutputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldOutputBuildingLocation>
+    <oldInputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldInputBuildingLocation>
+  </LinkData>
+  <LinkData LinkData="Link">
+    <Turn>5</Turn>
+    <InputBuildingLocation>
+      <x>4</x>
+      <y>1</y>
+      <z>0</z>
+    </InputBuildingLocation>
+    <InputBuildingName>House</InputBuildingName>
+    <OutputBuildingLocation>
+      <x>4</x>
+      <y>3</y>
+      <z>0</z>
+    </OutputBuildingLocation>
+    <OutputBuildingName>Energy Storage</OutputBuildingName>
+    <oldOutputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldOutputBuildingLocation>
+    <oldInputBuildingLocation>
+      <x>-100</x>
+      <y>0</y>
+      <z>0</z>
+    </oldInputBuildingLocation>
+  </LinkData>
+</ArrayOfLinkData>

@@ -1,0 +1,20 @@
+Currently working with the following levels:
+/june2-june8/Test01-revised
+/june2-june8/test03-revised
+/june2-june8/test05-revised
+/june2-june8/test08
+/june2-june8/test09
+
+New Levels:
+/june9-june16/test10
+/june9-june16/test11
+
+
+Notes: 
+Draw lines not working in test09 and test08. 
+Cannot move around the map in 01,03,05 due to red square. 
+Test10, Test11 should be ready for testing.
+Unit movement is difficult to understand.
+
+
+
