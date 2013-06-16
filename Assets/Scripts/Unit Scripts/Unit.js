@@ -3,6 +3,7 @@ Unit.js
 By Derrick Huey
 */
 #pragma strict
+
 import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
