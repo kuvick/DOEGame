@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 118836356cf39284a916a7692b3681ed
+guid: 5981d42fe2078eb40b91da0573ccd33a
 ModelImporter:
   fileIDToRecycleName:
     4300000: Sphere001
@@ -43,20 +43,20 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
+        second: a8860100
       data:
         first: 4
-        second: 821a0600
+        second: 881a0600
       data:
         first: 111
         second: 605fa900
     Box011:
       data:
         first: 1
-        second: a8860100
+        second: a6860100
       data:
         first: 4
-        second: 881a0600
+        second: 861a0600
       data:
         first: 23
         second: 66182300
@@ -79,10 +79,10 @@ ModelImporter:
     Cylinder012:
       data:
         first: 1
-        second: a4860100
+        second: a2860100
       data:
         first: 4
-        second: 841a0600
+        second: 821a0600
       data:
         first: 23
         second: 62182300
@@ -92,10 +92,10 @@ ModelImporter:
     Sphere001:
       data:
         first: 1
-        second: a6860100
+        second: a4860100
       data:
         first: 4
-        second: 861a0600
+        second: 841a0600
       data:
         first: 23
         second: 64182300

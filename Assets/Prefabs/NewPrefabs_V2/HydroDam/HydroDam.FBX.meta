@@ -5,6 +5,7 @@ ModelImporter:
     4300000: Box001
     4300002: Sphere002
     4300004: Box002
+    4300006: Sphere003
   serializedVersion: 10
   materials:
     importMaterials: 1
@@ -62,19 +63,6 @@ ModelImporter:
       data:
         first: 33
         second: a05a3200
-    Box002:
-      data:
-        first: 1
-        second: a6860100
-      data:
-        first: 4
-        second: 861a0600
-      data:
-        first: 23
-        second: 64182300
-      data:
-        first: 33
-        second: a45a3200
     Sphere002:
       data:
         first: 1
@@ -88,3 +76,16 @@ ModelImporter:
       data:
         first: 33
         second: a25a3200
+    Sphere003:
+      data:
+        first: 1
+        second: a6860100
+      data:
+        first: 4
+        second: 861a0600
+      data:
+        first: 23
+        second: 64182300
+      data:
+        first: 33
+        second: a45a3200

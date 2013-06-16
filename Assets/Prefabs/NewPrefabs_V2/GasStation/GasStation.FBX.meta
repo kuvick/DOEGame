@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b03ef2e1f989c4247856c01856a8a090
+guid: 82df785bbb9b0054dacad79f02905489
 ModelImporter:
   fileIDToRecycleName:
     4300000: pCube1
@@ -45,10 +45,10 @@ ModelImporter:
     //RootNode:
       data:
         first: 1
-        second: a2860100
+        second: aa860100
       data:
         first: 4
-        second: 821a0600
+        second: 8a1a0600
       data:
         first: 111
         second: 605fa900
@@ -68,23 +68,23 @@ ModelImporter:
     Object001:
       data:
         first: 1
-        second: aa860100
+        second: a2860100
       data:
         first: 4
-        second: 8a1a0600
+        second: 821a0600
       data:
         first: 23
-        second: 68182300
+        second: 62182300
       data:
         first: 33
-        second: a85a3200
+        second: a25a3200
     pCube1:
       data:
         first: 1
-        second: a8860100
+        second: a6860100
       data:
         first: 4
-        second: 881a0600
+        second: 861a0600
       data:
         first: 23
         second: 66182300
@@ -94,23 +94,23 @@ ModelImporter:
     polySurface005:
       data:
         first: 1
+        second: a8860100
+      data:
+        first: 4
+        second: 881a0600
+      data:
+        first: 23
+        second: 68182300
+      data:
+        first: 33
+        second: a85a3200
+    polySurface4:
+      data:
+        first: 1
         second: a4860100
       data:
         first: 4
         second: 841a0600
-      data:
-        first: 23
-        second: 62182300
-      data:
-        first: 33
-        second: a25a3200
-    polySurface4:
-      data:
-        first: 1
-        second: a6860100
-      data:
-        first: 4
-        second: 861a0600
       data:
         first: 23
         second: 64182300
