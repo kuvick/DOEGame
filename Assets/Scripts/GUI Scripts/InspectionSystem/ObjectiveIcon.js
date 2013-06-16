@@ -19,7 +19,8 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var turnMesh : TextMesh;
 
-	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic)
+	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
+								type : BuildingEventType)
 	{
 		colorOpacity = Color(1.0, 1.0, 1.0, iconOpacity);
 		texture = icon;
@@ -36,6 +37,8 @@ public class ObjectiveIcon extends InspectionComponent
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
 		temp.transform.position.x -= 25;
 		turnMesh = temp.GetComponent(TextMesh);
+		if (type == BuildingEventType.Secondary)
+			turnMesh.active = false;
 		Initialize(text, pic);
 	}
 	
