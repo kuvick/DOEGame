@@ -116,14 +116,14 @@ function Start()
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
 	
-	buildings = new Array();
+	//buildings = new Array();
 	//buildingsOnGrid = new Array();
 	buildingsOnGrid = new List.<BuildingOnGrid>();
 	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
 	
-	buildings = defaultBuildingScript.createDefaultBuildingArray();
+	//buildings = defaultBuildingScript.createDefaultBuildingArray();
 
 	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
 	{

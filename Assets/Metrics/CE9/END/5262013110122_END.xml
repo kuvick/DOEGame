@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<EndGameData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TimeInSeconds>7</TimeInSeconds>
+  <Score>0</Score>
+  <TotalEvents>2</TotalEvents>
+  <EventsIncomplete>2</EventsIncomplete>
+  <Turns>1</Turns>
+  <TimesUndoPressed>0</TimesUndoPressed>
+</EndGameData>

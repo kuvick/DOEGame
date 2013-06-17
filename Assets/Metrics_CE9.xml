@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<MetricCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Turns>
+    <Turn TurnData="Turn Data">
+      <Turn>1</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>2.6543057</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>2</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>4.717734</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>3</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>6.908124</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>5</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>16.1960964</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>6</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>17.4330044</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>7</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>19.4717541</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>9</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Wait</Type>
+      <TimeSinceLevelLoad>24.3870716</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>10</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Wait</Type>
+      <TimeSinceLevelLoad>24.810358</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>11</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>27.465271</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>13</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>31.2702236</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>15</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>34.10819</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>16</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>35.801178</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>17</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>37.95787</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>18</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>40.28366</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>19</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>43.653492</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>20</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Building Link</Type>
+      <TimeSinceLevelLoad>47.7709236</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>23</Turn>
+      <RemainingEvents>1</RemainingEvents>
+      <Type>Wait</Type>
+      <TimeSinceLevelLoad>56.93682</TimeSinceLevelLoad>
+    </Turn>
+    <Turn TurnData="Turn Data">
+      <Turn>24</Turn>
+      <RemainingEvents>0</RemainingEvents>
+      <Type>Wait</Type>
+      <TimeSinceLevelLoad>57.49538</TimeSinceLevelLoad>
+    </Turn>
+  </Turns>
+  <Links>
+    <Link LinkData="Link">
+      <Turn>1</Turn>
+      <InputBuildingIndex>0</InputBuildingIndex>
+      <InputBuildingName>Refinery</InputBuildingName>
+      <OutputBuildingIndex>5</OutputBuildingIndex>
+      <OutputBuildingName>OilDrill</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>2</Turn>
+      <InputBuildingIndex>8</InputBuildingIndex>
+      <InputBuildingName>WasteFacility</InputBuildingName>
+      <OutputBuildingIndex>0</OutputBuildingIndex>
+      <OutputBuildingName>Refinery</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>3</Turn>
+      <InputBuildingIndex>7</InputBuildingIndex>
+      <InputBuildingName>Mine</InputBuildingName>
+      <OutputBuildingIndex>8</OutputBuildingIndex>
+      <OutputBuildingName>WasteFacility</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>5</Turn>
+      <InputBuildingIndex>3</InputBuildingIndex>
+      <InputBuildingName>Power Plant</InputBuildingName>
+      <OutputBuildingIndex>7</OutputBuildingIndex>
+      <OutputBuildingName>Mine</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>6</Turn>
+      <InputBuildingIndex>2</InputBuildingIndex>
+      <InputBuildingName>OilDrill</InputBuildingName>
+      <OutputBuildingIndex>3</OutputBuildingIndex>
+      <OutputBuildingName>Power Plant</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>7</Turn>
+      <InputBuildingIndex>10</InputBuildingIndex>
+      <InputBuildingName>Refinery</InputBuildingName>
+      <OutputBuildingIndex>2</OutputBuildingIndex>
+      <OutputBuildingName>OilDrill</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>11</Turn>
+      <InputBuildingIndex>10</InputBuildingIndex>
+      <InputBuildingName>Refinery</InputBuildingName>
+      <OutputBuildingIndex>5</OutputBuildingIndex>
+      <OutputBuildingName>OilDrill</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>13</Turn>
+      <InputBuildingIndex>11</InputBuildingIndex>
+      <InputBuildingName>WasteFacility</InputBuildingName>
+      <OutputBuildingIndex>10</OutputBuildingIndex>
+      <OutputBuildingName>Refinery</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>15</Turn>
+      <InputBuildingIndex>12</InputBuildingIndex>
+      <InputBuildingName>Mine</InputBuildingName>
+      <OutputBuildingIndex>11</OutputBuildingIndex>
+      <OutputBuildingName>WasteFacility</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>16</Turn>
+      <InputBuildingIndex>1</InputBuildingIndex>
+      <InputBuildingName>Power Plant</InputBuildingName>
+      <OutputBuildingIndex>12</OutputBuildingIndex>
+      <OutputBuildingName>Mine</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>17</Turn>
+      <InputBuildingIndex>6</InputBuildingIndex>
+      <InputBuildingName>House</InputBuildingName>
+      <OutputBuildingIndex>1</OutputBuildingIndex>
+      <OutputBuildingName>Power Plant</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>18</Turn>
+      <InputBuildingIndex>4</InputBuildingIndex>
+      <InputBuildingName>City</InputBuildingName>
+      <OutputBuildingIndex>8</OutputBuildingIndex>
+      <OutputBuildingName>WasteFacility</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>19</Turn>
+      <InputBuildingIndex>4</InputBuildingIndex>
+      <InputBuildingName>City</InputBuildingName>
+      <OutputBuildingIndex>6</OutputBuildingIndex>
+      <OutputBuildingName>House</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+    <Link LinkData="Link">
+      <Turn>20</Turn>
+      <InputBuildingIndex>9</InputBuildingIndex>
+      <InputBuildingName>HydroDam</InputBuildingName>
+      <OutputBuildingIndex>7</OutputBuildingIndex>
+      <OutputBuildingName>Mine</OutputBuildingName>
+      <oldOutputBuildingIndex>-1</oldOutputBuildingIndex>
+      <oldInputBuildingIndex>-1</oldInputBuildingIndex>
+    </Link>
+  </Links>
+</MetricCollection>

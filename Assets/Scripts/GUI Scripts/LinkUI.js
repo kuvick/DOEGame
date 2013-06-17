@@ -157,12 +157,15 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 	var pos : Vector3 = startPos;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
-		var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
-		var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
-		tempScript.Initialize(building);
-		tempScript.SetIndex(i);
-		buildingIconSet.Add(tempScript);
-		pos.x += spacing;
+		if (ioputSet[i] != ResourceType.None)
+		{
+			var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
+			var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
+			tempScript.Initialize(building);
+			tempScript.SetIndex(i);
+			buildingIconSet.Add(tempScript);
+			pos.x += spacing;
+		}
 	}
 	return pos.x;
 }
