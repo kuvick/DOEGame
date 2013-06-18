@@ -395,6 +395,32 @@ static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 	}
 }
 
+static public function checkForResource(building : BuildingOnGrid, rt : ResourceType) : boolean
+{
+
+	for(var i : int = 0; i < building.unallocatedInputs.Count; i++)
+	{
+		if(building.unallocatedInputs[i] == rt)
+		{
+			GUI.enabled= true;
+			building.highlighter.renderer.material.color = new Color(0,1,1,.5);
+			return true;
+		}
+	}
+	
+	for(var j : int = 0; j < building.allocatedInputs.Count; j++)
+	{
+		if(building.allocatedInputs[j] == rt)
+		{	
+			GUI.enabled= true;
+			building.highlighter.renderer.material.color = new Color(0,1,1,.5);
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 /*
 
 The linkBuildings function is to be used to check if the buildings used for

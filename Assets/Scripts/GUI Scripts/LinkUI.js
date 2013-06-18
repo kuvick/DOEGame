@@ -724,7 +724,7 @@ function Update()
 			else
 				DragLinkBuildings(inputBuilding, outputBuilding);
 		}
-		ModeController.setSelectedBuilding(null);
+		//ModeController.setSelectedBuilding(null);
 		ModeController.setSelectedInputBuilding(null);
 		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
 	}

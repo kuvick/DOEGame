@@ -80,7 +80,7 @@ function Update() {
 		var position:Vector3 = selectedBuilding.transform.position;
 		var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
 		SetRangeTilesPosition(mouseTile.x, mouseTile.y);
-		SetRangeTilesEnabled(true);
+		//SetRangeTilesEnabled(true);
 		//HighlightBuildingsInRange(selectedBuilding);
 		//HighlightTilesInRange();
 	}
@@ -172,6 +172,33 @@ function HighlightBuildingsInRange(selectedBuilding:GameObject){
 	}
 }
 
+function HightlightBuildingTilesInRange(selectedBuilding : GameObject)
+{
+	buildings = GameObject.FindGameObjectsWithTag("Building");
+	if(selectedBuilding != null )
+	{
+		for(var i : int = 0; i < buildings.length; i++)
+		{
+			var isInRange : boolean = LinkUI.isInRange(selectedBuilding, buildings[i]);
+			
+			if(selectedBuilding != buildings[i] && isInRange)
+			{//b && isInRange){
+				var tempBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+				
+				for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+				{
+					Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]);
+				}			
+			}
+		}
+	}
+}
+
+function OnGUI()
+{	
+	HightlightBuildingTilesInRange(ModeController.selectedBuilding);
+}
+
 
 function HighlightTilesInRange(){
 	DestroyRangeTiles();
@@ -195,10 +222,11 @@ function HighlightTilesInRange(){
 	for(var yOff = 1; yOff <= Database.TILE_RANGE; yOff++){
 		if((y + yOff) % 2 == 1) maxX--;
 		else minX++;
-		for(var j = minX; j <= maxX; j++){
+		for(var j = minX; j <= maxX; j++){			
 			selectionPosition = TileToWorldCoordinates(j, (y + yOff));
 			selectionPosition.y = 0.2f;
-			CreateSelectionHexagon().transform.position = selectionPosition;//
+			CreateSelectionHexagon().transform.position = selectionPosition;//		
+			
 			
 			selectionPosition = TileToWorldCoordinates(j, (y - yOff));
 			selectionPosition.y = 0.2f;

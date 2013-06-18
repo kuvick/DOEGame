@@ -361,7 +361,7 @@ function HandleComputerInput(){
 		else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
 		{
 			ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
-			state = ControlState.DraggingLink;	
+			state = ControlState.DraggingLink;				
 		}
 		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
 			singleClickEvent(Input.mousePosition);
@@ -377,7 +377,7 @@ function HandleComputerInput(){
 		if (Input.GetKey(KeyCode.Mouse0)){
 			DragEvent(deltaSinceDown);
 		} else {
-			state = ControlState.WaitingForFirstInput;
+			state = ControlState.WaitingForFirstInput;			
 		}
 	}
 	
@@ -385,20 +385,15 @@ function HandleComputerInput(){
 	if(state == ControlState.DraggingLink)
 	{
 		deltaSinceDown = Input.mousePosition - clickPosition;
-		clickPosition = Input.mousePosition;
+		clickPosition = Input.mousePosition;		
 		
 		//If Button is released
 		if(!Input.GetKey(KeyCode.Mouse0))
 		{
-			//Debug.Log("MODIFIED2!");
-			//if(BuildingInteractionManager.PointOnBuilding(firstClickPosition) == ModeController.selectedBuilding)
-		//	{
-				if (GUIManager.Instance().NotOnGUI(clickPosition) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
-				{
-					BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);				
-			    }
-		 //   }
-		
+			if (GUIManager.Instance().NotOnGUI(clickPosition) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+			{
+				BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);				
+		    }		 			
 			hasFirstClick = false;			
 			state = ControlState.WaitingForFirstInput;
 		}
