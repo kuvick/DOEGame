@@ -263,6 +263,7 @@ public class BuildingMenu extends GUIControl
 		if (GUI.Button(cancelButton, "Cancel"))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			ModeController.setSelectedBuilding(null);
 		}
 	}
 	
