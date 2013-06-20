@@ -140,6 +140,7 @@ function Start ()
 				
 	}
 	totalEvents = events.Count + linkedEvents.Count;
+	CheckTriggerToDisplay();
 }
 
 //Can use this functio to check for events

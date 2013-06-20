@@ -386,9 +386,9 @@ function OnGUI() {
 	if (currentBuilding.unitSelected)
 	{
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
-			(validGeneralTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", generalHighlightColor);
+			validGeneralTargets[i].highlighter.renderer.material.SetColor("_Color", generalHighlightColor);
 		for (i = 0; i < validSpecificTargets.Count; i++)
-			(validSpecificTargets[i].highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", targetHighlightColor);
+			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;//SetColor("_Color", targetHighlightColor);
 	}
 }
 

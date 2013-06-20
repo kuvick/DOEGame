@@ -136,7 +136,7 @@ function Start()
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
-		
+		CheckBuildingActiveTrigger(tempBuilding);
 		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
@@ -863,17 +863,22 @@ public function activateBuilding( buildingIndex:int ): boolean
 			}
     	}
     	
-    	if (building.hasTooltipTrigger)
-    	{
-    		if (building.tooltipPic != null)
-    			display.Activate(building.tooltipPic, building.tooltipText);
-    		else
-    			display.Activate(building.tooltipText);
-    	}
+    	CheckBuildingActiveTrigger(building);
     }
     UnitManager.CheckUnitsActive();
     return canActivate;
 	
+}
+
+private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
+{
+	if (building.isActive && building.hasTooltipTrigger)
+	{
+		if (building.tooltipPic != null)
+			display.Activate(building.tooltipPic, building.tooltipText);
+		else
+			display.Activate(building.tooltipText);
+	}
 }
 
 
