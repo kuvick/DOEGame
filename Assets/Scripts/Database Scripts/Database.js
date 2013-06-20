@@ -136,7 +136,6 @@ function Start()
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
-		CheckBuildingActiveTrigger(tempBuilding);
 		Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
