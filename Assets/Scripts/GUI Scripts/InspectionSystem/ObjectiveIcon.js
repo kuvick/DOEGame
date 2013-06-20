@@ -46,6 +46,12 @@ public class ObjectiveIcon extends InspectionComponent
 	{
 		SendToDisplay();
 	}
+	
+	public function SetActive(active : boolean)
+	{
+		super(active);
+		renderer.enabled = isActive;
+	}
 
 	public function Update()
 	{
