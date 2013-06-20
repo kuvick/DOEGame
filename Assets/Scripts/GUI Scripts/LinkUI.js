@@ -454,7 +454,7 @@ static function isInRange(b1:GameObject, b2:GameObject)
 	var b1Position:Vector3 = b1.transform.position;
 	var b2Position:Vector3 = b2.transform.position;
 	
-	if(Vector3.Distance(b1Position, b2Position) < (HexagonGrid.tileWidth * (tileRange)))
+	if(Vector3.Distance(b1Position, b2Position) <= (HexagonGrid.tileWidth * (tileRange)))
 	{
 		//Debug.Log("in range");
 		return true;
@@ -724,7 +724,7 @@ function Update()
 			else
 				DragLinkBuildings(inputBuilding, outputBuilding);
 		}
-		//ModeController.setSelectedBuilding(null);
+		ModeController.setSelectedBuilding(null);
 		ModeController.setSelectedInputBuilding(null);
 		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
 	}
