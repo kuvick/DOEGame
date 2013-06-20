@@ -141,7 +141,14 @@ public class MainMenu extends GUIControl
 	{   
 		GUI.skin = mainMenuSkin;
 		
-		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		if(GameObject.Find("Database") != null && intelSystem == null)
+		{
+			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+      		score = intelSystem.getPrimaryScore();
+  		}
+		
+		if(intelSystem != null)
+			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 		
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;

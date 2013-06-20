@@ -33,6 +33,11 @@ public class RankSystem
 
  	public function Load(): RankSystem
  	{
+
+		
+		/*
+		//Previous, worked on PC
+		
  		var path : String = Path.Combine(Application.dataPath, "RankSystem.xml");
  		Debug.Log("Loaded: " + path);
  		
@@ -41,8 +46,23 @@ public class RankSystem
 	 	var system : RankSystem = serializer.Deserialize(stream) as RankSystem;
 	 	stream.Close();
 	 	return system;
+	 	*/
+	 	
+		var textAsset:TextAsset = Resources.Load("RankSystem") as TextAsset;
+	 	
+	 	var serializer : XmlSerializer = new XmlSerializer(RankSystem);
+	 	var strReader : StringReader = new StringReader(textAsset.text);
+	 	var xmlFromText : XmlTextReader = new XmlTextReader(strReader);
+	 	
+	 	var system : RankSystem = serializer.Deserialize(xmlFromText) as RankSystem;
+	 	strReader.Close();
+		xmlFromText.Close();
+		
+		return system;
+	 	
 	 }
 	 
+
 	 public function generateNewPlayer(name : String): Player
 	 {
 	 	var player : Player = new Player();

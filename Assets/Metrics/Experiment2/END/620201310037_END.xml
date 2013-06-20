@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<EndGameData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TimeInSeconds>6</TimeInSeconds>
+  <Score>6000</Score>
+  <TotalEvents>1</TotalEvents>
+  <EventsIncomplete>0</EventsIncomplete>
+  <Turns>1</Turns>
+  <TimesUndoPressed>0</TimesUndoPressed>
+</EndGameData>
