@@ -137,7 +137,7 @@ function Start()
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		CheckBuildingActiveTrigger(tempBuilding);
-		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
+		Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
 	//UnitManager.InitiateUnits();
@@ -148,6 +148,9 @@ function Start()
 	
 	metrics = new MetricContainer();
 	m_display = new MetricDisplay();
+	
+	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
+		activateBuilding(i, false);
 }
 
 
@@ -521,7 +524,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-		activateBuilding(inputBuildingIndex);
+		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link buildings");
 		
 		//Stores links into list organized by when they were created	
@@ -647,7 +650,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-		activateBuilding(inputBuildingIndex);
+		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link overload");
 		
 		//Stores links into list organized by when they were created	
@@ -755,7 +758,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
-		activateBuilding(inputBuildingIndex);
+		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link chain break");
 		
 		//Stores links into list organized by when they were created	
@@ -821,7 +824,7 @@ the building has no more input requirements, and then sets
 the variable isActive to true if so.
 
 */
-public function activateBuilding( buildingIndex:int ): boolean
+public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boolean
 {
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
@@ -841,7 +844,7 @@ public function activateBuilding( buildingIndex:int ): boolean
     	intelSystem.incrementScore(true, buildingWithUnitActivatedScore);
     	Debug.Log("A Building has been activated with a Unit");
     }
-    buildingsOnGrid[buildingIndex] = building;
+    //buildingsOnGrid[buildingIndex] = building;
     // if building has been activated
     if (building.isActive)
     {
@@ -859,15 +862,15 @@ public function activateBuilding( buildingIndex:int ): boolean
 	    			drawLinks.SetLinkTexture(buildingIndex, outLink, true);
 	    		}
 	    		// attempt to recursively reactivate the chain
-				activateBuilding(outLink);
+				activateBuilding(outLink, true);
 			}
     	}
     	
     	CheckBuildingActiveTrigger(building);
     }
-    UnitManager.CheckUnitsActive();
+    if (checkUnits)
+    	UnitManager.CheckUnitsActive();
     return canActivate;
-	
 }
 
 private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
@@ -1240,7 +1243,7 @@ function UndoLink(typeOfUndo : int)
 			AddLink(b3Building, b2Building, lastIndex);				
 			
 			//Activate chain
-			activateBuilding(findBuildingIndex(b3Building));
+			activateBuilding(findBuildingIndex(b3Building), true);
 			
 			//If Overload-Chain Break
 			if(linkList[lastIndex].OverloadChainBreak)
@@ -1298,7 +1301,7 @@ function UndoLink(typeOfUndo : int)
 	//Units
 	if(b1Building.isActive)
 	{
-		activateBuilding(findBuildingIndex(b1Building));
+		activateBuilding(findBuildingIndex(b1Building), true);
 		if(!b1Building.isActive)
 		{
 			if(b1Building.unit != UnitType.None)
