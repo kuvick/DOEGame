@@ -25,7 +25,7 @@ private var validGeneralTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 4 * 3, 50, HexagonGrid.tileWidth / 4);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth - 10, 50, 10);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
 
 private var point:Vector3;
 private var mouseOverGUI : boolean;
@@ -47,6 +47,10 @@ private var largeButtonScale : float = 0.20; // resource icon/button size when b
 private var largeButtonSize : float;
 private var guiEnabledColor : Color = new Color(1,1,1,1);
 private var guiDisabledColor : Color = new Color(1,1,1,2);
+
+private var targetIcon : GameObject;
+public var targetIconTex : Texture2D;
+private var targetOffset : Vector3 = Vector3(HexagonGrid.tileHalfWidth - 20, 50, -HexagonGrid.tileHalfHeight + 20);
 
 private var currentState : UnitState;
 public var unitIcons : Texture2D[];
@@ -75,6 +79,10 @@ function Start () {
 	buttonOffset *= offsetScale * screenHeight;
 	
 	renderer.material.mainTextureScale = Vector2(-1,-1);
+	
+	targetIcon = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
+	targetIcon.renderer.material.mainTexture = targetIconTex;
+	targetIcon.renderer.enabled = false;
 }
 
 function Initiate() {
@@ -267,7 +275,10 @@ function DoAction ()
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	SetPosition(); // move unit to its new position
 	if (currentPath.Count < 1)
+	{
 		SetState(UnitState.Active);
+		targetIcon.renderer.enabled = false;
+	}
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
 	if (type != UnitType.Researcher)
@@ -312,6 +323,14 @@ private function SetPosition() {
 	worldCoord += unitOffset;
 	gameObject.transform.position = worldCoord;
 	Debug.Log("Unit moved to " + currentBuilding.buildingName);
+}
+
+private function SetTarget(targ : BuildingOnGrid)
+{
+	currentTarget = targ;
+	targetIcon.transform.position = currentTarget.buildingPointer.transform.position;
+	targetIcon.transform.position += targetOffset;
+	targetIcon.renderer.enabled = true;
 }
 
 function Update() {
@@ -423,17 +442,17 @@ public function OnDeselect()
 		{
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
-			currentTarget = selectedGridBuilding;
+			SetTarget(selectedGridBuilding);//currentTarget = selectedGridBuilding;
 			//if (currentPath.Count > 0)
 			//{
-				SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
-				pathDrawnTimer = Time.time + pathDrawnTimerDuration;
-				pathDrawn = true;
-				Database.UndoStack.Add(UndoType.Wait);
-				intelSystem.addTurn();
-				ModeController.setSelectedBuilding(null);
-				ModeController.setSelectedInputBuilding(null);
-				SetState(UnitState.InTransit);
+			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
+			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
+			pathDrawn = true;
+			Database.UndoStack.Add(UndoType.Wait);
+			intelSystem.addTurn();
+			ModeController.setSelectedBuilding(null);
+			ModeController.setSelectedInputBuilding(null);
+			SetState(UnitState.InTransit);
 			//}
 		}
 		else // if not, display message that a path was not found on status marquee
