@@ -9,6 +9,17 @@ Author: by Francis Yuan
 
 public class PauseMenu extends GUIControl
 {
+	
+	// BG Textures
+	public var scoreScreenSkin : GUISkin;
+	//public var background : Texture;
+	public var lineOverlay : Texture;
+	public var infoBox : Texture;
+	
+	
+	
+	
+	
 	// Skins for Pause Menu
 	public var hexButtonSkin:GUISkin;
 	public var pauseMenuSkin:GUISkin;					

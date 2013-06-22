@@ -23,6 +23,8 @@ public class ObjectiveIndicator extends InspectionComponent
 	
 	private var attachedEvent : BuildingEvent;
 	
+	private var isPrimary : boolean = true;
+	
 	//private var doDraw : boolean = false;
 	
 	public function Initialize(targ : Transform, event : BuildingEvent, type : int)//desc : String, type : int)
@@ -37,6 +39,7 @@ public class ObjectiveIndicator extends InspectionComponent
 	    turnRect = Rect(0,0, turnSize, turnSize);
 	    radius = Screen.height * radiusScale;
 	    isActive = false;
+	    isPrimary = (type == 0);
 	    //display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	    Initialize(event.description, event.tooltipPic);
 	} 
@@ -73,7 +76,8 @@ public class ObjectiveIndicator extends InspectionComponent
 		    	Debug.Log("Angle: " + rotAngleDeg);
 		    }
 		    GUI.matrix = matrixBackup;
-		    GUI.Button(turnRect, String.Empty + attachedEvent.time);
+		    if (isPrimary)
+		    	GUI.Button(turnRect, String.Empty + attachedEvent.time);
 	    }
 	}
 }

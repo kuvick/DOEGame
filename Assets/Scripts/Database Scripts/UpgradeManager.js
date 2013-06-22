@@ -70,8 +70,10 @@ private function CreateCounters()
 	if (numCounters < counterSet.Count)
 	{
 		for (i = numCounters; i < counterSet.Count; i++)
+		{
 			counterSet.RemoveAt(i);
-		//counterSet.RemoveRange(numCounters, counterSet.Count - numCounters);
+			i--;
+		}	
 	}
 }
 

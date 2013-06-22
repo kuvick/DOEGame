@@ -97,6 +97,11 @@ public function Draw_Upgrade()
 	indicator.Draw();
 }
 
+public function SetIconActive(active : boolean)
+{
+	icon.SetActive(active);
+}
+
 //Changes the current opacity of the upgrade icon.
 // Accepts floats between 0.0-1.0
 // 0.0: Invisible 

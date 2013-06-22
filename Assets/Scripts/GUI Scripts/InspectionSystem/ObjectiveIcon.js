@@ -18,6 +18,8 @@ public class ObjectiveIcon extends InspectionComponent
 	private var iconObject : GameObject;
 	
 	private var turnMesh : TextMesh;
+	
+	private var isPrimary : boolean = true;
 
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
 								type : BuildingEventType)
@@ -38,13 +40,24 @@ public class ObjectiveIcon extends InspectionComponent
 		temp.transform.position.x -= 25;
 		turnMesh = temp.GetComponent(TextMesh);
 		if (type == BuildingEventType.Secondary)
+		{
 			turnMesh.active = false;
+			isPrimary = false;
+		}
 		Initialize(text, pic);
 	}
 	
 	public function OnSelected()
 	{
 		SendToDisplay();
+	}
+	
+	public function SetActive(active : boolean)
+	{
+		super(active);
+		renderer.enabled = isActive;
+		if (isPrimary)
+			turnMesh.active = isActive;
 	}
 
 	public function Update()

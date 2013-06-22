@@ -113,7 +113,7 @@ function Start ()
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 		if (tempBuilding.hasEvent)
 		{
-			tempEventClass = new EventScript();
+			//tempEventClass = new EventScript();
 			tempEventClass = buildingObject.GetComponent(EventScript);
 			if(tempEventClass != null)
 			{
@@ -124,6 +124,7 @@ function Start ()
 					// If the event is the first in a linked event set
 					// or a singular event
 					tempEventClass.showIcon = true;
+					tempEventClass.SetIconActive(true);
 					events.Add(tempEventClass);
 					
 					if(tempEventClass.event.type == BuildingEventType.Primary)
@@ -137,6 +138,7 @@ function Start ()
 					//If the event is a child...
 					tempEventClass.changeOpacity(0f);
 					tempEventClass.showIcon = false;
+					tempEventClass.SetIconActive(false);
 					linkedEvents.Add(tempEventClass);
 					
 					if(tempEventClass.event.type == BuildingEventType.Primary)
@@ -154,6 +156,7 @@ function Start ()
 				
 	}
 	totalEvents = events.Count + linkedEvents.Count;
+	CheckTriggerToDisplay();
 }
 
 //Can use this functio to check for events
@@ -265,12 +268,14 @@ public function resolveEvent( script : EventScript)
 	events.Remove(script);
 	
 	tempScript.changeOpacity(0f);
+	tempScript.SetIconActive(false);
 	
 	if(tempScript.event.childEvent != null)
 	{	
 		var childEvent : EventScript = findLinkedEvent(tempScript.event.childEvent);
 		childEvent.changeOpacity(.5f);
 		childEvent.showIcon = true;
+		childEvent.SetIconActive(true);
 		linkedEvents.Remove(childEvent);
 		events.Add(childEvent);
 		SoundManager.Instance().PlaySecondaryObjectiveComplete();
@@ -329,6 +334,7 @@ public function undoResolution()
 				//Reset 
 				tempChildEvent.changeOpacity(0.5f);
 				tempChildEvent.showIcon = true;
+				tempChildEvent.SetIconActive(true);
 			
 				//Add child to linkedEvents list
 				linkedEvents.Add(tempChildEvent);
@@ -349,6 +355,7 @@ public function undoResolution()
 			
 			eventStack[index].event.changeOpacity(.5f);
 			eventStack[index].event.showIcon = true;
+			eventStack[index].event.SetIconActive(true);
 			eventStack[index].event.event.time++;
 			
 			events.Add(eventStack[index].event);  // Add to event list

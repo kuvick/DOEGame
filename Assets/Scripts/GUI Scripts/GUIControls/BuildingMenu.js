@@ -62,7 +62,7 @@ public class BuildingMenu extends GUIControl
 	private var scrollTimer:float = 0;
 	private var scrollSpeed:float = 1;				// Time in seconds to complete 1 scroll.
 	private var leftScrollVisible:boolean = false;
-	private var rightScrollVisible:boolean = true;
+	private var rightScrollVisible:boolean = false;
 	
 	private var unallocatedInputTex : Texture2D[];
 	private var unallocatedOutputTex : Texture2D[];
@@ -263,6 +263,7 @@ public class BuildingMenu extends GUIControl
 		if (GUI.Button(cancelButton, "Cancel"))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			ModeController.setSelectedBuilding(null);
 		}
 	}
 	
@@ -301,7 +302,7 @@ public class BuildingMenu extends GUIControl
 		buildingIconList = new List.<Rect>();
 		resourceIconList = new List.<Rect>();
 		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);
-		if (numPages > 6)
+		if (numPages > 1)
 		{
 			rightScrollVisible = true;
 		}	

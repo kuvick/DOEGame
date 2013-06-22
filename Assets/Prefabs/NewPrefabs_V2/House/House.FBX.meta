@@ -3,6 +3,7 @@ guid: 34d9dbdf0f3dc5049b95fe69625e48e3
 ModelImporter:
   fileIDToRecycleName:
     4300000: Box001
+    4300002: House
   serializedVersion: 10
   materials:
     importMaterials: 1
