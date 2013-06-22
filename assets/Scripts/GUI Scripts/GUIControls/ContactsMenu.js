@@ -10,108 +10,110 @@ import System.Collections.Generic;
 
 
 public class ContactsMenu extends GUIControl{
-	public var inBetweenContactsSpace : float = .02f;
 	public var sidePadding : float = .05f;
+	public var inBetweenContactsSpace : float = .02f;
 	public var contactsPerRow : int = 6;
-	public var contactsHeight : float = .4f;
+	public var backButtonHeight : float = .1;
+	
+	public var playerData : SaveSystem; // should be player class
+	
 	private var contacts : List.<Contact>;
+	private var contactPortraits : List.<Texture2D>;
 	
 	public static var currentContact : Contact;
+	
+	public var backButtonTexture : Texture2D;
+	public var backgroundTexture : Texture2D;
+	public var scrollViewbackgroundTexture : Texture2D;
 	
 	private var rowWidth : float;
 	private var contactWidth : float;
 	private var spacesPerRow : int; // the number of spaces between each contact
-	
-	// Building Menu animation
-	private var isScrolling:boolean = false;
-	private var numPages:int = 0;
-	private var currentPage:float = 0;
-	private var targetPage:float = 0;
-	private var scrollTimer:float = 0;
-	private var scrollSpeed:float = 1;				// Time in seconds to complete 1 scroll.
-	private var leftScrollVisible:boolean = false;
-	private var rightScrollVisible:boolean = true;
+	private var scrollViewWidth : float;
+	private var backButtonRect : Rect;
+	private var scrollViewRect : Rect;
+	private var scrollViewAreaRect : Rect;
+	private var backgroundRect : Rect;
+	private var cotactsRects : List.<Rect>;
 	
 	public function Initialize(){
 		super.Initialize();
+		
+		if (playerData == null){
+			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
+			playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
+			if (playerData == null){
+				Debug.LogError("Could not find SaveSystem");
+			}
+		}
+		
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with contacts
 		spacesPerRow = contactsPerRow - 1;
 		contactWidth = ((rowWidth - (spacesPerRow * inBetweenContactsSpace)) / contactsPerRow);
-		contacts = ContactData.Instance().contacts;
+		contacts = playerData.currentPlayer.contactData.contacts;
+		SetupRectangles();
 	}
 	
-	public function OnOpen(){
-		super.OnOpen();
-	} 
-	
-	private var currentRow : int;
-	private var currentCol : int;
+	private var scrollPosition : Vector2;
 	public function Render(){		
 		currentRow = 0;
 		currentCol = 0;
+		GUI.DrawTexture(backgroundRect, backgroundTexture);
+		GUI.DrawTexture(backButtonRect, backButtonTexture);
+		
+		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, true, true);
+		
+		GUI.Box(scrollViewAreaRect, "");
+		var index : int = 0;
 		for (var contact : Contact in contacts){
-			if (contact.portrait == null) continue;
-			var topLeftX : float = currentCol * (contactWidth + inBetweenContactsSpace);
-			var topLeftY : float = currentRow * (contactsHeight + inBetweenContactsSpace);
-			topLeftX += sidePadding;
-			topLeftY += sidePadding;
 			if (contact.isUnlocked){
-				GUI.color = Color(1,1,1, 1);
-				if (GUI.Button(RectFactory.NewRect(topLeftX, topLeftY, contactWidth, contactsHeight), contact.portrait)){
-					currentContact = contact;
-					currentResponse.type = EventTypes.CONTACTINPECTIONMENU;
+				if (GUI.Button(cotactsRects[index], contactPortraits[index])){
+					//currentContact = contact;
+					//currentResponse.type = EventTypes.CONTACTINPECTIONMENU;
 				}
 			} else {
-				GUI.color = Color(1,1,1, .5);
-				if (GUI.Button(RectFactory.NewRect(topLeftX, topLeftY, contactWidth, contactsHeight), contact.portrait)){
-					currentContact = contact;
-					currentResponse.type = EventTypes.CONTACTINPECTIONMENU;
-				}
+				GUI.Box(cotactsRects[index], contactPortraits[index]);
 			}
+			index++;
+		}
+		GUI.EndScrollView ();
+	}
+	
+	private var currentRow : int;
+	private var currentCol : int;
+	public function SetupRectangles(){
+		backgroundRect = RectFactory.NewRect(0,0,1,1);
+
+		var backButtonSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(backButtonTexture, backButtonHeight);
+		backButtonRect = RectFactory.NewRect(1-sidePadding-backButtonSize.x, sidePadding, backButtonSize.x, backButtonSize.y);
+		
+		scrollViewWidth = 1-(2*sidePadding);
+		scrollViewRect = RectFactory.NewRect(sidePadding,(2*sidePadding)+backButtonSize.y,scrollViewWidth, 1-(2*sidePadding)-backButtonSize.y);
+
+		var totalHeight : float = 0;
+		cotactsRects = new List.<Rect>();
+		contactPortraits = new List.<Texture2D>();
+
+		contactWidth = (scrollViewWidth - ((contactsPerRow - 1) * inBetweenContactsSpace)) / contactsPerRow;
+		
+		var contactSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredWidth(contacts[0].GetPortraitTexture(), contactWidth);
+		currentRow = 0;
+		currentCol = 0;
+		for (var contact : Contact in contacts){
+			var topLeftX : float = currentCol * (contactSize.x + inBetweenContactsSpace);
+			var topLeftY : float = currentRow * (contactSize.y + inBetweenContactsSpace);
+			cotactsRects.Add(RectFactory.NewRect(topLeftX,topLeftY,contactSize.x,contactSize.y));
+			
+			contactPortraits.Add(contact.GetPortraitTexture());
+			
 			currentCol++;
 			if (currentCol == contactsPerRow){
 				currentCol = 0;
 				currentRow++;
+				totalHeight += contactSize.y;
 			}
 		}
-	}
-	
-	public function Update(){
-		//This will scroll the icons until the current page matches the target page		
-		/*if (targetPage != currentPage){
-			scrollTimer += Time.deltaTime;
-			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer/scrollSpeed);
-			buildingGroup.x = screenWidth * -currentPage;
-			
-			if (targetPage == currentPage){
-				isScrolling = false;
-				scrollTimer = 0;
-			}
-		}*/
-	}
-	
-	/*
-		Triggers a scrolling animation.
-			1 scrolls to the right
-			-1 scrolls to the left
-	*/
-	private function Scroll(direction:int):IEnumerator
-	{
-		isScrolling = true;
-		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
 		
-		if (numPages <= 1){
-			leftScrollVisible = false;
-			rightScrollVisible = false;
-		}else if (targetPage == 0 && numPages > 1){
-			leftScrollVisible = false;
-			rightScrollVisible = true;
-		}else if (targetPage != 0 && targetPage == numPages - 1){
-			leftScrollVisible = true;
-			rightScrollVisible = false;
-		}else{
-			leftScrollVisible = true;
-			rightScrollVisible = true;
-		}
+		scrollViewAreaRect = RectFactory.NewRect(0,0,scrollViewWidth, totalHeight);
 	}
 }

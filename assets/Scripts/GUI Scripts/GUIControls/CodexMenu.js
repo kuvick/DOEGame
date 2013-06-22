@@ -9,56 +9,82 @@ Author: Jared Mavis
 import System.Collections.Generic;
 
 public class CodexMenu extends GUIControl{
-	public var inBetweencodicesSpace : float = .02f;
 	public var sidePadding : float = .05f;
-	public var codicesPerRow : int = 6;
 	public var codicesHeight : float = .4f;
+	public var entryLabelMaxWidthPercent : float = .4; // in percetage of screen
+	public var entryLabelMaxHeightPercent : float = .2;
+	public var codexLabelHeight : float = .2;
+	public var backButtonHeight : float = .1;
+	private var codexLabelWidth : float = .2;
+	
+	public var codexButtonDarkStyle : GUIStyle;
+	public var codexButtonLightStyle : GUIStyle;
+	public var codexLabelTexture : Texture2D;
+	public var backButtonTexture : Texture2D;
+	public var previousEntriesTexture : Texture2D;
+	public var backgroundTexture : Texture2D;
+	public var scrollViewbackgroundTexture : Texture2D;
+	
+	public var playerData : SaveSystem; // should be player class
+	
 	private var codices : List.<CodexEntry>;
 	
 	private var rowWidth : float;
-	private var codexWidth : float;
-	private var spacesPerRow : int; // the number of spaces between each contact
+	private var entryLabelMaxWidth : float; // in pixels on screen
+	private var entryLabelMaxHeight : float;
 	
-	// Building Menu animation
-	private var isScrolling:boolean = false;
-	private var numPages:int = 0;
-	private var currentPage:float = 0;
-	private var targetPage:float = 0;
-	private var scrollTimer:float = 0;
-	private var scrollSpeed:float = 1;				// Time in seconds to complete 1 scroll.
-	private var leftScrollVisible:boolean = false;
-	private var rightScrollVisible:boolean = true;
+	private var codexLabelRect : Rect;
+	private var backButtonRect : Rect;
+	private var scrollViewRect : Rect;
+	private var scrollViewAreaRect : Rect;
+	private var previousEntriesRect : Rect;
+	private var backgroundRect : Rect;
+	private var codicesRects : List.<Rect>;
+	
+	private var scrollViewWidth : float;
+	private var FONTRATIOBUTTONS:float = 20; // kinda arbitrary
 	
 	public function Initialize(){
 		super.Initialize();
+		
+		if (playerData == null){
+			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
+			playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
+			if (playerData == null){
+				Debug.LogError("Could not find SaveSystem");
+			}
+		}
+		
+		entryLabelMaxWidth = ScreenSettingsManager.screenWidth * entryLabelMaxWidthPercent;
+		entryLabelMaxHeight = ScreenSettingsManager.screenHeight * entryLabelMaxHeightPercent;
+		
+		codexButtonDarkStyle.fontSize = (Mathf.RoundToInt(Mathf.Min(ScreenSettingsManager.screenWidth, ScreenSettingsManager.screenHeight) / FONTRATIOBUTTONS));
+		codexButtonLightStyle.fontSize = codexButtonDarkStyle.fontSize;
+		
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with codices
-		spacesPerRow = codicesPerRow - 1;
-		codexWidth = ((rowWidth - (spacesPerRow * inBetweencodicesSpace)) / codicesPerRow);
-		codices = CodexData.Instance().codices;
+		codices = playerData.currentPlayer.codexData.codices;
+		SetupRectangles();
 	}
 	
 	public function OnOpen(){
 		super.OnOpen();
 	} 
 	
-	private var currentRow : int;
-	private var currentCol : int;
 	private var scrollPosition : Vector2;
 	public function Render(){		
-		currentRow = 0;
-		currentCol = 0;
-		scrollPosition = GUILayout.BeginScrollView (scrollPosition, false, true,
-									GUILayout.Width (ScreenSettingsManager.screenWidth), 
-									GUILayout.Height (ScreenSettingsManager.screenHeight));
+		GUI.DrawTexture(backgroundRect, backgroundTexture);
+		GUI.DrawTexture(codexLabelRect, codexLabelTexture);
+		GUI.DrawTexture(backButtonRect, backButtonTexture);
 		
+		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, false, false);
+		
+		GUI.Box(scrollViewAreaRect, "");
+		GUI.DrawTexture(previousEntriesRect, previousEntriesTexture);
+		
+		var index : int = 0;
 		for (var codex : CodexEntry in codices){
-			var topLeftX : float = currentCol * (codexWidth + inBetweencodicesSpace);
-			var topLeftY : float = currentRow * (codicesHeight + inBetweencodicesSpace);
-			topLeftX += sidePadding;
-			topLeftY += sidePadding;
 			if (codex.isUnlocked){
-				GUI.color = Color(1,1,1, 1);
-				if (GUILayout.Button(codex.name)){
+				if (GUI.Button(codicesRects[index], codex.name, codexButtonLightStyle)){
 					if (codex.urlLink != null && codex.urlLink != ""){
 						Application.OpenURL(codex.urlLink);
 					} else {
@@ -66,54 +92,41 @@ public class CodexMenu extends GUIControl{
 					}
 				}
 			} else {
-				GUI.color = Color(1,1,1, .5);
-				GUILayout.Box(codex.name);
+				GUI.Box(codicesRects[index], codex.name, codices[index].isUnlocked ? codexButtonLightStyle : codexButtonDarkStyle);
 			}
-			currentCol++;
-			if (currentCol == codicesPerRow){
-				currentCol = 0;
-				currentRow++;
-			}
+			index++;
 		}
-		GUILayout.EndScrollView ();
+		GUI.EndScrollView ();
 	}
 	
-	public function Update(){
-		//This will scroll the icons until the current page matches the target page		
-		/*if (targetPage != currentPage){
-			scrollTimer += Time.deltaTime;
-			currentPage = Mathf.Lerp(currentPage, targetPage, scrollTimer/scrollSpeed);
-			buildingGroup.x = screenWidth * -currentPage;
-			
-			if (targetPage == currentPage){
-				isScrolling = false;
-				scrollTimer = 0;
-			}
-		}*/
-	}
-	
-	/*
-		Triggers a scrolling animation.
-			1 scrolls to the right
-			-1 scrolls to the left
-	*/
-	private function Scroll(direction:int):IEnumerator
-	{
-		isScrolling = true;
-		targetPage = Mathf.Clamp(targetPage + direction, 0, numPages);
+	private var currentRow : int;
+	public function SetupRectangles(){
+		backgroundRect = RectFactory.NewRect(0,0,1,1);
 		
-		if (numPages <= 1){
-			leftScrollVisible = false;
-			rightScrollVisible = false;
-		}else if (targetPage == 0 && numPages > 1){
-			leftScrollVisible = false;
-			rightScrollVisible = true;
-		}else if (targetPage != 0 && targetPage == numPages - 1){
-			leftScrollVisible = true;
-			rightScrollVisible = false;
-		}else{
-			leftScrollVisible = true;
-			rightScrollVisible = true;
+		var codexLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(codexLabelTexture, codexLabelHeight);
+		codexLabelRect = RectFactory.NewRect(.01,.01,codexLabelSize.x,codexLabelSize.y);
+		
+		var backButtonSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(backButtonTexture, backButtonHeight);
+		backButtonRect = RectFactory.NewRect(1-sidePadding-backButtonSize.x, sidePadding, backButtonSize.x, backButtonSize.y);
+		
+		var previousEntriesLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredWidth(previousEntriesTexture, entryLabelMaxWidthPercent);
+		
+		previousEntriesRect = RectFactory.NewRect(sidePadding*2,sidePadding,previousEntriesLabelSize.x, previousEntriesLabelSize.y);
+		
+		scrollViewWidth = 1-(2*sidePadding);
+		scrollViewRect = RectFactory.NewRect(sidePadding,(2*sidePadding)+backButtonSize.y,scrollViewWidth, 1-(2*sidePadding)-backButtonSize.y);
+		
+		var areaAboveCodicies : float = previousEntriesLabelSize.y + (2*sidePadding);
+		codicesRects = new List.<Rect>();
+		var totalHeight : float = areaAboveCodicies;
+		for (var codex : CodexEntry in codices){
+			var topLeftX : float = sidePadding;
+			var topLeftY : float = currentRow * (codicesHeight) + areaAboveCodicies;
+			codicesRects.Add(RectFactory.NewRect(topLeftX,topLeftY,scrollViewWidth - (2*sidePadding),codicesHeight));
+			totalHeight += codicesHeight;
+			currentRow++;
 		}
+		
+		scrollViewAreaRect = RectFactory.NewRect(0,0,scrollViewWidth, totalHeight);
 	}
 }

@@ -34,6 +34,10 @@ private var currentTriggerIndex : int = 0;
 private var display : InspectionDisplay; // tooltip display reference
 
 public var levelName : String;
+public var playerData : SaveSystem; // Should really be a player class need to move to other file 
+
+private var codicesUnlockedThisLevel : List.<String>;
+private var contactsUnlockedThisLevel : List.<String>;
 
 
 class BuildingEvent
@@ -78,6 +82,16 @@ function Start ()
 	intelMenu.LoadLevelReferences();
 	currentLevelName = Application.loadedLevelName;
 	eventStack = new List.<EventStackNode>();
+	codicesUnlockedThisLevel = new List.<String>();
+	contactsUnlockedThisLevel = new List.<String>();
+	
+	if (playerData == null){
+		Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
+		playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
+		if (playerData == null){
+			Debug.LogError("Could not find SaveSystem");
+		}
+	}
 
 	currentTurn = 0;
 	numOfObjectivesLeft = 0;
@@ -278,11 +292,21 @@ public function resolveEvent( script : EventScript)
 	}
 	
 	for (var contactToUnlock : String in tempScript.contactsUnlocked){
-		ContactData.Instance().UnlockContact(contactToUnlock);
+		if (playerData.currentPlayer.contactData.ContactUnlocked(contactToUnlock)){
+			continue;
+		}
+		contactsUnlockedThisLevel.Add(contactToUnlock);
+		playerData.currentPlayer.unlockContact(contactToUnlock);
+		playerData.SaveCurrentPlayer();
 	}
 	
 	for (var codexToUnlock : String in tempScript.codicesUnlocked){
-		CodexData.Instance().UnlockCodex(codexToUnlock);
+		if (playerData.currentPlayer.codexData.CodexUnlocked(codexToUnlock)){
+			continue;
+		}
+		codicesUnlockedThisLevel.Add(codexToUnlock);
+		playerData.currentPlayer.unlockCodex(codexToUnlock);
+		playerData.SaveCurrentPlayer();
 	}
 }
 
@@ -331,11 +355,18 @@ public function undoResolution()
 			eventStack.RemoveAt(index);  // Remove element from eventStack
 			
 			for (var contactToUnlock : String in eventStack[index].event.contactsUnlocked){
-				ContactData.Instance().LockContact(contactToUnlock);
+				if (contactsUnlockedThisLevel.Contains(contactToUnlock)){
+					contactsUnlockedThisLevel.Remove(contactToUnlock);
+					playerData.currentPlayer.lockContact(contactToUnlock);
+					playerData.SaveCurrentPlayer();
+				}
 			}
-			
-			for (var codexToUnlock : String in eventStack[index].event.codicesUnlocked){
-				CodexData.Instance().LockCodex(codexToUnlock);
+			for (var codexToLock : String in eventStack[index].event.codicesUnlocked){
+				if (codicesUnlockedThisLevel.Contains(codexToLock)){
+					codicesUnlockedThisLevel.Remove(codexToLock);
+					playerData.currentPlayer.lockCodex(codexToLock);
+					playerData.SaveCurrentPlayer();
+				}
 			}
 		}
 	}

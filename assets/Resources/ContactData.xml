@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <contacts>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+	<Contact>
+	  <name>test</name>
+	  <portrait>bob</portrait>
+	  <isUnlocked>true</isUnlocked>
+	  <description>Test desc</description>
+	</Contact>
+  </contacts>
+</ContactData>

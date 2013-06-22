@@ -41,12 +41,10 @@ function Awake ()
 // to whomever was last to log in.
 function Start ()
 {
-	
 	rankSystem = rankSystem.Load();
 	rankSystem.generateMinExp();
 	profileSystem = profileSystem.Load();
 	currentPlayer = profileSystem.lastLoggedInPlayer;
-	
 }
 
 public function SavePlayer(playerName : String)
@@ -63,6 +61,10 @@ public function SavePlayer(playerName : String)
 	}
 	Debug.Log("Player does not exist");
 	return false;
+}
+
+public function SaveCurrentPlayer(){
+	SavePlayer(currentPlayer.name);
 }
 
 public function LoadPlayer(playerName : String):boolean
@@ -147,7 +149,6 @@ public function deletePlayer(name : String): boolean
 	return false;
 }
 
-
 // Profile System, holds all the avaliable players
 @XmlRoot("ProfileSystem")
 public class ProfileSystem
@@ -173,25 +174,57 @@ public class ProfileSystem
  		Debug.Log("Loaded: " + path);
  		
  	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+ 	 	if (!File.Exists(path)){
+ 	 		SetUpProfiles();
+ 	 		return this;
+ 	 	}
 	 	var stream : Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
 	 	stream.Close();
-	 	
-	 	for(var i : int = 0; i < Players.Count; i++)
-		{
-		/*
-			if (Players[i].contactDataStorage.contacts == null){
-				Players[i].contactDataStorage = ContactData.Instance();
-			}
-			if (Players[i].codexDataStorage.codices == null){
-				Players[i].codexDataStorage = CodexData.Instance();
-			}*/
-		}
-	 	
+
 	 	return system;
-	 	
 	 }
   	
+  	/// Generates the intital content of the profile system
+  	/// Used for the first loading or if the file is deleted
+  	private function SetUpProfiles(){
+  		if (lastLoggedInPlayer == null){
+  			Debug.LogError("Attempting to setup profiles when there was no last player.");
+  			return;
+  		}
+  		if (Players.Count == 0){
+  			Debug.LogWarning("Attempting to setup profiles when there were no players adding the last logged in one.");
+  			Players.Add(lastLoggedInPlayer);
+  		}
+  		if (lastLoggedInPlayer.codexData.codices.Count == 0){
+			Debug.Log("No codex data for " + lastLoggedInPlayer.name + " loading it from source.");
+			lastLoggedInPlayer.codexData.LoadFromSource();
+		}
+		
+		if (lastLoggedInPlayer.contactData.contacts.Count == 0){
+			Debug.Log("No contact data for " + lastLoggedInPlayer.name + " loading it from source.");
+			lastLoggedInPlayer.contactData.LoadFromSource();
+		}
+		
+		var codexSource : CodexData = new CodexData();
+		codexSource.LoadFromSource();
+		var contactSource = new ContactData();
+  		contactSource.LoadFromSource();
+		
+  		for (var player : Player in Players){
+  			if (player.codexData.codices.Count == 0){
+  				Debug.Log("No codex data for " + player.name + " loading it from source.");
+  				player.codexData = codexSource;
+  			}
+  			
+  			if (player.contactData.contacts.Count == 0){
+  				Debug.Log("No contact data for " + player.name + " loading it from source.");
+  				player.contactData = contactSource;
+  			}
+  		}
+
+  		Save();
+  	}
 }
 
 // Information to be stored about a player
@@ -206,13 +239,8 @@ public class Player
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelScores : List.<LevelData> = new List.<LevelData>();
-	//@XmlArray("contactData")
-  	//@XmlArrayItem("ContactData")
-  	//public var contactDataStorage : ContactData;
-  	//@XmlArray("codexData")
-  	//@XmlArrayItem("CodexData")
-  	//public var codexDataStorage : CodexData;
-	
+  	public var contactData : ContactData;
+  	public var codexData : CodexData;
 	
 	// This updates the score or adds it if it wasn't there before
 	// Also, it outputs the difference between the stored score
@@ -263,10 +291,21 @@ public class Player
 		return 0;
 	}
 	
-	function unlockContact(contactName : String){
-		
+	public function unlockContact(contactName : String){
+		contactData.UnlockContact(contactName);
 	}
 	
+	public function lockContact(contactName : String){
+		contactData.LockContact(contactName);
+	}
+	
+	public function unlockCodex(codexName : String){
+		codexData.UnlockCodex(codexName);
+	}
+	
+	public function lockCodex(codexName : String){
+		codexData.LockCodex(codexName);
+	}
 }// End of Player
 
 // Information to be stored about the player
