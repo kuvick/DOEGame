@@ -12,7 +12,7 @@ public class PauseMenu extends GUIControl
 	
 	// BG Textures
 	public var scoreScreenSkin : GUISkin;
-	public var background : Texture;
+	//public var background : Texture;
 	public var lineOverlay : Texture;
 	public var infoBox : Texture;
 	
