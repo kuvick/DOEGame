@@ -758,8 +758,11 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	    oldInputBuilding.unallocatedInputIcons.Add(tempIcon);
 	    tempIcon.SetIndex(oldInputBuilding.unallocatedInputIcons.Count - 1);
 	    
-		outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
-		
+		//outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
+		outputBuilding.allocatedOutputs.RemoveAt(selectedOutIndex);
+		outputBuilding.allocatedOutputs.Add(resourceName);
+		outputBuilding.outputLinkedTo.RemoveAt(selectedOutIndex);
+		outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;

@@ -17,10 +17,16 @@ public class Loading extends GUIControl
 {
 	// Loading Screen Rectangles
 	private var background:Rect;
+	private var loadingRect : Rect;
+	private var onlineRect : Rect;
+	private var iconRect : Rect;
 	
 	// Loading Screen Textures
 	public var loadingTexture : Texture;
 	public var iconTexture : Texture;
+	public var backgroundTexture : Texture2D;
+	public var foregroundTexture : Texture2D;
+	public var onlineTexture : Texture2D;
 	
 	private var style : GUIStyle = GUIStyle();
 	public var boldFont : Font;
@@ -28,7 +34,6 @@ public class Loading extends GUIControl
 	
 	private var titleRect : Rect;
 	private var descRect : Rect;
-	private var iconRect : Rect;
 	
 	private var titleFontScale : float = 0.08;
 	private var titleFontSize : float;
@@ -79,7 +84,8 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
-		GUI.DrawTexture(background, loadingTexture, ScaleMode.ScaleToFit);
+		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
+		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
 		style.font = boldFont;
 		style.fontSize = titleFontSize;
 		GUI.Label(titleRect, currentJob.title, style);
