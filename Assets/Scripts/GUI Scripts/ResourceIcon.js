@@ -17,6 +17,9 @@ private var selectedBuilding:GameObject;
 
 private var linkUIRef : LinkUI;
 
+private var unallColor : Color = Color(1.0,1.0,1.0,.5);
+private var allColor : Color = Color(1.0,1.0,1.0,1.0);
+
 enum IOType
 {
 	In,
@@ -76,15 +79,22 @@ public function Initialize(building : BuildingOnGrid)
 	
 	if (ioType == IOType.OptOut)
 		index = -1;
+	SetAllocated(false);
 }
 
 public function SetAllocated (allo : boolean)
 {
 	isAllocated = allo;
 	if (isAllocated)
+	{
 		currentTex = allocatedTex;
+		gameObject.renderer.material.color = allColor;
+	}
 	else
+	{
 		currentTex = unallocatedTex;
+		gameObject.renderer.material.color = unallColor;
+	}
 	gameObject.renderer.material.mainTexture = currentTex;
 }
 

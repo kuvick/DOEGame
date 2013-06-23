@@ -7,16 +7,18 @@ public class UpgradeCounter extends InspectionComponent
 	public var id : UpgradeID; // id of the upgrade
 	
 	private var topOffset : float;
-	private var topOffsetScale : float = 0.1;
+	private var topOffsetScale : float = 0.05;
 	private var width : float;
 	private var widthScale : float = 0.1;
 	
-	public function Initialize(id : UpgradeID, text : String, pic : Texture2D)
+	public function Initialize(id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
 	{
 		this.id = id;
+		normalTexture = icon;
+		selectedTexture = icon;
 		topOffset = Screen.height * topOffsetScale;
 		width = Screen.width * widthScale;
-		rect = Rect((Screen.width / 2) - (width / 2), topOffset, width, topOffset);
+		rect = Rect((Screen.width / 2) - (width / 2), topOffset, width, width);
 		Initialize(text, pic);
 	}
 	
@@ -45,6 +47,9 @@ public class UpgradeCounter extends InspectionComponent
 	public function Draw()
 	{
 		super();
+		GUI.skin.button.normal.background = currentTexture;
+		GUI.skin.button.active.background = currentTexture;
+		GUI.skin.button.hover.background = currentTexture;
 		if (GUI.Button(rect, String.Empty + obtainedParts + "/" + totalParts))
 			SendToDisplay();//display.Activate(dispText, this);
 	}

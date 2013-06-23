@@ -11,63 +11,48 @@ public class PauseMenu extends GUIControl
 {
 	
 	// BG Textures
-	public var scoreScreenSkin : GUISkin;
-	//public var background : Texture;
+	public var pauseScreenSkin : GUISkin;
+	public var background : Texture;
 	public var lineOverlay : Texture;
-	public var infoBox : Texture;
+	private var defaultColor : Color;
+	private var transparentColor : Color;
 	
+	// Paused Text
+	public var pauseText : Texture;
+	private var pauseTextRect : Rect;
+	private var pauseTextX : float = 1030;
+	private var pauseTextY : float = 232;
 	
+	// Back Button
+	public var backButton : Texture;
+	private var backButtonRect : Rect;
+	private var backButtonX : float = 59;
+	private var backButtonY : float = 31;
 	
+	// Restart Button
+	public var restartButton : Texture;
+	private var restartButtonRect : Rect;
+	private var restartButtonX : float = 1320;
+	private var restartButtonY : float = 475;
 	
+	// Dashboard Button
+	public var dashboardButton : Texture;
+	private var dashboardButtonRect : Rect;
+	private var dashboardButtonX : float = 1218;
+	private var dashboardButtonY : float = 638;
 	
-	// Skins for Pause Menu
-	public var hexButtonSkin:GUISkin;
-	public var pauseMenuSkin:GUISkin;					
+	// Main Menu Button
+	public var mainMenuButton : Texture;
+	private var mainMenuButtonRect : Rect;
+	private var mainMenuButtonX : float = 1215;
+	private var mainMenuButtonY : float = 801;
 	
-	// Pause Menu Button Rectangles
-	private var background:Rect;
-	private var title:Rect;
-	private var resumeGameButton:Rect;
-	private var levelSelectButton:Rect;
-	private var restartButton:Rect;
-	private var StartMenuButton:Rect;
-	private var saveQuitButton:Rect;	
+	// Hex BG Shape
+	public var hexShape : Texture;
+	private var hexShapeRect : Rect;
+	private var hexShapeX : float = 746;
+	private var hexShapeY : float = 0;
 	
-	// Pause Menu Scaling
-	private var groupYPosPercent:float = 0.3;				// Y position of the entire menu as a percentage of screen height
-	private var menuButtonHeightPercent:float = 0.13;		// Height of each button as a percentage of screen height
-	private var menuButtonRatio:float = 3.7;				// Width to height ratio of the button texture (for accurate sclaing)
-	private var menuButtonOffsetPercent:float = 1;			// The "height" of the button used for positioning to account for whitespace in the textures
-	private var resumeButtonHeightPercent:float = 0.2;		// Width of the resume button as a percent of height
-	
-	private var menuButtonTextOffsetXPercent:float = -0.1;	// Offset X of the button text so it's aligned according to the mockup
-	private var menuButtonTextOffsetYPercent:float = 0.43;	// Offset Y of the button text so it's aligned according to the mockup
-	
-	private var titleOffsetXPercent:float = 0.02;			// Offset X of the meny title so it's aligned according to the mockup
-	private var titleOffsetYPercent:float = -0.6;			// Offset Y of the meny title so it's aligned according to the mockup
-	
-	private var titleHeightPercent:float = 0.09;			// Height of the font of the title as a percentage of screen height
-	private var fontHeightPercent:float = 0.04;				// Height of the font of the buttons as a percentage of screen height
-	
-	private var resumeButtonFontHeightPercent:float = 0.03;	// Height of the font of the resume button as a pecentage of screen height
-
-	private var menuButtonHeight:float;
-	private var menuButtonWidth:float;
-	private var resumeButtonHeight:float;	
-			
-	private var menuButtonOffset:float;
-	private var menuButtonTextOffsetY:float;
-	private var menuButtonTextOffsetX:float;
-	
-	private var titleOffsetX:float;
-	private var titleOffsetY:float;
-	private var titleHeight:float;
-	
-	private var fontHeight:float;
-	private var resumeButtonFontHeight:float;	
-	
-	// Pause Menu Textures
-	public var pauseBackground:Texture;
 	
 	public function Start()
 	{
@@ -78,49 +63,98 @@ public class PauseMenu extends GUIControl
 	{
 		super.Initialize();
 		
-		menuButtonHeight = menuButtonHeightPercent* screenHeight;
-		menuButtonWidth = menuButtonHeight * menuButtonRatio;
-		menuButtonOffset = menuButtonOffsetPercent * menuButtonHeight;
-		resumeButtonHeight = resumeButtonHeightPercent * screenHeight;
 		
-		menuButtonTextOffsetY = menuButtonTextOffsetYPercent * menuButtonHeight;
-		menuButtonTextOffsetX = menuButtonTextOffsetXPercent * menuButtonWidth;
-		titleOffsetX = titleOffsetXPercent * menuButtonWidth;
-		titleOffsetY = titleOffsetYPercent * menuButtonHeight;
+		var designWidth : float = 1920;
+		var designHeight : float = 1080;
 		
-		titleHeight = titleHeightPercent * screenHeight;
-		fontHeight = fontHeightPercent * screenHeight;
-		resumeButtonFontHeight = resumeButtonFontHeightPercent * screenHeight;
+		defaultColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		transparentColor = new Color(1.0f, 1.0f, 1.0f, 0.9f);
 		
-		pauseMenuSkin.label.fontSize = titleHeight;
-		pauseMenuSkin.button.fontSize = fontHeight;
-		hexButtonSkin.button.fontSize = resumeButtonFontHeight;
+
 		
-		pauseMenuSkin.button.contentOffset.x = menuButtonTextOffsetX;
-		pauseMenuSkin.button.contentOffset.y = menuButtonTextOffsetY;
+		//Calculating Rect.
+			// PausedText
+		pauseTextRect = RectFactory.NewRect(pauseTextX / designWidth, 
+											  pauseTextY / designHeight,
+											  pauseText.width / designWidth,
+											  pauseText.height / designHeight);
+
+			// Hex
+		hexShapeRect = RectFactory.NewRect(hexShapeX / designWidth, 
+											  hexShapeY / designHeight,
+											  hexShape.width / designWidth,
+											  hexShape.height / designHeight);
+											  
+											  
+			// Back Button
+		backButtonRect = RectFactory.NewRect(backButtonX / designWidth, 
+											  backButtonY / designHeight,
+											  backButton.width / designWidth,
+											  backButton.height / designHeight);
+											  
+			// Dashboard Button
+		restartButtonRect = RectFactory.NewRect(restartButtonX / designWidth, 
+											  restartButtonY / designHeight,
+											  restartButton.width / designWidth,
+											  restartButton.height / designHeight);
+											  
+			// Restart Button
+		dashboardButtonRect = RectFactory.NewRect(dashboardButtonX / designWidth, 
+											  dashboardButtonY / designHeight,
+											  dashboardButton.width / designWidth,
+											  dashboardButton.height / designHeight);
+											  
+			// Main Menu Button
+		mainMenuButtonRect = RectFactory.NewRect(mainMenuButtonX / designWidth, 
+											  mainMenuButtonY / designHeight,
+											  mainMenuButton.width / designWidth,
+											  mainMenuButton.height / designHeight);
 		
-		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		
-		resumeGameButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, resumeButtonHeight, resumeButtonHeight);	
-		levelSelectButton = Rect(verticalBarWidth + (screenWidth - menuButtonWidth)/2, horizontalBarHeight + screenHeight * groupYPosPercent, menuButtonWidth, menuButtonHeight); 
-		restartButton = Rect(levelSelectButton.x, levelSelectButton.y + menuButtonOffset, menuButtonWidth, menuButtonHeight);
-		StartMenuButton = Rect(levelSelectButton.x, restartButton.y + menuButtonOffset, menuButtonWidth, menuButtonHeight);
-		saveQuitButton = Rect(levelSelectButton.x, StartMenuButton.y + menuButtonOffset, menuButtonWidth, menuButtonHeight);
-		
-		title = Rect(levelSelectButton.x + titleOffsetX, levelSelectButton.y + titleOffsetY, 0, 0);
-		
-		// Add the background's rect to the rectList for checking input collision
-		rectList.Add(background);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
 	}
 	
 	public function Render()
 	{
-		GUI.skin = pauseMenuSkin;
+	
+			// Drawing background textures:
+		GUI.skin = pauseScreenSkin;
+		GUI.color = transparentColor;
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		GUI.color = defaultColor;
+		GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
+		GUI.DrawTexture(hexShapeRect, hexShape);
+		GUI.DrawTexture(pauseTextRect, pauseText);
 		
-		GUI.DrawTexture(background, pauseBackground, ScaleMode.ScaleAndCrop);
-		GUI.Label(title, "PAUSE");
+		
+		
+		// Buttons are rendered:
+		
+		if(GUI.Button(backButtonRect, backButton))
+		{
+			currentResponse.type = EventTypes.MAIN;
+			PlayButtonPress();
+		}
+		
+		if(GUI.Button(restartButtonRect, restartButton))
+		{
+			currentResponse.type = EventTypes.RESTART;
+		}
+		
+		if(GUI.Button(dashboardButtonRect, dashboardButton))
+		{
+			currentResponse.type = EventTypes.LEVELSELECT;
+			PlayButtonPress();
+		}
+		
+		if(GUI.Button(mainMenuButtonRect, mainMenuButton))
+		{
+			currentResponse.type = EventTypes.STARTMENU;
+			PlayButtonPress();
+		}
+		
+	
+	/*
 		
 		if (GUI.Button(levelSelectButton, "level select"))
 		{
@@ -148,5 +182,7 @@ public class PauseMenu extends GUIControl
 		{
 			currentResponse.type = EventTypes.MAIN;
 		}
+		
+		*/
 	}
 }

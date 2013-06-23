@@ -2,6 +2,12 @@ fileFormatVersion: 2
 guid: eeb752318fcd1bf44ab7c83e4784fa20
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - backButton: {fileID: 2800000, guid: 850767f9bb0371249ae005250e198766, type: 1}
+  - skipButton: {fileID: 2800000, guid: 15c02377cbda23941bf61adcd3e5ff5a, type: 1}
+  - replayButton: {fileID: 2800000, guid: fa96626c92e9fc14ca637392f617944e, type: 1}
+  - startButton: {fileID: 2800000, guid: 5607e43bedb1dae4482495dd2262d056, type: 1}
+  - narrativeSkin: {fileID: 11400000, guid: b906acf503e15684298a3ac42f3144e1, type: 2}
+  - homeButton: {fileID: 2800000, guid: 4b3fdaaa302594c4d8fd2f1a5b4eac29, type: 1}
   executionOrder: 0
   icon: {instanceID: 0}
