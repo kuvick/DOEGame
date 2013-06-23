@@ -235,7 +235,8 @@ public class ScoreMenu extends GUIControl{
 		{
 			// Maybe switch this to level select, but can't
 			// so long as the back button returns to the level...
-			currentResponse.type = EventTypes.MAIN;
+			//currentResponse.type = EventTypes.MAIN;
+			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		
