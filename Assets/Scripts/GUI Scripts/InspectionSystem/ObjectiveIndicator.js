@@ -30,7 +30,8 @@ public class ObjectiveIndicator extends InspectionComponent
 	public function Initialize(targ : Transform, event : BuildingEvent, type : int)//desc : String, type : int)
 	{
 		attachedEvent = event;
-		texture = Resources.Load("indicator_arrow" + type) as Texture2D;
+		normalTexture = Resources.Load("indicator_arrow" + type) as Texture2D;
+		selectedTexture = Resources.Load("indicator_arrow" + type) as Texture2D;
 	    target = targ;
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
 	    textureSize = textureSizeScale * Screen.height;
@@ -70,7 +71,7 @@ public class ObjectiveIndicator extends InspectionComponent
 		{
 		    var matrixBackup : Matrix4x4 = GUI.matrix;
 		    GUIUtility.RotateAroundPivot(rotAngleDeg, screenMiddle);
-		    if(GUI.Button(rect, texture))
+		    if(GUI.Button(rect, currentTexture))
 		    {
 		    	SendToDisplay();//display.Activate(dispText, this);
 		    	Debug.Log("Angle: " + rotAngleDeg);

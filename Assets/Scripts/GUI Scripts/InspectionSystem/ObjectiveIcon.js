@@ -25,13 +25,14 @@ public class ObjectiveIcon extends InspectionComponent
 								type : BuildingEventType)
 	{
 		colorOpacity = Color(1.0, 1.0, 1.0, iconOpacity);
-		texture = icon;
+		normalTexture = icon;
+		selectedTexture = icon;
 		position = pos;
 		/*iconWidth = Screen.width * iconWidthScale;
 		floatHeight = floatPercent * Screen.height;
 		rect = Rect(0,0, iconWidth, iconWidth);*/
 		transform.position.y = 50;
-		renderer.material.mainTexture = texture;
+		renderer.material.mainTexture = normalTexture;
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
 		//renderer.material.color = colorOpacity;

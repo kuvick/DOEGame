@@ -14,6 +14,8 @@ public class UpgradeCounter extends InspectionComponent
 	public function Initialize(id : UpgradeID, text : String, pic : Texture2D)
 	{
 		this.id = id;
+		/*normalTexture = pic;
+		selectedTexture = pic;*/
 		topOffset = Screen.height * topOffsetScale;
 		width = Screen.width * widthScale;
 		rect = Rect((Screen.width / 2) - (width / 2), topOffset, width, topOffset);

@@ -6,7 +6,8 @@ public class InspectionComponent extends MonoBehaviour
 	public var dispPic : Texture2D = null;
 	protected var display : InspectionDisplay;
 	
-	protected var texture : Texture2D;
+	protected var currentTexture : Texture2D;
+	protected var normalTexture : Texture2D;
 	protected var textureSize : float;
 	protected var rect : Rect;
 	protected var isActive : boolean = true;
@@ -25,7 +26,8 @@ public class InspectionComponent extends MonoBehaviour
 			Debug.Log("display not found");
 		dispText = text;
 		dispPic = pic;
-		selectedTexture = Resources.Load("hex_click") as Texture2D;
+		//selectedTexture = Resources.Load("hex_click") as Texture2D;
+		currentTexture = normalTexture;
 		if (selectedTexture)
 			Debug.Log("selected loaded properly");
 		skin = GUISkin();
@@ -46,10 +48,10 @@ public class InspectionComponent extends MonoBehaviour
 	public function Draw()
 	{
 		GUI.skin = skin;
-		if (isSelected)
+		/*if (isSelected)
 			SelectedButtonStyle();
 		else
-			BlankButtonStyle();
+			BlankButtonStyle();*/
 	}
 	
 	public function SetActive(active : boolean)
@@ -60,6 +62,10 @@ public class InspectionComponent extends MonoBehaviour
 	public function SetSelected(selected : boolean)
 	{
 		isSelected = selected;
+		if (isSelected)
+			currentTexture = selectedTexture;
+		else
+			currentTexture = normalTexture;
 	}
 	
 	public function SetRect (rect : Rect)
@@ -69,7 +75,7 @@ public class InspectionComponent extends MonoBehaviour
 	
 	public function SetTexture (tex : Texture2D)
 	{
-		texture = tex;
+		currentTexture = tex;
 	}
 	
 	protected function SendToDisplay()

@@ -16,10 +16,11 @@ public class UpgradeIcon extends InspectionComponent
 	{
 		this.building = building;
 		this.id = id;
-		texture = (GameObject.FindObjectOfType(UnitManager) as UnitManager).GetUpgradeIcon(this.id - 1);
+		normalTexture = (GameObject.FindObjectOfType(UnitManager) as UnitManager).GetUpgradeIcon(this.id - 1);
+		selectedTexture = (GameObject.FindObjectOfType(UnitManager) as UnitManager).GetUpgradeIcon(this.id - 1);
 		//iconObject = MonoBehaviour.Instantiate(Resources.Load("IconPlane") as GameObject, this.building.transform.position, Quaternion.identity);
 		transform.position.y = 50;
-		renderer.material.mainTexture = texture;
+		renderer.material.mainTexture = normalTexture;
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
 		Initialize(text, pic);
