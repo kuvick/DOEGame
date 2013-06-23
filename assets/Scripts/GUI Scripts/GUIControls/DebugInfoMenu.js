@@ -11,7 +11,7 @@ Author: Francis Yuan
 public class DebugInfoMenu extends GUIControl{
 	public var textStyle : GUIStyle;
 	
-	public var idLabelRect : Rect;
+	private var idLabelRect : Rect;
 	private var levelId : String;
 	private var id : String;
 	private var idNum : int;
@@ -32,9 +32,9 @@ public class DebugInfoMenu extends GUIControl{
 		
 		idNum = Database.playtestID;
 		
-		deviceName = SystemInfo.deviceName + ":";
-		if (deviceName == "<unknown>") deviceName = "";// if the devices name is not set then don't display it
-		modelName = SystemInfo.deviceModel.Substring(0, 15);
+		deviceName = /*SystemInfo.deviceName + ":"*/ "";
+		//if (deviceName == "<unknown>") deviceName = "";// if the devices name is not set then don't display it
+		modelName = SystemInfo.deviceModel.Substring(0, 20);
 		
 		SetupRectangles();
 	}
