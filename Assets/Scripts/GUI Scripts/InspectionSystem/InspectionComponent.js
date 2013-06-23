@@ -27,7 +27,7 @@ public class InspectionComponent extends MonoBehaviour
 		dispText = text;
 		dispPic = pic;
 		//selectedTexture = Resources.Load("hex_click") as Texture2D;
-		currentTexture = normalTexture;
+		SetSelected(false);//currentTexture = normalTexture;
 		if (selectedTexture)
 			Debug.Log("selected loaded properly");
 		skin = GUISkin();
