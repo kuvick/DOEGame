@@ -34,7 +34,7 @@ public class ObjectiveIcon extends InspectionComponent
 		renderer.material.mainTexture = texture;
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
-		renderer.material.color = colorOpacity;
+		//renderer.material.color = colorOpacity;
 		//turnMesh = gameObject.AddComponent(TextMesh);
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
 		temp.transform.position.x -= 25;
