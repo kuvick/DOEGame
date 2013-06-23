@@ -29,9 +29,12 @@ public class ObjectiveIndicator extends InspectionComponent
 	
 	public function Initialize(targ : Transform, event : BuildingEvent, type : int)//desc : String, type : int)
 	{
+		var hasUpgrade : int = 0;
+		if (event.upgrade != UpgradeID.None)
+			hasUpgrade = 1;
 		attachedEvent = event;
-		normalTexture = Resources.Load("indicator_arrow" + type) as Texture2D;
-		selectedTexture = Resources.Load("indicator_arrow" + type) as Texture2D;
+		normalTexture = Resources.Load("indicator_arrow" + type + hasUpgrade) as Texture2D;
+		selectedTexture = Resources.Load("indicator_arrow" + type + hasUpgrade) as Texture2D;
 	    target = targ;
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
 	    textureSize = textureSizeScale * Screen.height;
