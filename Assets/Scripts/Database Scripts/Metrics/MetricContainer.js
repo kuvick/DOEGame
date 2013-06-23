@@ -103,6 +103,9 @@ public class NarrativeData
 @XmlRoot("MetricCollection")
 public class MetricContainer
 {
+	@XmlArrayItem("ID")
+	public var ID : String;
+
 	@XmlArray("Turns")
 	@XmlArrayItem("Turn")
 	public var Turns : List.<TurnData>;	

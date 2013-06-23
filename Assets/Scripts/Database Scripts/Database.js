@@ -27,6 +27,8 @@ import System.Collections.Generic;
 	// Default buildings stored here:
 static public var buildings : Array;// = new Array();
 
+static public var playtestID : int = -1;
+
 	// Buildings on grid stored here:
 //static public var buildingsOnGrid : Array;// = new Array(); 
 public static var buildingsOnGrid : List.<BuildingOnGrid>;
@@ -147,6 +149,10 @@ function Start()
 	
 	metrics = new MetricContainer();
 	m_display = new MetricDisplay();
+	
+	if (playtestID == -1){
+		playtestID = Random.RandomRange(0, 99999999);
+	}
 	
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
 		activateBuilding(i, false);

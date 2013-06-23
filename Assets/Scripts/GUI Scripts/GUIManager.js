@@ -54,6 +54,7 @@ private var metricMenu:MetricMenu;
 private var contactsMenu:ContactsMenu;
 private var codexMenu:CodexMenu;
 private var contactInspectorMenu:ContactInspectorMenu;
+private var debugInfoMenu : DebugInfoMenu;
 //private var popUpMessageDisplay:PopUpMessageDisplay;
 
 // Delete this later when BuildingMenu is done
@@ -151,14 +152,17 @@ public function Start ()
 	contactsMenu = GetComponent(ContactsMenu);
 	codexMenu = GetComponent(CodexMenu);
 	contactInspectorMenu = GetComponent(ContactInspectorMenu);
+	debugInfoMenu = GetComponent(DebugInfoMenu);
 	//popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
+	
+	
 	
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
 		case "StartScreen":
-			//AddGUIToControls(startMenu);
-			AddGUIToControls(contactsMenu);
+			AddGUIToControls(startMenu);
+			//AddGUIToControls(contactsMenu);
 			break;
 		
 		case "LevelSelectScreen":
@@ -178,12 +182,14 @@ public function Start ()
 			break;
 	}
 	
+	
 	if(thisIsALevel)
 	{
 		AddGUIToControls(mainMenu);
 		//AddGUIToControls(marquee);
 		//AddGUIToControls(popUpMessageDisplay);
 	}
+	AddGUIToControls(debugInfoMenu);
 	
 }
 
@@ -431,6 +437,7 @@ private function ClearControls()
 		activeControls[i].ClearResponse();
 	}
 	activeControls.Clear();
+	AddGUIToControls(debugInfoMenu); // always come up
 }
 
 /*
