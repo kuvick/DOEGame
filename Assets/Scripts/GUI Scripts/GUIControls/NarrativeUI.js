@@ -1,31 +1,44 @@
 public class NarrativeUI extends GUIControl
 {
 	public var narrativeSlides : Texture[];
-	public var nextButton : Texture;
+	public var backButton : Texture;
 	public var skipButton : Texture;
+	public var replayButton : Texture;
+	public var startButton : Texture;
 	public var narrativeSkin : GUISkin;
 	public var levelToLoad : String = "DOEGame";
+	public var homeButton : Texture;
 	
 	
 	// Start Screen rectangles
 	private var slide:Rect;
 	private var skip:Rect;
-	private var next:Rect;
+	private var back:Rect;
+	private var start:Rect;
+	private var replay:Rect;
+	private var home:Rect;
 
-	private var skipButtonHeight:float;
-	private var skipButtonWidth:float;
-	private var skipButtonHeightPercent:float = 0.13;
-	private var skipButtonRatio:float = 2.15;
+	// Buttons
+	private var skipX : float = 1577;
+	private var skipY : float = 969;
 	
-	private var nextButtonHeight:float;
-	private var nextButtonWidth:float;
-	private var nextButtonHeightPercent:float = 0.10;
-	private var nextButtonRatio:float = 2.22;
+	private var backX : float = 64;
+	private var backY : float = 969;
 	
-	private var slideHeight:float;
-	private var slideWidth:float;
-	private var slideRatio:float = 0.5625;
+	private var startX : float = 1557;
+	private var startY : float = 969;
 	
+	private var replayX : float = 23;
+	private var replayY : float = 969;
+	
+	private var homeX : float = 1777;
+	private var homeY : float = 15;
+	
+	// "Tap Space" - so the user can cont. when they tap the image
+	private var tapHeight : float = 872;
+	private var tapSpace : Rect;
+
+
 	private var topSlide: float;
 	private var bottomSlide: float;
 	
@@ -42,23 +55,48 @@ public class NarrativeUI extends GUIControl
 		super.Start();
 		super.Initialize();
 		
+		var designWidth : float = 1920;
+		var designHeight : float = 1080;
+		
+		//Calculating Rect.
+			// Skip
+		skip = RectFactory.NewRect(			  skipX / designWidth, 
+											  skipY / designHeight,
+											  skipButton.width / designWidth,
+											  skipButton.height / designHeight);
+		
+			// Back
+		back = RectFactory.NewRect(	  		  backX / designWidth, 
+											  backY / designHeight,
+											  backButton.width / designWidth,
+											  backButton.height / designHeight);
+		
+			// Start
+		start = RectFactory.NewRect(	  	  startX / designWidth, 
+											  startY / designHeight,
+											  startButton.width / designWidth,
+											  startButton.height / designHeight);
+		
+			// Replay
+		replay = RectFactory.NewRect(	  	  replayX / designWidth, 
+											  replayY / designHeight,
+											  replayButton.width / designWidth,
+											  replayButton.height / designHeight);
+											  
+			// Replay
+		home = RectFactory.NewRect(	  	      homeX / designWidth, 
+											  homeY / designHeight,
+											  homeButton.width / designWidth,
+											  homeButton.height / designHeight);
+											  
+											  
+			// Tap Space
+		tapSpace = RectFactory.NewRect(	  	  0, 
+											  (homeY + homeButton.height)/ designHeight,
+											  1,
+											  tapHeight / designHeight);
+											  
 		currentSlide = 0;
-		
-		skipButtonHeight = skipButtonHeightPercent * screenHeight;
-		skipButtonWidth = skipButtonHeight * skipButtonRatio;
-		
-		nextButtonHeight = nextButtonHeightPercent * screenHeight;
-		nextButtonWidth = nextButtonHeight * nextButtonRatio;
-		
-		slideWidth = screenWidth;
-		slideHeight = slideWidth * slideRatio;
-		
-		topSlide = ((screenHeight + (horizontalBarHeight*2))/ 2)  - (slideHeight / 2);
-		bottomSlide = topSlide + slideHeight;
-		
-		slide = Rect(verticalBarWidth, topSlide, slideWidth, slideHeight);
-		skip = Rect(screenWidth + verticalBarWidth - skipButtonWidth, topSlide, skipButtonWidth, skipButtonHeight);
-		next = Rect(screenWidth + verticalBarWidth - nextButtonWidth, bottomSlide - nextButtonHeight, nextButtonWidth, nextButtonHeight);
 		
 		skipTimes  = new List.<float>();
 		
@@ -69,19 +107,12 @@ public class NarrativeUI extends GUIControl
 	public function OnGUI()
 	{
 		GUI.skin = narrativeSkin;
-		GUI.DrawTexture(slide, narrativeSlides[currentSlide]);
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
 		
-		GUI.DrawTexture(skip, skipButton);
-		if (GUI.Button(skip, ""))
-		{	
-			metrics.Narrative.wasSkipped = true;
-			LoadLevel();			
-		}
 		
-		GUI.DrawTexture(next, nextButton);
-		if (GUI.Button(next, ""))
+		if(currentSlide < narrativeSlides.Length - 1)
 		{
-			if(currentSlide < narrativeSlides.Length - 1)
+			if (GUI.Button(tapSpace, ""))
 			{
 				if(skipTimes.Count > 0)
 				{
@@ -92,11 +123,42 @@ public class NarrativeUI extends GUIControl
 								
 				currentSlide++;
 			}
-			else
-			{
-				LoadLevel();
+			if (GUI.Button(skip, skipButton))
+			{	
+				metrics.Narrative.wasSkipped = true;
+				LoadLevel();			
+			}
+			
+			if (GUI.Button(back, backButton))
+			{	
+				if(currentSlide > 0)
+				{
+					currentSlide--;
+				}			
 			}
 		}
+		else
+		{
+			if (GUI.Button(start, startButton))
+			{	
+				LoadLevel();	
+			}
+			
+			if (GUI.Button(replay, replayButton))
+			{	
+				currentSlide = 0;		
+			}
+		}
+		
+		if (GUI.Button(home, homeButton))
+		{	
+			Application.LoadLevel("StartScreen");
+		}
+		
+		
+		
+
+
 	}
 	
 	//Would eventually set this to the loading screen, but for now since there are errors...
