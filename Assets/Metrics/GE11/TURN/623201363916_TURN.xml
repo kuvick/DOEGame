@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="shift_jis"?>
+<ArrayOfTurnData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TurnData TurnData="Turn Data">
+    <Turn>1</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>5.828664</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>2</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>6.57051</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>3</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>7.78240871</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>4</Turn>
+    <RemainingEvents>1</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>8.499803</TimeSinceLevelLoad>
+  </TurnData>
+  <TurnData TurnData="Turn Data">
+    <Turn>5</Turn>
+    <RemainingEvents>0</RemainingEvents>
+    <Type>Building Link</Type>
+    <TimeSinceLevelLoad>9.401165</TimeSinceLevelLoad>
+  </TurnData>
+</ArrayOfTurnData>
