@@ -31,22 +31,26 @@ public class MainMenu extends GUIControl
 	// Main Menu Scaling
 	private var hexButtonHeightPercent:float = 0.2;		// Height of the hex button font as a percentage of screen height
 	private var scoreFontHeightPercent:float = 0.04;	// Height of the score font as a percentage of screen height
-	private var pauseFontHeightPercent:float = 0.03;	// Height of the pausefont as a percentage of screen height
+	//private var pauseFontHeightPercent:float = 0.03;	// Height of the pausefont as a percentage of screen height
+	private var pauseButtonHeightPercent:float = 0.14;
 				
 	private var hexButtonHeight:float;					
 	private var scoreFontHeight:float;			
-	private var pauseFontHeight:float;		
+	//private var pauseFontHeight:float;		
+	private var pauseButtonHeight:float;
 	
 	// Main Menu Textures
-	private var undoTexture:Texture;				
-	private var waitTexture:Texture;								
+	public var undoTexture:Texture;				
+	public var waitTexture:Texture;								
 	
-	public var undoTexture_Inactive:Texture;			
-	public var undoTexture_Active:Texture;				
-	public var waitTexture_Inactive:Texture;
-	public var waitTexture_Active:Texture;		
-	public var zoomInTexture:Texture;	
-	public var zoomOutTexture:Texture;	
+	//public var undoTexture:Texture;			
+	//public var undoTexture_Active:Texture;				
+	//public var waitTexture:Texture;
+	//public var waitTexture_Active:Texture;		
+	//public var zoomInTexture:Texture;	
+	//public var zoomOutTexture:Texture;
+	
+	public var pauseTexture : Texture;
 	
 	// Score and turn ints
 	private var score:int;
@@ -102,17 +106,20 @@ public class MainMenu extends GUIControl
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
 		
+		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
+		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
 		mainMenuSkin.label.fontSize = scoreFontHeight;
 		
-		pauseFontHeight = pauseFontHeightPercent * screenHeight;
-		mainMenuSkin.button.fontSize = pauseFontHeight;
+		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
+		//mainMenuSkin.button.fontSize = pauseFontHeight;
 		
-		pauseButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, hexButtonHeight, hexButtonHeight);														
-		waitButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - (1.7 * totalButtonPadding), hexButtonHeight, hexButtonHeight);						
-		var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
-		undoButton = Rect(undoButtonPos.x, undoButtonPos.y, hexButtonHeight , hexButtonHeight);																					
-		zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
+		pauseButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
+		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
+		
+		//var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
+		 waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
+		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
 		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
 		
 		scoreRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + padding, 0, 0);
@@ -144,11 +151,48 @@ public class MainMenu extends GUIControl
 		if(GameObject.Find("Database") != null && intelSystem == null)
 		{
 			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-      		score = intelSystem.getPrimaryScore();
+      		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
   		}
-		
+  		
 		if(intelSystem != null)
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		
+		
+		// Draw the buttons and respond to interaction
+		if(GUI.Button(pauseButton, pauseTexture))
+		{
+			currentResponse.type = EventTypes.PAUSE;
+		}
+		
+		if(GUI.Button(waitButton, waitTexture))
+		{
+			currentResponse.type = EventTypes.WAIT;
+			//currentResponse.type = EventTypes.BUILDING;
+		}
+		
+		if(GUI.Button(undoButton, undoTexture))
+		{
+			SoundManager.Instance().playButtonClick();
+			
+			currentResponse.type = EventTypes.UNDO;
+			//GUIManager.Instance().AddContact();
+		}
+		
+		if(Input.GetKeyDown(KeyCode.M))
+		{
+			currentResponse.type = EventTypes.METRIC;
+		}
+		
+		
+		GUI.Label(scoreRect, score.ToString());
+		if(intelSystem != null)
+		{
+			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+		}
+		
+		/*
+		// Previous GUI:
+		
 		
 		// Set icon textures to default
 		waitTexture = waitTexture_Inactive;
@@ -195,6 +239,7 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.METRIC;
 		}
 		
+		
 		if (!testCameras && GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture)))
 		{
 			PlayButtonPress();	 
@@ -225,6 +270,8 @@ public class MainMenu extends GUIControl
 		{
 			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
 		}
+		
+		*/
 	}
 	
 	private function HexCalc(position:Vector2, length:float, side:int):Vector2
