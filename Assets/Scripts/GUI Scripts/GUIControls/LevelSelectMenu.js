@@ -149,6 +149,8 @@ public class LevelSelectMenu extends GUIControl
 	private var completedTab : Rect;
 	private var showActive : boolean = true;
 	
+	private static var fromScoreScreen : boolean = false;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -343,7 +345,16 @@ public class LevelSelectMenu extends GUIControl
 		{
 			if(!showSplash)
 			{
+				if (fromScoreScreen)
+				{
+					fromScoreScreen = false;
+					currentResponse.type = EventTypes.STARTMENU;
+					Debug.Log ("from scoreA");
+				}
+				else
+				{
 				currentResponse.type = EventTypes.MAIN;
+				Debug.Log ("from scoreB");
 				if (!PlayerPrefs.HasKey(Strings.RESUME)){
 					Debug.LogError("There was no level to resume.");
 				} else {
@@ -351,12 +362,13 @@ public class LevelSelectMenu extends GUIControl
 					Debug.Log("Going to load " + levelToResume);
 					Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
 				}
+				}
 			}
 			else
 			{
 				showSplash = false;
 				activeLevelIndex = -1;
-				
+				Debug.Log ("from scoreC");
 			}
 		}
 	}
@@ -371,6 +383,11 @@ public class LevelSelectMenu extends GUIControl
 		{
 			unlockLevel("Tut2");
 		}
+	}
+	
+	public static function SetFromScoreScreen (fromScore : boolean)
+	{
+		fromScoreScreen = fromScore;
 	}
 
 	public function unlockLevel(sceneName : String)

@@ -107,6 +107,8 @@ public class ScoreMenu extends GUIControl{
 	private var startRank : int = 0;
 	
 	public var playerDataPref : GameObject;
+	
+	private var levelSelectRef : LevelSelectMenu;
 
 	public function Initialize(){
 		super.Initialize();
@@ -209,6 +211,7 @@ public class ScoreMenu extends GUIControl{
 		Debug.Log("EXP EARNED FILL" + expEarnedFill);
 		goalWidth = expEarnedFill * expBarRect.width;
 		
+		levelSelectRef = gameObject.GetComponent(LevelSelectMenu);
 	}
 	
 	public function Render(){   
@@ -237,6 +240,7 @@ public class ScoreMenu extends GUIControl{
 			// so long as the back button returns to the level...
 			//currentResponse.type = EventTypes.MAIN;
 			currentResponse.type = EventTypes.LEVELSELECT;
+			levelSelectRef.SetFromScoreScreen(true);
 			PlayButtonPress();
 		}
 		
