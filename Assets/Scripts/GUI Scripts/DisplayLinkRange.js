@@ -188,7 +188,9 @@ function HightlightBuildingTilesInRange(selectedBuilding : GameObject)
 				for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
 				{
 					Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]);
-				}			
+				}	
+				
+						
 			}
 		}
 	}
@@ -196,7 +198,13 @@ function HightlightBuildingTilesInRange(selectedBuilding : GameObject)
 
 function OnGUI()
 {	
-	HightlightBuildingTilesInRange(ModeController.selectedBuilding);
+/*
+	if(ModeController.newSelected)
+	{
+		HightlightBuildingTilesInRange(ModeController.selectedBuilding);
+		ModeController.newSelected = false;
+	}
+	*/
 }
 
 

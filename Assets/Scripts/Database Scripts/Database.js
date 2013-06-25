@@ -99,6 +99,8 @@ enum UndoType
 public var metrics : MetricContainer;
 public var m_display : MetricDisplay;
 
+public var level_s : LevelSerializer;
+
 function Start()
 {
 	// Telling the GUISystem to get the references to scripts specific to the level:
@@ -156,6 +158,9 @@ function Start()
 	
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
 		activateBuilding(i, false);
+		
+	level_s = new LevelSerializer();
+	WriteLevel();
 }
 
 
@@ -425,6 +430,8 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 			return true;
 		}
 	}
+	
+	
 	
 	return false;
 }
@@ -1586,5 +1593,27 @@ class BuildingReplacement extends System.ValueType
 public function SayHello()
 {
 	Debug.Log("Hello!");
+}
 
+public function WriteLevel()
+{
+	var building_objects : GameObject[] = GameObject.FindGameObjectsWithTag("Building");
+	
+	for(var i : int = 0; i < building_objects.Length; i++)
+	{
+		var bldgO : BuildingData = building_objects[i].GetComponent("BuildingData");
+		var b : BuildingSerialData = new BuildingSerialData();
+		
+		b.Name = building_objects[i].name;
+		b.Location = building_objects[i].transform.position;
+		b.Inputs = bldgO.buildingData.unallocatedInputs;
+		b.Outputs = bldgO.buildingData.unallocatedOutputs;
+		b.OptionalOutput = bldgO.buildingData.optionalOutput; 
+		b.Active = bldgO.buildingData.isActive;
+		
+		level_s.Buildings.Add(b);
+	}
+	
+	level_s.Save(Application.persistentDataPath + "/LevelData.xml");
+	Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
 }

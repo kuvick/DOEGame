@@ -40,7 +40,7 @@ private var guiDisabledColor : Color = new Color(1,1,1,2);
 private var noHighlightColor : Color = new Color(1,1,1,0);
 private var usableHighlightColor : Color = new Color(1,1,0,.5);
 private var targetHighlightColor : Color = new Color(0,1,1,.5);
-private var selectedHighlightColor : Color = new Color(0,0,0,.5);
+private var selectedHighlightColor : Color =  new Color(0,0,0,.5);
 private var buildingHighlightColor : Color;
 
 // Screen width and height
@@ -553,6 +553,23 @@ function OnGUI()
 				selectedResource = gridBuilding.optionalOutput;
 			}*/
 		}
+		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
+		{
+			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
+			
+			for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]))
+				{
+					buildingHighlightColor = targetHighlightColor;
+				}
+			}		
+			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.unit != UnitType.None)
+			{
+				Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput);
+			}	
+		}
+		
 		GUI.enabled = true;
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 	}
