@@ -78,13 +78,21 @@ public class LevelSelectMenu extends GUIControl
 	private var loginRect : Rect;
 	private var loginText : String;
 	
+	private var codexRect : Rect;
+	private var contactsRect : Rect;
+	private var recordRect : Rect;
+	
+	
 	//Scroll
 	private var scrollArea:Rect;
+	private var scrollArea2: Rect;
 	private var levelSelectScrollPos:Vector2;
 	private var scrollContent : Rect;
 	
 	private var scrollAreaWidthPercent : float = 0.75;
-	private var scrollAreaHeightPercent : float = 0.75;
+	private var scrollAreaHeightPercent : float = 0.80;
+	private var innerScrollAreaWidthPercent : float = 0.67;
+	private var innerScrollAreaHeightPercent : float = 0.67;
 	private var scrollPosition : Vector2;
 	
 	private var messageHeightPercent : float = 0.1;
@@ -96,6 +104,12 @@ public class LevelSelectMenu extends GUIControl
 	public var unreadTexture : Texture;
 	public var primaryTexture : Texture;	
 	public var secondaryTexture : Texture;
+	public var missionSelectBorder : Texture;
+	public var missionDivider : Texture;
+	
+	public var codexBadge : Texture;
+	public var contactsBadge : Texture;
+	public var recordBadge : Texture;
 	private var statusRectangle : Rect;
 	private var senderRectangle : Rect;
 	
@@ -107,7 +121,7 @@ public class LevelSelectMenu extends GUIControl
 	private var activeLevelIndex : int = -1;
 	
 	private var startLevelButton : Rect;
-	private var startLevelButtonWidth : float = .5;
+	private var startLevelButtonWidth : float = .25;
 	private var startLevelButtonHeight : float = .25;
 	
 	private var messageBuffer : Vector2;
@@ -127,6 +141,8 @@ public class LevelSelectMenu extends GUIControl
 	//private var levelMiddleNodeOffset;
 	private var backButtonHeight:float;		
 	private var backButtonFontHeight:float;	
+	
+	private var badgeWidthPercent : float = 0.10;
 	
 	// Level Select Menu textures
 	public var backgroundTexture:Texture;	
@@ -192,12 +208,17 @@ public class LevelSelectMenu extends GUIControl
 
 		loginRect = new Rect(background.x + background.width - (loginText.length * levelSelectSkin.label.fontSize), 0, loginText.length * levelSelectSkin.label.fontSize * 10, levelSelectSkin.label.fontSize * 10);
 		
+		codexRect = new Rect(verticalBarWidth + padding,background.y + background.height / 2 - (background.width * badgeWidthPercent) , background.width * badgeWidthPercent, background.width * badgeWidthPercent);
+		contactsRect = new Rect(codexRect.x, codexRect.y + codexRect.width , codexRect.width, codexRect.width);
+		recordRect = new Rect(codexRect.x, codexRect.y - codexRect.width, codexRect.width, codexRect.width);
+		
 		scrollPosition = new Vector2(0.125, 0.125);
-		scrollArea = new Rect(background.x + (screenWidth * scrollPosition.x), background.y + (screenHeight * scrollPosition.y), background.width * scrollAreaWidthPercent, background.height * scrollAreaHeightPercent);		
+		scrollArea = new Rect(background.x + (background.width * scrollPosition.x), background.y + (background.height * scrollPosition.y), background.width * scrollAreaWidthPercent, background.height * scrollAreaHeightPercent);		
+		scrollArea2 = new Rect(scrollArea.x + ((scrollAreaWidthPercent - innerScrollAreaWidthPercent)/3 * background.width), scrollArea.y + ((scrollAreaHeightPercent - innerScrollAreaHeightPercent)/4 * background.height), background.width * innerScrollAreaWidthPercent, scrollArea.height - (((scrollAreaHeightPercent - innerScrollAreaHeightPercent) * 1.6f) * background.height));// background.height * innerScrollAreaHeightPercent);
 		splashBounds = new Rect(background.x + (screenWidth * scrollPosition.x), background.y + (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
 		messageBuffer = new Vector2(.04 * splashBounds.width, .1 * splashBounds.height);
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
-		startLevelButton = new Rect((splashBounds.width * (startLevelButtonWidth / 2)), splashBounds.height - (splashBounds.height * .30), splashBounds.width * startLevelButtonWidth, splashBounds.height * startLevelButtonHeight);
+		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * startLevelButtonWidth, splashBounds.height * startLevelButtonHeight);
 		
 		activeTab = new Rect(0, scrollArea.y, ((screenWidth - scrollArea.width)/2), messageHeightPercent * screenHeight);
 		completedTab = new Rect(activeTab.x, activeTab.y + activeTab.height, activeTab.width, activeTab.height);
@@ -215,7 +236,7 @@ public class LevelSelectMenu extends GUIControl
 		// Scroll bar
 			levelSelectScrollPos = GUI.BeginScrollView
 			(
-				scrollArea,
+				scrollArea2,				
 				levelSelectScrollPos,
 				scrollContent,
 				false, 
@@ -235,7 +256,12 @@ public class LevelSelectMenu extends GUIControl
 						}
 						
 																								
-						GUI.Box(unlockedLevels[i].bounds, "");
+						//GUI.Box(unlockedLevels[i].bounds, "");
+						if(i != unlockedLevels.Count-1)
+						{
+							GUI.Label(new Rect(unlockedLevels[i].bounds.x, unlockedLevels[i].bounds.y + (unlockedLevels[i].bounds.height * .75), unlockedLevels[i].bounds.width, unlockedLevels[i].bounds.height / 2), missionDivider);
+						}
+						
 												
 						statusRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - statusRectangle.height) / 2);
 						senderRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - senderRectangle.height) / 2);
@@ -293,11 +319,11 @@ public class LevelSelectMenu extends GUIControl
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		if(!showSplash)	//Renders the Inbox Screen
 		{
-			GUI.Box(scrollArea,"Inbox");
-			
+			//GUI.Box(scrollArea,"Inbox");
+			GUI.Label(scrollArea, missionSelectBorder);
 			
 			//Tabs
-			GUI.Box(activeTab, "");
+			/*GUI.Box(activeTab, "");
 			GUI.Box(completedTab, "");
 			if(GUI.Button(activeTab, "Active\nMissions") && !showActive)
 			{
@@ -310,13 +336,28 @@ public class LevelSelectMenu extends GUIControl
 				changeTab();
 				Debug.Log("Accessing Completed Missions");
 				showActive = false;
+			}*/
+			
+			if(GUI.Button(codexRect, codexBadge))
+			{
+				currentResponse.type = EventTypes.CODEXMENU;
+			}
+			
+			if(GUI.Button(contactsRect, contactsBadge))
+			{
+				currentResponse.type = EventTypes.CONTACTSMENU;
+			}
+			
+			if(GUI.Button(recordRect, recordBadge))
+			{
+				Debug.Log("Record Badge Pressed");//currentResponse.type = EventTypes.CODEXMENU;
 			}
 			
 			RenderLevels();
 		}				
 		else	//Renders the Splash Screen
 		{
-			GUI.Box(splashBounds,"Message");
+			GUI.Label(splashBounds,missionSelectBorder);
 			GUI.BeginGroup(splashBounds);			
 				//levelSelectSkin.label.fontSize = levelSelectFontSize;
 				GUI.skin = hexButtonSkin;				
@@ -461,28 +502,29 @@ public class LevelSelectMenu extends GUIControl
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{					
 			if(levels[i].unlocked)
-			{	if(showActive) // If in the Active Tab
-				{
-					if(!levels[i].completed) //If the level is not completed
-					{
-						level = new Rect(0, count * (messageHeightPercent * screenHeight), messageWidthPercent * screenWidth, messageHeightPercent * screenHeight);											
+			{	
+				//if(showActive) // If in the Active Tab
+				//{
+					//0if(!levels[i].completed) //If the level is not completed
+				//	{
+						level = new Rect(0, count * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/scrollArea2.width * .95, messageHeightPercent * screenHeight);											
 						level.y += count * (level.height * .05);
 						levels[i].bounds = level;
 						unlockedLevels.Add(levels[i]);
 						count++;				
-					}
-				}
-				else // If in the Compeleted Tab
+				//	}
+				//}
+				/*else // If in the Compeleted Tab
 				{
 					if(levels[i].completed) // If the level is completed
 					{
-						level = new Rect(0, count * (messageHeightPercent * screenHeight), messageWidthPercent * screenWidth, messageHeightPercent * screenHeight);											
+						level = new Rect(0, count * (messageHeightPercent * screenHeight),scrollArea2.width, messageHeightPercent * screenHeight);											
 						level.y += count * (level.height * .05);
 						levels[i].bounds = level;				
 						unlockedLevels.Add(levels[i]);
 						count++;
 					}
-				}		
+				}*/		
 								
 			}
 		}
