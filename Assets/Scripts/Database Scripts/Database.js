@@ -1611,7 +1611,45 @@ public function WriteLevel()
 		b.OptionalOutput = bldgO.buildingData.optionalOutput; 
 		b.Active = bldgO.buildingData.isActive;
 		
+		if(bldgO.buildingData.hasEvent)
+		{	
+			var event : EventScript = building_objects[i].GetComponent("EventScript");
+			var e : EventSerialData = new EventSerialData();
+			e.Name = event.event.name;;
+			e.Title = event.event.title;
+			e.Description = event.event.description;
+			e.Type = event.event.type;
+			e.Turns = event.event.time;
+			e.Points = event.event.points;
+			e.Location = b.Location;
+			
+			level_s.Events.Add(e);
+		}
+		
 		level_s.Buildings.Add(b);
+	}
+	
+	var unit_objects : GameObject[] = GameObject.FindGameObjectsWithTag("Unit");
+	for(var j : int = 0; j < unit_objects.Length; j++)
+	{
+		var name : String = unit_objects[j].name;
+		var unit;
+		var u : UnitSerialData = new UnitSerialData();	
+		switch(name)
+		{
+			case "Worker2D":
+				u.Type = UnitType.Worker;
+				unit = unit_objects[j].GetComponent("WorkerUnit");
+				break;
+			case "Researcher2D":
+				u.Type = UnitType.Researcher;
+				unit = unit_objects[j].GetComponent("ResearcherUnit");
+				break;
+			default:
+				break;
+		}
+		u.Location = unit_objects[j].transform.position;
+		level_s.Units.Add(u);
 	}
 	
 	level_s.Save(Application.persistentDataPath + "/LevelData.xml");

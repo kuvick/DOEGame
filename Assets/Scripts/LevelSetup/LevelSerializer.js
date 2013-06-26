@@ -6,7 +6,7 @@ import System.IO;
 
 public class BuildingSerialData
 {
-	@XmlAttribute("BuildingData")
+	//@XmlAttribute("BuildingData")
 	public var Name : String;
 	public var Location : Vector3;
 	public var Inputs : ResourceType[];
@@ -29,7 +29,7 @@ public class BuildingSerialData
 
 public class UnitSerialData
 {
-	@XmlAttribute("UnitData")
+	//@XmlAttribute("UnitData")
 	public var Location : Vector3;
 	public var Type : UnitType;
 	
@@ -39,6 +39,31 @@ public class UnitSerialData
 	{
 		this.Location = Location;
 		this.Type = Type;
+	}
+}
+
+public class EventSerialData
+{
+	//@XmlAttribute("EventData")
+	public var Name : String;
+	public var Title : String;
+	public var Description : String;
+	public var Type : BuildingEventType;
+	public var Turns : int;
+	public var Points : int;
+	public var Location : Vector3;
+	
+	function EventSerialData(){}
+	
+	function EventSerialData(Name : String, Title : String, Description : String, Type: BuildingEventType, Turns : int, Points: int, Location : Vector3)
+	{
+		this.Name = Name;
+		this.Title = Title;
+		this.Description = Description;
+		this.Type = Type;
+		this.Turns = Turns;
+		this.Points = Points;
+		this.Location = Location;
 	}
 }
 
@@ -53,11 +78,15 @@ public class LevelSerializer
 	@XmlArray("Units")
 	@XmlArrayItem("Unit")
 	public var Units : List.<UnitSerialData>;
-		
+	
+	@XmlArray("Events")
+	@XmlArrayItem("Event")
+	public var Events : List.<EventSerialData>;
 	function LevelSerializer()
 	{
 		Buildings = new List.<BuildingSerialData>();
 		Units = new List.<UnitSerialData>();
+		Events = new List.<EventSerialData>();
 	}
 
 	public function Save(path : String)	
