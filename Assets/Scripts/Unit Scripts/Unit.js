@@ -25,7 +25,7 @@ private var validGeneralTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth - 10, 50, 10);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth, 50, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
 
 private var point:Vector3;
 private var mouseOverGUI : boolean;
@@ -50,7 +50,7 @@ private var guiDisabledColor : Color = new Color(1,1,1,2);
 
 private var targetIcon : GameObject;
 public var targetIconTex : Texture2D;
-private var targetOffset : Vector3 = Vector3(HexagonGrid.tileHalfWidth - 20, 50, -HexagonGrid.tileHalfHeight + 20);
+private var targetOffset : Vector3 = Vector3(HexagonGrid.tileHalfWidth, 50, 0);
 
 private var currentState : UnitState;
 public var unitIcons : Texture2D[];
@@ -83,6 +83,7 @@ function Start () {
 	targetIcon = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	targetIcon.renderer.material.mainTexture = targetIconTex;
 	targetIcon.renderer.enabled = false;
+	targetIcon.transform.localScale = Vector3(6,6,6);
 }
 
 function Initiate() {
@@ -402,13 +403,13 @@ function OnGUI() {
 		pathDrawn = false;
 	}
 	
-	if (currentBuilding.unitSelected)
+	/*if (currentBuilding.unitSelected)
 	{
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.SetColor("_Color", generalHighlightColor);
 		for (i = 0; i < validSpecificTargets.Count; i++)
-			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;//SetColor("_Color", targetHighlightColor);
-	}
+			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
+	}*/
 }
 
 public function OnSelected()
@@ -417,6 +418,10 @@ public function OnSelected()
 	{
 		currentBuilding.unitSelected = true;
 		FindValidTargets();
+		for (var i : int = 0; i < validGeneralTargets.Count; i++)
+			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
+		for (i = 0; i < validSpecificTargets.Count; i++)
+			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
 		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
