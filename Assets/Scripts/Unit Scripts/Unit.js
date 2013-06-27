@@ -59,6 +59,11 @@ public var unitSkin : GUISkin;
 
 protected var selectionSound : AudioClip;
 
+private var fadeTimer : float = 0;
+private var fadeScaler : float = 1.0;
+private var transparentColor : Color = Color(1,1,1,0);
+private var solidColor : Color = Color(1,1,1,1);
+
 enum UnitState
 {
 	Inactive,
@@ -344,6 +349,11 @@ function Update() {
 		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
 		pathDrawn = false;
 	}
+	
+	fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	if (fadeTimer >= 1 || fadeTimer <= 0)
+		fadeScaler *= -1;
+	targetIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
 }
 
 private function FindValidTargets()
