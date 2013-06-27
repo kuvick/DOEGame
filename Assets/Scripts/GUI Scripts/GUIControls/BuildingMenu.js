@@ -70,6 +70,9 @@ public class BuildingMenu extends GUIControl
 	private var resourceIconHeight:float;
 	private var resourceIconHeightPercent:float = 0.08;
 	
+	private var isEditor : boolean = false; // used to determine what functions to use if in the level editor
+	private var editorSelectedTile : Vector2; // coordinate of selected tile in level editor
+	
 	
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
@@ -104,6 +107,8 @@ public class BuildingMenu extends GUIControl
 	public function Start () 
 	{
 		super.Start();		
+		if (Application.loadedLevelName == "LevelEditor")
+			isEditor = true;
 	}
 	
 	// For when the level is loaded and there is an intel system
@@ -249,7 +254,10 @@ public class BuildingMenu extends GUIControl
 					
 					if(GUI.Button(buildingIconList[i], "" ))
 					{
-						Place(i);						
+						if (isEditor)
+							EditorPlace(i);
+						else
+							Place(i);						
 						currentResponse.type = EventTypes.MAIN;
 						
 					}
@@ -445,6 +453,19 @@ public class BuildingMenu extends GUIControl
 			RemoveBuildingFromList(index);
 	}
 	
+	// Used for placing buildings in the level editor
+	public function EditorPlace(index : int)
+	{
+		var worldCoord = HexagonGrid.TileToWorldCoordinates(editorSelectedTile.x, editorSelectedTile.y);
+		worldCoord += Vector3(HexagonGrid.tileHalfWidth, 0, HexagonGrid.tileHalfHeight);
+		var build : GameObject;
+			
+		build = Instantiate(buildingChoices[index].building, worldCoord, Quaternion.identity);
+		BuildingInteractionManager.resourceSetters.Add(build.AddComponent(BuildingResourceSetter));
+		
+		Database.addBuildingToGrid(build, editorSelectedTile);
+	}
+	
 	// replaces the building data of the passed in building with the newData
 	private function ReplaceBuildingData(building : GameObject, newData : BuildingOnGridData)
 	{
@@ -462,6 +483,12 @@ public class BuildingMenu extends GUIControl
 	public function MakeCurrentSite( currentSite : GameObject )
 	{
 		selectedBuildingSite = currentSite;
+	}
+	
+	// Sets the target tile to build at in the level editor
+	public function SetEditorSelectedTile(tile : Vector2)
+	{
+		editorSelectedTile = tile;
 	}
 	
 	private function RemoveBuildingFromList(index : int)

@@ -1,5 +1,5 @@
 #pragma strict
-
+import System.Collections.Generic;
 /*
 	BuildingInteractionManager.js
 	
@@ -19,8 +19,22 @@ enum TapType {
 public static var tapMode = TapType.Place;
 private static var paused : boolean = false;
 
-function Start () {
+// level editor variables
+private static var isEditor : boolean = false;
+private static var mainMenuRef : MainMenu;
+private static var buildingMenuRef : BuildingMenu;
+public static var resourceSetters : List.<BuildingResourceSetter>;
 
+function Start () {
+	if (Application.loadedLevelName == "LevelEditor")
+	{
+		isEditor = true;
+		mainMenuRef = GameObject.Find("GUI System").GetComponent(MainMenu);
+		buildingMenuRef = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+		resourceSetters = new List.<BuildingResourceSetter>();
+	}
+	else
+		isEditor = false;
 }
 
 function OnPauseGame()
@@ -52,19 +66,19 @@ static function PointOnBuilding(position : Vector2)
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
-	if(paused || CheckObjSelected(position)) return;
+	if(paused || CheckObjSelected(position) || (isEditor && CheckResourceSetters(position))) return;
 	
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
 
 	if (buildingIndex != -1){
-		//Debug.Log("Tap on building");
+		Debug.Log("Tap on building");
 		var buildings = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.setSelectedBuilding(building);
-		if(building.name == "BuildingSite")
+		if(building.name == "BuildingSite" && !isEditor)
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
 			buildingSiteScript.OpenBuildingMenu();
@@ -86,6 +100,11 @@ static function HandleTapAtPoint(position: Vector2){
 			Debug.Log("Not placing building, set to link");
 			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
+			if (isEditor)
+			{
+				buildingMenuRef.SetEditorSelectedTile(buildPosCoord);
+				mainMenuRef.RecieveEvent(EventTypes.BUILDING);
+			}
 		//}
 	}
 	
@@ -101,6 +120,16 @@ private static function CheckObjSelected (position : Vector2) : boolean
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
 		Debug.Log("collided");
 		return true;
+	}
+	return false;
+}
+
+private static function CheckResourceSetters(pos : Vector2) : boolean
+{
+	for (var i : int = 0; i < resourceSetters.Count; i++)
+	{
+		if (resourceSetters[i].MouseOnGUI(pos))
+			return true;
 	}
 	return false;
 }

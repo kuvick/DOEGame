@@ -1,6 +1,6 @@
 #pragma strict
 
-private void serializer : LevelSerializer;
+private var serializer : LevelSerializer;
 
 function Start () {
 	serializer = new LevelSerializer();
