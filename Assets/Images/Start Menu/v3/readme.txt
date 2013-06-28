@@ -1,0 +1,1 @@
+it seems like the newest assets were never provided beyond this screen shot...so good thing they're being completely redone anyway.
