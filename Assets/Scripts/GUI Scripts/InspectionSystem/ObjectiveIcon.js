@@ -24,19 +24,23 @@ public class ObjectiveIcon extends InspectionComponent
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
 								type : BuildingEventType)
 	{
-		colorOpacity = Color(1.0, 1.0, 1.0, iconOpacity);
+		// slant icon slightly forward towards the camera
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+		
+		// set icon textures
 		normalTexture = icon;
 		selectedTexture = icon;
-		position = pos;
-		/*iconWidth = Screen.width * iconWidthScale;
-		floatHeight = floatPercent * Screen.height;
-		rect = Rect(0,0, iconWidth, iconWidth);*/
-		transform.position.y = 50;
 		renderer.material.mainTexture = normalTexture;
+		// flip texture so not upside-down
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
-		//renderer.material.color = colorOpacity;
-		//turnMesh = gameObject.AddComponent(TextMesh);
+		
+		position = pos;
+		
+		// set icon height above the terrain
+		transform.position.y = 50;
+		
+		// set-up turn timer object
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
 		temp.transform.position.x -= 25;
 		turnMesh = temp.GetComponent(TextMesh);
@@ -45,6 +49,7 @@ public class ObjectiveIcon extends InspectionComponent
 			turnMesh.active = false;
 			isPrimary = false;
 		}
+		
 		Initialize(text, pic);
 	}
 	
@@ -60,33 +65,14 @@ public class ObjectiveIcon extends InspectionComponent
 		if (isPrimary)
 			turnMesh.active = isActive;
 	}
-
-	public function Update()
-	{
-		//Update Position of Image
-		screenPosition = Camera.mainCamera.WorldToScreenPoint(position.position);	
-	
-		//Update bounds, and convert screen coords to GUI coords
-		rect.x = screenPosition.x - iconWidth/2; 
-		rect.y = Screen.height - screenPosition.y - floatHeight; 
-	}
 	
 	public function Draw()
 	{
 		super();
-		/*super();
-		GUI.color = colorOpacity;
-		if (GUI.Button(rect, texture))
-			SendToDisplay();//display.Activate(dispText, this);
-		GUI.color = Color(1.0, 1.0, 1.0, 1.0);*/
 	}
 	
 	public function DrawTime(turnsLeft : String)
 	{
-		/*var tempRect : Rect = Rect(rect.x + iconWidth, rect.y, 30, 30); 
-		
-		GUI.Label(tempRect, turnsLeft);*/
-		//turnMesh.text = turnsLeft;
 		turnMesh.text = turnsLeft;
 	}
 }

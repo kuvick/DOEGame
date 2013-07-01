@@ -29,8 +29,6 @@ enum IOType
 
 function Update () {
 	selectedBuilding = ModeController.getSelectedBuilding();
-	var look : Vector3 = Camera.main.transform.position - transform.position;
-	transform.up = look.normalized;
 	//transform.rotation = Quaternion.LookRotation(look) * Quaternion.Euler(90, 0, 0);
 	/*if (selectedBuilding == building.buildingPointer && ioType == IOType.Out && building.isActive)
 		currentScale = bigScale;
@@ -51,17 +49,6 @@ public function OnSelected()
 	}
 }
 
-/*public function OnMouseExit()
-{
-	BuildingInteractionManager.SetObjSelected(false);
-}*/
-
-/*public function OnMouseOver()
-{
-	if (selectedBuilding == building.buildingPointer && building.isActive)
-		BuildingInteractionManager.SetObjSelected(true);
-}*/
-
 public function Initialize(building : BuildingOnGrid)
 {
 	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
@@ -76,6 +63,9 @@ public function Initialize(building : BuildingOnGrid)
 	
 	gameObject.renderer.material.mainTextureScale = Vector2(-1,-1);
 	gameObject.renderer.material.mainTextureOffset = Vector2(1,1);
+	
+	// slant icon slightly forward towards the camera
+	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
 	
 	if (ioType == IOType.OptOut)
 		index = -1;

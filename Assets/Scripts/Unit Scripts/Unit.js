@@ -75,20 +75,18 @@ enum UnitState
 function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
 	
-	// Store window dimensions and calculate padding
-	screenWidth = ScreenSettingsManager.instance.screenWidth;
-	screenHeight = ScreenSettingsManager.instance.screenHeight;
-	
-	smallButtonSize = screenHeight * smallButtonScale;
-	largeButtonSize = screenHeight * largeButtonScale;
-	buttonOffset *= offsetScale * screenHeight;
+	// slant icon slightly forward towards the camera
+	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
 	
 	renderer.material.mainTextureScale = Vector2(-1,-1);
 	
+	// set-up unit target icon
 	targetIcon = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	targetIcon.renderer.material.mainTexture = targetIconTex;
 	targetIcon.renderer.enabled = false;
 	targetIcon.transform.localScale = Vector3(6,6,6);
+	// slant icon slightly forward towards the camera
+	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
 }
 
 function Initiate() {
@@ -294,13 +292,6 @@ function DoAction ()
 
 function UndoAction () 
 {
-	/*if (type != UnitType.Researcher)
-	{
-		/*currentPath.Clear();
-		currentPath = FindPath(currentTarget);*/
-		//CheckPathBroken();
-	//}
-	
 	if (actionList.Count < 1)
 		return;
 	
@@ -412,14 +403,6 @@ function OnGUI() {
 		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
 		pathDrawn = false;
 	}
-	
-	/*if (currentBuilding.unitSelected)
-	{
-		for (var i : int = 0; i < validGeneralTargets.Count; i++)
-			validGeneralTargets[i].highlighter.renderer.material.SetColor("_Color", generalHighlightColor);
-		for (i = 0; i < validSpecificTargets.Count; i++)
-			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
-	}*/
 }
 
 public function OnSelected()
@@ -428,6 +411,7 @@ public function OnSelected()
 	{
 		currentBuilding.unitSelected = true;
 		FindValidTargets();
+		// highlight applicable buildings
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)

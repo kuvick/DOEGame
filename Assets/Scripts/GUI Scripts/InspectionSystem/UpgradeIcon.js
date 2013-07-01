@@ -14,15 +14,23 @@ public class UpgradeIcon extends InspectionComponent
 	
 	public function Initialize (building : GameObject, id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
 	{
+		// slant icon slightly forward towards the camera
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+		
 		this.building = building;
 		this.id = id;
+		
+		// set icon textures
 		normalTexture = icon;
 		selectedTexture = icon;
-		//iconObject = MonoBehaviour.Instantiate(Resources.Load("IconPlane") as GameObject, this.building.transform.position, Quaternion.identity);
-		transform.position.y = 50;
 		renderer.material.mainTexture = normalTexture;
+		// flip texture so not upside-down
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
+		
+		// set icon height above terrain
+		transform.position.y = 50;
+		
 		Initialize(text, pic);
 	}
 	
@@ -34,21 +42,6 @@ public class UpgradeIcon extends InspectionComponent
 	public function Draw()
 	{
 		super();
-		/*super();
-		if (isActive)
-		{
-			var point : Vector3 = Camera.main.WorldToScreenPoint(building.transform.position);
-			
-			point.y = Screen.height - point.y; //adjust height point
-			
-			if(point.y < 0) //Adjust y value of button for screen space
-				point.y -= Screen.height;
-			
-			var rect = Rect(point.x + heldUpgradeButtonOffset.x, 
-							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-			if (GUI.Button(rect, texture))
-				SendToDisplay();//display.Activate(dispText, this);
-		}*/
 		renderer.enabled = isActive;
 	}
 	
