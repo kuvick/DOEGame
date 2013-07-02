@@ -43,8 +43,12 @@ public var unitSkin : GUISkin;
 
 protected var selectionSound : AudioClip;
 
-private var fadeTimer : float = 0;
+private var isFading : boolean = false;
+private var fadeTimer : float = 0.0;
 private var fadeScaler : float = 1.0;
+private var fadeCount : int = 0;
+private var targetFadeTimer : float = 0.0;
+private var targetFadeScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
 
@@ -78,6 +82,7 @@ function Initiate() {
 	var buildingCoord : Vector3 = gameObject.transform.position;
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
+	currentBuilding.units.Add(this);
 	SetPosition();
 	CheckActive();
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
@@ -254,6 +259,23 @@ private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : 
 	SetLinkColors(currentPath[index], currentPath[index + 1], index + 1, col);
 }
 
+// activates icon fading, putting it in the proper order compared to other units
+public function ActivateFade (fadeIndex : int, totalUnits : int)
+{
+	if (!isFading)
+	{
+		isFading = true;
+		fadeTimer = (fadeIndex - .9) * -1;
+		fadeCount = (totalUnits - 2) * -1;
+	}
+}
+
+public function DeactivateFade ()
+{
+	isFading = false;
+	renderer.material.color = solidColor;
+}
+
 // performs unit actions on new turn
 function DoAction () 
 {
@@ -270,6 +292,8 @@ function DoAction ()
 	}
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
+	currentBuilding.units.Add(this);
+	previousBuilding.units.Remove(this);
 	if (type != UnitType.Researcher)
 		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeID.None, UpgradeID.None));
 	Debug.Log(actionList.Count);
@@ -287,10 +311,12 @@ function UndoAction ()
 		/*DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
 								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);*/
 		currentBuilding.unit = UnitType.None;
+		currentBuilding.units.Remove(this);
 		currentPath.Insert(0, currentBuilding);
 		currentBuilding = actionList[actionList.Count - 1].move;
 		SetPosition();
 		currentBuilding.unit = type;
+		currentBuilding.units.Add(this);
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
 		CheckPathBroken();
 		if (currentPath.Count > 0)
@@ -324,10 +350,20 @@ function Update() {
 		pathDrawn = false;
 	}
 	
-	fadeTimer += Time.smoothDeltaTime * fadeScaler;
-	if (fadeTimer >= 1 || fadeTimer <= 0)
-		fadeScaler *= -1;
-	targetIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+	// unit icon fade
+	if (isFading)
+	{
+		fadeTimer += Time.smoothDeltaTime * fadeScaler;
+		if (fadeTimer >= 1 || fadeTimer <= fadeCount)
+			fadeScaler *= -1;
+		if (fadeTimer >= 0)
+			renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+	}
+	// target icon fade
+	targetFadeTimer += Time.smoothDeltaTime * targetFadeScaler;
+	if (targetFadeTimer >= 1 || targetFadeTimer <= 0)
+		targetFadeScaler *= -1;
+	targetIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, targetFadeTimer);
 }
 
 // determines which buildings a unit can move to
@@ -369,6 +405,12 @@ private function CheckPathsEqual(pathA : List.<BuildingOnGrid>, pathB : List.<Bu
 			return false;
 	}
 	return true;
+}
+
+// getter function for currentBuilding
+public function GetCurrentBuilding() : BuildingOnGrid
+{
+	return currentBuilding;
 }
 
 function OnGUI() {
@@ -427,30 +469,20 @@ public function OnDeselect()
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
 			SetTarget(selectedGridBuilding);//currentTarget = selectedGridBuilding;
-			//if (currentPath.Count > 0)
-			//{
 			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 			pathDrawn = true;
 			Database.UndoStack.Add(UndoType.Wait);
+			SetState(UnitState.InTransit);
 			intelSystem.addTurn();
 			ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
-			SetState(UnitState.InTransit);
-			//}
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
 			Debug.Log("Path not found");
 			//StatusMarquee.SetText("Invalid unit target", true);
 		}
-	}
-	if (currentBuilding.unitSelected)
-	{
-		if (currentPath.Count > 0)
-			SetState(UnitState.InTransit);
-		else
-			SetState(UnitState.Active);
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;

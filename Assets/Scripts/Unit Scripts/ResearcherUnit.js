@@ -67,10 +67,8 @@ class ResearcherUnit extends Unit {
 					upgradeManager.CheckUpgradeComplete(GetBuildingEventUpgrade(currentBuilding)))//GetBuildingEventUpgrade(currentBuilding) == heldUpgrade)
 		{
 			// if so, satisfy upgrade need and display a temporary message on the status marquee
-			//currentBuilding.neededUpgrade = UpgradeID.None;
 			tempHeld = heldUpgrade;
 			intelSystem.resolveEvent(currentBuilding.buildingPointer.GetComponent("EventScript"));
-			//StatusMarquee.SetText("Upgrade delivered", true);	
 			tempHeld = heldUpgrade;
 		}
 		else
@@ -80,9 +78,6 @@ class ResearcherUnit extends Unit {
 	
 	function UndoAction ()
 	{
-		//foundPath.Clear();
-		//currentPath = FindPath(currentTarget);
-		//CheckPathBroken();
 		if (actionList.Count < 1)
 			return;
 		// if the current turn is the proper undo turn

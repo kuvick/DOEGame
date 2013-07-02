@@ -7,11 +7,6 @@ By Derrick Huey
 private static var unitList : List.<Unit> = new List.<Unit>();
 public var upgradeTextures : Texture[];
 
-private var heldUpgradeButtonOffset:Vector2 = new Vector2(-20, -50);	//Used to set position of button relative to building
-private var neededUpgradeButtonOffset:Vector2 = new Vector2(10, -50);
-private var upgradeButtonWidth = 27;
-private var upgradeButtonHeight = 27;
-
 function Start () {
 	InitiateUnits();
 }
@@ -30,43 +25,6 @@ function GetUpgradeIcon (i : int) : Texture
 	return upgradeTextures[i];
 }
 
-function OnGUI ()
-{
-	/*var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
-	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
-	{
-		if (buildings[i].heldUpgradeID != UpgradeID.None)
-		{
-			var point : Vector3 = Camera.main.WorldToScreenPoint(buildings[i].buildingPointer.transform.position);
-			
-			point.y = Screen.height - point.y; //adjust height point
-			
-			if(point.y < 0) //Adjust y value of button for screen space
-				point.y -= Screen.height;
-			
-			var heldUpgradeRect:Rect = Rect(point.x + heldUpgradeButtonOffset.x, 
-							point.y + heldUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-	
-			GUI.DrawTexture(heldUpgradeRect, upgradeTextures[buildings[i].heldUpgradeID - 1]);
-		}
-		/*if (b.neededUpgrade != UpgradeType.None)
-		{
-			point = Camera.main.WorldToScreenPoint(b.buildingPointer.transform.position);
-			
-			point.y = Screen.height - point.y; //adjust height point
-			
-			if(point.y < 0) //Adjust y value of button for screen space
-				point.y -= Screen.height;
-			
-			var neededUpgradeRect:Rect = Rect(point.x + neededUpgradeButtonOffset.x, 
-							point.y + neededUpgradeButtonOffset.y, upgradeButtonWidth, upgradeButtonHeight);
-			GUI.enabled = false;
-			GUI.Button(neededUpgradeRect, upgradeTextures[b.neededUpgrade - 1]);
-			GUI.enabled = true;
-		}*/
-	//}
-}
-
 static function AddUnit (temp : Unit) {
 	unitList.Add(temp);
 	Debug.Log("Unit added");
@@ -74,7 +32,7 @@ static function AddUnit (temp : Unit) {
 
 static function InitiateUnits() {
 	Debug.Log("Initiating units " + unitList.Count);
-	for (var i : int = 0; i < unitList.Count; i++)//var temp : Unit in unitList)
+	for (var i : int = 0; i < unitList.Count; i++)
 	{
 		unitList[i].Initiate();
 	}
@@ -85,6 +43,7 @@ static function DoUnitActions () {
 	{
 		unitList[i].DoAction();
 	}
+	CheckUnitLocations();
 }
 
 static function UndoUnitActions() {
@@ -92,11 +51,12 @@ static function UndoUnitActions() {
 	{
 		unitList[i].UndoAction();
 	}
+	CheckUnitLocations();
 }
 
 static function CheckUnitPathsBroken()
 {
-	for (var i:int = 0; i < unitList.Count; i++)
+	for (var i : int = 0; i < unitList.Count; i++)
 	{
 		unitList[i].CheckPathBroken();
 	}
@@ -112,4 +72,24 @@ static function CheckUnitsActive()
 {
 	for (var i : int = 0; i < unitList.Count; i++)
 		unitList[i].CheckActive();
+}
+
+// checks if any units occupy the same building, and if so activates alternating icon fades
+static function CheckUnitLocations()
+{
+	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
+	for (var i : int = 0; i < buildings.Count; i++)
+	{
+		if (buildings[i].units.Count == 1)
+			buildings[i].units[0].DeactivateFade();
+		else
+			ActivateUnitFade(buildings[i].units);
+	}
+}
+
+// activates alternating unit icon fades
+static function ActivateUnitFade(unitSet : List.<Unit>)
+{
+	for (var i : int = 0; i < unitSet.Count; i++)
+		unitSet[i].ActivateFade(i, unitSet.Count);
 }

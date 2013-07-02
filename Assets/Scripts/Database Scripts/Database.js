@@ -381,7 +381,7 @@ static public function getBuildingOnGridAtIndex(index: int):BuildingOnGrid{
 	return null;
 }
 
-static public function getBuildingsOnGrid(){
+static public function getBuildingsOnGrid() : List.<BuildingOnGrid>{
 	return (buildingsOnGrid);
 }
 
@@ -1046,6 +1046,7 @@ class BuildingOnGrid
 	var linkCount : int = 0; // How many links are currently on the building
 	
 	var unit : UnitType = UnitType.None;
+	var units : List.<Unit> = new List.<Unit>();
 	var unitSelected : boolean = false;
 	
 	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
