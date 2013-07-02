@@ -66,7 +66,7 @@ function singleClickEvent(inputPos: Vector2){
 	// we need to check if the point overlaps with a gui element
 	// if it does then we do nothing and let the gui handle it, otherwise
 	// we let the builing interaction manager handle it
-	if (GUIManager.Instance().NotOnGUI(inputPos) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())//GUIManager.Instance().NotOnOtherGUI())
+	if (GUIManager.Instance().NotOnGUI(inputPos) && linkUI.CheckMouseNotOverGUI())//GUIManager.Instance().NotOnOtherGUI())
 	{
     	BuildingInteractionManager.HandleTapAtPoint(inputPos);
     }
@@ -285,7 +285,7 @@ function HandleMobileInput(){
 			
 			if(touch.phase == TouchPhase.Ended)
 			{
-				if (GUIManager.Instance().NotOnGUI(touch.position) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+				if (GUIManager.Instance().NotOnGUI(touch.position) && linkUI.CheckMouseNotOverGUI())
 				{
 					BuildingInteractionManager.HandleReleaseAtPoint(touch.position);
 			    }
@@ -390,7 +390,7 @@ function HandleComputerInput(){
 		//If Button is released
 		if(!Input.GetKey(KeyCode.Mouse0))
 		{
-			if (GUIManager.Instance().NotOnGUI(clickPosition) && UnitManager.CheckMouseNotOverGUI() && linkUI.CheckMouseNotOverGUI())
+			if (GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI())
 			{
 				BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);				
 		    }		 			

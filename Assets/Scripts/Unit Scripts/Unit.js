@@ -8,7 +8,6 @@ import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
 protected var previousBuilding : BuildingOnGrid;
-//protected var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 protected var currentPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 public var type : UnitType;
 protected var actionList : List.<UnitAction> = new List.<UnitAction>();
@@ -27,26 +26,11 @@ private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general 
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth, 50, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
 
-private var point:Vector3;
-private var mouseOverGUI : boolean;
-private var mousePos:Vector2;
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
 private var pathDrawn : boolean = false;
 private var pathDrawnTimer : float;
 private var pathDrawnTimerDuration : float = 3.0f;
-
-// Screen width and height
-private var screenWidth: float;
-private var screenHeight: float;
-private var buttonOffset:Vector2 = new Vector2(.75, .75);
-private var offsetScale : float = 0.06;
-private var smallButtonScale : float = 0.075; // normal resource icon/button size
-private var smallButtonSize : float;
-private var largeButtonScale : float = 0.20; // resource icon/button size when building selected
-private var largeButtonSize : float;
-private var guiEnabledColor : Color = new Color(1,1,1,1);
-private var guiDisabledColor : Color = new Color(1,1,1,2);
 
 private var targetIcon : GameObject;
 public var targetIconTex : Texture2D;
@@ -100,6 +84,7 @@ function Initiate() {
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 }
 
+// set the unit's current state and change icon to appropriate texture
 private function SetState(state : UnitState)
 {
 	currentState = state;
@@ -322,6 +307,7 @@ private function SetPosition() {
 	Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
+// set unit's target and place target icon on the building
 private function SetTarget(targ : BuildingOnGrid)
 {
 	currentTarget = targ;
@@ -331,9 +317,6 @@ private function SetTarget(targ : BuildingOnGrid)
 }
 
 function Update() {
-	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-	
-	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
 	{
@@ -347,12 +330,13 @@ function Update() {
 	targetIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
 }
 
+// determines which buildings a unit can move to
 private function FindValidTargets()
 {
 	validSpecificTargets.Clear();
 	validGeneralTargets.Clear();
 	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
-	for (var i : int = 0; i < buildings.Count; i++)//var b : BuildingOnGrid in buildings)
+	for (var i : int = 0; i < buildings.Count; i++)
 	{
 		if (buildings[i] == currentBuilding)
 			continue;
@@ -374,6 +358,7 @@ public function CheckPathBroken()
 	}
 }
 
+// compares 2 lists of BuildingOnGrid
 private function CheckPathsEqual(pathA : List.<BuildingOnGrid>, pathB : List.<BuildingOnGrid>) : boolean
 {
 	if (pathA.Count != pathB.Count)
@@ -469,11 +454,6 @@ public function OnDeselect()
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;
-}
-
-public function MouseOnGUI() : boolean
-{
-	return mouseOverGUI;
 }
 
 class UnitAction extends System.ValueType
