@@ -46,7 +46,7 @@ protected var selectionSound : AudioClip;
 private var isFading : boolean = false;
 private var fadeTimer : float = 0.0;
 private var fadeScaler : float = 1.0;
-private var fadeCount : int = 0;
+private var fadeCount : float = 0;
 private var targetFadeTimer : float = 0.0;
 private var targetFadeScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
@@ -262,11 +262,14 @@ private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : 
 // activates icon fading, putting it in the proper order compared to other units
 public function ActivateFade (fadeIndex : int, totalUnits : int)
 {
-	if (!isFading)
+	var newFadeCount = 1 - (totalUnits / 2.0);
+	if (!isFading || newFadeCount != fadeCount)
 	{
 		isFading = true;
-		fadeTimer = (fadeIndex - .9) * -1;
-		fadeCount = (totalUnits - 2) * -1;
+		fadeTimer = (fadeIndex - 1) * -1;
+		if (fadeTimer >= 1) fadeScaler = -1;
+		else fadeScaler = 1;
+		fadeCount = newFadeCount;
 	}
 }
 
@@ -353,11 +356,11 @@ function Update() {
 	// unit icon fade
 	if (isFading)
 	{
-		fadeTimer += Time.smoothDeltaTime * fadeScaler;
 		if (fadeTimer >= 1 || fadeTimer <= fadeCount)
 			fadeScaler *= -1;
 		if (fadeTimer >= 0)
 			renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+		fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	}
 	// target icon fade
 	targetFadeTimer += Time.smoothDeltaTime * targetFadeScaler;
@@ -483,6 +486,14 @@ public function OnDeselect()
 			Debug.Log("Path not found");
 			//StatusMarquee.SetText("Invalid unit target", true);
 		}
+	}
+	// else simply deselect unit and set the proper icon texture
+	else if (currentBuilding.unitSelected)
+	{
+		if (currentPath.Count > 0)
+			SetState(UnitState.InTransit);
+		else
+			SetState(UnitState.Active);
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;

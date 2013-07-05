@@ -32,24 +32,33 @@ public class Loading extends GUIControl
 	public var boldFont : Font;
 	public var regularFont : Font;
 	
-	private var titleRect : Rect;
 	private var descRect : Rect;
 	
-	private var titleFontScale : float = 0.08;
-	private var titleFontSize : float;
-	private var descFontScale : float = 0.06;
+	// job title and description font sizes
+	private var descFontScale : float = 0.2;
+	private var initialDescFontSize : float;
 	private var descFontSize : float;
 	
-	private var leftOffsetScale : float = 0.01;
+	private var leftOffsetScale : float = 0.025;
 	private var leftOffset : float;
+	private var topOffsetScale : float = .2;
+	private var topOffset : float;
 	
-	private var titleTopOffsetScale : float = .25;
-	private var titleWidthScale : float = .4;
-	private var titleHeightScale : float = .15;
-	
-	private var descTopOffsetScale : float = .4;
 	private var descWidthScale : float = .6;
-	private var descHeightScale : float = .66;
+	private var descWidth : float;
+	
+	private var loadingWidthScale : float = .25;
+	private var loadingWidth : float;
+	private var loadingHeightScale : float = .1;
+	private var loadingHeight : float;
+	
+	private var iconWidthScale : float = .33;
+	private var iconWidth : float;
+	private var iconHeightScale : float = .4;
+	private var iconHeight : float;
+	
+	private var onlineHeightScale : float = .2;
+	private var onlineHeight : float;
 	
 	private var currentJob : Job;
 	private var currentJobDesc : String;
@@ -66,17 +75,30 @@ public class Loading extends GUIControl
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		
 		leftOffset = screenWidth * leftOffsetScale;
+		topOffset = screenHeight * topOffsetScale;
 		
-		titleRect = Rect(leftOffset, screenHeight * titleTopOffsetScale,
-							screenWidth * titleWidthScale, screenHeight * titleHeightScale);
-		titleFontSize = screenHeight * titleFontScale;
+		loadingWidth = screenWidth * loadingWidthScale;
+		loadingHeight = screenHeight * loadingHeightScale;
+		loadingRect = Rect(screenWidth - loadingWidth, 0, loadingWidth, loadingHeight);
 		
-		descRect = Rect(leftOffset, screenHeight * descTopOffsetScale,
-							screenWidth - leftOffset, screenHeight * descHeightScale);
-		descFontSize = screenHeight * descFontScale;
+		descWidth = screenWidth * descWidthScale;
+		descRect = Rect(leftOffset, topOffset,
+							descWidth, screenHeight - (2 * topOffset));
+							
+		iconWidth = screenWidth * iconWidthScale;
+		iconHeight = screenHeight * iconHeightScale;
+		iconRect = Rect(screenWidth - iconWidth - leftOffset, topOffset, iconWidth, iconHeight);
+		
+		onlineHeight = screenHeight * onlineHeightScale;
+		onlineRect = Rect(screenWidth - iconWidth - leftOffset, topOffset + iconHeight + 2*leftOffset, iconWidth, onlineHeight);
+							
+		initialDescFontSize = screenHeight * descFontScale;
 		style.normal.textColor = Color.white;
 		style.font = regularFont;
 		style.wordWrap = true;
+		/*style.normal.background = null;
+		style.active.background = null;
+		style.hover.background = null;*/
 		//style.richText = true;
 		// Add the background rect to the rectList for checking input collision
 		rectList.Add(background);
@@ -86,13 +108,12 @@ public class Loading extends GUIControl
 	{
 		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
 		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
-		style.font = boldFont;
-		style.fontSize = titleFontSize;
-		GUI.Label(titleRect, currentJob.title, style);
-		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
+		GUI.DrawTexture(loadingRect, loadingTexture, ScaleMode.ScaleToFit);
 		style.font = regularFont;
 		style.fontSize = descFontSize;
 		GUI.Label(descRect, currentJobDesc, style);
+		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
+		GUI.Button(onlineRect, onlineTexture, style);
 	}
 	
 	public function DelayLoad(seconds:int):IEnumerator
@@ -104,20 +125,30 @@ public class Loading extends GUIControl
 	public function GetNewJob()
 	{
 		currentJob = JobDatabase.GetRandomJob();
-		currentJobDesc = "Sub Agency: " + currentJob.agency;
+		currentJobDesc = currentJob.title + "\n\n";
+		currentJobDesc += "Sub Agency: " + currentJob.agency;
 		currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
 		currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
 		currentJobDesc += "\nPosition Information: " + currentJob.positionInformation;
 		currentJobDesc += "\nLocation: " + currentJob.location;
-		currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
+		//currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
 		
-		style.font = boldFont;
-		style.fontSize = titleFontSize;
-		var titleSize : Vector2 = style.CalcSize(GUIContent(currentJob.title));
-		titleRect.width = titleSize.x;
-		titleRect.height = titleSize.y;
-		
-		iconRect = Rect(titleRect.width + (2 * leftOffset), screenHeight * titleTopOffsetScale,
-						titleSize.y, titleSize.y);
+		style.font = regularFont;//boldFont;
+		descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
+		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
+		descRect.y = (screenHeight - height) / 2;
+	}
+	
+	// calculates and sets font size to fit text within a given rect, starting from a given initial size
+	private function CalcFontByRect(label : String, r : Rect, initial : float) : float
+	{
+		var size : float = initial;
+		style.fontSize = size;
+		while (style.CalcHeight(GUIContent(label), r.width) > r.height)
+		{	
+			size *= .9;
+			style.fontSize = size;
+		}
+		return size;
 	}
 }
