@@ -90,6 +90,8 @@ public function Awake ()
 		Destroy(this.gameObject);
 	}
 	*/
+	 QualitySettings.vSyncCount = 0;
+	 Application.targetFrameRate = 30;
 }
 
 /*
@@ -417,12 +419,12 @@ private function RecordEndGameData()
 								intelSystem.currentTurn,
 								UndoPressed);
 																											
-	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK"));													
-	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END"));													
-	System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
-	database.metrics.SaveEndGame(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
-	database.metrics.SaveLink(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
-	database.metrics.SaveTurn(Path.Combine(Application.dataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/END"));													
+	System.IO.Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
+	database.metrics.SaveEndGame(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
+	database.metrics.SaveLink(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
+	database.metrics.SaveTurn(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
 	
 	UndoPressed = 0;
 	intelSystem.totalEvents = 0;

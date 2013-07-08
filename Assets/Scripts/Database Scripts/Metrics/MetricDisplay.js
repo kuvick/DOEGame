@@ -84,7 +84,7 @@ public class MetricDisplay
 	private function GatherEndData(sceneName : String) : boolean
 	{
 		
-		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/END/");
+		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/END/");
 		
 		if(Directory.Exists(path))
 		{	
@@ -158,7 +158,7 @@ public class MetricDisplay
 	private function GatherLinkData(sceneName : String) : boolean
 	{
 		//Debug.Log("Gathering Link Data");
-		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/LINK/");
+		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/LINK/");
 		
 		if(Directory.Exists(path))
 		{	
@@ -194,7 +194,7 @@ public class MetricDisplay
 	private function GatherTurnData(sceneName : String) : boolean
 	{
 		//Debug.Log("Gathering Link Data");
-		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/TURN/");
+		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/TURN/");
 		
 		if(Directory.Exists(path))
 		{	
@@ -229,7 +229,7 @@ public class MetricDisplay
 	
 	private function GatherNarrativeData(sceneName : String) : boolean
 	{
-		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "Narr/Narrative/");
+		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "Narr/Narrative/");
 		
 		if(Directory.Exists(path))
 		{
