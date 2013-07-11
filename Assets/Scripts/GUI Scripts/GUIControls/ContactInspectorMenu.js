@@ -12,12 +12,15 @@ public class ContactInspectorMenu extends GUIControl{
 	public var internalPadding : float = .1f;
 	public var portraitPercentage : float = .4f;
 	public var infoPercentage : float = .6f;
+	public var backButtonHeight : float = .1;
+	public var backButtonTexture : Texture2D;
 	private var currentContact : Contact;
+	private var currentContactPortrait : Texture2D;
 	
 	private var mainRect : Rect;
 	private var portraitRect : Rect;
 	private var desriptionRect : Rect;
-	private var backRect : Rect;
+	private var backButtonRect : Rect;
 	private var mainRectWidth : float;
 	private var mainRectHeight : float;
 	
@@ -30,7 +33,8 @@ public class ContactInspectorMenu extends GUIControl{
 		mainRectHeight = 1 - (1 * sidePadding);
 		mainRect = RectFactory.NewRect(sidePadding, sidePadding, mainRectWidth, mainRectHeight);
 		
-		backRect = RectFactory.NewRect(.9,0,.1,.1);
+		var backButtonSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(backButtonTexture, backButtonHeight);
+		backButtonRect = RectFactory.NewRect(1-sidePadding-backButtonSize.x, sidePadding, backButtonSize.x, backButtonSize.y);
 		
 		internalHeight = 1 - (2 * sidePadding) - (3 * internalPadding);
 		
@@ -44,6 +48,7 @@ public class ContactInspectorMenu extends GUIControl{
 	
 	public function SetContact(contact : Contact){
 		currentContact = contact;
+		currentContactPortrait = contact.GetPortraitTexture();
 		if (currentContact.description == null || currentContact.description == ""){
 			currentContact.description = "No description set";
 		}
@@ -58,21 +63,12 @@ public class ContactInspectorMenu extends GUIControl{
 
 	public function Render(){	
 		GUI.Box(mainRect,"");	
-		if (currentContact.isUnlocked){
-			GUI.color = Color(1,1,1,1);
-		} else {
-			GUI.color = Color(1,1,1,.5);
-		}
-		GUI.Box(portraitRect, currentContact.portrait,contactStyle);
 		
-		GUI.color = Color(1,1,1,1);
+		GUI.Box(portraitRect, currentContactPortrait,contactStyle);
 		
 		GUI.Box(desriptionRect, currentContact.description,contactStyle);
-		if (GUI.Button(backRect, "Back", contactStyle)){
+		if (GUI.Button(backButtonRect, backButtonTexture)){
 			currentResponse.type = EventTypes.CONTACTSMENU;
 		}
-	}
-	
-	public function Update(){
 	}
 }

@@ -32,6 +32,7 @@ public class CodexMenu extends GUIControl{
 	private var rowWidth : float;
 	private var entryLabelMaxWidth : float; // in pixels on screen
 	private var entryLabelMaxHeight : float;
+	private var scrollBarStyle : GUIStyle;
 	
 	private var codexLabelRect : Rect;
 	private var backButtonRect : Rect;
@@ -55,6 +56,8 @@ public class CodexMenu extends GUIControl{
 			}
 		}
 		
+		scrollBarStyle = new GUIStyle();
+		
 		entryLabelMaxWidth = ScreenSettingsManager.screenWidth * entryLabelMaxWidthPercent;
 		entryLabelMaxHeight = ScreenSettingsManager.screenHeight * entryLabelMaxHeightPercent;
 		
@@ -74,9 +77,11 @@ public class CodexMenu extends GUIControl{
 	public function Render(){		
 		GUI.DrawTexture(backgroundRect, backgroundTexture);
 		GUI.DrawTexture(codexLabelRect, codexLabelTexture);
-		GUI.DrawTexture(backButtonRect, backButtonTexture);
+		if (GUI.Button(backButtonRect, backButtonTexture)){
+			currentResponse.type = EventTypes.LEVELSELECT;
+		}
 		
-		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, false, false);
+		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, scrollBarStyle, scrollBarStyle);
 		
 		GUI.Box(scrollViewAreaRect, "");
 		GUI.DrawTexture(previousEntriesRect, previousEntriesTexture);
@@ -84,17 +89,15 @@ public class CodexMenu extends GUIControl{
 		var index : int = 0;
 		for (var codex : CodexEntry in codices){
 			if (codex.isUnlocked){
-				if (GUI.Button(codicesRects[index], codex.name, codexButtonLightStyle)){
+				if (GUI.Button(codicesRects[index], codex.name,  index%2==0 ? codexButtonLightStyle : codexButtonDarkStyle)){
 					if (codex.urlLink != null && codex.urlLink != ""){
 						Application.OpenURL(codex.urlLink);
 					} else {
 						Debug.LogError("No url set for " + codex.name);
 					}
 				}
-			} else {
-				GUI.Box(codicesRects[index], codex.name, codices[index].isUnlocked ? codexButtonLightStyle : codexButtonDarkStyle);
+				index++;
 			}
-			index++;
 		}
 		GUI.EndScrollView ();
 	}
