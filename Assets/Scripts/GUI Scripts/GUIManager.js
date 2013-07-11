@@ -183,7 +183,7 @@ public function Start ()
 			AddGUIToControls(mainMenu);
 			//AddGUIToControls(marquee);
 			break;
-		case "LevelEditor":
+		case Strings.LevelEditorScreen:
 			AddGUIToControls(editorMenu);
 			break;
 	}
