@@ -23,6 +23,7 @@ private static var paused : boolean = false;
 private static var isEditor : boolean = false;
 private static var mainMenuRef : MainMenu;
 private static var buildingMenuRef : BuildingMenu;
+private static var editorMenuRef : EditorMenu;
 public static var resourceSetters : List.<BuildingResourceSetter>;
 
 function Start () {
@@ -31,6 +32,7 @@ function Start () {
 		isEditor = true;
 		mainMenuRef = GameObject.Find("GUI System").GetComponent(MainMenu);
 		buildingMenuRef = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+		editorMenuRef = GameObject.Find("GUI System").GetComponent(EditorMenu);
 		resourceSetters = new List.<BuildingResourceSetter>();
 	}
 	else
@@ -100,13 +102,16 @@ static function HandleTapAtPoint(position: Vector2){
 			Debug.Log("Not placing building, set to link");
 			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
-			if (isEditor)
+			/*if (isEditor)
 			{
 				buildingMenuRef.SetEditorSelectedTile(buildPosCoord);
 				mainMenuRef.RecieveEvent(EventTypes.BUILDING);
-			}
+			}*/
 		//}
 	}
+	
+	if (isEditor)
+		editorMenuRef.DoAction(buildPosCoord);
 	
 	UnitManager.DeselectUnits();
 }
@@ -114,7 +119,7 @@ static function HandleTapAtPoint(position: Vector2){
 private static function CheckObjSelected (position : Vector2) : boolean
 {
 	var hit : RaycastHit;
-	var ray : Ray = Camera.main.ScreenPointToRay (position);
+	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
 	if (Physics.Raycast(ray, hit, 1000))
 	{
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);

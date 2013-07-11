@@ -277,6 +277,7 @@ public function DeactivateFade ()
 {
 	isFading = false;
 	renderer.material.color = solidColor;
+	gameObject.collider.enabled = true;
 }
 
 // performs unit actions on new turn
@@ -360,6 +361,7 @@ function Update() {
 			fadeScaler *= -1;
 		if (fadeTimer >= 0)
 			renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+		gameObject.collider.enabled = fadeTimer > .5; // enable icon for clicking if transparency greater than half
 		fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	}
 	// target icon fade

@@ -55,6 +55,7 @@ private var contactsMenu:ContactsMenu;
 private var codexMenu:CodexMenu;
 private var contactInspectorMenu:ContactInspectorMenu;
 private var debugInfoMenu : DebugInfoMenu;
+private var editorMenu : EditorMenu;
 //private var popUpMessageDisplay:PopUpMessageDisplay;
 
 // Delete this later when BuildingMenu is done
@@ -155,6 +156,7 @@ public function Start ()
 	codexMenu = GetComponent(CodexMenu);
 	contactInspectorMenu = GetComponent(ContactInspectorMenu);
 	debugInfoMenu = GetComponent(DebugInfoMenu);
+	editorMenu = GetComponent(EditorMenu);
 	//popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
 	
 	
@@ -181,6 +183,9 @@ public function Start ()
 			//activeControls.Add(buildingMenu);
 			AddGUIToControls(mainMenu);
 			//AddGUIToControls(marquee);
+			break;
+		case "LevelEditor":
+			AddGUIToControls(editorMenu);
 			break;
 	}
 	
@@ -400,6 +405,9 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			AddGUIToControls(codexMenu);
 			break;
+		case EventTypes.EDITORMENU:
+			ClearControls();
+			AddGUIToControls(editorMenu);
 	}
 }
 
