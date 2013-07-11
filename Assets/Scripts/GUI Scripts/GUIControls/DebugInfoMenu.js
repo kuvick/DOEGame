@@ -14,6 +14,7 @@ public class DebugInfoMenu extends GUIControl{
 	private var idLabelRect : Rect;
 	private var levelId : String;
 	private var id : String;
+	private var displayID : String;
 	private var idNum : int;
 	private var deviceName : String;
 	private var modelName : String;
@@ -24,26 +25,19 @@ public class DebugInfoMenu extends GUIControl{
 		
 		textStyle.fontSize = (Mathf.RoundToInt(Mathf.Min(ScreenSettingsManager.screenWidth, ScreenSettingsManager.screenHeight) / FONTRATIO));
 		
-		id = SystemInfo.deviceModel.Substring(0, 15);
-		
-		if (Database.playtestID == -1){
-			Database.playtestID = Random.RandomRange(0, 99999999);
+		if (Database.playtestID == "000-0000"){
+			Database.playtestID = Database.GenerateID();
 		}
 		
-		idNum = Database.playtestID;
-		
-		deviceName = /*SystemInfo.deviceName + ":"*/ "";
-		//if (deviceName == "<unknown>") deviceName = "";// if the devices name is not set then don't display it
-		modelName = SystemInfo.deviceModel.Substring(0, 20);
-		
+		id = Database.playtestID;
 		SetupRectangles();
 	}
 	
 	public function Render(){
-		levelId = (GUIManager.Instance().thisIsALevel ? ("-" + Application.loadedLevelName) : "");
-		id = idNum + "--" + deviceName + modelName + levelId;
+		levelId = (GUIManager.Instance().thisIsALevel ? ("--" + Application.loadedLevelName) : "");
+		displayID = id + levelId;
 		SetupRectangles();
-		GUI.Label(idLabelRect, id);
+		GUI.Label(idLabelRect, displayID);
 	}
 	
 	private function SetupRectangles(){
@@ -53,6 +47,6 @@ public class DebugInfoMenu extends GUIControl{
 		size.x /= ScreenSettingsManager.screenWidth;
 		size.y = textStyle.CalcHeight(content, size.x) / ScreenSettingsManager.screenHeight;
 		
-		idLabelRect = new RectFactory.NewRect(.5-(size.x/2), .95, size.x, .05);
+		idLabelRect = new RectFactory.NewRect(.5-size.x, .95, size.x*2, .05);
 	}
 }
