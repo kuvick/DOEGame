@@ -27,7 +27,7 @@ import System.Collections.Generic;
 	// Default buildings stored here:
 static public var buildings : Array;// = new Array();
 
-static public var playtestID : int = -1;
+static public var playtestID : String = "000-0000";
 
 	// Buildings on grid stored here:
 //static public var buildingsOnGrid : Array;// = new Array(); 
@@ -152,8 +152,8 @@ function Start()
 	metrics = new MetricContainer();
 	m_display = new MetricDisplay();
 	
-	if (playtestID == -1){
-		playtestID = Random.RandomRange(0, 99999999);
+	if (playtestID == "000-0000"){
+		playtestID = GenerateID();
 	}
 	
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
@@ -1594,6 +1594,10 @@ class BuildingReplacement extends System.ValueType
 public function SayHello()
 {
 	Debug.Log("Hello!");
+}
+
+public static function GenerateID() : String{
+	return (String.Format("{0:00}-{1:000}-{2:0000}",  Random.RandomRange(0, 99), Random.RandomRange(0, 999), Random.RandomRange(0, 9999)));
 }
 
 public function WriteLevel()

@@ -164,12 +164,11 @@ public function Start ()
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
-		case "StartScreen":
+		case Strings.StartScreen:
 			AddGUIToControls(startMenu);
-			//AddGUIToControls(contactsMenu);
 			break;
 		
-		case "LevelSelectScreen":
+		case Strings.LevelSelectScreen:
 			AddGUIToControls(levelSelectMenu);
 			break;
 			
