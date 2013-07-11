@@ -255,11 +255,15 @@ public class BuildingMenu extends GUIControl
 					if(GUI.Button(buildingIconList[i], "" ))
 					{
 						if (isEditor)
+						{
 							EditorPlace(i);
+							currentResponse.type = EventTypes.EDITORMENU;
+						}
 						else
+						{
 							Place(i);						
-						currentResponse.type = EventTypes.MAIN;
-						
+							currentResponse.type = EventTypes.MAIN;
+						}
 					}
 				}
 			GUI.EndGroup();

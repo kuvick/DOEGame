@@ -56,6 +56,8 @@ public enum EventTypes
 	
 	// CodexMenu
 	CODEXMENU,
+	
+	EDITORMENU
 }
 
 public class GUIEvent
