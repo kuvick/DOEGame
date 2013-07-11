@@ -85,6 +85,7 @@ static function HandleTapAtPoint(position: Vector2){
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
 			buildingSiteScript.OpenBuildingMenu();
 		}
+
 	} else {
 		/*
 		

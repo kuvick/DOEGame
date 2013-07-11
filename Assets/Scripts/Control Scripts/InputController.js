@@ -53,6 +53,12 @@ var touchCount : int;
 // this will point to the funciton that will perform input checking based on the device
 private var typeOfInput: function();
 
+
+public function getState():ControlState
+{
+	return state;
+}
+
 // ------------ These functions will be called when the given event occurs, put any code to be perform on the event in here 
 // so you don't have to search in the state machine for the spot
 // called whenever a drag occurs
@@ -401,5 +407,10 @@ function HandleComputerInput(){
 }
 
 function Update () {
-	typeOfInput();          
+	typeOfInput();      
+}
+
+public function getTouchLocation()
+{
+	Debug.Log(fingerDownPosition.ToString());
 }

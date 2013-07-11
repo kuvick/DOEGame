@@ -775,3 +775,22 @@ function CheckMouseNotOverGUI() : boolean
 	}
 	return true;
 }
+
+public function getSelectedResource():ResourceType
+{
+	return selectedResource;
+}
+public function getSelectedOutputBuilding():GameObject
+{
+	return outputBuilding;
+}
+
+public function getMousePos():Vector2
+{
+	return mousePos;
+}
+
+public function READcancelLinkMode()
+{
+	Debug.Log("Link Mode: " + cancelLinkMode);
+}
