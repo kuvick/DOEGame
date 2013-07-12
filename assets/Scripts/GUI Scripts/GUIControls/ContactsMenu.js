@@ -26,6 +26,7 @@ public class ContactsMenu extends GUIControl{
 	public var backgroundTexture : Texture2D;
 	public var scrollViewbackgroundTexture : Texture2D;
 	
+	private var scrollBarStyle : GUIStyle;
 	private var rowWidth : float;
 	private var contactWidth : float;
 	private var spacesPerRow : int; // the number of spaces between each contact
@@ -47,6 +48,8 @@ public class ContactsMenu extends GUIControl{
 			}
 		}
 		
+		scrollBarStyle = new GUIStyle();
+		
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with contacts
 		spacesPerRow = contactsPerRow - 1;
 		contactWidth = ((rowWidth - (spacesPerRow * inBetweenContactsSpace)) / contactsPerRow);
@@ -59,22 +62,22 @@ public class ContactsMenu extends GUIControl{
 		currentRow = 0;
 		currentCol = 0;
 		GUI.DrawTexture(backgroundRect, backgroundTexture);
-		GUI.DrawTexture(backButtonRect, backButtonTexture);
+		if (GUI.Button(backButtonRect, backButtonTexture)){
+			currentResponse.type = EventTypes.LEVELSELECT;
+		}
 		
-		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, true, true);
+		scrollPosition = GUI.BeginScrollView (scrollViewRect, scrollPosition, scrollViewAreaRect, scrollBarStyle, scrollBarStyle);
 		
 		GUI.Box(scrollViewAreaRect, "");
 		var index : int = 0;
 		for (var contact : Contact in contacts){
 			if (contact.isUnlocked){
 				if (GUI.Button(cotactsRects[index], contactPortraits[index])){
-					//currentContact = contact;
-					//currentResponse.type = EventTypes.CONTACTINPECTIONMENU;
+					currentContact = contact;
+					currentResponse.type = EventTypes.CONTACTINPECTIONMENU;
 				}
-			} else {
-				GUI.Box(cotactsRects[index], contactPortraits[index]);
-			}
-			index++;
+				index++;
+			} 
 		}
 		GUI.EndScrollView ();
 	}
@@ -100,17 +103,19 @@ public class ContactsMenu extends GUIControl{
 		currentRow = 0;
 		currentCol = 0;
 		for (var contact : Contact in contacts){
-			var topLeftX : float = currentCol * (contactSize.x + inBetweenContactsSpace);
-			var topLeftY : float = currentRow * (contactSize.y + inBetweenContactsSpace);
-			cotactsRects.Add(RectFactory.NewRect(topLeftX,topLeftY,contactSize.x,contactSize.y));
-			
-			contactPortraits.Add(contact.GetPortraitTexture());
-			
-			currentCol++;
-			if (currentCol == contactsPerRow){
-				currentCol = 0;
-				currentRow++;
-				totalHeight += contactSize.y;
+			if (contact.isUnlocked){
+				var topLeftX : float = currentCol * (contactSize.x + inBetweenContactsSpace);
+				var topLeftY : float = currentRow * (contactSize.y + inBetweenContactsSpace);
+				cotactsRects.Add(RectFactory.NewRect(topLeftX,topLeftY,contactSize.x,contactSize.y));
+				
+				contactPortraits.Add(contact.GetPortraitTexture());
+				
+				currentCol++;
+				if (currentCol == contactsPerRow){
+					currentCol = 0;
+					currentRow++;
+					totalHeight += contactSize.y;
+				}
 			}
 		}
 		
