@@ -480,6 +480,7 @@ public function OnDeselect()
 			Database.UndoStack.Add(UndoType.Wait);
 			SetState(UnitState.InTransit);
 			intelSystem.addTurn();
+			intelSystem.comboSystem.incrementComboCount();
 			ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
 		}

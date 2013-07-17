@@ -166,12 +166,14 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(waitButton, waitTexture))
 		{
+			intelSystem.comboSystem.resetComboCount();
 			currentResponse.type = EventTypes.WAIT;
 			//currentResponse.type = EventTypes.BUILDING;
 		}
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
+			intelSystem.comboSystem.resetComboCount();
 			SoundManager.Instance().playButtonClick();
 			
 			currentResponse.type = EventTypes.UNDO;

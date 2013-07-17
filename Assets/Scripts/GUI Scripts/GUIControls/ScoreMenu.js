@@ -307,7 +307,9 @@ public class ScoreMenu extends GUIControl{
 		missionScore = tempScore.ToString();
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
-		var totScore : int = tempScore; // + bonus score
+		Debug.Log("Total Score: " + tempScore);
+		var totScore : int = tempScore + (intelSystem.comboSystem.getComboCount() * 100); // + bonus score
+		Debug.Log("Total Score with Combo: " + totScore);
 		
 		totalScore = totScore.ToString();
 		

@@ -455,6 +455,7 @@ public class BuildingMenu extends GUIControl
 			SoundManager.Instance().PlayBuildingPlaced();
 			
 			RemoveBuildingFromList(index);
+			GameObject.Find("Database").GetComponentInChildren(IntelSystem).comboSystem.incrementComboCount();
 	}
 	
 	// Used for placing buildings in the level editor

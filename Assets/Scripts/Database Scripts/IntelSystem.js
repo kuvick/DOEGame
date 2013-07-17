@@ -39,6 +39,9 @@ public var playerData : SaveSystem; // Should really be a player class need to m
 private var codicesUnlockedThisLevel : List.<String>;
 private var contactsUnlockedThisLevel : List.<String>;
 
+//Combo
+public var comboSystem: ComboSystem;
+
 
 class BuildingEvent
 {
@@ -157,6 +160,8 @@ function Start ()
 	}
 	totalEvents = events.Count + linkedEvents.Count;
 	CheckTriggerToDisplay();
+	
+	comboSystem = new ComboSystem();
 }
 
 //Can use this functio to check for events
