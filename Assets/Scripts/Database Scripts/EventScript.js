@@ -49,10 +49,15 @@ function Start () {
 	
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
+	Initialize();
+}
+
+public function Initialize()
+{
 	indicator.Initialize(gameObject.transform, event, event.type);
 	var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	icon = tempPlane.AddComponent(ObjectiveIcon);
-	icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic, event.type);
+	icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic, event.type, event.time);
 }
 
 function Update () {

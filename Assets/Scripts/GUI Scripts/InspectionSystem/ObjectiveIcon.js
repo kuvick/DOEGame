@@ -22,7 +22,7 @@ public class ObjectiveIcon extends InspectionComponent
 	private var isPrimary : boolean = true;
 
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
-								type : BuildingEventType)
+								type : BuildingEventType, turns : int)
 	{
 		// slant icon slightly forward towards the camera
 		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
@@ -49,6 +49,8 @@ public class ObjectiveIcon extends InspectionComponent
 			turnMesh.active = false;
 			isPrimary = false;
 		}
+		else
+			turnMesh.text = String.Empty + turns;
 		
 		Initialize(text, pic);
 	}
