@@ -35,6 +35,9 @@ public class LinkDragScript extends GUIControl
 		inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 		thisCamera = GameObject.Find("Main Camera").camera;
 		
+		/*
+		Used to check to make sure scripts loaded properly
+		
 		if(drawLinks != null && linkUI != null && inputController != null)
 			Debug.Log("Victory!");
 		else
@@ -43,6 +46,7 @@ public class LinkDragScript extends GUIControl
 			Debug.Log("LinkUI: " + (linkUI != null));
 			Debug.Log("Input: " + (inputController != null));
 		}
+		*/
 	}
 	
 	function Update ()
