@@ -78,25 +78,6 @@ function singleClickEvent(inputPos: Vector2){
     }
 } 
 
-// calculates the distance between touches to determine if the gesture is to zoom in or out
-function determineZoomingInOrOut(touch0 : Touch, touch1 : Touch){
-	var touchDistance = ( touch1.position - touch0.position ).magnitude;
-    var lastTouchDistance = ( ( touch1.position - touch1.deltaPosition ) - ( touch0.position - touch0.deltaPosition ) ).magnitude;
-    var deltaPinch = touchDistance - lastTouchDistance; // calculate the change in distance between the fingers
-
-	// if the change is negative then the fingers are closer together indicating to zoom in
-	if (deltaPinch < 0) {
-		CameraControl.Zoom(zoomIn);
-	} else if (deltaPinch > 0) {
-	 	CameraControl.Zoom(zoomOut);
-	}
-}
-
-// Tell the camera to zoom in or out
-function zoomEvent(isZoomingIn: boolean){
-	CameraControl.Zoom(isZoomingIn);
-}	
-
 function ResetControlState() {
 	state = ControlState.WaitingForFirstInput;
 	fingerDown[ 0 ] = -1;
@@ -320,26 +301,14 @@ function HandleMobileInput(){
 	            }
 	        }
 	        
-	        if ( gotTouch0 ){
-	            if ( gotTouch1 ){
-	                determineZoomingInOrOut( touch0, touch1 );
-	            }
-	        } else {
-	            // A finger was lifted, so let's just wait until we have no fingers
-	            // before we reset to the origin state
-	            state = ControlState.WaitingForNoInput;
-	        }
+            // A finger was lifted, so let's just wait until we have no fingers
+            // before we reset to the origin state
+			state = ControlState.WaitingForNoInput;
 	    } 
     }    
 }
 
 function HandleComputerInput(){
-	//Debug.Log("state = " + state);
-	if (Input.GetAxis("Mouse ScrollWheel") > 0){
-		zoomEvent(zoomIn);
-	} else if (Input.GetAxis("Mouse ScrollWheel") < 0){
-		zoomEvent(zoomOut);
-	}
 
 	// if the user has not clicked then keep checking for a click
 	if (state == ControlState.WaitingForFirstInput){

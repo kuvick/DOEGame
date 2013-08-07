@@ -132,14 +132,6 @@ public class MainMenu extends GUIControl
 		rectList.Add(zoomButton);	
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
-		if(!testCameras)
-		{
-			cameraMain.testingCameras = false;
-		}
-		else
-		{
-			cameraMain.testingCameras = true;
-		}	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 	}
