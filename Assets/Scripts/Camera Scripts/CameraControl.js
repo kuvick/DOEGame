@@ -58,7 +58,10 @@ function Start () {
 	{
 		testingCameras = false;
 	}
-	ZoomIn();
+	//ZoomIn();
+	thisCamera.orthographic = true;
+	thisCamera.orthographicSize = 250;
+	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	
 	if(borderDimensions.x == 0 || borderDimensions.z == 0)
 	{
