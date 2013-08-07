@@ -34,7 +34,7 @@ public var aspectRatio : AspectRatios;
 public var useDefaultAspectRatio : boolean = true;
 private var revertedToDefault = true;
 
-//static public var cameraAngle : float = 60;
+static public var cameraAngle : float = 60;
 
 
 private enum AspectRatios
@@ -58,10 +58,7 @@ function Start () {
 	{
 		testingCameras = false;
 	}
-	
-	thisCamera.orthographic = true;
-	thisCamera.orthographicSize = 250;
-	thisCamera.transform.eulerAngles = Vector3(45,45,0);
+	ZoomIn();
 	
 	if(borderDimensions.x == 0 || borderDimensions.z == 0)
 	{
@@ -163,7 +160,7 @@ public static function ToggleZoomType(){
 private static function ZoomIn(){
 	if(!testingCameras)
 	{
-		//thisCamera.transform.rotation = Quaternion.AngleAxis(cameraAngle, Vector3.right);
+		thisCamera.transform.rotation = Quaternion.AngleAxis(cameraAngle, Vector3.right);
 		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, closestZoomDistance, thisCamera.transform.position.z);
 		if(thisCamera.transform.position.z <= hexOrigin.z + Screen.height / 1.5){
 			thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, hexOrigin.z);		
