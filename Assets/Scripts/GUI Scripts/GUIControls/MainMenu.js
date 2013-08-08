@@ -59,6 +59,17 @@ public class MainMenu extends GUIControl
 	
 	var cameraMain : CameraControl;
 	
+	//Data Pieces System
+	public var dataIconBG:Texture;
+	public var dataIcon01:Texture;
+	public var dataIcon02:Texture;
+	public var dataIcon03:Texture;
+	private var numOfDataPieces:int = 0;
+	private var dataIconHeightPercent:float = 0.14;
+	private var dataIconHeight:float;
+	private var dataRect:Rect;
+	
+	
 	public function Start () 
 	{
 		super.Start();
@@ -109,12 +120,15 @@ public class MainMenu extends GUIControl
 		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
 		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
+		
+		dataIconHeight = dataIconHeightPercent * screenHeight;
+		
 		mainMenuSkin.label.fontSize = scoreFontHeight;
 		
 		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
 		//mainMenuSkin.button.fontSize = pauseFontHeight;
 		
-		pauseButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
+		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseTexture.width, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
 		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
 		
 		//var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
@@ -122,18 +136,24 @@ public class MainMenu extends GUIControl
 		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
 		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
 		
-		scoreRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + padding, 0, 0);
-		turnRect = Rect(verticalBarWidth + screenWidth - padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
+		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		
+		dataRect = Rect(screenWidth / 2 - (dataIconBG.width/2), horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height);
 		
 		// Add the buttons' rects to the rectList for checking input collision
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
-		rectList.Add(zoomButton);	
+		//rectList.Add(zoomButton);
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
+		numOfDataPieces = 0;
+		
+		// if we're going to allow 2 or 3 pieces than just 3 pieces, there needs to be some sort of code
+		// here that detects how many pieces there are and decides to use which set
 	}
 	
 	public function Render()
@@ -149,6 +169,22 @@ public class MainMenu extends GUIControl
 		if(intelSystem != null)
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 		
+		
+		GUI.DrawTexture(dataRect,dataIconBG);
+		
+		// displaying number of data pieces collected
+		if(numOfDataPieces >= 1)
+		{
+			GUI.DrawTexture(dataRect,dataIcon01);
+			if(numOfDataPieces >= 2)
+			{
+				GUI.DrawTexture(dataRect,dataIcon02);
+				if(numOfDataPieces >= 3)
+				{
+					GUI.DrawTexture(dataRect,dataIcon03);
+				}
+			}
+		}
 		
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, pauseTexture))
@@ -278,5 +314,13 @@ public class MainMenu extends GUIControl
 		var newPosition:Vector2 = Vector2(position.x + cos, position.y - sin);
 		
 		return newPosition;
+	}
+	
+	// Used to update the number of datapieces the player has collected
+	// Give the whole number of pieces so that if the player clicks undo,
+	// it will decrement the total number.
+	public function updateNumOfDataPieces(numOfPieces : int)
+	{
+		numOfDataPieces = numOfPieces;
 	}
 }
