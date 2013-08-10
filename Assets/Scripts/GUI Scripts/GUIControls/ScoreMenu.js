@@ -308,10 +308,10 @@ public class ScoreMenu extends GUIControl{
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
 		Debug.Log("Total Score: " + tempScore);
-		var totScore : int = tempScore + (intelSystem.comboSystem.getComboCount() * 100); // + bonus score
+		var totScore : int = tempScore + AddComboPoints();
 		Debug.Log("Total Score with Combo: " + totScore);
 		
-		totalScore = totScore.ToString();
+		totalScore = totScore.ToString() + ConvertComboToString();
 		
 		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, totScore);
 		saveSystem.currentPlayer.exp += expEarned;
@@ -330,6 +330,16 @@ public class ScoreMenu extends GUIControl{
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 		
 		
+	}
+	
+	function AddComboPoints(): int
+	{
+		return (intelSystem.comboSystem.getComboCount() * 100);
+	}
+	
+	function ConvertComboToString() : String
+	{
+		return " (Combo: " + AddComboPoints() + ")";
 	}
 	
 	// class for the honors/bonus icons
