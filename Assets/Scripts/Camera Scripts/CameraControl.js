@@ -41,9 +41,12 @@ function Start () {
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 	thisCamera = this.camera;
 	
+	// Setting camera for the current standard
 	thisCamera.orthographic = true;
 	thisCamera.orthographicSize = 250;
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
+	//*************
+	
 	
 	if(borderDimensions.x == 0 || borderDimensions.z == 0)
 	{
@@ -71,30 +74,82 @@ function Start () {
 // The function uses the difference in the mouse's position between frames
 // to determine which way to drag the camera, and moves the camera in that direction.
 static public function Drag(currentInputPos: Vector2){
-	thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
+	
+	// Perspective Camera:
+	//thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
+	
+	// Orthographic Camera:
+	
+	
+	var r : float = Mathf.Sqrt(currentInputPos.x * currentInputPos.x + currentInputPos.y * currentInputPos.y);
+	var degree:float = (Mathf.PI / 180) * 45;
+	var degree2:float = (Mathf.PI / 180) * 315;
+	
+	var moveX : float = (currentInputPos.x * Mathf.Sin(degree)) + (currentInputPos.y * Mathf.Sin(degree));
+	var moveZ : float = (-currentInputPos.x * Mathf.Cos(degree)) + (currentInputPos.y * Mathf.Cos(degree));
+	
+	//thisCamera.transform.Translate(new Vector3(currentInputPos.y * Mathf.Sin(degree), 0, currentInputPos.y * Mathf.Cos(degree)), Space.World);
+	thisCamera.transform.Translate(new Vector3(moveX, 0, moveZ), Space.World);
+	
+	
+	
+	//Debug.Log("Input Pos: " + currentInputPos);
 	
 	var totalDimensions: Vector2 = HexagonGrid.totalTileDimensions();
 	
+	// The camera's position as if it were not rotated
+	var nonRotatedPos : Vector3 = new Vector3((thisCamera.transform.position.x - bCP.x) * Mathf.Cos((Mathf.PI / 180) * 45)
+									- (thisCamera.transform.position.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * 45) + bCP.x,
+									thisCamera.transform.position.y,
+									(thisCamera.transform.position.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * 45)
+									+ (thisCamera.transform.position.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * 45) + bCP.z);
+									
 	//Left
-	if(thisCamera.transform.position.x < (bCP.x - (bD.x / 2)))
+	if(nonRotatedPos.x < (bCP.x - (bD.x / 2)))
 	{
-		thisCamera.transform.position = new Vector3(bCP.x - (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+		//thisCamera.transform.position = new Vector3(bCP.x - (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+		
+		
+		thisCamera.transform.position = new Vector3(((-bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
+									- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+									thisCamera.transform.position.y,
+									((-bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
+									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);									
 	}
 	//Right
-	if(thisCamera.transform.position.x > (bCP.x + (bD.x / 2)))
+	if(nonRotatedPos.x > (bCP.x + (bD.x / 2)))
 	{
-		thisCamera.transform.position = new Vector3(bCP.x + (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+		//thisCamera.transform.position = new Vector3(bCP.x + (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+		
+		thisCamera.transform.position = new Vector3(((bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
+									- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+									thisCamera.transform.position.y,
+									((bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
+									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
 	}
 	//Top
-	if(thisCamera.transform.position.z > (bCP.z + (bD.z / 2)))
+	if(nonRotatedPos.z > (bCP.z + (bD.z / 2)))
 	{
-		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z + (bD.z / 2));
+		//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z + (bD.z / 2));
+		
+		thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
+									- (bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+									thisCamera.transform.position.y,
+									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
+									+ (bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+									
 	}
 	//Bottom
-	if(thisCamera.transform.position.z < (bCP.z - (bD.z / 2)))
+	if(nonRotatedPos.z < (bCP.z - (bD.z / 2)))
 	{
-		thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
-	}	
+		//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
+				thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
+									- (-bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+									thisCamera.transform.position.y,
+									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
+									+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+	}
+	
 }
 
 public function Update()
@@ -157,6 +212,37 @@ public function Update()
 public function OnDrawGizmos()
 {
 	Gizmos.color = Color.red;
-	Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
-	//thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
+	
+	// For perspective camera:
+	//Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
+
+	// Finding the corners of the rotated rect. view
+	var corner1 : Vector3 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+										10,
+										borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+										
+	var corner2 : Vector3 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+										10,
+										borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+	var corner3 : Vector3 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+										10,
+										borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+	var corner4 : Vector3 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+										10,
+										borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+		
+	Gizmos.DrawLine(corner1, corner2);
+	Gizmos.DrawLine(corner2, corner4);
+	Gizmos.DrawLine(corner3, corner4);
+	Gizmos.DrawLine(corner3, corner1);
+	
+	
 }
