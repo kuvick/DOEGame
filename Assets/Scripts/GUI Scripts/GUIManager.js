@@ -347,7 +347,8 @@ private function RespondTo(response:GUIEvent)
 			if(database.undo())
 			{					
 				intelSystem.subtractTurn();
-				UndoPressed++;				
+				UndoPressed++;		
+						
 			}			
 			ClearControls();
 			AddGUIToControls(mainMenu);

@@ -189,11 +189,14 @@ public class MainMenu extends GUIControl
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, pauseTexture))
 		{
+			SoundManager.Instance().playButtonClick();
+			
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
 		if(GUI.Button(waitButton, waitTexture))
 		{
+			SoundManager.Instance().playWait();
 			intelSystem.comboSystem.resetComboCount();
 			currentResponse.type = EventTypes.WAIT;
 			//currentResponse.type = EventTypes.BUILDING;
@@ -202,7 +205,7 @@ public class MainMenu extends GUIControl
 		if(GUI.Button(undoButton, undoTexture))
 		{
 			intelSystem.comboSystem.resetComboCount();
-			SoundManager.Instance().playButtonClick();
+			SoundManager.Instance().playUndo();
 			
 			currentResponse.type = EventTypes.UNDO;
 			//GUIManager.Instance().AddContact();
@@ -319,7 +322,7 @@ public class MainMenu extends GUIControl
 	// Used to update the number of datapieces the player has collected
 	// Give the whole number of pieces so that if the player clicks undo,
 	// it will decrement the total number.
-	public function updateNumOfDataPieces(numOfPieces : int)
+	public function (numOfPieces : int)
 	{
 		numOfDataPieces = numOfPieces;
 	}

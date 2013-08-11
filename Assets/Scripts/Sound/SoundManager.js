@@ -42,18 +42,22 @@ public class SoundManager extends MonoBehaviour {
 	    if (instance == null) {
 	        var obj:GameObject = Instantiate(Resources.Load("SoundManager"));
 	        instance = obj as SoundManager;
-	        Debug.Log("Could not locate a SoundManager object. SoundManager was generated automaticly.");
 	    }
 		
 	    return instance;
 	}
 
+	/// Linking sounds
 	public function PlayLinkMade(linkResource: ResourceType){
-		PlayOneShot(linkSounds.GetSound(linkResource));
+		try {
+			PlayOneShot(linkSounds.GetSound(linkResource));
+		} catch (err : System.Exception) {
+			Debug.LogError(err.ToString());
+		}
 	}
 	
+	/// Unit sounds
 	public function PlayUnitSelected(unitSelected : Unit){
-		Debug.Log("Playing unit selected");
 		switch (unitSelected.type){
 			case (UnitType.Researcher):
 				PlayOneShot(unitSounds.resercherSelection);
@@ -61,17 +65,12 @@ public class SoundManager extends MonoBehaviour {
 			case (UnitType.Worker):
 				PlayOneShot(unitSounds.workerSelection);
 				break;
-			case (UnitType.Regulator):
-				PlayOneShot(unitSounds.regulatorSelection);
-				break;
-			case (UnitType.EnergyAgent):
-				PlayOneShot(unitSounds.energyAgentSelection);
-				break;
 			default:
 				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
 		}
 	}
 	
+	/// Objective sounds
 	public function PlayPrimaryObjectiveComplete(){
 		PlayOneShot(objectiveSounds.primaryObjectiveCompleted);
 	}
@@ -84,10 +83,30 @@ public class SoundManager extends MonoBehaviour {
 		PlayOneShot(objectiveSounds.secondaryObjectiveCompleted);
 	}
 	
+	public function PlayDataPieceUnlocked(){
+		PlayOneShot(objectiveSounds.dataPieceUnlocked);
+	}
+	
+	/// Building sounds
 	public function PlayBuildingPlaced(){
 		PlayOneShot(buildingPlacedSound);
 	}
 	
+	/// Menu sounds
+	public function playButtonClick(){
+		Debug.Log("Playing click");
+		PlayOneShot(menuSounds.menuButtonClicked);
+	}
+	
+	public function playUndo(){
+		PlayOneShot(menuSounds.menuUndo);
+	}
+	
+	public function playWait(){
+		PlayOneShot(menuSounds.menuWait);
+	}
+	
+	/// Sound playing methods
 	public function playSoundOnLoop(soundToPlay: AudioClip){
 		audioSource.loop = true;
 		playSound(soundToPlay);
@@ -103,11 +122,6 @@ public class SoundManager extends MonoBehaviour {
 	
 	public function stopSound(){
 		audioSource.Stop();
-	}
-	
-	public function playButtonClick(){
-		Debug.Log("Playing click");
-		PlayOneShot(menuSounds.menuButtonClicked);
 	}
 	
 	private function PlayOneShot(clipToPlay : AudioClip){

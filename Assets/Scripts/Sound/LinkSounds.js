@@ -26,7 +26,7 @@ public class LinkSounds {
 	} 
 	
 	public function GetSound(resource: ResourceType) : AudioClip{
-		Debug.Log("Playing the link sound " + linkSoundTable[resource] + " for resource " + resource);
+		if (!linkSoundTable.ContainsKey(resource)) throw new System.Exception("Did not find " + resource + " linking sound");
 		return (linkSoundTable[resource]);
 	}
 }
