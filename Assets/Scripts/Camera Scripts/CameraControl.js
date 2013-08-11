@@ -251,7 +251,8 @@ public function OnDrawGizmos()
 
 	if(showCameraLocation)
 	{
-		Gizmos.DrawCube(this.camera.transform.position, new Vector3(25, 50, 25));	
+		var cameraLoc : Vector3 = new Vector3(this.camera.transform.position.x, 0, this.camera.transform.position.z);
+		Gizmos.DrawCube(cameraLoc, new Vector3(25, 50, 25));	
 	}
 	
 }

@@ -322,8 +322,10 @@ public class MainMenu extends GUIControl
 	// Used to update the number of datapieces the player has collected
 	// Give the whole number of pieces so that if the player clicks undo,
 	// it will decrement the total number.
-	public function (numOfPieces : int)
+	public function updateNumberOfDataPieces(numOfPieces : int)
 	{
 		numOfDataPieces = numOfPieces;
 	}
+	
+
 }
