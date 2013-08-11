@@ -27,6 +27,7 @@ public var cameraHeight = 400;
 public var setCameraToFarCorner = true;
 static public var cameraAngle : float = 60;
 
+public var showCameraLocation : boolean = false;
 
 private enum AspectRatios
 {
@@ -114,7 +115,8 @@ static public function Drag(currentInputPos: Vector2){
 									- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
 									thisCamera.transform.position.y,
 									((-bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
-									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);									
+									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Left");									
 	}
 	//Right
 	if(nonRotatedPos.x > (bCP.x + (bD.x / 2)))
@@ -126,6 +128,7 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									((bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Right");
 	}
 	//Top
 	if(nonRotatedPos.z > (bCP.z + (bD.z / 2)))
@@ -137,6 +140,7 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Top");
 									
 	}
 	//Bottom
@@ -148,6 +152,7 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Bottom");
 	}
 	
 }
@@ -238,11 +243,15 @@ public function OnDrawGizmos()
 										10,
 										borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
 										+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
-		
+	
 	Gizmos.DrawLine(corner1, corner2);
 	Gizmos.DrawLine(corner2, corner4);
 	Gizmos.DrawLine(corner3, corner4);
 	Gizmos.DrawLine(corner3, corner1);
-	
+
+	if(showCameraLocation)
+	{
+		Gizmos.DrawCube(this.camera.transform.position, new Vector3(25, 50, 25));	
+	}
 	
 }
