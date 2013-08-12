@@ -133,13 +133,16 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 {
 	var startPos : Vector3 = building.buildingPointer.transform.position;
 	startPos.y = 50;
-	startPos.x -= 50;
-	startPos.z -= 35;
+	startPos.x -= 120;//50;
+	startPos.z -= 45;//35;
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 
 					building.unallocatedInputIcons, startPos, building);
-	startPos.z += 70;
-	startPos.x = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
+	startPos.x += 80;
+	startPos.z += 80;
+	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
 					building.unallocatedOutputIcons, startPos, building);
+	startPos.x = optPos.x;
+	startPos.y = optPos.y;
 	if (building.optionalOutput != ResourceType.None)
 	{
 		var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optionalOutput - 1], startPos, Quaternion.identity);
@@ -151,9 +154,10 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 
 private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[],
 									buildingIconSet : List.<ResourceIcon>, startPos : Vector3,
-									building : BuildingOnGrid) : float
+									building : BuildingOnGrid) : Vector2
 {
-	var spacing : float = 35;
+	var xSpacing : float = 60;
+	var ySpacing : float = 40;
 	var pos : Vector3 = startPos;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
@@ -164,10 +168,11 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 			tempScript.Initialize(building);
 			tempScript.SetIndex(i);
 			buildingIconSet.Add(tempScript);
-			pos.x += spacing;
+			pos.x += xSpacing;
+			pos.y -= ySpacing;
 		}
 	}
-	return pos.x;
+	return Vector2(pos.x, pos.y);
 }
 
 //Removes links between b1 and  b2

@@ -64,7 +64,7 @@ function Start () {
 	UnitManager.AddUnit(this); // adds unit to the Unit Manager unit list
 	
 	// slant icon slightly forward towards the camera
-	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 	
 	renderer.material.mainTextureScale = Vector2(-1,-1);
 	
@@ -74,7 +74,7 @@ function Start () {
 	targetIcon.renderer.enabled = false;
 	targetIcon.transform.localScale = Vector3(6,6,6);
 	// slant icon slightly forward towards the camera
-	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 }
 
 function Initiate() {

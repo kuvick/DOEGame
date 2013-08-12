@@ -65,7 +65,7 @@ public function Initialize(building : BuildingOnGrid)
 	gameObject.renderer.material.mainTextureOffset = Vector2(1,1);
 	
 	// slant icon slightly forward towards the camera
-	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 	
 	if (ioType == IOType.OptOut)
 		index = -1;

@@ -15,7 +15,7 @@ public class UpgradeIcon extends InspectionComponent
 	public function Initialize (building : GameObject, id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
 	{
 		// slant icon slightly forward towards the camera
-		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 		
 		this.building = building;
 		this.id = id;

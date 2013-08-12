@@ -25,7 +25,7 @@ public class ObjectiveIcon extends InspectionComponent
 								type : BuildingEventType, turns : int)
 	{
 		// slant icon slightly forward towards the camera
-		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, 0, 0);
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 		
 		// set icon textures
 		normalTexture = icon;
