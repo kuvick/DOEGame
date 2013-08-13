@@ -40,6 +40,8 @@ public class ObjectiveIcon extends InspectionComponent
 		// set icon height above the terrain
 		transform.position.y = 50;
 		
+		gameObject.layer = 10;
+		
 		// set-up turn timer object
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
 		temp.transform.position.x -= 25;

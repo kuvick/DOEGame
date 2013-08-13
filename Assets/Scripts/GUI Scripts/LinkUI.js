@@ -132,7 +132,7 @@ function isLinked(b1:GameObject, b2:GameObject){
 public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 {
 	var startPos : Vector3 = building.buildingPointer.transform.position;
-	startPos.y = 50;
+	startPos.y = 75;
 	startPos.x -= 120;//50;
 	startPos.z -= 45;//35;
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 

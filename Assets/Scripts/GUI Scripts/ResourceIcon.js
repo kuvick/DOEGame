@@ -67,6 +67,8 @@ public function Initialize(building : BuildingOnGrid)
 	// slant icon slightly forward towards the camera
 	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 	
+	gameObject.layer = 10;
+	
 	if (ioType == IOType.OptOut)
 		index = -1;
 	SetAllocated(false);

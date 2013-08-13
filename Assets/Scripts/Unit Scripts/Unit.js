@@ -66,6 +66,8 @@ function Start () {
 	// slant icon slightly forward towards the camera
 	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 	
+	gameObject.layer = 10;
+	
 	renderer.material.mainTextureScale = Vector2(-1,-1);
 	
 	// set-up unit target icon
