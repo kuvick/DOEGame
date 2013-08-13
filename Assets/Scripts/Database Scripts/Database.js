@@ -820,6 +820,10 @@ private function DeactivateChain (buildingIndex : int, parentIndex : int)
 	// if the building is active, deactivate it
 	if (building.isActive)
 		toggleActiveness(buildingIndex);
+	SetBuildingResourceActive(building.unallocatedInputIcons, false);
+    SetBuildingResourceActive(building.unallocatedOutputIcons, false);
+    SetBuildingResourceActive(building.allocatedInputIcons, false);
+    SetBuildingResourceActive(building.allocatedOutputIcons, false);
 	if (parentIndex >= 0)
 	{
 		building.deactivatedInputs.Add(building.inputLinkedTo.IndexOf(parentIndex));
@@ -866,6 +870,10 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     // if building has been activated
     if (building.isActive)
     {
+    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
+    	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
+    	SetBuildingResourceActive(building.allocatedInputIcons, true);
+    	SetBuildingResourceActive(building.allocatedOutputIcons, true);
     	for(var outLink : int in building.outputLinkedTo)
     	{
     		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
@@ -886,9 +894,22 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	
     	CheckBuildingActiveTrigger(building);
     }
+    else
+    {
+    	SetBuildingResourceActive(building.unallocatedInputIcons, false);
+    	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
+    	SetBuildingResourceActive(building.allocatedInputIcons, false);
+    	SetBuildingResourceActive(building.allocatedOutputIcons, false);
+    }
     if (checkUnits)
     	UnitManager.CheckUnitsActive();
     return canActivate;
+}
+
+private function SetBuildingResourceActive(iconSet : List.<ResourceIcon>, active : boolean)
+{
+	for (var i : int = 0; i < iconSet.Count; i++)
+		iconSet[i].SetActive(active);
 }
 
 private function CheckBuildingActiveTrigger(building : BuildingOnGrid)

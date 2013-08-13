@@ -73,6 +73,7 @@ function Start () {
 	targetIcon.renderer.material.mainTexture = targetIconTex;
 	targetIcon.renderer.enabled = false;
 	targetIcon.transform.localScale = Vector3(6,6,6);
+	targetIcon.collider.enabled = false;
 	// slant icon slightly forward towards the camera
 	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 }
@@ -458,6 +459,7 @@ public function OnSelected()
 		pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 		pathDrawn = true;
 	}
+	Debug.Log("unit selected");
 }
 
 public function OnDeselect()
@@ -500,6 +502,7 @@ public function OnDeselect()
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;
+	Debug.Log("unit deselected");
 }
 
 class UnitAction extends System.ValueType

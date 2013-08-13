@@ -124,7 +124,7 @@ private static function CheckObjSelected (position : Vector2) : boolean
 	if (Physics.Raycast(ray, hit, 1000))
 	{
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
-		Debug.Log("collided");
+		Debug.Log("collided" + hit.collider.name);
 		return true;
 	}
 	return false;

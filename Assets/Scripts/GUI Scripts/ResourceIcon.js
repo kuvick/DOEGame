@@ -78,14 +78,19 @@ public function SetAllocated (allo : boolean)
 	if (isAllocated)
 	{
 		currentTex = allocatedTex;
-		gameObject.renderer.material.color = allColor;
+		//gameObject.renderer.material.color = allColor;
 	}
 	else
 	{
 		currentTex = unallocatedTex;
-		gameObject.renderer.material.color = unallColor;
+		//gameObject.renderer.material.color = unallColor;
 	}
 	gameObject.renderer.material.mainTexture = currentTex;
+}
+
+public function SetActive(active : boolean)
+{
+	gameObject.renderer.material.color = active ? allColor : unallColor;
 }
 
 public function SetIndex (index : int)
