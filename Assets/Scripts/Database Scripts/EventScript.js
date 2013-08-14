@@ -49,7 +49,7 @@ function Start () {
 	
 	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
 	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
-	Initialize();
+	//Initialize();
 }
 
 public function Initialize()
@@ -105,6 +105,11 @@ public function Draw_Upgrade()
 public function SetIconActive(active : boolean)
 {
 	icon.SetActive(active);
+}
+
+public function SetIconTexture (tex : Texture2D)
+{
+	event.icon = tex;
 }
 
 //Changes the current opacity of the upgrade icon.

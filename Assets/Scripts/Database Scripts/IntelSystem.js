@@ -36,6 +36,10 @@ private var display : InspectionDisplay; // tooltip display reference
 public var levelName : String;
 public var playerData : SaveSystem; // Should really be a player class need to move to other file 
 
+private var iconIndex : int = 0;
+public var primaryIcons : Texture2D[]; // 0 = without upgrade, 1 = with upgrade
+public var secondaryIcons : Texture2D[]; // 0 = without upgrade, 1 = with upgrade
+
 private var codicesUnlockedThisLevel : List.<String>;
 private var contactsUnlockedThisLevel : List.<String>;
 
@@ -115,11 +119,18 @@ function Start ()
 		tempBuildingData = buildingObject.GetComponent(BuildingData);
 		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 		if (tempBuilding.hasEvent)
-		{
+		{		
 			//tempEventClass = new EventScript();
 			tempEventClass = buildingObject.GetComponent(EventScript);
 			if(tempEventClass != null)
 			{
+				// set icon
+				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 1;
+				if (tempEventClass.event.type == BuildingEventType.Primary)
+					tempEventClass.event.icon = primaryIcons[iconIndex];
+				else
+					tempEventClass.event.icon = secondaryIcons[iconIndex];
+				tempEventClass.Initialize();
 				tempEventClass.event.buildingReference = buildingObject;
 				
 				if(!tempEventClass.event.isChild)
