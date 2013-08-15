@@ -64,8 +64,7 @@ public class LevelNode
 
 public class LevelSelectMenu extends GUIControl
 {
-	//Images:
-	
+	//Images
 	public var backgroundText: Texture;
 	
 	public var codexIconText: Texture;
@@ -308,12 +307,15 @@ public class LevelSelectMenu extends GUIControl
 		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * (launchMissionButton.width / designWidth), splashBounds.height * (launchMissionButton.height/ designHeight));	
 		
 		LoadLevelList();
-		scrollContent = Rect(0, 0, missionBackgroundRect.width, levels.Length * (messageHeightPercent * screenHeight) + (levels.Length * .05));
+		scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
 		
-		statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
-		senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
-		senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		if(unlockedLevels.Count > 0)
+		{
+			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
+			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		}
 	}
 	
 	private function RenderLevels()
@@ -543,7 +545,7 @@ public class LevelSelectMenu extends GUIControl
 		
 		numLevels = levels.Length;
 		
-		levelGroup = new Rect(0, levelGroupY, screenWidth * numLevels, numLevels * (messageHeightPercent * screenHeight));
+		levelGroup = new Rect(0, levelGroupY, screenWidth * numLevels, (numLevels + 1) * (messageHeightPercent * screenHeight));
 		
 		var count : int = 0;
 		
