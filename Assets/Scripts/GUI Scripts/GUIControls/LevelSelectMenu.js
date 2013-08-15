@@ -64,24 +64,79 @@ public class LevelNode
 
 public class LevelSelectMenu extends GUIControl
 {
+	//Images:
+	
+	public var backgroundText: Texture;
+	
+	public var codexIconText: Texture;
+			private var codexIconRect: Rect;
+			private var codexX: float=35;
+			private var codexY: float=382;
+	public var contactsIconText: Texture;
+			private var contactsIconRect: Rect;
+			private var contactsX: float=35;
+			private var contactsY: float=609;
+	public var emailDividerText: Texture;
+			private var emailDividerRect: Rect;
+	public var imagePlaceholderText: Texture;
+			private var senderIconRect: Texture;
+	public var emailReadText: Texture;
+			private var emailReadRect: Rect;
+	public var emailUnreadText: Texture;
+			private var emailUnreadRect: Rect;
+	public var lineOverlayText: Texture;
+			private var lineOverlayRect: Rect;
+	public var mainMenuIconText: Texture;
+			private var mainMenuIconRect: Rect;
+			private var mainMenuX: float=1748;
+			private var mainMenuY: float=31;
+	public var missionBackgroundText: Texture;
+			private var missionBackgroundRect: Rect;
+			private var missionBGX: float=263;
+			private var missionBGY: float=182;
+	public var progressBarExpText: Texture;
+	public var progressBarBGText: Texture;
+			private var progressBarRect: Rect;
+			private var progressBarX: float=100;
+			private var progressBarY: float=117;
+	private var designWidth : float = 1920;
+	private var designHeight : float = 1080;
+	public var launchMissionButton: Texture;
+	private var missionScrollArea: Rect;
+		private var missionScrollX:float = 300;
+		private var missionScrollY:float = 223;
+		private var missionScrollWidth:float = 1419;
+		private var missionScrollHeight:float = 749;
+	private var barDisplay:float;
+	private var agentName:String;
+	private var agentRank:String;
+		private var agentRankRect1:Rect;
+		private var rank1X:float=79;
+		private var rank1Y:float=27;
+		private var agentRankRect2:Rect;
+		private var rank2X:float=83;
+		private var rank2Y:float=31;
+	private var scrollThumbWidth:float=0.03;
+	public var backButtonText: Texture;
+	private var rank1Style:GUIStyle;
+	private var rank2Style:GUIStyle;
+	private var playerNameStyle:GUIStyle;
+	private var playerName:String;
+		private var playerRect:Rect;
+		private var playerPaddingPercent:float = 0.01;
+	private var senderRect:Rect;
+
+	// Used to display player information:
+	private var saveSystem : SaveSystem;
+	
+	/************************************/
+
 	// Skins for GUI components
-	public var hexButtonSkin:GUISkin;
+
 	public var levelSelectSkin:GUISkin;
 	
-	// Level Select Menu rectangles
-	private var background:Rect;
-	private var title:Rect;
-	
-	private var levelGroup:Rect;	
-	private var backButton:Rect;
-	
-	private var loginRect : Rect;
-	private var loginText : String;
-	
-	private var codexRect : Rect;
-	private var contactsRect : Rect;
-	private var recordRect : Rect;
-	
+	private var levelGroup:Rect;
+
 	
 	//Scroll
 	private var scrollArea:Rect;
@@ -99,17 +154,6 @@ public class LevelSelectMenu extends GUIControl
 	private var messageWidthPercent : float = 0.70;
 	private var yPaddingPercent : float = 0.05;
 	
-	
-	//Textures
-	public var unreadTexture : Texture;
-	public var primaryTexture : Texture;	
-	public var secondaryTexture : Texture;
-	public var missionSelectBorder : Texture;
-	public var missionDivider : Texture;
-	
-	public var codexBadge : Texture;
-	public var contactsBadge : Texture;
-	public var recordBadge : Texture;
 	private var statusRectangle : Rect;
 	private var senderRectangle : Rect;
 	
@@ -138,16 +182,7 @@ public class LevelSelectMenu extends GUIControl
 	private var levelGroupY:float;
 	private var levelTitleFontHeight:float;
 	private var levelNodeFontHeight:float;
-	//private var levelMiddleNodeOffset;
-	private var backButtonHeight:float;		
-	private var backButtonFontHeight:float;	
-	
-	private var badgeWidthPercent : float = 0.10;
-	
-	// Level Select Menu textures
-	public var backgroundTexture:Texture;	
-	
-	public var levelNodeTexture:Texture;
+
 	
 	// Level Select Menu animation
 	private var numLevels:int;			
@@ -156,14 +191,6 @@ public class LevelSelectMenu extends GUIControl
 	public var unlockedLevels : List.<LevelNode>;
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
-	
-	// Used to display player information:
-	private var saveSystem : SaveSystem;
-	
-	//Tabs
-	private var activeTab : Rect;
-	private var completedTab : Rect;
-	private var showActive : boolean = true;
 	
 	private static var fromScoreScreen : boolean = false;
 	
@@ -174,77 +201,135 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Initialize()
 	{
-		var playerData : GameObject = GameObject.Find("Player Data");
-		saveSystem = playerData.GetComponent("SaveSystem");
-	
 		super.Initialize();
+		
 		levelGroupY = 0;//screenHeight * levelGroupYPercent;
 		levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
 		levelNodeFontHeight = levelNodeFontHeightPercent * screenHeight;
-		backButtonHeight = backButtonHeightPercent * screenHeight;
-		backButtonFontHeight = backButtonFontHeightPercent * screenHeight;
 		
 		levelSelectSkin.button.fontSize = levelNodeFontHeight;
-		levelSelectSkin.label.fontSize = levelTitleFontHeight;
-		hexButtonSkin.button.fontSize = backButtonFontHeight;
+		levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
+		levelSelectSkin.customStyles[0].fontSize = levelNodeFontHeight * 2;
+		levelSelectSkin.customStyles[1].fontSize = levelNodeFontHeight * 2;
+		levelSelectSkin.customStyles[2].fontSize = levelNodeFontHeight * 2;
 		
-		background = new Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		title = new Rect(verticalBarWidth + screenWidth/2, horizontalBarHeight + padding, 0, 0);
+		
+		//hexButtonSkin.button.fontSize = backButtonFontHeight;
+		/******************************************/
+		
+		var playerData : GameObject = GameObject.Find("Player Data");		
+		saveSystem = playerData.GetComponent("SaveSystem");
+	
+		//Codex Icon:
+		codexIconRect = RectFactory.NewRect( codexX / designWidth, 
+										  codexY / designHeight,
+										  codexIconText.width / designWidth,
+										  codexIconText.height / designHeight);	
 				
-		backButton = new Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - backButtonHeight, backButtonHeight, backButtonHeight);	
+		//Contacts Icon:
+		contactsIconRect = RectFactory.NewRect( contactsX / designWidth, 
+										  contactsY / designHeight,
+										  contactsIconText.width / designWidth,
+										  contactsIconText.height / designHeight);	
+
+		//Main Menu Icon:
+		mainMenuIconRect = RectFactory.NewRect( mainMenuX / designWidth, 
+										  mainMenuY / designHeight,
+										  mainMenuIconText.width / designWidth,
+										  mainMenuIconText.height / designHeight);	
+		
+		//Mission Background:	
+		missionBackgroundRect = RectFactory.NewRect( missionBGX / designWidth, 
+										  missionBGY / designHeight,
+										  missionBackgroundText.width / designWidth,
+										  missionBackgroundText.height / designHeight);			
+	
+		// Exp Bar:
+		progressBarRect = RectFactory.NewRect( progressBarX / designWidth, 
+										  progressBarY / designHeight,
+										  progressBarBGText.width / designWidth,
+										  progressBarBGText.height / designHeight);	
+										  
+		// Scroll Area:
+		missionScrollArea = RectFactory.NewRect( missionScrollX / designWidth, 
+										  missionScrollY / designHeight,
+										  missionScrollWidth / designWidth,
+										  (missionBackgroundText.height - (missionBackgroundText.height * 0.10)) / designHeight);
+
+
 		
 		if(saveSystem.currentPlayer != null)
 		{
-			loginText  = "Logged in as: " + saveSystem.currentPlayer.name;
-		}
-		else if(saveSystem.currentPlayer.name != "")
-		{
-			loginText  = "Logged in as: -Username-";
-		}
+								
+			agentName = saveSystem.currentPlayer.name;
+			agentRank = saveSystem.currentPlayer.rankName;
+			
+			
+			// Calculating how much the exp. bar should be filled:
+			var expWithinRank:float = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
+			var currentMinExpGoal:float;
+			
+			if(saveSystem.currentPlayer.rank > 0)
+				currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank) -
+				saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank - 1);
+			else
+				currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank);
+		
+			barDisplay = expWithinRank / currentMinExpGoal;
+			/**********/
+			
+			// Rank Rect 1:
+			agentRankRect1 = new Rect(screenWidth * rank1X / designWidth, 
+									  screenHeight * rank1Y / designHeight,
+									  (agentRank.Length * levelSelectSkin.customStyles[0].fontSize * 0.7),
+									  levelSelectSkin.customStyles[0].fontSize * 2);
+											  
+			// Rank Rect 1:
+			agentRankRect2 = new Rect(screenWidth * rank2X / designWidth, 
+									  screenHeight * rank2Y / designHeight,
+									  (agentRank.Length * levelSelectSkin.customStyles[0].fontSize),
+									  levelSelectSkin.customStyles[0].fontSize * 2);
+	
+			playerName = saveSystem.currentPlayer.name;
+			
+			// Displayed Player Name:
+			playerRect = new Rect(agentRankRect1.width + agentRankRect1.x, 
+								  screenHeight * rank1Y / designHeight,
+								  playerName.Length * levelSelectSkin.customStyles[0].fontSize,
+								  levelSelectSkin.customStyles[0].fontSize * 10);
+		}	
 		else
-		{
-			loginText  = "Logged in as: -Username-";
-		}
-
-		loginRect = new Rect(background.x + background.width - (loginText.length * levelSelectSkin.label.fontSize), 0, loginText.length * levelSelectSkin.label.fontSize * 10, levelSelectSkin.label.fontSize * 10);
-		
-		codexRect = new Rect(verticalBarWidth + padding,background.y + background.height / 2 - (background.width * badgeWidthPercent) , background.width * badgeWidthPercent, background.width * badgeWidthPercent);
-		contactsRect = new Rect(codexRect.x, codexRect.y + codexRect.width , codexRect.width, codexRect.width);
-		recordRect = new Rect(codexRect.x, codexRect.y - codexRect.width, codexRect.width, codexRect.width);
-		
+			Debug.Log("player not logged in!");
+			
 		scrollPosition = new Vector2(0.125, 0.125);
-		scrollArea = new Rect(background.x + (background.width * scrollPosition.x), background.y + (background.height * scrollPosition.y), background.width * scrollAreaWidthPercent, background.height * scrollAreaHeightPercent);		
-		scrollArea2 = new Rect(scrollArea.x + ((scrollAreaWidthPercent - innerScrollAreaWidthPercent)/3 * background.width), scrollArea.y + ((scrollAreaHeightPercent - innerScrollAreaHeightPercent)/4 * background.height), background.width * innerScrollAreaWidthPercent, scrollArea.height - (((scrollAreaHeightPercent - innerScrollAreaHeightPercent) * 1.6f) * background.height));// background.height * innerScrollAreaHeightPercent);
-		splashBounds = new Rect(background.x + (screenWidth * scrollPosition.x), background.y + (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
+		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
 		messageBuffer = new Vector2(.04 * splashBounds.width, .1 * splashBounds.height);
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
-		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * startLevelButtonWidth, splashBounds.height * startLevelButtonHeight);
-		
-		activeTab = new Rect(0, scrollArea.y, ((screenWidth - scrollArea.width)/2), messageHeightPercent * screenHeight);
-		completedTab = new Rect(activeTab.x, activeTab.y + activeTab.height, activeTab.width, activeTab.height);
+		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * (launchMissionButton.width / designWidth), splashBounds.height * (launchMissionButton.height/ designHeight));	
 		
 		LoadLevelList();
-		scrollContent = Rect(0, 0, scrollArea.width, levels.Length * (messageHeightPercent * screenHeight) + (levels.Length * .05));// - 2 * padding, 1000);
+		scrollContent = Rect(0, 0, missionBackgroundRect.width, levels.Length * (messageHeightPercent * screenHeight) + (levels.Length * .05));
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
 		
-		statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), scrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
-		senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x), statusRectangle.y, statusRectangle.width, statusRectangle.height);
+		statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
+		senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 	}
 	
 	private function RenderLevels()
 	{
 		// Scroll bar
+		
+		GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
+		
 			levelSelectScrollPos = GUI.BeginScrollView
 			(
-				scrollArea2,				
+				missionScrollArea,				
 				levelSelectScrollPos,
 				scrollContent,
 				false, 
-				true
-			);
-				var levelSelectFontSize = levelSelectSkin.label.fontSize;
-				levelSelectSkin.label.fontSize = 10;
-				
+				false
+			);				
 				
 				//Begin Group for Inbox
 				GUI.BeginGroup(levelGroup);
@@ -255,46 +340,46 @@ public class LevelSelectMenu extends GUIControl
 							unlockedLevels[i].setScore(PlayerPrefs.GetInt(unlockedLevels[i].sceneName + "Score"));
 						}
 						
-																								
-						//GUI.Box(unlockedLevels[i].bounds, "");
 						if(i != unlockedLevels.Count-1)
 						{
-							GUI.Label(new Rect(unlockedLevels[i].bounds.x, unlockedLevels[i].bounds.y + (unlockedLevels[i].bounds.height * .75), unlockedLevels[i].bounds.width, unlockedLevels[i].bounds.height / 2), missionDivider);
+							GUI.Label(new Rect(unlockedLevels[i].bounds.x, unlockedLevels[i].bounds.y + (unlockedLevels[i].bounds.height * .75), unlockedLevels[i].bounds.width, unlockedLevels[i].bounds.height / 2), emailDividerText);
 						}
 						
 												
 						statusRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - statusRectangle.height) / 2);
 						senderRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - senderRectangle.height) / 2);
+						senderRect.y = statusRectangle.y;
+						
+						
+						//If there is a sender picture, display that, else don't
+						if(unlockedLevels[i].senderTexture != null)
+							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
+						else
+							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
+						
+						//Display proper mail icon
 						if(!unlockedLevels[i].wasRead)
 						{
-							GUI.DrawTexture(statusRectangle, unreadTexture,ScaleMode.StretchToFill);	
+							GUI.DrawTexture(statusRectangle, emailUnreadText,ScaleMode.StretchToFill);
 						}		
 						else
 						{
-							if(unlockedLevels[i].isPrimary)
-							{
-								GUI.DrawTexture(statusRectangle, primaryTexture,ScaleMode.StretchToFill);	
-							}
-							else
-							{
-								GUI.DrawTexture(statusRectangle, secondaryTexture,ScaleMode.StretchToFill);	
-							}
+							GUI.DrawTexture(statusRectangle, emailReadText,ScaleMode.StretchToFill);	
 						}		
+
+						unlockedLevels[i].bounds.x = senderRect.width;
 						
-						//If there is an image of the sender, draw it
-						if(unlockedLevels[i].senderTexture != null)
-							GUI.DrawTexture(senderRectangle, unlockedLevels[i].senderTexture, ScaleMode.StretchToFill);
-							
 						//If there is a name of the sender, write it
-						var subjectString : String = "Subject: " + unlockedLevels[i].subjectText + "\n\n";
-						if(unlockedLevels[i].senderName != "")		
-							subjectString += "Sender: " + unlockedLevels[i].senderName;						
+						var subjectString : String = unlockedLevels[i].subjectText + "\n\n";
+						//if(unlockedLevels[i].senderName != "")		
+							//subjectString += "Sender: " + unlockedLevels[i].senderName;						
 						//If a message has been selected, show the splash screen
 						if(GUI.Button(unlockedLevels[i].bounds, subjectString))
 						{
 							showSplash = true;
 							activeLevelIndex = i;							
 						}
+
 					}
 				GUI.EndGroup();   // End of Message Group
 			GUI.EndScrollView();  //End Scroll bar
@@ -303,7 +388,38 @@ public class LevelSelectMenu extends GUIControl
 	public function Render()
 	{
 		GUI.skin = levelSelectSkin;
-		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleAndCrop);
+	
+		// Drawing background textures:
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
+		GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
+		
+		//Getting style and displaying names
+		rank1Style =  GUI.skin.GetStyle("title1");
+		rank2Style =  GUI.skin.GetStyle("title2");
+		playerNameStyle =  GUI.skin.GetStyle("playerName");
+		
+		if(saveSystem.currentPlayer != null)
+		{
+			GUI.Label(agentRankRect2, agentRank, rank2Style);
+			GUI.Label(agentRankRect1, agentRank, rank1Style);
+			GUI.Label(playerRect, playerName, playerNameStyle);
+		}
+		else
+			GUI.Label(new Rect(0,0,200,200), "Not logged in...");
+		
+		
+
+		// Exp Bar:
+		
+		GUI.BeginGroup (progressBarRect);
+			GUI.Box (Rect (0,0, progressBarRect.width, progressBarRect.height), progressBarBGText);
+			// SCORE FILL:
+			GUI.BeginGroup (new Rect (0, 0, progressBarRect.width * barDisplay, progressBarRect.height));
+				GUI.Box (Rect (0,0, progressBarRect.width, progressBarRect.height), progressBarExpText);
+			GUI.EndGroup ();			 
+		GUI.EndGroup ();
+		
+		GUI.DrawTexture(missionBackgroundRect, missionBackgroundText,ScaleMode.StretchToFill);
 		
 		// Calculate the mouse position
 		var mousePos:Vector2;
@@ -313,55 +429,30 @@ public class LevelSelectMenu extends GUIControl
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);		
 		
-		loginRect = new Rect(background.x + background.width - (loginText.length * GUI.skin.label.fontSize), background.y, loginText.length * levelSelectSkin.label.fontSize, 50);
-		GUI.skin.label.alignment = TextAnchor.UpperRight;
-		GUI.Label(background, loginText);
-		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		if(!showSplash)	//Renders the Inbox Screen
 		{
-			//GUI.Box(scrollArea,"Inbox");
-			GUI.Label(scrollArea, missionSelectBorder);
-			
-			//Tabs
-			/*GUI.Box(activeTab, "");
-			GUI.Box(completedTab, "");
-			if(GUI.Button(activeTab, "Active\nMissions") && !showActive)
-			{
-				changeTab();
-				Debug.Log("Accessing Active Missions");
-				showActive = true;
-			}
-			if(GUI.Button(completedTab, "Completed\nMissions") && showActive)
-			{
-				changeTab();
-				Debug.Log("Accessing Completed Missions");
-				showActive = false;
-			}*/
-			
-			if(GUI.Button(codexRect, codexBadge))
+			if(GUI.Button(codexIconRect, codexIconText))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
 			}
 			
-			if(GUI.Button(contactsRect, contactsBadge))
+			if(GUI.Button(contactsIconRect, contactsIconText))
 			{
 				currentResponse.type = EventTypes.CONTACTSMENU;
 			}
 			
-			if(GUI.Button(recordRect, recordBadge))
+			if(GUI.Button(mainMenuIconRect, mainMenuIconText))
 			{
-				Debug.Log("Record Badge Pressed");//currentResponse.type = EventTypes.CODEXMENU;
+				currentResponse.type = EventTypes.STARTMENU;
 			}
 			
 			RenderLevels();
 		}				
 		else	//Renders the Splash Screen
 		{
-			GUI.Label(splashBounds,missionSelectBorder);
-			GUI.BeginGroup(splashBounds);			
-				//levelSelectSkin.label.fontSize = levelSelectFontSize;
-				GUI.skin = hexButtonSkin;				
-				if(GUI.Button(startLevelButton, "Launch Mission"))
+			GUI.BeginGroup(missionScrollArea);			
+				//levelSelectSkin.label.fontSize = levelSelectFontSize;				
+				if(GUI.Button(startLevelButton, launchMissionButton))
 				{							
 					nextLevel.nextLevel = unlockedLevels[activeLevelIndex].sceneName;
 					Application.LoadLevel("LoadingScreen");
@@ -372,46 +463,13 @@ public class LevelSelectMenu extends GUIControl
 				
 				GUI.Label(messageRect, "Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText);						
 			GUI.EndGroup();
-		}
-		
-		
-		/*
-			Switches Back to the hexButtonSkin and draws the Back button
-			Back button will take you to the previous screen.
-			In inbox view, it will take you back to the game screen.
-			In message view, it will take you back to inbox view.		
-		*/
-		GUI.skin = hexButtonSkin;
-		if (GUI.Button(backButton, "Back"))
-		{
-			if(!showSplash)
-			{
-				if (fromScoreScreen)
-				{
-					fromScoreScreen = false;
-					currentResponse.type = EventTypes.STARTMENU;
-					Debug.Log ("from scoreA");
-				}
-				else
-				{
-					currentResponse.type = EventTypes.MAIN;
-					Debug.Log ("from scoreB");
-					if (!PlayerPrefs.HasKey(Strings.RESUME)){
-						Debug.LogError("There was no level to resume.");
-					} else {
-						var levelToResume : String = PlayerPrefs.GetString(Strings.RESUME);
-						Debug.Log("Going to load " + levelToResume);
-						Application.LoadLevel(levelToResume); // TODO We need to load in the actual level not restart it
-					}
-				}
-			}
-			else
+			
+			if(GUI.Button(contactsIconRect, backButtonText))
 			{
 				showSplash = false;
-				activeLevelIndex = -1;
-				Debug.Log ("from scoreC");
 			}
 		}
+		
 	}
 	
 	public function Update()
@@ -507,7 +565,7 @@ public class LevelSelectMenu extends GUIControl
 				//{
 					//0if(!levels[i].completed) //If the level is not completed
 				//	{
-						level = new Rect(0, count * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/scrollArea2.width * .95, messageHeightPercent * screenHeight);											
+						level = new Rect(0, count * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 						level.y += count * (level.height * .05);
 						levels[i].bounds = level;
 						unlockedLevels.Add(levels[i]);
@@ -557,17 +615,5 @@ public class LevelSelectMenu extends GUIControl
 		}
 	}
 
-	private function changeTab()
-	{
-		if(showActive){ // Switch to Compeleted Tab
-			showActive = false;
-			//TODO: Modify Scroll Area Height
-			LoadLevelList();
-		}
-		else{ // Switch to Active Tab
-			showActive = true;
-			//TODO: Modify Scroll Area Height
-			LoadLevelList();
-		}
-	}
+
 }

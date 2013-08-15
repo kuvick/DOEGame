@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<NarrativeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <timeSpentTotal>13.4301634</timeSpentTotal>
+  <timeBeforeClick>
+    <float>6.88029957</float>
+    <float>1.42903423</float>
+    <float>7.581126</float>
+    <float>1.92913151</float>
+  </timeBeforeClick>
+  <wasSkipped>false</wasSkipped>
+</NarrativeData>

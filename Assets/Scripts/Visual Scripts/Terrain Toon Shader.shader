@@ -1,26 +1,18 @@
-Shader "Custom/Terrain Toon Shader" {
-	Properties {
-		_MainTex ("Base (RGB)", 2D) = "white" {}
-	}
-	SubShader {
-		Tags { "RenderType"="Opaque" }
-		LOD 200
-		
-		CGPROGRAM
-		#pragma surface surf Lambert
 
-		sampler2D _MainTex;
+//Shader "Hidden/TerrainEngine/Splatmap/Lightmap-FirstPass" {
+	//Properties {
+		//_Color ("Main Color", Color) = (0.5,0.5,0.5,1)
+		//_OutlineColor ("Outline Color", Color) = (0,0,0,1)
+		//_Outline ("Outline width", Range (.002, 5)) = .005
+		//_MainTex ("Base (RGB)", 2D) = "white" {}
+		//_Ramp ("Toon Ramp (RGB)", 2D) = "gray" {} 
+	//}
 
-		struct Input {
-			float2 uv_MainTex;
-		};
-
-		void surf (Input IN, inout SurfaceOutput o) {
-			half4 c = tex2D (_MainTex, IN.uv_MainTex);
-			o.Albedo = c.rgb;
-			o.Alpha = c.a;
-		}
-		ENDCG
-	} 
-	FallBack "Diffuse"
-}
+	//SubShader {
+		//Tags { "RenderType"="Opaque" }
+		//UsePass "Toon/Lighted/FORWARD"
+		//UsePass "Toon/Basic Outline Orthographic/OUTLINE"
+	//} 
+	
+	//Fallback "Toon/Lighted"
+//}
