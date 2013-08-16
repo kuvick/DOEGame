@@ -10,8 +10,8 @@ public var ioType : IOType;
 private var index : int;
 
 private var currentScale : Vector3;
-private var smallScale : Vector3 = Vector3(4,4,4);
-private var bigScale : Vector3 = Vector3(8,8,8);
+private var smallScale : Vector3 = Vector3(5,5,5);
+//private var bigScale : Vector3 = Vector3(8,8,8);
 
 private var selectedBuilding:GameObject;
 
