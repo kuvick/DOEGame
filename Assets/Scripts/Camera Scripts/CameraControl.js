@@ -24,7 +24,6 @@ public var aspectRatio : AspectRatios;
 public var useDefaultAspectRatio : boolean = true;
 private var revertedToDefault = true;
 public var cameraHeight = 400;
-public var setCameraToFarCorner = true;
 static public var cameraAngle : float = 60;
 
 public var showCameraLocation : boolean = false;
@@ -66,10 +65,7 @@ function Start () {
 	if(!useDefaultAspectRatio)
 		if(aspectRatioWidth != 0 && aspectRatioHeight != 0)
 			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
-			
-	//Adjusts the camera so it's at the far bottom right corner of the camera bounds, to avoid a sudden jump if outside the box when the player first drags
-	if(setCameraToFarCorner)
-		thisCamera.transform.position = new Vector3(borderCenterPosition.x - borderDimensions.x / 2, cameraHeight, borderCenterPosition.z - borderDimensions.z / 2) ;
+
 }
 
 // The function uses the difference in the mouse's position between frames

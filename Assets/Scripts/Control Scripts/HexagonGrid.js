@@ -75,7 +75,7 @@ function Start(){
 	if(hexagon == null){
 		CreateHexagonMesh();
 	}
-	CreateSelectionHexagon();	
+	//CreateSelectionHexagon();	
 	createHexagonGridParticles();
 	if(mainCamera == null){
 		Debug.LogError("Camera not set");
@@ -138,7 +138,7 @@ function Update(){
 	selectionPosition = TileToWorldCoordinates(mouseTile.x, mouseTile.y);
 	//set y to be just above the ground plane at 0.1 so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
-	selectionHexagon.transform.position = selectionPosition;
+	//selectionHexagon.transform.position = selectionPosition;
 }
 
 //get a tile object at coordinate x, y
