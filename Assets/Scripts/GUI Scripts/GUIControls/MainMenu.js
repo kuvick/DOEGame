@@ -64,10 +64,11 @@ public class MainMenu extends GUIControl
 	public var dataIcon01:Texture;
 	public var dataIcon02:Texture;
 	public var dataIcon03:Texture;
-	private var numOfDataPieces:int = 0;
 	private var dataIconHeightPercent:float = 0.14;
 	private var dataIconHeight:float;
-	private var dataRect:Rect;
+	private var dataRect:List.<Rect> = new List.<Rect>();
+	
+	private var upgradeManager : UpgradeManager;
 	
 	
 	public function Start () 
@@ -94,6 +95,7 @@ public class MainMenu extends GUIControl
 			
 			Debug.Log("# of Cameras to test: " + cameraLocations.Count);
 		}// end of if(testCameras)
+	
 		
 	}
 	
@@ -139,7 +141,17 @@ public class MainMenu extends GUIControl
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
 		
-		dataRect = Rect(screenWidth / 2 - (dataIconBG.width/2), horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height);
+				
+		var database:GameObject = GameObject.Find("Database");
+		
+		if(database!=null)
+			upgradeManager = database.GetComponent(UpgradeManager);
+
+		var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
+		for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
+		{
+			dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
+		}
 		
 		// Add the buttons' rects to the rectList for checking input collision
 		rectList.Add(pauseButton);
@@ -150,10 +162,6 @@ public class MainMenu extends GUIControl
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
-		numOfDataPieces = 0;
-		
-		// if we're going to allow 2 or 3 pieces than just 3 pieces, there needs to be some sort of code
-		// here that detects how many pieces there are and decides to use which set
 	}
 	
 	public function Render()
@@ -170,20 +178,30 @@ public class MainMenu extends GUIControl
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 		
 		
-		GUI.DrawTexture(dataRect,dataIconBG);
+		
 		
 		// displaying number of data pieces collected
-		if(numOfDataPieces >= 1)
-		{
-			GUI.DrawTexture(dataRect,dataIcon01);
-			if(numOfDataPieces >= 2)
+		
+		//Debug.Log("count: " + upgradeManager.counterSet.Count);
+		
+		if(upgradeManager.counterSet.Count > 0)
+		{	
+			for(var i:int; i < upgradeManager.counterSet.Count; i++)
 			{
-				GUI.DrawTexture(dataRect,dataIcon02);
-				if(numOfDataPieces >= 3)
+				GUI.DrawTexture(dataRect[i],dataIconBG);
+				if(upgradeManager.counterSet[i].getObtainedParts() >= 1)
 				{
-					GUI.DrawTexture(dataRect,dataIcon03);
+					GUI.DrawTexture(dataRect[i],dataIcon01);
+					if(upgradeManager.counterSet[i].getObtainedParts() >= 2)
+					{
+						GUI.DrawTexture(dataRect[i],dataIcon02);
+						if(upgradeManager.counterSet[i].getObtainedParts() >= 3)
+						{
+							GUI.DrawTexture(dataRect[i],dataIcon03);
+						}
+					}
 				}
-			}
+			}			
 		}
 		
 		// Draw the buttons and respond to interaction
@@ -317,15 +335,6 @@ public class MainMenu extends GUIControl
 		var newPosition:Vector2 = Vector2(position.x + cos, position.y - sin);
 		
 		return newPosition;
-	}
-	
-	// Used to update the number of datapieces the player has collected
-	// Give the whole number of pieces so that if the player clicks undo,
-	// it will decrement the total number.
-	public function updateNumberOfDataPieces(numOfPieces : int)
-	{
-		numOfDataPieces = numOfPieces;
-	}
-	
+	}	
 
 }
