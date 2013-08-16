@@ -53,4 +53,12 @@ public class UpgradeCounter extends InspectionComponent
 		if (GUI.Button(rect, String.Empty + obtainedParts + "/" + totalParts))
 			SendToDisplay();//display.Activate(dispText, this);
 	}
+	public function getTotalParts():int
+	{
+		return totalParts;
+	}
+	public function getObtainedParts():int
+	{
+		return obtainedParts;
+	}
 }

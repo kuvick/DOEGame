@@ -3,7 +3,7 @@ import System.Collections.Generic;
 
 private var iconSet : List.<UpgradeIcon>[];
 private var dummyIconSet : List.<UpgradeIcon>;
-private var counterSet : List.<UpgradeCounter>;
+public var counterSet : List.<UpgradeCounter>;
 private var i : int = 0;
 private var j : int = 0;
 public var counterTexture : Texture2D;
