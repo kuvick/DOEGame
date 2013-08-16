@@ -68,7 +68,7 @@ public class MainMenu extends GUIControl
 	private var dataIconHeight:float;
 	private var dataRect:List.<Rect> = new List.<Rect>();
 	
-	private var upgradeManager : UpgradeManager;
+	private var upgradeManager : UpgradeManager = null;
 	
 	
 	public function Start () 
@@ -143,15 +143,25 @@ public class MainMenu extends GUIControl
 		
 				
 		var database:GameObject = GameObject.Find("Database");
-		
-		if(database!=null)
-			upgradeManager = database.GetComponent(UpgradeManager);
 
-		var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
-		for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
-		{
-			dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
+				
+		//Commenting out due to error (GPC)
+		if(database!=null){
+			if(database.GetComponent(UpgradeManager) != null){
+				upgradeManager = database.GetComponent(UpgradeManager);
+				
+				var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
+				for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
+				{
+					dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
+				}
+			}
 		}
+
+		
+
+
+
 		
 		// Add the buttons' rects to the rectList for checking input collision
 		rectList.Add(pauseButton);
@@ -184,24 +194,26 @@ public class MainMenu extends GUIControl
 		
 		//Debug.Log("count: " + upgradeManager.counterSet.Count);
 		
-		if(upgradeManager.counterSet.Count > 0)
-		{	
-			for(var i:int; i < upgradeManager.counterSet.Count; i++)
-			{
-				GUI.DrawTexture(dataRect[i],dataIconBG);
-				if(upgradeManager.counterSet[i].getObtainedParts() >= 1)
+		if(upgradeManager != null){
+			if(upgradeManager.counterSet.Count > 0)
+			{	
+				for(var i:int; i < upgradeManager.counterSet.Count; i++)
 				{
-					GUI.DrawTexture(dataRect[i],dataIcon01);
-					if(upgradeManager.counterSet[i].getObtainedParts() >= 2)
+					GUI.DrawTexture(dataRect[i],dataIconBG);
+					if(upgradeManager.counterSet[i].getObtainedParts() >= 1)
 					{
-						GUI.DrawTexture(dataRect[i],dataIcon02);
-						if(upgradeManager.counterSet[i].getObtainedParts() >= 3)
+						GUI.DrawTexture(dataRect[i],dataIcon01);
+						if(upgradeManager.counterSet[i].getObtainedParts() >= 2)
 						{
-							GUI.DrawTexture(dataRect[i],dataIcon03);
+							GUI.DrawTexture(dataRect[i],dataIcon02);
+							if(upgradeManager.counterSet[i].getObtainedParts() >= 3)
+							{
+								GUI.DrawTexture(dataRect[i],dataIcon03);
+							}
 						}
 					}
-				}
-			}			
+				}			
+			}
 		}
 		
 		// Draw the buttons and respond to interaction
