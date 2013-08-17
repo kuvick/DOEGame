@@ -20,12 +20,15 @@ public class ObjectiveIcon extends InspectionComponent
 	private var turnMesh : TextMesh;
 	
 	private var isPrimary : boolean = true;
+	
+	private var iconScale : Vector3 = Vector3(7,7,7);
 
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
 								type : BuildingEventType, turns : int)
 	{
 		// slant icon slightly forward towards the camera
-		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
+		//Moved this elsewhere so text and icon have same rotation (see below) (GPC 8/16/13)
+		//gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 		
 		// set icon textures
 		normalTexture = icon;
@@ -38,13 +41,24 @@ public class ObjectiveIcon extends InspectionComponent
 		position = pos;
 		
 		// set icon height above the terrain
-		transform.position.y = 50;
+		//transform.position.y = 50;
 		
-		gameObject.layer = 10;
+		//Modified local and world coordinates so they don't overlap over resource icons (GPC 8/16/13)
+		transform.position.y += 80;
+		transform.localPosition.y += 75;
+		
+		gameObject.transform.localScale = iconScale;
+		
+		//Removing this so text can overlap over icon (GPC 8/16/13)
+		//gameObject.layer = 10;
 		
 		// set-up turn timer object
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
-		temp.transform.position.x -= 25;
+		
+		//Tweaking icon position and scale (GPC 8/16/13)
+		temp.transform.localPosition += Vector3(-25,5,-5);
+		temp.transform.localScale = Vector3(1.25,1.25,1.25);
+		
 		turnMesh = temp.GetComponent(TextMesh);
 		if (type == BuildingEventType.Secondary)
 		{
@@ -54,6 +68,13 @@ public class ObjectiveIcon extends InspectionComponent
 		else
 			turnMesh.text = String.Empty + turns;
 		
+		
+		//Added by GPC 8/16/13
+		temp.transform.parent = gameObject.transform;
+		
+		//Moved here so timer and text both have the same angle (GPC 8/16/13)
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
+				
 		Initialize(text, pic);
 	}
 	
