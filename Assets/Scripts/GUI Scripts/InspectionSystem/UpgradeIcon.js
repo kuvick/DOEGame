@@ -12,6 +12,9 @@ public class UpgradeIcon extends InspectionComponent
 	
 	private var iconObject : GameObject;
 	
+	//Added to adjust icon scaling (GPC 8/16/13)
+	private var iconScale : Vector3 = Vector3(6,6,6);
+	
 	public function Initialize (building : GameObject, id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
 	{
 		// slant icon slightly forward towards the camera
@@ -29,7 +32,13 @@ public class UpgradeIcon extends InspectionComponent
 		renderer.material.mainTextureOffset = Vector2(1,1);
 		
 		// set icon height above terrain
-		transform.position.y = 50;
+		//transform.position.y = 50;
+		
+		//Added to adjust icon scale and positioning (GPC 8/16/13)
+		transform.position.y += 80;
+		transform.localPosition.y += 60;
+		
+		gameObject.transform.localScale = iconScale;
 		
 		Initialize(text, pic);
 	}

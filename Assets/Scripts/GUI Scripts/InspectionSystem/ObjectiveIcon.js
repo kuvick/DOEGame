@@ -21,6 +21,7 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var isPrimary : boolean = true;
 	
+	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
 
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
