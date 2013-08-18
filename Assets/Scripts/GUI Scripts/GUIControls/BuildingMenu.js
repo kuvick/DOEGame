@@ -165,8 +165,6 @@ public class BuildingMenu extends GUIControl
 		
 		LoadBuildingList();
 		buildingsChosen = new List.<BuildingSiteChoice>();
-		
-		backgroundMusic = SoundManager.Instance().backgroundSounds.buildingMenuMusic;
 	}
 	
 	public function Render()
@@ -639,5 +637,10 @@ public class BuildingMenu extends GUIControl
 			}
 		}		
 	}	
+	
+	public override function OnOpen(){
+		super.OnOpen();
+		SoundManager.Instance().playBuildingMenuOpen();
+	}
 
 }

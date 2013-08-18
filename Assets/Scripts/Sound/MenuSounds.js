@@ -6,4 +6,5 @@ public class MenuSounds {
 	public var menuActionCancled : AudioClip;
 	public var menuUndo : AudioClip;
 	public var menuWait : AudioClip;
+	public var buildingMenuOpen : AudioClip;
 }

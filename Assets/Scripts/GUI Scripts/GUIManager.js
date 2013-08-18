@@ -63,6 +63,8 @@ static var buildingMenuOpen;
 
 private var intelSystem : IntelSystem;
 private var database: Database;
+private var fadeingMenu : boolean = false;
+public var fadePercentage : float = .25f;
 
 public var thisIsALevel : boolean = false;
 
@@ -235,6 +237,7 @@ public function Update()
 */
 public function OnGUI()
 {
+	if (fadeingMenu) GUI.color = new Color(1,1,1,1-fadePercentage);
 	for(var i:int = 0; i < activeControls.Count; i++)
 	{
 		activeControls[i].Render();
@@ -248,6 +251,7 @@ public function OnGUI()
 		if(intelSystem != null)
 			intelSystem.renderEvents();
 	}
+	GUI.color = new Color(1,1,1,1);
 }
 
 /*
@@ -486,4 +490,12 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 	}
 	guiControlToAdd.OnOpen();
 	activeControls.Add(guiControlToAdd);
+}
+
+public function FadeMenus(){
+	fadeingMenu = true;
+}
+
+public function UnFadeMenus(){
+	fadeingMenu = false;
 }

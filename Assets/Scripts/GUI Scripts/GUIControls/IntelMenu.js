@@ -101,7 +101,6 @@ public class IntelMenu extends GUIControl
 		}
 		// Add the background's rect to the rectList for checking input collision
 		rectList.Add(background);
-		backgroundMusic = SoundManager.Instance().backgroundSounds.intelMenuMusic;
 	}
 	
 	public function UpdateEventList()

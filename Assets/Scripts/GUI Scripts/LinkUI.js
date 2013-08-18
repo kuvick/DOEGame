@@ -268,7 +268,6 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	
 	SoundManager.Instance().PlayLinkMade(selectedResource);
 }
 
@@ -393,7 +392,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
-	var resource:ResourceType;
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
 	var oldInputBuildingIndex : int = 0;

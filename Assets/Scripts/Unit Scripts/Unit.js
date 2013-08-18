@@ -462,7 +462,6 @@ public function OnSelected()
 		pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 		pathDrawn = true;
 	}
-	Debug.Log("unit selected");
 }
 
 public function OnDeselect()

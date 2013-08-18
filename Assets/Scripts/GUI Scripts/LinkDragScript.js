@@ -51,59 +51,52 @@ public class LinkDragScript extends GUIControl
 	
 	function Update ()
 	{	
-	
-		//linkUI.READcancelLinkMode();
-		//Debug.Log("**********************output: " + (linkUI.getSelectedOutputBuilding() != null));
-		//Debug.Log("asdf--------resource: " + (linkUI.getSelectedResource() != ResourceType.None));
-		
-		//if(linkUI.getSelectedResource() != ResourceType.None && linkUI.getSelectedOutputBuilding() != null)
-		//if(linkUI.getSelectedResource() != ResourceType.None && linkUI.getSelectedOutputBuilding() != null)
-		//if(draggingSpec && ModeController.getSelectedBuilding() != null && (!Input.GetMouseButtonUp(0) && ((Input.touchCount <= 0) || Input.GetMouseButtonDown(0)) ))
 		if(inputController.getState() == ControlState.DraggingLink && 
 		   ModeController.getSelectedBuilding() != null && 
-		   ModeController.getSelectedBuilding().name != "BuildingSite" && 
-		   Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive)
+		   ModeController.getSelectedBuilding().name != "BuildingSite")
 		{
-				//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
-				//Debug.Log("is active: " + buildingData.buildingData.isActive);
-				
-				//Code snippet borrowed from HexagonGrid section
-			 	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
-				var ray: Ray = thisCamera.ScreenPointToRay(Input.mousePosition);
-				var enter: float = 0f; //enter stores the distance from the ray to the plane
-				HexagonGrid.plane.Raycast(ray, enter);
-				var mousePos: Vector3 = ray.GetPoint(enter);
-				//var mousePos : Vector3 =  thisCamera.ScreenToWorldPoint(Vector3 (linkUI.getMousePos()[0],linkUI.getMousePos()[1],400));
-				//mousePos = Vector3(mousePos.x, terrainHeight, mousePos.z);
+			if (!Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive){
+				SoundManager.Instance().PlayLinkDenied();
+				return;
+			}
+			//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
 			
-				if(startDrag)
-				{
-					dragging = true;
-					outputBuilding = ModeController.getSelectedBuilding();
-					resourceType = linkUI.getSelectedResource();
-					if(resourceType == ResourceType.None)
-						resourceType = 2;
-					
-					lineRenderer = outputBuilding.AddComponent(LineRenderer);
-					
-					lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-					//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];
-					lineRenderer.material.mainTexture = line;
-					lineRenderer.SetColors(Color.white, Color.white);
-					lineRenderer.SetWidth(10, 10);
-					lineRenderer.SetPosition(0, outputBuilding.transform.position);
-					lineRenderer.SetPosition(1, mousePos);
-					
-					startDrag = false;
-				}
+			//Code snippet borrowed from HexagonGrid section
+		 	//get the mouse coordinates, project them onto the plane to get world coordinates of the mouse
+			var ray: Ray = thisCamera.ScreenPointToRay(Input.mousePosition);
+			var enter: float = 0f; //enter stores the distance from the ray to the plane
+			HexagonGrid.plane.Raycast(ray, enter);
+			var mousePos: Vector3 = ray.GetPoint(enter);
+			//var mousePos : Vector3 =  thisCamera.ScreenToWorldPoint(Vector3 (linkUI.getMousePos()[0],linkUI.getMousePos()[1],400));
+			//mousePos = Vector3(mousePos.x, terrainHeight, mousePos.z);
+		
+			if(startDrag)
+			{
+				GUIManager.Instance().FadeMenus();
+				dragging = true;
+				outputBuilding = ModeController.getSelectedBuilding();
+				resourceType = linkUI.getSelectedResource();
+				if(resourceType == ResourceType.None)
+					resourceType = 2;
 				
+				lineRenderer = outputBuilding.AddComponent(LineRenderer);
 				
-				lineRenderer.SetPosition(1, mousePos);	
-
-
+				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+				//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];
+				lineRenderer.material.mainTexture = line;
+				lineRenderer.SetColors(Color.white, Color.white);
+				lineRenderer.SetWidth(10, 10);
+				lineRenderer.SetPosition(0, outputBuilding.transform.position);
+				lineRenderer.SetPosition(1, mousePos);
+				
+				startDrag = false;
+			}
+			
+			lineRenderer.SetPosition(1, mousePos);	
 		}
 		else
 		{
+			GUIManager.Instance().UnFadeMenus();
 			dragging = false;
 			if(lineRenderer != null)
 			{

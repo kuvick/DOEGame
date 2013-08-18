@@ -11,6 +11,8 @@ public class LinkSounds {
 	public var fuelLink : AudioClip;
 	public var genericLink : AudioClip;
 	
+	public var linkDenied : AudioClip;
+	
 	private var linkSoundTable : Hashtable;
 	
 	public function Init(){

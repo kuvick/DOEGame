@@ -11,7 +11,8 @@ Last Modified By: Jared Mavis
 
 
 public class SoundManager extends MonoBehaviour {
-	private var audioSource : AudioSource;
+	private var musicSource : AudioSource;
+	private var soundSource : AudioSource;
 	public var buildingPlacedSound : AudioClip;
 	public var linkSounds : LinkSounds;
 	public var unitSounds : UnitSounds;
@@ -23,11 +24,9 @@ public class SoundManager extends MonoBehaviour {
 	private static var instance : SoundManager = null; 
 	
 	public function Awake() {
-		audioSource = gameObject.GetComponent(AudioSource);
-		if (audioSource == null) {
-			Debug.LogWarning("No audio source attached to AudioManager making a new one");
-			audioSource = gameObject.AddComponent("AudioSource");
-		}
+		musicSource = gameObject.AddComponent("AudioSource");
+		soundSource = gameObject.AddComponent("AudioSource");
+		soundSource.loop = false;
 		linkSounds.Init();
 	}
 	
@@ -54,6 +53,10 @@ public class SoundManager extends MonoBehaviour {
 		} catch (err : System.Exception) {
 			Debug.LogError(err.ToString());
 		}
+	}
+	
+	public function PlayLinkDenied(){
+		PlayOneShot(linkSounds.linkDenied);
 	}
 	
 	/// Unit sounds
@@ -105,9 +108,13 @@ public class SoundManager extends MonoBehaviour {
 		PlayOneShot(menuSounds.menuWait);
 	}
 	
+	public function playBuildingMenuOpen(){
+		PlayOneShot(menuSounds.buildingMenuOpen);
+	}
+	
 	/// Sound playing methods
 	public function playSoundOnLoop(soundToPlay: AudioClip){
-		audioSource.loop = true;
+		musicSource.loop = true;
 		playSound(soundToPlay);
 	}
 	
@@ -115,12 +122,12 @@ public class SoundManager extends MonoBehaviour {
 		if (alreadyPlayingLoopedSound(soundToPlay)){
 			return; // don't restart the sound
 		}
-		audioSource.clip = soundToPlay;
-		audioSource.Play();
+		musicSource.clip = soundToPlay;
+		musicSource.Play();
 	}
 	
 	public function stopSound(){
-		audioSource.Stop();
+		musicSource.Stop();
 	}
 	
 	private function PlayOneShot(clipToPlay : AudioClip){
@@ -128,10 +135,12 @@ public class SoundManager extends MonoBehaviour {
 			Debug.LogError("Trying to play clip: " + clipToPlay.ToString() + " and it was not set");
 			return;
 		}
-		audioSource.PlayOneShot(clipToPlay);
+		if (soundSource.isPlaying && soundSource.clip == clipToPlay) return;
+		soundSource.clip = clipToPlay;
+		soundSource.Play();
 	}
 	
 	private function alreadyPlayingLoopedSound(soundToPlay: AudioClip) : boolean{
-		return (audioSource.clip == soundToPlay && audioSource.loop == true);
+		return (musicSource.clip == soundToPlay && musicSource.loop == true);
 	}
 }
