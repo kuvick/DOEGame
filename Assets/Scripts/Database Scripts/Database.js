@@ -1599,7 +1599,8 @@ static public function addBuildingSite( coordinate : Vector3)
 	building.transform.position = addList[addIndex].worldCoordinates;
 	building.name = "BuildingSite";
 	ModeController.setSelectedBuilding(building);
-	addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
+	addBuildingToGrid(building, coordinate);
+	//addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
 	BroadcastBuildingUpdate();
 } // End of addBuildingSite()
 
