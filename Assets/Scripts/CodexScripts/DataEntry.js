@@ -1,5 +1,5 @@
 #pragma strict
 
 public class DataEntry{
-	public function PerformClick(){}
+	public virtual function PerformClick(){}
 }

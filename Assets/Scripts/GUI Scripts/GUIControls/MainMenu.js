@@ -162,11 +162,10 @@ public class MainMenu extends GUIControl
 		
 		if(intelSystem == null){
 			LoadReferences();
-  		}
-  		
-		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
-		GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-		
+  		} else {
+			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+		}
 		// displaying number of data pieces collected
 		if (upgradeManager != null){
 			for(var i:int = 0; i < upgradeManager.counterSet.Count; i++){
@@ -216,7 +215,9 @@ public class MainMenu extends GUIControl
 	}
 	
 	private function LoadReferences(){
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-      	score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		if (GameObject.Find("Database")){
+			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	      	score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+      	}
 	}
 }

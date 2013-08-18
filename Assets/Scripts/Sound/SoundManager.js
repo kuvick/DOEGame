@@ -94,7 +94,6 @@ public class SoundManager extends MonoBehaviour {
 	
 	/// Menu sounds
 	public function playButtonClick(){
-		Debug.Log("Playing click");
 		PlayOneShot(menuSounds.menuButtonClicked);
 	}
 	

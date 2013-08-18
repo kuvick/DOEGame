@@ -20,7 +20,7 @@ public class ContactData {
 	}
 	
 	public function LoadFromSource(){
- 		var path : String = Path.Combine(Application.dataPath, "Resources/ContactData.xml");
+ 		var path : String = Path.Combine(Application.persistentDataPath, "ContactData.xml");
  		
  		if (!File.Exists(path)){
  	 		Debug.LogError("Could not find " + path);

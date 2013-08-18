@@ -20,7 +20,7 @@ public class CodexData {
 	}
 	
 	public function LoadFromSource(){
- 		var path : String = Path.Combine(Application.dataPath, "Resources/CodexData.xml");
+ 		var path : String = Path.Combine(Application.persistentDataPath, "CodexData.xml");
  		
  		if (!File.Exists(path)){
  	 		Debug.LogError("Could not find " + path);
