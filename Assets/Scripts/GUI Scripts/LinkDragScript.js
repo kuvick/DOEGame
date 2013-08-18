@@ -59,7 +59,10 @@ public class LinkDragScript extends GUIControl
 		//if(linkUI.getSelectedResource() != ResourceType.None && linkUI.getSelectedOutputBuilding() != null)
 		//if(linkUI.getSelectedResource() != ResourceType.None && linkUI.getSelectedOutputBuilding() != null)
 		//if(draggingSpec && ModeController.getSelectedBuilding() != null && (!Input.GetMouseButtonUp(0) && ((Input.touchCount <= 0) || Input.GetMouseButtonDown(0)) ))
-		if(inputController.getState() == ControlState.DraggingLink && ModeController.getSelectedBuilding() != null && ModeController.getSelectedBuilding().name != "BuildingSite")
+		if(inputController.getState() == ControlState.DraggingLink && 
+		   ModeController.getSelectedBuilding() != null && 
+		   ModeController.getSelectedBuilding().name != "BuildingSite" && 
+		   Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive)
 		{
 				//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
 				//Debug.Log("is active: " + buildingData.buildingData.isActive);
