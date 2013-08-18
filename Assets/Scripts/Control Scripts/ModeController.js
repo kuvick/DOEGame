@@ -35,7 +35,6 @@ enum GameState{ EXPLORE, LINK, INTEL}; // The states that can currently exist in
 
 function Awake()
 {
-	Debug.Log("Setting the mode controller to exploration state");
 	currentMode = GameState.EXPLORE; // set the state initially to exploration
 }
 
@@ -50,7 +49,6 @@ function Update ()
 {
 	if(BuildingClicked() && GameState.EXPLORE) //If a building is clicked, set the mode to link
 	{
-		Debug.Log("Switching to link since building was clicked");
 		//currentMode = GameState.LINK;
 		//this.switchTo(currentMode);
 	}

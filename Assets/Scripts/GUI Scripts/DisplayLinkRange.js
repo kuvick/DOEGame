@@ -38,8 +38,6 @@ function Start ()
 	sideSize = HexagonGrid.sideSize;
 	CreateHexagonMesh();
 
-	Debug.Log("Building length " + buildings.Length);
-	
 	// Francis: I'm not sure if this is an unimplemented feature or one that wasn't
 	// completely removed, leaving it here for now.
 	for(var i:int = 0; i < buildings.Length; i++){

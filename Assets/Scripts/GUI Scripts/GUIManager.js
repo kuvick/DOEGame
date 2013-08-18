@@ -487,11 +487,3 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 	guiControlToAdd.OnOpen();
 	activeControls.Add(guiControlToAdd);
 }
-
-public function AddContact(){
-	//popUpMessageDisplay.AddMessage(new ContactUnlocked(contactsMenu.contacts[0]));
-}
-
-public function AddTimedControl(timedControlToAdd : TimedControl){
-	
-}

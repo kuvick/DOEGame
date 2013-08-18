@@ -33,7 +33,6 @@ function Start() {
 	linksDrawn = new boolean[buildings.Length, buildings.Length];
 	linkColors = new Color[buildings.Length, buildings.Length];
 	linkResources = new ResourceType[buildings.Length, buildings.Length];
-	Debug.Log("drawlinks");
 	addObjectsToBuildings();
 	resourceColors = new Color[numResourceTypes];
 	resourceColors[ResourceType.Coal - 1] = Color.gray;

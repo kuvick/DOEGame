@@ -23,13 +23,11 @@ public class InspectionComponent extends MonoBehaviour
 	{
 		display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 		if (!display)
-			Debug.Log("display not found");
+			Debug.LogWarning("display not found");
 		dispText = text;
 		dispPic = pic;
 		//selectedTexture = Resources.Load("hex_click") as Texture2D;
 		SetSelected(false);//currentTexture = normalTexture;
-		if (selectedTexture)
-			Debug.Log("selected loaded properly");
 		skin = GUISkin();
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
 		textSize = Screen.width * textSizeScale;

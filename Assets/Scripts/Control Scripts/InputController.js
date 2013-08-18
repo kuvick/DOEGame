@@ -321,7 +321,6 @@ function HandleComputerInput(){
 			if(!hasFirstClick){
 				firstClickPosition = Input.mousePosition;		
 				hasFirstClick = true;
-				Debug.Log("MODIFIED!");			
 			}
 		}
 	}

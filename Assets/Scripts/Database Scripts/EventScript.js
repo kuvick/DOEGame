@@ -41,17 +41,6 @@ private var colorOpacity: Color;				//The color to convert to before drawing the
 private var indicator : ObjectiveIndicator = ObjectiveIndicator();
 private var icon : ObjectiveIcon;
 
-function Start () {
-	/*colorOpacity = Color(1.0, 1.0, 1.0, upgradeOpacity);
-	upgradeWidth = Screen.width * upgradeWidthPercent;
-	
-	floatHeight = floatPercent * Screen.height;
-	
-	screenPosition = Camera.mainCamera.WorldToScreenPoint(transform.position);	
-	upgradeBounds = Rect(screenPosition.x - upgradeWidth/2, Screen.height - screenPosition.y - floatHeight, upgradeWidth, upgradeWidth);*/
-	//Initialize();
-}
-
 public function Initialize()
 {
 	indicator.Initialize(gameObject.transform, event, event.type);
@@ -73,15 +62,6 @@ function Update () {
 	indicator.Update();
 	icon.Update();
 }
-/*
-function OnGUI()
-{
-	if(showUpgrade)
-	{
-		//Draw_Upgrade();
-	}
-}
-*/
 
 //Draws the Upgrade Image to the Screen
 public function Draw_Upgrade()

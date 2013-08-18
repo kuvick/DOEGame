@@ -100,7 +100,6 @@ function Start () {
 	cancelLinkMode = false;
 	mouseOverGUI = false;
 	displayLink = gameObject.GetComponent(DisplayLinkRange);
-	Debug.Log("linkui" + buildings.Length);
 	
 	// Store window dimensions and calculate padding
 	screenWidth = ScreenSettingsManager.instance.screenWidth;

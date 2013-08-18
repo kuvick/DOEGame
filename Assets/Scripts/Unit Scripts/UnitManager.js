@@ -27,11 +27,9 @@ function GetUpgradeIcon (i : int) : Texture
 
 static function AddUnit (temp : Unit) {
 	unitList.Add(temp);
-	Debug.Log("Unit added");
 }
 
 static function InitiateUnits() {
-	Debug.Log("Initiating units " + unitList.Count);
 	for (var i : int = 0; i < unitList.Count; i++)
 	{
 		unitList[i].Initiate();

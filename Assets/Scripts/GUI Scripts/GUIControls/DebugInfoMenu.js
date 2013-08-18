@@ -25,7 +25,7 @@ public class DebugInfoMenu extends GUIControl{
 		
 		textStyle.fontSize = (Mathf.RoundToInt(Mathf.Min(ScreenSettingsManager.screenWidth, ScreenSettingsManager.screenHeight) / FONTRATIO));
 		
-		if (Database.playtestID == "000-0000"){
+		if (Database.playtestID == ""){
 			Database.playtestID = Database.GenerateID();
 		}
 		

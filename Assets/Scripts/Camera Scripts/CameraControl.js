@@ -50,7 +50,7 @@ function Start () {
 	
 	if(borderDimensions.x == 0 || borderDimensions.z == 0)
 	{
-		Debug.Log("WARNING: Camera Dimensions Not Set. Reverting to Default");
+		Debug.LogWarning("Camera Dimensions Not Set. Reverting to Default");
 		borderDimensions.x = HexagonGrid.totalDimensions.x;
 		borderDimensions.z = HexagonGrid.totalDimensions.y;
 		borderCenterPosition.x = borderDimensions.x / 2;
@@ -112,7 +112,6 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									((-bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
-		Debug.Log("Left");									
 	}
 	//Right
 	if(nonRotatedPos.x > (bCP.x + (bD.x / 2)))
@@ -124,7 +123,6 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									((bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
-		Debug.Log("Right");
 	}
 	//Top
 	if(nonRotatedPos.z > (bCP.z + (bD.z / 2)))
@@ -136,7 +134,6 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
-		Debug.Log("Top");
 									
 	}
 	//Bottom
@@ -148,7 +145,6 @@ static public function Drag(currentInputPos: Vector2){
 									thisCamera.transform.position.y,
 									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
 									+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
-		Debug.Log("Bottom");
 	}
 	
 }

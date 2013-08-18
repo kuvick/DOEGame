@@ -9,13 +9,11 @@ Author: Francis Yuan
 
 public class MainMenu extends GUIControl
 {
-
 	// For testing different camera angles
 	public var testCameras : boolean = false;
 	public var cameraLocations : List.<GameObject>;
 	private var currentCamera : int;
 	public var mainCameraObject : GameObject;
-
 
 	// Skin for Main Menu
 	public var mainMenuSkin:GUISkin;
@@ -44,14 +42,6 @@ public class MainMenu extends GUIControl
 	// Main Menu Textures
 	public var undoTexture:Texture;				
 	public var waitTexture:Texture;								
-	
-	//public var undoTexture:Texture;			
-	//public var undoTexture_Active:Texture;				
-	//public var waitTexture:Texture;
-	//public var waitTexture_Active:Texture;		
-	//public var zoomInTexture:Texture;	
-	//public var zoomOutTexture:Texture;
-	
 	public var pauseTexture : Texture;
 	
 	// Score and turn ints
@@ -68,7 +58,9 @@ public class MainMenu extends GUIControl
 	public var dataIcon03:Texture;
 	private var dataIconHeightPercent:float = 0.14;
 	private var dataIconHeight:float;
+	private var dataIcons:List.<Texture> = new List.<Texture>();
 	private var dataRect:List.<Rect> = new List.<Rect>();
+	private var maxDataIcons : int = 3;
 	
 	private var upgradeManager : UpgradeManager = null;
 		
@@ -97,8 +89,6 @@ public class MainMenu extends GUIControl
 			
 			Debug.Log("# of Cameras to test: " + cameraLocations.Count);
 		}// end of if(testCameras)
-	
-		
 	}
 	
 	// For when the level is loaded and there is an intel system
@@ -134,15 +124,10 @@ public class MainMenu extends GUIControl
 		
 		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseTexture.width, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
 		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
-		
-		//var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
-		 waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
-		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
-		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
+		waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
-		
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -151,12 +136,11 @@ public class MainMenu extends GUIControl
 			if(database.GetComponent(UpgradeManager) != null){
 				upgradeManager = database.GetComponent(UpgradeManager);
 				
-				var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
-				for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
-				{
-					dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
-				}
+				CalcDataPiecePositions();
 			}
+			dataIcons.Add(dataIcon01);
+			dataIcons.Add(dataIcon02);
+			dataIcons.Add(dataIcon03);
 		} else {
 			Debug.LogWarning("Could not find the database in the main menu");
 		}
@@ -165,47 +149,31 @@ public class MainMenu extends GUIControl
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
-		//rectList.Add(zoomButton);
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 	}
 	
-	public function Render()
-	{   
+	public function Render(){   
 		if (!enableHUD) return; 
+		
 		GUI.skin = mainMenuSkin;
 		
-		if(GameObject.Find("Database") != null && intelSystem == null)
-		{
-			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-      		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		if(intelSystem == null){
+			LoadReferences();
   		}
   		
-		if(intelSystem != null)
-			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+		GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
 		
 		// displaying number of data pieces collected
-		if(upgradeManager != null){
-			if(upgradeManager.counterSet.Count > 0)
-			{	
-				for(var i:int; i < upgradeManager.counterSet.Count; i++)
-				{
-					GUI.DrawTexture(dataRect[i],dataIconBG);
-					if(upgradeManager.counterSet[i].getObtainedParts() >= 1)
-					{
-						GUI.DrawTexture(dataRect[i],dataIcon01);
-						if(upgradeManager.counterSet[i].getObtainedParts() >= 2)
-						{
-							GUI.DrawTexture(dataRect[i],dataIcon02);
-							if(upgradeManager.counterSet[i].getObtainedParts() >= 3)
-							{
-								GUI.DrawTexture(dataRect[i],dataIcon03);
-							}
-						}
-					}
-				}			
+		if (upgradeManager != null){
+			for(var i:int = 0; i < upgradeManager.counterSet.Count; i++){
+				GUI.DrawTexture(dataRect[i],dataIconBG);
+				if (upgradeManager.counterSet[i].getObtainedParts() > 0){
+					GUI.DrawTexture(dataRect[i],dataIcons[upgradeManager.counterSet[i].getObtainedParts()]);
+				}
 			}
 		}
 		
@@ -222,7 +190,6 @@ public class MainMenu extends GUIControl
 			SoundManager.Instance().playWait();
 			intelSystem.comboSystem.resetComboCount();
 			currentResponse.type = EventTypes.WAIT;
-			//currentResponse.type = EventTypes.BUILDING;
 		}
 		
 		if(GUI.Button(undoButton, undoTexture))
@@ -231,7 +198,6 @@ public class MainMenu extends GUIControl
 			SoundManager.Instance().playUndo();
 			
 			currentResponse.type = EventTypes.UNDO;
-			//GUIManager.Instance().AddContact();
 		}
 		
 		if(Input.GetKeyDown(KeyCode.M))
@@ -239,107 +205,18 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.METRIC;
 		}
 		
-		
 		GUI.Label(scoreRect, score.ToString());
-		if(intelSystem != null)
-		{
-			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-		}
-		
-		/*
-		// Previous GUI:
-		
-		
-		// Set icon textures to default
-		waitTexture = waitTexture_Inactive;
-		undoTexture = undoTexture_Inactive;
-		
-		// Calculate the mouse position
-		var mousePos:Vector2;
-		mousePos.x = Input.mousePosition.x;
-		mousePos.y = Screen.height - Input.mousePosition.y;
-	    
-	    // If the mouse or the finger is hovering/tapping one of the buttons, change the button's texture
-		if (waitButton.Contains(mousePos))
-		{
-			waitTexture = waitTexture_Active;
-		}
-		
-		if (undoButton.Contains(mousePos))
-		{
-			undoTexture = undoTexture_Active;
-		}
-		
-		// Draw the buttons and respond to interaction
-		if(GUI.Button(pauseButton, "Pause"))
-		{
-			currentResponse.type = EventTypes.PAUSE;
-		}
-		
-		if(GUI.Button(waitButton, waitTexture))
-		{
-			currentResponse.type = EventTypes.WAIT;
-			//currentResponse.type = EventTypes.BUILDING;
-		}
-		
-		if(GUI.Button(undoButton, undoTexture))
-		{
-			SoundManager.Instance().playButtonClick();
-			
-			currentResponse.type = EventTypes.UNDO;
-			//GUIManager.Instance().AddContact();
-		}
-		
-		if(Input.GetKeyDown(KeyCode.M))
-		{
-			currentResponse.type = EventTypes.METRIC;
-		}
-		
-		
-		if (!testCameras && GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture)))
-		{
-			PlayButtonPress();	 
-			cameraMain.ToggleZoomType();
-		}
-		// *** FOR TESTING CAMERAS, TO LOOP THROUGH VARIOUS ONES ***
-		else if(testCameras  && GUI.Button(zoomButton, (cameraMain.zoomedIn ? zoomOutTexture : zoomInTexture)))
-		{
-			// "Powering down" previous camera:
-			cameraLocations[currentCamera].camera.tag = "TestCamera";
-			cameraLocations[currentCamera].camera.enabled = false;
-			
-			currentCamera = (currentCamera + 1) % cameraLocations.Count;
-			
-			// "Powering up" next camera:
-			cameraLocations[currentCamera].camera.enabled = true;
-			cameraLocations[currentCamera].camera.tag = "MainCamera";
-			
-			var cameraComp : CameraControl = cameraLocations[currentCamera].camera.GetComponent(CameraControl);
-			cameraComp.setCamera(cameraLocations[currentCamera].camera);
-			cameraMain = cameraComp;
-				
-		}
-		// *** End for testing cameras ***
-		
-		GUI.Label(scoreRect, score.ToString());
-		if(intelSystem != null)
-		{
-			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-		}
-		
-		*/
 	}
 	
-	private function HexCalc(position:Vector2, length:float, side:int):Vector2
-	{
-		var angle = (90 - (side * 60) + 30) * Mathf.PI/180;
-		var offsetLength = length * 0.85;
-		var sin = Mathf.Sin(angle) * offsetLength;
-		var cos = Mathf.Cos(angle) * offsetLength;
-		
-		var newPosition:Vector2 = Vector2(position.x + cos, position.y - sin);
-		
-		return newPosition;
-	}	
-
+	private function CalcDataPiecePositions(){
+		for (var i : int = 0; i < maxDataIcons; i++){
+			var dataXPos:float = screenWidth / (maxDataIcons * 2 + 1) - (dataIconBG.width / 2);
+			dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
+		}
+	}
+	
+	private function LoadReferences(){
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+      	score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+	}
 }

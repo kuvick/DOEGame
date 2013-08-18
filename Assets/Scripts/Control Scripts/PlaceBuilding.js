@@ -22,7 +22,7 @@ var buildingPrefab4 : Transform;
 var buildingPrefab5 : Transform;
 var buildingPrefab6 : Transform; 
 var buildingPrefab7 : Transform;
-static var cannotPlace: int = 0;
+static var cannotPlace: boolean = false;
 static var changeBuilding : int = 0;
 
 static var gridObject:GameObject;
@@ -48,7 +48,6 @@ function Awake()
 		i++;
 	}
 	
-	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
 }
@@ -63,10 +62,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 	
 		var build: Transform;
 		
-		
-		Debug.Log("Position Received: " + position);
 		var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);
-		Debug.Log("Placing.........Coordinates are: " + coordinate);
 		
 		if( !isPreplaced )
 		{
@@ -75,14 +71,13 @@ static function Place(position: Vector3, isPreplaced: boolean){
 				build = Instantiate(buildingPrefabs[changeBuilding].transform, position, Quaternion.identity);
 				build.tag = "Building";
 				build.gameObject.AddComponent("MeshRenderer");		
-				cannotPlace = 0;
+				cannotPlace = false;
 				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
 			}
 			else
 			{
 				Debug.Log("You cannot build here! Location is marked unbuildable.");
-				cannotPlace = 1;
-				Debug.Log("set cannotplace to 1");
+				cannotPlace = true;
 			}
 		}
 		else
@@ -99,23 +94,17 @@ static function Place(position: Vector3, isPreplaced: boolean){
 
 function OnGUI()
 {
-
-if (cannotPlace==1)
+	if (cannotPlace)
 	{
-	GUI.contentColor = Color.red;
-	GUI.backgroundColor = Color.black;
-	Debug.Log("trying to print");
-	GUI.Label(Rect(Screen.width/2 - 85, Screen.height - 100, Screen.width/2 + 50, 60), "You cannot place that building there!");
-	//cannotPlace = 0;
+		GUI.contentColor = Color.red;
+		GUI.backgroundColor = Color.black;
+		GUI.Label(Rect(Screen.width/2 - 85, Screen.height - 100, Screen.width/2 + 50, 60), "You cannot place that building there!");
 	}
 }
 
 static function locationIsBuildable( coordinate : Vector3 ) : boolean {
-	
 	Debug.Log("Coordinates: " + coordinate);
 	var thisTile : Tile;
 	thisTile = grid.getTile( Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y) );
 	return thisTile.buildable;
-	
-	//return true;
 }
