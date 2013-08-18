@@ -422,8 +422,9 @@ public function GetCurrentBuilding() : BuildingOnGrid
 }
 
 function OnGUI() {
+	selectedBuilding = ModeController.getSelectedBuilding();
 	// highlight the unit's path if its current building is selected
-	if (selectedBuilding == currentBuilding.buildingPointer)
+	if (selectedBuilding != null && selectedBuilding == currentBuilding.buildingPointer)
 	{
 		if (currentPath.Count > 0 && !pathDrawn)
 		{

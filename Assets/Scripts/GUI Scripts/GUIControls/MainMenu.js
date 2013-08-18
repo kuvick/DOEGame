@@ -113,65 +113,59 @@ public class MainMenu extends GUIControl
 	public function Initialize()
 	{	
 		super.Initialize();
+				
+	    if (intelSystem == null) {
+    		LoadLevelReferences();
+    	} 
+
+		hexButtonHeight = hexButtonHeightPercent * screenHeight;
+		var totalButtonPadding : float = hexButtonHeight + padding;
 		
-		if(enableHUD){			
-		    if (intelSystem == null) {
-	    		LoadLevelReferences();
-	    	} 
-	
-			hexButtonHeight = hexButtonHeightPercent * screenHeight;
-			var totalButtonPadding : float = hexButtonHeight + padding;
-			
-			pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
-			
-			scoreFontHeight = scoreFontHeightPercent * screenHeight;
-			
-			dataIconHeight = dataIconHeightPercent * screenHeight;
-			
-			mainMenuSkin.label.fontSize = scoreFontHeight;
-			
-			//pauseFontHeight = pauseFontHeightPercent * screenHeight;
-			//mainMenuSkin.button.fontSize = pauseFontHeight;
-			
-			pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseTexture.width, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
-			undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
-			
-			//var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
-			 waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
-			//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
-			//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
-			
-			scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
-			turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
-			
-					
-			var database:GameObject = GameObject.Find("Database");
-	
-					
-			//Added check to see if the level uses the UpgradeManager (GPC 8/15/13)
-			if(database!=null){
-				if(database.GetComponent(UpgradeManager) != null){
-					upgradeManager = database.GetComponent(UpgradeManager);
-					
-					var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
-					for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
-					{
-						dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
-					}
+		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
+		
+		scoreFontHeight = scoreFontHeightPercent * screenHeight;
+		
+		dataIconHeight = dataIconHeightPercent * screenHeight;
+		
+		mainMenuSkin.label.fontSize = scoreFontHeight;
+		
+		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
+		//mainMenuSkin.button.fontSize = pauseFontHeight;
+		
+		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseTexture.width, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
+		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
+		
+		//var undoButtonPos:Vector2 = HexCalc(Vector2(waitButton.x, waitButton.y), hexButtonHeight, 3);
+		 waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
+		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding, hexButtonHeight, hexButtonHeight); 	
+		//zoomButton = Rect(verticalBarWidth + screenWidth - totalButtonPadding, horizontalBarHeight + screenHeight - totalButtonPadding - hexButtonHeight, hexButtonHeight, hexButtonHeight); 	
+		
+		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
+		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		
+				
+		var database:GameObject = GameObject.Find("Database");
+				
+		//Added check to see if the level uses the UpgradeManager (GPC 8/15/13)
+		if(database!=null){
+			if(database.GetComponent(UpgradeManager) != null){
+				upgradeManager = database.GetComponent(UpgradeManager);
+				
+				var dataXPos:float = screenWidth / (upgradeManager.counterSet.Count * 2 + 1) - (dataIconBG.width / 2);
+				for(var i:int = 0; i < upgradeManager.counterSet.Count; i++)
+				{
+					dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
 				}
 			}
-	
-			
-	
-	
-	
-			
-			// Add the buttons' rects to the rectList for checking input collision
-			rectList.Add(pauseButton);
-			rectList.Add(waitButton);
-			rectList.Add(undoButton);
-			//rectList.Add(zoomButton);
+		} else {
+			Debug.LogWarning("Could not find the database in the main menu");
 		}
+
+		// Add the buttons' rects to the rectList for checking input collision
+		rectList.Add(pauseButton);
+		rectList.Add(waitButton);
+		rectList.Add(undoButton);
+		//rectList.Add(zoomButton);
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
@@ -180,6 +174,7 @@ public class MainMenu extends GUIControl
 	
 	public function Render()
 	{   
+		if (!enableHUD) return; 
 		GUI.skin = mainMenuSkin;
 		
 		if(GameObject.Find("Database") != null && intelSystem == null)
@@ -191,13 +186,7 @@ public class MainMenu extends GUIControl
 		if(intelSystem != null)
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 		
-		
-		
-		
 		// displaying number of data pieces collected
-		
-		//Debug.Log("count: " + upgradeManager.counterSet.Count);
-		
 		if(upgradeManager != null){
 			if(upgradeManager.counterSet.Count > 0)
 			{	
