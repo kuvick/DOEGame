@@ -566,9 +566,17 @@ function OnGUI()
 					buildingHighlightColor = targetHighlightColor;
 				}
 			}		
-			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.unit != UnitType.None)
+			for(j = 0; j < tempBuilding.allocatedOutputs.Count; j++)
 			{
-				Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput);
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allocatedOutputs[j]))
+				{
+					buildingHighlightColor = targetHighlightColor;
+				}
+			}	
+			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.unit == UnitType.Worker)
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput))
+					buildingHighlightColor = targetHighlightColor;
 			}	
 		}
 		
