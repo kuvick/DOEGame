@@ -18,6 +18,7 @@ private var selectedBuilding:GameObject;
 private var linkUIRef : LinkUI;
 
 private var unallColor : Color = Color(1.0,1.0,1.0,.5);
+//private var unallColor : Color = Color(1.0,1.0,1.0,1);
 private var allColor : Color = Color(1.0,1.0,1.0,1.0);
 
 enum IOType
@@ -92,7 +93,7 @@ public function SetAllocated (allo : boolean)
 
 public function SetActive(active : boolean)
 {
-	gameObject.renderer.material.color = active ? allColor : unallColor;
+	//gameObject.renderer.material.color = active ? allColor : unallColor;
 }
 
 public function SetIndex (index : int)
