@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<NarrativeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <timeSpentTotal>4.23397541</timeSpentTotal>
+  <timeBeforeClick>
+    <float>0.561739743</float>
+    <float>0.365566015</float>
+    <float>0.729622245</float>
+    <float>0.5002923</float>
+    <float>0.9306805</float>
+    <float>0.6996943</float>
+    <float>1.09829307</float>
+    <float>0.8990946</float>
+    <float>1.26445913</float>
+    <float>1.100153</float>
+    <float>1.43062568</float>
+    <float>1.2681942</float>
+    <float>1.63163877</float>
+  </timeBeforeClick>
+  <wasSkipped>false</wasSkipped>
+</NarrativeData>
