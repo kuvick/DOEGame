@@ -171,7 +171,7 @@ public class MainMenu extends GUIControl
 			for(var i:int = 0; i < upgradeManager.counterSet.Count; i++){
 				GUI.DrawTexture(dataRect[i],dataIconBG);
 				if (upgradeManager.counterSet[i].getObtainedParts() > 0){
-					GUI.DrawTexture(dataRect[i],dataIcons[upgradeManager.counterSet[i].getObtainedParts()]);
+					//GUI.DrawTexture(dataRect[i],dataIcons[upgradeManager.counterSet[i].getObtainedParts()]);
 				}
 			}
 		}
