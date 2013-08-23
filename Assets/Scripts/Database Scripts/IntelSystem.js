@@ -247,13 +247,15 @@ public function buildingActivated( reference : GameObject ):boolean
 
 public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
 {
+	if(comboSystem.getComboCount() != 0)
+		scoreModifier += (comboSystem.getComboCount() * 100);
 	if(modifyPrimaryScore)
 	{
 		primaryScore += scoreModifier;
 	}
 	else
 	{
-		optionalScore += scoreModifier;	
+		optionalScore += scoreModifier;
 	}
 	Debug.Log("Score Incremented: " + primaryScore);
 }
@@ -299,7 +301,7 @@ public function resolveEvent( script : EventScript)
 	
 	if(tempScript.event.type == BuildingEventType.Primary)
 	{
-		primaryScore += tempScript.event.points;
+		incrementScore(true, tempScript.event.points);
 		numOfObjectivesLeft--;
 		if(numOfObjectivesLeft <= 0)
 		{
@@ -309,7 +311,8 @@ public function resolveEvent( script : EventScript)
 	}
 	else
 	{
-		optionalScore += tempScript.event.points;
+		//optionalScore += tempScript.event.points;
+		incrementScore(false, tempScript.event.points);
 	}
 	
 	for (var contactToUnlock : String in tempScript.contactsUnlocked){

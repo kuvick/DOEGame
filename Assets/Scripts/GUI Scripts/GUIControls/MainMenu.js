@@ -26,6 +26,7 @@ public class MainMenu extends GUIControl
 	private var undoButton:Rect;				
 	private var scoreRect:Rect;
 	private var turnRect:Rect;
+	private var comboRect:Rect;
 	private var zoomButton:Rect;
 	
 	// Main Menu Scaling
@@ -45,7 +46,8 @@ public class MainMenu extends GUIControl
 	public var pauseTexture : Texture;
 	
 	// Score and turn ints
-	private var score:int;
+	private var currentlyDisplayedScore:int;
+	private var score:int;	
 	private var turn:int;
 	private var intelSystem : IntelSystem;
 	
@@ -63,7 +65,11 @@ public class MainMenu extends GUIControl
 	private var maxDataIcons : int = 3;
 	
 	private var upgradeManager : UpgradeManager = null;
-		
+	
+	private var scoreUpdateTimer = 10;
+	private var scoreUpdateTime = 0;
+	private var defaultFontColor;
+	private var targetFontColor;
 	
 	public function Start () 
 	{
@@ -87,7 +93,7 @@ public class MainMenu extends GUIControl
 				cameraLocations.Add(camera);
 			}
 			
-			Debug.Log("# of Cameras to test: " + cameraLocations.Count);
+			Debug.Log("# of Cameras to test: " + cameraLocations.Count);			
 		}// end of if(testCameras)
 	}
 	
@@ -128,6 +134,7 @@ public class MainMenu extends GUIControl
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -153,18 +160,25 @@ public class MainMenu extends GUIControl
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
+		
+		defaultFontColor = mainMenuSkin.label.normal.textColor;
+			targetFontColor = new Color(0,0,0);
 	}
 	
 	public function Render(){   
 		if (!enableHUD) return; 
 		
+		UpdateDisplayedScore();
+		
 		GUI.skin = mainMenuSkin;
 		
 		if(intelSystem == null){
 			LoadReferences();
-  		} else {
+  		} else {  			
+			targetFontColor = new Color(0,0,0);
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+			GUI.Label(comboRect, "Combo: " + intelSystem.comboSystem.getComboCount());
 		}
 		// displaying number of data pieces collected
 		if (upgradeManager != null){
@@ -203,8 +217,8 @@ public class MainMenu extends GUIControl
 		{
 			currentResponse.type = EventTypes.METRIC;
 		}
-		
-		GUI.Label(scoreRect, score.ToString());
+				
+		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());				
 	}
 	
 	private function CalcDataPiecePositions(){
@@ -219,5 +233,22 @@ public class MainMenu extends GUIControl
 			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	      	score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
       	}
+	}
+	
+	private function UpdateDisplayedScore()
+	{		
+		if(currentlyDisplayedScore < score)
+		{	
+			scoreUpdateTime = Time.timeSinceLevelLoad;			
+			if((Time.timeSinceLevelLoad - scoreUpdateTime) < scoreUpdateTimer)
+			{				
+				currentlyDisplayedScore++;
+			}
+		}
+		else
+		{
+			scoreUpdateTime = 0;
+			currentlyDisplayedScore = score;
+		}		
 	}
 }
