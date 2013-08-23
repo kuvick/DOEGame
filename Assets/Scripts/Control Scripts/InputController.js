@@ -47,6 +47,7 @@ private var firstClickPosition : Vector2;
 private var hasFirstClick : boolean = false;
 
 private var linkUI : LinkUI;
+private var intelSystem : IntelSystem;
 
 var touchCount : int;
 
@@ -95,6 +96,9 @@ function Start () {
 	} else {
 		typeOfInput = function(){HandleComputerInput();};
 	}
+	
+	//intelSystem = GameObject.FindWithTag("Database").GetComponent(IntelSystem);
+	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 }
 
 // will detect if the change in input position since the last tick is enough to be accepted as a drag
@@ -375,7 +379,8 @@ function HandleComputerInput(){
 }
 
 function Update () {
-	typeOfInput();      
+	if(intelSystem != null && !intelSystem.victory)
+		typeOfInput();      
 }
 
 public function getTouchLocation()

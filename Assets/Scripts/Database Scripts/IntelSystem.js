@@ -305,7 +305,8 @@ public function resolveEvent( script : EventScript)
 		numOfObjectivesLeft--;
 		if(numOfObjectivesLeft <= 0)
 		{
-			triggerWin();
+			//triggerWin();
+			victory = true;
 		}
 		SoundManager.Instance().PlayPrimaryObjectiveComplete();
 	}
@@ -463,7 +464,7 @@ public function getOptionalScore():int
 // placeholder function, to be called when a win state is triggered
 public function triggerWin()
 {
-	victory = true;
+	//victory = true;
 	var event : GUIEvent = new GUIEvent();
 	event.type = EventTypes.SCORESCREEN;
 	GUIManager.Instance().RecieveEvent(event);

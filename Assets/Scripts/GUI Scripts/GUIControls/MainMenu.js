@@ -71,6 +71,10 @@ public class MainMenu extends GUIControl
 	private var defaultFontColor;
 	private var targetFontColor;
 	
+	public var victorySplashTimerInSeconds = 5.0f;
+	private var victorySplashStartTime = 0;
+	private var victorySplashRectangle;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -135,6 +139,8 @@ public class MainMenu extends GUIControl
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
 		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
+		
+		victorySplashRectangle = Rect(screenWidth/3, screenHeight / 3,  screenWidth/3, screenHeight / 3);
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -169,6 +175,8 @@ public class MainMenu extends GUIControl
 		if (!enableHUD) return; 
 		
 		UpdateDisplayedScore();
+		if(intelSystem.victory) 
+			DrawVictorySplash();
 		
 		GUI.skin = mainMenuSkin;
 		
@@ -250,5 +258,20 @@ public class MainMenu extends GUIControl
 			scoreUpdateTime = 0;
 			currentlyDisplayedScore = score;
 		}		
+	}
+	
+	private function DrawVictorySplash()
+	{		
+		if(victorySplashStartTime == 0)
+			victorySplashStartTime = Time.time;
+		if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+		{
+			victorySplashStartTime = 0;
+			intelSystem.triggerWin();
+		}
+		else
+		{			
+			GUI.Box(victorySplashRectangle, "You Win!");
+		}
 	}
 }
