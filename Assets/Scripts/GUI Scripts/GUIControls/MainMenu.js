@@ -151,9 +151,9 @@ public class MainMenu extends GUIControl
 				
 				CalcDataPiecePositions();
 			}
-			dataIcons.Add(dataIcon01);
-			dataIcons.Add(dataIcon02);
-			dataIcons.Add(dataIcon03);
+			//dataIcons.Add(dataIcon01);
+			//dataIcons.Add(dataIcon02);
+			//dataIcons.Add(dataIcon03);
 		} else {
 			Debug.LogWarning("Could not find the database in the main menu");
 		}
@@ -189,6 +189,7 @@ public class MainMenu extends GUIControl
 			GUI.Label(comboRect, "Combo: " + intelSystem.comboSystem.getComboCount());
 		}
 		// displaying number of data pieces collected
+		/*
 		if (upgradeManager != null){
 			for(var i:int = 0; i < upgradeManager.counterSet.Count; i++){
 				GUI.DrawTexture(dataRect[i],dataIconBG);
@@ -197,6 +198,7 @@ public class MainMenu extends GUIControl
 				}
 			}
 		}
+		*/
 		
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, pauseTexture))

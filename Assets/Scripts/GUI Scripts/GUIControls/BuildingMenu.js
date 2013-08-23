@@ -52,7 +52,8 @@ public class BuildingMenu extends GUIControl
 	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Inactive:Texture;
 	
-	public var buildingIconTexture:Texture;					//to be removed?
+	public var cancelButtonTexture:Texture;
+	public var backgroundTexture: Texture;
 	
 	// Building Menu animation
 	private var isScrolling:boolean = false;
