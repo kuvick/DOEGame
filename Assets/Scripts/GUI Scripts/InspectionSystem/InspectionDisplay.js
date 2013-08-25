@@ -43,18 +43,22 @@ function Start ()
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
 	skin.label.fontSize = fontScale * Screen.height;
 	skin.label.fontStyle = FontStyle.Bold;
+	skin.button.normal.background = border;
+	skin.button.active.background = border;
+	skin.button.hover.background = border;
+	skin.button.wordWrap = true;
 }
 
 function Update () 
 {
-	if (componentSelected && Input.GetMouseButtonDown(0))
+	/*if (componentSelected && Input.GetMouseButtonDown(0))
 	{
 		componentSelected = false;
 		if (selectedComponent)
 			selectedComponent.SetSelected(false);
 		selectedComponent = null;
 		doDispPic = false;
-	}
+	}*/
 }
 
 function OnGUI()
@@ -105,8 +109,16 @@ private function Render()
 	GUI.skin = skin;
 	
 	GUI.Box(dispRect, String.Empty);
-	GUI.DrawTexture(borderRect, border);
-	GUI.Label(dispRect, dispText);
+	//GUI.DrawTexture(borderRect, border);
+	//GUI.Label(dispRect, dispText);
+	if(componentSelected && GUI.Button(dispRect, dispText))
+	{
+		componentSelected = false;
+		if (selectedComponent)
+			selectedComponent.SetSelected(false);
+		selectedComponent = null;
+		doDispPic = false;
+	}
 	
 	if (doDispPic)
 		GUI.DrawTexture(dispPicRect, dispPic);
