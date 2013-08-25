@@ -78,6 +78,8 @@ static public function Drag(currentInputPos: Vector2){
 	// Orthographic Camera:
 	
 	
+	var currentPos : Vector3 = thisCamera.transform.position;
+	
 	var r : float = Mathf.Sqrt(currentInputPos.x * currentInputPos.x + currentInputPos.y * currentInputPos.y);
 	var degree:float = (Mathf.PI / 180) * 45;
 	var degree2:float = (Mathf.PI / 180) * 315;
@@ -101,51 +103,80 @@ static public function Drag(currentInputPos: Vector2){
 									(thisCamera.transform.position.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * 45)
 									+ (thisCamera.transform.position.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * 45) + bCP.z);
 									
-	//Left
-	if(nonRotatedPos.x < (bCP.x - (bD.x / 2)))
+
+	
+	
+	//In a corner:
+	if((nonRotatedPos.x < (bCP.x - (bD.x / 2))) && (nonRotatedPos.z > (bCP.z + (bD.z / 2))))
 	{
-		//thisCamera.transform.position = new Vector3(bCP.x - (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
-		
-		
-		thisCamera.transform.position = new Vector3(((-bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
-									- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
-									thisCamera.transform.position.y,
-									((-bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
-									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Left and Top");
+		thisCamera.transform.position = currentPos;
 	}
-	//Right
-	if(nonRotatedPos.x > (bCP.x + (bD.x / 2)))
+	else if((nonRotatedPos.x > (bCP.x + (bD.x / 2))) && (nonRotatedPos.z > (bCP.z + (bD.z / 2))))
 	{
-		//thisCamera.transform.position = new Vector3(bCP.x + (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
-		
-		thisCamera.transform.position = new Vector3(((bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
-									- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
-									thisCamera.transform.position.y,
-									((bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
-									+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Right and Top");
+		thisCamera.transform.position = currentPos;
 	}
-	//Top
-	if(nonRotatedPos.z > (bCP.z + (bD.z / 2)))
+	else if((nonRotatedPos.x < (bCP.x - (bD.x / 2))) && (nonRotatedPos.z < (bCP.z - (bD.z / 2))))
 	{
-		//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z + (bD.z / 2));
-		
-		thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
-									- (bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
-									thisCamera.transform.position.y,
-									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
-									+ (bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
-									
+		Debug.Log("Left and Bottom");
+		thisCamera.transform.position = currentPos;
 	}
-	//Bottom
-	if(nonRotatedPos.z < (bCP.z - (bD.z / 2)))
+	else if((nonRotatedPos.x > (bCP.x + (bD.x / 2))) && (nonRotatedPos.z < (bCP.z - (bD.z / 2))))
 	{
-		//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
-				thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
-									- (-bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
-									thisCamera.transform.position.y,
-									(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
-									+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		Debug.Log("Right and Bottom");
+		thisCamera.transform.position = currentPos;
 	}
+	// Not in a corner:
+	else
+	{
+		//Left
+		if(nonRotatedPos.x < (bCP.x - (bD.x / 2)))
+		{
+			//thisCamera.transform.position = new Vector3(bCP.x - (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+			
+			
+			thisCamera.transform.position = new Vector3(((-bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+										thisCamera.transform.position.y,
+										((-bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		}
+		//Right
+		if(nonRotatedPos.x > (bCP.x + (bD.x / 2)))
+		{
+			//thisCamera.transform.position = new Vector3(bCP.x + (bD.x / 2), thisCamera.transform.position.y, thisCamera.transform.position.z);
+			
+			thisCamera.transform.position = new Vector3(((bD.x / 2)) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (nonRotatedPos.z - bCP.z) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+										thisCamera.transform.position.y,
+										((bD.x / 2)) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (nonRotatedPos.z - bCP.z) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		}
+		//Top
+		if(nonRotatedPos.z > (bCP.z + (bD.z / 2)))
+		{
+			//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z + (bD.z / 2));
+			
+			thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+										thisCamera.transform.position.y,
+										(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+										
+		}
+		//Bottom
+		if(nonRotatedPos.z < (bCP.z - (bD.z / 2)))
+		{
+			//thisCamera.transform.position = new Vector3(thisCamera.transform.position.x, thisCamera.transform.position.y, bCP.z - (bD.z / 2));
+					thisCamera.transform.position = new Vector3(((nonRotatedPos.x - bCP.x)) * Mathf.Cos((Mathf.PI / 180) * -45)
+										- (-bD.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45) + bCP.x,
+										thisCamera.transform.position.y,
+										(nonRotatedPos.x - bCP.x) * Mathf.Sin((Mathf.PI / 180) * -45)
+										+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
+		}
+	}
+	
 	
 }
 
