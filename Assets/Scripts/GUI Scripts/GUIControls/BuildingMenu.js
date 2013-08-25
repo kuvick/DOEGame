@@ -53,7 +53,7 @@ public class BuildingMenu extends GUIControl
 	public var scrollRightTexture_Inactive:Texture;
 	
 	public var cancelButtonTexture:Texture;
-	public var backgroundTexture: Texture;
+	public var backgroundText: Texture;
 	
 	// Building Menu animation
 	private var isScrolling:boolean = false;
@@ -172,6 +172,7 @@ public class BuildingMenu extends GUIControl
 	{
 		GUI.skin = buildingMenuSkin;
 		GUI.Box(background, "");
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
 		
 		// Calculate the mouse position
 		var mousePos:Vector2;
