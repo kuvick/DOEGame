@@ -248,8 +248,6 @@ public function buildingActivated( reference : GameObject ):boolean
 
 public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
 {
-	if(comboSystem.getComboCount() != 0)
-		scoreModifier += (comboSystem.getComboCount() * 100);
 	if(modifyPrimaryScore)
 	{
 		primaryScore += scoreModifier;

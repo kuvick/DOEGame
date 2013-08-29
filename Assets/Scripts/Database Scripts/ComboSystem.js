@@ -4,6 +4,8 @@
 public class ComboSystem
 {
 	private var comboCount : int = 0;
+	private var comboScore : int = 0;
+	public var comboScoreBasePoints : int = 100;
 	
 	public function ComboSystem()
 	{
@@ -19,13 +21,18 @@ public class ComboSystem
 	{
 		Debug.Log("Combo Incremented. Combo = " + comboCount);
 		comboCount++;
+		comboScore += comboScoreBasePoints;
 	}
 	
 	public function resetComboCount()
 	{
 		Debug.Log("Combo About To Reset. Combo = " + comboCount);
 		comboCount = 0;
-		Debug.Log("Combo Reset. Combo = " + comboCount);
-		
+		Debug.Log("Combo Reset. Combo = " + comboCount);		
 	}
+	
+	public function getComboScore() : int
+	{
+		return comboScore;
+	}	
 }
