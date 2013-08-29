@@ -74,6 +74,7 @@ public class MainMenu extends GUIControl
 	public var victorySplashTimerInSeconds = 5.0f;
 	private var victorySplashStartTime = 0;
 	private var victorySplashRectangle;
+	private var mostRecentTurnScore : int = 0;
 	
 	public function Start () 
 	{
@@ -186,7 +187,7 @@ public class MainMenu extends GUIControl
 			targetFontColor = new Color(0,0,0);
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-			GUI.Label(comboRect, "Combo: " + intelSystem.comboSystem.getComboCount());
+			GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
 		}
 		// displaying number of data pieces collected
 		/*
@@ -249,10 +250,11 @@ public class MainMenu extends GUIControl
 	{		
 		if(currentlyDisplayedScore < score)
 		{	
-			scoreUpdateTime = Time.timeSinceLevelLoad;			
+			scoreUpdateTime = Time.timeSinceLevelLoad;					
 			if((Time.timeSinceLevelLoad - scoreUpdateTime) < scoreUpdateTimer)
-			{				
-				currentlyDisplayedScore++;
+			{	
+						
+				currentlyDisplayedScore += 10;
 			}
 		}
 		else

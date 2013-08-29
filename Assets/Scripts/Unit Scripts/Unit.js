@@ -24,7 +24,7 @@ private var validGeneralTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth, 50, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth + HexagonGrid.tileWidth / 3, -60, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
 
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
@@ -485,6 +485,7 @@ public function OnDeselect()
 			SetState(UnitState.InTransit);
 			intelSystem.addTurn();
 			intelSystem.comboSystem.incrementComboCount();
+			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
 		}
