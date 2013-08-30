@@ -229,7 +229,10 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.METRIC;
 		}
 				
-		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());				
+		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
+		
+		if(upgradeManager != null)
+			upgradeManager.Render();
 	}
 	
 	private function CalcDataPiecePositions(){

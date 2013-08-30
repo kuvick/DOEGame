@@ -28,7 +28,7 @@ function Update () {
 	}
 }
 
-function OnGUI()
+public function Render()
 {
 	for (i = 0; i < counterSet.Count; i++)
 		counterSet[i].Draw();
