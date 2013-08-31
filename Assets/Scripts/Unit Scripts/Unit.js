@@ -101,9 +101,13 @@ private function SetState(state : UnitState)
 
 public function CheckActive()
 {
-	if (currentBuilding.isActive)
+	if (currentBuilding.isActive){
+		if (currentState == UnitState.Inactive){
+			OnActivate();
+		}
 		SetState(UnitState.Active);
-	else
+		
+	} else
 		SetState(UnitState.Inactive);
 }
 
@@ -296,6 +300,7 @@ function DoAction ()
 	{
 		SetState(UnitState.Active);
 		targetIcon.renderer.enabled = false;
+		SoundManager.Instance().PlayUnitArrived(this);
 	}
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
@@ -452,8 +457,7 @@ public function OnSelected()
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)
 			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
-		Debug.Log("Unit selected");
-		SoundManager.Instance().PlayUnitSelected(this);
+		//SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}
 	if (currentPath.Count > 0 && !pathDrawn)
@@ -487,6 +491,7 @@ public function OnDeselect()
 			intelSystem.comboSystem.incrementComboCount();
 			ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
+			SoundManager.Instance().PlayUnitOrdered(this);
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
@@ -504,7 +509,10 @@ public function OnDeselect()
 	}
 	isSelected = false;
 	currentBuilding.unitSelected = false;
-	Debug.Log("unit deselected");
+}
+
+protected function OnActivate(){
+	SoundManager.Instance().PlayUnitActiviated(this);
 }
 
 class UnitAction extends System.ValueType

@@ -12,7 +12,7 @@ Last Modified By: Jared Mavis
 
 public class SoundManager extends MonoBehaviour {
 	private var musicSource : AudioSource;
-	private var soundSource : AudioSource;
+	private var soundSourcePool : List.<AudioSource> = new List.<AudioSource>(); // a pool of audiosources so we can play as many sounds as needed.
 	public var buildingPlacedSound : AudioClip;
 	public var linkSounds : LinkSounds;
 	public var unitSounds : UnitSounds;
@@ -25,8 +25,6 @@ public class SoundManager extends MonoBehaviour {
 	
 	public function Awake() {
 		musicSource = gameObject.AddComponent("AudioSource");
-		soundSource = gameObject.AddComponent("AudioSource");
-		soundSource.loop = false;
 		linkSounds.Init();
 	}
 	
@@ -59,14 +57,62 @@ public class SoundManager extends MonoBehaviour {
 		PlayOneShot(linkSounds.linkDenied);
 	}
 	
+	public function PlayLinkDraging(){
+		playSoundOnLoop(linkSounds.linkDrag);
+	}
+	
+	public funciton StopLinkDraging(){
+		
+	}
+	
 	/// Unit sounds
 	public function PlayUnitSelected(unitSelected : Unit){
 		switch (unitSelected.type){
 			case (UnitType.Researcher):
-				PlayOneShot(unitSounds.resercherSelection);
+				PlayOneShot(unitSounds.researcherSelection);
 				break;
 			case (UnitType.Worker):
 				PlayOneShot(unitSounds.workerSelection);
+				break;
+			default:
+				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
+		}
+	}
+	
+	public function PlayUnitActiviated(unitActivate : Unit){
+		switch (unitActivate.type){
+			case (UnitType.Researcher):
+				PlayOneShot(unitSounds.researcherActivate);
+				break;
+			case (UnitType.Worker):
+				PlayOneShot(unitSounds.workerActivate);
+				break;
+			default:
+				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
+		}
+	}
+	
+	public function PlayUnitOrdered(unitOrdered : Unit){
+		switch (unitOrdered.type){
+			case (UnitType.Researcher):
+				PlayOneShot(unitSounds.researcherOrder);
+				break;
+			case (UnitType.Worker):
+				PlayOneShot(unitSounds.workerOrder);
+				break;
+			default:
+				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
+		}
+	}
+	
+	public function PlayUnitArrived(unitArrived : Unit){
+	Debug.Log("Playing unit arrived");
+		switch (unitArrived.type){
+			case (UnitType.Researcher):
+				PlayOneShot(unitSounds.researchedArrived);
+				break;
+			case (UnitType.Worker):
+				PlayOneShot(unitSounds.workerArrived);
 				break;
 			default:
 				Debug.LogWarning("Attempting to play unit selection sound for unimplemented unit");
@@ -130,17 +176,53 @@ public class SoundManager extends MonoBehaviour {
 		musicSource.Stop();
 	}
 	
-	private function PlayOneShot(clipToPlay : AudioClip){
+	public function playClipOnLoop(soundToPlay : AudioClip){
+		
+	}
+	
+	/// Will play a single instnace of the given sound. If all the audiosources are already playing then it will
+	/// make a new one and use it to play.
+	private function PlayOneShot(clipToPlay : AudioClip, volume : float){
 		if (clipToPlay == null) {
 			Debug.LogError("Trying to play clip: " + clipToPlay.ToString() + " and it was not set");
 			return;
 		}
-		if (soundSource.isPlaying && soundSource.clip == clipToPlay) return;
-		soundSource.clip = clipToPlay;
-		soundSource.Play();
+		source : AudioSource
+		soundSourcePool[i].clip = clipToPlay;
+				soundSourcePool[i].volume = volume;
+				soundSourcePool[i].Play();
+	}
+	
+	private function PlayOneShot(clipToPlay : AudioClip){
+		PlayOneShot(clipToPlay, 1);
 	}
 	
 	private function alreadyPlayingLoopedSound(soundToPlay: AudioClip) : boolean{
 		return (musicSource.clip == soundToPlay && musicSource.loop == true);
+	}
+	
+	private function AlreadyPlayingSoundClip(soundClip : AudioClip) : boolean {
+		for (var i : int = 0; i < soundSourcePool.Count; i++){
+			if (soundSourcePool[i].isPlaying && soundSourcePool[i].clip == soundClip){
+				return (true);
+			}
+		}
+		return (false);
+	}
+	
+	private function AddAudioSource(){
+		var newAudio : AudioSource = gameObject.AddComponent("AudioSource");
+		newAudio.loop = false;
+		soundSourcePool.Add(newAudio);
+	}
+	
+	private function GetAvailableAudioSource() : AudioSource {
+		for (var i : int = 0; i < soundSourcePool.Count; i++){
+			if (!soundSourcePool[i].isPlaying){
+				return (soundSourcePool[i]);
+			}
+		}
+		AddAudioSource();
+		return (soundSourcePool[soundSourcePool.Count-1]);
 	}
 }

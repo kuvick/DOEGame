@@ -13,6 +13,8 @@ public class LinkSounds {
 	
 	public var linkDenied : AudioClip;
 	
+	public var linkDrag : AudioClip;
+	
 	private var linkSoundTable : Hashtable;
 	
 	public function Init(){

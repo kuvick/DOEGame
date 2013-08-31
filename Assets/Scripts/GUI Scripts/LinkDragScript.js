@@ -90,6 +90,7 @@ public class LinkDragScript extends GUIControl
 				lineRenderer.SetPosition(1, mousePos);
 				
 				startDrag = false;
+				SoundManager.Instance().PlayLinkDraging();
 			}
 			
 			lineRenderer.SetPosition(1, mousePos);	
@@ -97,6 +98,7 @@ public class LinkDragScript extends GUIControl
 		else
 		{
 			GUIManager.Instance().UnFadeMenus();
+			SoundManager.Instance().StopLinkDraging();
 			dragging = false;
 			if(lineRenderer != null)
 			{

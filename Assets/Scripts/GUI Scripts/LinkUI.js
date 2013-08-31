@@ -222,7 +222,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		return;
 	} 
 
-	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
+	var linkBuilding : BuildingOnGrid = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
 	
@@ -268,7 +268,6 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	SoundManager.Instance().PlayLinkMade(selectedResource);
 }
 
 function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
@@ -437,8 +436,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	
-	SoundManager.Instance().PlayLinkMade(selectedResource);
 }
 
 // See if we can draw a line between the two points without hitting a barrier
