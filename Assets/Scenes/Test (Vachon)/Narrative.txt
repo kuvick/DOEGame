@@ -1,45 +1,35 @@
-Vachon06-July14 (STABLE) - Narrative
 
-Uh oh, it looks like the new industrial plant in the northern section of town needs more power than we have available.
+RV01
+1 Okay, here's the deal: The local city is in trouble.
 
-Hey, I've got an idea. There's an old powerplant down the road from that new factory. We could use that to provide power. 
+2 Their contract with the area utilities provider has ended...
 
-But the town's new budget restrictions will limit our ability to supply the fuel it needs to run the boilers.
+3 and they don't have the connections to broker a new contract.
 
-Well how about this? We take the waste from the city and town, process it, and use it for fuel? That'll save us from spending on coal.
+4 That's why they've asked for your help.
 
-Great idea! Not only that, but all of the waste will turn to sanitized ash so we wont have to worry about the landfill any longer. All we'll need to do is create some jobs to staff it.
+5 Yes, you specifically. Don't let it get to your head bucko.
 
-Sounds like a win to me!
+6 Our other agents are going to be assigned elsewhere, so you don't have any back on this one.
 
--------------------------------------------
+7 Well, what are you still doing in my office?
 
-Vachon05-July14 (STABLE) - Narrative
+8 Get out there and sort out the problem!
 
-A local university has built a few dormitories around the city. We need to help connect them to the grid. The catch is that they want their source of juice to be ecologically friendly. We have an undercover energy agent nearby who can help set up those connections. 
 
--------------------------------------------
+----------------------------
 
-Vachon04-July14 (STABLE) - Narrative
 
-We have a contractor who has contacted us recently. It seems he has built a home near our new "Renewable Energy Zone". We've delt with this person before, they actually built the ethanol farms in the area. They are interested in running the new house entirely off the renewable energy grid we've developed.
 
-I remember them, last time we talked, they had this great idea to feed excess power generated from the "Renewable Energy Zone" back into the grid.
+----------------------------
 
-That's not a bad idea right there...
+RV05 - Narrative (needs work)
 
--------------------------------------------
+It looks like the new industrial plant in the northern section of town needs more power than we have available.
 
-Vachon02-July14 (STABLE) - Narrative
+There's an old powerplant down the road from that new factory we should try to use that to provide power. 
 
-We've got a new housing development, but we're short on staff to make the energy connections. You should enlist the help of some independant agents in the area to help you make those connections. I know just the folks to help!
+The town's new budget restrictions will limit our ability to supply the fuel So we're going to try something different.
 
-[explanation: while not dealing with a specific energy technology, it does deal with a problem that someone from the DOE might experience.]
+We'll take the waste from the city and town, process it, then use that for fuel. It solves the problem of waste disposal and power generation with one stone.
 
--------------------------------------------
-
-Vachon01-July14 (STABLE) - Narrative
-
-A local city has decided to begin making the move to more sustainable energy sources. While they can't disregard the existing energy resources available, they can replace the old and out of date areas. We need you to help them make the connections they need to get going.
-
-[explanation: while not dealing with a specific energy technology, it does deal with a problem that someone from the DOE might experience.]
