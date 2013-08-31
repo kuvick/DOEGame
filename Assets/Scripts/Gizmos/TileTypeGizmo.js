@@ -7,6 +7,7 @@ Turn on this gizmo to see the type of each tile on the terrain. Tiles with an X 
 or if its turned on, move the slider to the right.
 */
 
+/*
 private var slope1:Vector3 = new Vector3(1, 0, -1);
 private var slope2:Vector3 = new Vector3(1, 0, 1);
 private var xLineLength:float = HexagonGrid.tileHalfWidth * 0.65;
@@ -20,7 +21,7 @@ function OnDrawGizmos () {
     			iconPos.y = 10;
     			iconPos.x += grid.tileHalfWidth;//center the icon over the tile
     			iconPos.z += grid.tileHalfHeight;
-    			var buildable:boolean = grid.getTile(x, y).buildable;
+    			//var buildable:boolean = grid.getTile(x, y).buildable;
     			if(!buildable){
     				Gizmos.color = Color.red;	
     				var upperLeft:Vector3 = iconPos - slope1 * xLineLength;
@@ -58,3 +59,4 @@ function OnDrawGizmos () {
     
     }
 }
+*/

@@ -1,4 +1,4 @@
-Vachon06-July24 (STABLE) - Narrative
+Vachon06-July14 (STABLE) - Narrative
 
 Uh oh, it looks like the new industrial plant in the northern section of town needs more power than we have available.
 
@@ -14,16 +14,32 @@ Sounds like a win to me!
 
 -------------------------------------------
 
-Vachon05-July24 (STABLE) - Narrative
+Vachon05-July14 (STABLE) - Narrative
 
 A local university has built a few dormitories around the city. We need to help connect them to the grid. The catch is that they want their source of juice to be ecologically friendly. We have an undercover energy agent nearby who can help set up those connections. 
 
 -------------------------------------------
 
-Vachon04-July24 (STABLE) - Narrative
+Vachon04-July14 (STABLE) - Narrative
 
 We have a contractor who has contacted us recently. It seems he has built a home near our new "Renewable Energy Zone". We've delt with this person before, they actually built the ethanol farms in the area. They are interested in running the new house entirely off the renewable energy grid we've developed.
 
 I remember them, last time we talked, they had this great idea to feed excess power generated from the "Renewable Energy Zone" back into the grid.
 
 That's not a bad idea right there...
+
+-------------------------------------------
+
+Vachon02-July14 (STABLE) - Narrative
+
+We've got a new housing development, but we're short on staff to make the energy connections. You should enlist the help of some independant agents in the area to help you make those connections. I know just the folks to help!
+
+[explanation: while not dealing with a specific energy technology, it does deal with a problem that someone from the DOE might experience.]
+
+-------------------------------------------
+
+Vachon01-July14 (STABLE) - Narrative
+
+A local city has decided to begin making the move to more sustainable energy sources. While they can't disregard the existing energy resources available, they can replace the old and out of date areas. We need you to help them make the connections they need to get going.
+
+[explanation: while not dealing with a specific energy technology, it does deal with a problem that someone from the DOE might experience.]

@@ -178,10 +178,11 @@ function Start ()
 //Can use this functio to check for events
 public function addTurn()
 {
-	decreaseTurns();
+	//decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();
 	CheckTriggerToDisplay();
+	decreaseTurns();
 }
 
 public function subtractTurn()
@@ -253,7 +254,7 @@ public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
 	}
 	else
 	{
-		optionalScore += scoreModifier;	
+		optionalScore += scoreModifier;
 	}
 	Debug.Log("Score Incremented: " + primaryScore);
 }
@@ -299,17 +300,19 @@ public function resolveEvent( script : EventScript)
 	
 	if(tempScript.event.type == BuildingEventType.Primary)
 	{
-		primaryScore += tempScript.event.points;
+		incrementScore(true, tempScript.event.points);
 		numOfObjectivesLeft--;
 		if(numOfObjectivesLeft <= 0)
 		{
-			triggerWin();
+			//triggerWin();
+			victory = true;
 		}
 		SoundManager.Instance().PlayPrimaryObjectiveComplete();
 	}
 	else
 	{
-		optionalScore += tempScript.event.points;
+		//optionalScore += tempScript.event.points;
+		incrementScore(false, tempScript.event.points);
 	}
 	
 	for (var contactToUnlock : String in tempScript.contactsUnlocked){
@@ -460,7 +463,7 @@ public function getOptionalScore():int
 // placeholder function, to be called when a win state is triggered
 public function triggerWin()
 {
-	victory = true;
+	//victory = true;
 	var event : GUIEvent = new GUIEvent();
 	event.type = EventTypes.SCORESCREEN;
 	GUIManager.Instance().RecieveEvent(event);

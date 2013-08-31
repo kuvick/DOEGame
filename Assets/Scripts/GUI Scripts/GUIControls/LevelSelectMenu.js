@@ -454,16 +454,21 @@ public class LevelSelectMenu extends GUIControl
 		{
 			GUI.BeginGroup(missionScrollArea);			
 				//levelSelectSkin.label.fontSize = levelSelectFontSize;				
-				if(GUI.Button(startLevelButton, launchMissionButton))
-				{							
-					nextLevel.nextLevel = unlockedLevels[activeLevelIndex].sceneName;
-					Application.LoadLevel("LoadingScreen");
-				}
+
 				GUI.skin = levelSelectSkin;		
 				if(!unlockedLevels[activeLevelIndex].wasRead)
 					unlockedLevels[activeLevelIndex].wasRead = true;														
 				
 				GUI.Label(messageRect, "Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText);						
+				
+				startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText)).y * 2.0f;
+				
+				if(GUI.Button(startLevelButton, launchMissionButton))
+				{							
+					nextLevel.nextLevel = unlockedLevels[activeLevelIndex].sceneName;
+					Application.LoadLevel("LoadingScreen");
+				}
+				
 			GUI.EndGroup();
 			
 			if(GUI.Button(contactsIconRect, backButtonText))

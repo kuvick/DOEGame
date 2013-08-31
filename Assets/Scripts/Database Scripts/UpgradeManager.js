@@ -28,7 +28,7 @@ function Update () {
 	}
 }
 
-function OnGUI()
+public function Render()
 {
 	for (i = 0; i < counterSet.Count; i++)
 		counterSet[i].Draw();
@@ -81,7 +81,7 @@ private function CreateCounters()
 
 private function SetCounterRects()
 {
-	var topOffsetScale : float = 0.1;
+	var topOffsetScale : float = 0.05;
 	var topOffset = topOffsetScale * Screen.height;
 	var counterWidthScale : float = 0.1;
 	var counterWidth : float = Screen.width * counterWidthScale;
@@ -93,7 +93,7 @@ private function SetCounterRects()
 	
 	for (i = 0; i < counterSet.Count; i++)
 	{
-		counterSet[i].SetRect(Rect(left, topOffset, counterWidth, topOffset));
+		counterSet[i].SetRect(Rect(left, topOffset, counterWidth, counterWidth / 2 ));
 		left += counterWidth + counterSpacing;
 	}
 }

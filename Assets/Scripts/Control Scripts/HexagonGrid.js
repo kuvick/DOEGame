@@ -72,11 +72,12 @@ function Start(){
 	mainCamera = Camera.main;
 	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
+	/*
 	if(hexagon == null){
 		CreateHexagonMesh();
-	}
+	}*/
 	//CreateSelectionHexagon();	
-	createHexagonGridParticles();
+	//createHexagonGridParticles();
 	if(mainCamera == null){
 		Debug.LogError("Camera not set");
 	}

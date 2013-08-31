@@ -26,6 +26,7 @@ public class MainMenu extends GUIControl
 	private var undoButton:Rect;				
 	private var scoreRect:Rect;
 	private var turnRect:Rect;
+	private var comboRect:Rect;
 	private var zoomButton:Rect;
 	
 	// Main Menu Scaling
@@ -45,7 +46,8 @@ public class MainMenu extends GUIControl
 	public var pauseTexture : Texture;
 	
 	// Score and turn ints
-	private var score:int;
+	private var currentlyDisplayedScore:int;
+	private var score:int;	
 	private var turn:int;
 	private var intelSystem : IntelSystem;
 	
@@ -63,7 +65,16 @@ public class MainMenu extends GUIControl
 	private var maxDataIcons : int = 3;
 	
 	private var upgradeManager : UpgradeManager = null;
-		
+	
+	private var scoreUpdateTimer = 10;
+	private var scoreUpdateTime = 0;
+	private var defaultFontColor;
+	private var targetFontColor;
+	
+	public var victorySplashTimerInSeconds = 5.0f;
+	private var victorySplashStartTime = 0;
+	private var victorySplashRectangle;
+	private var mostRecentTurnScore : int = 0;
 	
 	public function Start () 
 	{
@@ -87,7 +98,7 @@ public class MainMenu extends GUIControl
 				cameraLocations.Add(camera);
 			}
 			
-			Debug.Log("# of Cameras to test: " + cameraLocations.Count);
+			Debug.Log("# of Cameras to test: " + cameraLocations.Count);			
 		}// end of if(testCameras)
 	}
 	
@@ -128,6 +139,9 @@ public class MainMenu extends GUIControl
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
+		
+		victorySplashRectangle = Rect(screenWidth/3, screenHeight / 3,  screenWidth/3, screenHeight / 3);
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -138,9 +152,9 @@ public class MainMenu extends GUIControl
 				
 				CalcDataPiecePositions();
 			}
-			dataIcons.Add(dataIcon01);
-			dataIcons.Add(dataIcon02);
-			dataIcons.Add(dataIcon03);
+			//dataIcons.Add(dataIcon01);
+			//dataIcons.Add(dataIcon02);
+			//dataIcons.Add(dataIcon03);
 		} else {
 			Debug.LogWarning("Could not find the database in the main menu");
 		}
@@ -153,40 +167,39 @@ public class MainMenu extends GUIControl
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
+		
+		defaultFontColor = mainMenuSkin.label.normal.textColor;
+			targetFontColor = new Color(0,0,0);
 	}
 	
 	public function Render(){   
 		if (!enableHUD) return; 
 		
+		UpdateDisplayedScore();
+		if(intelSystem.victory) 
+			DrawVictorySplash();
+		
 		GUI.skin = mainMenuSkin;
 		
 		if(intelSystem == null){
 			LoadReferences();
-  		} else {
+  		} else {  			
+			targetFontColor = new Color(0,0,0);
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+			GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
 		}
 		// displaying number of data pieces collected
+		/*
 		if (upgradeManager != null){
 			for(var i:int = 0; i < upgradeManager.counterSet.Count; i++){
 				GUI.DrawTexture(dataRect[i],dataIconBG);
-				if (upgradeManager.counterSet[i].getObtainedParts() > 3){
-					GUI.DrawTexture(dataRect[i],dataIcons[upgradeManager.counterSet[i].getObtainedParts()]);
-				}
-				if(upgradeManager.counterSet[i].getObtainedParts() >= 1)
-				{
-					GUI.DrawTexture(dataRect[0],dataIcons[upgradeManager.counterSet[0].getObtainedParts()];
-					if(upgradeManager.counterSet[i].getObtainedParts() >= 2)
-					{
-						GUI.DrawTexture(dataRect[1],dataIcons[upgradeManager.counterSet[1].getObtainedParts()];
-						if(upgradeManager.counterSet[i].getObtainedParts() >= 3)
-						{
-							GUI.DrawTexture(dataRect[2],dataIcons[upgradeManager.counterSet[2].getObtainedParts()];
-						}
-					}
+				if (upgradeManager.counterSet[i].getObtainedParts() > 0){
+					//GUI.DrawTexture(dataRect[i],dataIcons[upgradeManager.counterSet[i].getObtainedParts()]);
 				}
 			}
 		}
+		*/
 		
 		// Draw the buttons and respond to interaction
 		if(GUI.Button(pauseButton, pauseTexture))
@@ -215,8 +228,11 @@ public class MainMenu extends GUIControl
 		{
 			currentResponse.type = EventTypes.METRIC;
 		}
+				
+		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
 		
-		GUI.Label(scoreRect, score.ToString());
+		if(upgradeManager != null)
+			upgradeManager.Render();
 	}
 	
 	private function CalcDataPiecePositions(){
@@ -231,5 +247,38 @@ public class MainMenu extends GUIControl
 			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	      	score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
       	}
+	}
+	
+	private function UpdateDisplayedScore()
+	{		
+		if(currentlyDisplayedScore < score)
+		{	
+			scoreUpdateTime = Time.timeSinceLevelLoad;					
+			if((Time.timeSinceLevelLoad - scoreUpdateTime) < scoreUpdateTimer)
+			{	
+						
+				currentlyDisplayedScore += 10;
+			}
+		}
+		else
+		{
+			scoreUpdateTime = 0;
+			currentlyDisplayedScore = score;
+		}		
+	}
+	
+	private function DrawVictorySplash()
+	{		
+		if(victorySplashStartTime == 0)
+			victorySplashStartTime = Time.time;
+		if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+		{
+			victorySplashStartTime = 0;
+			intelSystem.triggerWin();
+		}
+		else
+		{			
+			GUI.Box(victorySplashRectangle, "You Win!");
+		}
 	}
 }

@@ -52,7 +52,8 @@ public class BuildingMenu extends GUIControl
 	public var scrollLeftTexture_Inactive:Texture;
 	public var scrollRightTexture_Inactive:Texture;
 	
-	public var buildingIconTexture:Texture;					//to be removed?
+	public var cancelButtonTexture:Texture;
+	public var backgroundText: Texture;
 	
 	// Building Menu animation
 	private var isScrolling:boolean = false;
@@ -171,6 +172,7 @@ public class BuildingMenu extends GUIControl
 	{
 		GUI.skin = buildingMenuSkin;
 		GUI.Box(background, "");
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
 		
 		// Calculate the mouse position
 		var mousePos:Vector2;
@@ -453,7 +455,9 @@ public class BuildingMenu extends GUIControl
 			SoundManager.Instance().PlayBuildingPlaced();
 			
 			RemoveBuildingFromList(index);
-			GameObject.Find("Database").GetComponentInChildren(IntelSystem).comboSystem.incrementComboCount();
+			var intelSystem = GameObject.Find("Database").GetComponentInChildren(IntelSystem);
+			intelSystem.comboSystem.incrementComboCount();
+			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 	}
 	
 	// Used for placing buildings in the level editor
