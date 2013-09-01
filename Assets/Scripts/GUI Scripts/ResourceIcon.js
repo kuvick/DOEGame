@@ -46,13 +46,13 @@ function Update () {
 	else
 		currentScale = smallScale;
 	gameObject.transform.localScale = currentScale;*/
+	if (fadeTimer >= 1 || fadeTimer <= 0)
+			fadeScaler *= -1;
+	fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	if (flashActive)
 	{
-		if (fadeTimer >= 1 || fadeTimer <= 0)
-			fadeScaler *= -1;
 		if (fadeTimer >= 0)
 			flashIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
-		fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	}
 }
 
@@ -119,10 +119,9 @@ public function SetAllocated (allo : boolean)
 public function SetActive(active : boolean)
 {
 	//gameObject.renderer.material.color = active ? allColor : unallColor;
-	flashActive = active;
-	if (active)
-		fadeTimer = .5;
-	else
+	if (ioType != IOType.In)
+		flashActive = active;
+	if (!flashActive)
 		flashIcon.renderer.material.color = transparentColor;
 }
 
