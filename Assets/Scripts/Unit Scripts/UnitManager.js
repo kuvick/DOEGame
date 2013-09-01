@@ -79,9 +79,11 @@ static function CheckUnitLocations()
 	for (var i : int = 0; i < buildings.Count; i++)
 	{
 		if (buildings[i].units.Count == 1)
-			buildings[i].units[0].DeactivateFade();
-		else
-			ActivateUnitFade(buildings[i].units);
+			//buildings[i].units[0].DeactivateFade();
+			buildings[i].units[0].SetPosition(false);
+		else if (buildings[i].units.Count > 1)
+			//ActivateUnitFade(buildings[i].units);
+			FlipUnitPositions(buildings[i].units);
 	}
 }
 
@@ -90,4 +92,14 @@ static function ActivateUnitFade(unitSet : List.<Unit>)
 {
 	for (var i : int = 0; i < unitSet.Count; i++)
 		unitSet[i].ActivateFade(i, unitSet.Count);
+}
+
+static function FlipUnitPositions(unitSet : List.<Unit>)
+{
+	var firstType : UnitType = unitSet[0].type;
+	for (var i : int = 1; i < unitSet.Count; i++)
+	{
+		if (unitSet[i].type != firstType)
+			unitSet[i].SetPosition(true);
+	}
 }
