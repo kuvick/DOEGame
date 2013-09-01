@@ -11,7 +11,15 @@ private var index : int;
 
 private var currentScale : Vector3;
 private var smallScale : Vector3 = Vector3(5,5,5);
+private var flashScale : Vector3 = Vector3(6,6,6);
 //private var bigScale : Vector3 = Vector3(8,8,8);
+
+private var flashIcon : GameObject;
+
+private var fadeTimer : float = 0.0;
+private var fadeScaler : float = 1.0;
+private var transparentColor : Color = Color(1,1,1,0);
+private var solidColor : Color = Color(1,1,1,1);
 
 private var selectedBuilding:GameObject;
 
@@ -20,6 +28,8 @@ private var linkUIRef : LinkUI;
 private var unallColor : Color = Color(1.0,1.0,1.0,.5);
 //private var unallColor : Color = Color(1.0,1.0,1.0,1);
 private var allColor : Color = Color(1.0,1.0,1.0,1.0);
+
+private var flashActive : boolean = false;
 
 enum IOType
 {
@@ -36,6 +46,14 @@ function Update () {
 	else
 		currentScale = smallScale;
 	gameObject.transform.localScale = currentScale;*/
+	if (flashActive)
+	{
+		if (fadeTimer >= 1 || fadeTimer <= 0)
+			fadeScaler *= -1;
+		if (fadeTimer >= 0)
+			flashIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+		fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	}
 }
 
 public function OnSelected()
@@ -70,6 +88,13 @@ public function Initialize(building : BuildingOnGrid)
 	
 	gameObject.layer = 10;
 	
+	flashIcon = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
+	flashIcon.transform.localScale = flashScale;
+	flashIcon.transform.position = gameObject.transform.position;
+	flashIcon.transform.position.y = 74;
+	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
+	flashIcon.layer = 10;
+	
 	if (ioType == IOType.OptOut)
 		index = -1;
 	SetAllocated(false);
@@ -94,6 +119,11 @@ public function SetAllocated (allo : boolean)
 public function SetActive(active : boolean)
 {
 	//gameObject.renderer.material.color = active ? allColor : unallColor;
+	flashActive = active;
+	if (active)
+		fadeTimer = .5;
+	else
+		flashIcon.renderer.material.color = transparentColor;
 }
 
 public function SetIndex (index : int)
