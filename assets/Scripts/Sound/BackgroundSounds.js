@@ -8,4 +8,5 @@ public class BackgroundSounds {
 	public var levelSelectMusic : AudioClip;
 	public var failureMenuMusic : AudioClip;
 	public var scoreMenuMusic : AudioClip;
+	public var loadingMenuMusic : AudioClip;
 }

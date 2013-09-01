@@ -18,6 +18,7 @@ public static class JobDatabase
 		Debug.Log("job database initialized");
 	}
 	
+	
 	public function GetRandomJob() : Job
 	{
 		if (!initialized)

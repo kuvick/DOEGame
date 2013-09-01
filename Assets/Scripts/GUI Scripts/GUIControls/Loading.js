@@ -21,6 +21,7 @@ public class Loading extends GUIControl
 	private var loadingRect : Rect;
 	private var onlineRect : Rect;
 	private var iconRect : Rect;
+	private var toggleDescriptionRect : Rect;
 	
 	// Loading Screen Textures
 	public var blackBackgroundTexture : Texture2D;
@@ -68,6 +69,9 @@ public class Loading extends GUIControl
 	
 	private var currentJob : Job;
 	private var currentJobDesc : String;
+	private var currentJobInformation : String;
+	private var toggleText : String = "More information";
+	private var overviewInformationShowing : boolean = true;
 	
 	private var hasLoaded : boolean = false;
 	private var hasFinishedDelay : boolean  = false;
@@ -87,6 +91,7 @@ public class Loading extends GUIControl
 		//style.richText = true;
 		// Add the background rect to the rectList for checking input collision
 		rectList.Add(background);
+		backgroundMusic = SoundManager.Instance().backgroundSounds.loadingMenuMusic;
 	}
 	
 	public function Render() 
@@ -104,13 +109,16 @@ public class Loading extends GUIControl
 					currentResponse.type = EventTypes.DONELOADING;
 				}
 			}
+			if (GUI.Button(toggleDescriptionRect, toggleText, style)){
+				ToggleInformation();
+			}	
 		} else if (!hasFinishedDelay) {
 			GUI.DrawTexture(loadingRect, loadingTexture, ScaleMode.ScaleToFit);
 		}
 		
 		style.font = regularFont;
 		style.fontSize = descFontSize;
-		GUI.Label(descRect, currentJobDesc, style);
+		GUI.Label(descRect, currentJobInformation, style);
 		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
 	}
 	
@@ -118,7 +126,6 @@ public class Loading extends GUIControl
 		if (seconds < 0) seconds = 0;
 		yield WaitForSeconds(seconds);
 		hasFinishedDelay = true;
-		Debug.Log("done with delay");
 	}
 	
 	public function LoadLevel(levelName:String){
@@ -155,6 +162,7 @@ public class Loading extends GUIControl
 		descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
 		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
 		descRect.y = (screenHeight - height) / 2;
+		currentJobInformation = currentJobDesc;
 	}
 	
 	// calculates and sets font size to fit text within a given rect, starting from a given initial size
@@ -185,11 +193,25 @@ public class Loading extends GUIControl
 		descRect = Rect(leftOffset, topOffset,
 							descWidth, screenHeight - (2 * topOffset));
 							
+		toggleDescriptionRect = Rect(leftOffset, topOffset + screenHeight - (2 * topOffset),
+							descWidth, screenHeight - (2 * topOffset));
+							
 		iconWidth = screenWidth * iconWidthScale;
 		iconHeight = screenHeight * iconHeightScale;
 		iconRect = Rect(screenWidth - iconWidth - leftOffset, topOffset, iconWidth, iconHeight);
 		
 		onlineHeight = screenHeight * onlineHeightScale;
 		onlineRect = Rect(screenWidth - iconWidth - leftOffset, topOffset + iconHeight + 2*leftOffset, iconWidth, onlineHeight);
+	}
+	
+	private function ToggleInformation(){
+		overviewInformationShowing = !overviewInformationShowing;
+		if (overviewInformationShowing){
+			toggleText = "More Information";
+			currentJobInformation = currentJobDesc; 
+		} else {
+			toggleText = "Less Information";
+			currentJobInformation = currentJob.description;
+		}
 	}
 }
