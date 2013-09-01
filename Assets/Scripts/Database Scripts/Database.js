@@ -1690,6 +1690,6 @@ public function WriteLevel()
 		level_s.Units.Add(u);
 	}
 	
-	level_s.Save(Application.persistentDataPath + "/LevelData.xml");
+	//level_s.Save(Application.persistentDataPath + "/LevelData.xml");
 	Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
 }

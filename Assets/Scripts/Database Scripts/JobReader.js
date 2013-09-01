@@ -31,6 +31,7 @@ public class JobReader
 			var tempJob = new Job();
 			
 			tempJob.title = node.Item["PositionTitle"].InnerText;
+			tempJob.description = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobSummary"].InnerText;
 			tempJob.agency = node.Item["PositionOrganization"].Item["OrganizationIdentifiers"].Item["OrganizationName"].InnerText;
 			tempJob.salaryMin = node.Item["OfferedRemunerationPackage"].Item["RemunerationRange"].Item["RemunerationMinimumAmount"].InnerText;
 			tempJob.salaryMax = node.Item["OfferedRemunerationPackage"].Item["RemunerationRange"].Item["RemunerationMaximumAmount"].InnerText;
@@ -39,7 +40,7 @@ public class JobReader
 			tempJob.positionInformation = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobStatusText"].InnerText;
 			tempJob.location = node.Item["PositionLocation"].Item["LocationName"].InnerText;
 			tempJob.whoConsidered = node.Item["UserArea"].Item["GOVT_WhoMayApply"].InnerText;
-			tempJob.url = "www.google.com";
+			tempJob.url = "http://energy.gov";
 			tempList.Add(tempJob);
 			//Debug.Log(node.Item["PositionTitle"].InnerText);
 		}
@@ -52,11 +53,16 @@ public class JobReader
 		Debug.Log(dateSplit.length);
 		return months[parseInt(dateSplit[1]) - 1] + " " + parseInt(dateSplit[2]) + ", " + parseInt(dateSplit[0]);
 	}
+	
+	public static function LoadFromRSS(){
+		
+	}
 }
 
 class Job extends System.ValueType
 {
 	public var title : String;
+	public var description : String;
 	public var agency : String;
 	public var salaryMin : String;
 	public var salaryMax : String;

@@ -221,6 +221,14 @@ public class SoundManager extends MonoBehaviour {
 		playMenuSound(menuSounds.buildingMenuOpen);
 	}
 	
+	public function playInspectionOpen(){
+		playMenuSound(menuSounds.inspectionOpen);
+	}
+	
+	public function playInspectionClose(){
+		playMenuSound(menuSounds.inspectionClose);
+	}
+	
 	public function playMusic(musicClip : AudioClip){
 		if (alreadyPlayingLoopedSound(musicClip)){
 			return; // don't restart the sound
