@@ -115,7 +115,7 @@ function Start()
 	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
 	
-	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
+	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);

@@ -86,7 +86,7 @@ function ResetControlState() {
 }
 
 function Start () {
-	linkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
+	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	ResetControlState();
 	// Check what type of input we should be expecting
 	// if we are running on android or iOS then use touch controls else

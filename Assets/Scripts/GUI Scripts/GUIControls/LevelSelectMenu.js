@@ -465,7 +465,7 @@ public class LevelSelectMenu extends GUIControl
 				
 				if(GUI.Button(startLevelButton, launchMissionButton))
 				{							
-					nextLevel.nextLevel = unlockedLevels[activeLevelIndex].sceneName;
+					PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
 					Application.LoadLevel("LoadingScreen");
 				}
 				

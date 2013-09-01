@@ -39,6 +39,7 @@ public class JobReader
 			tempJob.positionInformation = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobStatusText"].InnerText;
 			tempJob.location = node.Item["PositionLocation"].Item["LocationName"].InnerText;
 			tempJob.whoConsidered = node.Item["UserArea"].Item["GOVT_WhoMayApply"].InnerText;
+			tempJob.url = "www.google.com";
 			tempList.Add(tempJob);
 			//Debug.Log(node.Item["PositionTitle"].InnerText);
 		}
@@ -64,4 +65,5 @@ class Job extends System.ValueType
 	public var positionInformation : String;
 	public var location : String;
 	public var whoConsidered : String;
+	public var url : String;
 }

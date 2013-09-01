@@ -16,12 +16,14 @@ Author: Katherine Uvick, Francis Yuan
 public class Loading extends GUIControl
 {
 	// Loading Screen Rectangles
+	private var blackBackground : Rect;
 	private var background:Rect;
 	private var loadingRect : Rect;
 	private var onlineRect : Rect;
 	private var iconRect : Rect;
 	
 	// Loading Screen Textures
+	public var blackBackgroundTexture : Texture2D;
 	public var loadingTexture : Texture;
 	public var iconTexture : Texture;
 	public var backgroundTexture : Texture2D;
@@ -31,6 +33,10 @@ public class Loading extends GUIControl
 	private var style : GUIStyle = GUIStyle();
 	public var boldFont : Font;
 	public var regularFont : Font;
+	
+	public var guiCamera : Camera; // this is for the loading screen where the game's camera will not exsist
+	
+	public var loadDelay : float = 3.0f; // The minimum amout of seconds the user will wait
 	
 	private var descRect : Rect;
 	
@@ -63,34 +69,13 @@ public class Loading extends GUIControl
 	private var currentJob : Job;
 	private var currentJobDesc : String;
 	
-	public function Start ()
-	{
-		super.Start();
-		
-	}
+	private var hasLoaded : boolean = false;
+	private var hasFinishedDelay : boolean  = false;
 	
 	public function Initialize()
 	{
 		super.Initialize();
-		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		
-		leftOffset = screenWidth * leftOffsetScale;
-		topOffset = screenHeight * topOffsetScale;
-		
-		loadingWidth = screenWidth * loadingWidthScale;
-		loadingHeight = screenHeight * loadingHeightScale;
-		loadingRect = Rect(screenWidth - loadingWidth, 0, loadingWidth, loadingHeight);
-		
-		descWidth = screenWidth * descWidthScale;
-		descRect = Rect(leftOffset, topOffset,
-							descWidth, screenHeight - (2 * topOffset));
-							
-		iconWidth = screenWidth * iconWidthScale;
-		iconHeight = screenHeight * iconHeightScale;
-		iconRect = Rect(screenWidth - iconWidth - leftOffset, topOffset, iconWidth, iconHeight);
-		
-		onlineHeight = screenHeight * onlineHeightScale;
-		onlineRect = Rect(screenWidth - iconWidth - leftOffset, topOffset + iconHeight + 2*leftOffset, iconWidth, onlineHeight);
+		SetupRectangles();
 							
 		initialDescFontSize = screenHeight * descFontScale;
 		style.normal.textColor = Color.white;
@@ -106,20 +91,53 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
+		GUI.DrawTexture(blackBackground, blackBackgroundTexture);
 		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
 		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
-		GUI.DrawTexture(loadingRect, loadingTexture, ScaleMode.ScaleToFit);
+		
+		if (hasLoaded){
+			if (GUI.Button(onlineRect, onlineTexture, style)){
+				Application.OpenURL(currentJob.url);
+			}
+			if (hasFinishedDelay){
+				if (GUI.Button(loadingRect, "Continue", style)){
+					currentResponse.type = EventTypes.DONELOADING;
+				}
+			}
+		} else if (!hasFinishedDelay) {
+			GUI.DrawTexture(loadingRect, loadingTexture, ScaleMode.ScaleToFit);
+		}
+		
 		style.font = regularFont;
 		style.fontSize = descFontSize;
 		GUI.Label(descRect, currentJobDesc, style);
 		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
-		GUI.Button(onlineRect, onlineTexture, style);
 	}
 	
-	public function DelayLoad(seconds:int):IEnumerator
-	{
+	private function DelayLoad(seconds:int):IEnumerator{
+		if (seconds < 0) seconds = 0;
 		yield WaitForSeconds(seconds);
-		currentResponse.type = EventTypes.DONELOADING;
+		hasFinishedDelay = true;
+		Debug.Log("done with delay");
+	}
+	
+	public function LoadLevel(levelName:String){
+		hasLoaded = false;
+		hasFinishedDelay = false;
+		var startTime : float = Time.time;
+		if (guiCamera == null) {
+			guiCamera = Camera.main;
+		}
+		guiCamera.gameObject.SetActiveRecursively(true);
+		
+		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version
+		
+		yield WaitForSeconds(3);
+		hasLoaded = true;
+		
+		var totalLoadTime : float = Time.time - startTime;
+		
+		DelayLoad(loadDelay-totalLoadTime);
 	}
 	
 	public function GetNewJob()
@@ -150,5 +168,28 @@ public class Loading extends GUIControl
 			style.fontSize = size;
 		}
 		return size;
+	}
+	
+	private function SetupRectangles(){
+		blackBackground = RectFactory.NewRect(0,0,1,1);
+		background = RectFactory.NewRect(0,0,1,1);
+		
+		leftOffset = screenWidth * leftOffsetScale;
+		topOffset = screenHeight * topOffsetScale;
+		
+		loadingWidth = screenWidth * loadingWidthScale;
+		loadingHeight = screenHeight * loadingHeightScale;
+		loadingRect = Rect(screenWidth - loadingWidth, 0, loadingWidth, loadingHeight);
+		
+		descWidth = screenWidth * descWidthScale;
+		descRect = Rect(leftOffset, topOffset,
+							descWidth, screenHeight - (2 * topOffset));
+							
+		iconWidth = screenWidth * iconWidthScale;
+		iconHeight = screenHeight * iconHeightScale;
+		iconRect = Rect(screenWidth - iconWidth - leftOffset, topOffset, iconWidth, iconHeight);
+		
+		onlineHeight = screenHeight * onlineHeightScale;
+		onlineRect = Rect(screenWidth - iconWidth - leftOffset, topOffset + iconHeight + 2*leftOffset, iconWidth, onlineHeight);
 	}
 }
