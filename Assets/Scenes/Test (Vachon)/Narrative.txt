@@ -1,35 +1,63 @@
-
 RV01
-1 Okay, here's the deal: The local city is in trouble.
 
-2 Their contract with the area utilities provider has ended...
-
-3 and they don't have the connections to broker a new contract.
-
-4 That's why they've asked for your help.
-
-5 Yes, you specifically. Don't let it get to your head bucko.
-
-6 Our other agents are going to be assigned elsewhere, so you don't have any back on this one.
-
-7 Well, what are you still doing in my office?
-
-8 Get out there and sort out the problem!
+Doctor Edison:
+Okay, here's the deal: The local city is in trouble.
+Their contract with the area utilities provider has ended...
+and they don't have the connections to broker a new contract.
+That's why they've asked for your help.
+Yes, you specifically. Don't let it get to your head bucko.
+Our other agents are going to be assigned elsewhere, 
+So you don't have any back on this one.
+Well, what are you still doing in my office?
+Get out there and sort out the problem!
 
 
 ----------------------------
 
+RV02
 
+Nancy Sanders:
+Hey there newbie!
+So that new housing development has been finished, 
+And people are ready to move in,
+But the contracting company failed to set up the utilities. 
+So the buildings can't pass inspection.
+We've got more than a few families waiting out in the cold, 
+All so their houses can be declared "legally safe".
+You've been assigned two Energy Engineers.
+With that much backup, we should be able to solve the problem no sweat!
+Let's roll out the welcome mats for these people!
 
 ----------------------------
 
-RV05 - Narrative (needs work)
+RV05 
 
-It looks like the new industrial plant in the northern section of town needs more power than we have available.
+Doctor Edison:
+We have a problem.
+The new industrial plant north of town needs more power than we have available.
 
-There's an old powerplant down the road from that new factory we should try to use that to provide power. 
+Nancy Sanders:
+There's an old powerplant down the road...
+We could try to use that to provide power. 
 
-The town's new budget restrictions will limit our ability to supply the fuel So we're going to try something different.
+Doctor Edison
+The town's new budget restrictions will limit our ability to supply fuel. If we do this, we're going have to try something different.
 
-We'll take the waste from the city and town, process it, then use that for fuel. It solves the problem of waste disposal and power generation with one stone.
+You:
+We could take waste from the city and town.
+If we process it, that waste can be turned into fuel. 
+It disposes of the waste and solves the power problem.
 
+Doctor Edison
+There's thinking with your noodle.
+
+Nancy Sanders:
+Great idea!
+
+Doctor Edison:
+Why don't you help the newbie with this project.
+
+Nancy Sanders:
+Sure thing!
+I'll be waiting for you at the Gas Station when you get there.
+Just pick me up there and I'll help ya out.
