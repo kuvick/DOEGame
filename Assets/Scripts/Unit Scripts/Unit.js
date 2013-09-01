@@ -457,7 +457,7 @@ public function OnSelected()
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)
 			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
-		//SoundManager.Instance().PlayUnitSelected(this);
+		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}
 	if (currentPath.Count > 0 && !pathDrawn)

@@ -57,8 +57,9 @@ public class LinkDragScript extends GUIControl
 		{
 			if (!Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive){
 				SoundManager.Instance().PlayLinkDenied();
+				ModeController.setSelectedBuilding(null);
 				return;
-			}
+			} 
 			//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
 			
 			//Code snippet borrowed from HexagonGrid section

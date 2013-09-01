@@ -136,7 +136,7 @@ public class GUIControl extends MonoBehaviour
 	  */
 	public function OnOpen(){
 		if (backgroundMusic != null){
-			SoundManager.Instance().playSoundOnLoop(backgroundMusic);
+			SoundManager.Instance().playMusic(backgroundMusic);
 		}
 	} 
 	

@@ -549,11 +549,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		tempNode.usedOptionalOutput = usedOptionalOutput;
 		linkList.Add(tempNode);
 		
-		Debug.Log("linking with unitinput = " + inputBuilding.units.Count + " unitoutput = " + outputBuilding.units.Count);
-		if (inputBuilding.units.Count == 0){
-			Debug.Log("playing");
-			SoundManager.Instance().PlayLinkMade(resourceName);
-		}
+		SoundManager.Instance().PlayLinkMade(resourceName);
+		
 		UndoStack.Add(UndoType.Link);
 		
 		intelSystem.addTurn();	// NEW: Intel System

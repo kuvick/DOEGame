@@ -1,6 +1,7 @@
 #pragma strict
 
 public class LinkSounds {
+	public var priority : SoundManager.SoundPriority = SoundManager.SoundPriority.Medium;
 	public var petroleumLink : AudioClip;
 	public var powerLink : AudioClip;
 	public var coalLink : AudioClip;
