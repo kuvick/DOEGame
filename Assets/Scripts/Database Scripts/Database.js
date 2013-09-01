@@ -72,6 +72,8 @@ private var buildingWithUnitActivatedScore : int = 20;
 private var display : InspectionDisplay;
 private static var linkUIRef : LinkUI;
 
+
+//GPC added Knowledge as Resource Type
 enum ResourceType
 {
 	None,
@@ -82,7 +84,8 @@ enum ResourceType
 	Power,
 	Waste,
 	Ethanol,
-	Uranium
+	Uranium,
+	Knowledge
 }
 
 enum UndoType
@@ -115,7 +118,7 @@ function Start()
 	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
 	
-	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
+	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
@@ -537,7 +540,6 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex, true);
-		Debug.Log("End of link buildings");
 		
 		//Stores links into list organized by when they were created	
 		var tempNode : LinkTurnNode = new LinkTurnNode();
@@ -549,6 +551,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		tempNode.type = resourceName;
 		tempNode.usedOptionalOutput = usedOptionalOutput;
 		linkList.Add(tempNode);
+		
+		SoundManager.Instance().PlayLinkMade(resourceName);
 		
 		UndoStack.Add(UndoType.Link);
 		

@@ -25,6 +25,7 @@ private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific 
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
 private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth + HexagonGrid.tileWidth / 3, -60, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
+private var unitSwappedOffset : Vector3 = Vector3 (-HexagonGrid.tileWidth + HexagonGrid.tileWidth / 2, 105, HexagonGrid.tileHalfHeight);
 
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
@@ -86,7 +87,7 @@ function Initiate() {
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	currentBuilding.units.Add(this);
-	SetPosition();
+	SetPosition(false);
 	CheckActive();
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
@@ -101,9 +102,13 @@ private function SetState(state : UnitState)
 
 public function CheckActive()
 {
-	if (currentBuilding.isActive)
+	if (currentBuilding.isActive){
+		if (currentState == UnitState.Inactive){
+			OnActivate();
+		}
 		SetState(UnitState.Active);
-	else
+		
+	} else
 		SetState(UnitState.Inactive);
 }
 
@@ -291,11 +296,12 @@ function DoAction ()
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
-	SetPosition(); // move unit to its new position
+	SetPosition(false); // move unit to its new position
 	if (currentPath.Count < 1)
 	{
 		SetState(UnitState.Active);
 		targetIcon.renderer.enabled = false;
+		SoundManager.Instance().PlayUnitArrived(this);
 	}
 	currentBuilding.unit = type;
 	previousBuilding.unit = UnitType.None;
@@ -321,7 +327,7 @@ function UndoAction ()
 		currentBuilding.units.Remove(this);
 		currentPath.Insert(0, currentBuilding);
 		currentBuilding = actionList[actionList.Count - 1].move;
-		SetPosition();
+		SetPosition(false);
 		currentBuilding.unit = type;
 		currentBuilding.units.Add(this);
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
@@ -332,10 +338,11 @@ function UndoAction ()
 }
 
 // moves unit to the position of the current building
-private function SetPosition() {
+public function SetPosition(swap : boolean) {
 	var tileCoord : Vector3 = currentBuilding.coordinate;
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
-	worldCoord += unitOffset;
+	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
+	worldCoord += usedOffset;
 	gameObject.transform.position = worldCoord;
 	Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
@@ -445,14 +452,14 @@ public function OnSelected()
 {
 	if (currentBuilding.isActive)// && selectedBuilding == currentBuilding.buildingPointer)
 	{
-		currentBuilding.unitSelected = true;
+		//currentBuilding.unitSelected = true;
+		isSelected = true;
 		FindValidTargets();
 		// highlight applicable buildings
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)
 			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
-		Debug.Log("Unit selected");
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}
@@ -468,7 +475,7 @@ public function OnDeselect()
 {
 	selectedBuilding = ModeController.getSelectedBuilding();
 	// if unit is selected, and a different building has been selected, try to path
-	if (currentBuilding.unitSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
+	if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
 	{
 		var selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 		// check if a path has been found to the selected building
@@ -488,6 +495,7 @@ public function OnDeselect()
 			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
+			SoundManager.Instance().PlayUnitOrdered(this);
 		}
 		else // if not, display message that a path was not found on status marquee
 		{
@@ -496,7 +504,7 @@ public function OnDeselect()
 		}
 	}
 	// else simply deselect unit and set the proper icon texture
-	else if (currentBuilding.unitSelected)
+	else if (isSelected)
 	{
 		if (currentPath.Count > 0)
 			SetState(UnitState.InTransit);
@@ -504,8 +512,11 @@ public function OnDeselect()
 			SetState(UnitState.Active);
 	}
 	isSelected = false;
-	currentBuilding.unitSelected = false;
-	Debug.Log("unit deselected");
+	//currentBuilding.unitSelected = false;
+}
+
+protected function OnActivate(){
+	SoundManager.Instance().PlayUnitActiviated(this);
 }
 
 class UnitAction extends System.ValueType

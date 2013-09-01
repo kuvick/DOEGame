@@ -141,7 +141,7 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
 					building.unallocatedOutputIcons, startPos, building);
 	startPos.x = optPos.x;
-	startPos.y = optPos.y;
+	startPos.z = optPos.y;
 	if (building.optionalOutput != ResourceType.None)
 	{
 		var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optionalOutput - 1], startPos, Quaternion.identity);
@@ -155,8 +155,8 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 									buildingIconSet : List.<ResourceIcon>, startPos : Vector3,
 									building : BuildingOnGrid) : Vector2
 {
-	var xSpacing : float = 60;
-	var ySpacing : float = 40;
+	var xSpacing : float = 45;
+	var zSpacing : float = 45;
 	var pos : Vector3 = startPos;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
@@ -168,10 +168,10 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 			tempScript.SetIndex(i);
 			buildingIconSet.Add(tempScript);
 			pos.x += xSpacing;
-			pos.y -= ySpacing;
+			pos.z -= zSpacing;
 		}
 	}
-	return Vector2(pos.x, pos.y);
+	return Vector2(pos.x, pos.z);
 }
 
 //Removes links between b1 and  b2
@@ -222,7 +222,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		return;
 	} 
 
-	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
+	var linkBuilding : BuildingOnGrid = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
 	
@@ -268,7 +268,6 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	SoundManager.Instance().PlayLinkMade(selectedResource);
 }
 
 function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
@@ -437,8 +436,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
 	allocatedInOutSelected = false;
-	
-	SoundManager.Instance().PlayLinkMade(selectedResource);
 }
 
 // See if we can draw a line between the two points without hitting a barrier

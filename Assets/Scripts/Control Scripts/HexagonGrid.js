@@ -69,7 +69,7 @@ private var selectionHexagon: GameObject;
 static public var selectionPosition: Vector3;
 
 function Start(){
-	mainCamera = Camera.main;
+	mainCamera = GameObject.Find("Main Camera").GetComponent(Camera);
 	
 	//to avoid creating it twice because of the gizmo, probably doesn't affect anything after the game is exported
 	/*

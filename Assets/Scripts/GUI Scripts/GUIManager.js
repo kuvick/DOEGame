@@ -93,6 +93,9 @@ public function Awake ()
 		Destroy(this.gameObject);
 	}
 	*/
+	if (gm_instance == null){
+		gm_instance = this;
+	}
 	 QualitySettings.vSyncCount = 0;
 	 Application.targetFrameRate = 30;
 }
@@ -161,8 +164,9 @@ public function Start ()
 	editorMenu = GetComponent(EditorMenu);
 	//popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
 	
-	
-	
+	if (gm_instance != this) {
+		return;
+	}
 	// Add GUIControls to the activeControls list depending on the scene
 	switch (Application.loadedLevelName)
 	{
@@ -176,8 +180,8 @@ public function Start ()
 			
 		case "LoadingScreen":
 			AddGUIToControls(loading);
-			//loading.DelayLoad(4);
-			SetupLoading();
+			var levelToLoad : String = PlayerPrefs.GetString(Strings.NextLevel);
+			SetupLoading(levelToLoad);
 			break;		
 		// temporary for unit testing purposes	
 		case "UnitTest":
@@ -190,7 +194,6 @@ public function Start ()
 			break;
 	}
 	
-	
 	if(thisIsALevel)
 	{
 		AddGUIToControls(mainMenu);
@@ -198,7 +201,6 @@ public function Start ()
 		//AddGUIToControls(popUpMessageDisplay);
 	}
 	AddGUIToControls(debugInfoMenu);
-	
 }
 
 /*
@@ -289,18 +291,10 @@ private function RespondTo(response:GUIEvent)
 		
 		// Start Menu responses
 		case EventTypes.RESUME:
-			ClearControls();
-			Application.LoadLevel("LoadingScreen");
-			AddGUIToControls(loading);
-			//loading.DelayLoad(3);
-			SetupLoading();
 			break;
 		case EventTypes.NEWGAME:
-			ClearControls();
+			PlayerPrefs.SetString(Strings.NextLevel, "AudioTesting"); // not really sure were we should start the new game
 			Application.LoadLevel("LoadingScreen");
-			AddGUIToControls(loading);
-			//loading.DelayLoad(3);
-			SetupLoading();
 			break;
 		case EventTypes.FACEBOOK:
 			break;
@@ -309,11 +303,10 @@ private function RespondTo(response:GUIEvent)
 		
 		// Loading responses
 		case EventTypes.DONELOADING:
-			ClearControls();
-			AddGUIToControls(mainMenu);
-			//AddGUIToControls(marquee);
-			var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
-			Application.LoadLevel(nextLevel.nextLevel);
+			Debug.Log("event done loading");
+			gm_instance = GameObject.Find("GUI System").GetComponent(GUIManager);
+			gm_instance.addMainMenu();
+			Destroy(this.gameObject);
 			break;
 			
 		// Main Menu responses
@@ -415,10 +408,17 @@ private function RespondTo(response:GUIEvent)
 	}
 }
 
-private function SetupLoading()
+private function SetupLoading(nextLevel : String)
 {
+	if (nextLevel == null || nextLevel == ""){
+		Debug.LogWarning("The next level to load was set incorectly");
+		return;
+	}
+	
+	AddGUIToControls(loading);
 	loading.GetNewJob();
-	loading.DelayLoad(5);
+	Debug.Log("Going to load " + nextLevel);
+	loading.LoadLevel(nextLevel);
 }
 
 private function RecordEndGameData()
@@ -498,4 +498,9 @@ public function FadeMenus(){
 
 public function UnFadeMenus(){
 	fadeingMenu = false;
+}
+
+public function addMainMenu(){
+	ClearControls();
+	AddGUIToControls(mainMenu);
 }

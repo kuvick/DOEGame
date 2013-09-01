@@ -121,8 +121,12 @@ public class MainMenu extends GUIControl
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
+		var hexButtonRatio : float = undoTexture.width / undoTexture.height;
+		var hexButtonWidth = hexButtonHeight * hexButtonRatio;
 		
 		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
+		var pauseButtonRatio : float = pauseTexture.width / pauseTexture.height;
+		var pauseButtonWidth = pauseButtonHeight * pauseButtonRatio;
 		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
 		
@@ -133,9 +137,9 @@ public class MainMenu extends GUIControl
 		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
 		//mainMenuSkin.button.fontSize = pauseFontHeight;
 		
-		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseTexture.width, horizontalBarHeight + padding, pauseTexture.width, pauseTexture.height);														
-		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - undoTexture.height, undoTexture.width, undoTexture.height);
-		waitButton = Rect(screenWidth - (verticalBarWidth + padding + waitTexture.width), horizontalBarHeight + screenHeight - padding - waitTexture.height, waitTexture.width, waitTexture.height);
+		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseButtonWidth, horizontalBarHeight + padding, pauseButtonWidth, pauseButtonHeight);														
+		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//undoTexture.width, undoTexture.height);
+		waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);

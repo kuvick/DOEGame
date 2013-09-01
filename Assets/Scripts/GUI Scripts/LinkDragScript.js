@@ -57,8 +57,9 @@ public class LinkDragScript extends GUIControl
 		{
 			if (!Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive){
 				SoundManager.Instance().PlayLinkDenied();
+				ModeController.setSelectedBuilding(null);
 				return;
-			}
+			} 
 			//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
 			
 			//Code snippet borrowed from HexagonGrid section
@@ -90,6 +91,7 @@ public class LinkDragScript extends GUIControl
 				lineRenderer.SetPosition(1, mousePos);
 				
 				startDrag = false;
+				SoundManager.Instance().PlayLinkDraging();
 			}
 			
 			lineRenderer.SetPosition(1, mousePos);	
@@ -97,6 +99,7 @@ public class LinkDragScript extends GUIControl
 		else
 		{
 			GUIManager.Instance().UnFadeMenus();
+			SoundManager.Instance().StopLinkDraging();
 			dragging = false;
 			if(lineRenderer != null)
 			{
