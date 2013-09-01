@@ -72,6 +72,8 @@ private var buildingWithUnitActivatedScore : int = 20;
 private var display : InspectionDisplay;
 private static var linkUIRef : LinkUI;
 
+
+//GPC added Knowledge as Resource Type
 enum ResourceType
 {
 	None,
@@ -82,7 +84,8 @@ enum ResourceType
 	Power,
 	Waste,
 	Ethanol,
-	Uranium
+	Uranium,
+	Knowledge
 }
 
 enum UndoType
