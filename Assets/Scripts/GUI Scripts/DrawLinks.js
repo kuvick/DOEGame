@@ -25,7 +25,8 @@ private var lineAnchor:GameObject;
 private var numLinks:int;
 private static var linkColors : Color[,];
 private var resourceColors : Color[];
-private var numResourceTypes : int = 8;
+//private var numResourceTypes : int = 8;
+private var numResourceTypes : int = 11;
 
 function Start() {
 	buildings = gameObject.FindGameObjectsWithTag("Building");
@@ -43,6 +44,10 @@ function Start() {
 	resourceColors[ResourceType.Waste - 1] = new Color(0.588, 0.294, 0.0); // brown
 	resourceColors[ResourceType.Ethanol - 1] = Color.yellow;
 	resourceColors[ResourceType.Uranium - 1] = new Color(0.49, 0.149, 0.804); // purple
+	resourceColors[ResourceType.Knowledge - 1] = Color.magenta;
+	resourceColors[ResourceType.Workforce - 1] = Color.blue;
+	resourceColors[ResourceType.Commerce - 1] = Color.cyan;
+	//resourceColors[ResourceType.Uranium - 1] = new Color(0.49, 0.149, 0.804); // purple
 }
 
 // used to set links to a specific color
