@@ -47,6 +47,13 @@ public function Initialize()
 	var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	icon = tempPlane.AddComponent(ObjectiveIcon);
 	icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic, event.type, event.time);
+	
+	//ADDED GPC 9/3/13
+	if(event.type == BuildingEventType.Primary){
+		event.points = 3000;
+	}else if(event.type == BuildingEventType.Secondary){
+		event.points = 1000;
+	}
 }
 
 function Update () {
