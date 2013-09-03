@@ -49,13 +49,15 @@ public var comboSystem: ComboSystem;
 
 class BuildingEvent
 {
-	var name : String = "";				// Used for accessing in editor				(?) may want to cut out
-	var title: String = "";				// Displayed Title in the Intel Menu
+	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out
+	//var title: String = "";				// Displayed Title in the Intel Menu
 	var description : String = "";		// Displayed Description in the Intel Menu
 	var tooltipPic : Texture2D;         // Displayed image in tooltip
+	@HideInInspector
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
+	@HideInInspector
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: UpgradeID = UpgradeID.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
 	var upgradeText : String;
@@ -145,7 +147,7 @@ function Start ()
 					{
 						numOfObjectivesLeft++;
 					}				
-					Debug.Log(tempEventClass.event.name + " - event as added");	
+				//	Debug.Log(tempEventClass.event.name + " - event as added");	
 				}
 				else
 				{
@@ -159,12 +161,12 @@ function Start ()
 					{
 						numOfObjectivesLeft++;
 					}				
-					Debug.Log(tempEventClass.event.name + " - a linked event");	
+					//Debug.Log(tempEventClass.event.name + " - a linked event");	
 				}			
 			}
 			else
 			{
-				Debug.Log(tempBuilding.buildingName + " incorrectly marked as having an event.");
+				//Debug.Log(tempBuilding.buildingName + " incorrectly marked as having an event.");
 			}
 		}
 				
@@ -276,7 +278,7 @@ public function decrementScore(modifyPrimaryScore : boolean, scoreModifier: int)
 // also adds any linked events the event may have had
 public function resolveEvent( script : EventScript)
 {
-	Debug.Log(script.event.name + " was resolved!");
+	//Debug.Log(script.event.name + " was resolved!");
 	var tempScript : EventScript = script;
 	var tempNode : EventStackNode = new EventStackNode();
 	tempNode.event = script;

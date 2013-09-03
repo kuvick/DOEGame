@@ -1655,8 +1655,8 @@ public function WriteLevel()
 		{	
 			var event : EventScript = building_objects[i].GetComponent("EventScript");
 			var e : EventSerialData = new EventSerialData();
-			e.Name = event.event.name;;
-			e.Title = event.event.title;
+			//e.Name = event.event.name;;
+			//e.Title = event.event.title;
 			e.Description = event.event.description;
 			e.Type = event.event.type;
 			e.Turns = event.event.time;
