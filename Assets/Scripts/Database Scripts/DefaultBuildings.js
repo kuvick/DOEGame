@@ -55,8 +55,9 @@ class BuildingOnGridData
 	
 	//var neededUpgrade : UpgradeType;
 	var heldUpgrade : UpgradeID;
-	var heldUpgradeTooltipText : String;
-	var heldUpgradeTooltipPic : Texture2D;
+	/*var heldUpgradeTooltipText : String;
+	var heldUpgradeTooltipPic : Texture2D;*/
+	var heldUpgradeTooltip : Tooltip;
 	
 	var requisitionCost : int;
 	var pollutionOutput : int;
@@ -64,9 +65,12 @@ class BuildingOnGridData
 	var idea : String = "";
 	var hasEvent : boolean = false;
 	
+	var tooltip : Tooltip;
+	
 	var hasTooltipTrigger : boolean = false;
-	var tooltipText : String;
-	var tooltipPic : Texture2D;
+	var isPriorityTooltip : boolean = false;
+	/*var tooltipText : String;
+	var tooltipPic : Texture2D;*/
 }// end of BuildingOnGridData
 
 
@@ -124,16 +128,19 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	buildingOnGrid.tileType = buildingData.tileType;
 	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
 	buildingOnGrid.heldUpgradeID = buildingData.heldUpgrade;
-	buildingOnGrid.heldUpgradeTooltipText = buildingData.heldUpgradeTooltipText;
-	buildingOnGrid.heldUpgradeTooltipPic = buildingData.heldUpgradeTooltipPic;
+	buildingOnGrid.heldUpgradeTooltip = buildingData.heldUpgradeTooltip;
+	/*buildingOnGrid.heldUpgradeTooltipText = buildingData.heldUpgradeTooltipText;
+	buildingOnGrid.heldUpgradeTooltipPic = buildingData.heldUpgradeTooltipPic;*/
 	//buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;
 	buildingOnGrid.hasEvent = buildingData.hasEvent;
 	
+	buildingOnGrid.tooltip = buildingData.tooltip;
 	buildingOnGrid.hasTooltipTrigger = buildingData.hasTooltipTrigger;
-	buildingOnGrid.tooltipText = buildingData.tooltipText;
-	buildingOnGrid.tooltipPic = buildingData.tooltipPic;
+	//buildingOnGrid.isPriorityTooltip = buildingData.isPriorityTooltip;
+	/*buildingOnGrid.tooltipText = buildingData.tooltipText;
+	buildingOnGrid.tooltipPic = buildingData.tooltipPic;*/
 	
 	return buildingOnGrid;
 }// end of convertBuildingOnGridDataIntoBuildingOnGrid
