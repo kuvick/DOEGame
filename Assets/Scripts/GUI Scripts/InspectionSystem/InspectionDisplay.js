@@ -29,6 +29,9 @@ private var doDispPic : boolean = false;
 
 private var selectedComponent : InspectionComponent;
 
+//Added GPC 9/3/13
+private var intelSys:IntelSystem;
+
 function Start () 
 {
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
@@ -47,6 +50,9 @@ function Start ()
 	skin.button.active.background = border;
 	skin.button.hover.background = border;
 	skin.button.wordWrap = true;
+	
+	//Added GPC 9/3/13
+	intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
 }
 
 function Update () 
@@ -109,15 +115,17 @@ private function Render()
 	GUI.skin = skin;
 	
 	GUI.Box(dispRect, String.Empty);
-	//GUI.DrawTexture(borderRect, border);
-	//GUI.Label(dispRect, dispText);
+	
+	//When the inspection window is pressed while the component is selected (GPC 9/3/13)
 	if(componentSelected && GUI.Button(dispRect, dispText))
 	{
-		componentSelected = false;
-		if (selectedComponent)
-			selectedComponent.SetSelected(false);
-		selectedComponent = null;
-		doDispPic = false;
+		if(!intelSys.checkTriggers()){
+			componentSelected = false;
+			if (selectedComponent)
+				selectedComponent.SetSelected(false);
+			selectedComponent = null;
+			doDispPic = false;
+		}
 	}
 	
 	if (doDispPic)

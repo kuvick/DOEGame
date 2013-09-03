@@ -197,11 +197,19 @@ public function subtractTurn()
 	CheckTriggerToDisplay();
 }
 
+//Added GPC 9/3/13
+public function checkTriggers():boolean{
+	return CheckTriggerToDisplay();
+}
+
 // checks whether the current turn triggers a tooltip display
-private function CheckTriggerToDisplay()
+//private function CheckTriggerToDisplay()
+private function CheckTriggerToDisplay():boolean
 {
 	if (currentTriggerIndex >= turnTriggers.length)
-		return;
+		//return;
+		//Added GPC 9/3/13
+		return false;
 	if (currentTurn == turnTriggers[currentTriggerIndex].turn)
 	{
 		if (turnTriggers[currentTriggerIndex].dispPic == null)
@@ -209,6 +217,8 @@ private function CheckTriggerToDisplay()
 		else
 			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);
 		currentTriggerIndex++;
+		//Added GPC 9/3/13
+		return true;
 	}
 }
 
