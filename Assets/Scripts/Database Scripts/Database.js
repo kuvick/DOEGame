@@ -85,7 +85,9 @@ enum ResourceType
 	Waste,
 	Ethanol,
 	Uranium,
-	Knowledge
+	Knowledge,
+	Workforce,
+	Commerce
 }
 
 enum UndoType
