@@ -13,13 +13,13 @@ public class ObjectiveIndicator extends InspectionComponent
 	private var screenMiddle : Vector3;
 	
 	private var radius : float;
-	private var radiusScale : float = .375;
+	private var radiusScale : float = .375f;
 	
 	private var turnRect : Rect;
 	private var turnSize : float;
-	private var turnSizeScale : float = .075;
+	private var turnSizeScale : float = .075f;
 	
-	private var textureSizeScale = .1;
+	private var textureSizeScale : float = .1f;
 	
 	private var attachedEvent : BuildingEvent;
 	
@@ -38,14 +38,18 @@ public class ObjectiveIndicator extends InspectionComponent
 	    target = targ;
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
 	    textureSize = textureSizeScale * Screen.height;
-	    rect = Rect(screenMiddle.x - textureSize / 2, Screen.height - (.1 * Screen.height), textureSize, textureSize);
+	    var textureWidthScale : float = 328f / 509f;
+	    Debug.Log(textureWidthScale);
+	    var textureWidth : float = textureSize * textureWidthScale;
+	    rect = Rect(screenMiddle.x - textureWidth / 2, Screen.height - (.1 * Screen.height), textureSize, textureSize);
 	    turnSize = turnSizeScale * Screen.height;
 	    turnRect = Rect(0,0, turnSize, turnSize);
 	    radius = Screen.height * radiusScale;
 	    isActive = false;
 	    isPrimary = (type == 0);
 	    //display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-	    Initialize(event.description, event.tooltipPic);
+	    //Initialize(event.description, event.tooltipPic);
+	    Initialize(event.tooltip);
 	} 
 	
 	 

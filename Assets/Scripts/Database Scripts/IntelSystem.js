@@ -52,7 +52,8 @@ class BuildingEvent
 	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out
 	//var title: String = "";				// Displayed Title in the Intel Menu
 	var description : String = "";		// Displayed Description in the Intel Menu
-	var tooltipPic : Texture2D;         // Displayed image in tooltip
+	/*var tooltipPic : Texture2D;*/         // Displayed image in tooltip
+	var tooltip : Tooltip;
 	@HideInInspector
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
 	var type : BuildingEventType;	// Primary or Secondary
@@ -60,8 +61,9 @@ class BuildingEvent
 	@HideInInspector
 	var points : int = 0;				// Number of points awarded to player upon resolution of event 
 	var upgrade: UpgradeID = UpgradeID.None;			// set blank if no need for upgrade; if no need for upgrade, assumes event will be to activate building 
-	var upgradeText : String;
-	var upgradeTooltipPic : Texture2D;
+	/*var upgradeText : String;
+	var upgradeTooltipPic : Texture2D;*/
+	var upgradeTooltip : Tooltip;
 	var isChild : boolean = false;		// set if it is a child event
 	var childEvent : GameObject;		// if there is a linked event to this event
 	var buildingReference : GameObject;	// The gameobject the event is attached to
@@ -198,27 +200,30 @@ public function subtractTurn()
 }
 
 //Added GPC 9/3/13
-public function checkTriggers():boolean{
+/*public function checkTriggers():boolean{
 	return CheckTriggerToDisplay();
-}
+}*/
 
 // checks whether the current turn triggers a tooltip display
 //private function CheckTriggerToDisplay()
-private function CheckTriggerToDisplay():boolean
+private function CheckTriggerToDisplay()//:boolean
 {
 	if (currentTriggerIndex >= turnTriggers.length)
 		//return;
 		//Added GPC 9/3/13
-		return false;
-	if (currentTurn == turnTriggers[currentTriggerIndex].turn)
+		return; //false;
+	while (currentTurn == turnTriggers[currentTriggerIndex].turn)
 	{
-		if (turnTriggers[currentTriggerIndex].dispPic == null)
+		/*if (turnTriggers[currentTriggerIndex].dispPic == null)
 			display.Activate(turnTriggers[currentTriggerIndex].dispText);
 		else
-			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);
+			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);*/
+		display.Activate(turnTriggers[currentTriggerIndex].tooltip);
 		currentTriggerIndex++;
+		if (currentTriggerIndex >= turnTriggers.length)
+			break;
 		//Added GPC 9/3/13
-		return true;
+		//return true;
 	}
 }
 

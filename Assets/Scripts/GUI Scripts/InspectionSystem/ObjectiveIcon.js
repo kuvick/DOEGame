@@ -23,6 +23,57 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
+	
+	public function Initialize(pos : Transform, icon : Texture2D, disp : Tooltip,
+								type : BuildingEventType, turns : int)
+	{
+		// set icon textures
+		normalTexture = icon;
+		selectedTexture = icon;
+		renderer.material.mainTexture = normalTexture;
+		// flip texture so not upside-down
+		renderer.material.mainTextureScale = Vector2(-1,-1);
+		renderer.material.mainTextureOffset = Vector2(1,1);
+		
+		position = pos;
+		
+		// set icon height above the terrain
+		//transform.position.y = 50;
+		
+		//Modified local and world coordinates so they don't overlap over resource icons (GPC 8/16/13)
+		transform.position.y += 80;
+		transform.localPosition.y += 75;
+		
+		gameObject.transform.localScale = iconScale;
+		
+		gameObject.layer = 10;
+		
+		// set-up turn timer object
+		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
+		
+		//Tweaking icon position and scale (GPC 8/16/13)
+		temp.transform.localPosition += Vector3(-25,5,-5);
+		temp.transform.localScale = Vector3(1.25,1.25,1.25);
+		temp.layer = 10;
+		
+		turnMesh = temp.GetComponent(TextMesh);
+		if (type == BuildingEventType.Secondary)
+		{
+			turnMesh.active = false;
+			isPrimary = false;
+		}
+		else
+			turnMesh.text = String.Empty + turns;
+		
+		
+		//Added by GPC 8/16/13
+		temp.transform.parent = gameObject.transform;
+		
+		//Moved here so timer and text both have the same angle (GPC 8/16/13)
+		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
+				
+		Initialize(disp);
+	}
 
 	public function Initialize(pos : Transform, icon : Texture2D, text : String, pic : Texture2D,
 								type : BuildingEventType, turns : int)

@@ -931,10 +931,11 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 {
 	if (building.isActive && building.hasTooltipTrigger)
 	{
-		if (building.tooltipPic != null)
+		/*if (building.tooltipPic != null)
 			display.Activate(building.tooltipPic, building.tooltipText);
 		else
-			display.Activate(building.tooltipText);
+			display.Activate(building.tooltipText);*/
+		display.Activate(building.tooltip);
 	}
 }
 
@@ -1097,15 +1098,17 @@ class BuildingOnGrid
 	var pathParentDist : float = -1;
 	
 	var heldUpgradeID : UpgradeID;
-	var heldUpgradeTooltipText : String;
-	var heldUpgradeTooltipPic : Texture2D;
+	var heldUpgradeTooltip : Tooltip;
+	/*var heldUpgradeTooltipText : String;
+	var heldUpgradeTooltipPic : Texture2D;*/
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
 	
+	var tooltip : Tooltip;
 	var hasTooltipTrigger : boolean = false;
-	var tooltipText : String;
-	var tooltipPic : Texture2D;
+	/*var tooltipText : String;
+	var tooltipPic : Texture2D;*/
 }
 
 
@@ -1179,9 +1182,13 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	copyTo.idea = copyFrom.idea;
 	copyTo.hasEvent = copyFrom.hasEvent;
 	
+	copyTo.heldUpgradeID = copyFrom.heldUpgradeID;
+	copyTo.heldUpgradeTooltip = copyFrom.heldUpgradeTooltip;
+	
 	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
-	copyTo.tooltipText = copyFrom.tooltipText;
-	copyTo.tooltipPic = copyFrom.tooltipPic;
+	copyTo.tooltip = copyFrom.tooltip;
+	/*copyTo.tooltipText = copyFrom.tooltipText;
+	copyTo.tooltipPic = copyFrom.tooltipPic;*/
 } // end of copyBuildingOnGridd
 
 
