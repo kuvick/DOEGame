@@ -13,13 +13,18 @@ private var borderRect : Rect;
 private var borderOffset : float;
 private var borderOffsetScale : float = 0.015;
 private var dispWidth : float;
-private var dispWidthScale : float = .8; // width based on box height
+//private var dispWidthScale : float = .8; // width based on box height
+private var dispWidthScale : float = 1.0; // width based on box height
 private var dispHeight : float;
-private var dispHeightScale : float = .5;
+//private var dispHeightScale : float = .5;
+private var dispHeightScale : float = .6;
+
 private var dispRightOffset : float;
 private var dispRightOffsetScale : float = .025;
 private var dispTopOffset : float;
-private var dispTopOffsetScale : float = .25;
+
+//private var dispTopOffsetScale : float = .25;
+private var dispTopOffsetScale : float = .17;
 private var fontScale : float = .035;
 private var screenMiddle : Vector2;
 
@@ -52,9 +57,15 @@ function Start ()
 	dispBotRect = Rect(dispRect.x, dispRect.y + (dispRect.height / 2f), dispRect.width, dispRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
-	dispPicSize = Screen.width * dispPicSizeScale;
+	
+	dispPicSize = Screen.width * dispPicSizeScale * 2;
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
 	skin.label.fontSize = fontScale * Screen.height;
+	
+	
+	//Apply Scaling
+	
+	
 	skin.label.fontStyle = FontStyle.Bold;
 	skin.button.normal.background = null;
 	skin.button.active.background = null;
