@@ -178,7 +178,7 @@ public class IntelMenu extends GUIControl
 				GUI.DrawTexture(eventNodeIcon, currNode.data.icon);						
 			}
 			
-			drawTitle(currNode.data.title, currNode.data.type);
+			//drawTitle(currNode.data.title, currNode.data.type);
 
 			
 			eventNodeDescription.y += fontHeight/2;

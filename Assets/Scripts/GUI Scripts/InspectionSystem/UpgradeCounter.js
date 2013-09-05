@@ -11,6 +11,17 @@ public class UpgradeCounter extends InspectionComponent
 	private var width : float;
 	private var widthScale : float = 0.1;
 	
+	public function Initialize(id : UpgradeID, icon : Texture2D, disp : Tooltip)
+	{
+		this.id = id;
+		normalTexture = icon;
+		selectedTexture = icon;
+		topOffset = Screen.height * topOffsetScale;
+		width = Screen.width * widthScale;
+		rect = Rect((Screen.width / 2) - (width / 2), topOffset, width, width);
+		Initialize(disp);
+	}
+	
 	public function Initialize(id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
 	{
 		this.id = id;

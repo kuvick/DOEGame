@@ -54,8 +54,9 @@ private function CreateCounters()
 		counterSet.Add(new UpgradeCounter());
 		if (events[i].event.upgrade != UpgradeID.None)
 		{
-			counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText, 
-										events[i].event.upgradeTooltipPic);
+			/*counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText, 
+										events[i].event.upgradeTooltipPic);*/
+			counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip);
 		}
 	}
 	
@@ -63,8 +64,9 @@ private function CreateCounters()
 	{
 		if (events[i].event.upgrade != UpgradeID.None)
 		{
-			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText,
-																events[i].event.upgradeTooltipPic);
+			/*counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText,
+																events[i].event.upgradeTooltipPic);*/
+			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip);
 			numCounters++;
 		}
 	}
@@ -112,8 +114,9 @@ private function CreateIcons()
 			var tempData : BuildingOnGridData = buildingDataSet[i].buildingData;
 			var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, tempData.buildingPointer.transform.position, Quaternion.identity);
 			var temp : UpgradeIcon = tempPlane.AddComponent(UpgradeIcon);
-			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, tempData.heldUpgradeTooltipText, 
-							tempData.heldUpgradeTooltipPic);
+			/*temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, tempData.heldUpgradeTooltipText, 
+							tempData.heldUpgradeTooltipPic);*/
+			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, tempData.heldUpgradeTooltip);
 			if (tempData.heldUpgrade == UpgradeID.Dummy)
 				dummyIconSet.Add(temp);
 			else

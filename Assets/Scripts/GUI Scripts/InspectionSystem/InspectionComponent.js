@@ -4,6 +4,7 @@ public class InspectionComponent extends MonoBehaviour
 {
 	public var dispText : String = String.Empty;
 	public var dispPic : Texture2D = null;
+	public var tooltip : Tooltip;
 	protected var display : InspectionDisplay;
 	
 	protected var currentTexture : Texture2D;
@@ -18,6 +19,23 @@ public class InspectionComponent extends MonoBehaviour
 	protected var skin : GUISkin;
 	private var textSize : float;
 	private var textSizeScale : float = .015;
+	
+	public function Initialize(disp : Tooltip)
+	{
+		display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+		if (!display)
+			Debug.LogWarning("display not found");
+		tooltip = disp;
+		SetSelected(false);//currentTexture = normalTexture;
+		skin = GUISkin();
+		skin.font = Resources.Load("Orbitron-Bold") as Font;
+		textSize = Screen.width * textSizeScale;
+		skin.button.fontSize = textSize;
+		skin.button.normal.textColor = Color.white;
+		skin.button.hover.textColor = Color.white;
+		skin.button.active.textColor = Color.white;
+		skin.button.alignment = TextAnchor.MiddleCenter;
+	}
 	
 	public function Initialize(text : String, pic : Texture2D)
 	{
@@ -78,10 +96,11 @@ public class InspectionComponent extends MonoBehaviour
 	
 	protected function SendToDisplay()
 	{
-		if (dispPic != null)
-			display.Activate(dispPic, dispText, this);
+		/*if (dispPic != null)
+			display.Activate(dispPic, dispText, this, true);
 		else
-			display.Activate(dispText, this);
+			display.Activate(dispText, this, true);*/
+		display.Activate(tooltip);
 	}
 	
 	protected function BlankButtonStyle()
