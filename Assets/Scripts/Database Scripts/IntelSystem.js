@@ -45,6 +45,7 @@ private var contactsUnlockedThisLevel : List.<String>;
 
 //Combo
 public var comboSystem: ComboSystem;
+public var updateScore = false;
 
 
 class BuildingEvent
@@ -273,6 +274,7 @@ public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
 	{
 		optionalScore += scoreModifier;
 	}
+	updateScore = true;
 	Debug.Log("Score Incremented: " + primaryScore);
 }
 

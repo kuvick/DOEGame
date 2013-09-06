@@ -46,7 +46,7 @@ public class MainMenu extends GUIControl
 	public var pauseTexture : Texture;
 	
 	// Score and turn ints
-	private var currentlyDisplayedScore:int;
+	private var currentlyDisplayedScore: float;
 	private var score:int;	
 	private var turn:int;
 	private var intelSystem : IntelSystem;
@@ -66,10 +66,15 @@ public class MainMenu extends GUIControl
 	
 	private var upgradeManager : UpgradeManager = null;
 	
-	private var scoreUpdateTimer = 10;
+	private var scoreUpdateTimer = 1;
 	private var scoreUpdateTime = 0;
 	private var defaultFontColor;
 	private var targetFontColor;
+		
+	private var updateScore = 0.0f;
+	private var difference = 0.0f;
+	private var startTime = 0;
+	private var startScore = 0;
 	
 	public var victorySplashTimerInSeconds = 5.0f;
 	private var victorySplashStartTime = 0;
@@ -178,8 +183,6 @@ public class MainMenu extends GUIControl
 	
 	public function Render(){   
 		if (!enableHUD) return; 
-		
-		UpdateDisplayedScore();
 		if(intelSystem.victory) 
 			DrawVictorySplash();
 		
@@ -193,6 +196,8 @@ public class MainMenu extends GUIControl
 			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
 			GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
 		}
+		
+		UpdateDisplayedScore();
 		// displaying number of data pieces collected
 		/*
 		if (upgradeManager != null){
@@ -254,18 +259,29 @@ public class MainMenu extends GUIControl
 	}
 	
 	private function UpdateDisplayedScore()
-	{		
+	{				
+
+		if(intelSystem.updateScore)
+		{
+			difference = score - currentlyDisplayedScore;
+			intelSystem.updateScore = false;
+			startTime = Time.timeSinceLevelLoad;
+			startScore = currentlyDisplayedScore;					
+		}
+		
 		if(currentlyDisplayedScore < score)
 		{	
-			scoreUpdateTime = Time.timeSinceLevelLoad;					
-			if((Time.timeSinceLevelLoad - scoreUpdateTime) < scoreUpdateTimer)
+			scoreUpdateTime = Time.timeSinceLevelLoad;			
+			if((startTime - scoreUpdateTime) < scoreUpdateTimer)
 			{	
-						
-				currentlyDisplayedScore += 10;
+				//Debug.Log("Difference: " + difference);
+				var incrementPerFrame : float = (1/Time.deltaTime)  * scoreUpdateTimer;		
+				incrementPerFrame = difference / value2;
+				currentlyDisplayedScore += incrementPerFrame;				
 			}
 		}
 		else
-		{
+		{			
 			scoreUpdateTime = 0;
 			currentlyDisplayedScore = score;
 		}		
