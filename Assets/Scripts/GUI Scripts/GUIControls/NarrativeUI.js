@@ -49,16 +49,52 @@ public class NarrativeUI extends GUIControl
 	private var skipTimes : List.<float>;
 	public var m_display : MetricDisplay;
 	
+	
+	// Textbox
+	public var dialogue : List.<String>;
+	public var speeds : List.<float>;
+	private var diagRect : Rect;
+	private var diagTextHeightPercent = 0.04;
+	private var currentDisplayText : String;
+	private var diagX : float = 97;
+	private var diagY : float = 831;
+	private var diagWidth : float = 1727;
+	private var diagHeight : float = 131;
+	private var lastLetter : int = 0;
+	private var isWaiting : boolean;
+	public var textSizeModifier : float = 1.0;
 
 	public function Start () 
 	{
 		super.Start();
 		super.Initialize();
 		
+		isWaiting = false;
+		
 		var designWidth : float = 1920;
 		var designHeight : float = 1080;
 		
+		if(dialogue.Count != narrativeSlides.Length)
+			Debug.Log("The dialogue size does not equal the narrative slide length!");
+			
+		if(speeds.Count != narrativeSlides.Length)
+			Debug.Log("The speed size does not equal the narrative slide length! You must put in a speed for each slide.");
+			
+		if(narrativeSkin == null)
+			Debug.Log("Forgot to add into the inspector the GUISkin!");
+		else
+			narrativeSkin.label.fontSize = diagTextHeightPercent * screenHeight * textSizeModifier;
+		
+		currentDisplayText = dialogue[0];
+		
 		//Calculating Rect.
+			// Text
+		
+		diagRect = RectFactory.NewRect(		  diagX / designWidth, 
+											  diagY / designHeight,
+											  diagWidth / designWidth,
+											  diagHeight / designHeight);
+		
 			// Skip
 		skip = RectFactory.NewRect(			  skipX / designWidth, 
 											  skipY / designHeight,
@@ -104,6 +140,23 @@ public class NarrativeUI extends GUIControl
 		m_display = new MetricDisplay();
 	}
 	
+	function Update()
+	{
+		if(!isWaiting && lastLetter < dialogue[currentSlide].length)
+		{
+			UpdateText();
+		}
+	}
+	
+	private function UpdateText()
+	{
+		isWaiting = true;
+		currentDisplayText = dialogue[currentSlide].Substring(0, lastLetter);
+		yield WaitForSeconds(speeds[currentSlide]);
+		lastLetter += 1;
+		isWaiting = false;
+	}
+	
 	public function OnGUI()
 	{
 		GUI.skin = narrativeSkin;
@@ -120,7 +173,8 @@ public class NarrativeUI extends GUIControl
 				}
 				else
 					skipTimes.Add(Time.timeSinceLevelLoad);
-								
+				
+				lastLetter = 0;
 				currentSlide++;
 			}
 			if (GUI.Button(skip, skipButton))
@@ -133,6 +187,7 @@ public class NarrativeUI extends GUIControl
 			{	
 				if(currentSlide > 0)
 				{
+					lastLetter = 0;
 					currentSlide--;
 				}			
 			}
@@ -155,11 +210,9 @@ public class NarrativeUI extends GUIControl
 			Application.LoadLevel("StartScreen");
 		}
 		
-		
-		
+		GUI.Label(diagRect, currentDisplayText);
 
-
-	}
+	}// end of OnGUI
 	
 	//Would eventually set this to the loading screen, but for now since there are errors...
 	private function LoadLevel()

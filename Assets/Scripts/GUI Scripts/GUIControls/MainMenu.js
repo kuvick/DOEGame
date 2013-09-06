@@ -276,7 +276,7 @@ public class MainMenu extends GUIControl
 			{	
 				//Debug.Log("Difference: " + difference);
 				var incrementPerFrame : float = (1/Time.deltaTime)  * scoreUpdateTimer;		
-				incrementPerFrame = difference / value2;
+				incrementPerFrame = difference / 2; // was "incrementPerFrame = difference / value2;" ...changed to 2 because of error. Need to find out what it's actually supposed to be.
 				currentlyDisplayedScore += incrementPerFrame;				
 			}
 		}
