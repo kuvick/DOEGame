@@ -63,6 +63,25 @@ public class NarrativeUI extends GUIControl
 	private var lastLetter : int = 0;
 	private var isWaiting : boolean;
 	public var textSizeModifier : float = 1.0;
+	
+	
+	public var characterName : String;
+	private var charNameRect : Rect;
+	private var nameX: float = 1003;
+	private var nameY: float = 11;
+	private var nameWidth: float = 752;
+	private var nameHeight: float = 73;
+	public var levelTitle : String;
+	private var levelTitleRect : Rect;
+	private var titleX: float = 22;
+	private var titleY: float = 11;
+	private var titleWidth: float = 971;
+	private var titleHeight: float= 73;
+	
+	private var titleTextHeightPercent = 0.06;
+	public var titleTextSizeModifier : float = 1.0;
+	private var titleStyle:GUIStyle;
+	
 
 	public function Start () 
 	{
@@ -85,9 +104,26 @@ public class NarrativeUI extends GUIControl
 		else
 			narrativeSkin.label.fontSize = diagTextHeightPercent * screenHeight * textSizeModifier;
 		
+		
+		narrativeSkin.customStyles[0].fontSize = titleTextHeightPercent * screenHeight * titleTextSizeModifier;
 		currentDisplayText = dialogue[0];
 		
 		//Calculating Rect.
+		
+			// Character Name
+		
+		charNameRect = RectFactory.NewRect(	  nameX / designWidth, 
+											  nameY / designHeight,
+											  nameWidth / designWidth,
+											  nameHeight / designHeight);
+											  
+			// Level Title
+		
+		levelTitleRect = RectFactory.NewRect( titleX / designWidth, 
+											  titleY / designHeight,
+											  titleWidth / designWidth,
+											  titleHeight / designHeight);
+		
 			// Text
 		
 		diagRect = RectFactory.NewRect(		  diagX / designWidth, 
@@ -160,6 +196,7 @@ public class NarrativeUI extends GUIControl
 	public function OnGUI()
 	{
 		GUI.skin = narrativeSkin;
+		titleStyle = GUI.skin.GetStyle("title");
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
 		
 		
@@ -211,6 +248,11 @@ public class NarrativeUI extends GUIControl
 		}
 		
 		GUI.Label(diagRect, currentDisplayText);
+		narrativeSkin.customStyles[0].alignment = TextAnchor.UpperRight;
+		GUI.Label(charNameRect, characterName, titleStyle);
+		narrativeSkin.customStyles[0].alignment = TextAnchor.UpperLeft;
+		GUI.Label(levelTitleRect, levelTitle, titleStyle);
+		
 
 	}// end of OnGUI
 	
