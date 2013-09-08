@@ -239,6 +239,16 @@ private function RenderBoth()
 	}
 }
 
+public function MouseOnDisplay() : boolean
+{
+	var mousePos:Vector2;
+	mousePos.x = Input.mousePosition.x;
+	mousePos.y = Screen.height - Input.mousePosition.y;
+	if (componentSelected && dispRect.Contains(mousePos))
+		return true;
+	return false;
+}
+
 // class to define a tooltip turn trigger
 public class TurnTrigger
 {

@@ -24,6 +24,7 @@ private static var isEditor : boolean = false;
 private static var mainMenuRef : MainMenu;
 private static var buildingMenuRef : BuildingMenu;
 private static var editorMenuRef : EditorMenu;
+private static var inspectionDisplayRef : InspectionDisplay;
 public static var resourceSetters : List.<BuildingResourceSetter>;
 
 function Start () {
@@ -36,7 +37,10 @@ function Start () {
 		resourceSetters = new List.<BuildingResourceSetter>();
 	}
 	else
+	{
 		isEditor = false;
+		inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+	}
 }
 
 function OnPauseGame()
@@ -119,6 +123,8 @@ static function HandleTapAtPoint(position: Vector2){
 
 private static function CheckObjSelected (position : Vector2) : boolean
 {
+	if (inspectionDisplayRef.MouseOnDisplay())
+		return false;
 	var hit : RaycastHit;
 	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
 	if (Physics.Raycast(ray, hit, 1000))
