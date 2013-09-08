@@ -112,7 +112,6 @@ public class StartMenu extends GUIControl
 			Debug.LogError("There was no level to resume.");
 		} else {
 			levelToResume = PlayerPrefs.GetString(Strings.RESUME);
-			Debug.Log("resume: " + levelToResume);
 		}
 		
 		currentScreen = CurrentStartScreen.FirstScreen;

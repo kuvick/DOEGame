@@ -1191,7 +1191,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.optionalOutput = copyFrom.optionalOutput;
 	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
-	copyTo.optionalOutputIcon = copyTo.optionalOutputIcon;
+	copyTo.optionalOutputIcon = copyFrom.optionalOutputIcon;
 
 	copyTo.isActive = copyFrom.isActive;
 	copyTo.coordinate = copyFrom.coordinate;

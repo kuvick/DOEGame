@@ -97,13 +97,15 @@ public class SoundManager extends MonoBehaviour {
 		playLinkingSound(linkSounds.linkDenied);
 	}
 	
+	private var linkDraringStartPlayed = false;
 	public function PlayLinkDraging(){
-		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag);
-		if (sourcePlayingClip == null){ // only play it if we are not already doing so
-			if (defaultClipSource.isPlaying == false) sourcePlayingClip = defaultClipSource;
-			else sourcePlayingClip = AddAudioSource();
-			playClipLooped(linkSounds.linkDrag, sourcePlayingClip, linkSounds.priority);
-		} 
+		if (!linkDraringStartPlayed){
+			linkDraringStartPlayed = true;
+			var source : AudioSource = AddAudioSource();
+			playClip(linkSounds.linkDragStart, source, linkSounds.priority);
+			yield WaitForSeconds (linkSounds.linkDragStart.length);
+			playClipLooped(linkSounds.linkDrag, source, linkSounds.priority);
+		}
 	}
 	
 	public function StopLinkDraging(){
@@ -114,6 +116,7 @@ public class SoundManager extends MonoBehaviour {
 				RemoveAudioSource(sourcePlayingClip);
 			}
 		}
+		linkDraringStartPlayed = false;
 	}
 	
 	/// Unit sounds
@@ -122,7 +125,6 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	public function PlayUnitSelected(unitSelected : Unit){
-		Debug.Log("playing unit selected");
 		switch (unitSelected.type){
 			case (UnitType.Researcher):
 				playUnitSound(unitSounds.researcherSelection);
@@ -254,7 +256,6 @@ public class SoundManager extends MonoBehaviour {
 		source.priority = priority;
 		source.volume = getVolume(priority);
 		source.clip = clipToPlay;
-		Debug.Log("playing clip " + clipToPlay + " with priority " + priority);
 		source.Play();
 		// future expansion - could reset the volumes after this sound has stoped playing
 	}
@@ -266,6 +267,7 @@ public class SoundManager extends MonoBehaviour {
 			Debug.LogError("Trying to play clip: " + clipToPlay.ToString() + " and it was not set");
 			return;
 		}
+		if (!GUIManager.Instance().gameObject.GetComponent(Loading).hasFinishedDelay) return;
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(clipToPlay);
 		if (sourcePlayingClip == null){
 			if (defaultClipSource.isPlaying){

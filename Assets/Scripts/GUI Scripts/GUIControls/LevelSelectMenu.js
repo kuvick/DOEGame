@@ -124,7 +124,9 @@ public class LevelSelectMenu extends GUIControl
 		private var playerRect:Rect;
 		private var playerPaddingPercent:float = 0.01;
 	private var senderRect:Rect;
-
+	
+	public var toggleMissionTypesButton : Rect;
+	
 	// Used to display player information:
 	private var saveSystem : SaveSystem;
 	
@@ -146,10 +148,10 @@ public class LevelSelectMenu extends GUIControl
 	private var scrollAreaWidthPercent : float = 0.75;
 	private var scrollAreaHeightPercent : float = 0.80;
 	private var innerScrollAreaWidthPercent : float = 0.67;
-	private var innerScrollAreaHeightPercent : float = 0.67;
+	private var innerScrollAreaHeightPercent : float = 0.75;
 	private var scrollPosition : Vector2;
 	
-	private var messageHeightPercent : float = 0.1;
+	private var messageHeightPercent : float = 0.12;
 	private var messageWidthPercent : float = 0.70;
 	private var yPaddingPercent : float = 0.05;
 	
@@ -158,6 +160,7 @@ public class LevelSelectMenu extends GUIControl
 	
 	//Splash Screen / Message View
 	private var showSplash = false;
+	private var inboxTab = true; // switches between the archive and active missions
 	private var splashBounds : Rect;
 	private var splashWidthPercent : float = 0.75;
 	private var splashHeightPercent : float = 0.75;
@@ -187,7 +190,8 @@ public class LevelSelectMenu extends GUIControl
 	private var numLevels:int;			
 	
 	public var levels : LevelNode[];
-	public var unlockedLevels : List.<LevelNode>;
+	private var unlockedLevels : List.<LevelNode>;
+	private var completedLevels : List.<LevelNode>; 
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
 	
@@ -256,6 +260,10 @@ public class LevelSelectMenu extends GUIControl
 										  (missionBackgroundText.height - (missionBackgroundText.height * 0.10)) / designHeight);
 
 
+		toggleMissionTypesButton = RectFactory.NewRect( contactsX / designWidth, 
+										  contactsY / designHeight + contactsIconText.height / designHeight,
+										  contactsIconText.width / designWidth,
+										  contactsIconText.height / designHeight);	
 		
 		if(saveSystem.currentPlayer != null)
 		{
@@ -318,7 +326,7 @@ public class LevelSelectMenu extends GUIControl
 		}
 	}
 	
-	private function RenderLevels()
+	private function RenderLevels(levelsToRender : List.<LevelNode>)
 	{
 		// Scroll bar
 		
@@ -335,32 +343,32 @@ public class LevelSelectMenu extends GUIControl
 				
 				//Begin Group for Inbox
 				GUI.BeginGroup(levelGroup);
-					for (var i:int = 0; i < unlockedLevels.Count; i++)
+					for (var i:int = 0; i < levelsToRender.Count; i++)
 					{
-						if(PlayerPrefs.HasKey(unlockedLevels[i].sceneName + "Score"))
+						if(PlayerPrefs.HasKey(levelsToRender[i].sceneName + "Score"))
 						{
-							unlockedLevels[i].setScore(PlayerPrefs.GetInt(unlockedLevels[i].sceneName + "Score"));
+							unlockedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
 						}
 						
-						if(i != unlockedLevels.Count-1)
+						if(i != levelsToRender.Count-1)
 						{
-							GUI.Label(new Rect(unlockedLevels[i].bounds.x, unlockedLevels[i].bounds.y + (unlockedLevels[i].bounds.height * .75), unlockedLevels[i].bounds.width, unlockedLevels[i].bounds.height / 2), emailDividerText);
+							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + (levelsToRender[i].bounds.height * .75), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height / 2), emailDividerText);
 						}
 						
 												
-						statusRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - statusRectangle.height) / 2);
-						senderRectangle.y = unlockedLevels[i].bounds.y + ((unlockedLevels[i].bounds.height - senderRectangle.height) / 2);
+						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 2);
+						senderRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - senderRectangle.height) / 2);
 						senderRect.y = statusRectangle.y;
 						
 						
 						//If there is a sender picture, display that, else don't
-						if(unlockedLevels[i].senderTexture != null)
+						if(levelsToRender[i].senderTexture != null)
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						else
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						
 						//Display proper mail icon
-						if(!unlockedLevels[i].wasRead)
+						if(!levelsToRender[i].wasRead)
 						{
 							GUI.DrawTexture(statusRectangle, emailUnreadText,ScaleMode.StretchToFill);
 						}		
@@ -369,14 +377,14 @@ public class LevelSelectMenu extends GUIControl
 							GUI.DrawTexture(statusRectangle, emailReadText,ScaleMode.StretchToFill);	
 						}		
 
-						unlockedLevels[i].bounds.x = senderRect.width;
+						levelsToRender[i].bounds.x = senderRect.width;
 						
 						//If there is a name of the sender, write it
-						var subjectString : String = unlockedLevels[i].subjectText + "\n\n";
+						var subjectString : String = levelsToRender[i].subjectText + "\n\n";
 						//if(unlockedLevels[i].senderName != "")		
 							//subjectString += "Sender: " + unlockedLevels[i].senderName;						
 						//If a message has been selected, show the splash screen
-						if(GUI.Button(unlockedLevels[i].bounds, subjectString))
+						if(GUI.Button(levelsToRender[i].bounds, subjectString))
 						{
 							showSplash = true;
 							activeLevelIndex = i;							
@@ -423,16 +431,18 @@ public class LevelSelectMenu extends GUIControl
 		
 		GUI.DrawTexture(missionBackgroundRect, missionBackgroundText,ScaleMode.StretchToFill);
 		
-		// Calculate the mouse position
-		var mousePos:Vector2;
-		mousePos.x = Input.mousePosition.x;
-		mousePos.y = Screen.height - Input.mousePosition.y;
-		
-		//So it can pass to the loading screen where to go next
-		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);		
-		
 		if(!showSplash)	//Renders the Inbox Screen
 		{
+			if (inboxTab){
+				RenderLevels(unlockedLevels);
+			} else {
+				RenderLevels(completedLevels);
+			}
+			
+			if (GUI.Button(toggleMissionTypesButton, inboxTab ? "Archive" : "Inbox")){
+				inboxTab = !inboxTab;
+			}
+			
 			if(GUI.Button(codexIconRect, codexIconText))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
@@ -447,8 +457,6 @@ public class LevelSelectMenu extends GUIControl
 			{
 				currentResponse.type = EventTypes.STARTMENU;
 			}
-			
-			RenderLevels();
 		}				
 		else	//Renders the Splash Screen
 		{
@@ -496,20 +504,24 @@ public class LevelSelectMenu extends GUIControl
 		fromScoreScreen = fromScore;
 	}
 
+	/// Will mark the given level at unlocked or given an error if there is no such level.
 	public function unlockLevel(sceneName : String)
 	{
+		var levelExsists : boolean = false;
 		for(var i :int = 0; i < levels.length; i++)
 		{
 			if(levels[i].sceneName == sceneName){
 				if(!unlockedLevels.Contains(levels[i])){
-					levels[i].unlocked = true;
-					unlockedLevels.Insert(0, levels[i]);
 					shuffleLevels();
+					levelExsists = true;
 				}
 			}			
-		
 		}
-		LoadLevelList();
+		if (levelExsists){
+			LoadLevelList();
+		} else {
+			Debug.LogError("Tried to unlock " + sceneName + " and it was not found in LevelSelectMenu's set levels.");
+		}
 	}
 	
 	public function completeLevel(sceneName : String)
@@ -520,6 +532,8 @@ public class LevelSelectMenu extends GUIControl
 				if(!unlockedLevels.Contains(levels[i])){
 					levels[i].completed = true;
 					//unlockedLevels.Insert(0, levels[i]);
+					saveSystem.currentPlayer.completeLevel(sceneName);
+					
 					shuffleLevels();
 				}
 			}
@@ -547,12 +561,14 @@ public class LevelSelectMenu extends GUIControl
 	{
 		var level:Rect;				
 		unlockedLevels = new List.<LevelNode>();
+		completedLevels = new List.<LevelNode>();
 		
 		numLevels = levels.Length;
 		
 		levelGroup = new Rect(0, levelGroupY, screenWidth * numLevels, (numLevels + 1) * (messageHeightPercent * screenHeight));
 		
-		var count : int = 0;
+		var countUnlocked : int = 0;
+		var countCompleted : int = 0;
 		
 		if(GUIManager.addLevel)
 		{
@@ -566,17 +582,26 @@ public class LevelSelectMenu extends GUIControl
 		// Calculate the rect dimensions of every level
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{					
-			if(levels[i].unlocked)
+			if(levels[i].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[i].sceneName))
 			{	
+				if (levels[i].completed || saveSystem.currentPlayer.levelHasBeenCompleted(levels[i].sceneName)){
+					level = new Rect(0, countCompleted * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
+					level.y += countCompleted * (level.height * .05);
+					levels[i].bounds = level;
+					completedLevels.Add(levels[i]);
+					countCompleted++;	
+				} else {
+					level = new Rect(0, countUnlocked * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
+					level.y += countUnlocked * (level.height * .05);
+					levels[i].bounds = level;
+					unlockedLevels.Add(levels[i]);
+					countUnlocked++;	
+				}
 				//if(showActive) // If in the Active Tab
 				//{
 					//0if(!levels[i].completed) //If the level is not completed
 				//	{
-						level = new Rect(0, count * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
-						level.y += count * (level.height * .05);
-						levels[i].bounds = level;
-						unlockedLevels.Add(levels[i]);
-						count++;				
+									
 				//	}
 				//}
 				/*else // If in the Compeleted Tab

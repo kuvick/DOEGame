@@ -238,7 +238,7 @@ public class Player
 	public var rankName : String;
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
-	public var levelScores : List.<LevelData> = new List.<LevelData>();
+	public var levelDataList : List.<LevelData> = new List.<LevelData>();
   	public var contactData : ContactData;
   	public var codexData : CodexData;
 	
@@ -250,15 +250,15 @@ public class Player
 		var scoreDifference : int = 0;
 		
 		var levelDataExists : boolean = false;
-		for(var i : int = 0; i < levelScores.Count; i++)
+		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
-			if(levelScores[i].levelName == levelName)
+			if(levelDataList[i].levelName == levelName)
 			{
 				// If the new score is higher:
-				if(levelScores[i].levelScore < levelScore)
+				if(levelDataList[i].levelScore < levelScore)
 				{
-					scoreDifference = levelScore - levelScores[i].levelScore;
-					levelScores[i].levelScore = levelScore;
+					scoreDifference = levelScore - levelDataList[i].levelScore;
+					levelDataList[i].levelScore = levelScore;
 				}
 				levelDataExists = true;
 			}
@@ -269,7 +269,7 @@ public class Player
 			var levelData : LevelData = new LevelData();
 			levelData.levelName = levelName;
 			levelData.levelScore = levelScore;
-			levelScores.Add(levelData);
+			levelDataList.Add(levelData);
 			scoreDifference = levelScore;
 		}
 		
@@ -280,11 +280,11 @@ public class Player
 	// Returns 0 if the player has not played the level
 	function getPlayerScore(levelName : String): int
 	{
-		for(var i : int = 0; i < levelScores.Count; i++)
+		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
-			if(levelScores[i].levelName == levelName)
+			if(levelDataList[i].levelName == levelName)
 			{
-				return levelScores[i].levelScore;
+				return levelDataList[i].levelScore;
 			}
 		}
 		
@@ -306,6 +306,68 @@ public class Player
 	public function lockCodex(codexName : String){
 		codexData.LockCodex(codexName);
 	}
+	
+	public function completeLevel(levelName : String){
+		var levelDataExists : boolean = false;
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName){
+				levelDataExists = true;
+				levelDataList[i].levelCompleted = true;
+				return;
+			}
+		}
+		// If the level data is not found, create new entry
+		if(!levelDataExists)
+		{
+			var levelData : LevelData = new LevelData();
+			levelData.levelName = levelName;
+			levelData.levelCompleted = true;
+			levelDataList.Add(levelData);
+		}
+	}
+	
+	public function unlockLevel(levelName : String){
+		var levelDataExists : boolean = false;
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName){
+				levelDataExists = true;
+				levelDataList[i].levelUnlocked = true;
+				return;
+			}
+		}
+		// If the level data is not found, create new entry
+		if(!levelDataExists)
+		{
+			var levelData : LevelData = new LevelData();
+			levelData.levelName = levelName;
+			levelData.levelUnlocked = true;
+			levelDataList.Add(levelData);
+		}
+	}
+	
+	public function levelHasBeenCompleted(levelName : String) : boolean{
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName){
+				return (levelDataList[i].levelCompleted);
+			}
+		}
+		Debug.LogError("Could not find the completion status of " + levelName);
+		return (false);
+	}
+	
+	public function levelHasBeenUnlocked(levelName : String) : boolean{
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName){
+				return (levelDataList[i].levelUnlocked);
+			}
+		}
+		Debug.LogError("Could not find the unlock status of " + levelName);
+		return (false);
+	}
 }// End of Player
 
 // Information to be stored about the player
@@ -315,4 +377,6 @@ public class LevelData
 	@XmlAttribute("levelName")
 	public var levelName : String;
 	public var levelScore : int;
+	public var levelUnlocked : boolean;
+	public var levelCompleted : boolean;
 }

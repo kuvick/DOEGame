@@ -303,7 +303,6 @@ private function RespondTo(response:GUIEvent)
 		
 		// Loading responses
 		case EventTypes.DONELOADING:
-			Debug.Log("event done loading");
 			gm_instance = GameObject.Find("GUI System").GetComponent(GUIManager);
 			gm_instance.addMainMenu();
 			Destroy(this.gameObject);

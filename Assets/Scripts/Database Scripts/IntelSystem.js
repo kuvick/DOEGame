@@ -87,12 +87,9 @@ class EventStackNode
 
 function Start ()
 {
-	levelName = Application.loadedLevelName;
-
 	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
 	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
-	currentLevelName = Application.loadedLevelName;
 	eventStack = new List.<EventStackNode>();
 	codicesUnlockedThisLevel = new List.<String>();
 	contactsUnlockedThisLevel = new List.<String>();
@@ -183,6 +180,8 @@ function Start ()
 //Can use this functio to check for events
 public function addTurn()
 {
+	Debug.Log("adding a turn");
+	triggerWin();
 	//decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();
@@ -323,7 +322,7 @@ public function resolveEvent( script : EventScript)
 		numOfObjectivesLeft--;
 		if(numOfObjectivesLeft <= 0)
 		{
-			//triggerWin();
+			triggerWin();
 			victory = true;
 		}
 		SoundManager.Instance().PlayPrimaryObjectiveComplete();
@@ -482,9 +481,12 @@ public function getOptionalScore():int
 // placeholder function, to be called when a win state is triggered
 public function triggerWin()
 {
-	//victory = true;
+	victory = true;
+	playerData.currentPlayer.completeLevel(levelName);
+	
 	var event : GUIEvent = new GUIEvent();
 	event.type = EventTypes.SCORESCREEN;
+	PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
 	GUIManager.Instance().RecieveEvent(event);
 }
 
