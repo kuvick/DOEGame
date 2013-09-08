@@ -39,7 +39,7 @@ public class ObjectiveIndicator extends InspectionComponent
 	    screenMiddle = Vector3(Screen.width/2, Screen.height/2, 0);
 	    textureSize = textureSizeScale * Screen.height;
 	    var textureWidthScale : float = 328f / 509f;
-	    Debug.Log(textureWidthScale);
+	   // Debug.Log(textureWidthScale);
 	    var textureWidth : float = textureSize * textureWidthScale;
 	    rect = Rect(screenMiddle.x - textureWidth / 2, Screen.height - (.1 * Screen.height), textureSize, textureSize);
 	    turnSize = turnSizeScale * Screen.height;
