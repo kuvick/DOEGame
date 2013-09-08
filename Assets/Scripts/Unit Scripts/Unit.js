@@ -289,9 +289,9 @@ public function DeactivateFade ()
 }
 
 // performs unit actions on new turn
-function DoAction () 
+function DoAction () : boolean
 {
-	if (currentPath.Count < 1) return;// || !FindPath(currentTarget)) return;
+	if (currentPath.Count < 1) return false;// || !FindPath(currentTarget)) return;
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
@@ -310,6 +310,7 @@ function DoAction ()
 	if (type != UnitType.Researcher)
 		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeID.None, UpgradeID.None));
 	Debug.Log(actionList.Count);
+	return true;
 }
 
 function UndoAction () 
