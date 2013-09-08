@@ -33,7 +33,6 @@ static public var playtestID : String = "";
 //static public var buildingsOnGrid : Array;// = new Array(); 
 public static var buildingsOnGrid : List.<BuildingOnGrid>;
 
-
 	// The amount of tiles a building has in range, can be specific to building later on
 static public var TILE_RANGE = 3;
 
@@ -838,13 +837,17 @@ private function DeactivateChain (buildingIndex : int, parentIndex : int)
 	if (parentIndex >= 0)
 	{
 		building.deactivatedInputs.Add(building.inputLinkedTo.IndexOf(parentIndex));
+		Debug.Log(building.buildingName + " deactivated output to " + parentIndex);
 	}
 	// change all output links' colors to reflect deactivation
 	for (var i : int in building.outputLinkedTo)
 	{
 		//DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
-		drawLinks.SetLinkTexture(buildingIndex, i, false);
-		DeactivateChain(i, buildingIndex);
+		if (!buildingsOnGrid[i].deactivatedInputs.Contains(buildingsOnGrid[i].inputLinkedTo.IndexOf(buildingIndex)))
+		{
+			drawLinks.SetLinkTexture(buildingIndex, i, false);
+			DeactivateChain(i, buildingIndex);
+		}
 	}
 	Debug.Log("Deactivate Chain");
 	UnitManager.CheckUnitsActive();
@@ -866,6 +869,7 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	if(building.unallocatedInputs.Count > 0 || building.deactivatedInputs.Count > 0)
 	{
 		canActivate = false;
+		Debug.Log(buildingIndex + " failed activate of " + building.buildingName + " " + building.unallocatedInputs.Count + " " + building.deactivatedInputs.Count);
 	}
     
     building.isActive = canActivate;
