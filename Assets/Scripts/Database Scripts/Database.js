@@ -821,8 +821,14 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	return -1;
 }
 
+public function DeactivateLink(buildingIndex : int, linkedToIndex : int)
+{
+	drawLinks.SetLinkTexture(buildingIndex, linkedToIndex, false);
+	DeactivateChain(linkedToIndex, buildingIndex);
+}
+
 // Recursively deactivates all of the buildings in the chain of output links
-private function DeactivateChain (buildingIndex : int, parentIndex : int)
+public function DeactivateChain (buildingIndex : int, parentIndex : int)
 {
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	// if the building is active, deactivate it
@@ -906,6 +912,23 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	    		}
 	    		// attempt to recursively reactivate the chain
 				activateBuilding(outLink, true);
+			}
+    	}
+    	if (building.optionalOutputLinkedTo >= 0)
+    	{
+    		outLinkBuilding = buildingsOnGrid[building.optionalOutputLinkedTo];
+    		if (!outLinkBuilding.isActive)
+    		{
+	    		outLinkInputIndex = outLinkBuilding.inputLinkedTo.IndexOf(buildingIndex);
+	    		// reactivate its output links
+	    		if (outLinkInputIndex >= 0 && outLinkBuilding.deactivatedInputs.Contains(outLinkInputIndex))
+	    		{
+	    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
+	    			//DrawLinks.SetLinkColor(buildingIndex, outLink, true);
+	    			drawLinks.SetLinkTexture(buildingIndex, building.optionalOutputLinkedTo, true);
+	    		}
+	    		// attempt to recursively reactivate the chain
+				activateBuilding(building.optionalOutputLinkedTo, true);
 			}
     	}
     	
