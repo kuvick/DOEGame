@@ -14,14 +14,13 @@ static function isConnected() : boolean {
 #endif
 
 #if UNITY_IPHONE
-    if (iPhoneSettings.internetReachability == iPhoneNetworkReachability.ReachableViaWiFiNetwork) {
+    if (Application.internetReachability != NetworkReachability.NotReachable) {
         return(true); 
     }
 #endif
 
 #if UNITY_ANDROID
-    if (iPhoneSettings.internetReachability == iPhoneNetworkReachability.ReachableViaWiFiNetwork) {
-    	Debug.Log("InternetConnection : testing connection");
+    if (Application.internetReachability == NetworkReachability.NotReachable) {
         return(true); 
     }
 #endif

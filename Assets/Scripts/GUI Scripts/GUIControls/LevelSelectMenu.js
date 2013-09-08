@@ -125,11 +125,8 @@ public class LevelSelectMenu extends GUIControl
 		private var playerPaddingPercent:float = 0.01;
 	private var senderRect:Rect;
 	
-	private var availableMissionsButton : Rect;
-	private var archivedMissionsButton : Rect;
-	public var tabHeightPercentage : float = .15;
-	public var tabWidthPercentage : float = .15;
-
+	public var toggleMissionTypesButton : Rect;
+	
 	// Used to display player information:
 	private var saveSystem : SaveSystem;
 	
@@ -154,7 +151,7 @@ public class LevelSelectMenu extends GUIControl
 	private var innerScrollAreaHeightPercent : float = 0.75;
 	private var scrollPosition : Vector2;
 	
-	private var messageHeightPercent : float = 0.1;
+	private var messageHeightPercent : float = 0.12;
 	private var messageWidthPercent : float = 0.70;
 	private var yPaddingPercent : float = 0.05;
 	
@@ -263,14 +260,10 @@ public class LevelSelectMenu extends GUIControl
 										  (missionBackgroundText.height - (missionBackgroundText.height * 0.10)) / designHeight);
 
 
-		availableMissionsButton = RectFactory.NewRect( missionScrollX / designWidth, 
-										  progressBarY / designHeight,
-										  tabWidthPercentage,
-										  tabHeightPercentage);	
-		archivedMissionsButton = RectFactory.NewRect( missionScrollX / designWidth + tabWidthPercentage, 
-										  progressBarY / designHeight,
-										  tabWidthPercentage,
-										  tabHeightPercentage);	
+		toggleMissionTypesButton = RectFactory.NewRect( contactsX / designWidth, 
+										  contactsY / designHeight + contactsIconText.height / designHeight,
+										  contactsIconText.width / designWidth,
+										  contactsIconText.height / designHeight);	
 		
 		if(saveSystem.currentPlayer != null)
 		{
@@ -446,12 +439,10 @@ public class LevelSelectMenu extends GUIControl
 				RenderLevels(completedLevels);
 			}
 			
-			if (GUI.Button(availableMissionsButton, "Inbox")){
-				inboxTab = true;
+			if (GUI.Button(toggleMissionTypesButton, inboxTab ? "Archive" : "Inbox")){
+				inboxTab = !inboxTab;
 			}
-			if (GUI.Button(archivedMissionsButton, "Archive")){
-				inboxTab = false;
-			}
+			
 			if(GUI.Button(codexIconRect, codexIconText))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;

@@ -10,7 +10,7 @@ Author: Francis Yuan
 
 public class DebugInfoMenu extends GUIControl{
 	public var textStyle : GUIStyle;
-	
+	public var currentLevel : String;
 	private var idLabelRect : Rect;
 	private var levelId : String;
 	private var id : String;
@@ -29,12 +29,20 @@ public class DebugInfoMenu extends GUIControl{
 			Database.playtestID = Database.GenerateID();
 		}
 		
+		levelId = "";
+		currentLevel = Application.loadedLevelName;
 		id = Database.playtestID;
 		SetupRectangles();
 	}
 	
 	public function Render(){
-		levelId = (GUIManager.Instance().thisIsALevel ? ("--" + Application.loadedLevelName) : "");
+		if (currentLevel != null) {
+			if (GUIManager.Instance().thisIsALevel){
+				levelId = "--" + currentLevel;
+			} else {
+				levelId = "";
+			}
+		}
 		displayID = id + levelId;
 		SetupRectangles();
 		GUI.Label(idLabelRect, displayID);
