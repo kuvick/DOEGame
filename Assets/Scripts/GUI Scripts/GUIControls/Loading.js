@@ -129,6 +129,7 @@ public class Loading extends GUIControl
 	}
 	
 	public function LoadLevel(levelName:String){
+		Debug.Log("Loading " + levelName);
 		hasLoaded = false;
 		hasFinishedDelay = false;
 		var startTime : float = Time.time;
@@ -137,7 +138,10 @@ public class Loading extends GUIControl
 		}
 		guiCamera.gameObject.SetActiveRecursively(true);
 		
+		
+		
 		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version
+		
 		
 		yield WaitForSeconds(3);
 		hasLoaded = true;
@@ -145,6 +149,15 @@ public class Loading extends GUIControl
 		var totalLoadTime : float = Time.time - startTime;
 		
 		DelayLoad(loadDelay-totalLoadTime);
+		
+		var intelSystem : IntelSystem = GameObject.Find("Database").GetComponent("IntelSystem");
+		if (intelSystem == null) Debug.LogError("Could not find intel system to update the current level.");
+		else {
+			Debug.Log("Updating intelSystem" + intelSystem.currentTurn);
+			intelSystem.currentLevelName = levelName;
+			intelSystem.levelName = levelName;
+		}
+		Debug.Log("loaded " + levelName);
 	}
 	
 	public function GetNewJob()

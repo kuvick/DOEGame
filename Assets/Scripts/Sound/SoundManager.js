@@ -97,13 +97,15 @@ public class SoundManager extends MonoBehaviour {
 		playLinkingSound(linkSounds.linkDenied);
 	}
 	
+	private var linkDraringStartPlayed = false;
 	public function PlayLinkDraging(){
-		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag);
-		if (sourcePlayingClip == null){ // only play it if we are not already doing so
-			if (defaultClipSource.isPlaying == false) sourcePlayingClip = defaultClipSource;
-			else sourcePlayingClip = AddAudioSource();
-			playClipLooped(linkSounds.linkDrag, sourcePlayingClip, linkSounds.priority);
-		} 
+		if (!linkDraringStartPlayed){
+			linkDraringStartPlayed = true;
+			var source : AudioSource = AddAudioSource();
+			playClip(linkSounds.linkDragStart, source, linkSounds.priority);
+			yield WaitForSeconds (linkSounds.linkDragStart.length);
+			playClipLooped(linkSounds.linkDrag, source, linkSounds.priority);
+		}
 	}
 	
 	public function StopLinkDraging(){
@@ -114,6 +116,7 @@ public class SoundManager extends MonoBehaviour {
 				RemoveAudioSource(sourcePlayingClip);
 			}
 		}
+		linkDraringStartPlayed = false;
 	}
 	
 	/// Unit sounds

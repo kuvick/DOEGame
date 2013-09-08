@@ -14,6 +14,7 @@ public class LinkSounds {
 	
 	public var linkDenied : AudioClip;
 	
+	public var linkDragStart : AudioClip;
 	public var linkDrag : AudioClip;
 	
 	private var linkSoundTable : Hashtable;

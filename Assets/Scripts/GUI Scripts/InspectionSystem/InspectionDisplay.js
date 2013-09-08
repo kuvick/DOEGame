@@ -75,7 +75,7 @@ function Start ()
 	skin.box.active.background = border;
 	skin.box.hover.background = border;
 	//Added GPC 9/3/13
-	intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
+	intelSys = GameObject.Find("Database").GetComponent("Intel System");
 }
 
 function Update () 
