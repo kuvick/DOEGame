@@ -181,7 +181,6 @@ function Start ()
 public function addTurn()
 {
 	Debug.Log("adding a turn");
-	triggerWin();
 	//decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();

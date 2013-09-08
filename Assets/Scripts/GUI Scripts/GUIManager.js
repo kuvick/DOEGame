@@ -416,7 +416,6 @@ private function SetupLoading(nextLevel : String)
 	
 	AddGUIToControls(loading);
 	loading.GetNewJob();
-	Debug.Log("Going to load " + nextLevel);
 	loading.LoadLevel(nextLevel);
 }
 
