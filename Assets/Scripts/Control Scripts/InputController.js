@@ -49,6 +49,8 @@ private var hasFirstClick : boolean = false;
 private var linkUI : LinkUI;
 private var intelSystem : IntelSystem;
 
+private var isEnabled : boolean = true;
+
 var touchCount : int;
 
 // this will point to the funciton that will perform input checking based on the device
@@ -379,11 +381,16 @@ function HandleComputerInput(){
 }
 
 function Update () {
-	if(intelSystem != null && !intelSystem.victory)
+	if(intelSystem != null && !intelSystem.victory && isEnabled)
 		typeOfInput();      
 }
 
 public function getTouchLocation()
 {
 	Debug.Log(fingerDownPosition.ToString());
+}
+
+public function SetEnabled (enable : boolean)
+{
+	isEnabled = enable;
 }

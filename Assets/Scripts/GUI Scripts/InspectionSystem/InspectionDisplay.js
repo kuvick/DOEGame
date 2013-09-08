@@ -42,8 +42,13 @@ private var selectedComponent : InspectionComponent;
 private var tooltipList : List.<Tooltip> = new List.<Tooltip>();
 private var currentTooltip : Tooltip;
 
+public var notificationLength : float = 3f;
+private var notificationTimer : float;
+
 //Added GPC 9/3/13
 private var intelSys:IntelSystem;
+
+private var inputController : InputController;
 
 function Start () 
 {
@@ -65,7 +70,7 @@ function Start ()
 	
 	//Apply Scaling
 	
-	
+
 	skin.label.fontStyle = FontStyle.Bold;
 	skin.button.normal.background = null;
 	skin.button.active.background = null;
@@ -76,6 +81,8 @@ function Start ()
 	skin.box.hover.background = border;
 	//Added GPC 9/3/13
 	intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
+	
+	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 }
 
 function Update () 
@@ -88,6 +95,8 @@ function Update ()
 		selectedComponent = null;
 		doDispPic = false;
 	}*/
+	if (currentTooltip && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer)
+		NextTooltip();
 }
 
 function OnGUI()
@@ -99,11 +108,19 @@ function OnGUI()
 public function Activate (disp : Tooltip)
 {
 	componentSelected = true;
-	if (disp.hasPriority)
+	if (disp.hasPriority || tooltipList.Count < 1)
+	{
 		tooltipList.Insert(0, disp);
+		SetTooltip();
+	}
 	else
+	{
 		tooltipList.Add(disp);
-	FormatDisplay();
+		if (currentTooltip.type == TooltipType.Notification)
+			NextTooltip();
+	}
+	/*currentTooltip = tooltipList[0];
+	FormatDisplay();*/
 }
 
 public function Activate(disp : String)
@@ -137,7 +154,6 @@ public function Activate(pic : Texture2D, disp : String, selected : InspectionCo
 // calculates and sets the proper rectangle height and centers it on the screen
 private function FormatDisplay()
 {
-	currentTooltip = tooltipList[0];
 	if (currentTooltip.pic && currentTooltip.text != String.Empty)
 	{
 		renderDouble = true;
@@ -186,15 +202,25 @@ private function Render()
 
 private function NextTooltip()
 {
+	inputController.SetEnabled(true);
 	tooltipList.RemoveAt(0);
 	if (tooltipList.Count == 0)
 	{
 		componentSelected = false;
+		currentTooltip = null;
 	}
 	else
-	{
-		FormatDisplay();
-	}
+		SetTooltip();
+}
+
+private function SetTooltip()
+{
+	currentTooltip = tooltipList[0];
+	if (currentTooltip.type == TooltipType.Notification)
+		notificationTimer = Time.time + notificationLength;
+	else if (currentTooltip.type == TooltipType.Alert)
+		inputController.SetEnabled(false);
+	FormatDisplay();
 }
 
 private function RenderSingle()
@@ -224,7 +250,14 @@ public class TurnTrigger
 
 public class Tooltip
 {
+	public var type : TooltipType;
 	public var text : String;
 	public var pic : Texture;
 	public var hasPriority : boolean;
+}
+
+public enum TooltipType
+{
+	Alert, // dismissed after click
+	Notification // dismissed automatically after x seconds
 }
