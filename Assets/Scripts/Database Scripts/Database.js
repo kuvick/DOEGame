@@ -962,7 +962,8 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 			display.Activate(building.tooltipPic, building.tooltipText);
 		else
 			display.Activate(building.tooltipText);*/
-		display.Activate(building.tooltip);
+		for (var i : int = 0; i < building.tooltip.length; i++)
+			display.Activate(building.tooltip[i]);
 	}
 }
 
@@ -1132,7 +1133,7 @@ class BuildingOnGrid
 	
 	var highlighter : GameObject;
 	
-	var tooltip : Tooltip;
+	var tooltip : Tooltip[];
 	var hasTooltipTrigger : boolean = false;
 	/*var tooltipText : String;
 	var tooltipPic : Texture2D;*/
