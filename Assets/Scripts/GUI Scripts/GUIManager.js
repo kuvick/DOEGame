@@ -196,6 +196,7 @@ public function Start ()
 	
 	if(thisIsALevel)
 	{
+		loading.hasFinishedDelay = true;
 		AddGUIToControls(mainMenu);
 		//AddGUIToControls(marquee);
 		//AddGUIToControls(popUpMessageDisplay);
