@@ -137,5 +137,10 @@ public function incrementTime()
 	{
 		event.time++;
 		return true;
-	}	
+	}
+}
+	
+public function getIcon():Texture
+{
+	return icon.texture;
 }

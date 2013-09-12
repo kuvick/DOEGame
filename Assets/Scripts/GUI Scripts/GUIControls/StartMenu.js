@@ -415,10 +415,10 @@ public class StartMenu extends GUIControl
 		{
 			currentTexture = splashDOEBG;
 			currentIcon = splashDOEIcon;
-			yield WaitForSeconds(.01);
+			yield WaitForSeconds(2);
 			currentTexture = splashRedAxonBG;
 			currentIcon = splashRedAxonIcon;
-			yield WaitForSeconds(.01);
+			yield WaitForSeconds(2);
 			showSplash = false;
 		}
 		currentTexture = backgroundText;
