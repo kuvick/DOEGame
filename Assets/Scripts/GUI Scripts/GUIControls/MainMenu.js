@@ -81,6 +81,13 @@ public class MainMenu extends GUIControl
 	private var victorySplashRectangle;
 	private var mostRecentTurnScore : int = 0;
 	
+	//For displaying Objective Icons:
+	private var objIconSizePercentage : float = 0.16f;
+	private var objIconSize : Vector2;
+	private var objIconGroupRect : Rect;
+	private var dataIconSizePercentage : float = 0.05f;
+	private var dataIconSize : Vector2;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -130,19 +137,22 @@ public class MainMenu extends GUIControl
 		var hexButtonWidth = hexButtonHeight * hexButtonRatio;
 		
 		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
-		var pauseButtonRatio : float = pauseTexture.width / pauseTexture.height;
-		var pauseButtonWidth = pauseButtonHeight * pauseButtonRatio;
+		var pauseW: float = pauseTexture.width;
+		var pauseH: float = pauseTexture.height;
+		var pauseButtonRatio : float = pauseW / pauseH;
+		var pauseButtonWidth : float = pauseButtonHeight * pauseButtonRatio;
 		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
 		
 		dataIconHeight = dataIconHeightPercent * screenHeight;
 		
 		mainMenuSkin.label.fontSize = scoreFontHeight;
+	
 		
 		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
 		//mainMenuSkin.button.fontSize = pauseFontHeight;
 		
-		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseButtonWidth, horizontalBarHeight + padding, pauseButtonWidth, pauseButtonHeight);														
+		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseButtonWidth, horizontalBarHeight + padding, pauseButtonWidth, pauseButtonHeight);
 		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//undoTexture.width, undoTexture.height);
 		waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
 		
@@ -179,6 +189,28 @@ public class MainMenu extends GUIControl
 		
 		defaultFontColor = mainMenuSkin.label.normal.textColor;
 			targetFontColor = new Color(0,0,0);
+			
+			
+		var objHeight : float = objIconSizePercentage * screenHeight;
+		var objW: float = intelSystem.primaryIcons[0].width;
+		var objH: float = intelSystem.primaryIcons[0].height;
+		var objRatio : float = objW / objH;
+		var objWidth : float = objHeight * objRatio;
+		
+		objIconSize = Vector2(objWidth, objHeight);
+		
+		var dataHeight : float = dataIconSizePercentage * screenHeight;
+		var dataW: float = upgradeManager.iconTexture.width;
+		var dataH: float = upgradeManager.iconTexture.height;
+		var dataRatio : float = dataW / dataH;
+		var dataWidth : float = dataHeight * dataRatio;
+		
+		dataIconSize = Vector2(dataWidth, dataHeight);
+		
+		
+		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
+		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
+		//objIconGroupRect = Rect(0,0,1000,1000);
 	}
 	
 	public function Render(){   
@@ -242,6 +274,55 @@ public class MainMenu extends GUIControl
 		
 		if(upgradeManager != null)
 			upgradeManager.Render();
+			
+		
+		GUI.skin.label.normal.textColor = Color.white;
+		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
+		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
+		
+		GUI.BeginGroup(objIconGroupRect);
+			for(var i:int = 0; i < intelSystem.events.Count; i++)
+			{
+				GUI.DrawTexture(Rect(	(objIconSize.x + padding) * i, 
+										0,
+										objIconSize.x,
+										objIconSize.y),
+										intelSystem.events[i].getIcon());
+				if(intelSystem.events[i].event.type == BuildingEventType.Primary)
+				{		
+					GUI.Label(Rect(	(objIconSize.x + padding) * i, 
+											objIconSize.y / 2f,
+											objIconSize.x,
+											objIconSize.y),
+											intelSystem.events[i].event.time.ToString());
+				}
+				
+				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
+				{
+					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
+
+					for(var j : int = 0; j < upgradeCount.getTotalParts(); j++)
+					{
+						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * j,
+												objIconSize.y + (padding / 2),
+												dataIconSize.x,
+												dataIconSize.y),
+												upgradeManager.notCollectedIconTexture);
+					}
+					
+					for(var k : int = 0; k < upgradeCount.getObtainedParts(); k++)
+					{
+						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * k,
+												objIconSize.y + (padding / 2),
+												dataIconSize.x,
+												dataIconSize.y),
+												upgradeManager.iconTexture);
+					}
+					
+				}
+			}
+		GUI.EndGroup();
+			
 	}
 	
 	private function CalcDataPiecePositions(){
