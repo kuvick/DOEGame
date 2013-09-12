@@ -1,5 +1,7 @@
 RV01
 
+Premise: Use existing resources to provide local utilities.
+
 Doctor Edison:
 Okay, here's the deal: The local city is in trouble.
 Their contract with the area utilities provider has ended...
@@ -16,6 +18,8 @@ Get out there and sort out the problem!
 
 RV02
 
+Premise: Provide local utilities to housing development
+
 Nancy Sanders:
 Hey there newbie!
 So that new housing development has been finished, 
@@ -30,7 +34,21 @@ Let's roll out the welcome mats for these people!
 
 ----------------------------
 
+RV03 
+
+Premise: Pump waste CO2 into the oil wells to produce more oil efficiently.
+
+----------------------------
+
+RV04 
+
+Premise: Develop, teach and train a workforce that knows how to implement a new efficient solar panel system.
+
+----------------------------
+
 RV05 
+
+Premise: Burn waste to produce enough power for the local factory.
 
 Doctor Edison:
 We have a problem.
@@ -61,3 +79,15 @@ Nancy Sanders:
 Sure thing!
 I'll be waiting for you at the Gas Station when you get there.
 Just pick me up there and I'll help ya out.
+
+----------------------------
+
+RV06 
+
+Premise: Run the local county on entirely renewable resources.
+
+----------------------------
+
+RV07 
+
+Premise: 
