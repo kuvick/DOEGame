@@ -28,6 +28,14 @@ static public var cameraAngle : float = 60;
 
 public var showCameraLocation : boolean = false;
 
+public var centerOnPoint: Vector3;
+public var showCenter: boolean = false;
+static private var isCentering: boolean;
+private var cameraPosForCentering:Vector3;
+private var tolerance: float = 10f;
+private var currentCenter: Vector3;
+private var speed : float = 5f;
+
 private enum AspectRatios
 {
 	FourByFive,
@@ -38,8 +46,12 @@ private enum AspectRatios
 };
 
 function Start () {	
-	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 	thisCamera = this.camera;
+	isCentering = false;
+	centerOnPoint = this.camera.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height /2, thisCamera.transform.position.y));
+	currentCenter = centerOnPoint;
+	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
+	
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
@@ -67,11 +79,11 @@ function Start () {
 			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
 
 }
-
 // The function uses the difference in the mouse's position between frames
 // to determine which way to drag the camera, and moves the camera in that direction.
 static public function Drag(currentInputPos: Vector2){
 	
+	isCentering = false;
 	// Perspective Camera:
 	//thisCamera.transform.Translate(new Vector3(currentInputPos.x, 0, currentInputPos.y), Space.World);
 	
@@ -109,22 +121,22 @@ static public function Drag(currentInputPos: Vector2){
 	//In a corner:
 	if((nonRotatedPos.x < (bCP.x - (bD.x / 2))) && (nonRotatedPos.z > (bCP.z + (bD.z / 2))))
 	{
-		Debug.Log("Left and Top");
+		//Debug.Log("Left and Top");
 		thisCamera.transform.position = currentPos;
 	}
 	else if((nonRotatedPos.x > (bCP.x + (bD.x / 2))) && (nonRotatedPos.z > (bCP.z + (bD.z / 2))))
 	{
-		Debug.Log("Right and Top");
+		//Debug.Log("Right and Top");
 		thisCamera.transform.position = currentPos;
 	}
 	else if((nonRotatedPos.x < (bCP.x - (bD.x / 2))) && (nonRotatedPos.z < (bCP.z - (bD.z / 2))))
 	{
-		Debug.Log("Left and Bottom");
+		//Debug.Log("Left and Bottom");
 		thisCamera.transform.position = currentPos;
 	}
 	else if((nonRotatedPos.x > (bCP.x + (bD.x / 2))) && (nonRotatedPos.z < (bCP.z - (bD.z / 2))))
 	{
-		Debug.Log("Right and Bottom");
+		//Debug.Log("Right and Bottom");
 		thisCamera.transform.position = currentPos;
 	}
 	// Not in a corner:
@@ -182,6 +194,7 @@ static public function Drag(currentInputPos: Vector2){
 
 public function Update()
 {	
+
 	if(!useDefaultAspectRatio)
 	{
 		switch(aspectRatio)
@@ -235,6 +248,15 @@ public function Update()
 		CameraControl.bD = borderDimensions;
 	}
 
+	if(isCentering)
+	{
+		var distance: float = Vector3.Distance(thisCamera.transform.position, cameraPosForCentering);
+		if(distance > tolerance)
+			thisCamera.transform.position = Vector3.Lerp(thisCamera.transform.position, cameraPosForCentering, Time.deltaTime * speed);
+		else
+			isCentering = false;
+	}
+	
 }
 
 public function OnDrawGizmos()
@@ -278,4 +300,35 @@ public function OnDrawGizmos()
 		Gizmos.DrawCube(cameraLoc, new Vector3(25, 50, 25));	
 	}
 	
+	
+	if(showCenter)
+	{
+		Gizmos.color = Color.blue;
+		//centerOnPoint = this.camera.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height /2, 433));
+		Gizmos.DrawCube(centerOnPoint, new Vector3(25, 50, 25));
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawCube(currentCenter, new Vector3(25, 50, 25));	
+		
+	}
+	
+	
+}
+
+public function centerCameraOnPointInWorld(centerPoint : Vector3)
+{
+	centerOnPoint = centerPoint;
+	currentCenter = thisCamera.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height /2, thisCamera.transform.position.y + 100));
+	centerOnPoint.y = currentCenter.y;
+	var difference:Vector3 = Vector3(0,0,0);
+	difference.x = Mathf.Abs(currentCenter.x - centerPoint.x);
+	difference.z = Mathf.Abs(currentCenter.z - centerPoint.z);
+	
+	if(currentCenter.x > centerPoint.x)
+		difference.x = difference.x * -1f;
+	
+	if(currentCenter.z > centerPoint.z)
+		difference.z = difference.z * -1f;
+		
+	cameraPosForCentering = thisCamera.transform.position + difference;
+	isCentering = true;
 }

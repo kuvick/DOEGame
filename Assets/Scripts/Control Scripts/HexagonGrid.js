@@ -40,6 +40,7 @@ var tileMap:Tile[] = new Tile[15 * 10];
 static var mainCamera: Camera;									//set this in the editor, although the script fallbacks to the default camera.
 var selectionMaterial: Material;								//material for highlighting a specific hexagon.
 var highlightMaterial : Material;
+var objMaterial : Material;
 private var hexParticles: ParticleSystem.Particle[];			//particles for creating the hex grid
 static var plane:Plane = new Plane(new Vector3(0, 1, 0), 0);	//plane for raycasting, uses y = 0 as the ground, y-up
 var width: int = 15; 											//number of tiles horizontally
@@ -140,6 +141,9 @@ function Update(){
 	//set y to be just above the ground plane at 0.1 so it doesn't get clipped.
 	selectionPosition.y = 0.2f;
 	//selectionHexagon.transform.position = selectionPosition;
+	
+	if(animateHex)
+		animateObjHex();
 }
 
 //get a tile object at coordinate x, y
@@ -360,4 +364,51 @@ static function TileToWorldCoordinates(tileX:int, tileY:int):Vector3{
 //returns the dimensions of the grid
 static function totalTileDimensions():Vector2{
 	return totalDimensions;
+}
+
+
+public function CreateFlashingHexagon(tilePos : Vector3)
+{
+	if(currentObjHexagon != null)
+		GameObject.Destroy(currentObjHexagon);
+
+	var objHexagon = new GameObject("ObjHexagon");
+	var meshFilter: MeshFilter = objHexagon.AddComponent(MeshFilter);
+	meshFilter.mesh = hexagon;
+	var meshRenderer: MeshRenderer = objHexagon.AddComponent(MeshRenderer);
+	if(objMaterial == null){
+		Debug.LogError ("selection material not linked for HexagonGrid");
+	}
+	(objHexagon.GetComponentInChildren(Renderer) as Renderer).material = objMaterial;
+	objHexagon.tag = "HighlightTile";
+	objHexagon.transform.position = TileToWorldCoordinates(tilePos.x, tilePos.y);
+	objHexagon.transform.position.y = 0.3;
+	
+	solidColor = objHexagon.renderer.material.color;
+	animateHex = true;
+	currentObjHexagon = objHexagon;
+	
+	yield WaitForSeconds(2);
+	
+	if(objHexagon != null)
+		GameObject.Destroy(objHexagon);
+	
+	animateHex = false;
+}
+
+private var animateHex : boolean;
+private var fadeTimer : float = 0.0;
+private var fadeScaler : float = 1.0;
+private var transparentColor : Color = Color(1,1,1,0);
+private var solidColor : Color;
+private var currentObjHexagon : GameObject;
+
+private function animateObjHex()
+{
+	//Uses the resource icon flashing script by Derrick(?) to animate the hex
+	if (fadeTimer >= 1 || fadeTimer <= 0)
+			fadeScaler *= -1;
+	fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	if (fadeTimer >= 0)
+		currentObjHexagon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
 }

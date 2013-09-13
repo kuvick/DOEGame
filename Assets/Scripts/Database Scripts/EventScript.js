@@ -38,12 +38,12 @@ private var screenPosition:Vector3;
 
 private var colorOpacity: Color;				//The color to convert to before drawing the Upgrade. Value of (1.0, 1.0, 1.0, .25) results in 25% opacity
 
-private var indicator : ObjectiveIndicator = ObjectiveIndicator();
+//private var indicator : ObjectiveIndicator = ObjectiveIndicator();
 private var icon : ObjectiveIcon;
 
 public function Initialize()
 {
-	indicator.Initialize(gameObject.transform, event, event.type);
+	//indicator.Initialize(gameObject.transform, event, event.type);
 	var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	icon = tempPlane.AddComponent(ObjectiveIcon);
 	//icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic, event.type, event.time);
@@ -67,7 +67,7 @@ function Update () {
 						Screen.height - screenPosition.y  - floatHeight, 
 						upgradeWidth, 
 						upgradeWidth);*/
-	indicator.Update();
+	//indicator.Update();
 	icon.Update();
 }
 
@@ -87,7 +87,7 @@ public function Draw_Upgrade()
 			//GUI.Label(tempRect, event.time.ToString());
 	}
 	
-	indicator.Draw();
+	//indicator.Draw();
 }
 
 public function SetIconActive(active : boolean)
@@ -143,4 +143,9 @@ public function incrementTime()
 public function getIcon():Texture
 {
 	return icon.texture;
+}
+
+public function getIconScript():ObjectiveIcon
+{
+	return icon;
 }
