@@ -88,9 +88,18 @@ public class MainMenu extends GUIControl
 	private var dataIconSizePercentage : float = 0.05f;
 	private var dataIconSize : Vector2;
 	
+	private var cameraControl : CameraControl;
+	
+	private var addedObjRect : boolean;
+	private var grid:HexagonGrid;
+	
 	public function Start () 
 	{
 		super.Start();
+		addedObjRect = false;
+		
+		mainCameraObject = GameObject.Find("Main Camera");
+		cameraControl = mainCameraObject.GetComponent(CameraControl);
 		
 		// If testing different camera angles, going through and adding
 		// the cameras to the list.
@@ -98,10 +107,11 @@ public class MainMenu extends GUIControl
 		{
 			// index of current camera
 			currentCamera = 0;
-			
+			cameraLocations.Add(mainCameraObject);
 			// getting the original camera's information
 			mainCameraObject = GameObject.Find("Main Camera");
 			cameraLocations.Add(mainCameraObject);
+			cameraControl = mainCameraObject.GetComponent(CameraControl);
 			
 			// collecting the different cameras for testing
 			for(var camera : GameObject in GameObject.FindGameObjectsWithTag("TestCamera"))
@@ -211,6 +221,8 @@ public class MainMenu extends GUIControl
 		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
 		//objIconGroupRect = Rect(0,0,1000,1000);
+		
+		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 	}
 	
 	public function Render(){   
@@ -272,10 +284,11 @@ public class MainMenu extends GUIControl
 				
 		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
 		
-		if(upgradeManager != null)
-			upgradeManager.Render();
+		//if(upgradeManager != null) // REMOVING THE OTHER UPGRADE COUNTER
+			//upgradeManager.Render();
 			
 		
+		//DISPLAYING OBJECTIVE ICONS IN HUD
 		GUI.skin.label.normal.textColor = Color.white;
 		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
@@ -283,11 +296,30 @@ public class MainMenu extends GUIControl
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
-				GUI.DrawTexture(Rect(	(objIconSize.x + padding) * i, 
+				//DISPLAYING OBJECTIVE ICON
+				var objIconRect = Rect(	(objIconSize.x + padding) * i, 
 										0,
 										objIconSize.x,
-										objIconSize.y),
-										intelSystem.events[i].getIcon());
+										objIconSize.y);
+				
+				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
+				//If clicks on objective icon, centers on building
+				if(GUI.Button(objIconRect,""))
+				{
+					cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
+					var objIconScript:ObjectiveIcon = intelSystem.events[i].getIconScript();
+					objIconScript.OnSelected();
+					
+					var buildingData : BuildingData = intelSystem.events[i].event.buildingReference.GetComponent(BuildingData);
+					
+					grid.CreateFlashingHexagon(buildingData.buildingData.coordinate);
+				}
+				if(!addedObjRect)
+				{
+					rectList.Add(objIconRect);
+				}
+										
+				//DISPLAYING NUMBER
 				if(intelSystem.events[i].event.type == BuildingEventType.Primary)
 				{		
 					GUI.Label(Rect(	(objIconSize.x + padding) * i, 
@@ -297,12 +329,14 @@ public class MainMenu extends GUIControl
 											intelSystem.events[i].event.time.ToString());
 				}
 				
+				//IF IT HAS AN UPGRADE
 				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
 				{
 					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
 
 					for(var j : int = 0; j < upgradeCount.getTotalParts(); j++)
 					{
+						//DISPLAYS THE DARK UPGRADE ICON CIRCLE FOR EACH ONE PRESENT IN THE LEVEL
 						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * j,
 												objIconSize.y + (padding / 2),
 												dataIconSize.x,
@@ -311,7 +345,8 @@ public class MainMenu extends GUIControl
 					}
 					
 					for(var k : int = 0; k < upgradeCount.getObtainedParts(); k++)
-					{
+					{	
+						//DISPLAYS THE LIGHTER UPGRADE ICON FOR EACH ONE COLLECTED
 						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * k,
 												objIconSize.y + (padding / 2),
 												dataIconSize.x,
@@ -322,6 +357,7 @@ public class MainMenu extends GUIControl
 				}
 			}
 		GUI.EndGroup();
+		addedObjRect = true;
 			
 	}
 	
