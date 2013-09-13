@@ -76,7 +76,7 @@ public class MainMenu extends GUIControl
 	private var startTime = 0;
 	private var startScore = 0;
 	
-	public var victorySplashTimerInSeconds = 5.0f;
+	private var victorySplashTimerInSeconds = 2.0f;
 	private var victorySplashStartTime = 0;
 	private var victorySplashRectangle;
 	private var mostRecentTurnScore : int = 0;
@@ -92,6 +92,9 @@ public class MainMenu extends GUIControl
 	
 	private var addedObjRect : boolean;
 	private var grid:HexagonGrid;
+	
+	public var missionCompleteTexture : Texture;
+	private var missionCompleteSizePercentage : float = 0.7f;
 	
 	public function Start () 
 	{
@@ -170,7 +173,13 @@ public class MainMenu extends GUIControl
 		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
 		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
 		
-		victorySplashRectangle = Rect(screenWidth/3, screenHeight / 3,  screenWidth/3, screenHeight / 3);
+		
+		var victoryHeight = missionCompleteSizePercentage * screenHeight;
+		var victoryW: float = missionCompleteTexture.width;
+		var victoryH: float = missionCompleteTexture.height;
+		var victoryRatio : float = victoryW / victoryH;
+		var victoryWidth : float = victoryHeight * victoryRatio;
+		victorySplashRectangle = Rect(screenWidth/2 - victoryWidth/2, screenHeight/2 - victoryHeight/2,  victoryWidth, victoryHeight);
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -406,6 +415,7 @@ public class MainMenu extends GUIControl
 	
 	private function DrawVictorySplash()
 	{		
+		
 		if(victorySplashStartTime == 0)
 			victorySplashStartTime = Time.time;
 		if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
@@ -415,7 +425,7 @@ public class MainMenu extends GUIControl
 		}
 		else
 		{			
-			GUI.Box(victorySplashRectangle, "You Win!");
+			GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture);
 		}
 	}
 }
