@@ -52,7 +52,7 @@ class BuildingEvent
 {
 	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out
 	//var title: String = "";				// Displayed Title in the Intel Menu
-	var description : String = "";		// Displayed Description in the Intel Menu
+	//var description : String = "";		// Displayed Description in the Intel Menu
 	/*var tooltipPic : Texture2D;*/         // Displayed image in tooltip
 	var tooltip : Tooltip;
 	@HideInInspector

@@ -1692,7 +1692,7 @@ public function WriteLevel()
 			var e : EventSerialData = new EventSerialData();
 			//e.Name = event.event.name;;
 			//e.Title = event.event.title;
-			e.Description = event.event.description;
+			//e.Description = event.event.description;
 			e.Type = event.event.type;
 			e.Turns = event.event.time;
 			e.Points = event.event.points;

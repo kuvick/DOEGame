@@ -182,13 +182,13 @@ public class IntelMenu extends GUIControl
 
 			
 			eventNodeDescription.y += fontHeight/2;
-			GUI.Label(eventNodeDescription, currNode.data.description);
+			//GUI.Label(eventNodeDescription, currNode.data.description);
 			
 			drawTurns(currNode.data.time);
 			
 			if (GUI.Button(eventNodeHitbox, ""))
 			{
-				Debug.Log("\"" + currNode.data.description + "\"" + " clicked");
+			//	Debug.Log("\"" + currNode.data.description + "\"" + " clicked");
 			}
 			
 			currNode = currNode.next;
