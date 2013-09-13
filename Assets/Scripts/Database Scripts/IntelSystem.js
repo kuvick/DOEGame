@@ -321,7 +321,7 @@ public function resolveEvent( script : EventScript)
 		numOfObjectivesLeft--;
 		if(numOfObjectivesLeft <= 0)
 		{
-			triggerWin();
+			//triggerWin();
 			victory = true;
 		}
 		SoundManager.Instance().PlayPrimaryObjectiveComplete();
