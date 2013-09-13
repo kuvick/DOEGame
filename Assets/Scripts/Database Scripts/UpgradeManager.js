@@ -8,6 +8,7 @@ private var i : int = 0;
 private var j : int = 0;
 public var counterTexture : Texture2D;
 public var iconTexture : Texture2D;
+public var notCollectedIconTexture : Texture2D;
 
 private var unitManager : UnitManager;
 
@@ -78,6 +79,15 @@ private function CreateCounters()
 			counterSet.RemoveAt(i);
 			i--;
 		}	
+	}
+}
+
+public function getUpgradeCounter(id : UpgradeID) : UpgradeCounter
+{
+	for (i = 0; i < counterSet.Count; i++)
+	{
+		if(counterSet[i].id == id)
+			return counterSet[i];
 	}
 }
 

@@ -99,22 +99,28 @@ public class SoundManager extends MonoBehaviour {
 	
 	private var linkDraringStartPlayed = false;
 	public function PlayLinkDraging(){
+		if (linkSounds.linkDragStart == null || linkSounds.linkDrag == null){
+			Debug.LogError("A link draging sound was not set");
+			return;
+		}
 		if (!linkDraringStartPlayed){
 			linkDraringStartPlayed = true;
 			var source : AudioSource = AddAudioSource();
 			playClip(linkSounds.linkDragStart, source, linkSounds.priority);
 			yield WaitForSeconds (linkSounds.linkDragStart.length);
+			if (!linkDraringStartPlayed) return; // if we stopped dragging before the starting sound finished
 			playClipLooped(linkSounds.linkDrag, source, linkSounds.priority);
 		}
 	}
 	
 	public function StopLinkDraging(){
-		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag);
-		if (sourcePlayingClip != null){
-			sourcePlayingClip.Stop();
-			if (sourcePlayingClip != defaultClipSource){
-				RemoveAudioSource(sourcePlayingClip);
-			}
+		var sourcePlayingDragClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag);
+		var sourcePlayingDragStartClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDragStart);
+		if (sourcePlayingDragClip != null){
+			RemoveAudioSource(sourcePlayingDragClip);
+		}
+		if (sourcePlayingDragStartClip != null){
+			RemoveAudioSource(sourcePlayingDragStartClip);
 		}
 		linkDraringStartPlayed = false;
 	}
@@ -252,6 +258,7 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	public function playClip(clipToPlay : AudioClip, source : AudioSource, priority : SoundPriority, shouldLoop : boolean){
+		if (source == null) source = AddAudioSource();
 		source.loop = shouldLoop;
 		source.priority = priority;
 		source.volume = getVolume(priority);
@@ -276,7 +283,7 @@ public class SoundManager extends MonoBehaviour {
 				playClip(clipToPlay, defaultClipSource, priority);
 			}
 		} else {
-			playClip(clipToPlay, sourcePlayingClip, priority); // resart the sound if it is already in progress
+			playClip(clipToPlay, sourcePlayingClip, priority); // restart the sound if it is already in progress
 		}
 	}
 	
@@ -300,9 +307,12 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	private function RemoveAudioSource(sourceToRemove : AudioSource) {
-		sourceToRemove.Stop();
-		soundSourcePool.Remove(sourceToRemove);
-		Destroy(sourceToRemove);
+		if (sourceToRemove == null) return;
+		sourceToRemove.Stop(); 
+		if (sourceToRemove != defaultClipSource){
+			soundSourcePool.Remove(sourceToRemove);
+			Destroy(sourceToRemove);
+		}	
 	}
 	
 	/// Will return the audio source that is playing the given clip or null if none are playing it

@@ -21,6 +21,8 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var isPrimary : boolean = true;
 	
+	public var texture : Texture;
+	
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
 	
@@ -31,6 +33,7 @@ public class ObjectiveIcon extends InspectionComponent
 		normalTexture = icon;
 		selectedTexture = icon;
 		renderer.material.mainTexture = normalTexture;
+		texture = normalTexture;
 		// flip texture so not upside-down
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);

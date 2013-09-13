@@ -65,7 +65,7 @@ class BuildingOnGridData
 	var idea : String = "";
 	var hasEvent : boolean = false;
 	
-	var tooltip : Tooltip;
+	var tooltip : Tooltip[];
 	
 	var hasTooltipTrigger : boolean = false;
 	var isPriorityTooltip : boolean = false;
