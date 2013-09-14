@@ -59,7 +59,9 @@ class ResearcherUnit extends Unit {
 			tempPickUp = heldUpgrade;  // Unit picks up an Upgrade
 			intelSystem.incrementScore(true, upgradePickedUpScore); //If an Upgrade with picked up, increment score
 			currentBuilding.heldUpgradeID = UpgradeID.None;
-			heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
+						
+			//GPC 9/14/13 - Obsolete?
+			//heldUpgradeIcon = manager.GetUpgradeIcon(heldUpgrade - 1);
 			upgradeManager.PickupUpgrade(currentBuilding.buildingPointer, heldUpgrade);
 		}
 		// or needs the currently held upgrade
