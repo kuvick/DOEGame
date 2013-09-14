@@ -239,7 +239,10 @@ public class ScoreMenu extends GUIControl{
 			// Maybe switch this to level select, but can't
 			// so long as the back button returns to the level...
 			//currentResponse.type = EventTypes.MAIN;
-			var nextLevel : String = PlayerPrefs.GetString(Strings.NextLevel);
+			//var nextLevel : String = PlayerPrefs.GetString(Strings.NextLevel);
+			//Changed GPC 9/14/13
+			var nextLevel : String = "LevelSelectScreen";
+			
 			if (nextLevel == null){
 				currentResponse.type = EventTypes.LEVELSELECT;
 				levelSelectRef.SetFromScoreScreen(true);
