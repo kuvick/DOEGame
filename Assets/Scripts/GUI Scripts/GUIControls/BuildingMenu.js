@@ -74,6 +74,7 @@ public class BuildingMenu extends GUIControl
 	private var isEditor : boolean = false; // used to determine what functions to use if in the level editor
 	private var editorSelectedTile : Vector2; // coordinate of selected tile in level editor
 	
+	private var databaseRef : Database;
 	
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
@@ -122,6 +123,8 @@ public class BuildingMenu extends GUIControl
 		var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
 		unallocatedInputTex = linkUI.allocatedInputTex;
 		unallocatedOutputTex = linkUI.allocatedOutputTex;
+		
+		databaseRef = GameObject.Find("Database").GetComponent(Database);
 	}
 	
 	
@@ -451,6 +454,7 @@ public class BuildingMenu extends GUIControl
 			GameObject.DestroyImmediate(selectedBuildingSite);
 			Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
 			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
+			databaseRef.activateBuilding(databaseRef.findBuildingIndex( coordinate ), true);
 			
 			SoundManager.Instance().PlayBuildingPlaced();
 			
