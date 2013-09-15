@@ -30,8 +30,8 @@ public class BuildingMenu extends GUIControl
 	private var buildingIconHeightPercent:float = 0.3;
 	private var buildingIconPaddingPercent:float = 0.005;
 	private var buildingGroupYPercent:float = 0.25;
-	private var cancelButtonHeightPercent:float = 0.2;		
-	private var cancelButtonFontHeightPercent:float = 0.03;	
+	private var cancelButtonHeightPercent:float = 0.14;		
+	//private var cancelButtonFontHeightPercent:float = 0.03;	
 
 	private var scrollHeight:float;
 	private var scrollWidth:float;
@@ -74,6 +74,9 @@ public class BuildingMenu extends GUIControl
 	private var isEditor : boolean = false; // used to determine what functions to use if in the level editor
 	private var editorSelectedTile : Vector2; // coordinate of selected tile in level editor
 	
+	private var databaseRef : Database;
+	
+	public var buildingIconImages : Texture[];
 	
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
@@ -122,6 +125,24 @@ public class BuildingMenu extends GUIControl
 		var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
 		unallocatedInputTex = linkUI.allocatedInputTex;
 		unallocatedOutputTex = linkUI.allocatedOutputTex;
+		
+		databaseRef = GameObject.Find("Database").GetComponent(Database);
+	}
+	
+	private function matchIcons(name:String):Texture
+	{
+		for (var i:int = 0; i < buildingIconImages.length; i++)
+		{
+			if(buildingIconImages[i].name == name)
+			{
+				return buildingIconImages[i];
+			}
+		}
+		
+		
+		Debug.LogError("Could not find matching icon for the building menu! Check the BuildingMenu in the GUI System to make sure all building icons appear there and are properly named to match the prefab.");
+		return null;
+		
 	}
 	
 	
@@ -137,6 +158,7 @@ public class BuildingMenu extends GUIControl
 		{
 			var setData : BuildingData = buildingChoices[i].building.GetComponent(BuildingData);//choice.building.GetComponent(BuildingData);
 			setData.buildingData = buildingChoices[i].data;
+			buildingChoices[i].icon = matchIcons(buildingChoices[i].building.name);
 			//i++;
 		}
 		
@@ -151,15 +173,19 @@ public class BuildingMenu extends GUIControl
 		buildingGroupY = screenHeight * buildingGroupYPercent;
 		
 		cancelButtonHeight = cancelButtonHeightPercent * screenHeight;
-		cancelButtonFontHeight = cancelButtonFontHeightPercent * screenHeight;
+		var cancelX:float = cancelButtonTexture.width;
+		var cancelY:float = cancelButtonTexture.height;
+		var cancelRatio : float = cancelX / cancelY;
+		var cancelButtonWidth : float = cancelButtonHeight * cancelRatio;
+		//cancelButtonFontHeight = cancelButtonFontHeightPercent * screenHeight;
 		
-		hexButtonSkin.button.fontSize = cancelButtonFontHeight;
+		//hexButtonSkin.button.fontSize = cancelButtonFontHeight;
 		
 		background = new Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		scrollLeft = new Rect(verticalBarWidth + padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
 		scrollRight = new Rect(verticalBarWidth + screenWidth - scrollWidth - padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
 		buildingClip = new Rect(verticalBarWidth + (screenWidth - buildingClipWidth)/2, horizontalBarHeight, buildingClipWidth, screenHeight);
-		cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonHeight, cancelButtonHeight);	
+		cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonWidth, cancelButtonHeight);	
 
 		
 		rectList.Add(background);
@@ -270,9 +296,9 @@ public class BuildingMenu extends GUIControl
 		GUI.EndGroup();
 		
 		
-		GUI.skin = hexButtonSkin;
+		//GUI.skin = hexButtonSkin;
 		
-		if (GUI.Button(cancelButton, "Cancel"))
+		if (GUI.Button(cancelButton, cancelButtonTexture))
 		{
 			currentResponse.type = EventTypes.MAIN;
 			ModeController.setSelectedBuilding(null);
@@ -318,7 +344,10 @@ public class BuildingMenu extends GUIControl
 		{
 			rightScrollVisible = true;
 		}	
-		sumWidth = buildingIconHeight + buildingIconPadding;
+		//sumWidth = buildingIconHeight + buildingIconPadding;
+		//**NEW**
+		sumWidth = (buildingClip.width / 2) - (buildingIconHeight / 2) - (buildingIconHeight + buildingIconPadding);
+		
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
 		
 		var buildingNum : int = 0;
@@ -336,7 +365,9 @@ public class BuildingMenu extends GUIControl
 				{
 					break;
 				}
-				currentUpperRowX = j * sumWidth;
+				//currentUpperRowX = j * sumWidth;
+				//**NEW**
+				currentUpperRowX = j * (buildingIconHeight + buildingIconPadding) + sumWidth;
 				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);
 				
@@ -344,7 +375,8 @@ public class BuildingMenu extends GUIControl
 				//var l : int = 0;
 				for(var l : int = 0; l < buildingChoices[buildingNum].data.unallocatedOutputs.length; l++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
-					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					//resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight) * l, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
 					//l++;
 				}
@@ -352,7 +384,8 @@ public class BuildingMenu extends GUIControl
 				//l = 0;
 				for(l = 0; l < buildingChoices[buildingNum].data.unallocatedInputs.length; l++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
-					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					//resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight * l), resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
 					//l++;
 				}				
@@ -369,7 +402,7 @@ public class BuildingMenu extends GUIControl
 				{
 					break;
 				}
-				currentLowerRowX = k * sumWidth + lowerRowOffset;
+				currentLowerRowX = k * (buildingIconHeight + buildingIconPadding) + sumWidth;
 				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
 				buildingIconList.Add(buildingIcon);;
 				
@@ -377,7 +410,8 @@ public class BuildingMenu extends GUIControl
 				//var m : int = 0;
 				for(var m : int = 0; m < buildingChoices[buildingNum].data.unallocatedOutputs.length; m++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
-					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					//resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight) * m, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
 					//m++;
 				}
@@ -385,7 +419,8 @@ public class BuildingMenu extends GUIControl
 				//m = 0;
 				for(m = 0; m < buildingChoices[buildingNum].data.unallocatedInputs.length; m++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
-					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					//resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight * m), resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
 					//m++;
 				}
@@ -451,6 +486,7 @@ public class BuildingMenu extends GUIControl
 			GameObject.DestroyImmediate(selectedBuildingSite);
 			Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
 			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
+			databaseRef.activateBuilding(databaseRef.findBuildingIndex( coordinate ), true);
 			
 			SoundManager.Instance().PlayBuildingPlaced();
 			

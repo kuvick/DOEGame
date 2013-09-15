@@ -77,6 +77,7 @@ function Start () {
 	targetIcon.renderer.enabled = false;
 	targetIcon.transform.localScale = Vector3(6,6,6);
 	targetIcon.collider.enabled = false;
+	targetIcon.layer = 10;
 	// slant icon slightly forward towards the camera
 	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 }

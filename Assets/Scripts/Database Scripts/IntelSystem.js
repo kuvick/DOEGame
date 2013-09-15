@@ -57,6 +57,7 @@ class BuildingEvent
 	var tooltip : Tooltip;
 	@HideInInspector
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
+	var resolvedIcon : Texture = null;
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
 	@HideInInspector
@@ -129,9 +130,15 @@ function Start ()
 				// set icon
 				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 1;
 				if (tempEventClass.event.type == BuildingEventType.Primary)
+				{
 					tempEventClass.event.icon = primaryIcons[iconIndex];
+					tempEventClass.event.resolvedIcon = primaryIcons[2];
+				}
 				else
+				{
 					tempEventClass.event.icon = secondaryIcons[iconIndex];
+					tempEventClass.event.resolvedIcon = secondaryIcons[2];
+				}
 				tempEventClass.Initialize();
 				tempEventClass.event.buildingReference = buildingObject;
 				
@@ -299,10 +306,11 @@ public function resolveEvent( script : EventScript)
 	tempNode.event = script;
 	tempNode.turnAdded = currentTurn;
 	eventStack.Add(tempNode);
-	events.Remove(script);
+	//events.Remove(script);
 	
 	tempScript.changeOpacity(0f);
-	tempScript.SetIconActive(false);
+	//tempScript.SetIconActive(false);
+	tempScript.getIconScript().SetResolved(true);
 	
 	if(tempScript.event.childEvent != null)
 	{	

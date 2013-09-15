@@ -93,6 +93,7 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.transform.position = gameObject.transform.position;
 	flashIcon.transform.position.y = 74;
 	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
+	//flashIcon.collider.active = false;
 	flashIcon.layer = 10;
 	
 	if (ioType == IOType.OptOut)
@@ -119,7 +120,7 @@ public function SetAllocated (allo : boolean)
 public function SetActive(active : boolean)
 {
 	//gameObject.renderer.material.color = active ? allColor : unallColor;
-	if (ioType != IOType.In)
+	//if (ioType != IOType.In)
 		flashActive = active;
 	if (!flashActive)
 		flashIcon.renderer.material.color = transparentColor;

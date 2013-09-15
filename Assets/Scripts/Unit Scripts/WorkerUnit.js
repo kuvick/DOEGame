@@ -29,6 +29,10 @@ class WorkerUnit extends Unit {
 				databaseRef.DeactivateLink(Database.findBuildingIndex(previousBuilding), previousBuilding.optionalOutputLinkedTo);
 			else if (currentBuilding.optionalOutputLinkedTo >= 0)
 				databaseRef.activateBuilding(Database.findBuildingIndex(currentBuilding), true);
+			if (currentBuilding.optionalOutputIcon)
+				currentBuilding.optionalOutputIcon.SetActive(true);
+			if (previousBuilding.optionalOutputIcon)
+				previousBuilding.optionalOutputIcon.SetActive(false);
 		}
 	}
 }
