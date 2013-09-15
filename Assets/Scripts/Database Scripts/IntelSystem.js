@@ -379,14 +379,13 @@ public function undoResolution()
 			//If the event was a Primary Event
 			if(tempEvent.type == BuildingEventType.Primary){
 				// Decrement Primary Score
-				primaryScore -= tempEvent.points; 
+				decrementScore(true, tempEvent.points);
 				// Increment the Number of Objectives Remaining
 				numOfObjectivesLeft++;  
 			}
-			else // Otherwise...
+			else
 			{
-				// Decrement Optional Score
-				optionalScore -= tempEvent.points; 
+				decrementScore(false, tempEvent.points);
 			}
 			
 			eventStack[index].event.changeOpacity(.5f);
