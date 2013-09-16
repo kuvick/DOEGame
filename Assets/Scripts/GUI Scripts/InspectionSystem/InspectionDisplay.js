@@ -80,7 +80,9 @@ function Start ()
 	skin.box.active.background = border;
 	skin.box.hover.background = border;
 	//Added GPC 9/3/13
-	intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
+	if(GameObject.Find("Database") != null){
+		intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
+	}
 	
 	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 }
