@@ -84,7 +84,10 @@ function Start ()
 		intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
 	}
 	
-	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
+	var hexagonGrid:GameObject = GameObject.Find("HexagonGrid");
+	if(hexagonGrid != null)
+		inputController = hexagonGrid.GetComponent("InputController");
+
 }
 
 function Update () 

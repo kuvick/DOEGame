@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Levels>
+    <Level>
+      <displayName>KU05</displayName>
+<!--  The scene to load; be sure it had been added to the build. -->
+      <sceneName>KU05</sceneName>
+      <difficulty>1</difficulty>
+      <subjectText>KU05</subjectText>
+      <messageText>KU05</messageText>
+      <isPrimary>false</isPrimary>
+			
+<!--  If you want their icon to show up, you must use their full name:
+Director Helena Edison
+Agent Roc Bridges
+Dr. Raoul Fernandez
+Engineer Nancy Sanders
+Researcher Jerome Zabel
+Else the default icon will show up. If you want to add more or change the name displayed,
+Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
+      <senderName>Director Helena Edison</senderName>
+			
+<!-- For "howToUnlock" your choices are as follows:
+NONE
+RANK
+MISSION
+CONTACT -->
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+  </Levels>
+</LevelList>

@@ -5,6 +5,10 @@ Description:
 
 Author: Francis Yuan
 **********************************************************/
+import System.Collections.Generic;
+import System.Xml;
+import System.IO;
+
 #pragma strict
 enum UnlockType
 {
@@ -12,6 +16,49 @@ enum UnlockType
 	RANK,
 	MISSION,
 	CONTACT
+}
+
+@XmlRoot("LevelList")
+public class LevelList
+{
+	@XmlArray("Levels")
+  	@XmlArrayItem("Level")
+  	public var levels : List.<BasicNode> = new List.<BasicNode>();
+  	
+	public function Load(): LevelList
+ 	{
+	 	
+		var textAsset:TextAsset = Resources.Load("LevelList") as TextAsset;
+	 	
+	 	var serializer : XmlSerializer = new XmlSerializer(LevelList);
+	 	var strReader : StringReader = new StringReader(textAsset.text);
+	 	var xmlFromText : XmlTextReader = new XmlTextReader(strReader);
+	 	
+	 	var lvlList : LevelList = serializer.Deserialize(xmlFromText) as LevelList;
+	 	strReader.Close();
+		xmlFromText.Close();
+		
+		Debug.Log("Loading of levels complete.");
+		return lvlList;
+	 }
+}
+
+public class BasicNode
+{
+	public var displayName:String = "";
+	public var sceneName:String = "";
+	public var difficulty:int = 0;
+	
+	public var subjectText : String = "";
+	public var messageText : String = "";
+	
+	public var isPrimary : boolean = true;
+	public var senderName : String = "";
+	
+	public var howToUnlock : UnlockType;
+	public var rankRequirement : int = -1;
+	public var missionRequirementIndex : int = -1;
+	public var contactRequirement : String = "";
 }
 
 
@@ -28,7 +75,7 @@ public class LevelNode
 	public var unlocked : boolean = false;
 	
 	public var bounds : Rect;
-	public var isPrimary = true;
+	public var isPrimary : boolean = true;
 	public var wasRead : boolean = false;
 	public var completed : boolean = false;
 	
@@ -39,6 +86,32 @@ public class LevelNode
 	public var rankRequirement : int = -1;
 	public var missionRequirementIndex : int = -1;
 	public var contactRequirement : String;
+	
+	public function LevelNode()
+	{
+		texture = null;
+		displayName = "";
+		sceneName = "";
+		difficulty = 0;
+		score = 0;
+			
+		subjectText="";
+		messageText="";
+		unlocked = false;
+			
+		bounds = Rect(0,0,0,0);
+		isPrimary = true;
+		wasRead = false;
+		completed = false;
+			
+		senderTexture = null;
+		senderName = "";
+			
+		howToUnlock = UnlockType.NONE;
+		rankRequirement = -1;
+		missionRequirementIndex = -1;
+		contactRequirement = "";
+	}
 	
 	public function LevelNode(tex:Texture, dispName: String, lvlName:String, dif:int, bestScore:int)
 	{
@@ -64,6 +137,8 @@ public class LevelNode
 
 public class LevelSelectMenu extends GUIControl
 {
+	public var levelsFromXML : LevelList;
+
 	//Images
 	public var backgroundText: Texture;
 	
@@ -205,6 +280,19 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		//ADDING IN THE XML LEVELS INTO THE LEVELS ARRAY
+		levelsFromXML = levelsFromXML.Load();
+		levelsFromXML.levels.Reverse();
+		levels = new LevelNode[levelsFromXML.levels.Count];
+		
+		for(var i:int=0; i < levelsFromXML.levels.Count; i++)
+		{
+			levels[i] = convertBasicToLevel(levelsFromXML.levels[i]);
+			levels[i].senderTexture = assignSenderTexture(levelsFromXML.levels[i].senderName);
+		}
+		
+		
 		
 		levelGroupY = 0;//screenHeight * levelGroupYPercent;
 		levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
@@ -363,7 +451,7 @@ public class LevelSelectMenu extends GUIControl
 						
 						//If there is a sender picture, display that, else don't
 						if(levelsToRender[i].senderTexture != null)
-							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
+							GUI.DrawTexture(senderRect, levelsToRender[i].senderTexture,ScaleMode.StretchToFill);
 						else
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						
@@ -648,4 +736,47 @@ public class LevelSelectMenu extends GUIControl
 	}
 
 
+	public var characterEmailIcons : List.<SenderIcon> = new List.<SenderIcon>();
+	
+	private function assignSenderTexture(name : String):Texture
+	{
+		//Debug.Log("name: " + name);
+		for(var i:int=0; i < characterEmailIcons.Count; i++)
+		{
+			if(name == characterEmailIcons[i].senderName)
+			{
+				//Debug.Log("Returning icon for " + characterEmailIcons[i].senderName);
+				return characterEmailIcons[i].senderIcon;
+			}
+		}
+
+		//Debug.Log("Setting as default");
+		return characterEmailIcons[0].senderIcon;
+	}
+	
+	public function convertBasicToLevel(basicNode : BasicNode):LevelNode
+	{
+		var levelNode : LevelNode = new LevelNode();
+		levelNode.displayName = basicNode.displayName;
+		levelNode.sceneName = basicNode.sceneName;
+		levelNode.difficulty = basicNode.difficulty;
+		levelNode.subjectText = basicNode.subjectText;
+		levelNode.messageText = levelNode.messageText;
+		levelNode.isPrimary = basicNode.isPrimary;
+		levelNode.senderName = basicNode.senderName;
+		levelNode.howToUnlock = basicNode.howToUnlock;
+		levelNode.rankRequirement = basicNode.rankRequirement;
+		levelNode.missionRequirementIndex = basicNode.missionRequirementIndex;
+		levelNode.contactRequirement = basicNode.contactRequirement;
+		
+		return levelNode;
+	}
+
+
+}
+
+public class SenderIcon
+{
+	public var senderName : String;
+	public var senderIcon : Texture;
 }
