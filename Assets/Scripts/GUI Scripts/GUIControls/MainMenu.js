@@ -280,6 +280,7 @@ public class MainMenu extends GUIControl
 		
 		if(GUI.Button(undoButton, undoTexture))
 		{
+			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			intelSystem.comboSystem.resetComboCount();
 			SoundManager.Instance().playUndo();
 			

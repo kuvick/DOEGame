@@ -142,6 +142,7 @@ function Start()
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 		//buildingsOnGrid.Push(tempBuilding);
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
+		//SetBuildingResourceActive(tempBuilding.unallocatedInputIcons, true);
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
@@ -893,10 +894,10 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     {
     	SetBuildingResourceActive(building.unallocatedInputIcons, true);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
-    	SetBuildingResourceActive(building.allocatedInputIcons, true);
+    	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, true);
-    	if (building.optionalOutputIcon)
-    		building.optionalOutputIcon.SetActive(true);
+    	/*if (building.optionalOutputIcon)
+    		building.optionalOutputIcon.SetActive(true);*/
     	for(var outLink : int in building.outputLinkedTo)
     	{
     		var outLinkBuilding : BuildingOnGrid = buildingsOnGrid[outLink];
@@ -936,7 +937,7 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     }
     else
     {
-    	SetBuildingResourceActive(building.unallocatedInputIcons, false);
+    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);

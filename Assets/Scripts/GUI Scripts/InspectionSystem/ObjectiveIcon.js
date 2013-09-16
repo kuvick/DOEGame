@@ -23,10 +23,13 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	public var texture : Texture;
 	
+	private var resolvedTexture : Texture2D;
+	private var isResolved : boolean = false;
+	
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
 	
-	public function Initialize(pos : Transform, icon : Texture2D, disp : Tooltip,
+	public function Initialize(pos : Transform, icon : Texture2D, resIcon : Texture2D, disp : Tooltip,
 								type : BuildingEventType, turns : int)
 	{
 		// set icon textures
@@ -34,6 +37,7 @@ public class ObjectiveIcon extends InspectionComponent
 		selectedTexture = icon;
 		renderer.material.mainTexture = normalTexture;
 		texture = normalTexture;
+		resolvedTexture = resIcon;
 		// flip texture so not upside-down
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
@@ -144,6 +148,17 @@ public class ObjectiveIcon extends InspectionComponent
 		renderer.enabled = isActive;
 		if (isPrimary)
 			turnMesh.active = isActive;
+	}
+	
+	public function SetResolved(res : boolean)
+	{
+		isResolved = res;
+		if (isResolved)
+		{
+			turnMesh.active = false;
+			texture = resolvedTexture;
+			renderer.material.mainTexture = texture;
+		}
 	}
 	
 	public function Draw()

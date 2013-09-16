@@ -79,7 +79,7 @@ public function LoadPlayer(playerName : String):boolean
 			return true;
 		}
 	}
-	Debug.Log("Player does not exist");
+	Debug.Log("Player " + playerName + " does not exist");
 	return false;
 }
 
