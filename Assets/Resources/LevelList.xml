@@ -27,8 +27,112 @@ MISSION
 CONTACT -->
       <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
+<!-- The missionRequirementIndex is the number, as in the order of this document,
+			that needs to be completed before this one...taking into account that
+		the first entry is "0" not 1.	-->
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+		
+   <Level>
+      <displayName>Tutorial1</displayName>
+<!--  The scene to load; be sure it had been added to the build. -->
+      <sceneName>Tutorial1</sceneName>
+      <difficulty>1</difficulty>
+      <subjectText>This is important!</subjectText>
+      <messageText>Please help me!</messageText>
+      <isPrimary>true</isPrimary>
+			
+<!--  If you want their icon to show up, you must use their full name:
+Director Helena Edison
+Agent Roc Bridges
+Dr. Raoul Fernandez
+Engineer Nancy Sanders
+Researcher Jerome Zabel
+Else the default icon will show up. If you want to add more or change the name displayed,
+Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
+      <senderName>Researcher Jerome Zabel</senderName>
+			
+<!-- For "howToUnlock" your choices are as follows:
+NONE
+RANK
+MISSION
+CONTACT -->
+      <howToUnlock>RANK</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+<!-- The missionRequirementIndex is the number, as in the order of this document,
+			that needs to be completed before this one...taking into account that
+		the first entry is "0" not 1.	-->
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+		
+   <Level>
+      <displayName>Tutorial2</displayName>
+<!--  The scene to load; be sure it had been added to the build. -->
+      <sceneName>Tutorial1</sceneName>
+      <difficulty>1</difficulty>
+      <subjectText>This is important!</subjectText>
+      <messageText>Please help me!</messageText>
+      <isPrimary>true</isPrimary>
+			
+<!--  If you want their icon to show up, you must use their full name:
+Director Helena Edison
+Agent Roc Bridges
+Dr. Raoul Fernandez
+Engineer Nancy Sanders
+Researcher Jerome Zabel
+Else the default icon will show up. If you want to add more or change the name displayed,
+Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
+      <senderName>Agent Roc Bridges</senderName>
+			
+<!-- For "howToUnlock" your choices are as follows:
+NONE
+RANK
+MISSION
+CONTACT -->
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>3</rankRequirement>
+<!-- The missionRequirementIndex is the number, as in the order of this document,
+			that needs to be completed before this one...taking into account that
+		the first entry is "0" not 1.	-->
+      <missionRequirementIndex>1</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+ 
+   <Level>
+      <displayName>Tutorial2</displayName>
+<!--  The scene to load; be sure it had been added to the build. -->
+      <sceneName>Tutorial2</sceneName>
+      <difficulty>1</difficulty>
+      <subjectText>Tasdfasdfhis is important!</subjectText>
+      <messageText>Please hasdfasdelp me!</messageText>
+      <isPrimary>true</isPrimary>
+			
+<!--  If you want their icon to show up, you must use their full name:
+Director Helena Edison
+Agent Roc Bridges
+Dr. Raoul Fernandez
+Engineer Nancy Sanders
+Researcher Jerome Zabel
+Else the default icon will show up. If you want to add more or change the name displayed,
+Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
+      <senderName>Engineer Nancy Sanders</senderName>
+			
+<!-- For "howToUnlock" your choices are as follows:
+NONE
+RANK
+MISSION
+CONTACT -->
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>2</rankRequirement>
+<!-- The missionRequirementIndex is the number, as in the order of this document,
+			that needs to be completed before this one...taking into account that
+		the first entry is "0" not 1.	-->
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+ 
+		
   </Levels>
 </LevelList>

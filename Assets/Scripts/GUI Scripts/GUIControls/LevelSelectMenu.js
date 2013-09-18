@@ -38,7 +38,7 @@ public class LevelList
 	 	strReader.Close();
 		xmlFromText.Close();
 		
-		Debug.Log("Loading of levels complete.");
+		//Debug.Log("Loading of levels complete.");
 		return lvlList;
 	 }
 }
@@ -435,7 +435,11 @@ public class LevelSelectMenu extends GUIControl
 					{
 						if(PlayerPrefs.HasKey(levelsToRender[i].sceneName + "Score"))
 						{
-							unlockedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
+							if(inboxTab)
+								unlockedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
+							else
+								completedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
+							
 						}
 						
 						if(i != levelsToRender.Count-1)
@@ -526,11 +530,11 @@ public class LevelSelectMenu extends GUIControl
 			} else {
 				RenderLevels(completedLevels);
 			}
-			
+			/*
 			if (GUI.Button(toggleMissionTypesButton, inboxTab ? "Archive" : "Inbox")){
 				inboxTab = !inboxTab;
 			}
-			
+			*/
 			if(GUI.Button(codexIconRect, codexIconText))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
@@ -538,7 +542,8 @@ public class LevelSelectMenu extends GUIControl
 			
 			if(GUI.Button(contactsIconRect, contactsIconText))
 			{
-				currentResponse.type = EventTypes.CONTACTSMENU;
+				//currentResponse.type = EventTypes.CONTACTSMENU;
+				inboxTab = !inboxTab;
 			}
 			
 			if(GUI.Button(mainMenuIconRect, mainMenuIconText))
@@ -551,7 +556,9 @@ public class LevelSelectMenu extends GUIControl
 			GUI.BeginGroup(missionScrollArea);			
 				//levelSelectSkin.label.fontSize = levelSelectFontSize;				
 
-				GUI.skin = levelSelectSkin;		
+			GUI.skin = levelSelectSkin;		
+			if(inboxTab)
+			{
 				if(!unlockedLevels[activeLevelIndex].wasRead)
 					unlockedLevels[activeLevelIndex].wasRead = true;														
 				
@@ -564,6 +571,22 @@ public class LevelSelectMenu extends GUIControl
 					PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
 					Application.LoadLevel("LoadingScreen");
 				}
+			}
+			else
+			{
+				if(!completedLevels[activeLevelIndex].wasRead)
+					completedLevels[activeLevelIndex].wasRead = true;														
+				
+				GUI.Label(messageRect, "Subject: " + completedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + completedLevels[activeLevelIndex].messageText);						
+				
+				startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Subject: " + completedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + completedLevels[activeLevelIndex].messageText)).y * 2.0f;
+				
+				if(GUI.Button(startLevelButton, launchMissionButton))
+				{							
+					PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
+					Application.LoadLevel("LoadingScreen");
+				}
+			}
 				
 			GUI.EndGroup();
 			
@@ -665,17 +688,34 @@ public class LevelSelectMenu extends GUIControl
 			GUIManager.levelToAdd = "";
 		}
 		
-		checkForUnlocks();
-		
 		// Calculate the rect dimensions of every level
+		
+		
+		
+		// Goes through the levels multiple times, as many times as there are levels
+		// so that unlocks "ripple" through until all proper levels are unlocked
+		for (var a:int = numLevels - 1; a >= 0; a--)
+		{
+			checkForUnlocks();
+			
+			if(levels[a].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[a].sceneName))
+			{
+				if (saveSystem.currentPlayer.levelHasBeenCompleted(levels[a].sceneName))
+					levels[a].completed = true;
+			}
+		}
+			
+			
+		
 		for (var i:int = numLevels - 1; i >= 0; i--)
-		{					
+		{
 			if(levels[i].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[i].sceneName))
 			{	
 				if (levels[i].completed || saveSystem.currentPlayer.levelHasBeenCompleted(levels[i].sceneName)){
 					level = new Rect(0, countCompleted * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countCompleted * (level.height * .05);
 					levels[i].bounds = level;
+					levels[i].completed = true;
 					completedLevels.Add(levels[i]);
 					countCompleted++;	
 				} else {
@@ -723,7 +763,8 @@ public class LevelSelectMenu extends GUIControl
 					}
 					break;
 				case UnlockType.MISSION:
-					if(levels[levels[i].missionRequirementIndex].completed)
+					//Debug.Log("name" + levels[levels[i].missionRequirementIndex].sceneName);
+					if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
 						levels[i].unlocked = true;
 					break;
 				case UnlockType.CONTACT:
@@ -761,7 +802,7 @@ public class LevelSelectMenu extends GUIControl
 		levelNode.sceneName = basicNode.sceneName;
 		levelNode.difficulty = basicNode.difficulty;
 		levelNode.subjectText = basicNode.subjectText;
-		levelNode.messageText = levelNode.messageText;
+		levelNode.messageText = basicNode.messageText;
 		levelNode.isPrimary = basicNode.isPrimary;
 		levelNode.senderName = basicNode.senderName;
 		levelNode.howToUnlock = basicNode.howToUnlock;
