@@ -32,6 +32,7 @@ private var isSelected : boolean = false;
 private var pathDrawn : boolean = false;
 private var pathDrawnTimer : float;
 private var pathDrawnTimerDuration : float = 3.0f;
+private var pathMadeTurn : int;
 
 private var targetIcon : GameObject;
 public var targetIconTex : Texture2D;
@@ -334,6 +335,8 @@ function UndoAction ()
 		currentBuilding.units.Add(this);
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
 		CheckPathBroken();
+		if (intelSystem.currentTurn == pathMadeTurn)
+			currentPath.Clear();
 		if (currentPath.Count > 0)
 			SetState(UnitState.InTransit);
 	}
@@ -490,6 +493,7 @@ public function OnDeselect()
 			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
 			pathDrawn = true;
+			pathMadeTurn = intelSystem.currentTurn;
 			Database.UndoStack.Add(UndoType.Wait);
 			SetState(UnitState.InTransit);
 			intelSystem.addTurn();
