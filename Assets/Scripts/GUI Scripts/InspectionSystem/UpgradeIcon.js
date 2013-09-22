@@ -31,6 +31,8 @@ public class UpgradeIcon extends InspectionComponent
 		renderer.material.mainTextureScale = Vector2(-1,-1);
 		renderer.material.mainTextureOffset = Vector2(1,1);
 		
+		gameObject.layer = 10;
+		
 		// set icon height above terrain
 		//transform.position.y = 50;
 		
@@ -79,6 +81,12 @@ public class UpgradeIcon extends InspectionComponent
 	public function Draw()
 	{
 		super();
+		renderer.enabled = isActive;
+	}
+	
+	public function SetActive(active : boolean)
+	{
+		super(active);
 		renderer.enabled = isActive;
 	}
 	

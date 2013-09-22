@@ -164,6 +164,7 @@ public function PickupUpgrade(building : GameObject, id : UpgradeID)
 	var temp : UpgradeIcon = FindUpgradeIconByBuilding(building, id);
 	if (temp)
 	{
+		Debug.Log("picked up");
 		temp.SetActive(false);
 		if (id != UpgradeID.Dummy)
 			counterSet[id - 1].IncrementObtained();
