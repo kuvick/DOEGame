@@ -107,7 +107,10 @@ function Update ()
 function OnGUI()
 {
 	if (componentSelected)
+	{
+		GUI.depth = 1;
 		Render();
+	}
 }
 
 public function Activate (disp : Tooltip)

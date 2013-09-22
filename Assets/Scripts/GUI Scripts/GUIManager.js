@@ -240,6 +240,7 @@ public function Update()
 */
 public function OnGUI()
 {
+	GUI.depth = 2;
 	if (fadeingMenu) GUI.color = new Color(1,1,1,1-fadePercentage);
 	for(var i:int = 0; i < activeControls.Count; i++)
 	{
