@@ -130,3 +130,8 @@ public function SetIndex (index : int)
 {
 	this.index = index;
 }
+
+public function Delete()
+{
+	DestroyImmediate(flashIcon);
+}

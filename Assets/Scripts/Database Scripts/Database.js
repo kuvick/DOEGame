@@ -210,6 +210,47 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 }
 
 /*
+Since there are no more default buildings, this script will add a building as is
+to the building menu. There is no undo functionality yet, since that will involve
+re-placing the building site.
+
+This will place the building at the building site's index
+*/
+static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord : Vector3, index : int)
+{
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
+
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+	buildingsOnGrid[index] = tempBuilding;
+	//buildingsOnGrid.Add(tempBuilding);
+	BroadcastBuildingUpdate(buildingObject, index);
+	
+	if(findBuildingIndex(tempBuilding.coordinate) != -1)
+	{
+		Debug.Log("Coord: " + tempBuilding.coordinate);
+		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
+		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	}
+	else
+	{
+		Debug.Log("Error, building not added...");
+	}
+}
+
+/*
 The addingBuildingToGrid function adds a building to the
 buildingsOnGrid array, representing it has been placed on
 the grid, based on a given building type name, coordinate,
@@ -1467,10 +1508,10 @@ function UndoAdd()
 	var building : GameObject = tempBuildingOnGrid.buildingPointer;
 	GameObject.DestroyImmediate(building);
 	// Remove building from BuildingsOnGrid
-	buildingsOnGrid.RemoveAt(buildingIndex);//buildingsOnGrid.Splice(buildingIndex, 1);	
+	//buildingsOnGrid.RemoveAt(buildingIndex);//buildingsOnGrid.Splice(buildingIndex, 1);	
 	
 	// Add BuildingSite to BuildingsOnGrid
-	addBuildingSite(addList[lastIndex].buildingSite.coordinate);		
+	addBuildingSite(addList[lastIndex].buildingSite.coordinate, buildingIndex);		
 	
 	//TODO: Add Element back to BuildingMenu.BuildingChoices
 	
@@ -1483,7 +1524,10 @@ function UndoAdd()
 private function DestroyResourceIconSet(iconSet : List.<ResourceIcon>)
 {
 	for (var i : int = 0; i < iconSet.Count; i++)
+	{
+		iconSet[i].Delete();
 		DestroyImmediate(iconSet[i].gameObject);
+	}
 }
 
 //Adds an element to the AddNodeList
@@ -1616,7 +1660,7 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 	    return;
 	}
 	*/
-	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord + " id " + buildingSiteID);
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
@@ -1631,9 +1675,9 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 }
 
 // This function will properly add a building site to the database
-static public function addBuildingSite( coordinate : Vector3)
+static public function addBuildingSite( coordinate : Vector3, index : int)
 {
-	var index : int = findBuildingIndex(coordinate);
+	//var index : int = findBuildingIndex(coordinate);
 	var addIndex : int = addList.Count - 1;		
 	var tileType : String = addList[addIndex].buildingSite.tileType;	
 	var isPreplaced : boolean = false;
@@ -1643,10 +1687,13 @@ static public function addBuildingSite( coordinate : Vector3)
 	var building : GameObject = Instantiate(Resources.Load("BuildingSite"));	
 	building.transform.position = addList[addIndex].worldCoordinates;
 	building.name = "BuildingSite";
+	//buildingsOnGrid[index] = building;
+	ReplaceBuildingOnGrid(building, coordinate, index);
 	ModeController.setSelectedBuilding(building);
-	addBuildingToGrid(building, coordinate);
+	//addBuildingToGrid(building, coordinate);
 	//addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
-	BroadcastBuildingUpdate();
+	//BroadcastBuildingUpdate();
+	
 } // End of addBuildingSite()
 
 
