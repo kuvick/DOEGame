@@ -78,7 +78,7 @@ public class MainMenu extends GUIControl
 	
 	private var victorySplashTimerInSeconds = 2.0f;
 	private var victorySplashStartTime = 0;
-	private var victorySplashRectangle;
+	private var victorySplashRectangle:Rect;
 	private var mostRecentTurnScore : int = 0;
 	
 	//For displaying Objective Icons:
@@ -180,6 +180,10 @@ public class MainMenu extends GUIControl
 		var victoryRatio : float = victoryW / victoryH;
 		var victoryWidth : float = victoryHeight * victoryRatio;
 		victorySplashRectangle = Rect(screenWidth/2 - victoryWidth/2, screenHeight/2 - victoryHeight/2,  victoryWidth, victoryHeight);
+		
+		xFinalDestination = victorySplashRectangle.x;
+		victorySplashRectangle.x = screenWidth;
+		
 				
 		var database:GameObject = GameObject.Find("Database");
 				
@@ -414,19 +418,42 @@ public class MainMenu extends GUIControl
 		}		
 	}
 	
+	
+	//Variables for animated mission complete
+	private var xFinalDestination:float;
+	private var hasReachedDestination:boolean = false;
+	private var tolerance:float = 10f;
+	private var speed:float = 2f;
+	
 	private function DrawVictorySplash()
 	{		
-		
-		if(victorySplashStartTime == 0)
-			victorySplashStartTime = Time.time;
-		if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+		//animates the mission complete until it is in the center
+		if(!hasReachedDestination)
 		{
-			victorySplashStartTime = 0;
-			intelSystem.triggerWin();
-		}
-		else
-		{			
 			GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture);
+			
+			victorySplashRectangle.x -= speed * Time.deltaTime * Mathf.Abs(victorySplashRectangle.x - xFinalDestination);
+			
+			if(victorySplashRectangle.x - tolerance < xFinalDestination)
+				hasReachedDestination = true;
+		
 		}
-	}
-}
+		//triggers count down until it goes to score screen
+		else
+		{
+			if(victorySplashStartTime == 0)
+				victorySplashStartTime = Time.time;
+			if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+			{
+				victorySplashStartTime = 0;
+				intelSystem.triggerWin();
+			}
+			else
+			{			
+				GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture);
+			}
+		}
+		
+	}// end of drawvictorysplash
+	
+}// end of main menu

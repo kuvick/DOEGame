@@ -146,4 +146,34 @@ public class GUIControl extends MonoBehaviour
 	protected function PlayButtonPress(){
 		SoundManager.Instance().playButtonClick();
 	}
+	
+	// Creates a Rect where the image's height is the percentage of the screen height
+	// while maintaining the proper ratio
+	public function createRect(texture:Texture,x:float,y:float,percentage:float):Rect
+	{
+		var height:float = percentage * screenHeight;
+		var textX:float = texture.width;
+		var textY:float = texture.height;
+		var textRatio:float = textX / textY;
+		var width:float = height * textRatio;
+		
+		return Rect(x, y, width, height);
+	}
+	
+	// To be used in "OnGUI" or "Render"
+	// This function assumes black and white
+	// for the colors
+	// The rect is the location of the first set of text
+	public function displayTextWithShadow(text:String, location:Rect)
+	{
+		
+	}
+	
+	// To be used in "OnGUI" or "Render"
+	// Override for new colors
+	// The rect is the location of the first set of text
+	public function displayTextWithShadow(text:String, location:Rect, color1:Color, color2:Color)
+	{
+		
+	}
 }

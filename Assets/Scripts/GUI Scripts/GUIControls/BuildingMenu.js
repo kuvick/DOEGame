@@ -78,6 +78,8 @@ public class BuildingMenu extends GUIControl
 	
 	public var buildingIconImages : Texture[];
 	
+	public var darkenedIconTexture : Texture;
+	
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
 	Building Sites utlize the same list and there is the requirement of
@@ -97,10 +99,22 @@ public class BuildingMenu extends GUIControl
 		public var building : GameObject;
 		public var data : BuildingOnGridData;
 		public var icon : Texture;
+		private var wasUsed : boolean = false;
+		
+		public function getWasUsed():boolean
+		{
+			return wasUsed;
+		}
+		
+		public function setWasUsed(bool:boolean)
+		{
+			wasUsed = bool;
+		}
+		
 	}
 	
 	public var buildingChoices : BuildingSiteChoice[];
-	private var buildingsChosen : List.<BuildingSiteChoice>;
+	private var buildingsChosen : List.<int>;
 	
 	// Used for placing buildings:
 	private var gridObject : GameObject;
@@ -129,6 +143,9 @@ public class BuildingMenu extends GUIControl
 		databaseRef = GameObject.Find("Database").GetComponent(Database);
 	}
 	
+	// Matches the name of a building icon with the image's name and 
+	// Thus it is important that the prefab and the icon image have the
+	// same name else an error will occur.
 	private function matchIcons(name:String):Texture
 	{
 		for (var i:int = 0; i < buildingIconImages.length; i++)
@@ -140,7 +157,7 @@ public class BuildingMenu extends GUIControl
 		}
 		
 		
-		Debug.LogError("Could not find matching icon for the building menu! Check the BuildingMenu in the GUI System to make sure all building icons appear there and are properly named to match the prefab.");
+		Debug.LogError("Could not find matching icon for the building menu! Check the BuildingMenu in the GUI System to make sure all building icons appear there and are properly named to match the prefab. (e.g., CornfieldFarm should be used instead of CornFieldFarm for the prefab and icon names)");
 		return null;
 		
 	}
@@ -150,20 +167,20 @@ public class BuildingMenu extends GUIControl
 	{
 		super.Initialize();
 		
-		//**Added by Katharine start
 		resourceIconHeight = resourceIconHeightPercent * screenHeight;
 		
+		// Matching the building icons, adding to building choices list
 		var i : int = 0;
-		for (i = 0; i < buildingChoices.length; i++)//for (var choice : BuildingSiteChoice in buildingChoices)
+		for (i = 0; i < buildingChoices.length; i++)
 		{
-			var setData : BuildingData = buildingChoices[i].building.GetComponent(BuildingData);//choice.building.GetComponent(BuildingData);
+			var setData : BuildingData = buildingChoices[i].building.GetComponent(BuildingData);
 			setData.buildingData = buildingChoices[i].data;
 			buildingChoices[i].icon = matchIcons(buildingChoices[i].building.name);
 			//i++;
 		}
 		
-		//** Added by Katharine end
 		
+		// Calculating the sizes of graphics and such
 		scrollHeight = scrollHeightPercent * screenHeight;
 		scrollWidth = scrollHeight * scrollRatio;
 		scrollY = scrollYPercent * screenHeight;
@@ -191,8 +208,9 @@ public class BuildingMenu extends GUIControl
 		rectList.Add(background);
 		
 		LoadBuildingList();
-		buildingsChosen = new List.<BuildingSiteChoice>();
+		buildingsChosen = new List.<int>();
 	}
+	
 	
 	public function Render()
 	{
@@ -278,18 +296,27 @@ public class BuildingMenu extends GUIControl
 						j++;
 					}
 					
-					if(GUI.Button(buildingIconList[i], "" ))
+					//If the building isn't used yet, overlay button overtop
+					if(!buildingChoices[i].getWasUsed())
 					{
-						if (isEditor)
+						if(GUI.Button(buildingIconList[i], "" ))
 						{
-							EditorPlace(i);
-							currentResponse.type = EventTypes.EDITORMENU;
+							if (isEditor)
+							{
+								EditorPlace(i);
+								currentResponse.type = EventTypes.EDITORMENU;
+							}
+							else
+							{
+								Place(i);						
+								currentResponse.type = EventTypes.MAIN;
+							}
 						}
-						else
-						{
-							Place(i);						
-							currentResponse.type = EventTypes.MAIN;
-						}
+					}
+					//Else display dark tile over it.
+					else
+					{
+						GUI.DrawTexture(buildingIconList[i], darkenedIconTexture);
 					}
 				}
 			GUI.EndGroup();
@@ -474,7 +501,7 @@ public class BuildingMenu extends GUIControl
 			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
 			var build: GameObject;
 			
-			build = Instantiate(buildingChoices[index].building, position, Quaternion.identity);
+			build = Instantiate(buildingChoices[index].building, position, buildingChoices[index].building.transform.rotation);
 			
 			ReplaceBuildingData (build, buildingChoices[index].data);
 			
@@ -490,7 +517,16 @@ public class BuildingMenu extends GUIControl
 			
 			SoundManager.Instance().PlayBuildingPlaced();
 			
-			RemoveBuildingFromList(index);
+			
+			
+			
+			//RemoveBuildingFromList(index);
+			buildingChoices[index].setWasUsed(true); // No longer removing from list, now just disabling it from useage
+			buildingsChosen.Add(index);
+			
+			
+			
+			
 			var intelSystem = GameObject.Find("Database").GetComponentInChildren(IntelSystem);
 			intelSystem.comboSystem.incrementComboCount();
 			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
@@ -534,6 +570,9 @@ public class BuildingMenu extends GUIControl
 		editorSelectedTile = tile;
 	}
 	
+	
+	// No longer needed
+	/*
 	private function RemoveBuildingFromList(index : int)
 	{
 		buildingsChosen.Add(buildingChoices[index]);
@@ -563,34 +602,17 @@ public class BuildingMenu extends GUIControl
 		
 		resetResourceIcons();
 	}
+	*/
+	
+	
 	
 	//Adds the most recent building to be removed
 	public function AddBuildingAfterUndo()
 	{
-		var tempChoice : BuildingSiteChoice = buildingsChosen[buildingsChosen.Count - 1];
+	
+		buildingChoices[buildingsChosen[buildingsChosen.Count - 1]].setWasUsed(false);
 		buildingsChosen.RemoveAt(buildingsChosen.Count - 1);
-		var tempBuildingChoices : BuildingSiteChoice[] = new BuildingSiteChoice[buildingChoices.length + 1];
-				
-		for(var i = 0; i < buildingChoices.length; i++)
-		{
-				tempBuildingChoices[i] = buildingChoices[i];				
-		}
-		tempBuildingChoices[tempBuildingChoices.length - 1] = tempChoice;
-		buildingChoices = tempBuildingChoices;
-		
-		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);	
-		Debug.Log(numPages + " pages");
-		if (numPages <= 1)
-		{
-			leftScrollVisible = false;
-			rightScrollVisible = false;
-			targetPage = 0;
-		}
-		else{
-			rightScrollVisible = true;
-		}
-		
-		resetResourceIcons();
+
 	}
 	
 	// Recalculates all of the resource icons to their proper positions
