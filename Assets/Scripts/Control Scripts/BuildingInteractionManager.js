@@ -90,7 +90,10 @@ static function HandleTapAtPoint(position: Vector2){
 			buildingSiteScript.OpenBuildingMenu();
 		}
 
-	} else {
+	} 
+	
+	/*
+	else {
 		/*
 		
 		Others need to check whether or not this should be entirely cut out...it's for the old place building function
@@ -103,7 +106,7 @@ static function HandleTapAtPoint(position: Vector2){
 		}
 		else
 		{
-		*/
+		
 			Debug.Log("Not placing building, set to link");
 			GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.EXPLORE);
 			PlaceBuilding.changeBuilding = 8; //set it out of scope to be caught by PlaceBuilding
@@ -113,7 +116,7 @@ static function HandleTapAtPoint(position: Vector2){
 				mainMenuRef.RecieveEvent(EventTypes.BUILDING);
 			}*/
 		//}
-	}
+	//}
 	
 	if (isEditor)
 		editorMenuRef.DoAction(buildPosCoord);
