@@ -333,7 +333,7 @@ public function resolveEvent( script : EventScript)
 			victory = true;
 		}
 		SoundManager.Instance().PlayPrimaryObjectiveComplete();
-	}
+	}	
 	else
 	{
 		//optionalScore += tempScript.event.points;
@@ -520,7 +520,8 @@ public function decreaseTurns()
 			script.decrementTime();
 		else
 		{
-			if(!script.decrementTime())
+			//Added condition to prevent loss if you win on last turn (GPC 9/25/13)
+			if(!script.decrementTime() && (victory == false))
 			{
 				triggerLoss();
 			}
