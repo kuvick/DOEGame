@@ -96,6 +96,8 @@ public class MainMenu extends GUIControl
 	public var missionCompleteTexture : Texture;
 	private var missionCompleteSizePercentage : float = 0.7f;
 	
+	public var showTurns: boolean = false;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -170,8 +172,8 @@ public class MainMenu extends GUIControl
 		waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
-		turnRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
-		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
+		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
+		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
 		
 		
 		var victoryHeight = missionCompleteSizePercentage * screenHeight;
@@ -250,8 +252,12 @@ public class MainMenu extends GUIControl
   		} else {  			
 			targetFontColor = new Color(0,0,0);
 			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
-			GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+			
 			GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
+			
+			if(showTurns)
+				GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+				
 		}
 		
 		UpdateDisplayedScore();

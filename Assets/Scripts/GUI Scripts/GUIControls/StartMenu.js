@@ -97,6 +97,9 @@ public class StartMenu extends GUIControl
 	
 	private var currentScreen : CurrentStartScreen;
 	
+	private var firstTime:boolean;
+	public var firstTimeLevelToLoad:String = "";
+	
 	public enum CurrentStartScreen
 	{
 		FirstScreen,
@@ -210,7 +213,17 @@ public class StartMenu extends GUIControl
 				
 				if (GUI.Button(loginButtonRect, loginButton))
 				{
-					currentScreen = CurrentStartScreen.ProfileSelect;
+					players = saveSystem.LoadNames();
+					if(players.Count <=0)
+					{
+						firstTime = true;
+						currentScreen = CurrentStartScreen.NewProfile;
+					}
+					else
+					{
+						firstTime = false;
+						currentScreen = CurrentStartScreen.ProfileSelect;
+					}
 					PlayButtonPress();
 				}
 			
@@ -383,7 +396,23 @@ public class StartMenu extends GUIControl
 				{
 					saveSystem.createPlayer(newUsername);
 					saveSystem.LoadPlayer(newUsername);
-					currentScreen = CurrentStartScreen.ProfileSelect;
+					
+					// If it is the first time a player is loading the game
+					//(aka no profile has been created until this one)
+					// Then it either loads the dashboard next or the specified
+					// level under the variable firstTimeLevelToLoad.
+					if(firstTime)
+					{
+						if(firstTimeLevelToLoad == "")
+							currentResponse.type = EventTypes.LEVELSELECT;
+						else
+						{
+							PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+							Application.LoadLevel("LoadingScreen");
+						}
+					}
+					else
+						currentScreen = CurrentStartScreen.ProfileSelect;
 					PlayButtonPress();
 				}
 			
