@@ -328,7 +328,7 @@ public class MainMenu extends GUIControl
 				{
 					cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
 					var objIconScript:ObjectiveIcon = intelSystem.events[i].getIconScript();
-					objIconScript.OnSelected();
+					objIconScript.OnSelectedFromHUD(); // See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
 					
 					var buildingData : BuildingData = intelSystem.events[i].event.buildingReference.GetComponent(BuildingData);
 					

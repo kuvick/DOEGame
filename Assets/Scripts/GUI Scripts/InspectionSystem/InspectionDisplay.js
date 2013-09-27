@@ -131,6 +131,32 @@ public function Activate (disp : Tooltip)
 	FormatDisplay();*/
 }
 
+// This function is needed since with the if statement above,
+// when clicking on the objective icons on the HUD, it will only
+// display the first notification box until clicked, and then it will
+// show all subsquent notifications clikced since. I don't want to break
+// The code in other places, thus I have this other chain just for the 
+// HUD's Objective Icons.
+// See SendToDisplayFromHUD() in InspectionComponent
+// and OnSelectedFromHUD() in ObjectiveIcon
+// and this line objIconScript.OnSelectedFromHUD(); in MainMenu (at the
+// time of writing, it is line 331).
+public function ActivateAndDeactivate(disp : Tooltip)
+{
+	componentSelected = true;
+	if (disp.hasPriority || tooltipList.Count < 1)
+	{
+		tooltipList.Insert(0, disp);
+		SetTooltip();
+	}
+	else
+	{
+		tooltipList.Add(disp);
+		NextTooltip();
+	}
+}
+
+
 public function Activate(disp : String)
 {
 	componentSelected = true;
