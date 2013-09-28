@@ -236,15 +236,19 @@ private function Render()
 
 private function NextTooltip()
 {
-	inputController.SetEnabled(true);
 	tooltipList.RemoveAt(0);
 	if (tooltipList.Count == 0)
 	{
 		componentSelected = false;
 		currentTooltip = null;
+		yield WaitForSeconds(0.5);
+		inputController.SetEnabled(true);
 	}
 	else
+	{
+		inputController.SetEnabled(true);
 		SetTooltip();
+	}
 }
 
 private function SetTooltip()
