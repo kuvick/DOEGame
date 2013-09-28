@@ -2,137 +2,111 @@
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Levels>
     <Level>
-      <displayName>KU05</displayName>
-<!--  The scene to load; be sure it had been added to the build. -->
-      <sceneName>KU05</sceneName>
+      <displayName>0</displayName>
+      <sceneName>Tutorial1</sceneName>
       <difficulty>1</difficulty>
-      <subjectText>KU05</subjectText>
-      <messageText>KU05</messageText>
-      <isPrimary>false</isPrimary>
-			
-<!--  If you want their icon to show up, you must use their full name:
-Director Helena Edison
-Agent Roc Bridges
-Dr. Raoul Fernandez
-Engineer Nancy Sanders
-Researcher Jerome Zabel
-Else the default icon will show up. If you want to add more or change the name displayed,
-Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
-      <senderName>Director Helena Edison</senderName>
-			
-<!-- For "howToUnlock" your choices are as follows:
-NONE
-RANK
-MISSION
-CONTACT -->
+      <subjectText>Welcome to the ECRB!</subjectText>
+      <messageText>Welcome to your ECRB orientation. We shall begin by demonstrating the operation of the Terrachanics device.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
-<!-- The missionRequirementIndex is the number, as in the order of this document,
-			that needs to be completed before this one...taking into account that
-		the first entry is "0" not 1.	-->
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-		
-   <Level>
-      <displayName>Tutorial1</displayName>
-<!--  The scene to load; be sure it had been added to the build. -->
-      <sceneName>Tutorial1</sceneName>
+	
+	<!--
+	<Level>
+      <displayName>1</displayName>
+      <sceneName>Tutorial2</sceneName>
       <difficulty>1</difficulty>
-      <subjectText>This is important!</subjectText>
-      <messageText>Please help me!</messageText>
+      <subjectText>Your next big challenge!</subjectText>
+      <messageText> You're doing great! The field test is going wonderfully. Now lets see how it fares with requisitioning building construction.</messageText>
       <isPrimary>true</isPrimary>
-			
-<!--  If you want their icon to show up, you must use their full name:
-Director Helena Edison
-Agent Roc Bridges
-Dr. Raoul Fernandez
-Engineer Nancy Sanders
-Researcher Jerome Zabel
-Else the default icon will show up. If you want to add more or change the name displayed,
-Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
-      <senderName>Researcher Jerome Zabel</senderName>
-			
-<!-- For "howToUnlock" your choices are as follows:
-NONE
-RANK
-MISSION
-CONTACT -->
-      <howToUnlock>RANK</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-<!-- The missionRequirementIndex is the number, as in the order of this document,
-			that needs to be completed before this one...taking into account that
-		the first entry is "0" not 1.	-->
-      <missionRequirementIndex>0</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-		
-   <Level>
-      <displayName>Tutorial2</displayName>
-<!--  The scene to load; be sure it had been added to the build. -->
-      <sceneName>Tutorial1</sceneName>
-      <difficulty>1</difficulty>
-      <subjectText>This is important!</subjectText>
-      <messageText>Please help me!</messageText>
-      <isPrimary>true</isPrimary>
-			
-<!--  If you want their icon to show up, you must use their full name:
-Director Helena Edison
-Agent Roc Bridges
-Dr. Raoul Fernandez
-Engineer Nancy Sanders
-Researcher Jerome Zabel
-Else the default icon will show up. If you want to add more or change the name displayed,
-Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
-      <senderName>Agent Roc Bridges</senderName>
-			
-<!-- For "howToUnlock" your choices are as follows:
-NONE
-RANK
-MISSION
-CONTACT -->
+      <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>3</rankRequirement>
-<!-- The missionRequirementIndex is the number, as in the order of this document,
-			that needs to be completed before this one...taking into account that
-		the first entry is "0" not 1.	-->
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	-->
+	
+	<Level>
+      <displayName>3</displayName>
+      <sceneName>Tutorial3</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Heavy Engineering!</subjectText>
+      <messageText> For this test we'll be elisting Engineer Nancy Sanders to help us make some new resource networks.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>4</displayName>
+      <sceneName>Tutorial4</sceneName>
+      <difficulty>2</difficulty>
+      <subjectText>Always more Research</subjectText>
+      <messageText> Researcher Jerome Zabel will be helping us recover some lost data in the field to help with this next mission. </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
- 
-   <Level>
-      <displayName>Tutorial2</displayName>
-<!--  The scene to load; be sure it had been added to the build. -->
-      <sceneName>Tutorial2</sceneName>
+	
+	
+	<!-- FIRST SET OF 3 -->
+	<Level>
+      <displayName>5A</displayName>
+      <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Tasdfasdfhis is important!</subjectText>
-      <messageText>Please hasdfasdelp me!</messageText>
+      <subjectText>Level 1</subjectText>
+      <messageText> Level 1 placeholde text. </messageText>
       <isPrimary>true</isPrimary>
-			
-<!--  If you want their icon to show up, you must use their full name:
-Director Helena Edison
-Agent Roc Bridges
-Dr. Raoul Fernandez
-Engineer Nancy Sanders
-Researcher Jerome Zabel
-Else the default icon will show up. If you want to add more or change the name displayed,
-Go to the "Character Email Icon" in the LevelSelectMenu component of the GUISystem.	-->
-      <senderName>Engineer Nancy Sanders</senderName>
-			
-<!-- For "howToUnlock" your choices are as follows:
-NONE
-RANK
-MISSION
-CONTACT -->
+      <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>2</rankRequirement>
-<!-- The missionRequirementIndex is the number, as in the order of this document,
-			that needs to be completed before this one...taking into account that
-		the first entry is "0" not 1.	-->
-      <missionRequirementIndex>0</missionRequirementIndex>
+      <rankRequirement>3</rankRequirement>
+      <missionRequirementIndex>2</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<Level>
+      <displayName>5B</displayName>
+      <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 2</subjectText>
+      <messageText> Level 2 placeholde text. </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>3</rankRequirement>
+      <missionRequirementIndex>2</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>5C</displayName>
+      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 3</subjectText>
+      <messageText> Level 3 placeholder text. </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>3</rankRequirement>
+      <missionRequirementIndex>2</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	<!-- END FIRST SET OF 3 -->
+	
+	<!-- SECOND SET OF 3 -->
  
+	<!-- END SECOND SET OF 3 -->
 		
   </Levels>
 </LevelList>
