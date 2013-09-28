@@ -86,7 +86,7 @@ function Start ()
 	
 	var hexagonGrid:GameObject = GameObject.Find("HexagonGrid");
 	if(hexagonGrid != null)
-		inputController = hexagonGrid.GetComponent("InputController");
+		inputController = hexagonGrid.GetComponent(InputController);
 
 }
 

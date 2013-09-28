@@ -62,7 +62,7 @@ static private var mouseOverGUI:boolean;	//Use this to disable raycasting when c
 public var linkReference:boolean[,];
 public var buildings:GameObject[];
 static public var linkRange:Vector3;// = Vector3(400, 400, 400);
-static var tileRange = Database.TILE_RANGE;
+static var tileRange : float = Database.TILE_RANGE;
 private var gridBuilding:BuildingOnGrid;
 private var selectedGridBuilding:BuildingOnGrid;
 private var selectedBuildingOutputs:List.<ResourceType>;
