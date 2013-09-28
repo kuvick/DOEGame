@@ -517,6 +517,27 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	{
 		if (inputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
 			hasResource = true;
+
+		// Used for link reallocation, shifts over to the OverloadLink function
+		// If the input has already been allocated and there is an avaliable unallocated output:
+		else if (inputBuilding.allocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
+		{
+			hasResource = true;
+			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, false);	
+			return true;
+		}
+		// Whether the input has been allocated or not, if the output has not been allocated:
+		else if (inputBuilding.allocatedInputs.Contains(resourceName) && outputBuilding.allocatedOutputs.Contains(resourceName))
+		{
+			hasResource = true;
+			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, true);	
+			return true;
+		}
+		else if (inputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.allocatedOutputs.Contains(resourceName))
+			Debug.Log("Need to set up a case where input is unallocated and output is allocated");
+		
+		
+			
 	}
     
     // If the resource has been found in both buildings,
@@ -711,6 +732,10 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
+		
+		if(inputBuilding.deactivatedInputs.Contains(inputIndex))
+			inputBuilding.deactivatedInputs.Remove(inputIndex);
+		
 		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link overload");
 		

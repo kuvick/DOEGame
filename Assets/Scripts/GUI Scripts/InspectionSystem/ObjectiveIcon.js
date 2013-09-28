@@ -142,6 +142,12 @@ public class ObjectiveIcon extends InspectionComponent
 		SendToDisplay();
 	}
 	
+	// See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
+	public function OnSelectedFromHUD()
+	{
+		SendToDisplayFromHUD();
+	}
+	
 	public function SetActive(active : boolean)
 	{
 		super(active);

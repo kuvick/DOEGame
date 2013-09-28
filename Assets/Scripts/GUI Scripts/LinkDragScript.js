@@ -49,17 +49,43 @@ public class LinkDragScript extends GUIControl
 		*/
 	}
 	
+	
+	function HasOutputToUse(building:BuildingOnGrid):boolean
+	{
+		//If the building is active and:
+			// Has optional output, allocated or unallocated
+			// or has a worker unit and has optional output (allocated or unallocated)
+	
+		if(building.isActive &&
+			(building.allocatedOutputs.Count > 0 ||
+			building.unallocatedOutputs.Count > 0 ||
+			(building.unit == UnitType.Worker && building.optionalOutput != ResourceType.None)))
+		{
+			return true;
+		}
+
+		return false;
+	}
+	
+	
 	function Update ()
 	{	
 		if(inputController.getState() == ControlState.DraggingLink && 
 		   ModeController.getSelectedBuilding() != null && 
 		   ModeController.getSelectedBuilding().name != "BuildingSite")
 		{
-			if (!Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive){
+			if (!Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position).isActive)
+			{
 				SoundManager.Instance().PlayLinkDenied();
 				ModeController.setSelectedBuilding(null);
 				return;
 			} 
+			else if(!HasOutputToUse(Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position)))
+			{
+				SoundManager.Instance().PlayLinkDenied();
+				ModeController.setSelectedBuilding(null);
+				return;
+			}
 			//var buildingData:BuildingData = ModeController.getSelectedBuilding().GetComponent("BuildingData");
 			
 			//Code snippet borrowed from HexagonGrid section
