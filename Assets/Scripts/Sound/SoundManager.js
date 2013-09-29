@@ -294,7 +294,7 @@ public class SoundManager extends MonoBehaviour {
 			return;
 		}
 		if (!GUIManager.Instance().gameObject.GetComponent(Loading).hasFinishedDelay) return;
-		Debug.Log("test after load");
+		//Debug.Log("test after load");
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(clipToPlay);
 		if (sourcePlayingClip == null){
 			if (defaultClipSource.isPlaying){

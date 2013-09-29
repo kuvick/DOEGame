@@ -157,3 +157,8 @@ public function SetResolved(res : boolean)
 	resolved = res;
 	icon.SetResolved(res);
 }
+
+public function getResolved():boolean
+{
+	return resolved;
+}

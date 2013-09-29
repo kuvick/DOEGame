@@ -200,6 +200,7 @@ public function addTurn()
 
 public function subtractTurn()
 {
+	Debug.Log("subtracting a turn");
 	increaseTurns();
 	currentTurn--;
 	UnitManager.UndoUnitActions();
@@ -369,7 +370,8 @@ public function undoResolution()
 	if(eventStack.Count > 0)
 	{
 		var index = eventStack.Count - 1;
-		if(eventStack[index].turnAdded == currentTurn + 1)
+		//if(eventStack[index].turnAdded == currentTurn + 1)
+		if(eventStack[index].turnAdded == currentTurn)
 		{	
 			var tempEvent : BuildingEvent = eventStack[index].event.event;		
 			
@@ -404,11 +406,30 @@ public function undoResolution()
 			eventStack[index].event.changeOpacity(.5f);
 			eventStack[index].event.showIcon = true;
 			eventStack[index].event.SetIconActive(true);
-			eventStack[index].event.event.time++;
+			//eventStack[index].event.event.time++;
 			
-			events.Add(eventStack[index].event);  // Add to event list
+			//I don't think it's taken off anymore from the event list, so don't need to
+			// do this, adding it back:
+			//events.Add(eventStack[index].event);  // Add to event list
+			
+			
+			for(var l:int; l < events.Count; l++)
+			{
+				if(events[l].event.tooltip.text == eventStack[index].event.event.tooltip.text)
+				{
+					Debug.Log("Found Event");
+					events[l].SetResolved(false);
+				}
+			}
+			
+
+			
+						
 			eventStack.RemoveAt(index);  // Remove element from eventStack
 			
+			
+			// Will need to be set up properly if we set up the codex and contacts:
+			/*
 			for (var contactToUnlock : String in eventStack[index].event.contactsUnlocked){
 				if (contactsUnlockedThisLevel.Contains(contactToUnlock)){
 					contactsUnlockedThisLevel.Remove(contactToUnlock);
@@ -422,7 +443,7 @@ public function undoResolution()
 					playerData.currentPlayer.lockCodex(codexToLock);
 					playerData.SaveCurrentPlayer();
 				}
-			}
+			}*/
 		}
 	}
 }
