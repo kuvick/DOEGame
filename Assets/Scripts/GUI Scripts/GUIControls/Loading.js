@@ -96,6 +96,7 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
+		GUI.depth = 0;
 		GUI.DrawTexture(blackBackground, blackBackgroundTexture);
 		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
 		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
