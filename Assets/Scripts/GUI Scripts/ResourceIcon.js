@@ -97,8 +97,17 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.layer = 10;
 	
 	if (ioType == IOType.OptOut)
+	{
 		index = -1;
+		SetActive(true);
+		solidColor = Color.red;
+	}
 	SetAllocated(false);
+}
+
+public function SetFlashSolidColor (color : Color)
+{
+	solidColor = color;
 }
 
 public function SetAllocated (allo : boolean)
