@@ -80,7 +80,7 @@ static function HandleTapAtPoint(position: Vector2){
 
 	if (buildingIndex != -1){
 		Debug.Log("Tap on building");
-		var buildings = Database.getBuildingsOnGrid();
+		var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.setSelectedBuilding(building);
@@ -91,6 +91,8 @@ static function HandleTapAtPoint(position: Vector2){
 		}
 
 	} 
+	else
+		ModeController.setSelectedBuilding(null);
 	
 	/*
 	else {
@@ -167,4 +169,6 @@ static function HandleReleaseAtPoint(position: Vector2)
 			ModeController.setSelectedInputBuilding(building);
 		}
 	}
+	else
+		ModeController.setSelectedBuilding(null);
 }
