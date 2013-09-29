@@ -1182,6 +1182,7 @@ class BuildingOnGrid
 	
 	var unit : UnitType = UnitType.None;
 	var units : List.<Unit> = new List.<Unit>();
+	var selectedUnitIndex : int = 0;
 	var unitSelected : boolean = false;
 	
 	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
