@@ -958,10 +958,10 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     // if building has been activated
     if (building.isActive)
     {
-    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
+    	//SetBuildingResourceActive(building.unallocatedInputIcons, true);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
-    	SetBuildingResourceActive(building.allocatedOutputIcons, true);
+    	SetBuildingResourceActive(building.allocatedOutputIcons, false);
     	/*if (building.optionalOutputIcon)
     		building.optionalOutputIcon.SetActive(true);*/
     	for(var outLink : int in building.outputLinkedTo)
@@ -1003,7 +1003,7 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     }
     else
     {
-    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
+    	SetBuildingResourceActive(building.unallocatedInputIcons, false);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
