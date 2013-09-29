@@ -17,7 +17,9 @@ private var flashScale : Vector3 = Vector3(6,6,6);
 private var flashIcon : GameObject;
 
 private var fadeTimer : float = 0.0;
+private static var currentTimer : float = 0.0;
 private var fadeScaler : float = 1.0;
+private static var currentScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
 
@@ -49,6 +51,8 @@ function Update () {
 	if (fadeTimer >= 1 || fadeTimer <= 0)
 			fadeScaler *= -1;
 	fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	currentTimer = fadeTimer;
+	currentScaler = fadeScaler;
 	if (flashActive)
 	{
 		if (fadeTimer >= 0)
@@ -103,6 +107,8 @@ public function Initialize(building : BuildingOnGrid)
 		solidColor = Color.red;
 	}
 	SetAllocated(false);
+	fadeTimer = currentTimer;
+	fadeScaler = currentScaler;
 }
 
 public function SetFlashSolidColor (color : Color)
