@@ -116,6 +116,7 @@ function OnGUI()
 public function Activate (disp : Tooltip)
 {
 	componentSelected = true;
+	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
 		tooltipList.Insert(0, disp);
@@ -144,6 +145,7 @@ public function Activate (disp : Tooltip)
 public function ActivateAndDeactivate(disp : Tooltip)
 {
 	componentSelected = true;
+	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
 		tooltipList.Insert(0, disp);
@@ -239,6 +241,7 @@ private function NextTooltip()
 	tooltipList.RemoveAt(0);
 	if (tooltipList.Count == 0)
 	{
+		SoundManager.Instance().playInspectionClose();
 		componentSelected = false;
 		currentTooltip = null;
 		yield WaitForSeconds(0.5);

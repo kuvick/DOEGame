@@ -41,6 +41,8 @@ private var colorOpacity: Color;				//The color to convert to before drawing the
 //private var indicator : ObjectiveIndicator = ObjectiveIndicator();
 private var icon : ObjectiveIcon;
 
+private var resolved : boolean = false;
+
 public function Initialize()
 {
 	//indicator.Initialize(gameObject.transform, event, event.type);
@@ -114,7 +116,7 @@ public function changeOpacity(newOpacity: float)
 // If the new time = 0, it will return false. If it above 0, it will return true  
 public function decrementTime()
 {
-	if(event.time - 1 > 0){
+	if(event.time - 1 > 0 || resolved){
 		event.time--;
 		return true;
 	}
@@ -148,4 +150,10 @@ public function getIcon():Texture
 public function getIconScript():ObjectiveIcon
 {
 	return icon;
+}
+
+public function SetResolved(res : boolean)
+{
+	resolved = res;
+	icon.SetResolved(res);
 }

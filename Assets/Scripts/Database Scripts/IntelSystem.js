@@ -310,7 +310,8 @@ public function resolveEvent( script : EventScript)
 	
 	tempScript.changeOpacity(0f);
 	//tempScript.SetIconActive(false);
-	tempScript.getIconScript().SetResolved(true);
+	//tempScript.getIconScript().SetResolved(true);
+	tempScript.SetResolved(true);
 	
 	if(tempScript.event.childEvent != null)
 	{	
@@ -337,6 +338,7 @@ public function resolveEvent( script : EventScript)
 	else
 	{
 		//optionalScore += tempScript.event.points;
+		SoundManager.Instance().PlaySecondaryObjectiveComplete();
 		incrementScore(false, tempScript.event.points);
 	}
 	

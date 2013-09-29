@@ -25,14 +25,14 @@ class WorkerUnit extends Unit {
 	{
 		if(super())
 		{
-			if (previousBuilding.optionalOutputLinkedTo >= 0)
+			/*if (previousBuilding.optionalOutputLinkedTo >= 0)
 				databaseRef.DeactivateLink(Database.findBuildingIndex(previousBuilding), previousBuilding.optionalOutputLinkedTo);
 			else if (currentBuilding.optionalOutputLinkedTo >= 0)
-				databaseRef.activateBuilding(Database.findBuildingIndex(currentBuilding), true);
+				databaseRef.activateBuilding(Database.findBuildingIndex(currentBuilding), true);*/
 			if (currentBuilding.optionalOutputIcon)
 				currentBuilding.optionalOutputIcon.SetActive(true);
-			if (previousBuilding.optionalOutputIcon)
-				previousBuilding.optionalOutputIcon.SetActive(false);
+			/*if (previousBuilding.optionalOutputIcon)
+				previousBuilding.optionalOutputIcon.SetActive(false);*/
 		}
 	}
 }

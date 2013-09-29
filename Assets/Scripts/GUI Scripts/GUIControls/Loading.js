@@ -74,7 +74,7 @@ public class Loading extends GUIControl
 	private var overviewInformationShowing : boolean = true;
 	
 	private var hasLoaded : boolean = false;
-	public var hasFinishedDelay : boolean  = false;
+	public static var hasFinishedDelay : boolean  = false;
 	
 	public function Initialize()
 	{
