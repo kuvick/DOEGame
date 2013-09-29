@@ -315,10 +315,10 @@ function DoAction () : boolean
 	return true;
 }
 
-function UndoAction () 
+function UndoAction () : boolean
 {
 	if (actionList.Count < 1)
-		return;
+		return false;
 	
 	// if the current turn is the proper undo turn
 	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
@@ -339,7 +339,9 @@ function UndoAction ()
 			currentPath.Clear();
 		if (currentPath.Count > 0)
 			SetState(UnitState.InTransit);
+		return true;
 	}
+	return false;
 }
 
 // moves unit to the position of the current building

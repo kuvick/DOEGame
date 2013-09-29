@@ -6,6 +6,7 @@ By Derrick Huey
 
 class WorkerUnit extends Unit {
 	private var databaseRef : Database;
+	private var buildingOptionalFixedPreviousSetting : boolean = false;
 
 	function Start () {
 		super();
@@ -29,10 +30,24 @@ class WorkerUnit extends Unit {
 				databaseRef.DeactivateLink(Database.findBuildingIndex(previousBuilding), previousBuilding.optionalOutputLinkedTo);
 			else if (currentBuilding.optionalOutputLinkedTo >= 0)
 				databaseRef.activateBuilding(Database.findBuildingIndex(currentBuilding), true);*/
+			buildingOptionalFixedPreviousSetting = currentBuilding.optionalOutputFixed;
 			if (currentBuilding.optionalOutputIcon)
-				currentBuilding.optionalOutputIcon.SetActive(true);
+			{
+				currentBuilding.optionalOutputIcon.SetFlashSolidColor(Color.white);//SetActive(true);
+				currentBuilding.optionalOutputFixed = true;
+			}
 			/*if (previousBuilding.optionalOutputIcon)
 				previousBuilding.optionalOutputIcon.SetActive(false);*/
+		}
+	}
+	
+	function UndoAction()
+	{
+		if(super())
+		{
+			currentPath[0].optionalOutputFixed = buildingOptionalFixedPreviousSetting;
+			if (!buildingOptionalFixedPreviousSetting)
+				currentPath[0].optionalOutputIcon.SetFlashSolidColor(Color.red);
 		}
 	}
 }

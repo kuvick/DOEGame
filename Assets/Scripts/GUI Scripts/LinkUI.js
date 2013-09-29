@@ -230,7 +230,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
 	var resource:ResourceType;
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
-								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
+								&& linkBuilding.optionalOutputFixed && linkBuilding.isActive);
 	var oldInputBuildingIndex : int = 0;
 	var oldOutputBuildingIndex : int = 0;
 	
@@ -309,7 +309,7 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 	}				
 	
 	//Case : Optional Output 
-	if(b2.isActive && b2.optionalOutput != ResourceType.None && b2.unit != UnitType.None)
+	if(b2.isActive && b2.optionalOutput != ResourceType.None && b2.optionalOutputFixed)//b2.unit != UnitType.None)
 	{
 		//Case: Input is Unallocated
 		if(b1.unallocatedInputs.Count > 0)
@@ -392,7 +392,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
 	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
-								&& linkBuilding.unit == UnitType.Worker && linkBuilding.isActive);
+								&& linkBuilding.optionalOutputFixed && linkBuilding.isActive);
 	var oldInputBuildingIndex : int = 0;
 	var oldOutputBuildingIndex : int = 0;
 	
@@ -570,7 +570,7 @@ function OnGUI()
 					buildingHighlightColor = targetHighlightColor;
 				}
 			}	
-			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.unit == UnitType.Worker)
+			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
 			{
 				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput))
 					buildingHighlightColor = targetHighlightColor;

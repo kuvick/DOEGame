@@ -1007,8 +1007,8 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
-    	if (building.optionalOutputIcon)
-    		building.optionalOutputIcon.SetActive(false);
+    	/*if (building.optionalOutputIcon)
+    		building.optionalOutputIcon.SetActive(false);*/
     }
     if (checkUnits)
     	UnitManager.CheckUnitsActive();
@@ -1161,6 +1161,7 @@ class BuildingOnGrid
 	
 	var optionalOutput : ResourceType = ResourceType.None;
 	var optionalOutputAllocated : boolean = false;
+	var optionalOutputFixed : boolean = false;
 	var optionalOutputIcon : ResourceIcon;
 	
 	var isActive = false;
@@ -1260,6 +1261,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.optionalOutput = copyFrom.optionalOutput;
 	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
+	copyTo.optionalOutputFixed = copyFrom.optionalOutputFixed;
 	copyTo.optionalOutputIcon = copyFrom.optionalOutputIcon;
 
 	copyTo.isActive = copyFrom.isActive;
