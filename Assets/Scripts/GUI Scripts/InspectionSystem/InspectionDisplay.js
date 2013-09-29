@@ -305,6 +305,7 @@ public class Tooltip
 	public var text : String;
 	public var pic : Texture;
 	public var hasPriority : boolean;
+	private var inspectedComponent : InspectionComponent;
 }
 
 public enum TooltipType

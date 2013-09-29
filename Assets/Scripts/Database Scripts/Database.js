@@ -626,6 +626,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
 		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
 		Save("Building Link");
+		SetBuildingResourceActive(outputBuilding.allocatedOutputIcons, false);
     }
     else
     {
@@ -1387,6 +1388,7 @@ function UndoLink(typeOfUndo : int)
 		tempIcon.SetAllocated(false);
 		b2Building.unallocatedOutputIcons.Add(tempIcon);
 		tempIcon.SetIndex(b2Building.unallocatedOutputIcons.Count - 1);
+		SetBuildingResourceActive(b2Building.unallocatedOutputIcons, true);
 	}
 	
 	var b3Building : BuildingOnGrid;
