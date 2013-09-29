@@ -57,6 +57,7 @@ class BuildingEvent
 	var tooltip : Tooltip;
 	@HideInInspector
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
+	var inspIcon : Texture = null;      // inspected icon
 	var resolvedIcon : Texture = null;
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
@@ -128,16 +129,18 @@ function Start ()
 			if(tempEventClass != null)
 			{
 				// set icon
-				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 1;
+				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 2;
 				if (tempEventClass.event.type == BuildingEventType.Primary)
 				{
 					tempEventClass.event.icon = primaryIcons[iconIndex];
-					tempEventClass.event.resolvedIcon = primaryIcons[2];
+					tempEventClass.event.inspIcon = primaryIcons[iconIndex + 1];
+					tempEventClass.event.resolvedIcon = primaryIcons[4];
 				}
 				else
 				{
 					tempEventClass.event.icon = secondaryIcons[iconIndex];
-					tempEventClass.event.resolvedIcon = secondaryIcons[2];
+					tempEventClass.event.inspIcon = secondaryIcons[iconIndex + 1];
+					tempEventClass.event.resolvedIcon = secondaryIcons[4];
 				}
 				tempEventClass.Initialize();
 				tempEventClass.event.buildingReference = buildingObject;
@@ -224,7 +227,7 @@ private function CheckTriggerToDisplay()//:boolean
 			display.Activate(turnTriggers[currentTriggerIndex].dispText);
 		else
 			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);*/
-		display.Activate(turnTriggers[currentTriggerIndex].tooltip);
+		display.Activate(turnTriggers[currentTriggerIndex].tooltip, null);
 		currentTriggerIndex++;
 		if (currentTriggerIndex >= turnTriggers.length)
 			break;

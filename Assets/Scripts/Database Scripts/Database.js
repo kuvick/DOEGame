@@ -1031,7 +1031,7 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 		else
 			display.Activate(building.tooltipText);*/
 		for (var i : int = 0; i < building.tooltip.length; i++)
-			display.Activate(building.tooltip[i]);
+			display.Activate(building.tooltip[i], null);
 	}
 }
 

@@ -113,9 +113,10 @@ function OnGUI()
 	}
 }
 
-public function Activate (disp : Tooltip)
+public function Activate (disp : Tooltip, comp : InspectionComponent)
 {
 	componentSelected = true;
+	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
@@ -238,6 +239,8 @@ private function Render()
 
 private function NextTooltip()
 {
+	if (currentTooltip.GetComponent())
+		currentTooltip.GetComponent().SetSelected(false);
 	tooltipList.RemoveAt(0);
 	if (tooltipList.Count == 0)
 	{
@@ -257,6 +260,8 @@ private function NextTooltip()
 private function SetTooltip()
 {
 	currentTooltip = tooltipList[0];
+	if (currentTooltip.GetComponent())
+		currentTooltip.GetComponent().SetSelected(true);
 	if (currentTooltip.type == TooltipType.Notification)
 		notificationTimer = Time.time + notificationLength;
 	else if (currentTooltip.type == TooltipType.Alert)
@@ -306,6 +311,16 @@ public class Tooltip
 	public var pic : Texture;
 	public var hasPriority : boolean;
 	private var inspectedComponent : InspectionComponent;
+	
+	public function SetComponent(comp : InspectionComponent)
+	{
+		inspectedComponent = comp;
+	}
+	
+	public function GetComponent() : InspectionComponent
+	{
+		return inspectedComponent;
+	}
 }
 
 public enum TooltipType

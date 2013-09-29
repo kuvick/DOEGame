@@ -8,6 +8,7 @@ private var i : int = 0;
 private var j : int = 0;
 public var counterTexture : Texture2D;
 public var iconTexture : Texture2D;
+public var inspIconTexture : Texture2D;
 public var notCollectedIconTexture : Texture2D;
 
 private var unitManager : UnitManager;
@@ -126,7 +127,7 @@ private function CreateIcons()
 			var temp : UpgradeIcon = tempPlane.AddComponent(UpgradeIcon);
 			/*temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, tempData.heldUpgradeTooltipText, 
 							tempData.heldUpgradeTooltipPic);*/
-			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, tempData.heldUpgradeTooltip);
+			temp.Initialize(tempData.buildingPointer, tempData.heldUpgrade, iconTexture, inspIconTexture, tempData.heldUpgradeTooltip);
 			if (tempData.heldUpgrade == UpgradeID.Dummy)
 				dummyIconSet.Add(temp);
 			else

@@ -100,7 +100,7 @@ public class InspectionComponent extends MonoBehaviour
 			display.Activate(dispPic, dispText, this, true);
 		else
 			display.Activate(dispText, this, true);*/
-		display.Activate(tooltip);
+		display.Activate(tooltip, this);
 	}
 	
 	// See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
