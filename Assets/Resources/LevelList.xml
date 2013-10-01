@@ -14,8 +14,7 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<!--
+
 	<Level>
       <displayName>1</displayName>
       <sceneName>Tutorial2</sceneName>
@@ -29,7 +28,6 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	-->
 	
 	<Level>
       <displayName>3</displayName>
@@ -40,7 +38,7 @@
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
+      <rankRequirement>1</rankRequirement>
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
@@ -55,7 +53,7 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>1</missionRequirementIndex>
+      <missionRequirementIndex>2</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -71,7 +69,7 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>3</rankRequirement>
-      <missionRequirementIndex>2</missionRequirementIndex>
+      <missionRequirementIndex>4</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -85,7 +83,7 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>3</rankRequirement>
-      <missionRequirementIndex>2</missionRequirementIndex>
+      <missionRequirementIndex>4</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -99,7 +97,7 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>3</rankRequirement>
-      <missionRequirementIndex>2</missionRequirementIndex>
+      <missionRequirementIndex>4</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	<!-- END FIRST SET OF 3 -->
