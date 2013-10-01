@@ -59,7 +59,7 @@ public class LinkDragScript extends GUIControl
 		if(building.isActive &&
 			(building.allocatedOutputs.Count > 0 ||
 			building.unallocatedOutputs.Count > 0 ||
-			(building.unit == UnitType.Worker && building.optionalOutput != ResourceType.None)))
+			(building.optionalOutputFixed && building.optionalOutput != ResourceType.None)))
 		{
 			return true;
 		}

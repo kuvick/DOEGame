@@ -212,6 +212,7 @@ public class ScoreMenu extends GUIControl{
 		goalWidth = expEarnedFill * expBarRect.width;
 		
 		levelSelectRef = gameObject.GetComponent(LevelSelectMenu);
+		backgroundMusic = SoundManager.Instance().backgroundSounds.scoreMenuMusic;
 	}
 	
 	public function Render(){   

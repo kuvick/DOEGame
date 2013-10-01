@@ -15,7 +15,7 @@ public class UpgradeIcon extends InspectionComponent
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(6,6,6);
 	
-	public function Initialize (building : GameObject, id : UpgradeID, icon : Texture2D, disp : Tooltip)
+	public function Initialize (building : GameObject, id : UpgradeID, icon : Texture2D, inspIcon : Texture2D, disp : Tooltip)
 	{
 		// slant icon slightly forward towards the camera
 		gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
@@ -25,7 +25,7 @@ public class UpgradeIcon extends InspectionComponent
 		
 		// set icon textures
 		normalTexture = icon;
-		selectedTexture = icon;
+		selectedTexture = inspIcon;
 		renderer.material.mainTexture = normalTexture;
 		// flip texture so not upside-down
 		renderer.material.mainTextureScale = Vector2(-1,-1);
@@ -82,6 +82,12 @@ public class UpgradeIcon extends InspectionComponent
 	{
 		super();
 		renderer.enabled = isActive;
+	}
+	
+	public function SetSelected(selected : boolean)
+	{
+		super(selected);
+		renderer.material.mainTexture = currentTexture;
 	}
 	
 	public function SetActive(active : boolean)

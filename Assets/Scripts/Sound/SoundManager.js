@@ -38,6 +38,21 @@ public class SoundManager extends MonoBehaviour {
 	public var minimumPriorityVolume : float = .1;
 	
 	public function Awake() {
+	
+	
+		var otherSoundManager:GameObject = GameObject.Find("SoundManager(Clone)");
+		if(otherSoundManager != null && otherSoundManager != this.gameObject)
+			Destroy(this.gameObject);
+		
+		otherSoundManager = GameObject.Find("SoundManager");
+		if(otherSoundManager != null && otherSoundManager != this.gameObject)
+			Destroy(this.gameObject);
+		
+		otherSoundManager = GameObject.Find("Sound Manager");	
+		if(otherSoundManager != null && otherSoundManager != this.gameObject)
+			Destroy(this.gameObject);
+	
+	
 		musicSource = AddAudioSource();
 		musicSource.loop = true;
 		
@@ -217,6 +232,10 @@ public class SoundManager extends MonoBehaviour {
 		playMenuSound(menuSounds.menuButtonClicked);
 	}
 	
+	public function playCancel() {
+		playMenuSound(menuSounds.menuActionCanceled);
+	}
+	
 	public function playUndo(){
 		playMenuSound(menuSounds.menuUndo);
 	}
@@ -275,6 +294,7 @@ public class SoundManager extends MonoBehaviour {
 			return;
 		}
 		if (!GUIManager.Instance().gameObject.GetComponent(Loading).hasFinishedDelay) return;
+		//Debug.Log("test after load");
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(clipToPlay);
 		if (sourcePlayingClip == null){
 			if (defaultClipSource.isPlaying){

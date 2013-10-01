@@ -69,7 +69,7 @@ static function DeselectUnits()
 static function CheckUnitsActive()
 {
 	for (var i : int = 0; i < unitList.Count; i++)
-		unitList[i].CheckActive();
+		unitList[i].CheckActive(true);
 }
 
 // checks if any units occupy the same building, and if so activates alternating icon fades

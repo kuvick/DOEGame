@@ -74,7 +74,7 @@ public class Loading extends GUIControl
 	private var overviewInformationShowing : boolean = true;
 	
 	private var hasLoaded : boolean = false;
-	public var hasFinishedDelay : boolean  = false;
+	public static var hasFinishedDelay : boolean  = false;
 	
 	public function Initialize()
 	{
@@ -96,6 +96,7 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
+		GUI.depth = 0;
 		GUI.DrawTexture(blackBackground, blackBackgroundTexture);
 		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
 		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);

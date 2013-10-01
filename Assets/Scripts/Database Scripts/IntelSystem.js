@@ -57,6 +57,7 @@ class BuildingEvent
 	var tooltip : Tooltip;
 	@HideInInspector
 	var icon : Texture = null;			// Can be used in the event class for the designer to give the building the icon to display
+	var inspIcon : Texture = null;      // inspected icon
 	var resolvedIcon : Texture = null;
 	var type : BuildingEventType;	// Primary or Secondary
 	var time : int = 0;				// Number of turns to complete primary objective (doesn't matter for secondary)
@@ -128,16 +129,18 @@ function Start ()
 			if(tempEventClass != null)
 			{
 				// set icon
-				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 1;
+				iconIndex = (tempEventClass.event.upgrade == UpgradeID.None) ? 0 : 2;
 				if (tempEventClass.event.type == BuildingEventType.Primary)
 				{
 					tempEventClass.event.icon = primaryIcons[iconIndex];
-					tempEventClass.event.resolvedIcon = primaryIcons[2];
+					tempEventClass.event.inspIcon = primaryIcons[iconIndex + 1];
+					tempEventClass.event.resolvedIcon = primaryIcons[4];
 				}
 				else
 				{
 					tempEventClass.event.icon = secondaryIcons[iconIndex];
-					tempEventClass.event.resolvedIcon = secondaryIcons[2];
+					tempEventClass.event.inspIcon = secondaryIcons[iconIndex + 1];
+					tempEventClass.event.resolvedIcon = secondaryIcons[4];
 				}
 				tempEventClass.Initialize();
 				tempEventClass.event.buildingReference = buildingObject;
@@ -197,6 +200,7 @@ public function addTurn()
 
 public function subtractTurn()
 {
+	Debug.Log("subtracting a turn");
 	increaseTurns();
 	currentTurn--;
 	UnitManager.UndoUnitActions();
@@ -224,7 +228,7 @@ private function CheckTriggerToDisplay()//:boolean
 			display.Activate(turnTriggers[currentTriggerIndex].dispText);
 		else
 			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);*/
-		display.Activate(turnTriggers[currentTriggerIndex].tooltip);
+		display.Activate(turnTriggers[currentTriggerIndex].tooltip, null);
 		currentTriggerIndex++;
 		if (currentTriggerIndex >= turnTriggers.length)
 			break;
@@ -310,7 +314,8 @@ public function resolveEvent( script : EventScript)
 	
 	tempScript.changeOpacity(0f);
 	//tempScript.SetIconActive(false);
-	tempScript.getIconScript().SetResolved(true);
+	//tempScript.getIconScript().SetResolved(true);
+	tempScript.SetResolved(true);
 	
 	if(tempScript.event.childEvent != null)
 	{	
@@ -337,6 +342,7 @@ public function resolveEvent( script : EventScript)
 	else
 	{
 		//optionalScore += tempScript.event.points;
+		SoundManager.Instance().PlaySecondaryObjectiveComplete();
 		incrementScore(false, tempScript.event.points);
 	}
 	
@@ -364,7 +370,8 @@ public function undoResolution()
 	if(eventStack.Count > 0)
 	{
 		var index = eventStack.Count - 1;
-		if(eventStack[index].turnAdded == currentTurn + 1)
+		//if(eventStack[index].turnAdded == currentTurn + 1)
+		if(eventStack[index].turnAdded == currentTurn)
 		{	
 			var tempEvent : BuildingEvent = eventStack[index].event.event;		
 			
@@ -399,11 +406,30 @@ public function undoResolution()
 			eventStack[index].event.changeOpacity(.5f);
 			eventStack[index].event.showIcon = true;
 			eventStack[index].event.SetIconActive(true);
-			eventStack[index].event.event.time++;
+			//eventStack[index].event.event.time++;
 			
-			events.Add(eventStack[index].event);  // Add to event list
+			//I don't think it's taken off anymore from the event list, so don't need to
+			// do this, adding it back:
+			//events.Add(eventStack[index].event);  // Add to event list
+			
+			
+			for(var l:int; l < events.Count; l++)
+			{
+				if(events[l].event.tooltip.text == eventStack[index].event.event.tooltip.text)
+				{
+					Debug.Log("Found Event");
+					events[l].SetResolved(false);
+				}
+			}
+			
+
+			
+						
 			eventStack.RemoveAt(index);  // Remove element from eventStack
 			
+			
+			// Will need to be set up properly if we set up the codex and contacts:
+			/*
 			for (var contactToUnlock : String in eventStack[index].event.contactsUnlocked){
 				if (contactsUnlockedThisLevel.Contains(contactToUnlock)){
 					contactsUnlockedThisLevel.Remove(contactToUnlock);
@@ -417,7 +443,7 @@ public function undoResolution()
 					playerData.currentPlayer.lockCodex(codexToLock);
 					playerData.SaveCurrentPlayer();
 				}
-			}
+			}*/
 		}
 	}
 }

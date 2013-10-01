@@ -41,13 +41,15 @@ private var colorOpacity: Color;				//The color to convert to before drawing the
 //private var indicator : ObjectiveIndicator = ObjectiveIndicator();
 private var icon : ObjectiveIcon;
 
+private var resolved : boolean = false;
+
 public function Initialize()
 {
 	//indicator.Initialize(gameObject.transform, event, event.type);
 	var tempPlane : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.identity);
 	icon = tempPlane.AddComponent(ObjectiveIcon);
 	//icon.Initialize(gameObject.transform, event.icon, event.description, event.tooltipPic, event.type, event.time);
-	icon.Initialize(gameObject.transform, event.icon, event.resolvedIcon, event.tooltip, event.type, event.time);
+	icon.Initialize(gameObject.transform, event.icon, event.inspIcon, event.resolvedIcon, event.tooltip, event.type, event.time);
 	
 	//ADDED GPC 9/3/13
 	if(event.type == BuildingEventType.Primary){
@@ -114,7 +116,7 @@ public function changeOpacity(newOpacity: float)
 // If the new time = 0, it will return false. If it above 0, it will return true  
 public function decrementTime()
 {
-	if(event.time - 1 > 0){
+	if(event.time - 1 > 0 || resolved){
 		event.time--;
 		return true;
 	}
@@ -148,4 +150,15 @@ public function getIcon():Texture
 public function getIconScript():ObjectiveIcon
 {
 	return icon;
+}
+
+public function SetResolved(res : boolean)
+{
+	resolved = res;
+	icon.SetResolved(res);
+}
+
+public function getResolved():boolean
+{
+	return resolved;
 }

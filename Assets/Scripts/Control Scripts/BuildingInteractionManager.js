@@ -27,6 +27,8 @@ private static var editorMenuRef : EditorMenu;
 private static var inspectionDisplayRef : InspectionDisplay;
 public static var resourceSetters : List.<BuildingResourceSetter>;
 
+private static var unitSelected : boolean = false;
+
 function Start () {
 	if (Application.loadedLevelName == "LevelEditor")
 	{
@@ -77,13 +79,31 @@ static function HandleTapAtPoint(position: Vector2){
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
-
+	unitSelected = false;
 	if (buildingIndex != -1){
 		Debug.Log("Tap on building");
-		var buildings = Database.getBuildingsOnGrid();
+		var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.setSelectedBuilding(building);
+		
+		if (ModeController.getSelectedBuilding() == ModeController.getPreviousBuilding())
+		{
+			var unitBuilding : BuildingOnGrid = buildings[buildingIndex];
+			Debug.Log(unitBuilding.selectedUnitIndex + "same" + unitBuilding.units.Count);
+			if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
+			{
+			//if (unitBuilding.units[unitBuilding.selectedUnitIndex])
+			unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();
+			if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count - 1)
+				unitBuilding.selectedUnitIndex++;
+			else
+				unitBuilding.selectedUnitIndex = 0;
+			//if (unitBuilding.units[unitBuilding.selectedUnitIndex])
+			unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
+			unitSelected = true;
+			}
+		}
 		if(building.name == "BuildingSite" && !isEditor)
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
@@ -91,6 +111,8 @@ static function HandleTapAtPoint(position: Vector2){
 		}
 
 	} 
+	else
+		ModeController.setSelectedBuilding(null);
 	
 	/*
 	else {
@@ -120,8 +142,8 @@ static function HandleTapAtPoint(position: Vector2){
 	
 	if (isEditor)
 		editorMenuRef.DoAction(buildPosCoord);
-	
-	UnitManager.DeselectUnits();
+	if(!unitSelected)
+		UnitManager.DeselectUnits();
 }
 
 private static function CheckObjSelected (position : Vector2) : boolean
@@ -167,4 +189,6 @@ static function HandleReleaseAtPoint(position: Vector2)
 			ModeController.setSelectedInputBuilding(building);
 		}
 	}
+	else
+		ModeController.setSelectedBuilding(null);
 }

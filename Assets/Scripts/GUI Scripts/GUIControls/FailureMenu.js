@@ -67,7 +67,7 @@ public class FailureMenu extends GUIControl
 											  mainMenuButtonY / designHeight,
 											  mainMenuButton.width / designWidth,
 											  mainMenuButton.height / designHeight);
-		
+		backgroundMusic = SoundManager.Instance().backgroundSounds.failureMenuMusic;
 	}
 	
 	public function Render()

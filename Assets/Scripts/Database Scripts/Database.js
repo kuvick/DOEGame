@@ -626,6 +626,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
 		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
 		Save("Building Link");
+		SetBuildingResourceActive(outputBuilding.allocatedOutputIcons, false);
     }
     else
     {
@@ -958,10 +959,10 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     // if building has been activated
     if (building.isActive)
     {
-    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
+    	//SetBuildingResourceActive(building.unallocatedInputIcons, true);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
-    	SetBuildingResourceActive(building.allocatedOutputIcons, true);
+    	SetBuildingResourceActive(building.allocatedOutputIcons, false);
     	/*if (building.optionalOutputIcon)
     		building.optionalOutputIcon.SetActive(true);*/
     	for(var outLink : int in building.outputLinkedTo)
@@ -1003,12 +1004,12 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     }
     else
     {
-    	SetBuildingResourceActive(building.unallocatedInputIcons, true);
+    	SetBuildingResourceActive(building.unallocatedInputIcons, false);
     	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
-    	if (building.optionalOutputIcon)
-    		building.optionalOutputIcon.SetActive(false);
+    	/*if (building.optionalOutputIcon)
+    		building.optionalOutputIcon.SetActive(false);*/
     }
     if (checkUnits)
     	UnitManager.CheckUnitsActive();
@@ -1030,7 +1031,7 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 		else
 			display.Activate(building.tooltipText);*/
 		for (var i : int = 0; i < building.tooltip.length; i++)
-			display.Activate(building.tooltip[i]);
+			display.Activate(building.tooltip[i], null);
 	}
 }
 
@@ -1161,6 +1162,7 @@ class BuildingOnGrid
 	
 	var optionalOutput : ResourceType = ResourceType.None;
 	var optionalOutputAllocated : boolean = false;
+	var optionalOutputFixed : boolean = false;
 	var optionalOutputIcon : ResourceIcon;
 	
 	var isActive = false;
@@ -1182,6 +1184,7 @@ class BuildingOnGrid
 	
 	var unit : UnitType = UnitType.None;
 	var units : List.<Unit> = new List.<Unit>();
+	var selectedUnitIndex : int = 0;
 	var unitSelected : boolean = false;
 	
 	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
@@ -1259,6 +1262,7 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 	
 	copyTo.optionalOutput = copyFrom.optionalOutput;
 	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
+	copyTo.optionalOutputFixed = copyFrom.optionalOutputFixed;
 	copyTo.optionalOutputIcon = copyFrom.optionalOutputIcon;
 
 	copyTo.isActive = copyFrom.isActive;
@@ -1384,6 +1388,7 @@ function UndoLink(typeOfUndo : int)
 		tempIcon.SetAllocated(false);
 		b2Building.unallocatedOutputIcons.Add(tempIcon);
 		tempIcon.SetIndex(b2Building.unallocatedOutputIcons.Count - 1);
+		SetBuildingResourceActive(b2Building.unallocatedOutputIcons, true);
 	}
 	
 	var b3Building : BuildingOnGrid;

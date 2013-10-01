@@ -90,9 +90,9 @@ function Initiate() {
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	currentBuilding.units.Add(this);
 	SetPosition(false);
-	CheckActive();
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	CheckActive(false);
 }
 
 // set the unit's current state and change icon to appropriate texture
@@ -102,10 +102,10 @@ private function SetState(state : UnitState)
 	renderer.material.mainTexture = unitIcons[state];
 }
 
-public function CheckActive()
+public function CheckActive(notFirstTurn : boolean)
 {
 	if (currentBuilding.isActive){
-		if (currentState == UnitState.Inactive){
+		if (currentState == UnitState.Inactive && notFirstTurn){
 			OnActivate();
 		}
 		SetState(UnitState.Active);
@@ -315,10 +315,10 @@ function DoAction () : boolean
 	return true;
 }
 
-function UndoAction () 
+function UndoAction () : boolean
 {
 	if (actionList.Count < 1)
-		return;
+		return false;
 	
 	// if the current turn is the proper undo turn
 	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
@@ -339,7 +339,9 @@ function UndoAction ()
 			currentPath.Clear();
 		if (currentPath.Count > 0)
 			SetState(UnitState.InTransit);
+		return true;
 	}
+	return false;
 }
 
 // moves unit to the position of the current building
@@ -522,7 +524,8 @@ public function OnDeselect()
 }
 
 protected function OnActivate(){
-	SoundManager.Instance().PlayUnitActiviated(this);
+	//if (intelSystem.currentTurn > 0)
+		SoundManager.Instance().PlayUnitActiviated(this);
 }
 
 class UnitAction extends System.ValueType

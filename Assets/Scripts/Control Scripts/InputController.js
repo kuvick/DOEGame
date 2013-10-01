@@ -88,6 +88,7 @@ function ResetControlState() {
 }
 
 function Start () {
+	yield WaitForSeconds(0.5); // delaying control? At least when level starts?
 	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	ResetControlState();
 	// Check what type of input we should be expecting

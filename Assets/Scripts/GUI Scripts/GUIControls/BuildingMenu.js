@@ -327,6 +327,7 @@ public class BuildingMenu extends GUIControl
 		
 		if (GUI.Button(cancelButton, cancelButtonTexture))
 		{
+			SoundManager.Instance().playCancel();
 			currentResponse.type = EventTypes.MAIN;
 			ModeController.setSelectedBuilding(null);
 		}

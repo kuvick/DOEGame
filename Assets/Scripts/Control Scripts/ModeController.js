@@ -19,6 +19,7 @@ to build mode can be added later.
 
 static public var currentMode:GameState;
 static public var selectedBuilding : GameObject = null;
+static public var previousBuilding : GameObject = null;
 static public var newSelected : boolean = false;
 static public var selectedInputBuilding : GameObject = null;  //Only used for Drag Link System
 private var buildings:GameObject[];
@@ -110,9 +111,15 @@ static function getSelectedBuilding(){
 	return selectedBuilding;
 }
 
+static function getPreviousBuilding()
+{
+	return previousBuilding;
+}
+
 static function setSelectedBuilding(selected:GameObject)
 {
 	newSelected = true;
+	previousBuilding = selectedBuilding;
 	selectedBuilding = selected;
 }
 

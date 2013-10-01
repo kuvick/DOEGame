@@ -18,7 +18,7 @@ static function Login(){
 			Init();
 		}
 		if (InternetConnection.isConnected()){
-			FacebookAndroid.loginWithRequestedPermissions(permisions);
+			//FacebookAndroid.loginWithRequestedPermissions(permisions);
 			hasLoggedIn = true;
 			Debug.Log("FacebookProtocol : Logged In");
 		} else {
@@ -65,7 +65,7 @@ function Start(){
 // Initializes the facebook plugin
 static function Init () {
 	if (InternetConnection.isConnected()){
-		FacebookAndroid.init( APP_ID );
+		//FacebookAndroid.init( APP_ID );
 		hasInitialized = true;
 		Debug.Log("FacebookProtocol : initialized");
 	} else {
@@ -84,7 +84,7 @@ static function PostAchievmentToFacebook(achievment:String, description:String){
 }
 
 private static function PostComment(comment:String){
-	FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);
+	//FacebookAndroid.showPostMessageDialogWithOptions(siteLink, siteCaption, siteImage, comment);
 }
 
 #endif

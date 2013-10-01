@@ -340,7 +340,7 @@ public class MainMenu extends GUIControl
 				}
 										
 				//DISPLAYING NUMBER
-				if(intelSystem.events[i].event.type == BuildingEventType.Primary)
+				if(intelSystem.events[i].event.type == BuildingEventType.Primary && !intelSystem.events[i].getResolved())
 				{		
 					GUI.Label(Rect(	(objIconSize.x + padding) * i, 
 											objIconSize.y / 2f,
