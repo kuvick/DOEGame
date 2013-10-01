@@ -158,8 +158,8 @@ public class LevelSelectMenu extends GUIControl
 			private var emailReadRect: Rect;
 	public var emailUnreadText: Texture;
 			private var emailUnreadRect: Rect;
-	public var lineOverlayText: Texture;
-			private var lineOverlayRect: Rect;
+	//public var lineOverlayText: Texture;
+			//private var lineOverlayRect: Rect;
 	public var mainMenuIconText: Texture;
 			private var mainMenuIconRect: Rect;
 			private var mainMenuX: float=1748;
@@ -493,7 +493,7 @@ public class LevelSelectMenu extends GUIControl
 	
 		// Drawing background textures:
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
-		GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
+		//GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
 		
 		//Getting style and displaying names
 		rank1Style =  GUI.skin.GetStyle("title1");

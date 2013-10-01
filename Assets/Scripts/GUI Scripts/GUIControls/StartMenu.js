@@ -17,7 +17,7 @@ public class StartMenu extends GUIControl
 	public var splashDOEBG:Texture;
 	public var splashDOEIcon:Texture;
 	public var backgroundText:Texture;
-	public var lineOverlayText:Texture;
+	//public var lineOverlayText:Texture;
 	public var facebookButton:Texture;
 		private var facebookButtonRect:Rect;
 	public var loginButton:Texture;
@@ -188,7 +188,7 @@ public class StartMenu extends GUIControl
 		}
 		else
 		{
-			GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
+			//GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
 			GUI.skin = startMenuSkin;
 			
 			
