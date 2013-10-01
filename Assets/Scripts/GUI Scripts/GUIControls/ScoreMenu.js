@@ -24,7 +24,7 @@ public class ScoreMenu extends GUIControl{
 	// BG Textures
 	public var scoreScreenSkin : GUISkin;
 	public var background : Texture;
-	public var lineOverlay : Texture;
+	//public var lineOverlay : Texture;
 	public var infoBox : Texture;
 	
 	// Honors Textures
@@ -220,7 +220,7 @@ public class ScoreMenu extends GUIControl{
 		// Drawing background textures:
 		GUI.skin = scoreScreenSkin;
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
-		GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
+		//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), infoBox);
 		
 		// Buttons are rendered:

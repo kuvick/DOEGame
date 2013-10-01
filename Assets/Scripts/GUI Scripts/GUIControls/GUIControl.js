@@ -148,17 +148,132 @@ public class GUIControl extends MonoBehaviour
 	}
 	
 	// Creates a Rect where the image's height is the percentage of the screen height
-	// while maintaining the proper ratio
-	public function createRect(texture:Texture,x:float,y:float,percentage:float):Rect
+	// while maintaining the proper ratio; if the last value is set to true,
+	// if the rect will go outside the screen it will adjust the rect to make sure it is
+	// within the screen limits
+	public function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean):Rect
 	{
-		var height:float = percentage * screenHeight;
+
+		var height:float = heightPercentage * screenHeight;
 		var textX:float = texture.width;
 		var textY:float = texture.height;
 		var textRatio:float = textX / textY;
 		var width:float = height * textRatio;
+		var x:float = screenWidth * xPercent;
+		var y:float = screenHeight * yPercent;
 		
-		return Rect(x, y, width, height);
+		if(!adjustSizeIfOutsideBoundaries)
+			return Rect(x, y, width, height);
+		else
+			return adjustRect(Rect(x, y, width, height));
+		
 	}
+	
+	// Creates a Rect where the image's height is the percentage of the screen height
+	// while maintaining the proper ratio; if the last value is set to true,
+	// if the rect will go outside the specified rect it will adjust the rect to make sure it is
+	// within the other rect limits
+	//
+	// this is to be used to create rects that within other rects
+	public function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean, compareToRect:Rect):Rect
+	{
+
+		var height:float = heightPercentage * compareToRect.height;
+		var textX:float = texture.width;
+		var textY:float = texture.height;
+		var textRatio:float = textX / textY;
+		var width:float = height * textRatio;
+		var x:float = compareToRect.width * xPercent;
+		var y:float = compareToRect.height * yPercent;
+		
+		if(!adjustSizeIfOutsideBoundaries)
+			return Rect(x, y, width, height);
+		else
+			return adjustRect(Rect(x, y, width, height), compareToRect);
+		
+	}
+	
+	
+	
+	// Used to make sure the Rect won't go beyond the window's limits
+	// Can returns true if an image is within the screen
+	// Returns false if not
+	public function testWindowLimit(rect:Rect):boolean
+	{
+		if(rect.width + rect.x > screenWidth)
+		{
+			//Debug.Log("Rect is larger than screenWidth");
+			return false;
+		}
+		else if(rect.height + rect.y > screenHeight)
+		{
+			//Debug.Log("Rect is larger than screenHeight");
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	//Can use this function for testing the size within a rect that isn't the screen
+	public function testWindowLimit(rect:Rect,compareToRect:Rect):boolean
+	{
+		if(rect.width + rect.x > compareToRect.width)
+		{
+			//Debug.Log("Rect is larger than screenWidth");
+			return false;
+		}
+		else if(rect.height + rect.y > compareToRect.height)
+		{
+			//Debug.Log("Rect is larger than screenHeight");
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	// Adjusts the given Rect while maintaining ratio and x/y coordnates until
+	// the Rect is within the screen limits
+	public function adjustRect(rect:Rect):Rect
+	{
+		var percentage:float = 0.99;
+		var newRect:Rect = Rect(rect.x, rect.y, rect.width, rect.height);
+		
+		for(var i:int=0;i < 100; i++)
+		{
+			newRect.width = rect.width * percentage;
+			newRect.height = rect.height * percentage;
+			if(testWindowLimit(newRect))
+				return newRect;
+			
+			percentage -= 0.01;
+		}
+		
+		return newRect;
+		
+	}
+	
+	// Adjusts the given Rect while maintaining ratio and x/y coordnates until
+	// the Rect is within the specified limits (can be used for making
+	// sure a rect is within a rect that isn't the screen)
+	public function adjustRect(rect:Rect, compareToRect:Rect):Rect
+	{
+		var percentage:float = 0.99;
+		var newRect:Rect = Rect(rect.x, rect.y, rect.width, rect.height);
+		
+		for(var i:int=0;i < 100; i++)
+		{
+			newRect.width = rect.width * percentage;
+			newRect.height = rect.height * percentage;
+			if(testWindowLimit(newRect, compareToRect))
+				return newRect;
+			
+			percentage -= 0.01;
+		}
+		
+		return newRect;
+		
+	}
+	
 	
 	// To be used in "OnGUI" or "Render"
 	// This function assumes black and white
