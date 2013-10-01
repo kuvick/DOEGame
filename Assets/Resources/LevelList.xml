@@ -30,7 +30,7 @@
     </Level>
 	
 	<Level>
-      <displayName>3</displayName>
+      <displayName>2</displayName>
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Heavy Engineering!</subjectText>
@@ -39,12 +39,12 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>1</rankRequirement>
-      <missionRequirementIndex>0</missionRequirementIndex>
+      <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
 	<Level>
-      <displayName>4</displayName>
+      <displayName>3</displayName>
       <sceneName>Tutorial4</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Always more Research</subjectText>
@@ -60,7 +60,7 @@
 	
 	<!-- FIRST SET OF 3 -->
 	<Level>
-      <displayName>5A</displayName>
+      <displayName>4</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 1</subjectText>
@@ -69,12 +69,12 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>3</rankRequirement>
-      <missionRequirementIndex>4</missionRequirementIndex>
+      <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
 	<Level>
-      <displayName>5B</displayName>
+      <displayName>5</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 2</subjectText>
@@ -88,7 +88,7 @@
     </Level>
 	
 	<Level>
-      <displayName>5C</displayName>
+      <displayName>6</displayName>
       <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 3</subjectText>
@@ -97,7 +97,21 @@
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>3</rankRequirement>
-      <missionRequirementIndex>4</missionRequirementIndex>
+      <missionRequirementIndex>5</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>7</displayName>
+      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 4</subjectText>
+      <messageText> Level 4 placeholder text. </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>3</rankRequirement>
+      <missionRequirementIndex>6</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	<!-- END FIRST SET OF 3 -->
