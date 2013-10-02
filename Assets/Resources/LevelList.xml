@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Levels>
+	  
+	<!--TUTORIALS-->
     <Level>
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
@@ -38,7 +40,7 @@
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>1</rankRequirement>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
@@ -56,19 +58,21 @@
       <missionRequirementIndex>2</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	<!-- /TUTORIALS -->
+	<!--********************************************************************-->
+	<!--********************************************************************-->
+	<!--********************************************************************-->
 	
-	
-	<!-- FIRST SET OF 3 -->
 	<Level>
       <displayName>4</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 1</subjectText>
-      <messageText> Level 1 placeholde text. </messageText>
+      <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>3</rankRequirement>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
@@ -78,47 +82,280 @@
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 2</subjectText>
-      <messageText> Level 2 placeholde text. </messageText>
+      <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>3</rankRequirement>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>4</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
 	<Level>
       <displayName>6</displayName>
-      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 3</subjectText>
-      <messageText> Level 3 placeholder text. </messageText>
+      <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>3</rankRequirement>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>5</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
 	<Level>
       <displayName>7</displayName>
-      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>CE18</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Level 4</subjectText>
-      <messageText> Level 4 placeholder text. </messageText>
+      <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>3</rankRequirement>
+      <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>6</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	<!-- END FIRST SET OF 3 -->
 	
-	<!-- SECOND SET OF 3 -->
- 
-	<!-- END SECOND SET OF 3 -->
+	<Level>
+      <displayName>8</displayName>
+      <sceneName>RV14</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 5</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>7</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>9</displayName>
+      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 6</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>7</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>10</displayName>
+      <sceneName>RV02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 7</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>9</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>11</displayName>
+      <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 8</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>10</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>12</displayName>
+      <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 9</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>11</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>13</displayName>
+      <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 10</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>12</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>14</displayName>
+      <sceneName>RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 11</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>13</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>15</displayName>
+      <sceneName>RV07</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 12</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>14</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>16</displayName>
+      <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 13</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>15</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>17</displayName>
+      <sceneName>RV11</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 14</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>16</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>18</displayName>
+      <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 15</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>19</displayName>
+      <sceneName>KU01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 16</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>18</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>20</displayName>
+      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 17</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>19</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>21</displayName>
+      <sceneName>KU04</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 18</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>20</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>22</displayName>
+      <sceneName>CE09</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 19</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>21</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>23</displayName>
+      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 20</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>22</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>24</displayName>
+      <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Level 21</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>23</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
 		
   </Levels>
 </LevelList>
