@@ -13,45 +13,52 @@ public class PauseMenu extends GUIControl
 	// BG Textures
 	public var pauseScreenSkin : GUISkin;
 	public var background : Texture;
-	public var lineOverlay : Texture;
+	//public var lineOverlay : Texture;
 	private var defaultColor : Color;
 	private var transparentColor : Color;
 	
 	// Paused Text
 	public var pauseText : Texture;
 	private var pauseTextRect : Rect;
-	private var pauseTextX : float = 1030;
-	private var pauseTextY : float = 232;
+	private var pauseTextPercent:float = 0.14;
+	private var pauseTextX : float = 0.54;
+	private var pauseTextY : float = 0.23;
 	
 	// Back Button
 	public var backButton : Texture;
 	private var backButtonRect : Rect;
-	private var backButtonX : float = 59;
-	private var backButtonY : float = 31;
+	private var backButtonPercent:float = 0.11;
+	private var backButtonX : float = 0.03;
+	private var backButtonY : float = 0.05;
 	
 	// Restart Button
 	public var restartButton : Texture;
 	private var restartButtonRect : Rect;
-	private var restartButtonX : float = 1320;
-	private var restartButtonY : float = 475;
-	
+
 	// Dashboard Button
 	public var dashboardButton : Texture;
 	private var dashboardButtonRect : Rect;
-	private var dashboardButtonX : float = 1218;
-	private var dashboardButtonY : float = 638;
 	
 	// Main Menu Button
 	public var mainMenuButton : Texture;
 	private var mainMenuButtonRect : Rect;
-	private var mainMenuButtonX : float = 1215;
-	private var mainMenuButtonY : float = 801;
 	
-	// Hex BG Shape
-	public var hexShape : Texture;
-	private var hexShapeRect : Rect;
-	private var hexShapeX : float = 746;
-	private var hexShapeY : float = 0;
+	//Button Vars
+	private var buttonPercent: float = 0.11;
+	private var buttonBufferPercent: float = 0.04;
+	private var buttonInitialYPercent: float = 0.45;
+	private var buttonXPercent: float = 0.59;
+	
+	// Hex Texture
+	public var hexText : Texture;
+	private var hexTextRect : Rect;
+	private var hexTextX : float = 0.39;
+	private var hexTextY : float = 0;
+	private var hexPercent : float = 1;
+
+
+	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
+	private var groupRect:Rect;
 	
 	
 	public function Start()
@@ -63,52 +70,35 @@ public class PauseMenu extends GUIControl
 	{
 		super.Initialize();
 		
-		
-		var designWidth : float = 1920;
-		var designHeight : float = 1080;
-		
 		defaultColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		transparentColor = new Color(1.0f, 1.0f, 1.0f, 0.9f);
 		
+		
+		groupRect = Rect(0,0,screenWidth - (buttonBufferPercent * screenWidth), screenHeight - (buttonBufferPercent * screenHeight));
 
 		
 		//Calculating Rect.
-			// PausedText
-		pauseTextRect = RectFactory.NewRect(pauseTextX / designWidth, 
-											  pauseTextY / designHeight,
-											  pauseText.width / designWidth,
-											  pauseText.height / designHeight);
+			// PausedText											  
+		pauseTextRect = createRect(pauseText, pauseTextX, pauseTextY, pauseTextPercent, true, groupRect);
 
-			// Hex
-		hexShapeRect = RectFactory.NewRect(hexShapeX / designWidth, 
-											  hexShapeY / designHeight,
-											  hexShape.width / designWidth,
-											  hexShape.height / designHeight);
+			// Hex Texture
+		hexTextRect = createRect(hexText, hexTextX, hexTextY, hexPercent, false);
 											  
 											  
 			// Back Button
-		backButtonRect = RectFactory.NewRect(backButtonX / designWidth, 
-											  backButtonY / designHeight,
-											  backButton.width / designWidth,
-											  backButton.height / designHeight);
-											  
-			// Dashboard Button
-		restartButtonRect = RectFactory.NewRect(restartButtonX / designWidth, 
-											  restartButtonY / designHeight,
-											  restartButton.width / designWidth,
-											  restartButton.height / designHeight);
+		backButtonRect = createRect(backButton, backButtonX, backButtonY, backButtonPercent, false);
 											  
 			// Restart Button
-		dashboardButtonRect = RectFactory.NewRect(dashboardButtonX / designWidth, 
-											  dashboardButtonY / designHeight,
-											  dashboardButton.width / designWidth,
-											  dashboardButton.height / designHeight);
+		restartButtonRect = createRect(restartButton, buttonXPercent, buttonInitialYPercent, buttonPercent, true, groupRect);
+											  
+			// Dashboard Button
+		dashboardButtonRect = createRect(dashboardButton, buttonXPercent, buttonInitialYPercent + buttonPercent + buttonBufferPercent, buttonPercent, true, groupRect);
 											  
 			// Main Menu Button
-		mainMenuButtonRect = RectFactory.NewRect(mainMenuButtonX / designWidth, 
-											  mainMenuButtonY / designHeight,
-											  mainMenuButton.width / designWidth,
-											  mainMenuButton.height / designHeight);
+		mainMenuButtonRect = createRect(mainMenuButton, buttonXPercent, buttonInitialYPercent + (buttonPercent*2) + (buttonBufferPercent*2), buttonPercent, true, groupRect);
+		
+		
+		
 		
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
@@ -120,69 +110,45 @@ public class PauseMenu extends GUIControl
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
 		GUI.color = transparentColor;
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background, ScaleMode.StretchToFill);
+		
 		GUI.color = defaultColor;
-		GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-		GUI.DrawTexture(hexShapeRect, hexShape);
-		GUI.DrawTexture(pauseTextRect, pauseText);
+		GUI.DrawTexture(hexTextRect, hexText, ScaleMode.StretchToFill);
 		
 		
+		
+		GUI.BeginGroup(groupRect);
+		
+		GUI.DrawTexture(pauseTextRect, pauseText, ScaleMode.StretchToFill);
 		
 		// Buttons are rendered:
-		
-		if(GUI.Button(backButtonRect, backButton))
+		GUI.DrawTexture(backButtonRect, backButton, ScaleMode.StretchToFill);
+		if(GUI.Button(backButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.MAIN;
 			PlayButtonPress();
 		}
-		
-		if(GUI.Button(restartButtonRect, restartButton))
+		GUI.DrawTexture(restartButtonRect, restartButton, ScaleMode.StretchToFill);
+		if(GUI.Button(restartButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.RESTART;
 		}
 		
-		if(GUI.Button(dashboardButtonRect, dashboardButton))
+		GUI.DrawTexture(dashboardButtonRect, dashboardButton, ScaleMode.StretchToFill);
+		if(GUI.Button(dashboardButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		
-		if(GUI.Button(mainMenuButtonRect, mainMenuButton))
+		GUI.DrawTexture(mainMenuButtonRect, mainMenuButton, ScaleMode.StretchToFill);
+		if(GUI.Button(mainMenuButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
 		
-	
-	/*
-		
-		if (GUI.Button(levelSelectButton, "level select"))
-		{
-			currentResponse.type = EventTypes.LEVELSELECT;
-		}
-		
-		if (GUI.Button(restartButton, "restart"))
-		{
-			currentResponse.type = EventTypes.RESTART;
-		}
-		
-		if (GUI.Button(StartMenuButton, "start screen"))
-		{
-			currentResponse.type = EventTypes.STARTMENU;
-		}
-		
-		if (GUI.Button(saveQuitButton, "save and quit"))
-		{
-			currentResponse.type = EventTypes.SAVEQUIT;
-		}
-		
-		GUI.skin = hexButtonSkin;
-		
-		if (GUI.Button(resumeGameButton, "Resume"))
-		{
-			currentResponse.type = EventTypes.MAIN;
-		}
-		
-		*/
+		GUI.EndGroup();
+
 	}
 }

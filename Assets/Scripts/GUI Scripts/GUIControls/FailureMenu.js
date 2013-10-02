@@ -6,67 +6,66 @@ public class FailureMenu extends GUIControl
 	// BG Textures
 	public var pauseScreenSkin : GUISkin;
 	public var background : Texture;
-	public var lineOverlay : Texture;
 	
 	// Fail Text
 	public var failText : Texture;
 	private var failTextRect : Rect;
-	private var failTextX : float = 65;
-	private var failTextY : float = 232;
+	private var failTextX : float = 0.03;
+	private var failTextY : float = 0.23;
+	private var failPercent : float = 0.25;
 
 	// Restart Button
 	public var restartButton : Texture;
 	private var restartButtonRect : Rect;
-	private var restartButtonX : float = 1316;
-	private var restartButtonY : float = 552;
 	
 	// Dashboard Button
 	public var dashboardButton : Texture;
 	private var dashboardButtonRect : Rect;
-	private var dashboardButtonX : float = 1211;
-	private var dashboardButtonY : float = 715;
 	
 	// Main Menu Button
 	public var mainMenuButton : Texture;
 	private var mainMenuButtonRect : Rect;
-	private var mainMenuButtonX : float = 1208;
-	private var mainMenuButtonY : float = 877;
+
+	//Button Vars
+	private var buttonPercent: float = 0.11;
+	private var buttonBufferPercent: float = 0.04;
+	private var buttonInitialYPercent: float = 0.54;
+	private var buttonXPercent: float = 0.58;
+	
+	
+	// Hex Texture
+	public var hexText : Texture;
+	private var hexTextRect : Rect;
+	private var hexTextX : float = 0.39;
+	private var hexTextY : float = 0;
+	private var hexPercent : float = 1;
 
 
-
+	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
+	private var groupRect:Rect;
 
 	public function Initialize()
 	{
 		super.Initialize();
 		
-		var designWidth : float = 1920;
-		var designHeight : float = 1080;
-		
+		groupRect = Rect(0,0,screenWidth - (buttonBufferPercent * screenWidth), screenHeight - (buttonBufferPercent * screenHeight));
 		
 		//Calculating Rect.
 			// FailText
-		failTextRect = RectFactory.NewRect(failTextX / designWidth, 
-											  failTextY / designHeight,
-											  failText.width / designWidth,
-											  failText.height / designHeight);
+		failTextRect = createRect(failText, failTextX, failTextY, failPercent, true, groupRect);
 		
-			// Dashboard Button
-		restartButtonRect = RectFactory.NewRect(restartButtonX / designWidth, 
-											  restartButtonY / designHeight,
-											  restartButton.width / designWidth,
-											  restartButton.height / designHeight);
-											  
 			// Restart Button
-		dashboardButtonRect = RectFactory.NewRect(dashboardButtonX / designWidth, 
-											  dashboardButtonY / designHeight,
-											  dashboardButton.width / designWidth,
-											  dashboardButton.height / designHeight);
+		restartButtonRect = createRect(restartButton, buttonXPercent, buttonInitialYPercent, buttonPercent, true, groupRect);
+											  
+			// Dashboard Button
+		dashboardButtonRect = createRect(dashboardButton, buttonXPercent, buttonInitialYPercent + buttonPercent + buttonBufferPercent, buttonPercent, true, groupRect);
 											  
 			// Main Menu Button
-		mainMenuButtonRect = RectFactory.NewRect(mainMenuButtonX / designWidth, 
-											  mainMenuButtonY / designHeight,
-											  mainMenuButton.width / designWidth,
-											  mainMenuButton.height / designHeight);
+		mainMenuButtonRect = createRect(mainMenuButton, buttonXPercent, buttonInitialYPercent + (buttonPercent*2) + (buttonBufferPercent*2), buttonPercent, true, groupRect);
+		
+			// Hex Texture
+		hexTextRect = createRect(hexText, hexTextX, hexTextY, hexPercent, false);
+		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.failureMenuMusic;
 	}
 	
@@ -75,30 +74,35 @@ public class FailureMenu extends GUIControl
 
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
-		GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-		GUI.DrawTexture(failTextRect, failText);
+		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background, ScaleMode.StretchToFill);
+		GUI.DrawTexture(hexTextRect, hexText, ScaleMode.StretchToFill);
 		
+		GUI.BeginGroup(groupRect);
+		GUI.DrawTexture(failTextRect, failText, ScaleMode.StretchToFill);
 		
 		
 		// Buttons are rendered:
-		
-		if(GUI.Button(restartButtonRect, restartButton))
+		GUI.DrawTexture(restartButtonRect, restartButton, ScaleMode.StretchToFill);
+		if(GUI.Button(restartButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.RESTART;
 		}
 		
-		if(GUI.Button(dashboardButtonRect, dashboardButton))
+		GUI.DrawTexture(dashboardButtonRect, dashboardButton, ScaleMode.StretchToFill);
+		if(GUI.Button(dashboardButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		
-		if(GUI.Button(mainMenuButtonRect, mainMenuButton))
+		GUI.DrawTexture(mainMenuButtonRect, mainMenuButton, ScaleMode.StretchToFill);
+		if(GUI.Button(mainMenuButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
+		
+		GUI.EndGroup();
 
 
 	}
