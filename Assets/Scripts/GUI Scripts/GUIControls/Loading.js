@@ -27,7 +27,7 @@ public class Loading extends GUIControl
 	public var blackBackgroundTexture : Texture2D;
 	public var loadingTexture : Texture;
 	public var iconTexture : Texture;
-	public var backgroundTexture : Texture2D;
+	//public var backgroundTexture : Texture2D;
 	public var foregroundTexture : Texture2D;
 	public var onlineTexture : Texture2D;
 	
@@ -98,7 +98,7 @@ public class Loading extends GUIControl
 	{
 		GUI.depth = 0;
 		GUI.DrawTexture(blackBackground, blackBackgroundTexture);
-		GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
+		//GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
 		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
 		
 		if (hasLoaded){
