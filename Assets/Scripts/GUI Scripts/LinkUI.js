@@ -474,6 +474,51 @@ function ReplaceBuilding (replacement : BuildingReplacement)
 	buildings[replacement.buildingIndex] = replacement.buildingObject;
 }
 
+function HighlightTiles()
+{
+	buildingIsSelected = (selectedBuilding != null);
+	if (buildingIsSelected)
+		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
+	var building : GameObject;	
+	for (var i : int = 0; i < buildings.length; i++)
+	{
+		building = buildings[i];
+		if(building == null) return;
+		buildingHighlightColor = noHighlightColor;
+		target = building.transform;
+		gridBuilding = Database.getBuildingOnGrid(target.position);
+		if(gridBuilding == null)
+			return;
+		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
+			buildingHighlightColor = usableHighlightColor;
+		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
+		{
+			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
+			
+			for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]))
+				{
+					buildingHighlightColor = targetHighlightColor;
+				}
+			}		
+			for(j = 0; j < tempBuilding.allocatedOutputs.Count; j++)
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allocatedOutputs[j]))
+				{
+					buildingHighlightColor = targetHighlightColor;
+				}
+			}	
+			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput))
+					buildingHighlightColor = targetHighlightColor;
+			}	
+		}
+		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
+	}
+}
+
 function OnGUI()
 {
 	if(ModeController.getCurrentMode() == GameState.LINK)
@@ -486,7 +531,7 @@ function OnGUI()
 		
 	GUI.skin = linkUISkin;
 	
-	buildingIsSelected = (selectedBuilding != null);
+	/*buildingIsSelected = (selectedBuilding != null);
 	if (buildingIsSelected)
 		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 	var building : GameObject;	
@@ -502,7 +547,7 @@ function OnGUI()
 			return;
 		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
 			buildingHighlightColor = usableHighlightColor;
-		point = Camera.main.WorldToScreenPoint(target.position);
+		/*point = Camera.main.WorldToScreenPoint(target.position);
 		point.y = Screen.height - point.y; //adjust height point
 		if(point.y < 0) //Adjust y value of button for screen space
 			point.y -= Screen.height;
@@ -512,7 +557,7 @@ function OnGUI()
 		if (buildingIsSelected && building == selectedBuilding && selectedGridBuilding.isActive)
 			outputOffsetScale = 2.0f;
 		outputRect = Rect(point.x + outputOffset.x * outputOffsetScale, point.y + outputOffset.y * outputOffsetScale, 
-							smallButtonSize, smallButtonSize);
+							smallButtonSize, smallButtonSize);*/
 		
 		/*inputRect = DrawInputButtons(inputRect, gridBuilding.unallocatedInputs, unallocatedInputTex, building, false);
 		//inputRect.x += smallButtonSize + (2 * buttonSpacing);
@@ -523,7 +568,7 @@ function OnGUI()
 		outputRect = DrawOutputButtons(outputRect, gridBuilding.allocatedOutputs, allocatedOutputTex, building, true);*/
 		/*if (building == selectedBuilding)
 			buildingHighlightColor = selectedHighlightColor;*/
-		var optionalButtonSize = largeButtonSize;
+		/*var optionalButtonSize = largeButtonSize;
 		var optionalActive : boolean = true;
 		if (selectedBuilding != building || gridBuilding.unit != UnitType.Worker || !gridBuilding.isActive)
 		{
@@ -533,8 +578,8 @@ function OnGUI()
 			optionalActive = false;
 		}
 		outputRect.width = optionalButtonSize;
-		outputRect.height = optionalButtonSize;
-		if (gridBuilding.optionalOutput != ResourceType.None) 
+		outputRect.height = optionalButtonSize;*/
+		/*if (gridBuilding.optionalOutput != ResourceType.None) 
 		{
 			var optionalOutTex : Texture;
 			if (!gridBuilding.optionalOutputAllocated)
@@ -551,8 +596,8 @@ function OnGUI()
 					allocatedOutSelected = true;
 				selectedResource = gridBuilding.optionalOutput;
 			}*/
-		}
-		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
+		//}
+		/*if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
 		{
 			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
 			
@@ -579,7 +624,7 @@ function OnGUI()
 		
 		GUI.enabled = true;
 		(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
-	}
+	}*/
 }
 
 // iterates through the given resource list and draws the appropriate input or output buttons

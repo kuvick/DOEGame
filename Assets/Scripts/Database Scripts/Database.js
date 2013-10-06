@@ -166,6 +166,8 @@ function Start()
 		
 	level_s = new LevelSerializer();
 	WriteLevel();
+	
+	linkUIRef.HighlightTiles();
 }
 
 
