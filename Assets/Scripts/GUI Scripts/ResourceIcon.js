@@ -4,6 +4,7 @@ private var isAllocated : boolean = false;
 private var building : BuildingOnGrid;
 public var unallocatedTex : Texture2D;
 public var allocatedTex : Texture2D;
+public var fixedTex : Texture2D;
 public var type : ResourceType;
 private var currentTex : Texture2D;
 public var ioType : IOType;
@@ -144,6 +145,15 @@ public function SetActive(active : boolean)
 public function SetIndex (index : int)
 {
 	this.index = index;
+}
+
+public function Fix()
+{
+	if (ioType == IOType.OptOut)
+	{
+		currentTex = fixedTex;
+		renderer.material.mainTexture = currentTex;
+	}
 }
 
 public function Delete()

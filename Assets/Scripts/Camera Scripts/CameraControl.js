@@ -15,6 +15,13 @@ static private var thisCamera: Camera;
 static public var bCP : Vector3;
 static public var bD : Vector3;
 
+//Must set the boolean to true to use the relative centering, and if you do, use
+//this Vector3 instead of borderCenterPosition
+public var relativeCenterPosition:Vector3;
+public var useRelativeCenterPosition:boolean = false;
+private var relativeCenter : Vector3;	// the center to use after calculations
+//*****************************************************************
+
 public var borderCenterPosition : Vector3;
 public var borderDimensions : Vector3;
 public var cameraStartObject : GameObject;
@@ -60,16 +67,43 @@ function Start () {
 	//*************
 	
 	
-	if(borderDimensions.x == 0 || borderDimensions.z == 0)
+	if(!useRelativeCenterPosition)
 	{
-		Debug.LogWarning("Camera Dimensions Not Set. Reverting to Default");
-		borderDimensions.x = HexagonGrid.totalDimensions.x;
-		borderDimensions.z = HexagonGrid.totalDimensions.y;
-		borderCenterPosition.x = borderDimensions.x / 2;
-		borderCenterPosition.z = borderDimensions.z / 2;
+		if(borderDimensions.x == 0 || borderDimensions.z == 0)
+		{
+			Debug.LogWarning("Camera Dimensions Not Set. Reverting to Default");
+			borderDimensions.x = HexagonGrid.totalDimensions.x;
+			borderDimensions.z = HexagonGrid.totalDimensions.y;
+			borderCenterPosition.x = borderDimensions.x / 2;
+			borderCenterPosition.z = borderDimensions.z / 2;
+		}
+		
+		bCP = borderCenterPosition;
+	}
+	else
+	{
+		var degree:float = (Mathf.PI / 180) * 45;
+		var moveX : float = (relativeCenterPosition.x * Mathf.Sin(degree)) + (relativeCenterPosition.z * Mathf.Sin(degree));
+		var moveZ : float = (-relativeCenterPosition.x * Mathf.Cos(degree)) + (relativeCenterPosition.z * Mathf.Cos(degree));
+		
+		relativeCenter = new Vector3(moveX,0,moveZ);
+		
+		if(borderDimensions.x == 0 || borderDimensions.z == 0)
+		{
+			Debug.LogWarning("Camera Dimensions Not Set. Reverting to Default");
+			borderDimensions.x = HexagonGrid.totalDimensions.x;
+			borderDimensions.z = HexagonGrid.totalDimensions.y;
+			relativeCenter.x = borderDimensions.x / 2;
+			relativeCenter.z = borderDimensions.z / 2;
+		}
+		
+		bCP = relativeCenter;
 	}
 	
-	bCP = borderCenterPosition;
+	
+	
+	
+	
 	bD = borderDimensions;
 	
 	//thisCamera.transform.position = new Vector3(cameraStartObject.transform.position.x, thisCamera.transform.position.y, cameraStartObject.transform.position.z);
@@ -92,9 +126,9 @@ static public function Drag(currentInputPos: Vector2){
 	
 	var currentPos : Vector3 = thisCamera.transform.position;
 	
-	var r : float = Mathf.Sqrt(currentInputPos.x * currentInputPos.x + currentInputPos.y * currentInputPos.y);
+	//var r : float = Mathf.Sqrt(currentInputPos.x * currentInputPos.x + currentInputPos.y * currentInputPos.y);
 	var degree:float = (Mathf.PI / 180) * 45;
-	var degree2:float = (Mathf.PI / 180) * 315;
+	//var degree2:float = (Mathf.PI / 180) * 315;
 	
 	var moveX : float = (currentInputPos.x * Mathf.Sin(degree)) + (currentInputPos.y * Mathf.Sin(degree));
 	var moveZ : float = (-currentInputPos.x * Mathf.Cos(degree)) + (currentInputPos.y * Mathf.Cos(degree));
@@ -238,15 +272,40 @@ public function Update()
 	
 	if(borderDimensions.x == 0 || borderDimensions.z == 0)
 	{
-		Debug.Log("WARNING: Camera Dimensions Not Set. Reverting to Default");
-		borderDimensions.x = HexagonGrid.totalDimensions.x;
-		borderDimensions.z = HexagonGrid.totalDimensions.y;
-		borderCenterPosition.x = borderDimensions.x / 2;
-		borderCenterPosition.z = borderDimensions.z / 2;
-		
-		CameraControl.bCP = borderCenterPosition;
-		CameraControl.bD = borderDimensions;
+		if(!useRelativeCenterPosition)
+		{
+			Debug.Log("WARNING: Camera Dimensions Not Set. Reverting to Default");
+			borderDimensions.x = HexagonGrid.totalDimensions.x;
+			borderDimensions.z = HexagonGrid.totalDimensions.y;
+			borderCenterPosition.x = borderDimensions.x / 2;
+			borderCenterPosition.z = borderDimensions.z / 2;
+			
+			CameraControl.bCP = borderCenterPosition;
+			CameraControl.bD = borderDimensions;
+		}
+		else
+		{
+			var degree:float = (Mathf.PI / 180) * 45;
+			var moveX : float = (relativeCenterPosition.x * Mathf.Sin(degree)) + (relativeCenterPosition.z * Mathf.Sin(degree));
+			var moveZ : float = (-relativeCenterPosition.x * Mathf.Cos(degree)) + (relativeCenterPosition.z * Mathf.Cos(degree));
+			
+			relativeCenter = new Vector3(moveX,0,moveZ);
+			
+			if(borderDimensions.x == 0 || borderDimensions.z == 0)
+			{
+				Debug.LogWarning("Camera Dimensions Not Set. Reverting to Default");
+				borderDimensions.x = HexagonGrid.totalDimensions.x;
+				borderDimensions.z = HexagonGrid.totalDimensions.y;
+				relativeCenter.x = borderDimensions.x / 2;
+				relativeCenter.z = borderDimensions.z / 2;
+			}
+			
+			CameraControl.bCP = relativeCenter;
+			CameraControl.bD = borderDimensions;
+		}
 	}
+	
+	
 
 	if(isCentering)
 	{
@@ -261,39 +320,97 @@ public function Update()
 
 public function OnDrawGizmos()
 {
-	Gizmos.color = Color.red;
-	
-	// For perspective camera:
-	//Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
+	var corner1 : Vector3;
+	var corner2 : Vector3;
+	var corner3 : Vector3;
+	var corner4 : Vector3;
 
-	// Finding the corners of the rotated rect. view
-	var corner1 : Vector3 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
-										- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
-										10,
-										borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
-										+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
-										
-	var corner2 : Vector3 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
-										- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
-										10,
-										borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
-										+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
-	var corner3 : Vector3 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
-										- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
-										10,
-										borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
-										+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
-	var corner4 : Vector3 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
-										- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
-										10,
-										borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
-										+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+	if(!useRelativeCenterPosition)
+	{
+		Gizmos.color = Color.red;
+		
+		// For perspective camera:
+		//Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
 	
-	Gizmos.DrawLine(corner1, corner2);
-	Gizmos.DrawLine(corner2, corner4);
-	Gizmos.DrawLine(corner3, corner4);
-	Gizmos.DrawLine(corner3, corner1);
+		// Finding the corners of the rotated rect. view
+		corner1 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+											- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+											10,
+											borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+											+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+											
+		corner2 = new Vector3(borderCenterPosition.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+											- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+											10,
+											borderCenterPosition.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+											+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+		corner3 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+											- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+											10,
+											borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+											+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+		corner4 = new Vector3(borderCenterPosition.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+											- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+											10,
+											borderCenterPosition.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+											+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+		
+		Gizmos.DrawLine(corner1, corner2);
+		Gizmos.DrawLine(corner2, corner4);
+		Gizmos.DrawLine(corner3, corner4);
+		Gizmos.DrawLine(corner3, corner1);
+	
 
+	}
+	else
+	{
+	
+		if(!Application.isPlaying)
+		{
+			var degree:float = (Mathf.PI / 180) * 45;
+			var moveX : float = (relativeCenterPosition.x * Mathf.Sin(degree)) + (relativeCenterPosition.z * Mathf.Sin(degree));
+			var moveZ : float = (-relativeCenterPosition.x * Mathf.Cos(degree)) + (relativeCenterPosition.z * Mathf.Cos(degree));
+			
+			relativeCenter = new Vector3(moveX,0,moveZ);
+			
+			Gizmos.color = Color.yellow;
+			
+			// For perspective camera:
+			//Gizmos.DrawWireCube(borderCenterPosition, borderDimensions);
+		
+			// Finding the corners of the rotated rect. view
+			corner1 = new Vector3(relativeCenter.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+												- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+												10,
+												relativeCenter.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+												+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+												
+			corner2 = new Vector3(relativeCenter.x + (borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+												- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+												10,
+												relativeCenter.z + (borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+												+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+			corner3 = new Vector3(relativeCenter.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+												- (borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+												10,
+												relativeCenter.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+												+ (borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+			corner4 = new Vector3(relativeCenter.x + (-borderDimensions.x / 2) * Mathf.Cos((Mathf.PI / 180) * -45)
+												- (- borderDimensions.z / 2) * Mathf.Sin((Mathf.PI / 180) * -45),
+												10,
+												relativeCenter.z + (-borderDimensions.x / 2) * Mathf.Sin((Mathf.PI / 180) * -45)
+												+ (- borderDimensions.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45));
+			
+			Gizmos.DrawLine(corner1, corner2);
+			Gizmos.DrawLine(corner2, corner4);
+			Gizmos.DrawLine(corner3, corner4);
+			Gizmos.DrawLine(corner3, corner1);
+		}
+		
+	}
+	
+	Gizmos.color = Color.blue;
+	
 	if(showCameraLocation)
 	{
 		var cameraLoc : Vector3 = new Vector3(this.camera.transform.position.x, 0, this.camera.transform.position.z);
@@ -303,7 +420,6 @@ public function OnDrawGizmos()
 	
 	if(showCenter)
 	{
-		Gizmos.color = Color.blue;
 		//centerOnPoint = this.camera.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height /2, 433));
 		Gizmos.DrawCube(centerOnPoint, new Vector3(25, 50, 25));
 		Gizmos.color = Color.yellow;

@@ -25,6 +25,7 @@ private static var mainMenuRef : MainMenu;
 private static var buildingMenuRef : BuildingMenu;
 private static var editorMenuRef : EditorMenu;
 private static var inspectionDisplayRef : InspectionDisplay;
+private static var linkUIRef : LinkUI;
 public static var resourceSetters : List.<BuildingResourceSetter>;
 
 private static var unitSelected : boolean = false;
@@ -42,6 +43,7 @@ function Start () {
 	{
 		isEditor = false;
 		inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+		linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	}
 }
 
@@ -87,23 +89,25 @@ static function HandleTapAtPoint(position: Vector2){
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.setSelectedBuilding(building);
 		
+		var unitBuilding : BuildingOnGrid = buildings[buildingIndex];
+		// if tapping the same building again, select appropriate unit
 		if (ModeController.getSelectedBuilding() == ModeController.getPreviousBuilding())
 		{
-			var unitBuilding : BuildingOnGrid = buildings[buildingIndex];
-			Debug.Log(unitBuilding.selectedUnitIndex + "same" + unitBuilding.units.Count);
 			if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
 			{
-			//if (unitBuilding.units[unitBuilding.selectedUnitIndex])
-			unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();
-			if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count - 1)
-				unitBuilding.selectedUnitIndex++;
-			else
-				unitBuilding.selectedUnitIndex = 0;
-			//if (unitBuilding.units[unitBuilding.selectedUnitIndex])
-			unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
-			unitSelected = true;
+				if (unitBuilding.selectedUnitIndex >= 0)
+					unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();
+				if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count - 1)
+					unitBuilding.selectedUnitIndex++;
+				else
+					unitBuilding.selectedUnitIndex = 0;
+				unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
+				unitSelected = true;
 			}
 		}
+		// reset unit index if a different building is tapped
+		else
+			unitBuilding.selectedUnitIndex = -1;
 		if(building.name == "BuildingSite" && !isEditor)
 		{
 			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
@@ -139,7 +143,7 @@ static function HandleTapAtPoint(position: Vector2){
 			}*/
 		//}
 	//}
-	
+	linkUIRef.HighlightTiles();
 	if (isEditor)
 		editorMenuRef.DoAction(buildPosCoord);
 	if(!unitSelected)

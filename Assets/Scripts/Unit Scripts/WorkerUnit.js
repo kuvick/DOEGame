@@ -34,6 +34,7 @@ class WorkerUnit extends Unit {
 			if (currentBuilding.optionalOutputIcon)
 			{
 				currentBuilding.optionalOutputIcon.SetFlashSolidColor(Color.white);//SetActive(true);
+				currentBuilding.optionalOutputIcon.Fix();
 				currentBuilding.optionalOutputFixed = true;
 			}
 			/*if (previousBuilding.optionalOutputIcon)
