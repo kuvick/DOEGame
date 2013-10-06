@@ -11,7 +11,6 @@ class SoundType{
 			return;
 		}
 		audioClipName = audioClip.name;
-		Debug.Log("caching " + audioClipName);
 		
 		audioClip = null;
 	}
@@ -19,7 +18,7 @@ class SoundType{
 	public function GetClip(){
 		var clip = Resources.Load(pathToSounds + audioClipName);
 		if (clip == null){
-			throw new System.Exception("No clip with name " + audioClipName + "found");
+			Debug.LogWarning("Sound clip was not set");
 		}
 		return (clip);
 	}

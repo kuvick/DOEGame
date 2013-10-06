@@ -59,6 +59,7 @@ public class SoundManager extends MonoBehaviour {
 		checkPriorityVolumes();
 		
 		linkSounds.Init();
+		CacheAllSounds();
 	}
 	
 	public function OnLevelWasLoaded(){
