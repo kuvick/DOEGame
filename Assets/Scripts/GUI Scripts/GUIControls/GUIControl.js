@@ -38,7 +38,7 @@ public class GUIControl extends MonoBehaviour
 	
 	public var isInitialized : boolean = false;
 	
-	protected var backgroundMusic : AudioClip = null; 
+	protected var backgroundMusic : SoundType = null; 
 	
 	/*
 		Starts the GUIControl's update cycle.

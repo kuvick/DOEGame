@@ -19,12 +19,12 @@ public class SoundManager extends MonoBehaviour {
 	private var musicSource : AudioSource;
 	private var defaultClipSource : AudioSource;
 	
-	public var buildingPlacedSound : AudioClip;
+	public var buildingPlacedSound : SoundType;
 	public var linkSounds : LinkSounds;
 	public var unitSounds : UnitSounds;
 	public var menuSounds : MenuSounds;
 	public var objectiveSounds : ObjectiveSounds;
-	public var buildingSelcted : AudioClip;
+	public var buildingSelcted : SoundType;
 	public var backgroundSounds : BackgroundSounds;
 	
 	private static var instance : SoundManager = null; 
@@ -38,8 +38,6 @@ public class SoundManager extends MonoBehaviour {
 	public var minimumPriorityVolume : float = .1;
 	
 	public function Awake() {
-	
-	
 		var otherSoundManager:GameObject = GameObject.Find("SoundManager(Clone)");
 		if(otherSoundManager != null && otherSoundManager != this.gameObject)
 			Destroy(this.gameObject);
@@ -63,6 +61,21 @@ public class SoundManager extends MonoBehaviour {
 		linkSounds.Init();
 	}
 	
+	public function OnLevelWasLoaded(){
+		CacheAllSounds();
+	}
+	
+	// Store all the sounds as strings to save memorys
+	private function CacheAllSounds(){
+		buildingPlacedSound.CacheSoundClip();
+		buildingSelcted.CacheSoundClip();
+		linkSounds.CacheSounds();
+		unitSounds.CacheSounds();
+		menuSounds.CacheSounds();
+		objectiveSounds.CacheSounds();
+		backgroundSounds.CacheSounds();
+	}
+	
 	//Returns an instance of the SoundManager, if any exists. If not, an instance will be created.
 	public static function Instance() : SoundManager {
 		// Search for an instance of SoundManager
@@ -74,6 +87,7 @@ public class SoundManager extends MonoBehaviour {
 	    if (instance == null) {
 	        var obj:GameObject = Instantiate(Resources.Load("SoundManager"));
 	        instance = obj as SoundManager;
+	        DontDestroyOnLoad(obj);
 	    }
 		
 	    return instance;
@@ -96,8 +110,8 @@ public class SoundManager extends MonoBehaviour {
 	}
 
 	/// Linking sounds
-	public function playLinkingSound(clipToPlay : AudioClip){
-		playOneShot(clipToPlay, linkSounds.priority);
+	public function playLinkingSound(clipToPlay : SoundType){
+		playOneShot(clipToPlay.GetClip(), linkSounds.priority);
 	}
 	
 	public function PlayLinkMade(linkResource: ResourceType){
@@ -121,16 +135,17 @@ public class SoundManager extends MonoBehaviour {
 		if (!linkDraringStartPlayed){
 			linkDraringStartPlayed = true;
 			var source : AudioSource = AddAudioSource();
-			playClip(linkSounds.linkDragStart, source, linkSounds.priority);
-			yield WaitForSeconds (linkSounds.linkDragStart.length);
+			var linkDragStart : AudioClip = linkSounds.linkDragStart.GetClip();
+			playClip(linkDragStart, source, linkSounds.priority);
+			yield WaitForSeconds (linkDragStart.length);
 			if (!linkDraringStartPlayed) return; // if we stopped dragging before the starting sound finished
-			playClipLooped(linkSounds.linkDrag, source, linkSounds.priority);
+			playClipLooped(linkSounds.linkDrag.GetClip(), source, linkSounds.priority);
 		}
 	}
 	
 	public function StopLinkDraging(){
-		var sourcePlayingDragClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag);
-		var sourcePlayingDragStartClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDragStart);
+		var sourcePlayingDragClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag.GetClip());
+		var sourcePlayingDragStartClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDragStart.GetClip());
 		if (sourcePlayingDragClip != null){
 			RemoveAudioSource(sourcePlayingDragClip);
 		}
@@ -141,8 +156,8 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	/// Unit sounds
-	private function playUnitSound(clipToPlay : AudioClip){
-		playOneShot(clipToPlay, unitSounds.priority);
+	private function playUnitSound(clipToPlay : SoundType){
+		playOneShot(clipToPlay.GetClip(), unitSounds.priority);
 	}
 	
 	public function PlayUnitSelected(unitSelected : Unit){
@@ -198,8 +213,8 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	/// Objective sounds
-	private function playObjectiveSound(clipToPlay : AudioClip){
-		playOneShot(clipToPlay, objectiveSounds.priority);
+	private function playObjectiveSound(clipToPlay : SoundType){
+		playOneShot(clipToPlay.GetClip(), objectiveSounds.priority);
 	}
 	
 	public function PlayPrimaryObjectiveComplete(){
@@ -220,12 +235,12 @@ public class SoundManager extends MonoBehaviour {
 	
 	/// Building sounds
 	public function PlayBuildingPlaced(){
-		playOneShot(buildingPlacedSound, 1);
+		playOneShot(buildingPlacedSound.GetClip(), 1);
 	}
 	
 	/// Menu sounds
-	private function playMenuSound(clipToPlay : AudioClip){
-		playOneShot(clipToPlay, menuSounds.priority);
+	private function playMenuSound(clipToPlay : SoundType){
+		playOneShot(clipToPlay.GetClip(), menuSounds.priority);
 	}
 	
 	public function playButtonClick(){
@@ -256,11 +271,11 @@ public class SoundManager extends MonoBehaviour {
 		playMenuSound(menuSounds.inspectionClose);
 	}
 	
-	public function playMusic(musicClip : AudioClip){
-		if (alreadyPlayingLoopedSound(musicClip)){
+	public function playMusic(musicClip : SoundType){
+		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
 		}
-		playClipLooped(musicClip, musicSource, backgroundSounds.priority);
+		playClipLooped(musicClip.GetClip(), musicSource, backgroundSounds.priority);
 	}
 	
 	public function stopMusic(){

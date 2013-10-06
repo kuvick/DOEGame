@@ -2,11 +2,21 @@
 
 public class BackgroundSounds {
 	public var priority : SoundManager.SoundPriority = SoundManager.SoundPriority.High;
-	public var startMenuMusic : AudioClip;
-	public var inGameMusic : AudioClip;
-	public var pauseMenuMusic : AudioClip;
-	public var levelSelectMusic : AudioClip;
-	public var failureMenuMusic : AudioClip;
-	public var scoreMenuMusic : AudioClip;
-	public var loadingMenuMusic : AudioClip;
+	public var startMenuMusic : SoundType;
+	public var inGameMusic : SoundType;
+	public var pauseMenuMusic : SoundType;
+	public var levelSelectMusic : SoundType;
+	public var failureMenuMusic : SoundType;
+	public var scoreMenuMusic : SoundType;
+	public var loadingMenuMusic : SoundType;
+	
+	public function CacheSounds(){
+		startMenuMusic.CacheSoundClip();
+		inGameMusic.CacheSoundClip();
+		pauseMenuMusic.CacheSoundClip();
+		levelSelectMusic.CacheSoundClip();
+		failureMenuMusic.CacheSoundClip();
+		loadingMenuMusic.CacheSoundClip();
+		scoreMenuMusic.CacheSoundClip();
+	}	
 }

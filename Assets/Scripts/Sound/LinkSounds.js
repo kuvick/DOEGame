@@ -2,20 +2,20 @@
 
 public class LinkSounds {
 	public var priority : SoundManager.SoundPriority = SoundManager.SoundPriority.Medium;
-	public var petroleumLink : AudioClip;
-	public var powerLink : AudioClip;
-	public var coalLink : AudioClip;
-	public var uraniumLink : AudioClip;
-	public var ethanolLink : AudioClip;
-	public var moneyLink : AudioClip;
-	public var wasteLink : AudioClip;
-	public var fuelLink : AudioClip;
-	public var genericLink : AudioClip;
+	public var petroleumLink : SoundType;
+	public var powerLink : SoundType;
+	public var coalLink : SoundType;
+	public var uraniumLink : SoundType;
+	public var ethanolLink : SoundType;
+	public var moneyLink : SoundType;
+	public var wasteLink : SoundType;
+	public var fuelLink : SoundType;
+	public var genericLink : SoundType;
 	
-	public var linkDenied : AudioClip;
+	public var linkDenied : SoundType;
 	
-	public var linkDragStart : AudioClip;
-	public var linkDrag : AudioClip;
+	public var linkDragStart : SoundType;
+	public var linkDrag : SoundType;
 	
 	private var linkSoundTable : Hashtable;
 	
@@ -31,7 +31,22 @@ public class LinkSounds {
 		linkSoundTable.Add(ResourceType.Uranium, uraniumLink);
 	} 
 	
-	public function GetSound(resource: ResourceType) : AudioClip{
+	public function CacheSounds(){
+		petroleumLink.CacheSoundClip();
+		powerLink.CacheSoundClip();
+		coalLink.CacheSoundClip();
+		uraniumLink.CacheSoundClip();
+		ethanolLink.CacheSoundClip();
+		moneyLink.CacheSoundClip();
+		wasteLink.CacheSoundClip();
+		fuelLink.CacheSoundClip();
+		genericLink.CacheSoundClip();
+		linkDenied.CacheSoundClip();
+		linkDragStart.CacheSoundClip();
+		linkDrag.CacheSoundClip();
+	}	
+	
+	public function GetSound(resource: ResourceType) : SoundType{
 		if (!linkSoundTable.ContainsKey(resource)) throw new System.Exception("Did not find " + resource + " linking sound");
 		return (linkSoundTable[resource]);
 	}
