@@ -149,6 +149,7 @@ public class LevelSelectMenu extends GUIControl
 			private var codexX: float=35;
 			private var codexY: float=603;
 	public var archiveIconText: Texture;
+	public var newMessageText:Texture;
 			private var archiveIconRect: Rect;
 			private var archiveX: float=35;
 			private var archiveY: float=206;
@@ -188,7 +189,7 @@ public class LevelSelectMenu extends GUIControl
 			private var progressBarPercent:float=0.034;
 	private var designWidth : float = 1920;
 	private var designHeight : float = 1080;
-	public var launchMissionButton: Texture;
+	public var startLevelButtonTexture: Texture;
 	private var missionScrollArea: Rect;
 		private var missionScrollX:float =41;
 		private var missionScrollY:float = 50;
@@ -256,8 +257,9 @@ public class LevelSelectMenu extends GUIControl
 	private var activeLevelIndex : int = -1;
 	
 	private var startLevelButton : Rect;
-	private var startLevelButtonWidth : float = .25;
-	private var startLevelButtonHeight : float = .25;
+	private var startLevelButtonX : float = 0.72;
+	private var startLevelButtonY : float = 0.60;
+	private var startLevelButtonPercent:float = 0.19;
 	
 	private var messageBuffer : Vector2;
 	private var messageRect : Rect;
@@ -324,10 +326,14 @@ public class LevelSelectMenu extends GUIControl
 		
 		var playerData : GameObject = GameObject.Find("Player Data");		
 		saveSystem = playerData.GetComponent("SaveSystem");
+		
+		
+		var sideButtonArea : Rect = Rect(0,0,260/designWidth * screenWidth, 1080/designHeight * screenHeight);
 	
 										  
-		codexIconRect = createRect(codexIconText, codexX / designWidth, codexY / designHeight, sideButtonHeightPercent, false);
-		archiveIconRect = createRect(archiveIconText, archiveX / designWidth, archiveY / designHeight, sideButtonHeightPercent, false);
+		codexIconRect = createRect(codexIconText, codexX / 260, codexY / designHeight, sideButtonHeightPercent, true, sideButtonArea);
+		archiveIconRect = createRect(archiveIconText, archiveX / 260, archiveY / designHeight, sideButtonHeightPercent, true, sideButtonArea);
+		
 		missionBackgroundRect = createRect(missionBackgroundText, missionBGX / designWidth, missionBGY / designHeight, missionBGHeightPercent, true);
 		mainMenuIconRect = createRect(mainMenuIconText, mainMenuX / designWidth, mainMenuY / designHeight, mainMenuPercent, true);										  
 		progressBarRect = createRect(progressBarBGText, progressBarX / designWidth, progressBarY / designHeight, progressBarPercent, false);
@@ -337,12 +343,18 @@ public class LevelSelectMenu extends GUIControl
 		missionScrollArea = createRect(Vector2(missionScrollWidth, missionScrollHeight), missionScrollX / designWidth, missionScrollY / designHeight, missionScrollAreaPercent, true, missionBackgroundRect);
 
 		
+		startLevelButton = createRect(startLevelButtonTexture, startLevelButtonX, startLevelButtonY, startLevelButtonPercent, true, missionBackgroundRect);
+		
+		
 
-
+		/*
 		toggleMissionTypesButton = RectFactory.NewRect( archiveX / designWidth, 
 										  archiveY / designHeight + archiveIconText.height / designHeight,
 										  archiveIconText.width / designWidth,
 										  archiveIconText.height / designHeight);	
+		*/
+		
+		
 		
 		if(saveSystem.currentPlayer != null)
 		{
@@ -391,12 +403,11 @@ public class LevelSelectMenu extends GUIControl
 		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
 		messageBuffer = new Vector2(.004 * splashBounds.width, .004 * splashBounds.height);
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
-		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * (launchMissionButton.width / designWidth), splashBounds.height * (launchMissionButton.height/ designHeight));	
 		
 		LoadLevelList();
-		scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
+		//scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
+		scrollContent = Rect(0, 0, missionBackgroundRect.width, (unlockedLevels.Count + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
-		
 		if(unlockedLevels.Count > 0)
 		{
 			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
@@ -451,13 +462,13 @@ public class LevelSelectMenu extends GUIControl
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						
 						//Display proper mail icon
-						if(!levelsToRender[i].wasRead)
+						if(levelsToRender[i].difficulty < difficultyIcons.Count )
 						{
-							GUI.DrawTexture(statusRectangle, emailUnreadText,ScaleMode.StretchToFill);
-						}		
+							GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty], ScaleMode.StretchToFill);
+						}	
 						else
 						{
-							GUI.DrawTexture(statusRectangle, emailReadText,ScaleMode.StretchToFill);	
+							Debug.LogError("The given difficulty does not have a matching icon");
 						}		
 
 						levelsToRender[i].bounds.x = senderRect.width;
@@ -527,18 +538,22 @@ public class LevelSelectMenu extends GUIControl
 				inboxTab = !inboxTab;
 			}
 			*/
-			if(GUI.Button(codexIconRect, codexIconText))
+			
+			GUI.DrawTexture(codexIconRect, codexIconText,ScaleMode.StretchToFill);
+			if(GUI.Button(codexIconRect, ""))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
 			}
 			
-			if(GUI.Button(archiveIconRect, archiveIconText))
+			GUI.DrawTexture(archiveIconRect, inboxTab ? archiveIconText : newMessageText,ScaleMode.StretchToFill);
+			if(GUI.Button(archiveIconRect, ""))
 			{
 				//currentResponse.type = EventTypes.archiveMENU;
 				inboxTab = !inboxTab;
 			}
 			
-			if(GUI.Button(mainMenuIconRect, mainMenuIconText))
+			GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
+			if(GUI.Button(mainMenuIconRect, ""))
 			{
 				currentResponse.type = EventTypes.STARTMENU;
 			}
@@ -557,12 +572,25 @@ public class LevelSelectMenu extends GUIControl
 				{
 					if(!unlockedLevels[activeLevelIndex].wasRead)
 						unlockedLevels[activeLevelIndex].wasRead = true;														
+					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText;
 					
-					GUI.Label(messageRect, "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText);						
+					GUI.Label(messageRect, message);						
+				}
+				else
+				{
+					if(!completedLevels[activeLevelIndex].wasRead)
+						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText)).y * 2.0f;
+					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText);			
+
+				}
 					
-					if(GUI.Button(startLevelButton, launchMissionButton))
+				GUI.EndGroup();
+
+				if(inboxTab)
+				{
+					GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
+					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
 						Application.LoadLevel("LoadingScreen");
@@ -570,24 +598,18 @@ public class LevelSelectMenu extends GUIControl
 				}
 				else
 				{
-					if(!completedLevels[activeLevelIndex].wasRead)
-						completedLevels[activeLevelIndex].wasRead = true;														
-					
-					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText);						
-					
-					startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText)).y * 2.0f;
-					
-					if(GUI.Button(startLevelButton, launchMissionButton))
+					GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
+					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
 						Application.LoadLevel("LoadingScreen");
 					}
 				}
-					
-				GUI.EndGroup();
+
 			GUI.EndGroup();
 			
-			if(GUI.Button(archiveIconRect, backButtonText))
+			GUI.DrawTexture(archiveIconRect, backButtonText, ScaleMode.StretchToFill);
+			if(GUI.Button(archiveIconRect, ""))
 			{
 				showSplash = false;
 			}

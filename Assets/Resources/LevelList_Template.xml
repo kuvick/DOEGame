@@ -5,7 +5,7 @@
       <displayName>KU05</displayName>
 <!--  The scene to load; be sure it had been added to the build. -->
       <sceneName>KU05</sceneName>
-      <difficulty>1</difficulty>
+      <difficulty>1</difficulty> <!-- easy = 0, medium = 1, hard = 2...will produce an error if you try any other number! -->
       <subjectText>KU05</subjectText>
       <messageText>KU05</messageText>
       <isPrimary>false</isPrimary>
