@@ -258,6 +258,18 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			removeLink(b2, oldInputBuilding);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 		}
+		
+		//If the chain break causes the outputting building to be deactivated, undo the link.
+		if(!Database.getBuildingOnGridAtIndex(building2Index).isActive)
+		{
+			Debug.Log("chain break causes the outputting building to be deactivated, undo the link....case 1");
+			var datab : Database = GameObject.Find("Database").GetComponent(Database);
+			datab.undo();
+			removeLink(b2, b1);
+			SoundManager.Instance().playUndo();			
+		}
+		
+		
 	}
 	// otherwise, perform a normal building link
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
@@ -426,6 +438,19 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			removeLink(b2, oldInputBuilding);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 		}
+		
+		//If the chain break causes the outputting building to be deactivated, undo the link.
+		if(!Database.getBuildingOnGridAtIndex(building2Index).isActive)
+		{
+			Debug.Log("chain break causes the outputting building to be deactivated, undo the link....case 2");
+			var menu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+			var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
+			intelSystem.comboSystem.resetComboCount();
+			SoundManager.Instance().playUndo();
+			menu.RecieveEvent(EventTypes.UNDO);
+		}
+		
 	}
 	// otherwise, perform a normal building link
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))

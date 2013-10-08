@@ -193,6 +193,52 @@ public class GUIControl extends MonoBehaviour
 		
 	}
 	
+	// Creates a Rect where the provided rect's height is the percentage of the screen height
+	// while maintaining the proper ratio; if the last value is set to true,
+	// if the rect will go outside the screen it will adjust the rect to make sure it is
+	// within the screen limits
+	public function createRect(size:Vector2,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean):Rect
+	{
+
+		var height:float = heightPercentage * screenHeight;
+		var textX:float = size.x;
+		var textY:float = size.y;
+		var textRatio:float = textX / textY;
+		var width:float = height * textRatio;
+		var x:float = screenWidth * xPercent;
+		var y:float = screenHeight * yPercent;
+		
+		if(!adjustSizeIfOutsideBoundaries)
+			return Rect(x, y, width, height);
+		else
+			return adjustRect(Rect(x, y, width, height));
+		
+	}
+	
+	// Creates a Rect where the provided rect's height is the percentage of the screen height
+	// while maintaining the proper ratio; if the last value is set to true,
+	// if the rect will go outside the specified rect it will adjust the rect to make sure it is
+	// within the other rect limits
+	//
+	// this is to be used to create rects that within other rects
+	public function createRect(size:Vector2,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean, compareToRect:Rect):Rect
+	{
+
+		var height:float = heightPercentage * compareToRect.height;
+		var textX:float = size.x;
+		var textY:float = size.y;
+		var textRatio:float = textX / textY;
+		var width:float = height * textRatio;
+		var x:float = compareToRect.width * xPercent;
+		var y:float = compareToRect.height * yPercent;
+		
+		if(!adjustSizeIfOutsideBoundaries)
+			return Rect(x, y, width, height);
+		else
+			return adjustRect(Rect(x, y, width, height), compareToRect);
+		
+	}
+	
 	
 	
 	// Used to make sure the Rect won't go beyond the window's limits

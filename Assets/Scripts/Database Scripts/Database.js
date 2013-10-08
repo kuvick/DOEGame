@@ -629,6 +629,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
 		Save("Building Link");
 		SetBuildingResourceActive(outputBuilding.allocatedOutputIcons, false);
+		
+		if(inputBuilding.deactivatedInputs.Contains(tempFoundIndex))
+			inputBuilding.deactivatedInputs.Remove(tempFoundIndex);
+		
     }
     else
     {
@@ -649,6 +653,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedInIndex : int, 
 	resourceName:ResourceType, usedOptionalOutput : boolean, allocatedOutSelected : boolean) : int
 {
+
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
 	var inputIndex : int = inputBuilding.allocatedInputs.IndexOf(resourceName);
@@ -870,6 +875,10 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			tempNode.OverloadChainBreak = true;		
 		
 		linkList.Add(tempNode);						
+		
+		if(inputBuilding.deactivatedInputs.Contains(tempFoundIndex))
+			inputBuilding.deactivatedInputs.Remove(tempFoundIndex);
+		
 		
 		UndoStack.Add(UndoType.Chain);
 		
@@ -1312,17 +1321,19 @@ function undo(): boolean
 		switch(UndoStack[UndoStack.Count - 1])
 		{
 			case UndoType.Link:
-				//Debug.Log("This is a Link Undo");
+				Debug.Log("This is a Link Undo");
 				UndoLink(0);				
 				break;
 			case UndoType.Add:
-				//Debug.Log("This is a Add Undo");
+				Debug.Log("This is a Add Undo");
 				UndoAdd();
 				break;
 			case UndoType.Chain:
+				Debug.Log("This is a Chain Undo");
 				UndoLink(1);								
 				break;
 			case UndoType.Overload:
+				Debug.Log("This is an Overload Undo");
 				UndoLink(2);				
 				break;	
 			default:

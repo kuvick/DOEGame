@@ -41,6 +41,14 @@ public class Loading extends GUIControl
 	
 	private var descRect : Rect;
 	
+	// New Loading Textures
+	public var loadingBackground:Texture;
+	public var loadingStatusBox:Texture;
+	public var viewFullDescriptButton:Texture;
+	public var viewJobOnlineButton:Texture;
+	public var viewJobWebsiteButton:Texture;
+	public var doeLogo:Texture;
+	
 	// job title and description font sizes
 	private var descFontScale : float = 0.2;
 	private var initialDescFontSize : float;

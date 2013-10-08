@@ -141,17 +141,27 @@ public class LevelSelectMenu extends GUIControl
 
 	//Images
 	public var backgroundText: Texture;
+	public var difficultyIcons:List.<Texture> = new List.<Texture>();
+	
 	
 	public var codexIconText: Texture;
 			private var codexIconRect: Rect;
 			private var codexX: float=35;
-			private var codexY: float=382;
-	public var contactsIconText: Texture;
-			private var contactsIconRect: Rect;
-			private var contactsX: float=35;
-			private var contactsY: float=609;
-	public var emailDividerText: Texture;
-			private var emailDividerRect: Rect;
+			private var codexY: float=603;
+	public var archiveIconText: Texture;
+			private var archiveIconRect: Rect;
+			private var archiveX: float=35;
+			private var archiveY: float=206;
+	private var sideButtonHeightPercent:float=0.34;
+			
+			
+	public var emailItemBackground: Texture;
+			private var emailItemBackgroundRect: Rect;
+	public var emailMessageBackground: Texture;
+			private var emailMessageBackgroundRect: Rect;
+			private var emailMessageX:float = 66;
+			private var emailMessageY:float = 66;
+			private var emailMessagePercent:float = 0.75;
 	public var imagePlaceholderText: Texture;
 			private var senderIconRect: Texture;
 	public var emailReadText: Texture;
@@ -162,25 +172,29 @@ public class LevelSelectMenu extends GUIControl
 			//private var lineOverlayRect: Rect;
 	public var mainMenuIconText: Texture;
 			private var mainMenuIconRect: Rect;
-			private var mainMenuX: float=1748;
-			private var mainMenuY: float=31;
+			private var mainMenuX: float=1563;
+			private var mainMenuY: float=24;
+			private var mainMenuPercent:float=0.12;
 	public var missionBackgroundText: Texture;
 			private var missionBackgroundRect: Rect;
-			private var missionBGX: float=263;
-			private var missionBGY: float=182;
+			private var missionBGX: float=267;
+			private var missionBGY: float=171;
+			private var missionBGHeightPercent:float=0.84;
 	public var progressBarExpText: Texture;
 	public var progressBarBGText: Texture;
 			private var progressBarRect: Rect;
-			private var progressBarX: float=100;
-			private var progressBarY: float=117;
+			private var progressBarX: float=54;
+			private var progressBarY: float=120;
+			private var progressBarPercent:float=0.034;
 	private var designWidth : float = 1920;
 	private var designHeight : float = 1080;
 	public var launchMissionButton: Texture;
 	private var missionScrollArea: Rect;
-		private var missionScrollX:float = 300;
-		private var missionScrollY:float = 223;
-		private var missionScrollWidth:float = 1419;
-		private var missionScrollHeight:float = 749;
+		private var missionScrollX:float =41;
+		private var missionScrollY:float = 50;
+		private var missionScrollWidth:float = 1440;
+		private var missionScrollHeight:float = 762;
+		private var missionScrollAreaPercent = 0.85;
 	private var barDisplay:float;
 	private var agentName:String;
 	private var agentRank:String;
@@ -311,47 +325,24 @@ public class LevelSelectMenu extends GUIControl
 		var playerData : GameObject = GameObject.Find("Player Data");		
 		saveSystem = playerData.GetComponent("SaveSystem");
 	
-		//Codex Icon:
-		codexIconRect = RectFactory.NewRect( codexX / designWidth, 
-										  codexY / designHeight,
-										  codexIconText.width / designWidth,
-										  codexIconText.height / designHeight);	
-				
-		//Contacts Icon:
-		contactsIconRect = RectFactory.NewRect( contactsX / designWidth, 
-										  contactsY / designHeight,
-										  contactsIconText.width / designWidth,
-										  contactsIconText.height / designHeight);	
-
-		//Main Menu Icon:
-		mainMenuIconRect = RectFactory.NewRect( mainMenuX / designWidth, 
-										  mainMenuY / designHeight,
-										  mainMenuIconText.width / designWidth,
-										  mainMenuIconText.height / designHeight);	
-		
-		//Mission Background:	
-		missionBackgroundRect = RectFactory.NewRect( missionBGX / designWidth, 
-										  missionBGY / designHeight,
-										  missionBackgroundText.width / designWidth,
-										  missionBackgroundText.height / designHeight);			
-	
-		// Exp Bar:
-		progressBarRect = RectFactory.NewRect( progressBarX / designWidth, 
-										  progressBarY / designHeight,
-										  progressBarBGText.width / designWidth,
-										  progressBarBGText.height / designHeight);	
 										  
+		codexIconRect = createRect(codexIconText, codexX / designWidth, codexY / designHeight, sideButtonHeightPercent, false);
+		archiveIconRect = createRect(archiveIconText, archiveX / designWidth, archiveY / designHeight, sideButtonHeightPercent, false);
+		missionBackgroundRect = createRect(missionBackgroundText, missionBGX / designWidth, missionBGY / designHeight, missionBGHeightPercent, true);
+		mainMenuIconRect = createRect(mainMenuIconText, mainMenuX / designWidth, mainMenuY / designHeight, mainMenuPercent, true);										  
+		progressBarRect = createRect(progressBarBGText, progressBarX / designWidth, progressBarY / designHeight, progressBarPercent, false);
+		
+		emailMessageBackgroundRect = createRect(emailMessageBackground,emailMessageX/ designWidth, emailMessageY/designHeight, emailMessagePercent, true, missionBackgroundRect);
 		// Scroll Area:
-		missionScrollArea = RectFactory.NewRect( missionScrollX / designWidth, 
-										  missionScrollY / designHeight,
-										  missionScrollWidth / designWidth,
-										  (missionBackgroundText.height - (missionBackgroundText.height * 0.10)) / designHeight);
+		missionScrollArea = createRect(Vector2(missionScrollWidth, missionScrollHeight), missionScrollX / designWidth, missionScrollY / designHeight, missionScrollAreaPercent, true, missionBackgroundRect);
+
+		
 
 
-		toggleMissionTypesButton = RectFactory.NewRect( contactsX / designWidth, 
-										  contactsY / designHeight + contactsIconText.height / designHeight,
-										  contactsIconText.width / designWidth,
-										  contactsIconText.height / designHeight);	
+		toggleMissionTypesButton = RectFactory.NewRect( archiveX / designWidth, 
+										  archiveY / designHeight + archiveIconText.height / designHeight,
+										  archiveIconText.width / designWidth,
+										  archiveIconText.height / designHeight);	
 		
 		if(saveSystem.currentPlayer != null)
 		{
@@ -398,7 +389,7 @@ public class LevelSelectMenu extends GUIControl
 			
 		scrollPosition = new Vector2(0.125, 0.125);
 		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
-		messageBuffer = new Vector2(.04 * splashBounds.width, .1 * splashBounds.height);
+		messageBuffer = new Vector2(.004 * splashBounds.width, .004 * splashBounds.height);
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		startLevelButton = new Rect((splashBounds.width /2 - (startLevelButtonWidth * splashBounds.width / 2)),splashBounds.height /1.75 - (startLevelButtonHeight * splashBounds.height / 2), splashBounds.width * (launchMissionButton.width / designWidth), splashBounds.height * (launchMissionButton.height/ designHeight));	
 		
@@ -444,7 +435,7 @@ public class LevelSelectMenu extends GUIControl
 						
 						if(i != levelsToRender.Count-1)
 						{
-							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + (levelsToRender[i].bounds.height * .75), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height / 2), emailDividerText);
+							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + (levelsToRender[i].bounds.height * .75), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height / 2), emailItemBackground);
 						}
 						
 												
@@ -521,15 +512,16 @@ public class LevelSelectMenu extends GUIControl
 			GUI.EndGroup ();			 
 		GUI.EndGroup ();
 		
-		GUI.DrawTexture(missionBackgroundRect, missionBackgroundText,ScaleMode.StretchToFill);
-		
+		GUI.DrawTexture(missionBackgroundRect, missionBackgroundText,ScaleMode.StretchToFill);		
 		if(!showSplash)	//Renders the Inbox Screen
 		{
-			if (inboxTab){
-				RenderLevels(unlockedLevels);
-			} else {
-				RenderLevels(completedLevels);
-			}
+			GUI.BeginGroup(missionBackgroundRect);
+				if (inboxTab){
+					RenderLevels(unlockedLevels);
+				} else {
+					RenderLevels(completedLevels);
+				}
+			GUI.EndGroup();
 			/*
 			if (GUI.Button(toggleMissionTypesButton, inboxTab ? "Archive" : "Inbox")){
 				inboxTab = !inboxTab;
@@ -540,9 +532,9 @@ public class LevelSelectMenu extends GUIControl
 				currentResponse.type = EventTypes.CODEXMENU;
 			}
 			
-			if(GUI.Button(contactsIconRect, contactsIconText))
+			if(GUI.Button(archiveIconRect, archiveIconText))
 			{
-				//currentResponse.type = EventTypes.CONTACTSMENU;
+				//currentResponse.type = EventTypes.archiveMENU;
 				inboxTab = !inboxTab;
 			}
 			
@@ -553,44 +545,49 @@ public class LevelSelectMenu extends GUIControl
 		}				
 		else	//Renders the Splash Screen
 		{
-			GUI.BeginGroup(missionScrollArea);			
-				//levelSelectSkin.label.fontSize = levelSelectFontSize;				
-
-			GUI.skin = levelSelectSkin;		
-			if(inboxTab)
-			{
-				if(!unlockedLevels[activeLevelIndex].wasRead)
-					unlockedLevels[activeLevelIndex].wasRead = true;														
+			GUI.BeginGroup(missionBackgroundRect);
 				
-				GUI.Label(messageRect, "Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText);						
+				GUI.DrawTexture(emailMessageBackgroundRect, emailMessageBackground,ScaleMode.StretchToFill);
 				
-				startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Subject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + unlockedLevels[activeLevelIndex].messageText)).y * 2.0f;
-				
-				if(GUI.Button(startLevelButton, launchMissionButton))
-				{							
-					PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
-					Application.LoadLevel("LoadingScreen");
+				GUI.BeginGroup(emailMessageBackgroundRect);
+					//levelSelectSkin.label.fontSize = levelSelectFontSize;				
+	
+				GUI.skin = levelSelectSkin;		
+				if(inboxTab)
+				{
+					if(!unlockedLevels[activeLevelIndex].wasRead)
+						unlockedLevels[activeLevelIndex].wasRead = true;														
+					
+					GUI.Label(messageRect, "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText);						
+					
+					startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText)).y * 2.0f;
+					
+					if(GUI.Button(startLevelButton, launchMissionButton))
+					{							
+						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
+						Application.LoadLevel("LoadingScreen");
+					}
 				}
-			}
-			else
-			{
-				if(!completedLevels[activeLevelIndex].wasRead)
-					completedLevels[activeLevelIndex].wasRead = true;														
-				
-				GUI.Label(messageRect, "Subject: " + completedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + completedLevels[activeLevelIndex].messageText);						
-				
-				startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Subject: " + completedLevels[activeLevelIndex].subjectText + "\n\nMessage:\n\n" + completedLevels[activeLevelIndex].messageText)).y * 2.0f;
-				
-				if(GUI.Button(startLevelButton, launchMissionButton))
-				{							
-					PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
-					Application.LoadLevel("LoadingScreen");
+				else
+				{
+					if(!completedLevels[activeLevelIndex].wasRead)
+						completedLevels[activeLevelIndex].wasRead = true;														
+					
+					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText);						
+					
+					startLevelButton.y = messageRect.y + GUI.skin.GetStyle("Label").CalcSize(GUIContent("Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText)).y * 2.0f;
+					
+					if(GUI.Button(startLevelButton, launchMissionButton))
+					{							
+						PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
+						Application.LoadLevel("LoadingScreen");
+					}
 				}
-			}
-				
+					
+				GUI.EndGroup();
 			GUI.EndGroup();
 			
-			if(GUI.Button(contactsIconRect, backButtonText))
+			if(GUI.Button(archiveIconRect, backButtonText))
 			{
 				showSplash = false;
 			}
