@@ -86,6 +86,10 @@ public var inputIcons : GameObject[];
 public var outputIcons : GameObject[];
 public var optionalOutputIcons : GameObject[];
 
+public var resourceSpacing : Vector3; // spacing between resources
+public var outputStartPos : Vector3; // output icon start position relative to building
+public var inputStartPos : Vector3; // input icon start position relative to building
+
 private var activeButtonRects : List.<Rect> = new List.<Rect>();
 
 private var displayLink : DisplayLinkRange;
@@ -131,13 +135,11 @@ function isLinked(b1:GameObject, b2:GameObject){
 public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 {
 	var startPos : Vector3 = building.buildingPointer.transform.position;
-	startPos.y = 75;
-	startPos.x -= 120;//50;
-	startPos.z -= 45;//35;
+	startPos += ConvertToUnrotated(inputStartPos);
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 
 					building.unallocatedInputIcons, startPos, building);
-	startPos.x += 80;
-	startPos.z += 80;
+	startPos = building.buildingPointer.transform.position;
+	startPos += ConvertToUnrotated(outputStartPos);
 	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
 					building.unallocatedOutputIcons, startPos, building);
 	startPos.x = optPos.x;
@@ -149,6 +151,12 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 		tempScript.Initialize(building);
 		building.optionalOutputIcon = tempScript;
 	}
+}
+
+public function ConvertToUnrotated(toConvert : Vector3) : Vector3
+{
+	return Vector3(toConvert.x * Mathf.Sin(Mathf.PI * .75) + toConvert.z * Mathf.Cos(Mathf.PI * .75), 
+				toConvert.y, toConvert.x * Mathf.Cos(Mathf.PI * .75) - toConvert.z * Mathf.Sin(Mathf.PI * .75));
 }
 
 private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[],
@@ -167,8 +175,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 			tempScript.Initialize(building);
 			tempScript.SetIndex(i);
 			buildingIconSet.Add(tempScript);
-			pos.x += xSpacing;
-			pos.z -= zSpacing;
+			pos += ConvertToUnrotated(resourceSpacing);
 		}
 	}
 	return Vector2(pos.x, pos.z);

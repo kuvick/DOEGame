@@ -2,12 +2,23 @@
 
 public class UnitSounds {
 	public var priority : SoundManager.SoundPriority = SoundManager.SoundPriority.Maximum;
-	public var researcherSelection : AudioClip;
-	public var researcherActivate : AudioClip;
-	public var researcherOrder : AudioClip;
-	public var researchedArrived : AudioClip;
-	public var workerSelection : AudioClip;
-	public var workerActivate : AudioClip;
-	public var workerOrder : AudioClip;
-	public var workerArrived : AudioClip;
+	public var researcherSelection : SoundType;
+	public var researcherActivate : SoundType;
+	public var researcherOrder : SoundType;
+	public var researchedArrived : SoundType;
+	public var workerSelection : SoundType;
+	public var workerActivate : SoundType;
+	public var workerOrder : SoundType;
+	public var workerArrived : SoundType;
+	
+	public function CacheSounds(){
+		researcherSelection.CacheSoundClip();
+		researcherActivate.CacheSoundClip();
+		researcherOrder.CacheSoundClip();
+		researchedArrived.CacheSoundClip();
+		workerSelection.CacheSoundClip();
+		workerActivate.CacheSoundClip();
+		workerOrder.CacheSoundClip();
+		workerArrived.CacheSoundClip();
+	}	
 }
