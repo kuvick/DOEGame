@@ -504,7 +504,6 @@ another check)
 */
 public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean//hasOptionalOutput:boolean):boolean
 {
-	//Debug.Log("Mark");
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
 	
@@ -631,7 +630,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		Save("Building Link");
 		SetBuildingResourceActive(outputBuilding.allocatedOutputIcons, false);
 		
-		Debug.Log("Index used for deactivate: " + outputBuildingIndex);
+		//Debug.Log("Index used for deactivate: " + outputBuildingIndex);
 		if(inputBuilding.deactivatedInputs.Contains(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex)))
 			inputBuilding.deactivatedInputs.Remove(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex));
 		
@@ -655,13 +654,12 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedInIndex : int, 
 	resourceName:ResourceType, usedOptionalOutput : boolean, allocatedOutSelected : boolean) : int
 {
-	//Debug.Log("Mark");
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
 	var inputIndex : int = inputBuilding.allocatedInputs.IndexOf(resourceName);
 	var oldOutputBuildingIndex : int = inputBuilding.inputLinkedTo[inputIndex];//selectedInIndex]; // save the old output building index
 	var oldOutputBuilding : BuildingOnGrid = buildingsOnGrid[oldOutputBuildingIndex]; // get the old output building on grid
-	var hasResource = false;
+	var hasResource = false;	
 	
 	if (oldOutputBuildingIndex == outputBuildingIndex)
 	{
@@ -743,7 +741,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		
-		Debug.Log("Index used for deactivate: " + oldOutputBuildingIndex);
+		//Debug.Log("Index used for deactivate: " + oldOutputBuildingIndex);
 		if(inputBuilding.deactivatedInputs.Contains(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex)))
 			inputBuilding.deactivatedInputs.Remove(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex));
 			
@@ -779,6 +777,9 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		}
 	}
 	
+	//Debug.Log("Finished Overriding...inputlinkedto list");
+	//printOutIntLists(buildingsOnGrid[inputBuildingIndex].inputLinkedTo, true);
+	
 	if (hasResource)
 		return oldOutputBuildingIndex;//hasResource;
 	Debug.Log("Overload failed");
@@ -789,7 +790,6 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int, selectedOutIndex : int, 
 	resourceName:ResourceType, usedOptionalOutput : boolean, allocatedInSelected : boolean) : int
 {
-	//Debug.Log("Mark");
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
 	var oldInputBuildingIndex = outputBuilding.outputLinkedTo[selectedOutIndex]; // save the old input building index
@@ -883,7 +883,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		
 		linkList.Add(tempNode);						
 		
-		Debug.Log("Index used for deactivate: " + outputBuildingIndex);
+		//Debug.Log("Index used for deactivate: " + outputBuildingIndex);
 		if(inputBuilding.deactivatedInputs.Contains(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex)))
 			inputBuilding.deactivatedInputs.Remove(inputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex));
 		
@@ -929,11 +929,27 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
     	building.optionalOutputIcon.SetActive(false);
 	if (parentIndex >= 0)
 	{
-		Debug.Log("Printing out linkedto list for " + building.buildingName);
-		printOutDeactivatedInput(building.inputLinkedTo);
 	
-		building.deactivatedInputs.Add(building.inputLinkedTo.IndexOf(parentIndex));
-		Debug.Log(findBuildingIndex(building) + ": " +  building.buildingName + " deactivated output to " + parentIndex + ", with value of " + building.inputLinkedTo.IndexOf(parentIndex));
+	
+		/*
+		Debug.Log("Building " + building.buildingName + " with Index " + findBuildingIndex(building) + "\n" +
+				 "Parent " + buildingsOnGrid[parentIndex].buildingName +  "\n" + 
+				 "Deactivation Code: " + building.inputLinkedTo.IndexOf(parentIndex));
+				 
+		if(building.inputLinkedTo.IndexOf(parentIndex) < 0)
+		{
+			Debug.LogError("Parent Index less than 0...printing contents of inputLinkedTo for " + building.buildingName);
+			printOutIntLists(building.inputLinkedTo, true);
+		}
+		*/
+		
+		// If it is -1, it technically didn't find it in the inputLinkedTo, most likely due to the fact the input has been redirected
+		if(building.inputLinkedTo.IndexOf(parentIndex) >= 0)
+		{
+			building.deactivatedInputs.Add(building.inputLinkedTo.IndexOf(parentIndex));
+			Debug.Log(findBuildingIndex(building) + ": " +  building.buildingName + " deactivated output to " + parentIndex + ", with value of " + building.inputLinkedTo.IndexOf(parentIndex));
+		}
+		
 	}
 	// change all output links' colors to reflect deactivation
 	for (var i : int in building.outputLinkedTo)
@@ -960,7 +976,6 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 {
 	var canActivate = true;
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
-	//Debug.Log("Mark");
 	// only activate if building has no unallocated or deactivated inputs
 	if(building.unallocatedInputs.Count > 0 || building.deactivatedInputs.Count > 0)
 	//if(building.unallocatedInputs.Count > 0 )
@@ -1333,19 +1348,19 @@ function undo(): boolean
 		switch(UndoStack[UndoStack.Count - 1])
 		{
 			case UndoType.Link:
-				Debug.Log("This is a Link Undo");
+				//Debug.Log("This is a Link Undo");
 				UndoLink(0);				
 				break;
 			case UndoType.Add:
-				Debug.Log("This is a Add Undo");
+				//Debug.Log("This is a Add Undo");
 				UndoAdd();
 				break;
 			case UndoType.Chain:
-				Debug.Log("This is a Chain Undo");
+				//Debug.Log("This is a Chain Undo");
 				UndoLink(1);								
 				break;
 			case UndoType.Overload:
-				Debug.Log("This is an Overload Undo");
+				//Debug.Log("This is an Overload Undo");
 				UndoLink(2);				
 				break;	
 			default:
@@ -1430,32 +1445,15 @@ function UndoLink(typeOfUndo : int)
 			//Link B3 and B2
 			AddLink(b3Building, b2Building, lastIndex);	
 			
-			outputBuildingIndex = findBuildingIndex (b2Building);
 			
-
-			Debug.Log("B3-  " + b3Building.buildingName);	
-			//printOutDeactivatedInput(b3Building.deactivatedInputs);
+			//ADDED:
 			outputBuildingIndex = findBuildingIndex (b2Building);
-			Debug.Log(" Testing... " + b3Building.inputLinkedTo.IndexOf(outputBuildingIndex));
-			
 			if(b3Building.deactivatedInputs.Contains(b3Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
-			{
 				b3Building.deactivatedInputs.Remove(b3Building.inputLinkedTo.IndexOf(outputBuildingIndex));
-				Debug.Log("Success3! Count = " + b3Building.deactivatedInputs.Count);
-			}
 			
-			
-			
-			Debug.Log("B2-  " + b2Building.buildingName);
-			//printOutDeactivatedInput(b2Building.deactivatedInputs);
 			outputBuildingIndex = findBuildingIndex (b3Building);
-			Debug.Log(" Testing... " + b2Building.inputLinkedTo.IndexOf(outputBuildingIndex));
-			
 			if(b2Building.deactivatedInputs.Contains(b2Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
-			{
 				b2Building.deactivatedInputs.Remove(b2Building.inputLinkedTo.IndexOf(outputBuildingIndex));
-				Debug.Log("Success2! Count = " + b2Building.deactivatedInputs.Count);
-			}
 			
 			
 			//Activate chain
@@ -1468,15 +1466,14 @@ function UndoLink(typeOfUndo : int)
 				var b4Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex - 1].b3Coord);		
 				AddLink(b1Building, b4Building, lastIndex);
 				
+				
+				//ADDED:
 				outputBuildingIndex = findBuildingIndex (b4Building);
-				
-				Debug.Log("B1+  " + b1Building.buildingName);
-				Debug.Log("B4+  " + b4Building.buildingName);
-				
-				printOutDeactivatedInput(b3Building.deactivatedInputs);
-				
 				if(b3Building.deactivatedInputs.Contains(b3Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
 					b3Building.deactivatedInputs.Remove(b3Building.inputLinkedTo.IndexOf(outputBuildingIndex));	
+							
+							
+							
 							
 				linkList.RemoveAt(lastIndex - 1);
 				lastIndex--;
@@ -1486,13 +1483,9 @@ function UndoLink(typeOfUndo : int)
 		case 2:
 			AddLink(b1Building, b3Building, lastIndex);		
 			
+			
+			//ADDED:
 			outputBuildingIndex = findBuildingIndex (b3Building);
-			
-			Debug.Log("B1*(  " + b1Building.buildingName);
-			Debug.Log("B3*  " + b3Building.buildingName);
-			
-			printOutDeactivatedInput(b3Building.deactivatedInputs);
-			
 			if(b1Building.deactivatedInputs.Contains(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
 				b1Building.deactivatedInputs.Remove(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex));	
 			
@@ -1885,14 +1878,37 @@ public function WriteLevel()
 }
 
 
-private function printOutDeactivatedInput(list:List.<int>)
+
+
+
+
+
+
+
+
+
+private function printOutIntLists(list:List.<int>)
 {
 	//var toPrint:String = "";
 	for(var i:int = 0; i < list.Count; i++)
 	{
 		//toPrint += "Item #" + i + ": " + list[i] + " is the index and " + getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n";
-		Debug.Log("Item #" + i + ": " + list[i] + " is the index and ");
+		Debug.Log("Item #" + i + ": " + list[i] + " is the index");
 		//Debug.Log(getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n");
+	}
+	Debug.Log("END");
+	//Debug.Log(toPrint);
+}
+
+private function printOutIntLists(list:List.<int>, bool:boolean)
+{
+	//var toPrint:String = "";
+	for(var i:int = 0; i < list.Count; i++)
+	{
+		//toPrint += "Item #" + i + ": " + list[i] + " is the index and " + getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n";
+		Debug.Log("Item #" + i + ": " + list[i] + " is the index");
+		if(bool)
+			Debug.Log(getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n");
 	}
 	Debug.Log("END");
 	//Debug.Log(toPrint);

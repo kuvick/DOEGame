@@ -269,7 +269,6 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		//If the chain break causes the outputting building to be deactivated, undo the link.
 		if(!Database.getBuildingOnGridAtIndex(building2Index).isActive)
 		{
-			Debug.Log("chain break causes the outputting building to be deactivated, undo the link....case 1");
 			var datab : Database = GameObject.Find("Database").GetComponent(Database);
 			datab.undo();
 			removeLink(b2, b1);
@@ -449,7 +448,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 		//If the chain break causes the outputting building to be deactivated, undo the link.
 		if(!Database.getBuildingOnGridAtIndex(building2Index).isActive)
 		{
-			Debug.Log("chain break causes the outputting building to be deactivated, undo the link....case 2");
 			var menu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 			var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);

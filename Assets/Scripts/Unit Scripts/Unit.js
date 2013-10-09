@@ -351,7 +351,7 @@ public function SetPosition(swap : boolean) {
 	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
 	worldCoord += usedOffset;
 	gameObject.transform.position = worldCoord;
-	Debug.Log("Unit moved to " + currentBuilding.buildingName);
+	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
 // set unit's target and place target icon on the building

@@ -190,7 +190,7 @@ function Start ()
 //Can use this functio to check for events
 public function addTurn()
 {
-	Debug.Log("adding a turn");
+	//Debug.Log("adding a turn");
 	//decreaseTurns();
 	currentTurn++;
 	UnitManager.DoUnitActions();
@@ -200,7 +200,7 @@ public function addTurn()
 
 public function subtractTurn()
 {
-	Debug.Log("subtracting a turn");
+	//Debug.Log("subtracting a turn");
 	increaseTurns();
 	currentTurn--;
 	UnitManager.UndoUnitActions();
