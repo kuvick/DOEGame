@@ -12,11 +12,28 @@ a building site, etc). Also contains functionality to undo
 these actions by the player.
 
 Should be attached to GameObject called Database.
+
+Search for sections:
+[Variables]
+[Functions]
+	[Startup Function]
+	[Building and Info Access Functions]
+	[Linking Functions]
+	[Building Activation Functions]
+	[Building Site Functions]
+	[Undo Functions]
+	[Potentially Obsolete Functions]
+	[Unit Functions]
+	[Broadcast Functions]
+	[Metric and Serialization Functions]
+[Enums]
+[Classes]
+
 */
 
 
 //*********************************************************************************************************************
-// Variables **********************************************************************************************************
+// [Variables] ********************************************************************************************************
 
 
 static public var playtestID : String = "";
@@ -52,10 +69,10 @@ public var level_s : LevelSerializer;
 
 
 //*********************************************************************************************************************
-// Functions **********************************************************************************************************
+// [Functions] ********************************************************************************************************
 
-
-// At startup:
+//*******************************************
+// [Startup Function] ***********************
 function Start()
 {
 	// Telling the GUISystem to get the references to scripts specific to the level:
@@ -128,126 +145,8 @@ function Start()
 	linkUIRef.HighlightTiles();
 }
 
-
-/*
-Since there are no more default buildings, this script will add a building as is
-to the building menu. There is no undo functionality yet, since that will involve
-re-placing the building site.
-
-This will place the building at the building site's index
-*/
-static public function addBuildingToGrid(buildingObject: GameObject, coord : Vector3)
-{
-	var temp = new BuildingOnGrid();
-	/*
-	if(ModeController.getCurrentMode() == GameState.LINK)
-	{
-		ModeController.selectedBuilding = null;
-	    return;
-	}
-	*/
-	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
-
-	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
-	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
-	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
-	tempBuilding.coordinate = coord;
-	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
-	buildingsOnGrid.Add(tempBuilding);
-	BroadcastBuildingUpdate();
-	
-	if(findBuildingIndex(tempBuilding.coordinate) != -1)
-	{
-		Debug.Log("Coord: " + tempBuilding.coordinate);
-		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
-		Debug.Log(tempBuilding.buildingName + " was added to the grid");
-	}
-	else
-	{
-		Debug.Log("Error, building not added...");
-	}
-}
-
-/*
-Since there are no more default buildings, this script will add a building as is
-to the building menu. There is no undo functionality yet, since that will involve
-re-placing the building site.
-
-This will place the building at the building site's index
-*/
-static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord : Vector3, index : int)
-{
-	var temp = new BuildingOnGrid();
-	/*
-	if(ModeController.getCurrentMode() == GameState.LINK)
-	{
-		ModeController.selectedBuilding = null;
-	    return;
-	}
-	*/
-	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
-
-	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
-	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
-	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
-	tempBuilding.coordinate = coord;
-	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
-	buildingsOnGrid[index] = tempBuilding;
-	//buildingsOnGrid.Add(tempBuilding);
-	BroadcastBuildingUpdate(buildingObject, index);
-	
-	if(findBuildingIndex(tempBuilding.coordinate) != -1)
-	{
-		Debug.Log("Coord: " + tempBuilding.coordinate);
-		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
-		Debug.Log(tempBuilding.buildingName + " was added to the grid");
-	}
-	else
-	{
-		Debug.Log("Error, building not added...");
-	}
-}
-
-/* 
-	BroadcastBuildingUpdate:
-
-   This functionality is set in place so when the building is placed and added to grid, all game objects with the "UpdateBuildingCount" function,
-   if it exists, will be sent the latest set of buildings from the same call. All that's needed to be done is to have an UpdateBuildingCount function
-   with a gameObject array as a parameter and everything should be fine.
-   
-   Also, this can be refined later via tags so we can separate what we need to update for performance tweaking
-*/
-
-public static function BroadcastBuildingUpdate():void
-{
-	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
-	
-	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
-	{
-		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
-		{
-			gameObjInScene[i].gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
-		} 
-	}
-}
-
-public static function BroadcastBuildingUpdate(buildingObject : GameObject, buildingIndex : int):void
-{
-	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
-	var replacement : BuildingReplacement = new BuildingReplacement(buildingObject, buildingIndex);
-	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
-	{
-		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
-		{
-			gameObjInScene[i].gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
-		} 
-	}
-}
-
+//*******************************************
+// [Building and Info Access Functions] *****
 
 /*
 
@@ -357,10 +256,57 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 		}
 	}
 	
-	
-	
 	return false;
 }
+
+static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
+{
+	copyTo.buildingName = copyFrom.buildingName;
+	
+	copyTo.unallocatedInputs.Clear();
+	copyTo.unallocatedInputs.AddRange(copyFrom.unallocatedInputs);
+	copyTo.allocatedInputs.Clear();
+	copyTo.allocatedInputs.AddRange(copyFrom.allocatedInputs);
+	
+	copyTo.unallocatedOutputs.Clear();
+	copyTo.unallocatedOutputs.AddRange(copyFrom.unallocatedOutputs);
+	copyTo.allocatedOutputs.Clear();
+	copyTo.allocatedOutputs.AddRange(copyFrom.allocatedOutputs);
+	
+	copyTo.optionalOutput = copyFrom.optionalOutput;
+	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
+	copyTo.optionalOutputFixed = copyFrom.optionalOutputFixed;
+	copyTo.optionalOutputIcon = copyFrom.optionalOutputIcon;
+
+	copyTo.isActive = copyFrom.isActive;
+	copyTo.coordinate = copyFrom.coordinate;
+	copyTo.tileType = copyFrom.tileType;
+
+	copyTo.inputLinkedTo.Clear();
+	copyTo.inputLinkedTo.AddRange(copyTo.inputLinkedTo);
+	copyTo.outputLinkedTo.Clear();
+	copyTo.outputLinkedTo.AddRange(copyTo.outputLinkedTo);
+	
+	copyTo.requisitionCost = copyFrom.requisitionCost;
+	copyTo.pollutionOutput = copyFrom.pollutionOutput;
+	
+	copyTo.unit = copyFrom.unit;
+	copyTo.idea = copyFrom.idea;
+	copyTo.hasEvent = copyFrom.hasEvent;
+	
+	copyTo.heldUpgradeID = copyFrom.heldUpgradeID;
+	copyTo.heldUpgradeTooltip = copyFrom.heldUpgradeTooltip;
+	
+	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
+	copyTo.tooltip = copyFrom.tooltip;
+	/*copyTo.tooltipText = copyFrom.tooltipText;
+	copyTo.tooltipPic = copyFrom.tooltipPic;*/
+} // end of copyBuildingOnGrid
+
+
+//*******************************************
+// [Linking Functions] **********************
+
 
 /*
 
@@ -842,6 +788,63 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
 	UnitManager.CheckUnitsActive();
 }
 
+
+
+// Function seems to only be used for the undo function, to add a link that may have been removed.
+function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid, lastIndex : int)
+{
+	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
+	var tempFoundIndex : int;
+	var tempIcon : ResourceIcon;
+					
+	if(outputBuilding.optionalOutput == linkList[lastIndex].type && 
+				outputBuilding.optionalOutputAllocated == false &&
+				outputBuilding.optionalOutputLinkedTo == -1)
+	{
+		outputBuilding.optionalOutputAllocated = true;
+		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);
+		outputBuilding.optionalOutputIcon.SetAllocated(true);	
+	}
+	else
+	{
+		tempFoundIndex = outputBuilding.unallocatedOutputs.IndexOf(linkList[lastIndex].type);
+		outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
+		outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
+		outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
+		
+		tempIcon = outputBuilding.unallocatedOutputIcons[tempFoundIndex];
+		outputBuilding.unallocatedOutputIcons.Remove(tempIcon);
+		tempIcon.SetAllocated(true);
+		outputBuilding.allocatedOutputIcons.Add(tempIcon);
+		tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);
+	}
+	tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(linkList[lastIndex].type);
+	//Link B1 to B3
+	inputBuilding.unallocatedInputs.Remove(linkList[lastIndex].type);	
+	//outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
+	
+	inputBuilding.allocatedInputs.Add(linkList[lastIndex].type);
+	//outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
+	
+	inputBuilding.inputLinkedTo.Add(findBuildingIndex(outputBuilding));
+	//outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
+	
+	tempIcon = inputBuilding.unallocatedInputIcons[tempFoundIndex];
+	inputBuilding.unallocatedInputIcons.Remove(tempIcon);
+	tempIcon.SetAllocated(true);
+	inputBuilding.allocatedInputIcons.Add(tempIcon);
+	tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);
+	
+	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
+	//Draw New Link
+	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type);
+}
+
+
+
+//*******************************************
+// [Building Activation Functions] **********
+
 /*
 
 activateBuilding, when given an index, checks to make sure
@@ -977,92 +980,100 @@ static public function isActive( buildingIndex:int ): boolean
 }
 
 
+//*******************************************
+// [Building Site Functions] ****************
 
-// Functions for adding/removing units to a building on the grid
-// Has it for a UnitType or String, based upon the preference of other scripts
-static public function addUnit( buildingIndex : int, unit : UnitType )
+
+/*
+Used to add a building to the grid that replaces another building (e.g., building sites)
+*/
+static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord : Vector3, index : int)
 {
-	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
-	building.unit = unit;
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
+
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+	buildingsOnGrid[index] = tempBuilding;
+	//buildingsOnGrid.Add(tempBuilding);
+	BroadcastBuildingUpdate(buildingObject, index);
+	
+	if(findBuildingIndex(tempBuilding.coordinate) != -1)
+	{
+		Debug.Log("Coord: " + tempBuilding.coordinate);
+		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
+		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	}
+	else
+	{
+		Debug.Log("Error, building not added...");
+	}
 }
 
-static public function addUnit( buildingIndex : int, unit : String )
+
+//This function is used to add a building to the grid, replacing a building site
+static public function ReplaceBuildingSite (buildingObject: GameObject, coord : Vector3)
 {
-	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
-	
-	if(unit == "Worker")
-		building.unit = UnitType.Worker;
-	else if (unit == "Researcher")
-		building.unit = UnitType.Researcher;
-		/*
-	else if (unit == "Regulator")
-		building.unit = UnitType.Regulator;
-	else if (unit == "EnergyAgent")
-		building.unit = UnitType.EnergyAgent;
-		*/
-		
+	var buildingSiteID : int = findBuildingIndex( coord );	// find location in array of buildings
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+	//Debug.Log("adding " + buildingObject.name + " to grid at " + coord + " id " + buildingSiteID);
+
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
+	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
+	buildingsOnGrid[buildingSiteID] = tempBuilding;
+	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
+	BroadcastBuildingUpdate(buildingObject, buildingSiteID);
 }
 
-static public function removeUnit( buildingIndex : int)
+// This function will properly add a building site to the database
+static public function addBuildingSite( coordinate : Vector3, index : int)
 {
-	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
-	building.unit = UnitType.None;
-}
-
-
-
-
-
-
-
-//********************************************************************Updated for Undo Function:
-
-
-
-static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
-{
-	copyTo.buildingName = copyFrom.buildingName;
+	//var index : int = findBuildingIndex(coordinate);
+	var addIndex : int = addList.Count - 1;		
+	var tileType : String = addList[addIndex].buildingSite.tileType;	
+	var isPreplaced : boolean = false;
+	var idea : String = addList[addIndex].buildingSite.idea;
+	var hasEvent : boolean = addList[addIndex].buildingSite.hasEvent;
 	
-	copyTo.unallocatedInputs.Clear();
-	copyTo.unallocatedInputs.AddRange(copyFrom.unallocatedInputs);
-	copyTo.allocatedInputs.Clear();
-	copyTo.allocatedInputs.AddRange(copyFrom.allocatedInputs);
+	var building : GameObject = Instantiate(Resources.Load("BuildingSite"));	
+	building.transform.position = addList[addIndex].worldCoordinates;
+	building.name = "BuildingSite";
+	//buildingsOnGrid[index] = building;
+	ReplaceBuildingOnGrid(building, coordinate, index);
+	ModeController.setSelectedBuilding(building);
+	//addBuildingToGrid(building, coordinate);
+	//addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
+	//BroadcastBuildingUpdate();
 	
-	copyTo.unallocatedOutputs.Clear();
-	copyTo.unallocatedOutputs.AddRange(copyFrom.unallocatedOutputs);
-	copyTo.allocatedOutputs.Clear();
-	copyTo.allocatedOutputs.AddRange(copyFrom.allocatedOutputs);
-	
-	copyTo.optionalOutput = copyFrom.optionalOutput;
-	copyTo.optionalOutputAllocated = copyFrom.optionalOutputAllocated;
-	copyTo.optionalOutputFixed = copyFrom.optionalOutputFixed;
-	copyTo.optionalOutputIcon = copyFrom.optionalOutputIcon;
+} // End of addBuildingSite()
 
-	copyTo.isActive = copyFrom.isActive;
-	copyTo.coordinate = copyFrom.coordinate;
-	copyTo.tileType = copyFrom.tileType;
-
-	copyTo.inputLinkedTo.Clear();
-	copyTo.inputLinkedTo.AddRange(copyTo.inputLinkedTo);
-	copyTo.outputLinkedTo.Clear();
-	copyTo.outputLinkedTo.AddRange(copyTo.outputLinkedTo);
-	
-	copyTo.requisitionCost = copyFrom.requisitionCost;
-	copyTo.pollutionOutput = copyFrom.pollutionOutput;
-	
-	copyTo.unit = copyFrom.unit;
-	copyTo.idea = copyFrom.idea;
-	copyTo.hasEvent = copyFrom.hasEvent;
-	
-	copyTo.heldUpgradeID = copyFrom.heldUpgradeID;
-	copyTo.heldUpgradeTooltip = copyFrom.heldUpgradeTooltip;
-	
-	copyTo.hasTooltipTrigger = copyFrom.hasTooltipTrigger;
-	copyTo.tooltip = copyFrom.tooltip;
-	/*copyTo.tooltipText = copyFrom.tooltipText;
-	copyTo.tooltipPic = copyFrom.tooltipPic;*/
-} // end of copyBuildingOnGridd
-
+//*******************************************
+// [Undo Functions] *************************
 
 
 
@@ -1273,55 +1284,6 @@ function UndoLink(typeOfUndo : int)
 	linkList.RemoveAt(lastIndex);	
 }
 
-function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid, lastIndex : int)
-{
-	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
-	var tempFoundIndex : int;
-	var tempIcon : ResourceIcon;
-					
-	if(outputBuilding.optionalOutput == linkList[lastIndex].type && 
-				outputBuilding.optionalOutputAllocated == false &&
-				outputBuilding.optionalOutputLinkedTo == -1)
-	{
-		outputBuilding.optionalOutputAllocated = true;
-		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);
-		outputBuilding.optionalOutputIcon.SetAllocated(true);	
-	}
-	else
-	{
-		tempFoundIndex = outputBuilding.unallocatedOutputs.IndexOf(linkList[lastIndex].type);
-		outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
-		outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
-		outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
-		
-		tempIcon = outputBuilding.unallocatedOutputIcons[tempFoundIndex];
-		outputBuilding.unallocatedOutputIcons.Remove(tempIcon);
-		tempIcon.SetAllocated(true);
-		outputBuilding.allocatedOutputIcons.Add(tempIcon);
-		tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);
-	}
-	tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(linkList[lastIndex].type);
-	//Link B1 to B3
-	inputBuilding.unallocatedInputs.Remove(linkList[lastIndex].type);	
-	//outputBuilding.unallocatedOutputs.Remove(linkList[lastIndex].type);	
-	
-	inputBuilding.allocatedInputs.Add(linkList[lastIndex].type);
-	//outputBuilding.allocatedOutputs.Add(linkList[lastIndex].type);
-	
-	inputBuilding.inputLinkedTo.Add(findBuildingIndex(outputBuilding));
-	//outputBuilding.outputLinkedTo.Add(findBuildingIndex(inputBuilding));
-	
-	tempIcon = inputBuilding.unallocatedInputIcons[tempFoundIndex];
-	inputBuilding.unallocatedInputIcons.Remove(tempIcon);
-	tempIcon.SetAllocated(true);
-	inputBuilding.allocatedInputIcons.Add(tempIcon);
-	tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);
-	
-	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
-	//Draw New Link
-	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type);
-}
-
 function UndoAdd()
 {
 	var lastIndex : int = addList.Count - 1;
@@ -1347,15 +1309,6 @@ function UndoAdd()
 	addList.RemoveAt(lastIndex);	
 }
 
-private function DestroyResourceIconSet(iconSet : List.<ResourceIcon>)
-{
-	for (var i : int = 0; i < iconSet.Count; i++)
-	{
-		iconSet[i].Delete();
-		DestroyImmediate(iconSet[i].gameObject);
-	}
-}
-
 //Adds an element to the AddNodeList
 static public function AddToAddList(coordinate: Vector3)
 {
@@ -1368,116 +1321,93 @@ static public function AddToAddList(coordinate: Vector3)
 	//Database.Save("BuildingSite");
 }
 
-
-
-
-
-
-
-
-
-
-//********************************************************************Updated for Check for Win State:
-
-// This function will need to be called during an update function, or whenever the game
-// wants to check for a win state. At the moment, it just checks to see if all buildings
-// that are on the grid are active. Returns true if all are active, false if not.
-// Can be used to trigger another even, like loading another level, or calling another function, etc.
-
-function testWinState(): boolean
+private function DestroyResourceIconSet(iconSet : List.<ResourceIcon>)
 {
-	
-	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	for (var i : int = 0; i < iconSet.Count; i++)
 	{
-		//only checks houses and cities
-		if(buildingsOnGrid[i].buildingName == "House" || buildingsOnGrid[i].buildingName == "City")//placedBuilding.buildingName == "House" || placedBuilding.buildingName == "City")
-		{
-			if(buildingsOnGrid[i].isActive == false)//placedBuilding.isActive == false)
-			{
-				//if any of the buildings are not active, will return false
-				return false;
-			}
-		}
+		iconSet[i].Delete();
+		DestroyImmediate(iconSet[i].gameObject);
 	}
-	//will only make it this far after going through all the buildings and finding none of them false
-	return true;
-	
-}// end of testWinState
-
-
-
-//*******************************************************************************
-// This function will properly delete a building site from the database
-
-static public function deleteBuildingSite( coordinate : Vector3 )
-{
-	var buildingSiteID : int = findBuildingIndex( coordinate );	// find location in array of buildings
-	if (buildingSiteID >= 0)
-		Destroy(getBuildingOnGridAtIndex(buildingSiteID).highlighter);
-	Debug.Log("Removing at Index: " + buildingSiteID + " for coordinate " + coordinate);
-	buildingsOnGrid.RemoveAt(buildingSiteID);//buildingsOnGrid.Splice(buildingSiteID, 1);	// removes building site from array of buildings
-	BroadcastBuildingUpdate();
-	
-	if(findBuildingIndex(coordinate) == -1)
-	{
-		Debug.Log("Successfully Removed.");
-	}
-	else
-	{
-		Debug.Log("Error, building not removed...");
-	}
-}// end of deleteBuildingSite()
-
-
-
-//This function is used to add a building to the grid, replacing a building site
-static public function ReplaceBuildingSite (buildingObject: GameObject, coord : Vector3)
-{
-	var buildingSiteID : int = findBuildingIndex( coord );	// find location in array of buildings
-	var temp = new BuildingOnGrid();
-	/*
-	if(ModeController.getCurrentMode() == GameState.LINK)
-	{
-		ModeController.selectedBuilding = null;
-	    return;
-	}
-	*/
-	//Debug.Log("adding " + buildingObject.name + " to grid at " + coord + " id " + buildingSiteID);
-
-	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
-	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
-	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
-	tempBuilding.coordinate = coord;
-	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
-	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
-	buildingsOnGrid[buildingSiteID] = tempBuilding;
-	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
-	BroadcastBuildingUpdate(buildingObject, buildingSiteID);
 }
 
-// This function will properly add a building site to the database
-static public function addBuildingSite( coordinate : Vector3, index : int)
+
+//*******************************************
+// [Unit Functions] *********************
+
+// Functions for adding/removing units to a building on the grid
+// Has it for a UnitType or String, based upon the preference of other scripts
+static public function addUnit( buildingIndex : int, unit : UnitType )
 {
-	//var index : int = findBuildingIndex(coordinate);
-	var addIndex : int = addList.Count - 1;		
-	var tileType : String = addList[addIndex].buildingSite.tileType;	
-	var isPreplaced : boolean = false;
-	var idea : String = addList[addIndex].buildingSite.idea;
-	var hasEvent : boolean = addList[addIndex].buildingSite.hasEvent;
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	building.unit = unit;
+}
+
+static public function addUnit( buildingIndex : int, unit : String )
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	
-	var building : GameObject = Instantiate(Resources.Load("BuildingSite"));	
-	building.transform.position = addList[addIndex].worldCoordinates;
-	building.name = "BuildingSite";
-	//buildingsOnGrid[index] = building;
-	ReplaceBuildingOnGrid(building, coordinate, index);
-	ModeController.setSelectedBuilding(building);
-	//addBuildingToGrid(building, coordinate);
-	//addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
-	//BroadcastBuildingUpdate();
+	if(unit == "Worker")
+		building.unit = UnitType.Worker;
+	else if (unit == "Researcher")
+		building.unit = UnitType.Researcher;
+		/*
+	else if (unit == "Regulator")
+		building.unit = UnitType.Regulator;
+	else if (unit == "EnergyAgent")
+		building.unit = UnitType.EnergyAgent;
+		*/
+		
+}
+
+static public function removeUnit( buildingIndex : int)
+{
+	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
+	building.unit = UnitType.None;
+}
+
+
+//*******************************************
+// [Broadcast Functions] *********************
+
+/* 
+	BroadcastBuildingUpdate:
+
+   This functionality is set in place so when the building is placed and added to grid, all game objects with the "UpdateBuildingCount" function,
+   if it exists, will be sent the latest set of buildings from the same call. All that's needed to be done is to have an UpdateBuildingCount function
+   with a gameObject array as a parameter and everything should be fine.
+   
+   Also, this can be refined later via tags so we can separate what we need to update for performance tweaking
+*/
+
+public static function BroadcastBuildingUpdate():void
+{
+	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
 	
-} // End of addBuildingSite()
+	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
+	{
+		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
+		{
+			gameObjInScene[i].gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("UpdateBuildingCount", GameObject.FindGameObjectsWithTag("Building"), SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+		} 
+	}
+}
+
+public static function BroadcastBuildingUpdate(buildingObject : GameObject, buildingIndex : int):void
+{
+	var gameObjInScene:GameObject[] = GameObject.FindObjectsOfType(typeof(GameObject)); //Gets all game objects in scene
+	var replacement : BuildingReplacement = new BuildingReplacement(buildingObject, buildingIndex);
+	for(var i : int = 0; i < gameObjInScene.length; i++)//var gos:GameObject in gameObjInScene)
+	{
+		if(gameObjInScene[i].transform.parent == null)//gos.transform.parent == null)
+		{
+			gameObjInScene[i].gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver);//gos.gameObject.BroadcastMessage("ReplaceBuilding", replacement, SendMessageOptions.DontRequireReceiver); //calls that function for all the children on the object, if it exists
+		} 
+	}
+}
+
+
+//*******************************************
+// [Metric and Serialization Functions] *****
 
 
 public function Save(type : String) : void
@@ -1485,17 +1415,7 @@ public function Save(type : String) : void
 	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));	
 }
 
-class BuildingReplacement extends System.ValueType
-{
-	var buildingObject : GameObject;
-	var buildingIndex : int;
-	
-	public function BuildingReplacement (bO : GameObject, bI : int)
-	{
-		buildingObject = bO;
-		buildingIndex = bI;
-	}
-}
+
 
 public static function GenerateID() : String{
 	return (String.Format("{0:00}-{1:000}-{2:0000}",  Random.Range(0, 99), Random.Range(0, 999), Random.Range(0, 9999)));
@@ -1562,8 +1482,51 @@ public function WriteLevel()
 	//Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
 }
 
+
+//*******************************************
+// [Potentially Obsolete Functions] *********
+
+/*
+This script only seems relevant to the editor
+See BuildingMenu.js script, only usage is in EditorPlace(index : int) function.
+*/
+static public function addBuildingToGrid(buildingObject: GameObject, coord : Vector3)
+{
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+	Debug.Log("adding " + buildingObject.name + " to grid at " + coord);
+
+	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
+	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+	tempBuilding.coordinate = coord;
+	tempBuilding.buildingPointer = buildingObject;
+	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+	buildingsOnGrid.Add(tempBuilding);
+	BroadcastBuildingUpdate();
+	
+	if(findBuildingIndex(tempBuilding.coordinate) != -1)
+	{
+		Debug.Log("Coord: " + tempBuilding.coordinate);
+		Debug.Log("Index: " + findBuildingIndex(tempBuilding.coordinate));
+		Debug.Log(tempBuilding.buildingName + " was added to the grid");
+	}
+	else
+	{
+		Debug.Log("Error, building not added...");
+	}
+}
+
+
 //*********************************************************************************************************************
-//Classes**************************************************************************************************************
+// [Classes] **********************************************************************************************************
 
 
 /* 	BuildingOnGridData Class
@@ -1702,8 +1665,21 @@ class AddTurnNode
 	var worldCoordinates: Vector3;
 }
 
+// Used by broadcast function
+class BuildingReplacement extends System.ValueType
+{
+	var buildingObject : GameObject;
+	var buildingIndex : int;
+	
+	public function BuildingReplacement (bO : GameObject, bI : int)
+	{
+		buildingObject = bO;
+		buildingIndex = bI;
+	}
+}
+
 //*********************************************************************************************************************
-// Enums **************************************************************************************************************
+// [Enums] ************************************************************************************************************
 
 // Types of resources
 enum ResourceType
@@ -1744,181 +1720,3 @@ enum UnitType
 	//Regulator = 3,
 	//EnergyAgent = 4
 }
-
-//*********************************************************************************************************************
-// Obsolete Functions**************************************************************************************************
-
-
-/*
-	// Keeps track of the moves and indexes of placed buildings so they can be removed:
-static private var previousBuildings = new Array();
-		//For use if we want to limit the number of undos:
-			// Current number of times undos the user is capable of (how many changes to grid have been made)
-static private var numberOfUndos = 0;
-			// This will allow for a limited number of undos
-static public var undoLimit = 3;
-			// Whether or not the player is allowed an unlimited number of undos
-static public var limitedUndos = false;
-	//*************************************************************************************************
-
-
-// Cleans up the array used to keep track of previous states
-// by removing the least recent change
-static function cleanUpPreviousBuildings()
-{
-	if(limitedUndos)
-	{
-		
-		if( numberOfUndos > undoLimit )
-		{
-			var typeOfUndo = previousBuildings.Shift();	// #1
-		
-			if(typeOfUndo == "EndOfAdd")
-			{
-				previousBuildings.Shift();	//#2, the index of the building
-				previousBuildings.Shift();	//#3, the "Add"
-				
-				numberOfUndos--;
-			}
-			else if(typeOfUndo == "EndOfLink")
-			{
-				previousBuildings.Shift();	//#2, the Input building 
-				previousBuildings.Shift();	//#3, the Input index
-				previousBuildings.Shift();	//#4, the Output building
-				previousBuildings.Shift();	//#5, the Output index
-				previousBuildings.Shift();	//#6, the "Link"
-				
-				numberOfUndos--;
-			}
-					
-		}
-	}
-}// end of cleanUpPreviousBuildings()
-
-
-
-// This function adds up the pollution output for all buildings on
-// the grid and returns that value.
-static public function totalPollution(): int
-{
-	var pollution : int = 0;
-
-	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
-	{
-		pollution += buildingsOnGrid[i].pollutionOutput;//placedBuilding.pollutionOutput;
-	}
-	return pollution;
-
-}// end of totalPollution
-
-
-
-/*
-The addingBuildingToGrid function adds a building to the
-buildingsOnGrid array, representing it has been placed on
-the grid, based on a given building type name, coordinate,
-and the tile type.
-
-*/
-/*
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, hasEvent:boolean) : boolean
-{
-	var temp = new BuildingOnGrid();
-	/*
-	if(ModeController.getCurrentMode() == GameState.LINK)
-	{
-		ModeController.selectedBuilding = null;
-	    return;
-	}
-	*/
-/*
-	Debug.Log("adding buidling to grid");
-	var defaultBuilding : Building;
-	for (var i : int = 0; i < buildings.length; i++)//var defaultBuilding : Building in buildings)
-	{
-		defaultBuilding = buildings[i] as Building;
-		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
-		{
-		
-			temp.buildingName = buildingType;
-			
-			temp.unallocatedInputs.AddRange(defaultBuilding.unallocatedInputs);
-			temp.unallocatedOutputs.AddRange(defaultBuilding.unallocatedOutputs);
-			
-			temp.optionalOutput = defaultBuilding.optionalOutput;
-			
-			temp.requisitionCost = defaultBuilding.requisitionCost;
-			
-			temp.pollutionOutput = defaultBuilding.pollutionOutput;
-			
-			break;
-		}
-    }
-    temp.buildingPointer = building;
-    temp.coordinate = coordinate;
-    temp.tileType = tileType;
-    temp.idea = idea;				// will be blank for buildings placed in game?
-    temp.hasEvent = hasEvent;				// will be blank for buildings placed in game?
-    temp.highlighter = grid.CreateHighlightHexagon(temp.coordinate);
-    	
-   if( !isPreplaced )
-   {
-	    //buildingsOnGrid.push(temp);
-	    buildingsOnGrid.Add(temp);
-	    	        
-	    //Obsolete Undo Code:
-		//previousBuildings.Add("EndOfAdd");
-		//previousBuildings.Add(buildingsOnGrid.Count - 1); 	// index of new building
-		//previousBuildings.Add("Add");
-		//numberOfUndos++;
-		//cleanUpPreviousBuildings();
-		//intelSystem.addTurn();		// NEW: for the Intel System
-		
-		ModeController.setSelectedBuilding(temp.buildingPointer);
-		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
-		Debug.Log("Setting to link");
-		BroadcastBuildingUpdate();
-		
-		//************
-		return true;
-	}
-	else
-	{
-	
-		buildingsOnGrid.Add(temp);//push(temp);	   	
-		return true;
-	
-	}
-	 
-}// end of addBuildingToGrid
-
-
-/*
-Building Class
-
-This is the original class for buildings, it might be obsolete now.
-
-*/
-
-/*
-class Building
-{
-	var buildingName = "nameOfBuilding";
-
-	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	
-	var optionalOutput : ResourceType = ResourceType.None;
-	var optionalOutputAllocated : boolean = false;
-	
-	var requisitionCost : int;
-	
-	var pollutionOutput : int;
-}
-
-
-
-
-*/
