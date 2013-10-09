@@ -6,7 +6,7 @@
 
 
 */
-
+/*
 @script ExecuteInEditMode()
 
 #pragma strict
@@ -23,7 +23,7 @@ public var defaultBuildings : DefaultBuildingData[];
 
 */
 
-
+/*
 class DefaultBuildingData
 {
 	var buildingName = "nameOfBuilding";
@@ -37,6 +37,7 @@ class DefaultBuildingData
 	var pollutionOutput : int;
 }// end of DefaultBuildingData
 
+/*
 class BuildingOnGridData
 {
 
@@ -56,7 +57,7 @@ class BuildingOnGridData
 	//var neededUpgrade : UpgradeType;
 	var heldUpgrade : UpgradeID;
 	/*var heldUpgradeTooltipText : String;
-	var heldUpgradeTooltipPic : Texture2D;*/
+	var heldUpgradeTooltipPic : Texture2D;*//*
 	var heldUpgradeTooltip : Tooltip;
 	
 	var requisitionCost : int;
@@ -71,12 +72,12 @@ class BuildingOnGridData
 	var isPriorityTooltip : boolean = false;
 	/*var tooltipText : String;
 	var tooltipPic : Texture2D;*/
-}// end of BuildingOnGridData
+//}// end of BuildingOnGridData
 
 
 
 // The following scripts convert one data type into another:
-
+/*
 public function convertDefaultBuildingDataIntoBuilding( defaultBuilding : DefaultBuildingData ) : Building
 {
 	var databaseBuilding : Building = new Building();
@@ -132,6 +133,7 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	/*buildingOnGrid.heldUpgradeTooltipText = buildingData.heldUpgradeTooltipText;
 	buildingOnGrid.heldUpgradeTooltipPic = buildingData.heldUpgradeTooltipPic;*/
 	//buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
+	/*
 	buildingOnGrid.unit = buildingData.unit;
 	buildingOnGrid.idea = buildingData.idea;
 	buildingOnGrid.hasEvent = buildingData.hasEvent;
@@ -141,7 +143,7 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid( buildingData : Buil
 	//buildingOnGrid.isPriorityTooltip = buildingData.isPriorityTooltip;
 	/*buildingOnGrid.tooltipText = buildingData.tooltipText;
 	buildingOnGrid.tooltipPic = buildingData.tooltipPic;*/
-	
+	/*
 	return buildingOnGrid;
 }// end of convertBuildingOnGridDataIntoBuildingOnGrid
 
@@ -173,7 +175,7 @@ public function convertDefaultBuildingIntoBuildingOnGrid( defaultBuildingName : 
 	
 
 }// end of convertDefaultBuildingIntoBuildingOnGrid
-
+/*
 // Function to be used by the database to create an array of
 // default buildings
 public function createDefaultBuildingArray(): Array
@@ -191,3 +193,4 @@ public function createDefaultBuildingArray(): Array
 	
 	return defaultBuildingArray;
 }// end of createDefaultBuildingArray
+*/

@@ -1,41 +1,29 @@
+#pragma strict
+import System.Collections.Generic;
+
 /*
 Database.js
 Originally by Katharine Uvick
 
-This script will be used to store data of the different specific buildings
-involved in the game, as well as the buildings currently placed on the grid.
-It also contains the scripts to alter the data (to link buildings, add them to
-the grid, etc.)
+This script stores data regarding the buildings in a level, 
+and contains functions that alter the relationship between these
+buildings (e.g., linking, adding a building to the grid via
+a building site, etc). Also contains functionality to undo
+these actions by the player.
 
-It uses a series of arrays to store the data in order to keep the information
-organized and flexible, rather than a fixed matrix or 2d array that would need
-to be detailed on what each column and row represented.
-
-Also contains undo functionality.
-
-UPDATE REMINDER: See DefaultBuildingEditor to change the values of the default
-buildings.
-
-
-Attach to a blank GameObject
+Should be attached to GameObject called Database.
 */
 
-#pragma strict
-import System.Collections.Generic;
 
-// The two main structures for holding data:
-	// Default buildings stored here:
-static public var buildings : Array;// = new Array();
+//*********************************************************************************************************************
+// Variables **********************************************************************************************************
+
 
 static public var playtestID : String = "";
 
-	// Buildings on grid stored here:
-//static public var buildingsOnGrid : Array;// = new Array(); 
-public static var buildingsOnGrid : List.<BuildingOnGrid>;
+public static var buildingsOnGrid : List.<BuildingOnGrid>;	// Contains all buildings on the grid in the level
 
-	// The amount of tiles a building has in range, can be specific to building later on
-static public var TILE_RANGE = 3;
-
+static public var TILE_RANGE = 3; // The amount of tiles a building has in range, can be specific to building later on
 
 //Undo-related variables:
 static public var UndoStack : List.<UndoType>;
@@ -43,61 +31,17 @@ static public var UndoStack : List.<UndoType>;
 static public var linkList: List.<LinkTurnNode>;
 //List holding information pertaining to adds. A reference to the building site, as well as the object that replaced it.
 static public var addList: List.<AddTurnNode>;
-
-	// Keeps track of the moves and indexes of placed buildings so they can be removed:
-static private var previousBuildings = new Array();
-		//For use if we want to limit the number of undos:
-			// Current number of times undos the user is capable of (how many changes to grid have been made)
-static private var numberOfUndos = 0;
-			// This will allow for a limited number of undos
-static public var undoLimit = 3;
-			// Whether or not the player is allowed an unlimited number of undos
-static public var limitedUndos = false;
-	//*************************************************************************************************
-
-
-
-static var gridObject:GameObject;
 static var grid:HexagonGrid;
 
 
-//static var defaultBuildingScript : DefaultBuildings;
-
+// Ref. of other scripts:
 static var intelSystem : IntelSystem;
-
 private var drawLinks : DrawLinks;
-private var buildingWithUnitActivatedScore : int = 20;
-
 private var display : InspectionDisplay;
 private static var linkUIRef : LinkUI;
 
 
-//GPC added Knowledge as Resource Type
-enum ResourceType
-{
-	None,
-	Coal,
-	Fund,
-	Gas,
-	Petrol,
-	Power,
-	Waste,
-	Ethanol,
-	Uranium,
-	Knowledge,
-	Workforce,
-	Commerce
-}
-
-enum UndoType
-{
-	Link = 0,
-	Add = 1,
-	Wait = 2,
-	Chain = 3,
-	Overload = 4,
-	ChainOverload = 5
-}
+private var buildingWithUnitActivatedScore : int = 20;
 
 //Metric Variables
 public var metrics : MetricContainer;
@@ -105,6 +49,13 @@ public var m_display : MetricDisplay;
 
 public var level_s : LevelSerializer;
 
+
+
+//*********************************************************************************************************************
+// Functions **********************************************************************************************************
+
+
+// At startup:
 function Start()
 {
 	// Telling the GUISystem to get the references to scripts specific to the level:
@@ -115,47 +66,49 @@ function Start()
 	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
 	buildMenu.LoadLevelReferences();
 	
+	
+	// Finding script references needed by the database:
 	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);	
-	
 	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
-	
 	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
+	grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 	
-	gridObject = GameObject.Find("HexagonGrid");
-	grid = gridObject.GetComponent(HexagonGrid);
-	
-	//buildings = new Array();
-	//buildingsOnGrid = new Array();
+
+
+	// Gathering the data from the buildings on the grid:
 	buildingsOnGrid = new List.<BuildingOnGrid>();
-	//defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
-	
-	//buildings = defaultBuildingScript.createDefaultBuildingArray();
 
-	for (var buildingObject : GameObject in GameObject.FindGameObjectsWithTag("Building"))
+	var buildingObjects : GameObject[] = GameObject.FindGameObjectsWithTag("Building");
+	var index :int = 0;
+	
+	for (index = 0; index < buildingObjects.length; index++)
 	{
+		// Gets the building's data, converts it into the proper class,
 		tempBuilding = new BuildingOnGrid();
-		tempBuildingData = buildingObject.GetComponent(BuildingData);
-		//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		tempBuildingData = buildingObjects[index].GetComponent(BuildingData);
 		tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 		
-		// create the building's highlight hexagon
+		// Create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
-		//buildingsOnGrid.Push(tempBuilding);
+		
+		// Generates resource icons:
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
-		//SetBuildingResourceActive(tempBuilding.unallocatedInputIcons, true);
+		
+		// Adds building to the list
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
 	
-	//UnitManager.InitiateUnits();
+	// Gets the reference to the intel system, creases lists related to undo variables
 	intelSystem = gameObject.GetComponent(IntelSystem);
 	linkList = new List.<LinkTurnNode>();
 	addList = new List.<AddTurnNode>();
 	UndoStack = new List.<UndoType>();
 	
+	// Metric data:
 	metrics = new MetricContainer();
 	m_display = new MetricDisplay();
 	
@@ -163,12 +116,15 @@ function Start()
 		playtestID = GenerateID();
 	}
 	
+	// Determines wheter buildings can be activated at the start of the game
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
 		activateBuilding(i, false);
 		
+	// Level Serialization
 	level_s = new LevelSerializer();
 	WriteLevel();
 	
+	// sets highlight tiles
 	linkUIRef.HighlightTiles();
 }
 
@@ -255,88 +211,6 @@ static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord :
 		Debug.Log("Error, building not added...");
 	}
 }
-
-/*
-The addingBuildingToGrid function adds a building to the
-buildingsOnGrid array, representing it has been placed on
-the grid, based on a given building type name, coordinate,
-and the tile type.
-
-*/
-static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, hasEvent:boolean) : boolean
-{
-	var temp = new BuildingOnGrid();
-	/*
-	if(ModeController.getCurrentMode() == GameState.LINK)
-	{
-		ModeController.selectedBuilding = null;
-	    return;
-	}
-	*/
-
-	Debug.Log("adding buidling to grid");
-	var defaultBuilding : Building;
-	for (var i : int = 0; i < buildings.length; i++)//var defaultBuilding : Building in buildings)
-	{
-		defaultBuilding = buildings[i] as Building;
-		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
-		{
-		
-			temp.buildingName = buildingType;
-			
-			temp.unallocatedInputs.AddRange(defaultBuilding.unallocatedInputs);
-			temp.unallocatedOutputs.AddRange(defaultBuilding.unallocatedOutputs);
-			
-			temp.optionalOutput = defaultBuilding.optionalOutput;
-			
-			temp.requisitionCost = defaultBuilding.requisitionCost;
-			
-			temp.pollutionOutput = defaultBuilding.pollutionOutput;
-			
-			break;
-		}
-    }
-    temp.buildingPointer = building;
-    temp.coordinate = coordinate;
-    temp.tileType = tileType;
-    temp.idea = idea;				// will be blank for buildings placed in game?
-    temp.hasEvent = hasEvent;				// will be blank for buildings placed in game?
-    temp.highlighter = grid.CreateHighlightHexagon(temp.coordinate);
-    	
-   if( !isPreplaced )
-   {
-	    //buildingsOnGrid.push(temp);
-	    buildingsOnGrid.Add(temp);
-	    	        
-	    //adding for undo:
-		
-		previousBuildings.Add("EndOfAdd");
-		previousBuildings.Add(buildingsOnGrid.Count - 1); 	// index of new building
-		previousBuildings.Add("Add");
-		
-		numberOfUndos++;
-		
-		cleanUpPreviousBuildings();
-				
-		//intelSystem.addTurn();		// NEW: for the Intel System
-		
-		ModeController.setSelectedBuilding(temp.buildingPointer);
-		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
-		Debug.Log("Setting to link");
-		BroadcastBuildingUpdate();
-		
-		//************
-		return true;
-	}
-	else
-	{
-	
-		buildingsOnGrid.Add(temp);//push(temp);	   	
-		return true;
-	
-	}
-	 
-}// end of addBuildingToGrid
 
 /* 
 	BroadcastBuildingUpdate:
@@ -562,16 +436,15 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		copyBuildingOnGrid(buildingsOnGrid[outputBuildingIndex], tempOutputBuilding);
 		copyBuildingOnGrid(buildingsOnGrid[inputBuildingIndex], tempInputBuilding);
 	
-		previousBuildings.Add("EndOfLink");	
-		previousBuildings.Add(tempInputBuilding);
-		previousBuildings.Add(inputBuildingIndex);
-		previousBuildings.Add(tempOutputBuilding);
-		previousBuildings.Add(outputBuildingIndex);
-		previousBuildings.Add("Link");
-		
-		numberOfUndos++;
-		
-		cleanUpPreviousBuildings();
+		//Obsolete Undo Code
+		//previousBuildings.Add("EndOfLink");	
+		//previousBuildings.Add(tempInputBuilding);
+		//previousBuildings.Add(inputBuildingIndex);
+		//previousBuildings.Add(tempOutputBuilding);
+		//previousBuildings.Add(outputBuildingIndex);
+		//previousBuildings.Add("Link");
+		//numberOfUndos++;
+		//cleanUpPreviousBuildings();
 		
 		//****************
 
@@ -1121,10 +994,12 @@ static public function addUnit( buildingIndex : int, unit : String )
 		building.unit = UnitType.Worker;
 	else if (unit == "Researcher")
 		building.unit = UnitType.Researcher;
+		/*
 	else if (unit == "Regulator")
 		building.unit = UnitType.Regulator;
 	else if (unit == "EnergyAgent")
 		building.unit = UnitType.EnergyAgent;
+		*/
 		
 }
 
@@ -1134,153 +1009,9 @@ static public function removeUnit( buildingIndex : int)
 	building.unit = UnitType.None;
 }
 
-/*
-
-Building Class
-
-Instead of just creating a 2D array/matrix, I decided that creating a class for a building
-would make it easier to understand the structure of the database (since for the matrix I would
-have to create in the comments an explaination as to what which row and column held).
-
-Also, since not all buildings share the same input and output, or even the same amounts of input
-and output, this will allow for flexiblity in that regard as well. Since the amount of a specific
-resource a building might need is not always 1, that's what the Num arrays are; the corrisponding
-values at the matching indexes should indicate the number of resources needed or output by the 
-resource named in the other array.
-
-NOTE: This class and the one below uses parallel arrays to store the resource input/output type
-and their amounts.
-
-*/
 
 
-class Building
-{
-	var buildingName = "nameOfBuilding";
 
-	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	
-	var optionalOutput : ResourceType = ResourceType.None;
-	var optionalOutputAllocated : boolean = false;
-	
-	var requisitionCost : int;
-	
-	var pollutionOutput : int;
-}
-
-/*
-BuildingOnGrid Class
-
-This contains the information for a building placed on a grid.
-Takes the information from the default Building class, but
-creates, essentially, a new building so that the data can be
-manipulated without affecting the original default building.
-
-We'll have to tweak the code a little based upon what coordinate
-is set as, whether a singular value or something like an 2D
-coordinate, which shouldn't be too diffcult since most
-of the functions use index.
-
-*/
-
-
-class BuildingOnGrid
-{
-
-	var buildingName = "nameOfBuilding";
-
-	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var unallocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
-	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
-	
-	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	var unallocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
-	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
-	var allocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
-	
-	var optionalOutput : ResourceType = ResourceType.None;
-	var optionalOutputAllocated : boolean = false;
-	var optionalOutputFixed : boolean = false;
-	var optionalOutputIcon : ResourceIcon;
-	
-	var isActive = false;
-	
-	var coordinate : Vector3 = new Vector3(0,0,0);
-	var tileType = "tileType";
-	var buildingPointer: GameObject;
-	
-	// will contain an array of the buildings it is connected to, by index of the building in the array
-	var inputLinkedTo : List.<int> = new List.<int>();
-	var deactivatedInputs : List.<int> = new List.<int>();
-	var outputLinkedTo : List.<int> = new List.<int>();
-	var optionalOutputLinkedTo : int = -1;
-	
-	var requisitionCost : int;
-	
-	var pollutionOutput : int;
-	var linkCount : int = 0; // How many links are currently on the building
-	
-	var unit : UnitType = UnitType.None;
-	var units : List.<Unit> = new List.<Unit>();
-	var selectedUnitIndex : int = 0;
-	var unitSelected : boolean = false;
-	
-	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
-	
-	var hasEvent : boolean = false;	// (will search through a list of upgrades to identify what this means)
-	
-	// Unit pathing variables
-	var pathParent : BuildingOnGrid = null;
-	var pathParentDist : float = -1;
-	
-	var heldUpgradeID : UpgradeID;
-	var heldUpgradeTooltip : Tooltip;
-	/*var heldUpgradeTooltipText : String;
-	var heldUpgradeTooltipPic : Texture2D;*/
-	//var neededUpgrade : UpgradeType = UpgradeType.None;
-	
-	var highlighter : GameObject;
-	
-	var tooltip : Tooltip[];
-	var hasTooltipTrigger : boolean = false;
-	/*var tooltipText : String;
-	var tooltipPic : Texture2D;*/
-}
-
-
-class LinkTurnNode
-{
-	var b1: GameObject;
-	var b2: GameObject;
-	var b3: GameObject;
-	var b1Coord: Vector3 = new Vector3(0,0,0);
-	var b2Coord: Vector3 = new Vector3(0,0,0);
-	var b3Coord: Vector3 = new Vector3(0,0,0);
-	var turnCreated: int;
-	var type: ResourceType;
-	var OverloadChainBreak : boolean = false; // True only if this turn was both a Chain Break and Overload
-	var usedOptionalOutput : boolean = false; // True only if this turn used an optional output	
-}
-
-class AddTurnNode
-{
-	var buildingSite: BuildingOnGrid;
-	var worldCoordinates: Vector3;
-}
-
-// From Design Document, 3.3 Units
-enum UnitType
-{
-	None = 0,
-	Worker = 1,
-	Researcher = 2,
-	Regulator = 3,
-	EnergyAgent = 4
-}
 
 
 
@@ -1334,17 +1065,10 @@ static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGr
 
 
 
-// Returns true if undo was successful, false if there is nothing to undo
-// Can add more than link and add (linking buildings and adding to grid)
-// if there are more actions the player can undo; this is assuming other actions
-// are taken by the game rather than the player themselves.
 
-// The previousBuildings array will store the building's info before
-// it was changed, followed by the index of the building, and then lastly the
-// type of change. It is set up to have as many undos as we would like, by changing
-// the number of previousBuildingsLimit, keeping in mind that there are 6 elements
-// added for linking buildings, and 3 added for adding a building.
-
+// Function called if the player presses undo action OR if the player
+// Makes a link that would deactivate the outputting building.
+// Returns true if undo was successful, false if there is nothing to undo.
 function undo(): boolean
 {
 	if(intelSystem.currentTurn != 0)
@@ -1644,54 +1368,7 @@ static public function AddToAddList(coordinate: Vector3)
 	//Database.Save("BuildingSite");
 }
 
-// Cleans up the array used to keep track of previous states
-// by removing the least recent change
-static function cleanUpPreviousBuildings()
-{
-	if(limitedUndos)
-	{
-		
-		if( numberOfUndos > undoLimit )
-		{
-			var typeOfUndo = previousBuildings.Shift();	// #1
-		
-			if(typeOfUndo == "EndOfAdd")
-			{
-				previousBuildings.Shift();	//#2, the index of the building
-				previousBuildings.Shift();	//#3, the "Add"
-				
-				numberOfUndos--;
-			}
-			else if(typeOfUndo == "EndOfLink")
-			{
-				previousBuildings.Shift();	//#2, the Input building 
-				previousBuildings.Shift();	//#3, the Input index
-				previousBuildings.Shift();	//#4, the Output building
-				previousBuildings.Shift();	//#5, the Output index
-				previousBuildings.Shift();	//#6, the "Link"
-				
-				numberOfUndos--;
-			}
-					
-		}
-	}
-}// end of cleanUpPreviousBuildings()
 
-
-
-// This function adds up the pollution output for all buildings on
-// the grid and returns that value.
-static public function totalPollution(): int
-{
-	var pollution : int = 0;
-
-	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
-	{
-		pollution += buildingsOnGrid[i].pollutionOutput;//placedBuilding.pollutionOutput;
-	}
-	return pollution;
-
-}// end of totalPollution
 
 
 
@@ -1884,3 +1561,364 @@ public function WriteLevel()
 	//level_s.Save(Application.persistentDataPath + "/LevelData.xml");
 	//Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
 }
+
+//*********************************************************************************************************************
+//Classes**************************************************************************************************************
+
+
+/* 	BuildingOnGridData Class
+
+	This is the class that is in the BuildingData script, attached to all buildings.
+  	Level Designers are editing this data when they edit the BuildingData component.
+*/
+class BuildingOnGridData
+{
+	var buildingName = "nameOfBuilding";
+	
+	var unallocatedInputs : ResourceType[];
+	var unallocatedOutputs : ResourceType[];
+	
+	var optionalOutput : ResourceType;
+	
+	var isActive : boolean = false;
+	
+	var coordinate : Vector3 = new Vector3(0,0,0);
+	var tileType = "tileType";
+	var buildingPointer: GameObject;
+	
+	var heldUpgrade : UpgradeID;
+	var heldUpgradeTooltip : Tooltip;
+	
+	var requisitionCost : int;
+	var pollutionOutput : int;
+	var unit : UnitType = UnitType.None;
+	var idea : String = "";
+	var hasEvent : boolean = false;
+	
+	var tooltip : Tooltip[];
+	
+	var hasTooltipTrigger : boolean = false;
+	var isPriorityTooltip : boolean = false;
+}// end of BuildingOnGridData
+
+/*
+BuildingOnGrid Class
+
+This class contains the information about buildings
+that the database actually handles, and contains
+more information needed during the game.
+
+Might be wise to eventually merge this with BuildingOnGridData
+and keep what the designers shouldn't edit private and create get/set methods
+
+*/
+
+
+class BuildingOnGrid
+{
+
+	var buildingName = "nameOfBuilding";
+
+	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
+	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedInputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
+	
+	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
+	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedOutputIcons : List.<ResourceIcon> = new List.<ResourceIcon>();
+	
+	var optionalOutput : ResourceType = ResourceType.None;
+	var optionalOutputAllocated : boolean = false;
+	var optionalOutputFixed : boolean = false;
+	var optionalOutputIcon : ResourceIcon;
+	
+	var isActive = false;
+	
+	var coordinate : Vector3 = new Vector3(0,0,0);
+	var tileType = "tileType";
+	var buildingPointer: GameObject;
+	
+	// will contain an array of the buildings it is connected to, by index of the building in the array
+	var inputLinkedTo : List.<int> = new List.<int>();
+	var deactivatedInputs : List.<int> = new List.<int>();
+	var outputLinkedTo : List.<int> = new List.<int>();
+	var optionalOutputLinkedTo : int = -1;
+	
+	var requisitionCost : int;
+	
+	var pollutionOutput : int;
+	var linkCount : int = 0; // How many links are currently on the building
+	
+	var unit : UnitType = UnitType.None;
+	var units : List.<Unit> = new List.<Unit>();
+	var selectedUnitIndex : int = 0;
+	var unitSelected : boolean = false;
+	
+	var idea : String = "";		// "Upgrade available if a Researcher is placed on this building" (will search through a list of upgrades to identify what this means)
+	
+	var hasEvent : boolean = false;	// (will search through a list of upgrades to identify what this means)
+	
+	// Unit pathing variables
+	var pathParent : BuildingOnGrid = null;
+	var pathParentDist : float = -1;
+	
+	var heldUpgradeID : UpgradeID;
+	var heldUpgradeTooltip : Tooltip;
+	/*var heldUpgradeTooltipText : String;
+	var heldUpgradeTooltipPic : Texture2D;*/
+	//var neededUpgrade : UpgradeType = UpgradeType.None;
+	
+	var highlighter : GameObject;
+	
+	var tooltip : Tooltip[];
+	var hasTooltipTrigger : boolean = false;
+	/*var tooltipText : String;
+	var tooltipPic : Texture2D;*/
+}
+
+// This class contains information stored about a particular turn
+// that involves linking.
+class LinkTurnNode
+{
+	var b1: GameObject;
+	var b2: GameObject;
+	var b3: GameObject;
+	var b1Coord: Vector3 = new Vector3(0,0,0);
+	var b2Coord: Vector3 = new Vector3(0,0,0);
+	var b3Coord: Vector3 = new Vector3(0,0,0);
+	var turnCreated: int;
+	var type: ResourceType;
+	var OverloadChainBreak : boolean = false; // True only if this turn was both a Chain Break and Overload
+	var usedOptionalOutput : boolean = false; // True only if this turn used an optional output	
+}
+
+// This class contains information about a particular turn
+// that involves addin a building to the grid via a building site.
+class AddTurnNode
+{
+	var buildingSite: BuildingOnGrid;
+	var worldCoordinates: Vector3;
+}
+
+//*********************************************************************************************************************
+// Enums **************************************************************************************************************
+
+// Types of resources
+enum ResourceType
+{
+	None,
+	Coal,
+	Fund,
+	Gas,
+	Petrol,
+	Power,
+	Waste,
+	Ethanol,
+	Uranium,
+	Knowledge,
+	Workforce,
+	Commerce
+}
+
+// Types of undos that exist
+enum UndoType
+{
+	Link = 0,
+	Add = 1,
+	Wait = 2,
+	Chain = 3,
+	Overload = 4,
+	ChainOverload = 5
+}
+
+// From Design Document, 3.3 Units
+// Commented Regulator and EnergyAgent for now,
+// since not in use
+enum UnitType
+{
+	None = 0,
+	Worker = 1,
+	Researcher = 2,
+	//Regulator = 3,
+	//EnergyAgent = 4
+}
+
+//*********************************************************************************************************************
+// Obsolete Functions**************************************************************************************************
+
+
+/*
+	// Keeps track of the moves and indexes of placed buildings so they can be removed:
+static private var previousBuildings = new Array();
+		//For use if we want to limit the number of undos:
+			// Current number of times undos the user is capable of (how many changes to grid have been made)
+static private var numberOfUndos = 0;
+			// This will allow for a limited number of undos
+static public var undoLimit = 3;
+			// Whether or not the player is allowed an unlimited number of undos
+static public var limitedUndos = false;
+	//*************************************************************************************************
+
+
+// Cleans up the array used to keep track of previous states
+// by removing the least recent change
+static function cleanUpPreviousBuildings()
+{
+	if(limitedUndos)
+	{
+		
+		if( numberOfUndos > undoLimit )
+		{
+			var typeOfUndo = previousBuildings.Shift();	// #1
+		
+			if(typeOfUndo == "EndOfAdd")
+			{
+				previousBuildings.Shift();	//#2, the index of the building
+				previousBuildings.Shift();	//#3, the "Add"
+				
+				numberOfUndos--;
+			}
+			else if(typeOfUndo == "EndOfLink")
+			{
+				previousBuildings.Shift();	//#2, the Input building 
+				previousBuildings.Shift();	//#3, the Input index
+				previousBuildings.Shift();	//#4, the Output building
+				previousBuildings.Shift();	//#5, the Output index
+				previousBuildings.Shift();	//#6, the "Link"
+				
+				numberOfUndos--;
+			}
+					
+		}
+	}
+}// end of cleanUpPreviousBuildings()
+
+
+
+// This function adds up the pollution output for all buildings on
+// the grid and returns that value.
+static public function totalPollution(): int
+{
+	var pollution : int = 0;
+
+	for (var i : int = 0; i < buildingsOnGrid.Count; i++)//var placedBuilding : BuildingOnGrid in buildingsOnGrid)
+	{
+		pollution += buildingsOnGrid[i].pollutionOutput;//placedBuilding.pollutionOutput;
+	}
+	return pollution;
+
+}// end of totalPollution
+
+
+
+/*
+The addingBuildingToGrid function adds a building to the
+buildingsOnGrid array, representing it has been placed on
+the grid, based on a given building type name, coordinate,
+and the tile type.
+
+*/
+/*
+static public function addBuildingToGrid(buildingType:String, coordinate:Vector3, tileType:String, building:GameObject, isPreplaced: boolean, idea:String, hasEvent:boolean) : boolean
+{
+	var temp = new BuildingOnGrid();
+	/*
+	if(ModeController.getCurrentMode() == GameState.LINK)
+	{
+		ModeController.selectedBuilding = null;
+	    return;
+	}
+	*/
+/*
+	Debug.Log("adding buidling to grid");
+	var defaultBuilding : Building;
+	for (var i : int = 0; i < buildings.length; i++)//var defaultBuilding : Building in buildings)
+	{
+		defaultBuilding = buildings[i] as Building;
+		if(buildingType.ToUpper() == defaultBuilding.buildingName.ToUpper() )
+		{
+		
+			temp.buildingName = buildingType;
+			
+			temp.unallocatedInputs.AddRange(defaultBuilding.unallocatedInputs);
+			temp.unallocatedOutputs.AddRange(defaultBuilding.unallocatedOutputs);
+			
+			temp.optionalOutput = defaultBuilding.optionalOutput;
+			
+			temp.requisitionCost = defaultBuilding.requisitionCost;
+			
+			temp.pollutionOutput = defaultBuilding.pollutionOutput;
+			
+			break;
+		}
+    }
+    temp.buildingPointer = building;
+    temp.coordinate = coordinate;
+    temp.tileType = tileType;
+    temp.idea = idea;				// will be blank for buildings placed in game?
+    temp.hasEvent = hasEvent;				// will be blank for buildings placed in game?
+    temp.highlighter = grid.CreateHighlightHexagon(temp.coordinate);
+    	
+   if( !isPreplaced )
+   {
+	    //buildingsOnGrid.push(temp);
+	    buildingsOnGrid.Add(temp);
+	    	        
+	    //Obsolete Undo Code:
+		//previousBuildings.Add("EndOfAdd");
+		//previousBuildings.Add(buildingsOnGrid.Count - 1); 	// index of new building
+		//previousBuildings.Add("Add");
+		//numberOfUndos++;
+		//cleanUpPreviousBuildings();
+		//intelSystem.addTurn();		// NEW: for the Intel System
+		
+		ModeController.setSelectedBuilding(temp.buildingPointer);
+		GameObject.Find("ModeController").GetComponent(ModeController).switchTo(GameState.LINK);
+		Debug.Log("Setting to link");
+		BroadcastBuildingUpdate();
+		
+		//************
+		return true;
+	}
+	else
+	{
+	
+		buildingsOnGrid.Add(temp);//push(temp);	   	
+		return true;
+	
+	}
+	 
+}// end of addBuildingToGrid
+
+
+/*
+Building Class
+
+This is the original class for buildings, it might be obsolete now.
+
+*/
+
+/*
+class Building
+{
+	var buildingName = "nameOfBuilding";
+
+	var unallocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedInputs : List.<ResourceType> = new List.<ResourceType>();
+	var unallocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	var allocatedOutputs : List.<ResourceType> = new List.<ResourceType>();
+	
+	var optionalOutput : ResourceType = ResourceType.None;
+	var optionalOutputAllocated : boolean = false;
+	
+	var requisitionCost : int;
+	
+	var pollutionOutput : int;
+}
+
+
+
+
+*/

@@ -35,6 +35,7 @@ public var buildingSitePrefabsFolder : String;	// the level designer specifies t
 function Awake()
 {
 	// Loading the prefabs from the Resources folder
+	/*
 	var defaultBuildingScript : DefaultBuildings = GameObject.Find("Database").GetComponent(DefaultBuildings);
 	var defaultBuildingList : DefaultBuildingData[] = defaultBuildingScript.defaultBuildings;
 	var size: int = defaultBuildingList.Length;	
@@ -50,6 +51,7 @@ function Awake()
 	
 	gridObject = GameObject.Find("HexagonGrid");
 	grid = gridObject.GetComponent(HexagonGrid);
+	*/
 }
 
 static function Place(position: Vector3, isPreplaced: boolean){
@@ -72,7 +74,7 @@ static function Place(position: Vector3, isPreplaced: boolean){
 				build.tag = "Building";
 				build.gameObject.AddComponent("MeshRenderer");		
 				cannotPlace = false;
-				Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
+				//Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
 			}
 			else
 			{
@@ -86,12 +88,12 @@ static function Place(position: Vector3, isPreplaced: boolean){
 			build.tag = "Building";
 			build.gameObject.AddComponent("MeshRenderer");
 			
-			Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
+			//Database.addBuildingToGrid(buildingPrefabs[changeBuilding].name, new Vector3(Mathf.Abs(coordinate.x), Mathf.Abs(coordinate.y), 0), "Tile Type", build.gameObject, isPreplaced, "", false);
 		}
 
 	}
 }
-
+/*
 function OnGUI()
 {
 	if (cannotPlace)
@@ -101,7 +103,7 @@ function OnGUI()
 		GUI.Label(Rect(Screen.width/2 - 85, Screen.height - 100, Screen.width/2 + 50, 60), "You cannot place that building there!");
 	}
 }
-
+*/
 static function locationIsBuildable( coordinate : Vector3 ) : boolean {
 	Debug.Log("Coordinates: " + coordinate);
 	var thisTile : Tile;
