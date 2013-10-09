@@ -83,7 +83,7 @@ static function HandleTapAtPoint(position: Vector2){
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
 	unitSelected = false;
 	if (buildingIndex != -1){
-		Debug.Log("Tap on building");
+		//Debug.Log("Tap on building");
 		var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
@@ -159,7 +159,7 @@ private static function CheckObjSelected (position : Vector2) : boolean
 	if (Physics.Raycast(ray, hit, 1000))
 	{
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
-		Debug.Log("collided" + hit.collider.name);
+		//Debug.Log("collided" + hit.collider.name);
 		return true;
 	}
 	return false;

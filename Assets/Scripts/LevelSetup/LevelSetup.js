@@ -45,6 +45,6 @@ function ConvertRatio(setRatio : Ratio)
 
 public static function getNextLevel() : String{
 	var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent("NextLevelScript");
-	Debug.Log("next level = " + nextLevel.nextLevel);
+	//Debug.Log("next level = " + nextLevel.nextLevel);
 	return (nextLevel.nextLevel);
 }

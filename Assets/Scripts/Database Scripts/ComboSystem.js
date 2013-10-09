@@ -19,16 +19,16 @@ public class ComboSystem
 	
 	public function incrementComboCount()
 	{
-		Debug.Log("Combo Incremented. Combo = " + comboCount);
+		//Debug.Log("Combo Incremented. Combo = " + comboCount);
 		comboCount++;
 		comboScore += comboScoreBasePoints;
 	}
 	
 	public function resetComboCount()
 	{
-		Debug.Log("Combo About To Reset. Combo = " + comboCount);
+		//Debug.Log("Combo About To Reset. Combo = " + comboCount);
 		comboCount = 0;
-		Debug.Log("Combo Reset. Combo = " + comboCount);		
+		//Debug.Log("Combo Reset. Combo = " + comboCount);		
 	}
 	
 	public function getComboScore() : int

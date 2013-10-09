@@ -1,6 +1,6 @@
 /*
 Database.js
-By Katharine Uvick
+Originally by Katharine Uvick
 
 This script will be used to store data of the different specific buildings
 involved in the game, as well as the buildings currently placed on the grid.
@@ -61,7 +61,7 @@ static var gridObject:GameObject;
 static var grid:HexagonGrid;
 
 
-static var defaultBuildingScript : DefaultBuildings;
+//static var defaultBuildingScript : DefaultBuildings;
 
 static var intelSystem : IntelSystem;
 
@@ -127,7 +127,7 @@ function Start()
 	//buildings = new Array();
 	//buildingsOnGrid = new Array();
 	buildingsOnGrid = new List.<BuildingOnGrid>();
-	defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
+	//defaultBuildingScript = gameObject.GetComponent(DefaultBuildings);
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
 	
@@ -137,7 +137,9 @@ function Start()
 	{
 		tempBuilding = new BuildingOnGrid();
 		tempBuildingData = buildingObject.GetComponent(BuildingData);
-		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+		
 		// create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 		//buildingsOnGrid.Push(tempBuilding);
@@ -192,7 +194,8 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
@@ -232,7 +235,8 @@ static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord :
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
@@ -981,7 +985,7 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	//if(building.unallocatedInputs.Count > 0 )
 	{
 		canActivate = false;
-		Debug.Log(buildingIndex + " failed activate of " + building.buildingName + " " + building.unallocatedInputs.Count + " " + building.deactivatedInputs.Count);
+		//Debug.Log(buildingIndex + " failed activate of " + building.buildingName + " " + building.unallocatedInputs.Count + " " + building.deactivatedInputs.Count);
 	}
     
     building.isActive = canActivate;
@@ -1747,6 +1751,9 @@ static public function deleteBuildingSite( coordinate : Vector3 )
 	}
 }// end of deleteBuildingSite()
 
+
+
+//This function is used to add a building to the grid, replacing a building site
 static public function ReplaceBuildingSite (buildingObject: GameObject, coord : Vector3)
 {
 	var buildingSiteID : int = findBuildingIndex( coord );	// find location in array of buildings
@@ -1758,11 +1765,12 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 	    return;
 	}
 	*/
-	Debug.Log("adding " + buildingObject.name + " to grid at " + coord + " id " + buildingSiteID);
+	//Debug.Log("adding " + buildingObject.name + " to grid at " + coord + " id " + buildingSiteID);
 
 	var tempBuilding : BuildingOnGrid = new BuildingOnGrid();
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
-	tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
@@ -1874,42 +1882,5 @@ public function WriteLevel()
 	}
 	
 	//level_s.Save(Application.persistentDataPath + "/LevelData.xml");
-	Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
-}
-
-
-
-
-
-
-
-
-
-
-
-private function printOutIntLists(list:List.<int>)
-{
-	//var toPrint:String = "";
-	for(var i:int = 0; i < list.Count; i++)
-	{
-		//toPrint += "Item #" + i + ": " + list[i] + " is the index and " + getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n";
-		Debug.Log("Item #" + i + ": " + list[i] + " is the index");
-		//Debug.Log(getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n");
-	}
-	Debug.Log("END");
-	//Debug.Log(toPrint);
-}
-
-private function printOutIntLists(list:List.<int>, bool:boolean)
-{
-	//var toPrint:String = "";
-	for(var i:int = 0; i < list.Count; i++)
-	{
-		//toPrint += "Item #" + i + ": " + list[i] + " is the index and " + getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n";
-		Debug.Log("Item #" + i + ": " + list[i] + " is the index");
-		if(bool)
-			Debug.Log(getBuildingOnGridAtIndex(list[i]).buildingName + " is the building.\n\n");
-	}
-	Debug.Log("END");
-	//Debug.Log(toPrint);
+	//Debug.Log("Writing Level To: " + Application.persistentDataPath + "/LevelData.xml");
 }

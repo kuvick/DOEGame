@@ -207,8 +207,8 @@ public class ScoreMenu extends GUIControl{
 		expFill = expWithinRank / currentMinExpGoal;
 		expEarnedFill = (expWithinRank + expEarned) / currentMinExpGoal;
 		barDisplay = expFill;	// starts off at exp length
-		Debug.Log("EXP FILL" + expFill);
-		Debug.Log("EXP EARNED FILL" + expEarnedFill);
+		//Debug.Log("EXP FILL" + expFill);
+		//Debug.Log("EXP EARNED FILL" + expEarnedFill);
 		goalWidth = expEarnedFill * expBarRect.width;
 		
 		levelSelectRef = gameObject.GetComponent(LevelSelectMenu);
@@ -316,15 +316,15 @@ public class ScoreMenu extends GUIControl{
 		missionScore = tempScore.ToString();
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
-		Debug.Log("Total Score: " + tempScore);
+		//Debug.Log("Total Score: " + tempScore);
 		var totScore : int = tempScore + AddComboPoints();
-		Debug.Log("Total Score with Combo: " + totScore);
+		//Debug.Log("Total Score with Combo: " + totScore);
 		
 		totalScore = totScore.ToString() + ConvertComboToString();
 		
 		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, totScore);
 		saveSystem.currentPlayer.exp += expEarned;
-		Debug.Log("EXP EARNED: " + expEarned);
+		//Debug.Log("EXP EARNED: " + expEarned);
 		
 		var previousRank : int = -1;
 		var timesRankIncreased : int = -1;
@@ -334,7 +334,7 @@ public class ScoreMenu extends GUIControl{
 			saveSystem.currentPlayer = saveSystem.rankSystem.updateRank(saveSystem.currentPlayer);
 			timesRankIncreased++;
 		}
-		Debug.Log("Rank increased " + timesRankIncreased + " times.");
+		//Debug.Log("Rank increased " + timesRankIncreased + " times.");
 		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 		
@@ -348,7 +348,7 @@ public class ScoreMenu extends GUIControl{
 	
 	function ConvertComboToString() : String
 	{
-		return " (Combo: " + AddComboPoints() + ")";
+		//return " (Combo: " + AddComboPoints() + ")";
 	}
 	
 	// class for the honors/bonus icons
@@ -405,9 +405,9 @@ function Update()
 			counter = 0;
 			barDisplay = 0;
 			expWithinRank = 0;
-			Debug.Log("******earned exp bar" + expEarned);
-			Debug.Log("******current min exp goal" + currentMinExpGoal);
-			Debug.Log("******exp earn fill" + expEarnedFill);
+			//Debug.Log("******earned exp bar" + expEarned);
+			//Debug.Log("******current min exp goal" + currentMinExpGoal);
+			//Debug.Log("******exp earn fill" + expEarnedFill);
 		}
 		
 	

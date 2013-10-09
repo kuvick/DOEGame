@@ -124,11 +124,11 @@ public class RankSystem
 	 		{
 	 			player.rank += 1;
 	 			player.rankName = Ranks[player.rank].Name;
-	 			Debug.Log("The player was promoted!");
+	 			//Debug.Log("The player was promoted!");
 	 		}
 	 		else
 	 		{
-	 			Debug.Log("The player was not promoted");
+	 			//Debug.Log("The player was not promoted");
 	 		}
 	 	}
 	 	// For players past the level cap:
@@ -139,11 +139,11 @@ public class RankSystem
 	 		{
 	 			player.rank += 1;
 	 			player.rankName = generatePostCapRank(player.rank);
-	 			Debug.Log("The player was promoted!");
+	 			//Debug.Log("The player was promoted!");
 	 		}
 	 		else
 	 		{
-	 			Debug.Log("The player was not promoted");
+	 			//Debug.Log("The player was not promoted");
 	 		}
 	 	}
 	 	

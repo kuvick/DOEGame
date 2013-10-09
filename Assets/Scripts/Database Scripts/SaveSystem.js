@@ -165,13 +165,13 @@ public class ProfileSystem
 		var stream : Stream = new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this);
 	 	stream.Close();
-	 	Debug.Log("Saved: " + path);
+	 	//Debug.Log("Saved: " + path);
  	}
  	
  	public function Load(): ProfileSystem
  	{
  		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
- 		Debug.Log("Loaded: " + path);
+ 		//Debug.Log("Loaded: " + path);
  		
  	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
  	 	if (!File.Exists(path)){

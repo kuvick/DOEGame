@@ -1,5 +1,4 @@
 #pragma strict
-
 public class InspectionComponent extends MonoBehaviour
 {
 	public var dispText : String = String.Empty;
@@ -27,7 +26,8 @@ public class InspectionComponent extends MonoBehaviour
 			Debug.LogWarning("display not found");
 		tooltip = disp;
 		SetSelected(false);//currentTexture = normalTexture;
-		skin = GUISkin();
+		//skin = GUISkin();
+		skin = ScriptableObject.CreateInstance(GUISkin);
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
 		textSize = Screen.width * textSizeScale;
 		skin.button.fontSize = textSize;
@@ -46,7 +46,8 @@ public class InspectionComponent extends MonoBehaviour
 		dispPic = pic;
 		//selectedTexture = Resources.Load("hex_click") as Texture2D;
 		SetSelected(false);//currentTexture = normalTexture;
-		skin = GUISkin();
+		//skin = GUISkin();
+		skin = ScriptableObject.CreateInstance(GUISkin);
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
 		textSize = Screen.width * textSizeScale;
 		skin.button.fontSize = textSize;

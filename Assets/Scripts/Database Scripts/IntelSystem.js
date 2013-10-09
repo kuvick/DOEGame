@@ -97,7 +97,7 @@ function Start ()
 	contactsUnlockedThisLevel = new List.<String>();
 	
 	if (playerData == null){
-		Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
+		//Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
 		playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
 		if (playerData == null){
 			Debug.LogError("Could not find SaveSystem");
@@ -112,7 +112,7 @@ function Start ()
 	
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;
-	var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
+	//var defaultBuildingScript : DefaultBuildings = gameObject.GetComponent(DefaultBuildings);
 	var tempEventClass : EventScript = new EventScript();
 	
 	var buildings : GameObject[] = GameObject.FindGameObjectsWithTag("Building");
@@ -121,7 +121,9 @@ function Start ()
 		var buildingObject : GameObject = buildings[i];
 		tempBuilding = new BuildingOnGrid();
 		tempBuildingData = buildingObject.GetComponent(BuildingData);
-		tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
+		tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+		
 		if (tempBuilding.hasEvent)
 		{		
 			//tempEventClass = new EventScript();
@@ -284,7 +286,7 @@ public function incrementScore(modifyPrimaryScore: boolean, scoreModifier :int)
 		optionalScore += scoreModifier;
 	}
 	updateScore = true;
-	Debug.Log("Score Incremented: " + primaryScore);
+	//Debug.Log("Score Incremented: " + primaryScore);
 }
 
 public function decrementScore(modifyPrimaryScore : boolean, scoreModifier: int)
@@ -297,7 +299,7 @@ public function decrementScore(modifyPrimaryScore : boolean, scoreModifier: int)
 	{
 		optionalScore -= scoreModifier;
 	}
-	Debug.Log("Score Decremented: " + primaryScore);
+	//Debug.Log("Score Decremented: " + primaryScore);
 }
 
 // Resolves the event, removes it from the list

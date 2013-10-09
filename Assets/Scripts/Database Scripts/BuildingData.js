@@ -52,7 +52,6 @@ class BuildingOnGridData
 @script ExecuteInEditMode()
 
 	public var buildingData : BuildingOnGridData;
-	private var defaultBuildingsScript : DefaultBuildings;
 	private var thisBuilding : GameObject;
 	public var loadDefaultData : boolean = false;	// be sure to set false before the game starts, else it might replace the changed data
 	
@@ -97,3 +96,46 @@ private function CenterBuilding()
 	worldCoord += centerOffset;
 	gameObject.transform.position = worldCoord;
 }
+
+//Moved from DefaultBuilding.js, converts this BuildingOnGridData into a BuildinOnGrid class.
+public function convertBuildingOnGridDataIntoBuildingOnGrid(): BuildingOnGrid
+{
+	var buildingOnGrid : BuildingOnGrid = new BuildingOnGrid();
+	
+	buildingOnGrid.buildingName = buildingData.buildingName;
+	
+	for (var i : int = 0; i < buildingData.unallocatedInputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedInputs)
+	{
+		buildingOnGrid.unallocatedInputs.Add(buildingData.unallocatedInputs[i]);//tempVar);
+	}
+	
+	for (i = 0; i < buildingData.unallocatedOutputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedOutputs)
+	{
+		buildingOnGrid.unallocatedOutputs.Add(buildingData.unallocatedOutputs[i]);//tempVar);
+	}
+	
+	buildingOnGrid.optionalOutput = buildingData.optionalOutput;
+	
+	buildingOnGrid.requisitionCost = buildingData.requisitionCost;
+	buildingOnGrid.pollutionOutput = buildingData.pollutionOutput;
+	buildingOnGrid.isActive = buildingData.isActive;
+	buildingOnGrid.coordinate = buildingData.coordinate;
+	buildingOnGrid.tileType = buildingData.tileType;
+	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
+	buildingOnGrid.heldUpgradeID = buildingData.heldUpgrade;
+	buildingOnGrid.heldUpgradeTooltip = buildingData.heldUpgradeTooltip;
+	/*buildingOnGrid.heldUpgradeTooltipText = buildingData.heldUpgradeTooltipText;
+	buildingOnGrid.heldUpgradeTooltipPic = buildingData.heldUpgradeTooltipPic;*/
+	//buildingOnGrid.neededUpgrade = buildingData.neededUpgrade;
+	buildingOnGrid.unit = buildingData.unit;
+	buildingOnGrid.idea = buildingData.idea;
+	buildingOnGrid.hasEvent = buildingData.hasEvent;
+	
+	buildingOnGrid.tooltip = buildingData.tooltip;
+	buildingOnGrid.hasTooltipTrigger = buildingData.hasTooltipTrigger;
+	//buildingOnGrid.isPriorityTooltip = buildingData.isPriorityTooltip;
+	/*buildingOnGrid.tooltipText = buildingData.tooltipText;
+	buildingOnGrid.tooltipPic = buildingData.tooltipPic;*/
+	
+	return buildingOnGrid;
+}// end of convertBuildingOnGridDataIntoBuildingOnGrid
