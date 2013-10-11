@@ -93,7 +93,7 @@ static function HandleTapAtPoint(position: Vector2){
 		// if tapping the same building again, select appropriate unit
 		if (ModeController.getSelectedBuilding() == ModeController.getPreviousBuilding())
 		{
-			if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
+			if (unitBuilding.units.Count > 0 && unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
 			{
 				if (unitBuilding.selectedUnitIndex >= 0)
 					unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();

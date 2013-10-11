@@ -55,9 +55,6 @@ public class MainMenu extends GUIControl
 	
 	//Data Pieces System
 	public var dataIconBG:Texture;
-	public var dataIcon01:Texture;
-	public var dataIcon02:Texture;
-	public var dataIcon03:Texture;
 	private var dataIconHeightPercent:float = 0.14;
 	private var dataIconHeight:float;
 	private var dataIcons:List.<Texture> = new List.<Texture>();
@@ -82,10 +79,10 @@ public class MainMenu extends GUIControl
 	private var mostRecentTurnScore : int = 0;
 	
 	//For displaying Objective Icons:
-	private var objIconSizePercentage : float = 0.16f;
+	private var objIconSizePercentage : float = 0.12f;
 	private var objIconSize : Vector2;
 	private var objIconGroupRect : Rect;
-	private var dataIconSizePercentage : float = 0.05f;
+	private var dataIconSizePercentage : float = 0.04f;
 	private var dataIconSize : Vector2;
 	
 	private var cameraControl : CameraControl;
@@ -98,10 +95,23 @@ public class MainMenu extends GUIControl
 	
 	public var showTurns: boolean = false;
 	
+	public var objIconsBGCenter:Texture;
+	public var objIconsBGLeft:Texture;
+	public var objIconsBGRight:Texture;
+	public var objIconsBGOne:Texture;
+	public var scoreAndComboBG:Texture;
+	private var objIconBGRect:Rect;
+	private var objBGRect:Rect;
+	private var addedObjIconBGRect:boolean;
+	
+	private var scoreAndComboBGRect : Rect;
+	private var scoreAndComboBGPercent :float= 0.15;
+	
 	public function Start () 
 	{
 		super.Start();
 		addedObjRect = false;
+		addedObjIconBGRect = false;
 		
 		mainCameraObject = GameObject.Find("Main Camera");
 		cameraControl = mainCameraObject.GetComponent(CameraControl);
@@ -175,6 +185,8 @@ public class MainMenu extends GUIControl
 		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
 		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
 		
+		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0,scoreAndComboBGPercent,false);
+		
 		
 		var victoryHeight = missionCompleteSizePercentage * screenHeight;
 		var victoryW: float = missionCompleteTexture.width;
@@ -234,18 +246,20 @@ public class MainMenu extends GUIControl
 		
 		
 		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
-		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
-		//objIconGroupRect = Rect(0,0,1000,1000);
+		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);		
+		objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
 		
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 	}
 	
-	public function Render(){   
+	public function Render(){ 
 		if (!enableHUD) return; 
 		if(intelSystem.victory) 
 			DrawVictorySplash();
 		
 		GUI.skin = mainMenuSkin;
+		
+		GUI.DrawTexture(scoreAndComboBGRect, scoreAndComboBG);
 		
 		if(intelSystem == null){
 			LoadReferences();
@@ -312,6 +326,82 @@ public class MainMenu extends GUIControl
 		GUI.skin.label.normal.textColor = Color.white;
 		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
+		objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding * 2 + dataIconSize.x);
+		
+		// This resizes the size of the objective icons if they overlap the score and combo background
+		// Should only be called once unless there is a ridiculous number of objectives
+		// Typically it's around 6 or 7 that this should be called?
+		if(scoreAndComboBGRect.width > objIconGroupRect.x)
+		{
+			//Debug.Log("Resizing obj. icon rect");
+			objIconSizePercentage -= 0.02;
+			dataIconSizePercentage -= 0.01;
+			
+			var objHeight : float = objIconSizePercentage * screenHeight;
+			var objW: float = intelSystem.primaryIcons[0].width;
+			var objH: float = intelSystem.primaryIcons[0].height;
+			var objRatio : float = objW / objH;
+			var objWidth : float = objHeight * objRatio;
+			
+			objIconSize = Vector2(objWidth, objHeight);
+			
+			var dataHeight : float = dataIconSizePercentage * screenHeight;
+			var dataW: float = upgradeManager.iconTexture.width;
+			var dataH: float = upgradeManager.iconTexture.height;
+			var dataRatio : float = dataW / dataH;
+			var dataWidth : float = dataHeight * dataRatio;
+			
+			dataIconSize = Vector2(dataWidth, dataHeight);
+			objRectWidth = (objIconSize.x + padding) * intelSystem.events.Count;
+			objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
+			objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding * 2 + dataIconSize.x);
+			
+		}
+		
+		
+		//DISPLAYING OBJECTIVE ICON BACKGROUND
+		GUI.BeginGroup(objBGRect);
+		
+		if(intelSystem.events.Count > 0)
+		{
+			var objIconBGRect:Rect;
+			
+			if(intelSystem.events.Count == 1)
+			{
+				 objIconBGRect = Rect(0, 0, objIconSize.x + padding*2, objBGRect.height);	
+				GUI.DrawTexture(objIconBGRect, objIconsBGOne);
+				if(!addedObjIconBGRect)
+				{
+					rectList.Add(objIconBGRect);
+				}
+			}
+			else
+			{
+				for(var r:int = 0; r < intelSystem.events.Count; r++)
+				{
+					objIconBGRect = Rect((objIconSize.x + padding) * r, 
+											0,
+											objIconSize.x + padding,
+											objBGRect.height);
+											
+					if(r == 0)					
+						GUI.DrawTexture(objIconBGRect, objIconsBGLeft);
+					else if(r == intelSystem.events.Count - 1)
+						GUI.DrawTexture(objIconBGRect, objIconsBGRight);
+					else
+						GUI.DrawTexture(objIconBGRect, objIconsBGCenter);
+						
+						
+					if(!addedObjIconBGRect)
+					{
+						rectList.Add(objIconBGRect);
+					}
+						
+				}
+			}
+		}
+		GUI.EndGroup();
+		addedObjIconBGRect = true;
 		
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
