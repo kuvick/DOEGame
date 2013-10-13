@@ -338,6 +338,8 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 				{					
 					selectedResource = b1.unallocatedInputs[j];
 					optionalOutputUsed = true;
+					if (b2.optionalOutputAllocated)
+						allocatedOutSelected = true;
 					return true;
 				} 
 			}				
@@ -352,6 +354,8 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 					selectedResource = b1.allocatedInputs[j];
 					allocatedInSelected = true;
 					optionalOutputUsed = true;
+					if (b2.optionalOutputAllocated)
+						allocatedOutSelected = true;
 					return true;
 				}
 			}

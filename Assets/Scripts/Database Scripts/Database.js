@@ -615,7 +615,11 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 {
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex]; // get the output building on grid
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex]; // get the input building on grid
-	var oldInputBuildingIndex = outputBuilding.outputLinkedTo[selectedOutIndex]; // save the old input building index
+	var oldInputBuildingIndex : int;
+	if (usedOptionalOutput)
+		oldInputBuildingIndex = outputBuilding.optionalOutputLinkedTo;
+	else
+		oldInputBuildingIndex = outputBuilding.outputLinkedTo[selectedOutIndex]; // save the old input building index
 	var oldInputBuilding : BuildingOnGrid = buildingsOnGrid[oldInputBuildingIndex]; // get the old input building on grid
 	var hasResource = false;
 	var inputList : List.<ResourceType>;
@@ -634,9 +638,10 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	// check whether resource is valid
 	if (usedOptionalOutput)
 	{
-		if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
+		if (outputBuilding.optionalOutput == resourceName //&& !outputBuilding.optionalOutputAllocated
 			&& inputList.Contains(resourceName))
 			hasResource = true;
+			Debug.Log("used optional");
 	}
 	else
 	{
@@ -671,7 +676,10 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	    oldInputBuilding.unallocatedInputs.Add(resourceName);
 	    oldInputBuilding.allocatedInputs.RemoveAt(oldInIndex);
 	    oldInputBuilding.inputLinkedTo.RemoveAt(oldInIndex);
-	    DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex], -1);
+	    if (usedOptionalOutput)
+	    	DeactivateChain(outputBuilding.optionalOutputLinkedTo, -1);
+	    else
+	    	DeactivateChain(outputBuilding.outputLinkedTo[selectedOutIndex], -1);
 	    
 	    tempIcon = oldInputBuilding.allocatedInputIcons[oldInIndex];
 	    oldInputBuilding.allocatedInputIcons.Remove(tempIcon);
@@ -680,10 +688,17 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	    tempIcon.SetIndex(oldInputBuilding.unallocatedInputIcons.Count - 1);
 	    
 		//outputBuilding.outputLinkedTo[selectedOutIndex] = inputBuildingIndex; // swap in the new input building index for the output's links
-		outputBuilding.allocatedOutputs.RemoveAt(selectedOutIndex);
-		outputBuilding.allocatedOutputs.Add(resourceName);
-		outputBuilding.outputLinkedTo.RemoveAt(selectedOutIndex);
-		outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
+		if (usedOptionalOutput)
+		{
+			outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
+		}
+		else
+		{
+			outputBuilding.allocatedOutputs.RemoveAt(selectedOutIndex);
+			outputBuilding.allocatedOutputs.Add(resourceName);
+			outputBuilding.outputLinkedTo.RemoveAt(selectedOutIndex);
+			outputBuilding.outputLinkedTo.Add(inputBuildingIndex);
+		}
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
@@ -1219,7 +1234,7 @@ function UndoLink(typeOfUndo : int)
 				UndoStack.RemoveAt(UndoStack.Count - 2);
 			}		
 			break;
-		case 2:
+		case 2: // overload
 			AddLink(b1Building, b3Building, lastIndex);		
 			
 			
@@ -1227,7 +1242,7 @@ function UndoLink(typeOfUndo : int)
 			outputBuildingIndex = findBuildingIndex (b3Building);
 			if(b1Building.deactivatedInputs.Contains(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
 				b1Building.deactivatedInputs.Remove(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex));	
-			
+			//activateBuilding(outputBuildingIndex, true);
 			break;
 		default: 
 			break;
