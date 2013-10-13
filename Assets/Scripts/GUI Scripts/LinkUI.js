@@ -186,6 +186,7 @@ function removeLink(b1: GameObject, b2:GameObject)
 {
 	var b1Index: int;
 	var b2Index: int;
+	var removeLinkReference : boolean = true;
 	for(var b: int = 0; b < buildings.length; b++)
 	{
 		if(buildings[b] == b1)
@@ -194,9 +195,16 @@ function removeLink(b1: GameObject, b2:GameObject)
 			b2Index = b;
 	}
 	
-	if(linkReference[b1Index, b2Index])
+	var b1Building : BuildingOnGrid = Database.getBuildingOnGrid(b1.transform.position);
+	//var b2Building : BuildingOnGrid = Database.getBuildingOnGrid(b2Index);
+	
+	if (b1Building.inputLinkedTo.Contains (b2Index) || b1Building.outputLinkedTo.Contains(b2Index)
+		|| b1Building.optionalOutputLinkedTo == b2Index)
+		removeLinkReference = false;
+	
+	if(linkReference[b1Index, b2Index] && removeLinkReference)
 		linkReference[b1Index, b2Index] = false;
-	if(linkReference[b2Index, b1Index]) 
+	if(linkReference[b2Index, b1Index] && removeLinkReference) 
 		linkReference[b2Index, b1Index] = false;
 	
 	
@@ -338,6 +346,8 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 				{					
 					selectedResource = b1.unallocatedInputs[j];
 					optionalOutputUsed = true;
+					if (b2.optionalOutputAllocated)
+						allocatedOutSelected = true;
 					return true;
 				} 
 			}				
@@ -352,6 +362,8 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 					selectedResource = b1.allocatedInputs[j];
 					allocatedInSelected = true;
 					optionalOutputUsed = true;
+					if (b2.optionalOutputAllocated)
+						allocatedOutSelected = true;
 					return true;
 				}
 			}

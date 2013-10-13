@@ -47,6 +47,9 @@ private var contactsUnlockedThisLevel : List.<String>;
 public var comboSystem: ComboSystem;
 public var updateScore = false;
 
+// timer system
+private var timeLeft : int = 60;
+
 
 class BuildingEvent
 {
@@ -187,6 +190,23 @@ function Start ()
 	CheckTriggerToDisplay();
 	
 	comboSystem = new ComboSystem();
+	
+	StartCoroutine(DecrementTimer());
+}
+
+// game timer, 60s, player gets 50 points per second left up to 3000
+public function DecrementTimer()
+{
+	while (timeLeft > 0 && !victory)
+	{
+		timeLeft--;
+		yield WaitForSeconds(1.0);
+	}
+}
+
+public function GetTimeLeft() : int
+{
+	return timeLeft;
 }
 
 //Can use this functio to check for events

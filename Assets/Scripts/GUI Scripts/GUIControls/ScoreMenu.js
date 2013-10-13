@@ -312,7 +312,7 @@ public class ScoreMenu extends GUIControl{
 		
 		// Need to program the bonuses...
 		
-		var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore();
+		var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore() + (50 * intelSystem.GetTimeLeft());
 		missionScore = tempScore.ToString();
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
