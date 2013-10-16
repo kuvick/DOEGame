@@ -28,6 +28,7 @@ public class MainMenu extends GUIControl
 	private var turnRect:Rect;
 	private var comboRect:Rect;
 	private var zoomButton:Rect;
+	private var timeRect:Rect;
 	
 	// Main Menu Scaling
 	private var hexButtonHeightPercent:float = 0.2;		// Height of the hex button font as a percentage of screen height
@@ -182,8 +183,9 @@ public class MainMenu extends GUIControl
 		waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
 		
 		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
-		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + scoreFontHeight, 0, 0);
-		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2 * scoreFontHeight), 0, 0);
+		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + (1.3 * scoreFontHeight), 0, 0);
+		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (4 * padding) + (3.9 * scoreFontHeight), 0, 0);
+		timeRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2.6 * scoreFontHeight), 0, 0);
 		
 		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0,scoreAndComboBGPercent,false);
 		
@@ -271,6 +273,8 @@ public class MainMenu extends GUIControl
 			
 			if(showTurns)
 				GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+				
+			GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
 				
 		}
 		
