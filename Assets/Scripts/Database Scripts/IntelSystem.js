@@ -532,7 +532,7 @@ public function getOptionalScore():int
 	return optionalScore;
 }
 
-// placeholder function, to be called when a win state is triggered
+// function to be called when a win state is triggered
 public function triggerWin()
 {
 	victory = true;
@@ -543,6 +543,16 @@ public function triggerWin()
 	PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
 	GUIManager.Instance().RecieveEvent(event);
 }
+
+
+//**
+// Added only for the purpose of autmoatically allowing a win
+function Update()
+{
+	if(Input.GetKeyDown(KeyCode.W))
+		victory = true;
+}
+//**
 
 // placeholder function to be called when a lose state is triggered
 public function triggerLoss()
