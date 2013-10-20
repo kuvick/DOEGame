@@ -315,10 +315,10 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.UNDO;
 		}
 		
-		if(Input.GetKeyDown(KeyCode.M))
+		/*if(Input.GetKeyDown(KeyCode.M))
 		{
 			currentResponse.type = EventTypes.METRIC;
-		}
+		}*/
 				
 		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
 		
