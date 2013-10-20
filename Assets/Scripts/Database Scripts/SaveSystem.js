@@ -160,27 +160,31 @@ public class ProfileSystem
   	
   	public function Save()
 	{
-		/*var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
-		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
-		var stream : Stream = new FileStream(path, FileMode.Create);
+		var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+		//var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+		var stream : MemoryStream = new MemoryStream();//new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this);
-	 	stream.Close();*/
+	 	//stream.Close();
+	 	var tmp : String = System.Convert.ToBase64String(stream.ToArray());
+	 	PlayerPrefs.SetString("profiles", tmp);
 	 	//Debug.Log("Saved: " + path);
  	}
  	
  	public function Load(): ProfileSystem
  	{
- 		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+ 		//var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+ 		var tmp : String = PlayerPrefs.GetString("profiles", String.Empty);
  		//Debug.Log("Loaded: " + path);
  		
  	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
- 	 	if (!File.Exists(path)){
+ 	 	if (tmp == String.Empty)
+ 	 	{//!File.Exists(path)){
  	 		SetUpProfiles();
  	 		return this;
  	 	}
-	 	var stream : Stream = new FileStream(path, FileMode.Open);
+	 	var stream : MemoryStream = new MemoryStream(System.Convert.FromBase64String(tmp));//Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
-	 	stream.Close();
+	 	//stream.Close();
 
 	 	return system;
 	 }
