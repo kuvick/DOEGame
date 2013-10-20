@@ -62,7 +62,7 @@ public class MetricDisplay
 		nextCount = new List.<int>();
 	}
 	
-	public function GatherData(sceneName : String) : boolean
+	/*public function GatherData(sceneName : String) : boolean
 	{
 		if(GatherEndData(sceneName) && GatherLinkData(sceneName) && GatherTurnData(sceneName))
 		{
@@ -70,7 +70,7 @@ public class MetricDisplay
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	public function AnalyzeData()
 	{
@@ -81,7 +81,7 @@ public class MetricDisplay
 		averageTimesUndone /= undoCount;
 	}
 	
-	private function GatherEndData(sceneName : String) : boolean
+	/*private function GatherEndData(sceneName : String) : boolean
 	{
 		
 		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/END/");
@@ -153,9 +153,9 @@ public class MetricDisplay
 			Debug.Log("Path: " + path + " Does Not Exist");
 			return false;
 		}
-	}
+	}*/
 	
-	private function GatherLinkData(sceneName : String) : boolean
+	/*private function GatherLinkData(sceneName : String) : boolean
 	{
 		//Debug.Log("Gathering Link Data");
 		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/LINK/");
@@ -189,9 +189,9 @@ public class MetricDisplay
 			Debug.Log("Path: " + path + " Does Not Exist");
 			return false;
 		}
-	}
+	}*/
 	
-	private function GatherTurnData(sceneName : String) : boolean
+	/*private function GatherTurnData(sceneName : String) : boolean
 	{
 		//Debug.Log("Gathering Link Data");
 		var path : String = Path.Combine(Application.persistentDataPath, "Metrics/" + sceneName + "/TURN/");
@@ -331,5 +331,5 @@ public class MetricDisplay
 			
 			linkArray[output, input]++;			
 		}
-	}
+	}*/
 }

@@ -61,8 +61,8 @@ private static var linkUIRef : LinkUI;
 private var buildingWithUnitActivatedScore : int = 20;
 
 //Metric Variables
-public var metrics : MetricContainer;
-public var m_display : MetricDisplay;
+/*public var metrics : MetricContainer;
+public var m_display : MetricDisplay;*/
 
 public var level_s : LevelSerializer;
 
@@ -126,8 +126,8 @@ function Start()
 	UndoStack = new List.<UndoType>();
 	
 	// Metric data:
-	metrics = new MetricContainer();
-	m_display = new MetricDisplay();
+	/*metrics = new MetricContainer();
+	m_display = new MetricDisplay();*/
 	
 	if (playtestID == ""){
 		playtestID = GenerateID();
@@ -449,7 +449,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		intelSystem.comboSystem.incrementComboCount();
 		intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 		//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, -1));
-		metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
+		//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), new Vector3(-100,0,0)));
 		Save("Building Link");
 		SetBuildingResourceActive(outputBuilding.allocatedOutputIcons, false);
 		
@@ -572,6 +572,13 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 			inputBuilding.deactivatedInputs.Remove(inputBuilding.inputLinkedTo.IndexOf(oldOutputBuildingIndex));
 		
 		activateBuilding(inputBuildingIndex, true);
+	
+		var possibleInputIndex : int = oldOutputBuilding.inputLinkedTo.IndexOf(inputBuildingIndex);
+		if (possibleInputIndex >= 0)
+		{
+			//var b2Index : int = findBuildingIndex(b2Building);
+			drawLinks.CreateLinkDraw(inputBuildingIndex, oldOutputBuildingIndex, oldOutputBuilding.allocatedInputs[possibleInputIndex]);
+		}
 		Debug.Log("End of link overload");
 		
 		//Stores links into list organized by when they were created	
@@ -595,7 +602,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 			intelSystem.comboSystem.incrementComboCount();
 			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			//metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, findBuildingIndex(oldOutputBuilding), -1));
-			metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, oldOutputBuilding.coordinate, new Vector3(-100,0,0)));
+			//metrics.addLinkData(new LinkData("Overload", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, oldOutputBuilding.coordinate, new Vector3(-100,0,0)));
 			Save("Overload Link");
 		}
 	}
@@ -735,7 +742,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			intelSystem.comboSystem.incrementComboCount();
 			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, findBuildingIndex(inputBuilding), inputBuilding.buildingName, findBuildingIndex(outputBuilding), outputBuilding.buildingName, -1, findBuildingIndex(oldInputBuilding)));
-			metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), oldInputBuilding.coordinate));
+			//metrics.addLinkData(new LinkData("Link", intelSystem.currentTurn, inputBuilding.coordinate, inputBuilding.buildingName, outputBuilding.coordinate, outputBuilding.buildingName, new Vector3(-100,0,0), oldInputBuilding.coordinate));
 			Save("Chainbreak");
 
 	}
@@ -1436,7 +1443,7 @@ public static function BroadcastBuildingUpdate(buildingObject : GameObject, buil
 
 public function Save(type : String) : void
 {
-	metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));	
+	//metrics.Turns.Add(new TurnData("Turn Data", intelSystem.currentTurn, intelSystem.numOfObjectivesLeft, type));	
 }
 
 

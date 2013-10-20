@@ -160,11 +160,11 @@ public class ProfileSystem
   	
   	public function Save()
 	{
-		var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+		/*var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
 		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
 		var stream : Stream = new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this);
-	 	stream.Close();
+	 	stream.Close();*/
 	 	//Debug.Log("Saved: " + path);
  	}
  	
@@ -239,6 +239,7 @@ public class Player
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelDataList : List.<LevelData> = new List.<LevelData>();
+	public var levelLockIndex : int;
   	public var contactData : ContactData;
   	public var codexData : CodexData;
 	

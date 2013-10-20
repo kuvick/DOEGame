@@ -50,7 +50,7 @@ private var buildingMenu:BuildingMenu;
 private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
-private var metricMenu:MetricMenu;
+//private var metricMenu:MetricMenu;
 private var contactsMenu:ContactsMenu;
 private var codexMenu:CodexMenu;
 private var contactInspectorMenu:ContactInspectorMenu;
@@ -156,7 +156,7 @@ public function Start ()
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
-	metricMenu = GetComponent(MetricMenu);
+	//metricMenu = GetComponent(MetricMenu);
 	contactsMenu = GetComponent(ContactsMenu);
 	codexMenu = GetComponent(CodexMenu);
 	contactInspectorMenu = GetComponent(ContactInspectorMenu);
@@ -315,7 +315,7 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			AddGUIToControls(pauseMenu);
 			break;
-		case EventTypes.METRIC:
+		/*case EventTypes.METRIC:
 			if(database.m_display.GatherData(intelSystem.currentLevelName))
 			{
 				database.m_display.AnalyzeData();
@@ -324,7 +324,7 @@ private function RespondTo(response:GUIEvent)
 				
 			ClearControls();
 			AddGUIToControls(metricMenu);
-			break;
+			break;*/
 		case EventTypes.INTEL:
 			ClearControls();
 			AddGUIToControls(intelMenu);
@@ -424,7 +424,7 @@ private function SetupLoading(nextLevel : String)
 private function RecordEndGameData()
 {
 
-	database.metrics.EndGame = new EndGameData(
+	/*database.metrics.EndGame = new EndGameData(
 								intelSystem.getPrimaryScore() + intelSystem.getOptionalScore(),
 								intelSystem.totalEvents,
 								intelSystem.events.Count + intelSystem.linkedEvents.Count,
@@ -436,7 +436,7 @@ private function RecordEndGameData()
 	System.IO.Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
 	database.metrics.SaveEndGame(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
 	database.metrics.SaveLink(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
-	database.metrics.SaveTurn(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
+	database.metrics.SaveTurn(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));*/
 	
 	UndoPressed = 0;
 	intelSystem.totalEvents = 0;

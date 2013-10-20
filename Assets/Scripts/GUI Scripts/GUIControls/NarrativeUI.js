@@ -45,9 +45,9 @@ public class NarrativeUI extends GUIControl
 	private var currentSlide: float;
 	
 	//Metrics
-	public var metrics : MetricContainer;
+	/*public var metrics : MetricContainer;
 	private var skipTimes : List.<float>;
-	public var m_display : MetricDisplay;
+	public var m_display : MetricDisplay;*/
 	
 	
 	// Textbox
@@ -172,8 +172,8 @@ public class NarrativeUI extends GUIControl
 		
 		skipTimes  = new List.<float>();
 		
-		metrics = new MetricContainer();
-		m_display = new MetricDisplay();
+		/*metrics = new MetricContainer();
+		m_display = new MetricDisplay();*/
 	}
 	
 	function Update()
@@ -204,19 +204,19 @@ public class NarrativeUI extends GUIControl
 		{
 			if (GUI.Button(tapSpace, ""))
 			{
-				if(skipTimes.Count > 0)
+				/*if(skipTimes.Count > 0)
 				{
 					skipTimes.Add(Time.timeSinceLevelLoad - skipTimes[skipTimes.Count - 1]);
 				}
 				else
-					skipTimes.Add(Time.timeSinceLevelLoad);
+					skipTimes.Add(Time.timeSinceLevelLoad);*/
 				
 				lastLetter = 0;
 				currentSlide++;
 			}
 			if (GUI.Button(skip, skipButton))
 			{	
-				metrics.Narrative.wasSkipped = true;
+				//metrics.Narrative.wasSkipped = true;
 				LoadLevel();			
 			}
 			
@@ -260,7 +260,7 @@ public class NarrativeUI extends GUIControl
 	private function LoadLevel()
 	{
 		Debug.Log("loading level in narrative ui");
-		WriteMetricData();		
+		//WriteMetricData();		
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 		nextLevel.nextLevel = levelToLoad;
@@ -268,7 +268,7 @@ public class NarrativeUI extends GUIControl
 		Application.LoadLevel("LoadingScreen");
 	}
 	
-	private function WriteMetricData()
+	/*private function WriteMetricData()
 	{
 		metrics.Narrative.timeSpentTotal = Time.timeSinceLevelLoad;
 		metrics.Narrative.timeBeforeClick = skipTimes;				
@@ -281,5 +281,5 @@ public class NarrativeUI extends GUIControl
 		if(!Directory.Exists(path))
 			System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE"));													
 		metrics.SaveNarrative(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE/"));	
-	}
+	}*/
 }

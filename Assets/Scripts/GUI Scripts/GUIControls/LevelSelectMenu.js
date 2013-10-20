@@ -285,6 +285,7 @@ public class LevelSelectMenu extends GUIControl
 	private var completedLevels : List.<LevelNode>; 
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
+	private var lockedIndex = 0;
 	
 	private static var fromScoreScreen : boolean = false;
 	
@@ -414,6 +415,7 @@ public class LevelSelectMenu extends GUIControl
 			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 		}
+		IncrementLevelLock();
 	}
 	
 	private function RenderLevels(levelsToRender : List.<LevelNode>)
@@ -661,6 +663,8 @@ public class LevelSelectMenu extends GUIControl
 			if(levels[i].sceneName == sceneName){
 				if(!unlockedLevels.Contains(levels[i])){
 					levels[i].completed = true;
+					if (i == lockedIndex - 1)
+						IncrementLevelLock();
 					//unlockedLevels.Insert(0, levels[i]);
 					saveSystem.currentPlayer.completeLevel(sceneName);
 					
@@ -769,6 +773,14 @@ public class LevelSelectMenu extends GUIControl
 			
 	}
 	
+	private function IncrementLevelLock()
+	{
+		lockedIndex += 3;
+		
+		if (lockedIndex > levels.length)
+			lockedIndex = levels.length;
+	}
+	
 	private function checkForUnlocks()
 	{
 		for(var i :int = 0; i < levels.length; i++)
@@ -783,7 +795,7 @@ public class LevelSelectMenu extends GUIControl
 					break;
 				case UnlockType.MISSION:
 					//Debug.Log("name" + levels[levels[i].missionRequirementIndex].sceneName);
-					if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
+					if(i < lockedIndex)//levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
 						levels[i].unlocked = true;
 					break;
 				case UnlockType.CONTACT:

@@ -66,16 +66,16 @@ public class MetricMenu extends GUIControl
 		
 		GenerateLinks();
 		
-		graph = new Graph(6, 6);
+		/*graph = new Graph(6, 6);
 		graph.CreateBars(database.m_display.GetTurnList());
 		endGameString = database.m_display.GetEndGameDataAsString();
-		narrString = database.m_display.GetNarrativeDataAsString();
+		narrString = database.m_display.GetNarrativeDataAsString();*/
 		
 	}
 	
 	public function GenerateLinks()
 	{
-		database = GameObject.Find("Database").GetComponent(Database);
+		/*database = GameObject.Find("Database").GetComponent(Database);
 		database.m_display.CreateLinkArray(database.buildingsOnGrid.Count);
 		
 		for(var i = 0; i < database.buildingsOnGrid.Count; i++)
@@ -118,7 +118,7 @@ public class MetricMenu extends GUIControl
 			}
 		}
 		
-		Debug.Log("Links Generated!");
+		Debug.Log("Links Generated!");*/
 	}
 	
 	/*		
