@@ -172,8 +172,8 @@ public class NarrativeUI extends GUIControl
 		
 		skipTimes  = new List.<float>();
 		
-		metrics = new MetricContainer();
-		m_display = new MetricDisplay();
+		/*metrics = new MetricContainer();
+		m_display = new MetricDisplay();*/
 	}
 	
 	function Update()
@@ -216,7 +216,7 @@ public class NarrativeUI extends GUIControl
 			}
 			if (GUI.Button(skip, skipButton))
 			{	
-				metrics.Narrative.wasSkipped = true;
+				//metrics.Narrative.wasSkipped = true;
 				LoadLevel();			
 			}
 			
@@ -260,7 +260,7 @@ public class NarrativeUI extends GUIControl
 	private function LoadLevel()
 	{
 		Debug.Log("loading level in narrative ui");
-		WriteMetricData();		
+		//WriteMetricData();		
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 		nextLevel.nextLevel = levelToLoad;

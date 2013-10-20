@@ -285,6 +285,7 @@ public class LevelSelectMenu extends GUIControl
 	private var completedLevels : List.<LevelNode>; 
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
+	private var baseUnlockedIndex : int = 0;
 	
 	private static var fromScoreScreen : boolean = false;
 	
@@ -389,6 +390,8 @@ public class LevelSelectMenu extends GUIControl
 									  levelSelectSkin.customStyles[0].fontSize * 2);
 	
 			playerName = saveSystem.currentPlayer.name;
+			
+			baseUnlockedIndex = saveSystem.currentPlayer.baseUnlockedIndex;
 			
 			// Displayed Player Name:
 			playerRect = new Rect(agentRankRect1.width + agentRankRect1.x, 
@@ -724,7 +727,8 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 			
-			
+		CheckForBaseUnlockIndexChange();	
+		checkForUnlocks();
 		
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{
@@ -783,7 +787,8 @@ public class LevelSelectMenu extends GUIControl
 					break;
 				case UnlockType.MISSION:
 					//Debug.Log("name" + levels[levels[i].missionRequirementIndex].sceneName);
-					if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
+					//if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
+					if (i > levels.Length - 1 - baseUnlockedIndex - 3)
 						levels[i].unlocked = true;
 					break;
 				case UnlockType.CONTACT:
@@ -793,6 +798,21 @@ public class LevelSelectMenu extends GUIControl
 					break;
 			}
 		}
+	}
+	
+	private function CheckForBaseUnlockIndexChange()
+	{
+		Debug.Log("zomg");
+		var i : int = 0;
+		for (i = levels.Length - 1 - baseUnlockedIndex; i >= 0 && i > levels.Length - 1 - baseUnlockedIndex - 3; i--)
+		{
+			Debug.Log("zomg" + i + levels[i].sceneName);
+			if (!levels[i].completed)
+				return;
+		}
+		Debug.Log("changing base to " + i);
+		baseUnlockedIndex = levels.Length - 1 - i;
+		saveSystem.currentPlayer.baseUnlockedIndex = baseUnlockedIndex;
 	}
 
 

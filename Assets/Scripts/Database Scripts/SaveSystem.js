@@ -236,6 +236,7 @@ public class Player
 	public var exp : int;
 	public var rank : int;
 	public var rankName : String;
+	public var baseUnlockedIndex : int = 0;
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelDataList : List.<LevelData> = new List.<LevelData>();
