@@ -164,7 +164,7 @@ public class ProfileSystem
 		//var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
 		var stream : MemoryStream = new MemoryStream();//new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this);
-	 	//stream.Close();
+	 	stream.Close();
 	 	var tmp : String = System.Convert.ToBase64String(stream.ToArray());
 	 	PlayerPrefs.SetString("profiles", tmp);
 	 	//Debug.Log("Saved: " + path);
@@ -184,7 +184,7 @@ public class ProfileSystem
  	 	}
 	 	var stream : MemoryStream = new MemoryStream(System.Convert.FromBase64String(tmp));//Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
-	 	//stream.Close();
+	 	stream.Close();
 
 	 	return system;
 	 }
@@ -210,7 +210,7 @@ public class ProfileSystem
 			lastLoggedInPlayer.contactData.LoadFromSource();
 		}
 		
-		var codexSource : CodexData = new CodexData();
+		/*var codexSource : CodexData = new CodexData();
 		codexSource.LoadFromSource();
 		var contactSource = new ContactData();
   		contactSource.LoadFromSource();
@@ -225,7 +225,7 @@ public class ProfileSystem
   				Debug.Log("No contact data for " + player.name + " loading it from source.");
   				player.contactData = contactSource;
   			}
-  		}
+  		}*/
 
   		Save();
   	}
