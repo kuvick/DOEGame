@@ -252,6 +252,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	// if an allocated input was selected, perform an overload link reallocation
 	if (allocatedInSelected)
 	{
+		Debug.Log("testa");
 		oldOutputBuildingIndex = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
 		if (oldOutputBuildingIndex > -1)
 		{
@@ -442,6 +443,13 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
 			removeLink(b1, oldOutputBuilding);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);			
+			// if input building and old output building were mutually linked, redraw the link that still remains
+			var oldOutputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(oldOutputBuildingIndex);
+			var possibleInputIndex : int = oldOutputBuildingOnGrid.inputLinkedTo.IndexOf(building1Index);
+			if (possibleInputIndex >= 0)
+			{
+				gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, oldOutputBuildingIndex, oldOutputBuildingOnGrid.allocatedInputs[possibleInputIndex]);
+			}
 		}		
 	}
 	
