@@ -42,12 +42,25 @@ public class Loading extends GUIControl
 	private var descRect : Rect;
 	
 	// New Loading Textures
+	public var backgroundText:Texture;
 	public var loadingBackground:Texture;
+		private var loadingBGRect:Rect;
 	public var loadingStatusBox:Texture;
+		private var loadingStatusBoxRect:Rect;
 	public var viewFullDescriptButton:Texture;
+		private var fullDescriptButtonRect:Rect;
 	public var viewJobOnlineButton:Texture;
+		private var jobOnlineButtonRect:Rect;
 	public var viewJobWebsiteButton:Texture;
+		private var jobWebsiteButtonRect:Rect;
 	public var doeLogo:Texture;
+		private var doeLogoRect:Rect;
+	public var placeholderPanel:Texture;
+		private var panelRect:Rect;
+		private var jobTextRect:Rect;
+		private var loadingStatusRect:Rect;
+	
+	private var loadingStatusFontSize:float;
 	
 	// job title and description font sizes
 	private var descFontScale : float = 0.2;
@@ -87,6 +100,8 @@ public class Loading extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		
 		SetupRectangles();
 							
 		initialDescFontSize = screenHeight * descFontScale;
@@ -98,16 +113,39 @@ public class Loading extends GUIControl
 		style.hover.background = null;*/
 		//style.richText = true;
 		// Add the background rect to the rectList for checking input collision
+		
+		
 		rectList.Add(background);
 		backgroundMusic = SoundManager.Instance().backgroundSounds.loadingMenuMusic;
+		
+	
+		var percentage:float = screenWidth / 1920; //Assumes images made to spec of 1920 px
+		
+		loadingBGRect = createRect(loadingBackground,0,0.04, 0.86, false);
+		
+		loadingStatusBoxRect = createRect(loadingStatusBox, 0, 0.81, 0.15, false);
+		loadingStatusBoxRect.x = (screenWidth / 2) - (loadingStatusBoxRect.width) / 2;
+		
+		fullDescriptButtonRect = createRect(viewFullDescriptButton,0.55,0.67, 0.099, true);
+		jobOnlineButtonRect = createRect(viewJobOnlineButton,0.55,0.55, 0.099, true);
+		panelRect = createRect(placeholderPanel,0.05,0.26, 0.5, true, Rect(0,0,screenWidth / 2, screenHeight));
+		
+		jobTextRect = createRect( Vector2(810, 414), 0.55,0.16, 0.38, true);
+		loadingStatusRect = createRect( Vector2(755, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
+		loadingStatusRect.x = (screenWidth / 2) - (loadingStatusRect.width) / 2;
+		loadingStatusRect.y += loadingStatusBoxRect.y;
+		loadingStatusFontSize = 0.10 * screenHeight;
+		
 	}
 	
 	public function Render() 
 	{
 		GUI.depth = 0;
-		GUI.DrawTexture(blackBackground, blackBackgroundTexture);
+		
+		
+		//GUI.DrawTexture(blackBackground, blackBackgroundTexture);
 		//GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
-		GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
+		//GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
 		
 		if (hasLoaded){
 			if (GUI.Button(onlineRect, onlineTexture, style)){
@@ -129,6 +167,33 @@ public class Loading extends GUIControl
 		style.fontSize = descFontSize;
 		GUI.Label(descRect, currentJobInformation, style);
 		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
+		
+		
+			// New Loading Textures
+	
+	GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText);
+	GUI.DrawTexture(loadingBGRect, loadingBackground);
+	
+	GUI.DrawTexture(loadingBGRect, loadingBackground);
+	GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
+	
+	GUI.DrawTexture(fullDescriptButtonRect, viewFullDescriptButton);
+	GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);
+	
+	GUI.DrawTexture(panelRect, placeholderPanel);
+	
+	
+	style.font = regularFont;
+	style.fontSize = descFontSize;
+	GUI.Label(jobTextRect, currentJobInformation, style);	
+	
+	style.font = boldFont;
+	style.fontSize = loadingStatusFontSize;
+	style.alignment = TextAnchor.MiddleCenter;
+	GUI.Label(loadingStatusRect, "Loading...", style);
+	style.alignment = TextAnchor.UpperLeft;	
+		
+		
 	}
 	
 	private function DelayLoad(seconds:int):IEnumerator{
@@ -169,18 +234,21 @@ public class Loading extends GUIControl
 	public function GetNewJob()
 	{
 		currentJob = JobDatabase.GetRandomJob();
+		currentJobDesc = "Latest Job:\n\n";
 		currentJobDesc = currentJob.title + "\n\n";
 		currentJobDesc += "Sub Agency: " + currentJob.agency;
 		currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
 		currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
 		currentJobDesc += "\nPosition Information: " + currentJob.positionInformation;
-		currentJobDesc += "\nLocation: " + currentJob.location;
+		//currentJobDesc += "\nLocation: " + currentJob.location;
 		//currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
 		
 		style.font = regularFont;//boldFont;
 		descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
 		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
 		descRect.y = (screenHeight - height) / 2;
+		
+		descFontSize = screenHeight * 0.04;
 		currentJobInformation = currentJobDesc;
 	}
 	
