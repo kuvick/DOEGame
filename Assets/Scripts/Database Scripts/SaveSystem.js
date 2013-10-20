@@ -356,6 +356,7 @@ public class Player
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
 			if(levelDataList[i].levelName == levelName){
+				Debug.Log("Found the completion status of " + levelName);
 				return (levelDataList[i].levelCompleted);
 			}
 		}

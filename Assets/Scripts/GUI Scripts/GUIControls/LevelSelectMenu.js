@@ -795,7 +795,8 @@ public class LevelSelectMenu extends GUIControl
 					break;
 				case UnlockType.MISSION:
 					//Debug.Log("name" + levels[levels[i].missionRequirementIndex].sceneName);
-					if(i < lockedIndex)//levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
+					//if(i < lockedIndex)//levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
+					if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
 						levels[i].unlocked = true;
 					break;
 				case UnlockType.CONTACT:
