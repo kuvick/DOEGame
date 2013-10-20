@@ -6,10 +6,12 @@ class SoundType{
 	private final var pathToSounds : String = "sounds/";
 	
 	public function CacheSoundClip(){
+		if (audioClipName != null) return;
 		if (audioClip == null){
 			Debug.LogWarning("Sound clip was not set for " + this.ToString());
 			return;
 		}
+		
 		audioClipName = audioClip.name;
 		
 		audioClip = null;
