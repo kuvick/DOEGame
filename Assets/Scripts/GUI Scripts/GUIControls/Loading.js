@@ -53,8 +53,6 @@ public class Loading extends GUIControl
 		private var jobOnlineButtonRect:Rect;
 	public var viewJobWebsiteButton:Texture;
 		private var jobWebsiteButtonRect:Rect;
-	public var doeLogo:Texture;
-		private var doeLogoRect:Rect;
 	public var placeholderPanel:Texture;
 		private var panelRect:Rect;
 		private var jobTextRect:Rect;
@@ -97,11 +95,18 @@ public class Loading extends GUIControl
 	private var hasLoaded : boolean = false;
 	public static var hasFinishedDelay : boolean  = false;
 	
+	public var panels:List.<Texture> = new List.<Texture>();
+	private var numOfNarrFolders = 5;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
+	public var currentPanel:int = 0;	
+	private var framesPerSecond:int = 400;	// This is how long (frames) a panel is displayed before switching to the next
+	private var currentFrame:int;
+	
 	public function Initialize()
 	{
 		super.Initialize();
 		
-		
+		currentFrame = framesPerSecond;
+		currentPanel = 0;
 		SetupRectangles();
 							
 		initialDescFontSize = screenHeight * descFontScale;
@@ -131,67 +136,94 @@ public class Loading extends GUIControl
 		panelRect = createRect(placeholderPanel,0.05,0.26, 0.5, true, Rect(0,0,screenWidth / 2, screenHeight));
 		
 		jobTextRect = createRect( Vector2(810, 414), 0.55,0.16, 0.38, true);
-		loadingStatusRect = createRect( Vector2(755, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
+		
+		// So the job text rect will go all the way to just a little bit above the jobs online button
+		jobTextRect.height = jobOnlineButtonRect.y -(jobTextRect.y + padding);
+		
+		loadingStatusRect = createRect( Vector2(855, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
 		loadingStatusRect.x = (screenWidth / 2) - (loadingStatusRect.width) / 2;
 		loadingStatusRect.y += loadingStatusBoxRect.y;
 		loadingStatusFontSize = 0.10 * screenHeight;
 		
+		var path : String = "NarrativePanels/" + Random.Range(1, numOfNarrFolders + 1);
+		var panelTextures: Object[] = Resources.LoadAll(path, Texture);
+		
+		for(var i:int = 0; i < panelTextures.length; i++)
+		{
+			var tempTexture:Texture = panelTextures[i];
+			panels.Add(tempTexture);
+		}
 	}
 	
 	public function Render() 
 	{
 		GUI.depth = 0;
+			
+				// New Loading Textures
 		
+		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText);
+		GUI.DrawTexture(loadingBGRect, loadingBackground);
 		
-		//GUI.DrawTexture(blackBackground, blackBackgroundTexture);
-		//GUI.DrawTexture(background, backgroundTexture, ScaleMode.ScaleToFit);
-		//GUI.DrawTexture(background, foregroundTexture, ScaleMode.ScaleToFit);
+		GUI.DrawTexture(loadingBGRect, loadingBackground);
+		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
-		if (hasLoaded){
-			if (GUI.Button(onlineRect, onlineTexture, style)){
-				Application.OpenURL(currentJob.url);
-			}
-			if (hasFinishedDelay){
-				if (GUI.Button(loadingRect, "Continue", style)){
-					currentResponse.type = EventTypes.DONELOADING;
-				}
-			}
-			if (GUI.Button(toggleDescriptionRect, toggleText, style)){
-				ToggleInformation();
-			}	
-		} else if (!hasFinishedDelay) {
-			GUI.DrawTexture(loadingRect, loadingTexture, ScaleMode.ScaleToFit);
+		GUI.DrawTexture(fullDescriptButtonRect, viewFullDescriptButton);
+		GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);		
+		if (GUI.Button(jobOnlineButtonRect,"", style))
+		{
+			Application.OpenURL(currentJob.url);
 		}
+		
+		GUI.DrawTexture(panelRect, panels[currentPanel]);
+		
+		currentFrame--;
+		if(currentFrame <= 0)
+		{	
+			currentFrame = framesPerSecond;
+			currentPanel++;
+			if(currentPanel >= panels.Count)
+				currentPanel = 0;
+		}
+		
+		
+		
 		
 		style.font = regularFont;
 		style.fontSize = descFontSize;
-		GUI.Label(descRect, currentJobInformation, style);
-		GUI.DrawTexture(iconRect, iconTexture, ScaleMode.ScaleToFit);
+		style.alignment = TextAnchor.UpperLeft;
+		GUI.Label(jobTextRect, currentJobInformation, style);
+		
+		style.font = boldFont;
+		style.fontSize = loadingStatusFontSize;
+		style.alignment = TextAnchor.MiddleCenter;
+		
+		if (hasLoaded)
+		{
+			if (hasFinishedDelay)
+			{
+				if (GUI.Button(loadingStatusRect, "Begin Mission", style))
+				{
+					//Since the timer starts as soon as the level loads, this resets it for when the player starts the mission
+					var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+					intelSystem.resetTimer();
+					currentResponse.type = EventTypes.DONELOADING;
+				}
+			}
+			/*
+			if (GUI.Button(toggleDescriptionRect, toggleText, style))
+			{
+				ToggleInformation();
+			}
+			*/
+		}
+		else if (!hasFinishedDelay)
+		{
+			GUI.Label(loadingStatusRect, "Loading...", style);
+		}
 		
 		
-			// New Loading Textures
-	
-	GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText);
-	GUI.DrawTexture(loadingBGRect, loadingBackground);
-	
-	GUI.DrawTexture(loadingBGRect, loadingBackground);
-	GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
-	
-	GUI.DrawTexture(fullDescriptButtonRect, viewFullDescriptButton);
-	GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);
-	
-	GUI.DrawTexture(panelRect, placeholderPanel);
-	
-	
-	style.font = regularFont;
-	style.fontSize = descFontSize;
-	GUI.Label(jobTextRect, currentJobInformation, style);	
-	
-	style.font = boldFont;
-	style.fontSize = loadingStatusFontSize;
-	style.alignment = TextAnchor.MiddleCenter;
-	GUI.Label(loadingStatusRect, "Loading...", style);
-	style.alignment = TextAnchor.UpperLeft;	
+		style.alignment = TextAnchor.UpperLeft;	
+		
 		
 		
 	}
@@ -235,11 +267,11 @@ public class Loading extends GUIControl
 	{
 		currentJob = JobDatabase.GetRandomJob();
 		currentJobDesc = "Latest Job:\n\n";
-		currentJobDesc = currentJob.title + "\n\n";
-		currentJobDesc += "Sub Agency: " + currentJob.agency;
-		currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
-		currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
-		currentJobDesc += "\nPosition Information: " + currentJob.positionInformation;
+		currentJobDesc += currentJob.title + "\n\n";
+		//currentJobDesc += "Sub Agency: " + currentJob.agency;
+		//currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
+		//currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
+		//currentJobDesc += "\nPosition Information: " + currentJob.positionInformation;
 		//currentJobDesc += "\nLocation: " + currentJob.location;
 		//currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
 		

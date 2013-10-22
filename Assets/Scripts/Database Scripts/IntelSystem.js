@@ -194,6 +194,11 @@ function Start ()
 	StartCoroutine(DecrementTimer());
 }
 
+public function resetTimer()
+{
+	timeLeft = 60.0;
+}
+
 // game timer, 60s, player gets 50 points per second left up to 3000
 public function DecrementTimer()
 {

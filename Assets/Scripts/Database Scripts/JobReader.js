@@ -50,7 +50,7 @@ public class JobReader
 	private function FormatDate(date : String) : String
 	{
 		var dateSplit : String[] = date.Split("-"[0]);
-		Debug.Log(dateSplit.length);
+		//Debug.Log(dateSplit.length);
 		return months[parseInt(dateSplit[1]) - 1] + " " + parseInt(dateSplit[2]) + ", " + parseInt(dateSplit[0]);
 	}
 	
