@@ -11,6 +11,9 @@ public class LinkSounds {
 	public var wasteLink : SoundType;
 	public var fuelLink : SoundType;
 	public var genericLink : SoundType;
+	public var knowledgeLink : SoundType;
+	public var workforceLink : SoundType;
+	public var commerceLink : SoundType;
 	
 	public var linkDenied : SoundType;
 	
@@ -29,6 +32,9 @@ public class LinkSounds {
 		linkSoundTable.Add(ResourceType.Waste, wasteLink);
 		linkSoundTable.Add(ResourceType.Ethanol, ethanolLink);
 		linkSoundTable.Add(ResourceType.Uranium, uraniumLink);
+		linkSoundTable.Add(ResourceType.Knowledge, knowledgeLink);
+		linkSoundTable.Add(ResourceType.Workforce, workforceLink);
+		linkSoundTable.Add(ResourceType.Commerce, commerceLink);
 	} 
 	
 	public function CacheSounds(){
@@ -40,6 +46,9 @@ public class LinkSounds {
 		moneyLink.CacheSoundClip();
 		wasteLink.CacheSoundClip();
 		fuelLink.CacheSoundClip();
+		knowledgeLink.CacheSoundClip();
+		workforceLink.CacheSoundClip();
+		commerceLink.CacheSoundClip();
 		genericLink.CacheSoundClip();
 		linkDenied.CacheSoundClip();
 		linkDragStart.CacheSoundClip();
