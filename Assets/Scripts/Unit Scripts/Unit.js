@@ -329,6 +329,7 @@ function UndoAction () : boolean
 		currentBuilding.unit = UnitType.None;
 		currentBuilding.units.Remove(this);
 		currentPath.Insert(0, currentBuilding);
+		previousBuilding = currentBuilding;
 		currentBuilding = actionList[actionList.Count - 1].move;
 		SetPosition(false);
 		currentBuilding.unit = type;

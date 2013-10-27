@@ -34,7 +34,7 @@ class WorkerUnit extends Unit {
 			if (currentBuilding.optionalOutputIcon)
 			{
 				currentBuilding.optionalOutputIcon.SetFlashSolidColor(Color.white);//SetActive(true);
-				currentBuilding.optionalOutputIcon.Fix();
+				currentBuilding.optionalOutputIcon.SetFixed(true);
 				currentBuilding.optionalOutputFixed = true;
 			}
 			/*if (previousBuilding.optionalOutputIcon)
@@ -46,9 +46,9 @@ class WorkerUnit extends Unit {
 	{
 		if(super())
 		{
-			currentPath[0].optionalOutputFixed = buildingOptionalFixedPreviousSetting;
-			if (!buildingOptionalFixedPreviousSetting)
-				currentPath[0].optionalOutputIcon.SetFlashSolidColor(Color.red);
+			previousBuilding.optionalOutputFixed = buildingOptionalFixedPreviousSetting;
+			if (!buildingOptionalFixedPreviousSetting && previousBuilding.optionalOutputIcon)
+				previousBuilding.optionalOutputIcon.SetFixed(false);//SetFlashSolidColor(Color.red);
 		}
 	}
 }

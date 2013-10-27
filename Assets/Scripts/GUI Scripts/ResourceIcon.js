@@ -147,11 +147,17 @@ public function SetIndex (index : int)
 	this.index = index;
 }
 
-public function Fix()
+public function SetFixed(fix : boolean)
 {
 	if (ioType == IOType.OptOut)
 	{
-		currentTex = fixedTex;
+		if (fix)
+			currentTex = fixedTex;
+		else
+		{
+			currentTex = unallocatedTex;
+			SetFlashSolidColor(Color.red);
+		}
 		renderer.material.mainTexture = currentTex;
 	}
 }
