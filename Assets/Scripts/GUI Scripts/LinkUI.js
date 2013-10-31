@@ -214,7 +214,7 @@ function removeLink(b1: GameObject, b2:GameObject)
 		if (child.name==b2.transform.position.ToString())
 		{
 			Destroy(child.gameObject.GetComponent(LineRenderer));			
-			break;
+			//break;
 		}
 	}
 	for(var child:Transform in b2.transform)
@@ -222,7 +222,7 @@ function removeLink(b1: GameObject, b2:GameObject)
 		if (child.name==b1.transform.position.ToString())
 		{
 			Destroy(child.gameObject.GetComponent(LineRenderer));			
-			break;
+			//break;
 		}
 	}
 	

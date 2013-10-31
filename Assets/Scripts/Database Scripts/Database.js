@@ -1142,8 +1142,7 @@ function UndoLink(typeOfUndo : int)
 	
 	var tempIcon : ResourceIcon;
 	
-	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);			
-	linkUIRef.removeLink(linkList[lastIndex].b1, linkList[lastIndex].b2);										
+	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);													
 		
 	var b1Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b1Coord);
 	var b2Building : BuildingOnGrid = getBuildingOnGrid(linkList[lastIndex].b2Coord);
@@ -1183,6 +1182,8 @@ function UndoLink(typeOfUndo : int)
 		tempIcon.SetIndex(b2Building.unallocatedOutputIcons.Count - 1);
 		SetBuildingResourceActive(b2Building.unallocatedOutputIcons, true);
 	}
+	
+	linkUIRef.removeLink(linkList[lastIndex].b1, linkList[lastIndex].b2);
 	
 	var b3Building : BuildingOnGrid;
 	
