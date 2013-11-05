@@ -75,19 +75,21 @@ public var level_s : LevelSerializer;
 // [Startup Function] ***********************
 function Start()
 {
+	var guiObj : GameObject = GameObject.Find("GUI System");
 	// Telling the GUISystem to get the references to scripts specific to the level:
-	var manager : GUIManager = GameObject.Find("GUI System").GetComponent(GUIManager);
+	var manager : GUIManager = guiObj.GetComponent(GUIManager);
 	manager.LoadLevelReferences();
-	var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	var mainMenu : MainMenu = guiObj.GetComponent(MainMenu);
 	mainMenu.LoadLevelReferences();
-	var buildMenu : BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+	var buildMenu : BuildingMenu = guiObj.GetComponent(BuildingMenu);
 	buildMenu.LoadLevelReferences();
 	
 	
 	// Finding script references needed by the database:
-	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);	
-	drawLinks = GameObject.Find("Main Camera").GetComponent(DrawLinks);
-	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
+	display = guiObj.GetComponent(InspectionDisplay);	
+	var cameraObj : GameObject = GameObject.Find("Main Camera");
+	drawLinks = cameraObj.GetComponent(DrawLinks);
+	linkUIRef = cameraObj.GetComponent(LinkUI);
 	grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 	
 
@@ -138,8 +140,8 @@ function Start()
 		activateBuilding(i, false);
 		
 	// Level Serialization
-	level_s = new LevelSerializer();
-	WriteLevel();
+	/*level_s = new LevelSerializer();
+	WriteLevel();*/
 	
 	// sets highlight tiles
 	linkUIRef.HighlightTiles();

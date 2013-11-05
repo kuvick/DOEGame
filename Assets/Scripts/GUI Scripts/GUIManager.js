@@ -127,8 +127,9 @@ public static function Instance():GUIManager
 public function LoadLevelReferences()
 {
 	//Debug.Log("Loading Database and Intel System ref into GUIManager");
-	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-	database = GameObject.Find("Database").GetComponent(Database);
+	var databaseObj : GameObject = GameObject.Find("Database");
+	intelSystem = databaseObj.GetComponent(IntelSystem);
+	database = databaseObj.GetComponent(Database);
 }
 
 /*

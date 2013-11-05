@@ -34,16 +34,17 @@ function Start () {
 	if (Application.loadedLevelName == "LevelEditor")
 	{
 		isEditor = true;
-		mainMenuRef = GameObject.Find("GUI System").GetComponent(MainMenu);
-		buildingMenuRef = GameObject.Find("GUI System").GetComponent(BuildingMenu);
-		editorMenuRef = GameObject.Find("GUI System").GetComponent(EditorMenu);
+		var guiObj : GameObject = GameObject.Find("GUI System");
+		mainMenuRef = guiObj.GetComponent(MainMenu);
+		buildingMenuRef = guiObj.GetComponent(BuildingMenu);
+		editorMenuRef = guiObj.GetComponent(EditorMenu);
 		resourceSetters = new List.<BuildingResourceSetter>();
 	}
 	else
 	{
 		isEditor = false;
 		inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-		linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
+		linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);//GameObject.Find("Main Camera").GetComponent(LinkUI);
 	}
 }
 

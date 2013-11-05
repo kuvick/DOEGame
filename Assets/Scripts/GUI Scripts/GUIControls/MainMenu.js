@@ -125,7 +125,7 @@ public class MainMenu extends GUIControl
 			currentCamera = 0;
 			cameraLocations.Add(mainCameraObject);
 			// getting the original camera's information
-			mainCameraObject = GameObject.Find("Main Camera");
+			//mainCameraObject = GameObject.Find("Main Camera");
 			cameraLocations.Add(mainCameraObject);
 			cameraControl = mainCameraObject.GetComponent(CameraControl);
 			
