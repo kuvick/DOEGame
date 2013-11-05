@@ -22,7 +22,7 @@ private var i : int;
 private var selectedBuilding : GameObject;
 
 function Start () {
-	var linkUIRef : LinkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);
+	var linkUIRef : LinkUI = Camera.main.gameObject.GetComponent(LinkUI);
 	inputTex = linkUIRef.unallocatedInputTex;
 	outputTex = linkUIRef.unallocatedOutputTex;
 	skin = GUISkin();

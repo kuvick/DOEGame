@@ -19,8 +19,9 @@ function Start ()
 {
 	buildingData = gameObject.GetComponent(BuildingData);
 	buildingSiteLocation = buildingData.buildingData.coordinate;
-	mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-	buildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+	var guiObj : GameObject = GameObject.Find("GUI System");
+	mainMenu = guiObj.GetComponent(MainMenu);
+	buildingMenu = guiObj.GetComponent(BuildingMenu);
 }
 
 // Returns the location/coordinates of the building site

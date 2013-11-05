@@ -92,8 +92,9 @@ class EventStackNode
 
 function Start ()
 {
-	var intelMenu : IntelMenu = GameObject.Find("GUI System").GetComponent(IntelMenu);
-	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+	var guiObj : GameObject = GameObject.Find("GUI System");
+	var intelMenu : IntelMenu = guiObj.GetComponent(IntelMenu);
+	display = guiObj.GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
 	eventStack = new List.<EventStackNode>();
 	codicesUnlockedThisLevel = new List.<String>();
