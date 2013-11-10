@@ -54,6 +54,11 @@ private var targetFadeScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
 
+//Unit movement (added by GPC 11/10)
+private var moveSpeed:int = 10;
+private var moveTarget:Vector3;
+private var moveCommand:boolean = false;
+
 enum UnitState
 {
 	Inactive,
@@ -81,6 +86,9 @@ function Start () {
 	targetIcon.layer = 10;
 	// slant icon slightly forward towards the camera
 	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
+	
+	//Added -GPC 11/10/13
+	moveTarget = gameObject.transform.position;
 }
 
 function Initiate() {
@@ -298,7 +306,11 @@ function DoAction () : boolean
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
 	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
+	
+	//GPC ONLY DO ACTION AFTER UNIT HAS STOPPED MOVING
+	
 	SetPosition(false); // move unit to its new position
+	//MoveToTarget(false);
 	if (currentPath.Count < 1)
 	{
 		SetState(UnitState.Active);
@@ -351,9 +363,32 @@ public function SetPosition(swap : boolean) {
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
 	worldCoord += usedOffset;
+		
 	gameObject.transform.position = worldCoord;
 	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
+
+// moves unit to the position of the current building
+public function MoveToTarget(swap : boolean) {
+	var tileCoord : Vector3 = currentBuilding.coordinate;
+	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
+	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
+	worldCoord += usedOffset;
+	
+	//this.MoveToPoint(worldCoord);
+	
+	//MAKE A SEPARATE INITIALIZE FUNCTION
+	
+	moveTarget = worldCoord;
+	moveCommand = true;
+	//gameObject.transform.position = worldCoord;
+	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
+}
+
+//private function MoveToPoint(){
+//	//gameObject.transform.position = worldCoord;
+//	gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,worldCoord,moveSpeed);
+//}
 
 // set unit's target and place target icon on the building
 private function SetTarget(targ : BuildingOnGrid)
@@ -387,6 +422,16 @@ function Update() {
 	if (targetFadeTimer >= 1 || targetFadeTimer <= 0)
 		targetFadeScaler *= -1;
 	targetIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, targetFadeTimer);
+	
+	//Added by GPC 11/10/13
+	//Movement
+	if((moveTarget != gameObject.transform.position) && moveCommand){
+		if(Vector3.Distance(gameObject.transform.position, moveTarget) != 0){
+			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,moveTarget,moveSpeed);
+		}else{
+			moveCommand = false;
+		}
+	}
 }
 
 // determines which buildings a unit can move to
