@@ -47,10 +47,10 @@ public class Loading extends GUIControl
 		private var loadingBGRect:Rect;
 	public var loadingStatusBox:Texture;
 		private var loadingStatusBoxRect:Rect;
-	public var viewFullDescriptButton:Texture;
-		private var fullDescriptButtonRect:Rect;
-	public var viewJobOnlineButton:Texture;
-		private var jobOnlineButtonRect:Rect;
+	//public var viewFullDescriptButton:Texture;
+		//private var fullDescriptButtonRect:Rect;
+	//public var viewJobOnlineButton:Texture;
+		//private var jobOnlineButtonRect:Rect;
 	public var viewJobWebsiteButton:Texture;
 		private var jobWebsiteButtonRect:Rect;
 	public var placeholderPanel:Texture;
@@ -131,14 +131,24 @@ public class Loading extends GUIControl
 		loadingStatusBoxRect = createRect(loadingStatusBox, 0, 0.81, 0.15, false);
 		loadingStatusBoxRect.x = (screenWidth / 2) - (loadingStatusBoxRect.width) / 2;
 		
-		fullDescriptButtonRect = createRect(viewFullDescriptButton,0.55,0.67, 0.099, true);
-		jobOnlineButtonRect = createRect(viewJobOnlineButton,0.55,0.55, 0.099, true);
+		
+		jobWebsiteButtonRect = createRect(viewJobWebsiteButton,0.55,0.61, 0.099, true);
+		
+		//fullDescriptButtonRect = createRect(viewFullDescriptButton,0.55,0.67, 0.099, true);
+		//jobOnlineButtonRect = createRect(viewJobOnlineButton,0.55,0.55, 0.099, true);
 		panelRect = createRect(placeholderPanel,0.05,0.26, 0.5, true, Rect(0,0,screenWidth / 2, screenHeight));
+		
+		jobWebsiteButtonRect.y = panelRect.y + panelRect.height - jobWebsiteButtonRect.height;
+		jobWebsiteButtonRect.x = screenWidth - jobWebsiteButtonRect.width - panelRect.x;
+		
+		
 		
 		jobTextRect = createRect( Vector2(810, 414), 0.55,0.16, 0.38, true);
 		
+		jobTextRect.y = panelRect.y;
+		
 		// So the job text rect will go all the way to just a little bit above the jobs online button
-		jobTextRect.height = jobOnlineButtonRect.y -(jobTextRect.y + padding);
+		jobTextRect.height = jobWebsiteButtonRect.y -(jobTextRect.y + padding);
 		
 		loadingStatusRect = createRect( Vector2(855, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
 		loadingStatusRect.x = (screenWidth / 2) - (loadingStatusRect.width) / 2;
@@ -167,12 +177,20 @@ public class Loading extends GUIControl
 		GUI.DrawTexture(loadingBGRect, loadingBackground);
 		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
+		/*
 		GUI.DrawTexture(fullDescriptButtonRect, viewFullDescriptButton);
-		GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);		
+		GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);
 		if (GUI.Button(jobOnlineButtonRect,"", style))
 		{
 			Application.OpenURL(currentJob.url);
 		}
+		*/
+		
+		GUI.DrawTexture(jobWebsiteButtonRect, viewJobWebsiteButton);
+		if (GUI.Button(jobWebsiteButtonRect,"", style))
+		{
+			Application.OpenURL("http://energy.gov/jobs");
+		}		
 		
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
 		
@@ -266,8 +284,10 @@ public class Loading extends GUIControl
 	public function GetNewJob()
 	{
 		currentJob = JobDatabase.GetRandomJob();
-		currentJobDesc = "Latest Job:\n\n";
-		currentJobDesc += currentJob.title + "\n\n";
+		//currentJobDesc = "Latest Job:\n\n";
+		//currentJobDesc += currentJob.title + "\n\n";
+		currentJobDesc = currentJob.title + "\n\n";
+		currentJobDesc += currentJob.description + "\n\n";
 		//currentJobDesc += "Sub Agency: " + currentJob.agency;
 		//currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
 		//currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
