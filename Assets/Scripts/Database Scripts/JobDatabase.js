@@ -5,7 +5,7 @@ public static class JobDatabase
 {
 	private var initialized : boolean = false;
 	private var reader : JobReader;
-	private var jobFileName : String = "jobfeed";
+	private var jobFileName : String = "jobfeedTEST";
 	private var jobList : List.<Job> = new List.<Job>();
 	
 	public function Initialize()

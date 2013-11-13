@@ -115,7 +115,13 @@ public class MainMenu extends GUIControl
 		addedObjIconBGRect = false;
 		
 		mainCameraObject = GameObject.Find("Main Camera");
-		cameraControl = mainCameraObject.GetComponent(CameraControl);
+		if(mainCameraObject != null)
+			cameraControl = mainCameraObject.GetComponent(CameraControl);
+		else
+		{
+			mainCameraObject = GameObject.Find("Main Camera");
+			cameraControl = mainCameraObject.GetComponent(CameraControl);
+		}
 		
 		// If testing different camera angles, going through and adding
 		// the cameras to the list.

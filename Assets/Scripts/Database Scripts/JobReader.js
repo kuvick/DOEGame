@@ -18,7 +18,8 @@ public class JobReader
 		xmlDoc.LoadXml(fileAsset.text);
 		Resources.UnloadAsset(fileAsset);
 		
-		jobNodes = xmlDoc.GetElementsByTagName("PositionProfile");
+		//jobNodes = xmlDoc.GetElementsByTagName("PositionProfile");
+		jobNodes = xmlDoc.GetElementsByTagName("Job");
 	}
 	
 	public function GetJobList() : List.<Job>
@@ -30,6 +31,11 @@ public class JobReader
 			node = jobNodes[i];
 			var tempJob = new Job();
 			
+			tempJob.title = node.Item["Title"].InnerText;
+			
+			tempJob.description = node.Item["Description"].InnerText;
+			
+			/*
 			tempJob.title = node.Item["PositionTitle"].InnerText;
 			tempJob.description = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobSummary"].InnerText;
 			tempJob.agency = node.Item["PositionOrganization"].Item["OrganizationIdentifiers"].Item["OrganizationName"].InnerText;
@@ -40,7 +46,7 @@ public class JobReader
 			tempJob.positionInformation = node.Item["UserArea"].Item["GOVT_XMLJobBody"].Item["Overview"].Item["JobStatusText"].InnerText;
 			tempJob.location = node.Item["PositionLocation"].Item["LocationName"].InnerText;
 			tempJob.whoConsidered = node.Item["UserArea"].Item["GOVT_WhoMayApply"].InnerText;
-			tempJob.url = "http://energy.gov";
+			tempJob.url = "http://energy.gov";*/
 			tempList.Add(tempJob);
 			//Debug.Log(node.Item["PositionTitle"].InnerText);
 		}
@@ -59,6 +65,7 @@ public class JobReader
 	}
 }
 
+/*
 class Job extends System.ValueType
 {
 	public var title : String;
@@ -72,4 +79,11 @@ class Job extends System.ValueType
 	public var location : String;
 	public var whoConsidered : String;
 	public var url : String;
+}
+*/
+
+class Job extends System.ValueType
+{
+	public var title : String;
+	public var description : String;
 }
