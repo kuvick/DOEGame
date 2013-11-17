@@ -442,6 +442,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			linkReference[building1Index, building2Index] = true;
 			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
 			removeLink(b1, oldOutputBuilding);
+			//removeLink(oldOutputBuilding, b1);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);			
 			// if input building and old output building were mutually linked, redraw the link that still remains
 			var oldOutputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(oldOutputBuildingIndex);
@@ -461,7 +462,8 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 		{
 			linkReference[building1Index, building2Index] = true;
 			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
-			removeLink(b2, oldInputBuilding);
+			//removeLink(b2, oldInputBuilding);
+			removeLink(oldInputBuilding, b2);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);
 		}
 		
