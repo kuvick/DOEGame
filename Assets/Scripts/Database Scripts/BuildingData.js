@@ -116,6 +116,8 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid(): BuildingOnGrid
 	
 	buildingOnGrid.optionalOutput = buildingData.optionalOutput;
 	
+	buildingOnGrid.premadeLinks = buildingData.premadeLinks;
+	
 	buildingOnGrid.requisitionCost = buildingData.requisitionCost;
 	buildingOnGrid.pollutionOutput = buildingData.pollutionOutput;
 	buildingOnGrid.isActive = buildingData.isActive;
