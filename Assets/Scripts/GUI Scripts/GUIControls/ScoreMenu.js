@@ -136,7 +136,7 @@ public class ScoreMenu extends GUIControl{
 	private var promotionStatusRect:Rect;
 	private var titleRect:Rect;
 	private var honorTitleRect:Rect;
-	public var technologyName:String;
+	public var technologyName:String = "";
 	private var technologyNameRect:Rect;
 	private var addedToCodexRect:Rect;
 	
@@ -146,8 +146,6 @@ public class ScoreMenu extends GUIControl{
 	public function Initialize()
 	{
 		super.Initialize();
-		
-		technologyName = "Alden Fish-Friendly Turbine";	// GET TECH NAME FOR LEVEL
 		
 		counter = 0;
 		var playerData : GameObject = GameObject.Find("Player Data");		
@@ -173,8 +171,11 @@ public class ScoreMenu extends GUIControl{
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
 		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
 		
-		standardFontSize = 0.040 * screenHeight;
-		largerFontSize = 0.054 * screenHeight;
+		//standardFontSize = 0.040 * screenHeight;
+		//largerFontSize = 0.054 * screenHeight;
+		
+		standardFontSize = 0.022 * screenWidth;
+		largerFontSize = 0.030 * screenWidth;
 		
 		scoreScreenSkin.label.fontSize = standardFontSize;
 		scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
@@ -423,11 +424,15 @@ public class ScoreMenu extends GUIControl{
 		GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);	
 		GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
 	
-		
-		//if there is a technology...
-		GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);		
-		GUI.Label(technologyNameRect, technologyName, redStyle);
-		GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
+	
+		GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
+		if(technologyName != null && technologyName != "")
+		{
+			GUI.Label(technologyNameRect, technologyName, redStyle);
+			GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
+		}
+		else	
+			GUI.Label(technologyNameRect, "No new technology added.", redStyle);
 		
 		GUI.EndGroup();
 		
@@ -473,9 +478,15 @@ public class ScoreMenu extends GUIControl{
 		}
 		//Debug.Log("Rank increased " + timesRankIncreased + " times.");
 		
+		if(technologyName != "")
+		{
+			if(!saveSystem.currentPlayer.codexData.isUnlocked(technologyName))
+				saveSystem.currentPlayer.unlockCodex(technologyName);
+			else
+				technologyName = "";
+		}
+		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
-		
-		
 	}
 	
 	function AddComboPoints(): int

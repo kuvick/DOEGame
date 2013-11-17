@@ -4,6 +4,9 @@ import System.Xml;
 import System.IO;
 
 public class CodexData {
+	
+	@XmlArray("codices")
+  	@XmlArrayItem("CodexEntry")
 	public var codices : List.<CodexEntry>;
 	
 	public function CodexData(){
@@ -20,6 +23,7 @@ public class CodexData {
 	}
 	
 	public function LoadFromSource(){
+		/*
  		var path : String = Path.Combine(Application.persistentDataPath, "CodexData.xml");
  		
  		if (!File.Exists(path)){
@@ -31,6 +35,17 @@ public class CodexData {
 	 	var stream : Stream = new FileStream(path, FileMode.Open);
 	 	var codexData : CodexData = serializer.Deserialize(stream) as CodexData;
 	 	stream.Close();
+	 	*/
+	 	
+		var textAsset:TextAsset = Resources.Load("CodexData") as TextAsset;
+	 	
+	 	var serializer : XmlSerializer = new XmlSerializer(CodexData);
+	 	var strReader : StringReader = new StringReader(textAsset.text);
+	 	var xmlFromText : XmlTextReader = new XmlTextReader(strReader);
+	 	
+	 	var codexData : CodexData = serializer.Deserialize(xmlFromText) as CodexData;
+	 	strReader.Close();
+		xmlFromText.Close();
 
 	 	codices = codexData.codices;
 	 }
@@ -54,5 +69,17 @@ public class CodexData {
 			}
 		}
 		Debug.Log("Could not find " + codexName + " to lock");
+	}
+	
+	public function isUnlocked(codexName : String):boolean{
+		for (var codex : CodexEntry in codices){
+			if (codex.name.Equals(codexName)){
+				if(codex.isUnlocked)
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
 	}
 }

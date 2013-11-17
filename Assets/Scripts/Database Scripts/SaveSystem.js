@@ -45,6 +45,7 @@ function Start ()
 	rankSystem.generateMinExp();
 	profileSystem = profileSystem.Load();
 	currentPlayer = profileSystem.lastLoggedInPlayer;
+	profileSystem.Save();
 }
 
 public function SavePlayer(playerName : String)
@@ -108,6 +109,8 @@ public function createPlayer(name : String):boolean
 			}
 		}
 		var newPlayer : Player = rankSystem.generateNewPlayer(name);
+		newPlayer.codexData = new CodexData();
+		newPlayer.codexData.LoadFromSource();
 		profileSystem.Players.Add(newPlayer);
 		return true;
 	}
@@ -181,7 +184,21 @@ public class ProfileSystem
 	 	var stream : Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
 	 	stream.Close();
-
+	 	
+	 	for(var i:int = 0; i < Players.Count; i++)
+	 	{
+	 		if(Players[i].codexData == null || Players[i].codexData.codices == null || Players[i].codexData.codices.Count <= 0)
+	 		{
+	 			Players[i].codexData = new CodexData();
+	 			Players[i].codexData.LoadFromSource();
+ 			}
+	 	}
+	 	if(lastLoggedInPlayer.codexData == null || lastLoggedInPlayer.codexData.codices == null || lastLoggedInPlayer.codexData.codices.Count <= 0)
+	 	{
+			lastLoggedInPlayer.codexData = new CodexData();
+			lastLoggedInPlayer.codexData.LoadFromSource();
+		}
+		
 	 	return system;
 	 }
   	
