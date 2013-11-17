@@ -65,7 +65,17 @@ public class CodexMenu extends GUIControl{
 		codexButtonLightStyle.fontSize = codexButtonDarkStyle.fontSize;
 		
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with codices
+		
+	 	if(playerData.currentPlayer.codexData == null || playerData.currentPlayer.codexData.codices == null || playerData.currentPlayer.codexData.codices.Count <= 0)
+	 	{
+	 		playerData.currentPlayer.codexData = new CodexData();
+			playerData.currentPlayer.codexData.LoadFromSource();
+		}
+		
 		codices = playerData.currentPlayer.codexData.codices;
+		
+		playerData.profileSystem.Save();
+		
 		SetupRectangles();
 	}
 	

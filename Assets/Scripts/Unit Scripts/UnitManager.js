@@ -9,6 +9,7 @@ public var upgradeTextures : Texture[];
 
 function Start () {
 	InitiateUnits();
+	(GameObject.Find("Main Camera").GetComponent(LinkUI) as LinkUI).GeneratePremadeLinks();
 }
 
 function Awake()

@@ -19,6 +19,7 @@ private var b1Position:Vector3;
 private var b2Position:Vector3;			//These hold position of linked buildings
 public var linkTextures : Texture[];
 public var deactivatedTexture : Texture;
+public var linkParticleSystem : ParticleSystem;
 private var linkResources : ResourceType[,];
 private static var buildings:GameObject[];		//Array of all buildings in scene
 private var lineAnchor:GameObject;
@@ -150,6 +151,7 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 	// create the line renderer to draw
 	AddLineRenderer(b1, b2, resource, true);
 	AddLineRenderer(b1, b2, resource, false);
+	AddParticleSystem(b1, b2, resource);
 }
 
 function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst : boolean)
@@ -187,6 +189,23 @@ function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst :
 			break;
 		}
 	}
+}
+
+function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType)
+{
+	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
+	temp.gameObject.transform.position.y = 10;
+	temp.gameObject.name = outputBuilding + " " + inputBuilding;
+	var buildDistance : float = Vector3.Distance(buildings[outputBuilding].transform.position, buildings[inputBuilding].transform.position);
+	temp.startLifetime = buildDistance / temp.startSpeed;
+	temp.renderer.material.mainTexture = linkTextures[resource - 1];
+	var targetVec : Vector3 = buildings[inputBuilding].transform.position - buildings[outputBuilding].transform.position;
+	var angleModifier : float = 1.0f;
+	if (targetVec.x < 0)
+		angleModifier = -1.0f;
+	var rotateDegrees : float = Vector3.Angle(Vector3.forward, targetVec);
+	temp.gameObject.transform.rotation = Quaternion.Euler(0, rotateDegrees * angleModifier, 0);
+	temp.startRotation = (rotateDegrees * angleModifier) * Mathf.Deg2Rad;
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
@@ -238,4 +257,5 @@ function addObjectsToBuildings(){
 function removeLink(b1: int, b2: int)
 {
 	linksDrawn[b1,b2] = linksDrawn[b2, b1] = false;
+	Destroy(GameObject.Find(b2 + " " + b1));
 }

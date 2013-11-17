@@ -114,13 +114,15 @@ function Start()
 		
 		// Generates resource icons:
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
+		for (var j : int = 0; j < tempBuilding.premadeLinks.length; j++)
+			linkUIRef.AddPremadeLink(tempBuilding.premadeLinks[j], buildingObjects[index]);
 		
 		// Adds building to the list
 		buildingsOnGrid.Add(tempBuilding);
 		BroadcastBuildingUpdate();
 		//Debug.Log(tempBuilding.buildingName + " was added to the grid at " + tempBuilding.coordinate.x + "," + tempBuilding.coordinate.y);
 	}
-	
+	//linkUIRef.GeneratePremadeLinks();
 	// Gets the reference to the intel system, creases lists related to undo variables
 	intelSystem = gameObject.GetComponent(IntelSystem);
 	linkList = new List.<LinkTurnNode>();
@@ -1570,6 +1572,8 @@ class BuildingOnGridData
 	
 	var optionalOutput : ResourceType;
 	
+	var premadeLinks : GameObject[];
+	
 	var isActive : boolean = false;
 	
 	var coordinate : Vector3 = new Vector3(0,0,0);
@@ -1623,6 +1627,8 @@ class BuildingOnGrid
 	var optionalOutputAllocated : boolean = false;
 	var optionalOutputFixed : boolean = false;
 	var optionalOutputIcon : ResourceIcon;
+	
+	var premadeLinks : GameObject[];
 	
 	var isActive = false;
 	

@@ -26,6 +26,7 @@ public class ScoreMenu extends GUIControl{
 	public var background : Texture;
 	//public var lineOverlay : Texture;
 	public var infoBox : Texture;
+	private var infoBoxRect:Rect;
 	
 	// Honors Textures
 	public var honorsTextures : List.<HonorIcon> = new List.<HonorIcon>();
@@ -53,6 +54,18 @@ public class ScoreMenu extends GUIControl{
 	private var contButtonX : float = 1341;
 	private var contButtonY : float = 945;
 	
+	// Codex Icon
+	public var codexIcon : Texture;
+	private var codexIconRect : Rect;
+	
+	// Tech BG
+	public var techBG : Texture;
+	private var techBGRect : Rect;
+	
+	// Tech Image
+	public var techImage : Texture;
+	private var techImageRect : Rect;
+	
 	// Text
 	private var textX : float = 810;
 	private var textY : float = 174;
@@ -73,11 +86,11 @@ public class ScoreMenu extends GUIControl{
 	private var totalScoreRect : Rect;
 	
 	// Honors
-	private var honorsBoxWidth : float = 1760;
-	private var honorScoreOffsetX : float = 294;
-	private var honorScoreOffsetY : float = 185;
-	private var honorsLeftX : float = 79;
-	private var honorsLeftY : float = 427;
+	private var honorsBoxWidth : float = 1104;
+	private var honorScoreOffsetX : float = 168;
+	private var honorScoreOffsetY : float = 225;
+	private var honorsLeftX : float = 128;
+	private var honorsLeftY : float = 516;
 	private var honorsRect : List.<Rect> = new List.<Rect>();
 	private var honorScoreRect : List.<Rect> = new List.<Rect>();
 	
@@ -109,8 +122,29 @@ public class ScoreMenu extends GUIControl{
 	public var playerDataPref : GameObject;
 	
 	private var levelSelectRef : LevelSelectMenu;
+	
+	var screenRect : Rect;
+	
+	private var boldStyle:GUIStyle;
+	private var yellowStyle:GUIStyle;
+	private var redStyle:GUIStyle;
+	
+	//Additional Text:
+	private var agentNameTitleRect:Rect;
+	private var agentRankTitleRect:Rect;
+	private var missionScoreTitleRect:Rect;
+	private var promotionStatusRect:Rect;
+	private var titleRect:Rect;
+	private var honorTitleRect:Rect;
+	public var technologyName:String = "";
+	private var technologyNameRect:Rect;
+	private var addedToCodexRect:Rect;
+	
+	private var standardFontSize:int;
+	private var largerFontSize:int;
 
-	public function Initialize(){
+	public function Initialize()
+	{
 		super.Initialize();
 		
 		counter = 0;
@@ -132,11 +166,65 @@ public class ScoreMenu extends GUIControl{
 			Debug.Log("Testing...");
 		}
 	
-	
+		
+		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
+		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
+		
+		//standardFontSize = 0.040 * screenHeight;
+		//largerFontSize = 0.054 * screenHeight;
+		
+		standardFontSize = 0.022 * screenWidth;
+		largerFontSize = 0.030 * screenWidth;
+		
+		scoreScreenSkin.label.fontSize = standardFontSize;
+		scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
+		scoreScreenSkin.customStyles[2].fontSize = standardFontSize;
+		scoreScreenSkin.customStyles[3].fontSize = standardFontSize;
+		
+		boldStyle = scoreScreenSkin.customStyles[1];
+		yellowStyle = scoreScreenSkin.customStyles[2];
+		redStyle = scoreScreenSkin.customStyles[3];
+		
+		
 		var designWidth : float = 1920;
 		var designHeight : float = 1080;
-	
-	
+		
+		
+		infoBoxRect = createRect(infoBox, 81 / designWidth, 74 / designHeight, infoBox.height / designHeight, false, screenRect);
+		
+		
+		
+		//createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean, compareToRect:Rect);
+		
+		shareButtonRect = createRect(shareButton,1340 / designWidth, 27/designHeight, shareButton.height / designHeight, false, screenRect);
+		retryButtonRect = createRect(retryButton, 81 / designWidth, 936/designHeight, retryButton.height / designHeight, false, screenRect);
+		contButtonRect = createRect(contButton, 1225 / designWidth, 936/designHeight, contButton.height / designHeight, false, screenRect);
+		
+		
+		var textBox : Vector2 = new Vector2(boxWidth, boxHeight);
+		
+		agentNameRect = createRect(textBox, textX / designWidth, textY / designHeight, 0.05, false, screenRect);
+		
+		agentRankRect = createRect(textBox, textX / designWidth, (textY + boxHeight) / designHeight, 0.05, false, screenRect);
+		
+		missionScoreRect = createRect(textBox, textX / designWidth, (textY + (boxHeight*2)) / designHeight, 0.05, false, screenRect);
+						
+		titleRect  = createRect(new Vector2(1066, 96), (textX - 700) / designWidth, 72/designHeight, 96 / designHeight, false, screenRect);
+		
+		agentNameTitleRect = createRect(textBox, (textX - 700) / designWidth, textY / designHeight, 0.05, false, screenRect);
+		agentRankTitleRect = createRect(textBox, (textX - 700) / designWidth, (textY + boxHeight) / designHeight, 0.05, false, screenRect);
+		missionScoreTitleRect = createRect(textBox, (textX - 700) / designWidth, (textY + (boxHeight*2)) / designHeight, 0.05, false, screenRect);
+		promotionStatusRect = createRect(textBox, (textX - 700) / designWidth, (textY + (boxHeight*3)) / designHeight, 0.05, false, screenRect);
+																																										
+		honorTitleRect = createRect(textBox, 135 / designWidth, 420 / designHeight, 0.05, false, screenRect);
+		
+		techBGRect = createRect(techBG, 1354 / designWidth, 419 /designHeight, techBG.height / designHeight, false, screenRect);
+		codexIconRect = createRect(codexIcon, 109 / designWidth, 817 /designHeight, codexIcon.height / designHeight, false, screenRect);
+		techImageRect = createRect(new Vector2(327, 283), 1387 / designWidth, 465 /designHeight, 0.262, false, screenRect);
+
+		/*
+
 		//Calculating Rect.
 			// Share Button
 		shareButtonRect = RectFactory.NewRect(shareButtonX / designWidth, 
@@ -175,35 +263,49 @@ public class ScoreMenu extends GUIControl{
 											  (textY + (boxHeight*3) + honorsBoxGap) / designHeight,
 											   boxWidth / designWidth,
 											   boxHeight / designHeight);
-											   
+												   							   
+	   */	
+	   
 			// Honors
 	
 		for(var i :int = 0; i < honorsTextures.Count; i++)
 		{
 		
-			var width : float = honorsLeftX + ((honorsBoxWidth / 4) * i);
+			var width : float = honorsLeftX + ((honorsBoxWidth / 3) * i);
 			
 			var rect : Rect = new Rect();
-			rect =	 	 RectFactory.NewRect( width / designWidth, 
+			rect = createRect(honorsTextures[i].earned, width / designWidth, honorsLeftY / designHeight, honorsTextures[i].earned.height / designHeight, false, screenRect);
+
+			/*
+				 	 	 	 RectFactory.NewRect( width / designWidth, 
 											  honorsLeftY / designHeight,
 											  honorsTextures[i].earned.width / designWidth,
 											  honorsTextures[i].earned.height / designHeight);
-											  
+			*/
+			
 			var rectScore : Rect = new Rect();
+			rectScore = createRect(honorsTextures[i].earned, (width + honorScoreOffsetX) / designWidth, (honorsLeftY + honorScoreOffsetY) / designHeight, honorsTextures[i].earned.height / designHeight, false, screenRect);
+											  
+			/*
 			rectScore =	 RectFactory.NewRect((width + honorScoreOffsetX) / designWidth, 
 											  (honorsLeftY + honorScoreOffsetY) / designHeight,
 											  honorsTextures[i].earned.width / designWidth,
 											  honorsTextures[i].earned.height / designHeight);
+		  	*/
 			honorsRect.Add(rect);
 			honorScoreRect.Add(rectScore);
 		}
 		
 			// Exp Bar:
+			/*
 		expBarRect = RectFactory.NewRect( expBarX / designWidth, 
 										  expBarY / designHeight,
 										  expBarBG.width / designWidth,
 										  expBarBG.height / designHeight);
-										  
+				*/						  
+				
+		expBarRect = createRect(expBarBG, 0.457, 0.33, 0.033, false, screenRect);
+				
 		expFill = expWithinRank / currentMinExpGoal;
 		expEarnedFill = (expWithinRank + expEarned) / currentMinExpGoal;
 		barDisplay = expFill;	// starts off at exp length
@@ -213,15 +315,32 @@ public class ScoreMenu extends GUIControl{
 		
 		levelSelectRef = gameObject.GetComponent(LevelSelectMenu);
 		backgroundMusic = SoundManager.Instance().backgroundSounds.scoreMenuMusic;
+		
+		
+		var codexBox : Vector2 = new Vector2(1744, 104);
+		
+		technologyNameRect = createRect(codexBox, 235 / designWidth, 844/designHeight, codexBox.x / designHeight, false, screenRect);
+		addedToCodexRect = createRect(codexBox, 0, 844/designHeight, codexBox.x / designHeight, false, screenRect);
+		addedToCodexRect.x = technologyNameRect.x + (technologyName.Length * (scoreScreenSkin.customStyles[3].fontSize/1.6));
+		
 	}
 	
-	public function Render(){   
-		
+	public function Render()
+	{   
+	
 		// Drawing background textures:
 		GUI.skin = scoreScreenSkin;
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		
+		GUI.BeginGroup(screenRect);
 		//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), infoBox);
+		GUI.DrawTexture(infoBoxRect, infoBox);
+		
+		
+		scoreScreenSkin.customStyles[1].fontSize = largerFontSize;
+		GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
+		scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
+		
 		
 		// Buttons are rendered:
 		
@@ -255,6 +374,14 @@ public class ScoreMenu extends GUIControl{
 		
 		
 		// Text is rendered:
+		GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
+		GUI.Label(agentRankTitleRect, "Agent Rank", boldStyle);
+		GUI.Label(missionScoreTitleRect, "Mission Score", boldStyle);
+		GUI.Label(promotionStatusRect, "Promotion Status", boldStyle);
+		GUI.Label(honorTitleRect, "Honors", boldStyle);
+		
+		
+		
 		GUI.Label(agentNameRect, agentName);
 		GUI.Label(agentRankRect, agentRank);
 		GUI.Label(missionScoreRect, missionScore);
@@ -293,6 +420,21 @@ public class ScoreMenu extends GUIControl{
 			}
 			 
 		GUI.EndGroup ();
+		
+		GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);	
+		GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
+	
+	
+		GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
+		if(technologyName != null && technologyName != "")
+		{
+			GUI.Label(technologyNameRect, technologyName, redStyle);
+			GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
+		}
+		else	
+			GUI.Label(technologyNameRect, "No new technology added.", redStyle);
+		
+		GUI.EndGroup();
 		
 	}
 	
@@ -336,9 +478,15 @@ public class ScoreMenu extends GUIControl{
 		}
 		//Debug.Log("Rank increased " + timesRankIncreased + " times.");
 		
+		if(technologyName != "")
+		{
+			if(!saveSystem.currentPlayer.codexData.isUnlocked(technologyName))
+				saveSystem.currentPlayer.unlockCodex(technologyName);
+			else
+				technologyName = "";
+		}
+		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
-		
-		
 	}
 	
 	function AddComboPoints(): int
@@ -366,10 +514,9 @@ public class ScoreMenu extends GUIControl{
 	
 	enum HonorType
 	{
-		UnitBonus,
-		TimeBonus,
-		NoUndoBonus,
-		TurnBonus
+		Agile,
+		Efficient,
+		Resourceful
 	}
 	
 	
