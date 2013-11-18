@@ -197,6 +197,7 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	temp.gameObject.transform.position.y = 10;
 	temp.gameObject.name = outputBuilding + " " + inputBuilding;
 	var buildDistance : float = Vector3.Distance(buildings[outputBuilding].transform.position, buildings[inputBuilding].transform.position);
+		
 	temp.startLifetime = buildDistance / temp.startSpeed;
 	temp.renderer.material.mainTexture = linkTextures[resource - 1];
 	var targetVec : Vector3 = buildings[inputBuilding].transform.position - buildings[outputBuilding].transform.position;
@@ -206,6 +207,12 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	var rotateDegrees : float = Vector3.Angle(Vector3.forward, targetVec);
 	temp.gameObject.transform.rotation = Quaternion.Euler(0, rotateDegrees * angleModifier, 0);
 	temp.startRotation = (rotateDegrees * angleModifier) * Mathf.Deg2Rad;
+	
+	//Added by GPC 11/17/13
+	var initialPlaybackSpeed = temp.playbackSpeed;
+	temp.playbackSpeed = initialPlaybackSpeed * 8;
+	yield WaitForSeconds(1.0);
+	temp.playbackSpeed = initialPlaybackSpeed;
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
