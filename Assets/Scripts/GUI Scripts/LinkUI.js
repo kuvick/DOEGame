@@ -564,7 +564,7 @@ function HighlightTiles()
 		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
 		{
 			buildingHighlightColor = usableHighlightColor;
-			//gridBuilding.indicator.SetState(IndicatorState.Active);
+			gridBuilding.indicator.SetState(IndicatorState.Active);
 		}
 		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
 		{
@@ -576,6 +576,7 @@ function HighlightTiles()
 				{
 					buildingHighlightColor = targetHighlightColor;
 					gridBuilding.indicator.SetState(IndicatorState.Valid);
+					
 				}
 			}		
 			for(j = 0; j < tempBuilding.allocatedOutputs.Count; j++)

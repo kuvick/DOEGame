@@ -65,10 +65,16 @@ function SetState (state : IndicatorState)
 			currImage = activeImage;
 			renderer.material.mainTextureOffset = Vector2(1,1);
 			renderer.material.mainTextureScale = Vector2(-1,-1);
+			renderer.material.color = Color.white;
 			break;
 		case IndicatorState.Valid:
 			currImage = validImage;
 			spriteIndex = 0f;
+			renderer.material.color = Color.white;
+			break;
+		case IndicatorState.Neutral:
+			currImage = null;
+			renderer.material.color = Color.clear;
 			break;
 	}
 	gameObject.renderer.material.mainTexture = currImage;
