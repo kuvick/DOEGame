@@ -111,6 +111,7 @@ function Start()
 		
 		// Create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+		tempBuilding.indicator = buildingObjects[index].GetComponentInChildren(BuildingIndicator);
 		
 		// Generates resource icons:
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
@@ -900,6 +901,9 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
+    	
+    	if (building.indicator)
+    		building.indicator.SetState(IndicatorState.Active);
     	/*if (building.optionalOutputIcon)
     		building.optionalOutputIcon.SetActive(true);*/
     	for(var outLink : int in building.outputLinkedTo)
@@ -1667,6 +1671,7 @@ class BuildingOnGrid
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
+	var indicator : BuildingIndicator;
 	
 	var tooltip : Tooltip[];
 	var hasTooltipTrigger : boolean = false;

@@ -562,7 +562,10 @@ function HighlightTiles()
 		if(gridBuilding == null)
 			return;
 		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
+		{
 			buildingHighlightColor = usableHighlightColor;
+			//gridBuilding.indicator.SetState(IndicatorState.Active);
+		}
 		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
 		{
 			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
@@ -572,6 +575,7 @@ function HighlightTiles()
 				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]))
 				{
 					buildingHighlightColor = targetHighlightColor;
+					gridBuilding.indicator.SetState(IndicatorState.Valid);
 				}
 			}		
 			for(j = 0; j < tempBuilding.allocatedOutputs.Count; j++)
@@ -579,6 +583,7 @@ function HighlightTiles()
 				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allocatedOutputs[j]))
 				{
 					buildingHighlightColor = targetHighlightColor;
+					gridBuilding.indicator.SetState(IndicatorState.Valid);
 				}
 			}	
 			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
