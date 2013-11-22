@@ -53,7 +53,7 @@ public class ContactsMenu extends GUIControl{
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with contacts
 		spacesPerRow = contactsPerRow - 1;
 		contactWidth = ((rowWidth - (spacesPerRow * inBetweenContactsSpace)) / contactsPerRow);
-		contacts = playerData.currentPlayer.contactData.contacts;
+		//contacts = playerData.currentPlayer.contactData.contacts;
 		SetupRectangles();
 	}
 	

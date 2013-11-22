@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<CodexData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <codices>
+  	<CodexEntry>
+	  <name>Smart Grid</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://www.smartgrid.gov/the_smart_grid#smart_grid</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Electrofuels</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://energy.gov/articles/electrofuels-tiny-organisms-making-big-impact</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Biodiesel</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>energy.gov/articles/researchers-borrow-fir-tree-create-biodiesel</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Silicon Carbide Thyristors</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Alden Fish-Friendly Turbine</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://energy.gov/articles/fish-friendly-turbine-making-splash-water-power</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Organic Flash Cycle (OFC)</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Residential Integrated Ventilation Controller (RIVEC)</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Transition Metal Switchable Mirrors</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>techportal.eere.energy.gov/technology.do/techID=145</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Electrochemical Solution Growth: Gallium Nitride Crystal Growth</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=602</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Energy Saving System to Remove Volatile Organic Compounds (VOCs) from Indoor Air</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=836</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Process for Fabrication of Efficient Solar Cells</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Low-cost, Modular, Building-integrated Photovoltaic-Thermal Collector</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Hydrogen Storage</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>energy.gov/articles/basic-and-slightly-acidic-solution-hydrogen-storage</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Efficient Polymer Solar Cells</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Energy Saving Absorption Heat Pump Water Heater</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>techportal.eere.energy.gov/technology.do/techID=297</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Super Energy Saver Heat Pump</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=293</urlLink>
+	</CodexEntry>
+	<CodexEntry>
+	  <name>Energy Efficient Laboratory Fume Hood</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=139</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Capturing Carbon Emissions to Increase Oil Production</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Tidal Power</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://en.wikipedia.org/wiki/Tidal_power</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Waste to Energy</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://midmainewaste.com/about-us/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Combined Heat and Power (CHP, or Cogeneration)</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://energy.gov/articles/energy-department-turns-heat-and-power-industrial-energy-efficiency</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>eGain Forecasting</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://en.wikipedia.org/wiki/Environmental_technology#eGain_forecasting</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Electric Car Charging Station</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-11128_3-57604962-54/nissan-leaf-buyers-in-texas-charge-up-for-free</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Solar-Powered Airplanes</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-11128_3-57590789-54/electric-aircraft-start-finding-a-foothold-in-aviation-industry/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Alge Bio-Reactor</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>MeterPlug</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-11128_3-57559830-54/phantom-fighter-meterplug-reports-electric-use-in-dollars/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Non-Invasive Energy Meter</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=392</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Liquid Metal Battery</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-11128_3-57441331-54/liquid-metal-battery-raises-$15m-in-series-b-financing/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Plastic Bags for Energy Storage</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://www.sciencedaily.com/releases/2013/09/130925102651.htm</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Air Powered Cars</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Nuclear Power</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>LINK</urlLink>
+	</CodexEntry>
+	<CodexEntry>
+	  <name>Ethanol Fuel for Vehicles</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>LINK</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Geothermal Power</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Small Nuclear Reactors</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Silver Printing Method</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Photovoltaic "Glitter"</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=78</urlLink>
+	</CodexEntry>
+  	<CodexEntry>
+	  <name>Nuclear Power and Waste Disposal</name>
+	  <isUnlocked>false</isUnlocked>
+	  <urlLink>LINK</urlLink>
+	</CodexEntry>  
+  
+  </codices>
+</CodexData>

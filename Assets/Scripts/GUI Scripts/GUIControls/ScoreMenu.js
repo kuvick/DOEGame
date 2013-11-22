@@ -478,13 +478,16 @@ public class ScoreMenu extends GUIControl{
 		}
 		//Debug.Log("Rank increased " + timesRankIncreased + " times.");
 		
+		Debug.Log("Tech Name: " + technologyName);
+		
 		if(technologyName != "")
 		{
-			if(!saveSystem.currentPlayer.codexData.isUnlocked(technologyName))
-				saveSystem.currentPlayer.unlockCodex(technologyName);
-			else
+			// if the function doesn't return true, sets technology name because either the codex did not contain the 
+			if(!saveSystem.UnlockCodex(saveSystem.currentPlayer, technologyName))
 				technologyName = "";
 		}
+		
+		Debug.Log("Tech Name: " + technologyName);
 		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	}

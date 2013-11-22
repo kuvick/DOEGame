@@ -48,6 +48,8 @@ public class CodexMenu extends GUIControl{
 	public function Initialize(){
 		super.Initialize();
 		
+		codices = new List.<CodexEntry>();
+		
 		if (playerData == null){
 			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
 			playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
@@ -66,15 +68,25 @@ public class CodexMenu extends GUIControl{
 		
 		rowWidth = 1 - (2 * sidePadding); // fill up the width with codices
 		
+		/*
 	 	if(playerData.currentPlayer.codexData == null || playerData.currentPlayer.codexData.codices == null || playerData.currentPlayer.codexData.codices.Count <= 0)
 	 	{
 	 		playerData.currentPlayer.codexData = new CodexData();
 			playerData.currentPlayer.codexData.LoadFromSource();
 		}
-		
-		codices = playerData.currentPlayer.codexData.codices;
-		
 		playerData.profileSystem.Save();
+		*/
+		
+		//codices = playerData.currentPlayer.codexData.codices;
+		
+		for(var i:int = 0; i < playerData.currentPlayer.codexEntries.Count; i++)
+		{
+			var tempCodex:CodexEntry = new CodexEntry();
+			
+			if(playerData.codexData.UnlockCodex(playerData.currentPlayer.codexEntries[i]))
+				codices.Add(playerData.codexData.GetCodexEntry(playerData.currentPlayer.codexEntries[i]));
+		}
+		
 		
 		SetupRectangles();
 	}
@@ -98,7 +110,7 @@ public class CodexMenu extends GUIControl{
 		
 		var index : int = 0;
 		for (var codex : CodexEntry in codices){
-			if (codex.isUnlocked){
+			//if (codex.isUnlocked){
 				if (GUI.Button(codicesRects[index], codex.name,  index%2==0 ? codexButtonLightStyle : codexButtonDarkStyle)){
 					if (codex.urlLink != null && codex.urlLink != ""){
 						Application.OpenURL(codex.urlLink);
@@ -107,7 +119,7 @@ public class CodexMenu extends GUIControl{
 					}
 				}
 				index++;
-			}
+			//}
 		}
 		GUI.EndScrollView ();
 	}
