@@ -66,7 +66,7 @@ public var m_display : MetricDisplay;
 
 public var level_s : LevelSerializer;
 
-
+public var buildingIndicatorPrefab : GameObject;
 
 //*********************************************************************************************************************
 // [Functions] ********************************************************************************************************
@@ -111,6 +111,11 @@ function Start()
 		
 		// Create the building's highlight hexagon
 		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+		/*var tempIndicator : GameObject = Instantiate(buildingIndicatorPrefab, Vector3(0,5,0), Quaternion.identity);
+		tempIndicator.transform.parent = buildingObjects[index].transform;
+		tempIndicator.transform.localPosition = Vector3(0,5,0);*/
+		tempBuilding.indicator = buildingObjects[index].GetComponentInChildren(BuildingIndicator);
+		tempBuilding.indicator.SetState(IndicatorState.Neutral);
 		
 		// Generates resource icons:
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
@@ -767,6 +772,7 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
     SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     SetBuildingResourceActive(building.allocatedInputIcons, false);
     SetBuildingResourceActive(building.allocatedOutputIcons, false);
+    building.indicator.SetState(IndicatorState.Neutral);
     if (building.optionalOutputIcon)
     	building.optionalOutputIcon.SetActive(false);
 	if (parentIndex >= 0)
@@ -900,6 +906,9 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	SetBuildingResourceActive(building.unallocatedOutputIcons, true);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
+    	
+    	if (building.indicator)
+    		building.indicator.SetState(IndicatorState.Active);
     	/*if (building.optionalOutputIcon)
     		building.optionalOutputIcon.SetActive(true);*/
     	for(var outLink : int in building.outputLinkedTo)
@@ -945,6 +954,7 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	SetBuildingResourceActive(building.unallocatedOutputIcons, false);
     	SetBuildingResourceActive(building.allocatedInputIcons, false);
     	SetBuildingResourceActive(building.allocatedOutputIcons, false);
+    	building.indicator.SetState(IndicatorState.Neutral);
     	/*if (building.optionalOutputIcon)
     		building.optionalOutputIcon.SetActive(false);*/
     }
@@ -1063,6 +1073,8 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
+	tempBuilding.indicator = buildingObject.GetComponentInChildren(BuildingIndicator);
+	tempBuilding.indicator.SetState(IndicatorState.Neutral);
 	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 	buildingsOnGrid[buildingSiteID] = tempBuilding;
 	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
@@ -1667,6 +1679,7 @@ class BuildingOnGrid
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
 	var highlighter : GameObject;
+	var indicator : BuildingIndicator;
 	
 	var tooltip : Tooltip[];
 	var hasTooltipTrigger : boolean = false;

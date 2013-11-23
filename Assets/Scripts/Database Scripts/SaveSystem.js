@@ -20,6 +20,7 @@ public var rankSystem : RankSystem = new RankSystem();
 public var profileSystem : ProfileSystem = new ProfileSystem();
 public var currentPlayer : Player;
 private static var exists : boolean = false;
+public var codexData : CodexData = new CodexData();
 
 /*
 function Awake ()
@@ -46,6 +47,7 @@ function Start ()
 	profileSystem = profileSystem.Load();
 	currentPlayer = profileSystem.lastLoggedInPlayer;
 	profileSystem.Save();
+	codexData.Load();
 }
 
 public function SavePlayer(playerName : String)
@@ -64,7 +66,8 @@ public function SavePlayer(playerName : String)
 	return false;
 }
 
-public function SaveCurrentPlayer(){
+public function SaveCurrentPlayer()
+{
 	SavePlayer(currentPlayer.name);
 }
 
@@ -109,8 +112,8 @@ public function createPlayer(name : String):boolean
 			}
 		}
 		var newPlayer : Player = rankSystem.generateNewPlayer(name);
-		newPlayer.codexData = new CodexData();
-		newPlayer.codexData.LoadFromSource();
+		//newPlayer.codexData = new CodexData();
+		//newPlayer.codexData.LoadFromSource();
 		profileSystem.Players.Add(newPlayer);
 		return true;
 	}
@@ -152,6 +155,19 @@ public function deletePlayer(name : String): boolean
 	return false;
 }
 
+
+public function UnlockCodex(player:Player, codexName:String):boolean
+{
+	
+	if(player.unlockCodex(codexName, codexData))
+	{
+		profileSystem.Save();
+		return true;
+	}
+	return false;
+}
+
+
 // Profile System, holds all the avaliable players
 @XmlRoot("ProfileSystem")
 public class ProfileSystem
@@ -185,6 +201,7 @@ public class ProfileSystem
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
 	 	stream.Close();
 	 	
+	 	/*
 	 	for(var i:int = 0; i < Players.Count; i++)
 	 	{
 	 		if(Players[i].codexData == null || Players[i].codexData.codices == null || Players[i].codexData.codices.Count <= 0)
@@ -198,6 +215,7 @@ public class ProfileSystem
 			lastLoggedInPlayer.codexData = new CodexData();
 			lastLoggedInPlayer.codexData.LoadFromSource();
 		}
+		*/
 		
 	 	return system;
 	 }
@@ -213,11 +231,12 @@ public class ProfileSystem
   			Debug.LogWarning("Attempting to setup profiles when there were no players adding the last logged in one.");
   			Players.Add(lastLoggedInPlayer);
   		}
-  		if (lastLoggedInPlayer.codexData.codices.Count == 0){
+  		if (lastLoggedInPlayer.codexEntries.Count == 0){
 			Debug.Log("No codex data for " + lastLoggedInPlayer.name + " loading it from source.");
-			lastLoggedInPlayer.codexData.LoadFromSource();
+			//lastLoggedInPlayer.codexData.LoadFromSource();
 		}
 		
+		/*
 		if (lastLoggedInPlayer.contactData.contacts.Count == 0){
 			Debug.Log("No contact data for " + lastLoggedInPlayer.name + " loading it from source.");
 			lastLoggedInPlayer.contactData.LoadFromSource();
@@ -238,10 +257,11 @@ public class ProfileSystem
   				Debug.Log("No contact data for " + player.name + " loading it from source.");
   				player.contactData = contactSource;
   			}
-  		}
+  		}*/
 
   		Save();
   	}
+  	
 }
 
 // Information to be stored about a player
@@ -257,8 +277,9 @@ public class Player
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelDataList : List.<LevelData> = new List.<LevelData>();
-  	public var contactData : ContactData;
-  	public var codexData : CodexData;
+  	//public var contactData : ContactData;
+  	//public var codexData : CodexData;
+  	public var codexEntries : List.<String> = new List.<String>();
 	
 	// This updates the score or adds it if it wasn't there before
 	// Also, it outputs the difference between the stored score
@@ -309,6 +330,7 @@ public class Player
 		return 0;
 	}
 	
+	/*
 	public function unlockContact(contactName : String){
 		contactData.UnlockContact(contactName);
 	}
@@ -317,15 +339,24 @@ public class Player
 		contactData.LockContact(contactName);
 	}
 	
-	public function unlockCodex(codexName : String){
-		codexData.UnlockCodex(codexName);
-	}
-	
 	public function lockCodex(codexName : String){
 		codexData.LockCodex(codexName);
 	}
+	*/
 	
-	public function completeLevel(levelName : String){
+	public function unlockCodex(codexName : String, data : CodexData):boolean
+	{
+		//codexData.UnlockCodex(codexName);
+		if(!codexEntries.Contains(codexName) && data.UnlockCodex(codexName))
+		{
+			codexEntries.Add(codexName);
+			return true;
+		}
+		return false;
+	}
+	
+	public function completeLevel(levelName : String)
+	{
 		var levelDataExists : boolean = false;
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
@@ -345,11 +376,13 @@ public class Player
 		}
 	}
 	
-	public function unlockLevel(levelName : String){
+	public function unlockLevel(levelName : String)
+	{
 		var levelDataExists : boolean = false;
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
-			if(levelDataList[i].levelName == levelName){
+			if(levelDataList[i].levelName == levelName)
+			{
 				levelDataExists = true;
 				levelDataList[i].levelUnlocked = true;
 				return;
@@ -365,10 +398,12 @@ public class Player
 		}
 	}
 	
-	public function levelHasBeenCompleted(levelName : String) : boolean{
+	public function levelHasBeenCompleted(levelName : String) : boolean
+	{
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
-			if(levelDataList[i].levelName == levelName){
+			if(levelDataList[i].levelName == levelName)
+			{
 				return (levelDataList[i].levelCompleted);
 			}
 		}
@@ -378,10 +413,12 @@ public class Player
 		return (false);
 	}
 	
-	public function levelHasBeenUnlocked(levelName : String) : boolean{
+	public function levelHasBeenUnlocked(levelName : String) : boolean
+	{
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
-			if(levelDataList[i].levelName == levelName){
+			if(levelDataList[i].levelName == levelName)
+			{
 				return (levelDataList[i].levelUnlocked);
 			}
 		}

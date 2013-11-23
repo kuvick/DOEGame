@@ -40,8 +40,8 @@ private var iconIndex : int = 0;
 public var primaryIcons : Texture2D[]; // 0 = without upgrade, 1 = with upgrade
 public var secondaryIcons : Texture2D[]; // 0 = without upgrade, 1 = with upgrade
 
-private var codicesUnlockedThisLevel : List.<String>;
-private var contactsUnlockedThisLevel : List.<String>;
+//private var codicesUnlockedThisLevel : List.<String>;
+//private var contactsUnlockedThisLevel : List.<String>;
 
 //Combo
 public var comboSystem: ComboSystem;
@@ -97,8 +97,8 @@ function Start ()
 	display = guiObj.GetComponent(InspectionDisplay);
 	intelMenu.LoadLevelReferences();
 	eventStack = new List.<EventStackNode>();
-	codicesUnlockedThisLevel = new List.<String>();
-	contactsUnlockedThisLevel = new List.<String>();
+	//codicesUnlockedThisLevel = new List.<String>();
+	//contactsUnlockedThisLevel = new List.<String>();
 	
 	if (playerData == null){
 		//Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
@@ -373,7 +373,7 @@ public function resolveEvent( script : EventScript)
 		SoundManager.Instance().PlaySecondaryObjectiveComplete();
 		incrementScore(false, tempScript.event.points);
 	}
-	
+	/*
 	for (var contactToUnlock : String in tempScript.contactsUnlocked){
 		if (playerData.currentPlayer.contactData.ContactUnlocked(contactToUnlock)){
 			continue;
@@ -382,7 +382,8 @@ public function resolveEvent( script : EventScript)
 		playerData.currentPlayer.unlockContact(contactToUnlock);
 		playerData.SaveCurrentPlayer();
 	}
-	
+	*/
+	/*
 	for (var codexToUnlock : String in tempScript.codicesUnlocked){
 		if (playerData.currentPlayer.codexData.CodexUnlocked(codexToUnlock)){
 			continue;
@@ -391,6 +392,7 @@ public function resolveEvent( script : EventScript)
 		playerData.currentPlayer.unlockCodex(codexToUnlock);
 		playerData.SaveCurrentPlayer();
 	}
+	*/
 }
 
 public function undoResolution()
