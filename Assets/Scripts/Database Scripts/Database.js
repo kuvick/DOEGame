@@ -115,7 +115,9 @@ function Start()
 		tempIndicator.transform.parent = buildingObjects[index].transform;
 		tempIndicator.transform.localPosition = Vector3(0,5,0);*/
 		tempBuilding.indicator = buildingObjects[index].GetComponentInChildren(BuildingIndicator);
-		tempBuilding.indicator.SetState(IndicatorState.Neutral);
+		
+		//GPC 11/23 this line was throwing errors, commented out
+//		tempBuilding.indicator.SetState(IndicatorState.Neutral);
 		
 		// Generates resource icons:
 		linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
