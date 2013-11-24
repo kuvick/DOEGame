@@ -6,6 +6,7 @@ public class ComboSystem
 	private var comboCount : int = 0;
 	private var comboScore : int = 0;
 	public var comboScoreBasePoints : int = 100;
+	private var highestCombo : int = 0;
 	
 	public function ComboSystem()
 	{
@@ -22,6 +23,8 @@ public class ComboSystem
 		//Debug.Log("Combo Incremented. Combo = " + comboCount);
 		comboCount++;
 		comboScore += comboScoreBasePoints;
+		if(comboCount > highestCombo)
+			highestCombo = comboCount;
 	}
 	
 	public function resetComboCount()
@@ -35,4 +38,9 @@ public class ComboSystem
 	{
 		return comboScore;
 	}	
+	
+	public function getHighestCombo() : int
+	{
+		return highestCombo;
+	}
 }
