@@ -174,6 +174,11 @@ function HandleMobileInput(){
                         
                         // if we are looking at the right finger
                         if (touch.fingerId == fingerDown[ 0 ]) {
+                        	// check if finger is over a building
+							var dragBuilding : GameObject = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+							// if finger is not over a building, check if it is over a link
+							if (dragBuilding == null)
+								dragBuilding = BuildingInteractionManager.PointOnLink(firstClickPosition);
 	                        // Either the finger is held down long enough to count
 	                        // as a move or it is lifted, which is also a tap. 
 	                        if (Time.time > firstTouchTime + minimumTimeUntilMove || 
@@ -188,13 +193,13 @@ function HandleMobileInput(){
 								state = ControlState.DraggingLink;		
 								break;	
 							} */
-	                        else if (DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null){ // else if the single touch has moved more than the minimum amount we take it to be a drag
+	                        else if (DragMovementDetected(deltaSinceDown) && dragBuilding == null) {//BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null){ // else if the single touch has moved more than the minimum amount we take it to be a drag
 	                        	state = ControlState.DragingCamera;
 	                        	break;
 	                        }
-	                        else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+	                        else if(DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
 							{
-								ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+								ModeController.selectedBuilding = dragBuilding;//BuildingInteractionManager.PointOnBuilding(firstClickPosition);
 								state = ControlState.DraggingLink;	
 							}	                   
 	                    }                                           
@@ -334,14 +339,20 @@ function HandleComputerInput(){
 	
 	if (state == ControlState.WaitingForNoInput){
 		var deltaSinceDown = Input.mousePosition - clickPosition;
+		
+		// check if mouse is over a building
+		var dragBuilding : GameObject = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+		// if mouse is not over a building, check if it is over a link
+		if (dragBuilding == null)
+			dragBuilding = BuildingInteractionManager.PointOnLink(firstClickPosition);
 		// if the mouse has moved over the threshhold then consider it a drag
-		if (DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null)//&& ModeController.selectedBuilding == null) {
+		if (DragMovementDetected(deltaSinceDown) && dragBuilding == null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null)//&& ModeController.selectedBuilding == null) {
 		{	
 			state = ControlState.DragingCamera;			
 		} 
-		else if(DragMovementDetected(deltaSinceDown) && BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+		else if(DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
 		{
-			ModeController.selectedBuilding = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
+			ModeController.selectedBuilding = dragBuilding;
 			state = ControlState.DraggingLink;				
 		}
 		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
@@ -361,7 +372,6 @@ function HandleComputerInput(){
 			state = ControlState.WaitingForFirstInput;			
 		}
 	}
-	
 	
 	if(state == ControlState.DraggingLink)
 	{

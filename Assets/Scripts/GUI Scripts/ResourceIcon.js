@@ -93,12 +93,13 @@ public function Initialize(building : BuildingOnGrid)
 	
 	gameObject.layer = 10;
 	
+	// generate background icon flash
 	flashIcon = Instantiate(Resources.Load("IconPlane") as GameObject, transform.position, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
 	flashIcon.transform.localScale = flashScale;
 	flashIcon.transform.position = gameObject.transform.position;
 	flashIcon.transform.position.y = 74;
 	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
-	//flashIcon.collider.active = false;
+	flashIcon.collider.enabled = false;
 	flashIcon.layer = 10;
 	
 	if (ioType == IOType.OptOut)

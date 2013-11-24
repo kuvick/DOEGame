@@ -59,7 +59,7 @@ function OnResumeGame()
 	paused = false;
 }
 
-static function PointOnBuilding(position : Vector2)
+static function PointOnBuilding(position : Vector2) : GameObject
 {
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
@@ -72,6 +72,18 @@ static function PointOnBuilding(position : Vector2)
 		building = Database.getBuildingAtIndex(buildingIndex);
 	}
 	return building;
+}
+
+static function PointOnLink(position : Vector2) : GameObject
+{
+	var hit : RaycastHit;
+	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
+	if (Physics.Raycast(ray, hit, 1000) && hit.collider.name.Contains(" "))
+	{
+		return hit.collider.gameObject.transform.parent.gameObject;
+		Debug.Log("zomg");
+	}
+	return null;
 }
 
 // will determine what to do with the tap at the given point
@@ -160,7 +172,7 @@ private static function CheckObjSelected (position : Vector2) : boolean
 	if (Physics.Raycast(ray, hit, 1000))
 	{
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
-		//Debug.Log("collided" + hit.collider.name);
+		Debug.Log("collided" + hit.collider.name);
 		return true;
 	}
 	return false;

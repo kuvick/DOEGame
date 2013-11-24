@@ -195,6 +195,9 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 {
 	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
 	temp.gameObject.transform.position.y = 10;
+	temp.gameObject.transform.parent = Database.getBuildingAtIndex(outputBuilding).transform;
+	temp.gameObject.transform.localPosition.x = 0;
+	temp.gameObject.transform.localPosition.z = 0;
 	temp.gameObject.name = outputBuilding + " " + inputBuilding;
 	var buildDistance : float = Vector3.Distance(buildings[outputBuilding].transform.position, buildings[inputBuilding].transform.position);
 		
@@ -207,6 +210,25 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	var rotateDegrees : float = Vector3.Angle(Vector3.forward, targetVec);
 	temp.gameObject.transform.rotation = Quaternion.Euler(0, rotateDegrees * angleModifier, 0);
 	temp.startRotation = (rotateDegrees * angleModifier) * Mathf.Deg2Rad;
+	
+	var tempCollider : BoxCollider = temp.gameObject.AddComponent(BoxCollider);
+	if (targetVec.z == 0)
+		tempCollider.center.z = Mathf.Abs(targetVec.x / 2f);
+	else if (targetVec.x == 0)
+		tempCollider.center.z = Mathf.Abs(targetVec.z / 2f);
+	else //if (targetVec.x > 0 && targetVec.z < 0)
+		tempCollider.center.z = Mathf.Abs(targetVec.z);
+	/*else 
+		tempCollider.center.z = targetVec.x;*/
+		
+	/*if (targetVec.z > 0)
+		tempCollider.center.z *= -1;*/
+	/*else
+		tempCollider.center.z = -targetVec.z;*/
+	/*var tempZ : float = tempCollider.center.z;
+	tempCollider.center.z = tempCollider.center.x;
+	tempCollider.center.x = tempZ;*/
+	tempCollider.size = Vector3(50f, 5f, targetVec.magnitude - HexagonGrid.tileWidth);
 	
 	//Added by GPC 11/17/13
 	var initialPlaybackSpeed = temp.playbackSpeed;

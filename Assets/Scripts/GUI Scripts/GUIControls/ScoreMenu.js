@@ -443,6 +443,36 @@ public class ScoreMenu extends GUIControl{
 	// and also to do the saving and calculations of rank, etc.
 	function generateText()
 	{
+		// Honors Icons
+		for(var i:int = 0; i < honorsTextures.Count; i++)
+		{
+			//honorsTextures[i].earned
+			if(honorsTextures[i].type == HonorType.Agile)
+			{
+				if(intelSystem.comboSystem.getHighestCombo() > 0)
+				{
+					honorsTextures[i].score = 100 * intelSystem.comboSystem.getHighestCombo();
+					honorsTextures[i].hasEarned = true;
+				}
+			}
+			else if(honorsTextures[i].type == HonorType.Efficient)
+			{
+				if(intelSystem.GetTimeLeft() > 0)
+				{
+					honorsTextures[i].score = 200 * intelSystem.GetTimeLeft();
+					honorsTextures[i].hasEarned = true;
+				}
+			}
+			else if(honorsTextures[i].type == HonorType.Resourceful)
+			{
+				if(intelSystem.getOptionalScore() > 0)
+				{
+					honorsTextures[i].score = 1000;
+					honorsTextures[i].hasEarned = true;
+				}
+			}
+		}
+	
 		agentName = saveSystem.currentPlayer.name;
 		agentRank = saveSystem.currentPlayer.rankName;
 		startRank = saveSystem.currentPlayer.rank;
@@ -452,9 +482,14 @@ public class ScoreMenu extends GUIControl{
 		else
 			currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank);
 		
-		// Need to program the bonuses...
-		
 		var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore() + (50 * intelSystem.GetTimeLeft());
+		
+		// Adding in honors scores
+		for(var j:int = 0; j < honorsTextures.Count; j++)
+		{
+			tempScore += honorsTextures[j].score;
+		}
+		
 		missionScore = tempScore.ToString();
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
@@ -487,8 +522,7 @@ public class ScoreMenu extends GUIControl{
 				technologyName = "";
 		}
 		
-		Debug.Log("Tech Name: " + technologyName);
-		
+		Debug.Log("Tech Name: " + technologyName);		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	}
 	
