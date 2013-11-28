@@ -146,6 +146,7 @@ function HandleMobileInput(){
 	                    if(!hasFirstClick){
 							firstClickPosition = touch.position;		
 							hasFirstClick = true;
+							BuildingInteractionManager.HandleFirstClick(firstClickPosition);
 							Debug.Log("MODIFIED!");			
 						}
 	                    break; // break out of the rest of the checks for efficiency
@@ -185,6 +186,7 @@ function HandleMobileInput(){
 	                             touch.phase == TouchPhase.Ended){
 	                            singleClickEvent(deltaSinceDown);
 	                            state = ControlState.WaitingForNoInput;
+	                            hasFirstClick = false;
 	                            break;
 	                            
 	                        }
@@ -270,6 +272,7 @@ function HandleMobileInput(){
         	
         	if (touch.phase == TouchPhase.Ended){
         		state = ControlState.WaitingForFirstInput;
+        		hasFirstClick = false;
         	} else {
 	       		deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
 	       		fingerDownPosition[ 0 ] = touch.position;
@@ -290,6 +293,7 @@ function HandleMobileInput(){
 			    }
 			
 				state = ControlState.WaitingForFirstInput;
+				hasFirstClick = false;
 			}
 		}
         
