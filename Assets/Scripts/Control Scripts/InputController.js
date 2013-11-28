@@ -146,6 +146,7 @@ function HandleMobileInput(){
 	                    if(!hasFirstClick){
 							firstClickPosition = touch.position;		
 							hasFirstClick = true;
+							BuildingInteractionManager.HandleFirstClick(firstClickPosition);
 							Debug.Log("MODIFIED!");			
 						}
 	                    break; // break out of the rest of the checks for efficiency
@@ -185,6 +186,7 @@ function HandleMobileInput(){
 	                             touch.phase == TouchPhase.Ended){
 	                            singleClickEvent(deltaSinceDown);
 	                            state = ControlState.WaitingForNoInput;
+	                            hasFirstClick = false;
 	                            break;
 	                            
 	                        }
@@ -270,6 +272,7 @@ function HandleMobileInput(){
         	
         	if (touch.phase == TouchPhase.Ended){
         		state = ControlState.WaitingForFirstInput;
+        		hasFirstClick = false;
         	} else {
 	       		deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
 	       		fingerDownPosition[ 0 ] = touch.position;
@@ -290,6 +293,7 @@ function HandleMobileInput(){
 			    }
 			
 				state = ControlState.WaitingForFirstInput;
+				hasFirstClick = false;
 			}
 		}
         
@@ -333,6 +337,7 @@ function HandleComputerInput(){
 			if(!hasFirstClick){
 				firstClickPosition = Input.mousePosition;		
 				hasFirstClick = true;
+				BuildingInteractionManager.HandleFirstClick(firstClickPosition);
 			}
 		}
 	}
@@ -358,6 +363,7 @@ function HandleComputerInput(){
 		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
 			singleClickEvent(Input.mousePosition);
 			state = ControlState.WaitingForFirstInput;
+			hasFirstClick = false;
 		}
 	}
 	
@@ -369,7 +375,8 @@ function HandleComputerInput(){
 		if (Input.GetKey(KeyCode.Mouse0)){
 			DragEvent(deltaSinceDown);
 		} else {
-			state = ControlState.WaitingForFirstInput;			
+			state = ControlState.WaitingForFirstInput;	
+			hasFirstClick = false;		
 		}
 	}
 	

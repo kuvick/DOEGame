@@ -548,6 +548,7 @@ function ReplaceBuilding (replacement : BuildingReplacement)
 
 function HighlightTiles()
 {
+	selectedBuilding = ModeController.getSelectedBuilding();
 	buildingIsSelected = (selectedBuilding != null);
 	if (buildingIsSelected)
 		selectedGridBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
@@ -562,7 +563,7 @@ function HighlightTiles()
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		if(gridBuilding == null)
 			return;
-		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
+		if (/*(!buildingIsSelected || !selectedGridBuilding.isActive) &&*/ (gridBuilding.isActive || building.name == "BuildingSite"))
 		{
 			buildingHighlightColor = usableHighlightColor;
 			buildingState = IndicatorState.Active;
@@ -828,10 +829,11 @@ public function SetUnitSelected (selected : boolean)
 	selectedGridBuilding.unitSelected = selected;
 }
 
-private function ResetLinkVariables()
+public function ResetLinkVariables()
 {
 	inputBuilding = null;
 	outputBuilding = null;
+	selectedBuilding = null;
 	optionalOutputUsed = false;
 	selectedResource = ResourceType.None;
 	activeButtonRects.Clear();
@@ -879,6 +881,7 @@ function Update()
 		ModeController.setSelectedBuilding(null);
 		ModeController.setSelectedInputBuilding(null);
 		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
+		HighlightTiles();
 	}
 	
 
