@@ -70,7 +70,9 @@ function Update () {
 						upgradeWidth, 
 						upgradeWidth);*/
 	//indicator.Update();
-	icon.Update();
+	
+	//GPC 11/28/13 Commented out due to this throwing runtime errors
+	//icon.Update();
 }
 
 //Draws the Upgrade Image to the Screen

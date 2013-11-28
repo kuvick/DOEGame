@@ -156,39 +156,43 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 
 function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst : boolean)
 {
-	var toAddTo : int;
-	var childName : String;
-	b1Position = buildings[b1].transform.position;
-	b2Position = buildings[b2].transform.position;
-	if (useFirst)
-	{
-		toAddTo = b1;
-		childName = b2Position.ToString();
-	}
-	else
-	{
-		toAddTo = b2;
-		childName = b1Position.ToString();
-	}
+	//GPC removing due to issues with v4.3
 	
-	for(var child:Transform in buildings[toAddTo].transform)
-	{
-		if(child.gameObject.GetComponent(LineRenderer) == null && 
-			!linksDrawn[b1, b2])
-		{
-			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
-			lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-			lineRenderer.material.mainTexture = linkTextures[resource - 1];
-			//lineRenderer.material.SetColor ("_TintColor", linkColors[b1,b2]);
-			lineRenderer.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
-			lineRenderer.SetWidth(10, 10);
-			lineRenderer.SetPosition(0, b1Position);
-			lineRenderer.SetPosition(1, b2Position);
-			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
-			child.name = childName; // used for changing the colors of specific links
-			break;
-		}
-	}
+//	var toAddTo : int;
+//	var childName : String;
+//	b1Position = buildings[b1].transform.position;
+//	b2Position = buildings[b2].transform.position;
+//	if (useFirst)
+//	{
+//		toAddTo = b1;
+//		childName = b2Position.ToString();
+//	}
+//	else
+//	{
+//		toAddTo = b2;
+//		childName = b1Position.ToString();
+//	}
+//	
+//	for(var child:Transform in buildings[toAddTo].transform)
+//	{
+//		if(child.gameObject.GetComponent(LineRenderer) == null && 
+//			!linksDrawn[b1, b2])
+//		{
+//			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
+//			
+//			
+//			//lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+//			lineRenderer.material.mainTexture = linkTextures[resource - 1];
+//			//lineRenderer.material.SetColor ("_TintColor", linkColors[b1,b2]);
+//			lineRenderer.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
+//			lineRenderer.SetWidth(10, 10);
+//			lineRenderer.SetPosition(0, b1Position);
+//			lineRenderer.SetPosition(1, b2Position);
+//			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
+//			child.name = childName; // used for changing the colors of specific links
+//			break;
+//		}
+//	}
 }
 
 function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType)
