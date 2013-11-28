@@ -563,7 +563,7 @@ function HighlightTiles()
 		gridBuilding = Database.getBuildingOnGrid(target.position);
 		if(gridBuilding == null)
 			return;
-		if ((!buildingIsSelected || !selectedGridBuilding.isActive) && (gridBuilding.isActive || building.name == "BuildingSite"))
+		if (/*(!buildingIsSelected || !selectedGridBuilding.isActive) &&*/ (gridBuilding.isActive || building.name == "BuildingSite"))
 		{
 			buildingHighlightColor = usableHighlightColor;
 			buildingState = IndicatorState.Active;
