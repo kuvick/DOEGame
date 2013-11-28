@@ -86,6 +86,24 @@ static function PointOnLink(position : Vector2) : GameObject
 	return null;
 }
 
+// Handles the initial click event, changing building indicators appropriately
+static function HandleFirstClick(position : Vector2)
+{
+	if (paused || CheckObjSelected(position))
+		return;
+	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
+	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+	if (buildingIndex != -1){
+		var building: GameObject;
+		building = Database.getBuildingAtIndex(buildingIndex);
+		ModeController.setSelectedBuilding(building);
+	} 
+	else
+		ModeController.setSelectedBuilding(null);
+	linkUIRef.HighlightTiles();
+}
+
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(position: Vector2){
 	// check if the click is on a building
@@ -208,4 +226,6 @@ static function HandleReleaseAtPoint(position: Vector2)
 	}
 	else
 		ModeController.setSelectedBuilding(null);
+	//linkUIRef.ResetLinkVariables();
+	linkUIRef.HighlightTiles();
 }

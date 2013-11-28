@@ -333,6 +333,7 @@ function HandleComputerInput(){
 			if(!hasFirstClick){
 				firstClickPosition = Input.mousePosition;		
 				hasFirstClick = true;
+				BuildingInteractionManager.HandleFirstClick(firstClickPosition);
 			}
 		}
 	}
