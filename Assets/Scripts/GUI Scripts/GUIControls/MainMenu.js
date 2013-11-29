@@ -279,8 +279,9 @@ public class MainMenu extends GUIControl
 			
 			if(showTurns)
 				GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-				
-			GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
+			
+			if(intelSystem.useTimer)
+				GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
 				
 		}
 		

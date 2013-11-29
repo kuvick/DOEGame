@@ -117,6 +117,7 @@ function OnGUI()
 public function Activate (disp : Tooltip, comp : InspectionComponent)
 {
 	componentSelected = true;
+	intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
@@ -147,6 +148,7 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 public function ActivateAndDeactivate(disp : Tooltip)
 {
 	componentSelected = true;
+	intelSys.toolTipOnScreen = true;
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
@@ -164,6 +166,7 @@ public function ActivateAndDeactivate(disp : Tooltip)
 public function Activate(disp : String)
 {
 	componentSelected = true;
+	intelSys.toolTipOnScreen = true;
 	dispText = disp;
 	FormatDisplay();
 }
@@ -247,6 +250,7 @@ private function NextTooltip()
 	{
 		SoundManager.Instance().playInspectionClose();
 		componentSelected = false;
+		intelSys.toolTipOnScreen = false;
 		currentTooltip = null;
 		yield WaitForSeconds(0.5);
 		inputController.SetEnabled(true);

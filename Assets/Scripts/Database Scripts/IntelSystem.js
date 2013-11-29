@@ -50,6 +50,9 @@ public var updateScore = false;
 // timer system
 private var timeLeft : int = 60;
 
+public var useTimer : boolean = true;
+
+public var toolTipOnScreen : boolean = false;
 
 class BuildingEvent
 {
@@ -92,6 +95,11 @@ class EventStackNode
 
 function Start ()
 {
+	if(!useTimer)
+	{
+		timeLeft = 0;
+	}
+
 	var guiObj : GameObject = GameObject.Find("GUI System");
 	var intelMenu : IntelMenu = guiObj.GetComponent(IntelMenu);
 	display = guiObj.GetComponent(InspectionDisplay);
@@ -205,7 +213,8 @@ public function DecrementTimer()
 {
 	while (timeLeft > 0 && !victory)
 	{
-		timeLeft--;
+		if(!toolTipOnScreen)
+			timeLeft--;
 		yield WaitForSeconds(1.0);
 	}
 }
