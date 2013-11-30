@@ -295,15 +295,65 @@ public class CodexMenu extends GUIControl{
 		GUI.EndGroup();
 	}
 	
+	private var techEntryGroup:Rect;
+	private var awardBGRect:Rect;
+	public var awardBGTexture:Texture;
+	private var techIconRect:Rect;
+	public var infoBoxTexture:Texture;
+	private var infoBoxRect:Rect;
+	public var learnMoreButton:Texture;
+	private var learnMoreRect:Rect;
+	private var titleRect:Rect;
+	private var descriptionRect:Rect;
+	
+	public var titleStyle:GUIStyle;
+	public var descriptStyle:GUIStyle;
+	
 	private function RenderEntry()
 	{
+		GUI.BeginGroup(techEntryGroup);
 		
+		
+			GUI.DrawTexture(infoBoxRect, infoBoxTexture, ScaleMode.StretchToFill);
+			GUI.Label(titleRect, currentEntry.name, titleStyle);
+			GUI.Label(descriptionRect, currentEntry.description, descriptStyle);
+			
+		
+			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);
+			GUI.DrawTexture(techIconRect, currentEntry.icon, ScaleMode.StretchToFill);
+			
+			
+			GUI.DrawTexture(learnMoreRect, learnMoreButton, ScaleMode.StretchToFill);
+			if(GUI.Button(learnMoreRect, ""))
+			{
+				Application.OpenURL(currentEntry.urlLink);
+			}
+			
+			
+			
+		
+		GUI.EndGroup();
+			
 	}
 	
 	
 	private var currentRow : int;
 	public function SetupRectangles()
 	{
+		
+		techEntryGroup = createRect(new Vector2(1845,746),73.0/1920.0, 264.0/1080.0, 746.0/1080.0, true);
+		awardBGRect = createRect(awardBGTexture,(1201.0 - 73.0)/1845.0, (264.0 - 264.0)/746.0, 637.0/746.0, false, techEntryGroup);
+		techIconRect = createRect(fullCodex[0].icon,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
+		infoBoxRect = createRect(infoBoxTexture,(73.0 - 73.0)/1845.0, (338.0 - 264.0)/746.0, 672.0/746.0, false, techEntryGroup);
+		learnMoreRect = createRect(learnMoreButton,(144.0 - 73.0)/1845.0, (834.0 - 264.0)/746.0, 107.0/746.0, false, techEntryGroup);
+		
+		titleRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (369.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
+		descriptionRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (509.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
+	
+	
+		titleStyle.fontSize = 0.030 * screenWidth;
+		descriptStyle.fontSize = 0.022 * screenWidth;
+	
 		backgroundRect = RectFactory.NewRect(0,0,1,1);
 		codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);
 		backButtonRect = createRect(backButtonTexture,0.81,0.022, 0.12, true);
