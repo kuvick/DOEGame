@@ -63,7 +63,8 @@ public class ScoreMenu extends GUIControl{
 	private var techBGRect : Rect;
 	
 	// Tech Image
-	public var techImage : Texture;
+	public var ecrbPlaceholder : Texture;
+	private var techImage : Texture;
 	private var techImageRect : Rect;
 	
 	// Text
@@ -518,9 +519,15 @@ public class ScoreMenu extends GUIControl{
 		if(technologyName != "")
 		{
 			// if the function doesn't return true, sets technology name because either the codex did not contain the 
+			// the tech, or the technology has already been unlocked.
 			if(!saveSystem.UnlockCodex(saveSystem.currentPlayer, technologyName))
 				technologyName = "";
 		}
+		
+		if(technologyName != "")
+			techImage = saveSystem.codexData.GetCodexEntry(technologyName).icon;
+		else
+			techImage = ecrbPlaceholder;
 		
 		Debug.Log("Tech Name: " + technologyName);		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
