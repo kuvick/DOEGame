@@ -54,6 +54,19 @@ public class CodexData
 		xmlFromText.Close();
 
 	 	codices = codexData.codices;
+	 	
+	 	
+	 	var placeholder:Texture = Resources.Load("TechIcons/ecrb_placeholder") as Texture;
+	 	
+	 	for(var i:int = 0; i < codices.Count; i++)
+	 	{
+	 		var img:Texture = Resources.Load("TechIcons/" + codices[i].iconName) as Texture;
+	 		
+	 		if(img == null)
+	 			codices[i].icon = placeholder;
+	 		else
+	 			codices[i].icon = img;
+	 	}
 	 }
 	
 	public function UnlockCodex(codexName : String):boolean
