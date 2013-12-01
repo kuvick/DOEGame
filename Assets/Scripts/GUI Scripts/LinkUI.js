@@ -206,6 +206,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 		if (ioputSet[i] != ResourceType.None)
 		{
 			var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
+			tempObject.transform.parent = building.buildingPointer.transform;
 			var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
 			tempScript.Initialize(building);
 			tempScript.SetIndex(i);

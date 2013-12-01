@@ -98,6 +98,7 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.transform.localScale = flashScale;
 	flashIcon.transform.position = gameObject.transform.position;
 	flashIcon.transform.position.y = 74;
+	flashIcon.transform.parent = gameObject.transform;
 	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
 	flashIcon.collider.enabled = false;
 	flashIcon.layer = 10;
