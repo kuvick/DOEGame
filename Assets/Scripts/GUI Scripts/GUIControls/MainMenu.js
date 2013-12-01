@@ -108,6 +108,8 @@ public class MainMenu extends GUIControl
 	private var scoreAndComboBGRect : Rect;
 	private var scoreAndComboBGPercent :float= 0.15;
 	
+	private var tutorialPointers:TutorialPointers;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -258,6 +260,7 @@ public class MainMenu extends GUIControl
 		objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
 		
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
+		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	}
 	
 	public function Render(){ 
@@ -479,6 +482,8 @@ public class MainMenu extends GUIControl
 			}
 		GUI.EndGroup();
 		addedObjRect = true;
+		
+		tutorialPointers.Render();
 			
 	}
 	

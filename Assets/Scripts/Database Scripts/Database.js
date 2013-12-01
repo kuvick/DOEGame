@@ -206,6 +206,18 @@ static public function findBuildingIndex (build : BuildingOnGrid) : int {
 	return -1;	
 }
 
+static public function getBuildingIndex(coord:Vector3):int
+{
+	return findBuildingIndex(getBuildingOnGrid(coord));
+}
+
+static public function getBuildingIndex(obj:GameObject):int
+{
+	var buildingData:BuildingData = obj.GetComponent(BuildingData);	
+	return findBuildingIndex(getBuildingOnGrid(buildingData.buildingData.coordinate));
+}
+
+
 static public function getBuildingAtIndex(index: int):GameObject{
 	var toReturn : BuildingOnGrid = buildingsOnGrid[index];
 	return (toReturn.buildingPointer);
@@ -1009,6 +1021,15 @@ static public function isActive( buildingIndex:int ): boolean
 	var building : BuildingOnGrid = buildingsOnGrid[buildingIndex];
 	return building.isActive;	
 }
+
+static public function isActive(obj:GameObject): boolean
+{
+	var index:int = getBuildingIndex(obj);
+	var building : BuildingOnGrid = buildingsOnGrid[index];
+	return building.isActive;	
+}
+
+
 
 
 //*******************************************
