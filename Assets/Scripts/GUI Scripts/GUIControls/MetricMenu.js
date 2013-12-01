@@ -67,16 +67,19 @@ public class MetricMenu extends GUIControl
 		GenerateLinks();
 		
 		graph = new Graph(6, 6);
-		graph.CreateBars(database.m_display.GetTurnList());
-		endGameString = database.m_display.GetEndGameDataAsString();
-		narrString = database.m_display.GetNarrativeDataAsString();
-		
+		#if (!UNITY_WEBPLAYER)
+			graph.CreateBars(database.m_display.GetTurnList());
+			endGameString = database.m_display.GetEndGameDataAsString();
+			narrString = database.m_display.GetNarrativeDataAsString();
+		#endif
 	}
 	
 	public function GenerateLinks()
 	{
 		database = GameObject.Find("Database").GetComponent(Database);
-		database.m_display.CreateLinkArray(database.buildingsOnGrid.Count);
+		#if (!UNITY_WEBPLAYER)
+			database.m_display.CreateLinkArray(database.buildingsOnGrid.Count);
+		#endif
 		
 		for(var i = 0; i < database.buildingsOnGrid.Count; i++)
 		{

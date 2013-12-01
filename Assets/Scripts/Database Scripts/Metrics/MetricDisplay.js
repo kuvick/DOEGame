@@ -62,6 +62,7 @@ public class MetricDisplay
 		nextCount = new List.<int>();
 	}
 	
+	#if (!UNITY_WEBPLAYER)
 	public function GatherData(sceneName : String) : boolean
 	{
 		if(GatherEndData(sceneName) && GatherLinkData(sceneName) && GatherTurnData(sceneName))
@@ -71,6 +72,7 @@ public class MetricDisplay
 		}
 		return false;
 	}
+	#endif
 	
 	public function AnalyzeData()
 	{
@@ -81,6 +83,7 @@ public class MetricDisplay
 		averageTimesUndone /= undoCount;
 	}
 	
+	#if (!UNITY_WEBPLAYER)
 	private function GatherEndData(sceneName : String) : boolean
 	{
 		
@@ -332,4 +335,5 @@ public class MetricDisplay
 			linkArray[output, input]++;			
 		}
 	}
+	#endif
 }

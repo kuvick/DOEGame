@@ -169,6 +169,7 @@ public function UnlockCodex(player:Player, codexName:String):boolean
 
 
 // Profile System, holds all the avaliable players
+// If playing on a web build, use PlayerPrefs, otherwise use XML
 @XmlRoot("ProfileSystem")
 public class ProfileSystem
 {
@@ -179,19 +180,48 @@ public class ProfileSystem
   	
   	public function Save()
 	{
-		var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+		/*var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
 		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
 		var stream : Stream = new FileStream(path, FileMode.Create);
+		
+		serializer.Serialize(stream, this);
+	 	stream.Close();*/
+
+	 	//Debug.Log("Saved: " + path);
+	 	
+	 	if (!Application.isWebPlayer)
+	 		NormalSave();
+	 	else
+	 		WebSave();
+ 	}
+ 	
+ 	public function NormalSave()
+ 	{
+ 		var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+		var stream : Stream = new FileStream(path, FileMode.Create);
+		
 		serializer.Serialize(stream, this);
 	 	stream.Close();
-	 	//Debug.Log("Saved: " + path);
+ 	}
+ 	
+ 	public function WebSave()
+ 	{
+ 		var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+ 		var stream : MemoryStream = new MemoryStream();
+ 		serializer.Serialize(stream, this);
+ 		var tmp : String = System.Convert.ToBase64String(stream.ToArray());
+	 	PlayerPrefs.SetString("profiles", tmp);
+	 	stream.Close();
+	 	
+	 	//PlayerPrefs.Save();
  	}
  	
  	public function Load(): ProfileSystem
  	{
- 		var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+ 		/*var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
  		//Debug.Log("Loaded: " + path);
- 		
+
  	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
  	 	if (!File.Exists(path)){
  	 		SetUpProfiles();
@@ -199,7 +229,7 @@ public class ProfileSystem
  	 	}
 	 	var stream : Stream = new FileStream(path, FileMode.Open);
 	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
-	 	stream.Close();
+	 	stream.Close();*/
 	 	
 	 	/*
 	 	for(var i:int = 0; i < Players.Count; i++)
@@ -217,6 +247,50 @@ public class ProfileSystem
 		}
 		*/
 		
+		var system : ProfileSystem;
+		
+		if (!Application.isWebPlayer)
+			system = NormalLoad();
+		else
+			system = WebLoad();
+		
+	 	return system;
+	 }
+	 
+	 // load function for pc/mobile build
+	 public function NormalLoad() : ProfileSystem
+	 {
+	 	var path : String = Path.Combine(Application.persistentDataPath, "ProfileSystem.xml");
+ 		//Debug.Log("Loaded: " + path);
+
+ 	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+ 	 	if (!File.Exists(path)){
+ 	 		SetUpProfiles();
+ 	 		return this;
+ 	 	}
+	 	var stream : Stream = new FileStream(path, FileMode.Open);
+	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
+	 	stream.Close();
+	 	
+	 	return system;
+	 }
+	 
+	 // load function for web build
+	 public function WebLoad() : ProfileSystem
+	 {
+	 	var tmp : String = PlayerPrefs.GetString("profiles", String.Empty);
+	 	var serializer : XmlSerializer = new XmlSerializer(ProfileSystem);
+	 	
+	 	if (tmp == String.Empty)
+	 	{
+	 		SetUpProfiles();
+	 		return this;
+	 	}
+	 	
+	 	var stream : MemoryStream = new MemoryStream(System.Convert.FromBase64String(tmp));
+	 	var system : ProfileSystem = serializer.Deserialize(stream) as ProfileSystem;
+	 	stream.Close();
+	 	
 	 	return system;
 	 }
   	
