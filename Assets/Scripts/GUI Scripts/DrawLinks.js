@@ -235,10 +235,27 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	tempCollider.size = Vector3(50f, 5f, targetVec.magnitude - HexagonGrid.tileWidth);
 	
 	//Added by GPC 11/17/13
-	var initialPlaybackSpeed = temp.playbackSpeed;
+	/*var initialPlaybackSpeed = temp.playbackSpeed;
 	temp.playbackSpeed = initialPlaybackSpeed * 8;
 	yield WaitForSeconds(1.0);
-	temp.playbackSpeed = initialPlaybackSpeed;
+	temp.playbackSpeed = initialPlaybackSpeed;*/
+	StartCoroutine(LinkCreateAnimation(temp));
+}
+
+function LinkCreateAnimation(link : ParticleSystem)
+{
+	var initialPlaybackSpeed : float = link.playbackSpeed;
+	link.playbackSpeed = link.startLifetime;
+	yield WaitForSeconds(1f);
+	var slowdownStep : float = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
+	var tempSpeed : float = link.playbackSpeed - slowdownStep;
+	while (tempSpeed > initialPlaybackSpeed)
+	{
+		link.playbackSpeed = tempSpeed;
+		yield WaitForSeconds(.5f);
+		tempSpeed -= slowdownStep;
+	}
+	link.playbackSpeed = initialPlaybackSpeed;
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
