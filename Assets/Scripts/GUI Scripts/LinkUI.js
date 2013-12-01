@@ -85,6 +85,7 @@ public var allocatedOutputTex : Texture2D[];
 public var inputIcons : GameObject[];
 public var outputIcons : GameObject[];
 public var optionalOutputIcons : GameObject[];
+public var ringTexture : Texture2D;
 
 private var premadeInputBuildings : List.<GameObject> = new List.<GameObject>();
 private var premadeOutputBuildings : List.<GameObject> = new List.<GameObject>();
@@ -154,14 +155,27 @@ function isLinked(b1:GameObject, b2:GameObject){
 
 public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 {
+	if (building.buildingName.Contains("Site"))
+		return;
 	var startPos : Vector3 = building.buildingPointer.transform.position;
+	
+	// generate building resource ring
+	var tempRing : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, startPos, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
+	tempRing.transform.parent = building.buildingPointer.transform;
+	tempRing.transform.localPosition.y = 25;
+	tempRing.name = "ResourceRing";
+	tempRing.transform.localScale = Vector3(15,15,15);
+	tempRing.renderer.material.mainTexture = ringTexture;
+	tempRing.layer = 10;
+	tempRing.collider.enabled = false;
+	
 	startPos += ConvertToUnrotated(inputStartPos);
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 
-					building.unallocatedInputIcons, startPos, building);
+					building.unallocatedInputIcons, startPos, 1f, building);
 	startPos = building.buildingPointer.transform.position;
 	startPos += ConvertToUnrotated(outputStartPos);
 	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
-					building.unallocatedOutputIcons, startPos, building);
+					building.unallocatedOutputIcons, startPos, -1f, building);
 	startPos.x = optPos.x;
 	startPos.z = optPos.y;
 	if (building.optionalOutput != ResourceType.None)
@@ -179,13 +193,14 @@ public function ConvertToUnrotated(toConvert : Vector3) : Vector3
 				toConvert.y, toConvert.x * Mathf.Cos(Mathf.PI * .75) - toConvert.z * Mathf.Sin(Mathf.PI * .75));
 }
 
-private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[],
-									buildingIconSet : List.<ResourceIcon>, startPos : Vector3,
+private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[], 
+									buildingIconSet : List.<ResourceIcon>, startPos : Vector3, startSpacingDir : float,
 									building : BuildingOnGrid) : Vector2
 {
 	var xSpacing : float = 45;
 	var zSpacing : float = 45;
 	var pos : Vector3 = startPos;
+	resourceSpacing.z = Mathf.Abs(resourceSpacing.z) * startSpacingDir;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
 		if (ioputSet[i] != ResourceType.None)
@@ -196,6 +211,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 			tempScript.SetIndex(i);
 			buildingIconSet.Add(tempScript);
 			pos += ConvertToUnrotated(resourceSpacing);
+			resourceSpacing.z *= -1f;
 		}
 	}
 	return Vector2(pos.x, pos.z);

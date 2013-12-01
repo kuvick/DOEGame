@@ -101,6 +101,7 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
 	flashIcon.collider.enabled = false;
 	flashIcon.layer = 10;
+	flashIcon.name = "ResourceFlash";
 	
 	if (ioType == IOType.OptOut)
 	{
