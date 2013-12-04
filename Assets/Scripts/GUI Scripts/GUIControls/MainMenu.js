@@ -112,18 +112,18 @@ public class MainMenu extends GUIControl
 	
 	public function Start () 
 	{
-		super.Start();
-		addedObjRect = false;
-		addedObjIconBGRect = false;
-		
+		super.Start();		
+		/* It is better to have this in the initialize
 		mainCameraObject = GameObject.Find("Main Camera");
 		if(mainCameraObject != null)
 			cameraControl = mainCameraObject.GetComponent(CameraControl);
 		else
 		{
 			mainCameraObject = GameObject.Find("Main Camera");
-			cameraControl = mainCameraObject.GetComponent(CameraControl);
+			if(mainCameraObject != null)
+				cameraControl = mainCameraObject.GetComponent(CameraControl);
 		}
+		*/
 		
 		// If testing different camera angles, going through and adding
 		// the cameras to the list.
@@ -160,6 +160,9 @@ public class MainMenu extends GUIControl
 	public function Initialize()
 	{	
 		super.Initialize();
+		
+		addedObjRect = false;
+		addedObjIconBGRect = false;
 				
 	    if (intelSystem == null) {
     		LoadLevelReferences();
@@ -263,7 +266,7 @@ public class MainMenu extends GUIControl
 		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	}
 	
-	public function Render(){ 
+	public function Render(){
 		if (!enableHUD) return; 
 		if(intelSystem.victory) 
 			DrawVictorySplash();

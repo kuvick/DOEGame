@@ -483,7 +483,7 @@ public class Player
 		}
 		//Debug.LogError("Could not find the completion status of " + levelName);
 		//It isn't an error, just hasn't been completed yet...
-		Debug.Log("Could not find the completion status of " + levelName);
+		//Debug.Log("Could not find the completion status of " + levelName);	//******commented to make debugging easier
 		return (false);
 	}
 	
@@ -496,7 +496,7 @@ public class Player
 				return (levelDataList[i].levelUnlocked);
 			}
 		}
-		Debug.Log("Could not find the unlock status of " + levelName);
+		//Debug.Log("Could not find the unlock status of " + levelName);	//******commented to make debugging easier
 		return (false);
 	}
 }// End of Player

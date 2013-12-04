@@ -106,7 +106,13 @@ public class LinkDragScript extends GUIControl
 				if(resourceType == ResourceType.None)
 					resourceType = 2;
 				
-				lineRenderer = outputBuilding.AddComponent(LineRenderer);
+				
+				// New, since you can't add multiple line renderers,
+				// this will hopefully catch that and use the one
+				// that's apparently already there?
+				lineRenderer = outputBuilding.GetComponent(LineRenderer);
+				if(lineRenderer == null)
+					lineRenderer = outputBuilding.AddComponent(LineRenderer);
 				
 				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
 				//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];

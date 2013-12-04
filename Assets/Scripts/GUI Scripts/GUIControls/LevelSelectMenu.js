@@ -802,15 +802,15 @@ public class LevelSelectMenu extends GUIControl
 	
 	private function CheckForBaseUnlockIndexChange()
 	{
-		Debug.Log("zomg");
+		//Debug.Log("zomg"); 	//******commented to make debugging easier
 		var i : int = 0;
 		for (i = levels.Length - 1 - baseUnlockedIndex; i >= 0 && i > levels.Length - 1 - baseUnlockedIndex - 3; i--)
 		{
-			Debug.Log("zomg" + i + levels[i].sceneName);
+			//Debug.Log("zomg" + i + levels[i].sceneName); 	//******commented to make debugging easier
 			if (!levels[i].completed)
 				return;
 		}
-		Debug.Log("changing base to " + i);
+		//Debug.Log("changing base to " + i); 	//******commented to make debugging easier
 		baseUnlockedIndex = levels.Length - 1 - i;
 		saveSystem.currentPlayer.baseUnlockedIndex = baseUnlockedIndex;
 	}
