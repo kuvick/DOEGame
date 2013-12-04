@@ -66,6 +66,8 @@ private var database: Database;
 private var fadeingMenu : boolean = false;
 public var fadePercentage : float = .25f;
 
+private var inputController : InputController;
+
 public var thisIsALevel : boolean = false;
 
 private var inputNotOnOtherGUI : boolean = true;
@@ -130,6 +132,10 @@ public function LoadLevelReferences()
 	var databaseObj : GameObject = GameObject.Find("Database");
 	intelSystem = databaseObj.GetComponent(IntelSystem);
 	database = databaseObj.GetComponent(Database);
+	
+	var hexagonGrid:GameObject = GameObject.Find("HexagonGrid");
+	if(hexagonGrid != null)
+		inputController = hexagonGrid.GetComponent(InputController);
 }
 
 /*
@@ -278,6 +284,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.MAIN:
 			ClearControls();
 			AddGUIToControls(mainMenu);
+			inputController.SetEnabled(true);
 			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.LEVELSELECT:
@@ -315,6 +322,7 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.PAUSE:
 			ClearControls();
 			AddGUIToControls(pauseMenu);
+			inputController.SetEnabled(false);
 			break;
 		/*case EventTypes.METRIC:
 			if(database.m_display.GatherData(intelSystem.currentLevelName))
