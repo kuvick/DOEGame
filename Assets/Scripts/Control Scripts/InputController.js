@@ -50,6 +50,7 @@ private var linkUI : LinkUI;
 private var intelSystem : IntelSystem;
 
 private var isEnabled : boolean = true;
+private var unitSelected : boolean = false;
 
 var touchCount : int;
 
@@ -60,6 +61,11 @@ private var typeOfInput: function();
 public function getState():ControlState
 {
 	return state;
+}
+
+public function selectUnit(bool: boolean)
+{
+	unitSelected = bool;
 }
 
 // ------------ These functions will be called when the given event occurs, put any code to be perform on the event in here 
@@ -199,7 +205,7 @@ function HandleMobileInput(){
 	                        	state = ControlState.DragingCamera;
 	                        	break;
 	                        }
-	                        else if(DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+	                        else if(!unitSelected && DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
 							{
 								ModeController.selectedBuilding = dragBuilding;//BuildingInteractionManager.PointOnBuilding(firstClickPosition);
 								state = ControlState.DraggingLink;	
@@ -355,7 +361,7 @@ function HandleComputerInput(){
 		{	
 			state = ControlState.DragingCamera;			
 		} 
-		else if(DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
+		else if(!unitSelected && DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
 		{
 			ModeController.selectedBuilding = dragBuilding;
 			state = ControlState.DraggingLink;				
