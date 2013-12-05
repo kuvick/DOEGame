@@ -244,6 +244,7 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 
 function LinkCreateAnimation(link : ParticleSystem)
 {
+	//Debug.Log("Link Start" + link);
 	var initialPlaybackSpeed : float = link.playbackSpeed;
 	link.playbackSpeed = link.startLifetime;
 	yield WaitForSeconds(1f);
@@ -256,6 +257,7 @@ function LinkCreateAnimation(link : ParticleSystem)
 		tempSpeed -= slowdownStep;
 	}
 	link.playbackSpeed = initialPlaybackSpeed;
+	//Debug.Log("Link End" + link);
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void

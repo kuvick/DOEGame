@@ -65,7 +65,7 @@
 	
 	<Level>
       <displayName>4</displayName>
-      <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>5. Level 1</subjectText>
       <messageText> Mission text coming soon! </messageText>
@@ -79,7 +79,7 @@
 	
 	<Level>
       <displayName>5</displayName>
-      <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>6. Level 2</subjectText>
       <messageText> Mission text coming soon! </messageText>
