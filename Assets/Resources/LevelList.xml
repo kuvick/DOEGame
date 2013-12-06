@@ -7,8 +7,36 @@
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>1. Welcome to the ECRB!</subjectText>
-      <messageText>Welcome to your ECRB orientation. We shall begin by demonstrating the operation of the Terrachanics device.</messageText>
+      <subjectText>Level 1 - Linking I</subjectText>
+      <messageText>Mission text coming soon!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	 <Level>
+      <displayName>0</displayName>
+      <sceneName>Tutorial2</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Level 2 - Linking II</subjectText>
+      <messageText>Mission text coming soon!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	 <Level>
+      <displayName>0</displayName>
+      <sceneName>Tutorial3</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Level 3 - Linking III</subjectText>
+      <messageText>Mission text coming soon!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -19,24 +47,24 @@
 
 	<Level>
       <displayName>1</displayName>
-      <sceneName>Tutorial2</sceneName>
+      <sceneName>GPC05</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>2. Your next big challenge!</subjectText>
-      <messageText> You're doing great! The field test is going wonderfully. Now lets see how it fares with requisitioning building construction.</messageText>
+      <subjectText>Level 4</subjectText>
+      <messageText>Mission text coming soon!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>0</missionRequirementIndex>
+      <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
 	<Level>
       <displayName>2</displayName>
-      <sceneName>Tutorial3</sceneName>
+      <sceneName>KU04</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>3. Heavy Engineering!</subjectText>
-      <messageText> For this test we'll be elisting Engineer Nancy Sanders to help us make some new resource networks.</messageText>
+      <subjectText>Level 5</subjectText>
+      <messageText>Mission text coming soon!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -47,10 +75,10 @@
 	
 	<Level>
       <displayName>3</displayName>
-      <sceneName>Tutorial4</sceneName>
+      <sceneName>RV14</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>4. Always more Research</subjectText>
-      <messageText> Researcher Jerome Zabel will be helping us recover some lost data in the field to help with this next mission. </messageText>
+      <subjectText>Level 6 - Secondary Objectives</subjectText>
+      <messageText>Mission text coming soon!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -58,16 +86,12 @@
       <missionRequirementIndex>2</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	<!-- /TUTORIALS -->
-	<!--********************************************************************-->
-	<!--********************************************************************-->
-	<!--********************************************************************-->
 	
 	<Level>
       <displayName>4</displayName>
-      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>5. Level 1</subjectText>
+      <subjectText>Level 7 - Mutual Links</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -79,9 +103,9 @@
 	
 	<Level>
       <displayName>5</displayName>
-      <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>6. Level 2</subjectText>
+      <subjectText>Level 8</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -93,9 +117,9 @@
 	
 	<Level>
       <displayName>6</displayName>
-      <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>7. Level 3</subjectText>
+      <subjectText>Level 9</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -107,9 +131,9 @@
 	
 	<Level>
       <displayName>7</displayName>
-      <sceneName>CE18</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>8. Level 4</subjectText>
+      <subjectText>Level 10 - Engineer I</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -121,9 +145,9 @@
 	
 	<Level>
       <displayName>8</displayName>
-      <sceneName>RV14</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>Tutorial6</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>9. Level 5</subjectText>
+      <subjectText>Level 11 - Engineer II</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -135,9 +159,9 @@
 	
 	<Level>
       <displayName>9</displayName>
-      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>10. Level 6</subjectText>
+      <subjectText>Level 12</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -151,7 +175,7 @@
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>11. Level 7</subjectText>
+      <subjectText>Level 13</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -164,9 +188,9 @@
 	
 	<Level>
       <displayName>11</displayName>
-      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>12. Level 8</subjectText>
+      <subjectText>Level 14</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -178,9 +202,9 @@
 	
 	<Level>
       <displayName>12</displayName>
-      <sceneName>RV02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>13. Level 9</subjectText>
+      <subjectText>Level 15</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -192,9 +216,9 @@
 	
 	<Level>
       <displayName>13</displayName>
-      <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>14. Level 10</subjectText>
+      <subjectText>Level 16</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -206,9 +230,9 @@
 	
 	<Level>
       <displayName>14</displayName>
-      <sceneName>GPC03</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>15. Level 11</subjectText>
+      <subjectText>Level 17 - Building Sites</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -220,9 +244,9 @@
 		
 	<Level>
       <displayName>15</displayName>
-      <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC06</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>16. Level 12</subjectText>
+      <subjectText>Level 18</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -234,9 +258,9 @@
 	
 	<Level>
       <displayName>16</displayName>
-      <sceneName>RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>17. Level 13</subjectText>
+      <subjectText>Level 19</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -248,9 +272,9 @@
 	
 	<Level>
       <displayName>17</displayName>
-      <sceneName>RV07</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>18. Level 14</subjectText>
+      <subjectText>Level 20</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -263,9 +287,9 @@
 	
 	<Level>
       <displayName>18</displayName>
-      <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>19. Level 15</subjectText>
+      <subjectText>Level 21</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -277,9 +301,9 @@
 	
 	<Level>
       <displayName>19</displayName>
-      <sceneName>RV11</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV04</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>20. Level 16</subjectText>
+      <subjectText>Level 22</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -291,9 +315,9 @@
 	
 	<Level>
       <displayName>20</displayName>
-      <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV22</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>21. Level 17</subjectText>
+      <subjectText>Level 23</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -305,9 +329,9 @@
 	
 	<Level>
       <displayName>21</displayName>
-      <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>22. Level 18</subjectText>
+      <subjectText>Level 24</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -319,9 +343,9 @@
 	
 	<Level>
       <displayName>22</displayName>
-      <sceneName>KU01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>23. Level 19</subjectText>
+      <subjectText>Level 25</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -333,9 +357,9 @@
 	
 	<Level>
       <displayName>23</displayName>
-      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>24. Level 20</subjectText>
+      <subjectText>Level 26 - Agents</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -347,9 +371,9 @@
 	
 	<Level>
       <displayName>24</displayName>
-      <sceneName>KU04</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>25. Level 21</subjectText>
+      <subjectText>Level 27</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -361,9 +385,9 @@
 	
 	<Level>
       <displayName>25</displayName>
-      <sceneName>CE09</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>26. Level 22</subjectText>
+      <subjectText>Level 28</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -375,9 +399,9 @@
 	
 	<Level>
       <displayName>26</displayName>
-      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>27. Level 23</subjectText>
+      <subjectText>Level 29</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -389,9 +413,9 @@
 	
 	<Level>
       <displayName>27</displayName>
-      <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
-      <subjectText>28. Level 24</subjectText>
+      <subjectText>Level 30</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -403,85 +427,15 @@
 	
 	<Level>
       <displayName>28</displayName>
-      <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>29. Level 25</subjectText>
+      <subjectText>Level 31</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>27</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level>
-      <displayName>29</displayName>
-      <sceneName>GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>30. Level 26</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>28</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level>
-      <displayName>30</displayName>
-      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>31. Level 27</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>29</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level>
-      <displayName>31</displayName>
-      <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>32. Level 28</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>30</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level>
-      <displayName>32</displayName>
-      <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>33. Level 29</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>31</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level>
-      <displayName>33</displayName>
-      <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>34. Level 30</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>32</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 		
