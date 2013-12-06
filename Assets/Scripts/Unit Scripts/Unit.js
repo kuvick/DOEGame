@@ -468,10 +468,11 @@ public function OnSelected()
 		inputController.selectUnit(true);
 		FindValidTargets();
 		// highlight applicable buildings
+		/*
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)
-			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
+			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;*/
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}

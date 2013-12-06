@@ -233,7 +233,8 @@ public class MainMenu extends GUIControl
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
 			
-		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);	
+		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);
+		cameraControl = cameraMain.GetComponent(CameraControl);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 		
