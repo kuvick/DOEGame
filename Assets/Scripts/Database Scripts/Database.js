@@ -110,7 +110,7 @@ function Start()
 		tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 		
 		// Create the building's highlight hexagon
-		tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+		//tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 		/*var tempIndicator : GameObject = Instantiate(buildingIndicatorPrefab, Vector3(0,5,0), Quaternion.identity);
 		tempIndicator.transform.parent = buildingObjects[index].transform;
 		tempIndicator.transform.localPosition = Vector3(0,5,0);*/
@@ -264,7 +264,7 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 		if(building.unallocatedInputs[i] == rt)
 		{
 			GUI.enabled= true;
-			building.highlighter.renderer.material.color = new Color(0,1,1,.5);
+			//building.highlighter.renderer.material.color = new Color(0,1,1,.5);
 			return true;
 		}
 	}
@@ -274,7 +274,7 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 		if(building.allocatedInputs[j] == rt)
 		{	
 			GUI.enabled= true;
-			building.highlighter.renderer.material.color = new Color(0,1,1,.5);
+			//building.highlighter.renderer.material.color = new Color(0,1,1,.5);
 			return true;
 		}
 	}
@@ -1057,7 +1057,7 @@ static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord :
 	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+	//tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 	buildingsOnGrid[index] = tempBuilding;
 	//buildingsOnGrid.Add(tempBuilding);
 	BroadcastBuildingUpdate(buildingObject, index);
@@ -1076,7 +1076,7 @@ static public function ReplaceBuildingOnGrid(buildingObject: GameObject, coord :
 
 
 //This function is used to add a building to the grid, replacing a building site
-static public function ReplaceBuildingSite (buildingObject: GameObject, coord : Vector3)
+static public function ReplaceBuildingSite(buildingObject: GameObject, coord : Vector3)
 {
 	var buildingSiteID : int = findBuildingIndex( coord );	// find location in array of buildings
 	var temp = new BuildingOnGrid();
@@ -1095,9 +1095,15 @@ static public function ReplaceBuildingSite (buildingObject: GameObject, coord : 
 	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
+	//tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
 	tempBuilding.indicator = buildingObject.GetComponentInChildren(BuildingIndicator);
-	tempBuilding.indicator.SetState(IndicatorState.Neutral);
+	if(tempBuilding.unallocatedInputs.Count <= 0)
+	{
+		tempBuilding.indicator.SetState(IndicatorState.Active);
+		tempBuilding.isActive = true;
+	}
+	else
+		tempBuilding.indicator.SetState(IndicatorState.Neutral);
 	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 	buildingsOnGrid[buildingSiteID] = tempBuilding;
 	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
@@ -1120,6 +1126,7 @@ static public function addBuildingSite( coordinate : Vector3, index : int)
 	//buildingsOnGrid[index] = building;
 	ReplaceBuildingOnGrid(building, coordinate, index);
 	ModeController.setSelectedBuilding(building);
+	linkUIRef.GenerateBuildingResourceIcons(buildingsOnGrid[index]);
 	//addBuildingToGrid(building, coordinate);
 	//addBuildingToGrid("BuildingSite", coordinate, tileType, building, isPreplaced, idea, hasEvent);
 	//BroadcastBuildingUpdate();
@@ -1572,7 +1579,7 @@ static public function addBuildingToGrid(buildingObject: GameObject, coord : Vec
 	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
-	tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
+	//tempBuilding.highlighter = grid.CreateHighlightHexagon(tempBuilding.coordinate);
 	buildingsOnGrid.Add(tempBuilding);
 	BroadcastBuildingUpdate();
 	
@@ -1701,7 +1708,7 @@ class BuildingOnGrid
 	var heldUpgradeTooltipPic : Texture2D;*/
 	//var neededUpgrade : UpgradeType = UpgradeType.None;
 	
-	var highlighter : GameObject;
+	//var highlighter : GameObject;
 	var indicator : BuildingIndicator;
 	
 	var tooltip : Tooltip[];

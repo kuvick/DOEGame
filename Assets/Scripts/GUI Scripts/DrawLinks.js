@@ -248,12 +248,16 @@ function LinkCreateAnimation(link : ParticleSystem)
 	var initialPlaybackSpeed : float = link.playbackSpeed;
 	link.playbackSpeed = link.startLifetime;
 	yield WaitForSeconds(1f);
+	if(link == null) // in case undo function is used
+		return;	
 	var slowdownStep : float = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
 	var tempSpeed : float = link.playbackSpeed - slowdownStep;
 	while (tempSpeed > initialPlaybackSpeed)
 	{
 		link.playbackSpeed = tempSpeed;
 		yield WaitForSeconds(.5f);
+		if(link == null) // in case undo function is used
+		return;
 		tempSpeed -= slowdownStep;
 	}
 	link.playbackSpeed = initialPlaybackSpeed;
