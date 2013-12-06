@@ -73,6 +73,36 @@ static function CheckUnitsActive()
 		unitList[i].CheckActive(true);
 }
 
+static function HandleReleaseAtPoint(obj : Collider)
+{
+	if (!obj)
+		ModeController.setSelectedBuilding(null);
+	else if (obj.name == "ResourceRing")
+		ModeController.setSelectedBuilding(obj.transform.parent.gameObject);
+	DeselectUnits();
+}
+
+// Called when the same building is clicked
+// If the building has multiple units on it, cycles which one is selected
+static function CycleSelectedUnit(unitBuilding : BuildingOnGrid) : boolean
+{
+	if (unitBuilding.units.Count > 0 && unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
+	{
+		if (unitBuilding.selectedUnitIndex >= 0)
+			unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();
+		if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count - 1)
+			unitBuilding.selectedUnitIndex++;
+		else
+		{
+			unitBuilding.selectedUnitIndex = -1;
+			return false;
+		}
+		unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
+		return true;//unitSelected = true;
+	}
+	return false;
+}
+
 // checks if any units occupy the same building, and if so activates alternating icon fades
 static function CheckUnitLocations()
 {

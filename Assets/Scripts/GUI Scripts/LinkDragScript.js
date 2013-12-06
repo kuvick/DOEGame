@@ -70,7 +70,8 @@ public class LinkDragScript extends GUIControl
 	
 	function Update ()
 	{	
-		if(inputController.getState() == ControlState.DraggingLink && 
+		var dragMode : DragMode = inputController.GetDragMode();
+		if(inputController.getState() == ControlState.Dragging && dragMode >= DragMode.Link &&
 		   ModeController.getSelectedBuilding() != null && 
 		   ModeController.getSelectedBuilding().name != "BuildingSite")
 		{
@@ -80,7 +81,8 @@ public class LinkDragScript extends GUIControl
 				ModeController.setSelectedBuilding(null);
 				return;
 			} 
-			else if(!HasOutputToUse(Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position)))
+			else if(dragMode ==  DragMode.Link && 
+					!HasOutputToUse(Database.getBuildingOnGrid(ModeController.getSelectedBuilding().transform.position)))
 			{
 				SoundManager.Instance().PlayLinkDenied();
 				ModeController.setSelectedBuilding(null);
@@ -111,7 +113,10 @@ public class LinkDragScript extends GUIControl
 				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
 				//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];
 				lineRenderer.material.mainTexture = line;
-				lineRenderer.SetColors(Color.white, Color.white);
+				var tempColor : Color = Color.white;
+				if (dragMode == DragMode.Unit)
+					tempColor = Color.red;
+				lineRenderer.SetColors(tempColor, tempColor);
 				lineRenderer.SetWidth(10, 10);
 				lineRenderer.SetPosition(0, outputBuilding.transform.position);
 				lineRenderer.SetPosition(1, mousePos);

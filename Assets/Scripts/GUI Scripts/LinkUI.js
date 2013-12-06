@@ -167,13 +167,13 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	tempRing.transform.localScale = Vector3(15,15,15);
 	tempRing.renderer.material.mainTexture = ringTexture;
 	tempRing.layer = 10;
-	tempRing.collider.enabled = false;
+	//tempRing.collider.enabled = false;
 	
-	startPos += ConvertToUnrotated(inputStartPos);
+	startPos += Utils.ConvertToRotated(inputStartPos);
 	GenerateIconSet(building.unallocatedInputs, inputIcons, 
 					building.unallocatedInputIcons, startPos, 1f, building);
 	startPos = building.buildingPointer.transform.position;
-	startPos += ConvertToUnrotated(outputStartPos);
+	startPos += Utils.ConvertToRotated(outputStartPos);
 	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
 					building.unallocatedOutputIcons, startPos, -1f, building);
 	startPos.x = optPos.x;
@@ -187,11 +187,11 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	}
 }
 
-public function ConvertToUnrotated(toConvert : Vector3) : Vector3
+/*public function ConvertToUnrotated(toConvert : Vector3) : Vector3
 {
 	return Vector3(toConvert.x * Mathf.Sin(Mathf.PI * .75) + toConvert.z * Mathf.Cos(Mathf.PI * .75), 
 				toConvert.y, toConvert.x * Mathf.Cos(Mathf.PI * .75) - toConvert.z * Mathf.Sin(Mathf.PI * .75));
-}
+}*/
 
 private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[], 
 									buildingIconSet : List.<ResourceIcon>, startPos : Vector3, startSpacingDir : float,
@@ -211,7 +211,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 			tempScript.Initialize(building);
 			tempScript.SetIndex(i);
 			buildingIconSet.Add(tempScript);
-			pos += ConvertToUnrotated(resourceSpacing);
+			pos += Utils.ConvertToRotated(resourceSpacing);
 			resourceSpacing.z *= -1f;
 		}
 	}

@@ -40,7 +40,7 @@ function Start ()
 
 	// Francis: I'm not sure if this is an unimplemented feature or one that wasn't
 	// completely removed, leaving it here for now.
-	for(var i:int = 0; i < buildings.Length; i++){
+	/*for(var i:int = 0; i < buildings.Length; i++){
 		//Create a ring denoting the link range around each building
 		rangeRing = new GameObject("RangeRing");
 		rangeRing.transform.parent = buildings[i].transform;
@@ -51,42 +51,42 @@ function Start ()
 	}	
 	GenerateRangeTiles();
 	rangeTiles = GameObject.FindGameObjectsWithTag("RangeTile");
-	SetRangeTilesEnabled(false);
+	SetRangeTilesEnabled(false);*/
 }
 
 
-function Update() {
-	selectedBuilding = ModeController.getSelectedBuilding();
-	
-	if(selectedBuilding == null)
-	{
-		//RestoreColors();
-		//DestroyRangeTiles();
-		if (!rangeTilesDisabled)
-			SetRangeTilesEnabled(false);
-		return;
-	}
-	
-	/*if(selectedBuilding.name != "BuildingSite")
-	{
-		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
-	}*/
-	
-	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding) &&
-			Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
-	{
-		var position:Vector3 = selectedBuilding.transform.position;
-		var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
-		SetRangeTilesPosition(mouseTile.x, mouseTile.y);
-		//SetRangeTilesEnabled(true);
-		//HighlightBuildingsInRange(selectedBuilding);
-		//HighlightTilesInRange();
-	}
-	else if (!Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
-		SetRangeTilesEnabled(false);
-		//DestroyRangeTiles();
-	previousBuilding = selectedBuilding;
-}
+//function Update() {
+//	selectedBuilding = ModeController.getSelectedBuilding();
+//	
+//	if(selectedBuilding == null)
+//	{
+//		//RestoreColors();
+//		//DestroyRangeTiles();
+//		if (!rangeTilesDisabled)
+//			SetRangeTilesEnabled(false);
+//		return;
+//	}
+//	
+//	/*if(selectedBuilding.name != "BuildingSite")
+//	{
+//		(selectedBuilding.GetComponentInChildren(Renderer) as Renderer).material.color = selectedBuildingColor;
+//	}*/
+//	
+//	if ((selectedBuilding.name != "BuildingSite") && (selectedBuilding != previousBuilding) &&
+//			Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
+//	{
+//		var position:Vector3 = selectedBuilding.transform.position;
+//		var mouseTile:Vector2 = HexagonGrid.worldToTileCoordinates(position.x, position.z);
+//		SetRangeTilesPosition(mouseTile.x, mouseTile.y);
+//		//SetRangeTilesEnabled(true);
+//		//HighlightBuildingsInRange(selectedBuilding);
+//		//HighlightTilesInRange();
+//	}
+//	else if (!Database.getBuildingOnGrid(selectedBuilding.transform.position).isActive)
+//		SetRangeTilesEnabled(false);
+//		//DestroyRangeTiles();
+//	previousBuilding = selectedBuilding;
+//}
 
 private function GenerateRangeTiles()
 {

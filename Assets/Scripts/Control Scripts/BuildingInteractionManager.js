@@ -59,95 +59,71 @@ function OnResumeGame()
 	paused = false;
 }
 
-static function PointOnBuilding(position : Vector2) : GameObject
-{
-	var buildPos = HexagonGrid.GetPositionToBuild(position);
-	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
-	//var buildPos = HexagonGrid.GetPositionToBuild(buildPosCoord);
-	//var buildingIndex = Database.findBuildingIndex(buildPos);
-	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
-	var building : GameObject = null;
-	if(buildingIndex != -1)
-	{		
-		building = Database.getBuildingAtIndex(buildingIndex);
-	}
-	return building;
-}
-
-static function PointOnLink(position : Vector2) : GameObject
-{
-	var hit : RaycastHit;
-	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
-	if (Physics.Raycast(ray, hit, 1000) && hit.collider.name.Contains(" "))
-	{
-		return hit.collider.gameObject.transform.parent.gameObject;
-		Debug.Log("zomg");
-	}
-	return null;
-}
-
 // Handles the initial click event, changing building indicators appropriately
 static function HandleFirstClick(position : Vector2)
 {
-	if (paused || CheckObjSelected(position))
+	if (paused || inspectionDisplayRef.MouseOnDisplay())//CheckObjSelected(position))
 		return;
-	var buildPos = HexagonGrid.GetPositionToBuild(position);
+	
+	/*var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
 	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
 	if (buildingIndex != -1){
 		var building: GameObject;
 		building = Database.getBuildingAtIndex(buildingIndex);
 		ModeController.setSelectedBuilding(building);
-	} 
+	} */
+	var tempCollider : Collider = CheckObjSelected(position);
+	
+	if (tempCollider)
+	{
+		Debug.Log("collided" + tempCollider.name);
+		if (tempCollider.name.Equals("ResourceRing"))
+		{
+			ModeController.setSelectedBuilding(tempCollider.transform.parent.gameObject);
+			linkUIRef.HighlightTiles();
+		}
+		else
+			tempCollider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
+	}
 	else
 		ModeController.setSelectedBuilding(null);
+	
+}
+
+static function HandleFirstClick(obj : Collider)
+{
+	ModeController.setSelectedBuilding(obj.transform.parent.gameObject);
 	linkUIRef.HighlightTiles();
 }
 
 // will determine what to do with the tap at the given point
-static function HandleTapAtPoint(position: Vector2){
-	// check if the click is on a building
-	if(paused || CheckObjSelected(position) || (isEditor && CheckResourceSetters(position))) return;
-	
-	var buildPos = HexagonGrid.GetPositionToBuild(position);
-	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
-	var buildingIndex = Database.findBuildingIndex(new Vector3(buildPosCoord.x, buildPosCoord.y, 0.0));
+static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
 	unitSelected = false;
-	if (buildingIndex != -1){
-		//Debug.Log("Tap on building");
-		var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
-		var building: GameObject;
-		building = Database.getBuildingAtIndex(buildingIndex);
-		ModeController.setSelectedBuilding(building);
+	
+	if (!obj)
+		ModeController.setSelectedBuilding(null);
+		//return;
 		
-		var unitBuilding : BuildingOnGrid = buildings[buildingIndex];
-		// if tapping the same building again, select appropriate unit
-		if (ModeController.getSelectedBuilding() == ModeController.getPreviousBuilding())
-		{
-			if (unitBuilding.units.Count > 0 && unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
-			{
-				if (unitBuilding.selectedUnitIndex >= 0)
-					unitBuilding.units[unitBuilding.selectedUnitIndex].OnDeselect();
-				if (unitBuilding.selectedUnitIndex < unitBuilding.units.Count - 1)
-					unitBuilding.selectedUnitIndex++;
-				else
-					unitBuilding.selectedUnitIndex = 0;
-				unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
-				unitSelected = true;
-			}
-		}
+	var selBuilding : GameObject = ModeController.getSelectedBuilding();
+	if(selBuilding)
+	{
+		var unitBuilding : BuildingOnGrid = Database.getBuildingOnGridAtIndex(Database.getBuildingIndex(selBuilding));
+			// if tapping the same building again, select appropriate unit
+		if (selBuilding == ModeController.getPreviousBuilding())
+			unitSelected = UnitManager.CycleSelectedUnit(unitBuilding);
 		// reset unit index if a different building is tapped
 		else
 			unitBuilding.selectedUnitIndex = -1;
-		if(building.name == "BuildingSite" && !isEditor)
+		if(selBuilding.name == "BuildingSite" && !isEditor)
 		{
-			var buildingSiteScript: BuildingSiteScript = building.GetComponent(BuildingSiteScript);
+			var buildingSiteScript: BuildingSiteScript = selBuilding.GetComponent(BuildingSiteScript);
 			buildingSiteScript.OpenBuildingMenu();
 		}
 
-	} 
-	else
-		ModeController.setSelectedBuilding(null);
+	 }
+	/*else
+		ModeController.setSelectedBuilding(null);*/
 	
 	/*
 	else {
@@ -175,27 +151,29 @@ static function HandleTapAtPoint(position: Vector2){
 		//}
 	//}
 	linkUIRef.HighlightTiles();
-	if (isEditor)
-		editorMenuRef.DoAction(buildPosCoord);
+	/*if (isEditor)
+		editorMenuRef.DoAction(buildPosCoord);*/
 	if(!unitSelected)
 		UnitManager.DeselectUnits();
 }
 
-private static function CheckObjSelected (position : Vector2) : boolean
+private static function CheckObjSelected (position : Vector2) : Collider
 {
 	if (inspectionDisplayRef.MouseOnDisplay())
-		return false;
+		return null;
 	var hit : RaycastHit;
 	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
-	if (Physics.Raycast(ray, hit, 1000))
-	{
+	/*if (*/Physics.Raycast(ray, hit, 1000);//)
+	/*{
 		hit.collider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
 		Debug.Log("collided" + hit.collider.name);
 		return true;
 	}
-	return false;
+	return false;*/
+	return hit.collider;
 }
 
+// for level editor only
 private static function CheckResourceSetters(pos : Vector2) : boolean
 {
 	for (var i : int = 0; i < resourceSetters.Count; i++)
@@ -206,7 +184,7 @@ private static function CheckResourceSetters(pos : Vector2) : boolean
 	return false;
 }
 
-static function HandleReleaseAtPoint(position: Vector2)
+static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 {
 	var buildPos = HexagonGrid.GetPositionToBuild(position);
 	var buildPosCoord = HexagonGrid.worldToTileCoordinates(buildPos.x, buildPos.z);
@@ -227,5 +205,21 @@ static function HandleReleaseAtPoint(position: Vector2)
 	else
 		ModeController.setSelectedBuilding(null);
 	//linkUIRef.ResetLinkVariables();
+	linkUIRef.HighlightTiles();
+}
+
+static function HandleReleaseAtPoint(obj : Collider)
+{
+	if (!obj)
+		ModeController.setSelectedBuilding(null);
+	else
+	{
+		if (obj.name == "ResourceRing")
+		{
+			var building : GameObject = obj.transform.parent.gameObject;
+			if (building.name != "BuildingSite")
+				ModeController.setSelectedInputBuilding(building);
+		}
+	}
 	linkUIRef.HighlightTiles();
 }

@@ -29,3 +29,10 @@ public static function CalcTextureDimensionsWithDesiredWidth(texture : Texture2D
 	
 	return (new Vector2(desiredWidthAsPercentage, heightPercentage));
 }
+
+// Converts unrotated xz coordinates to proper coordinates rotated with the camera
+public static function ConvertToRotated(toConvert : Vector3) : Vector3
+{
+	return Vector3(toConvert.x * Mathf.Sin(Mathf.PI * .75) + toConvert.z * Mathf.Cos(Mathf.PI * .75), 
+				toConvert.y, toConvert.x * Mathf.Cos(Mathf.PI * .75) - toConvert.z * Mathf.Sin(Mathf.PI * .75));
+}
