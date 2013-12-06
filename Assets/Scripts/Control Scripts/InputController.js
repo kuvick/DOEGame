@@ -62,6 +62,7 @@ private var intelSystem : IntelSystem;
 private var inspectionDisplayRef : InspectionDisplay;
 
 private var isEnabled : boolean = true;
+private var unitSelected : boolean = false;
 
 var touchCount : int;
 
@@ -72,6 +73,11 @@ private var typeOfInput: function();
 public function getState():ControlState
 {
 	return state;
+}
+
+public function selectUnit(bool: boolean)
+{
+	unitSelected = bool;
 }
 
 public function GetDragMode() : DragMode

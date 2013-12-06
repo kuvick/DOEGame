@@ -54,6 +54,8 @@ private var targetFadeScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
 
+private var inputController: InputController;
+
 enum UnitState
 {
 	Inactive,
@@ -93,6 +95,7 @@ function Initiate() {
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	CheckActive(false);
+	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 }
 
 // set the unit's current state and change icon to appropriate texture
@@ -463,12 +466,14 @@ public function OnSelected()
 		ModeController.setSelectedBuilding(currentBuilding.buildingPointer);
 		currentBuilding.unitSelected = true;
 		isSelected = true;
+		inputController.selectUnit(true);
 		FindValidTargets();
 		// highlight applicable buildings
+		/*
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
 		for (i = 0; i < validSpecificTargets.Count; i++)
-			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;
+			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;*/
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}
@@ -522,6 +527,8 @@ public function OnDeselect()
 			SetState(UnitState.Active);
 	}
 	isSelected = false;
+	inputController.selectUnit(false);
+	//currentBuilding.unitSelected = false;
 	currentBuilding.unitSelected = false;
 }
 

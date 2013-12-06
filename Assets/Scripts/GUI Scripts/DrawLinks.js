@@ -245,18 +245,24 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 // When links are first made, animates quickly then gradually slows down
 function LinkCreateAnimation(link : ParticleSystem)
 {
+	//Debug.Log("Link Start" + link);
 	var initialPlaybackSpeed : float = link.playbackSpeed;
 	link.playbackSpeed = link.startLifetime;
 	yield WaitForSeconds(1f);
+	if(link == null) // in case undo function is used
+		return;	
 	var slowdownStep : float = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
 	var tempSpeed : float = link.playbackSpeed - slowdownStep;
 	while (tempSpeed > initialPlaybackSpeed)
 	{
 		link.playbackSpeed = tempSpeed;
 		yield WaitForSeconds(.25f);
+		if(link == null) // in case undo function is used
+		return;
 		tempSpeed -= slowdownStep;
 	}
 	link.playbackSpeed = initialPlaybackSpeed;
+	//Debug.Log("Link End" + link);
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void
