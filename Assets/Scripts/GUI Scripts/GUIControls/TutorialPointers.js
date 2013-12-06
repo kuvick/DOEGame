@@ -78,6 +78,8 @@ public function Render()
 			currentArrow.interaction == Interaction.Linking)
 			{
 				var newLoc:Rect = convertToScreenRect(currentArrow.getCurrentPoint(), currentArrow.getDisplayRect());
+				newLoc.x = newLoc.x - (newLoc.width/2) + (currentArrow.distanceFromBuilding.x * Screen.width);
+				newLoc.y = newLoc.y + (newLoc.height/2) + (currentArrow.distanceFromBuilding.y * Screen.height * -1);
 				currentArrow.setDisplayRect(newLoc);
 			}
 			
@@ -107,7 +109,7 @@ public class TutorialArrow
 	// and trigger.
 	public var buildingOne: GameObject;	//used for both if it is the start trigger and for the interaction
 	public var buildingTwo: GameObject;
-	public var distanceFromBuilding:Vector3;	// if left at 0,0,0, will appear right on top of building
+	public var distanceFromBuilding:Vector2;
 	public var xyPercent: Vector2;	// since a screen doesn't stay a consistant size, this is for the percent location for the x and y compared to screen width.
 	public var turn:int;
 	
@@ -183,17 +185,27 @@ public function CalculateDisplay(arrow:TutorialArrow):TutorialArrow
 	//location for pointer is in environment
 	if(arrow.interaction == Interaction.SingleBuilding || arrow.interaction == Interaction.Linking)
 	{
-		var tempRect : Rect = convertToScreenRect(arrow.buildingOne.transform.position + arrow.distanceFromBuilding, mainMenu.createRect(arrow.icon, 0,0,iconSizePercent,false));
+		//var tempRect : Rect = convertToScreenRect(arrow.buildingOne.transform.position + arrow.distanceFromBuilding, mainMenu.createRect(arrow.icon, 0,0,iconSizePercent,false));
+		var tempRect : Rect = convertToScreenRect(arrow.buildingOne.transform.position, mainMenu.createRect(arrow.icon, 0,0,iconSizePercent,false));
 		
-		arrow.setStartPoint(arrow.buildingOne.transform.position + arrow.distanceFromBuilding);
-		arrow.setCurrentPoint(arrow.buildingOne.transform.position + arrow.distanceFromBuilding);
+		//arrow.setStartPoint(arrow.buildingOne.transform.position + arrow.distanceFromBuilding);
+		//arrow.setCurrentPoint(arrow.buildingOne.transform.position + arrow.distanceFromBuilding);
 		
+		arrow.setStartPoint(arrow.buildingOne.transform.position);
+		arrow.setCurrentPoint(arrow.buildingOne.transform.position);
 		
+		/*		
 		if(arrow.interaction == Interaction.Linking)
 			arrow.setEndPoint(arrow.buildingTwo.transform.position + arrow.distanceFromBuilding);
 		else
 			arrow.setEndPoint(arrow.buildingOne.transform.position + arrow.distanceFromBuilding);
-			
+		*/
+		
+		if(arrow.interaction == Interaction.Linking)
+			arrow.setEndPoint(arrow.buildingTwo.transform.position);
+		else
+			arrow.setEndPoint(arrow.buildingOne.transform.position);
+				
 		arrow.setDisplayRect(tempRect);
 	}
 	
