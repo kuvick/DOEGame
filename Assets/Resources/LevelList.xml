@@ -414,6 +414,76 @@
       <missionRequirementIndex>27</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<Level>
+      <displayName>29</displayName>
+      <sceneName>GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>30. Level 26</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>28</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>30</displayName>
+      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>31. Level 27</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>29</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>31</displayName>
+      <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>32. Level 28</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>30</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>32</displayName>
+      <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>33. Level 29</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>31</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>33</displayName>
+      <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>34. Level 30</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>32</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
 		
   </Levels>
 </LevelList>
