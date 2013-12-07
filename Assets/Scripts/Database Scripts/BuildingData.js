@@ -120,7 +120,17 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid(): BuildingOnGrid
 	
 	buildingOnGrid.requisitionCost = buildingData.requisitionCost;
 	buildingOnGrid.pollutionOutput = buildingData.pollutionOutput;
-	buildingOnGrid.isActive = buildingData.isActive;
+	//buildingOnGrid.isActive = buildingData.isActive;
+	
+	//Added to automatically set activation based on number of inputs
+	if(buildingData.unallocatedInputs.length == 0){
+		buildingOnGrid.isActive = true;
+	}else{
+		buildingOnGrid.isActive = false;
+	}
+	
+	//buildingOnGrid.isActive = buildingData.isActive;
+	
 	buildingOnGrid.coordinate = buildingData.coordinate;
 	buildingOnGrid.tileType = buildingData.tileType;
 	buildingOnGrid.buildingPointer = buildingData.buildingPointer;
