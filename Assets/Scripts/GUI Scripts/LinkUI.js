@@ -170,24 +170,6 @@ public function setBuildingSiteRingMaterial(obj: GameObject)
 public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 {
 	var startPos : Vector3 = building.buildingPointer.transform.position;
-	if (building.buildingName.Contains("Site"))
-	{
-	// generate building resource ring
-		var btempRing : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, startPos, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
-		btempRing.transform.parent = building.buildingPointer.transform;
-		btempRing.transform.localPosition.y = 25;
-		btempRing.name = "ResourceRing";
-		btempRing.transform.localScale = Vector3(15,15,15);
-		btempRing.renderer.material.mainTexture = buildingSiteRingTexture;
-		btempRing.layer = 10;
-		btempRing.collider.enabled = false;
-		var indicator1:BuildingIndicator = building.buildingPointer.GetComponentInChildren(BuildingIndicator);
-		indicator1.setResourceRing(btempRing);
-		
-		
-		
-		return;
-	}
 	
 	// generate building resource ring
 	var tempRing : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, startPos, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
@@ -195,11 +177,17 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	tempRing.transform.localPosition.y = 25;
 	tempRing.name = "ResourceRing";
 	tempRing.transform.localScale = Vector3(15,15,15);
-	if(building.isActive)
+	tempRing.layer = 10;
+	if (building.buildingName.Contains("Site"))
+	{
+		tempRing.renderer.material.mainTexture = buildingSiteRingTexture;
+		return;
+	}
+	else if(building.isActive)
 		tempRing.renderer.material.mainTexture = activeRingTexture;
 	else
 		tempRing.renderer.material.mainTexture = ringTexture;
-	tempRing.layer = 10;
+	
 	//tempRing.collider.enabled = false;
 	var indicator2:BuildingIndicator = building.buildingPointer.GetComponentInChildren(BuildingIndicator);
 	indicator2.setResourceRing(tempRing);

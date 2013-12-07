@@ -97,6 +97,7 @@ static function HandleFirstClick(obj : Collider) : boolean
 	var buildingObject : GameObject = obj.transform.parent.gameObject;
 	ModeController.setSelectedBuilding(buildingObject);
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
+	Debug.Log(buildingObject.name);
 	if (!buildingOnGrid.unitSelected)
 	{
 		linkUIRef.HighlightTiles();
