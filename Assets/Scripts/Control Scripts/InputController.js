@@ -16,15 +16,24 @@ enum ControlState {
 	WaitingForFirstInput, // there are no fingers down/ mouse down
 	WaitingForSecondTouch, // there is one finger down and we are waiting to see if user presses down another for 2 touch actions *note this will only occur on mobile
 	WaitingForMovement, // the user has pressed 2 fingers down and we are waiting to see what gesture is performed
-	DragingCamera, // the user has one finger down/clicked and is moving across the screen greater than some minimum amount
-	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out or if using mouse when using the wheel
 	WaitingForNoInput, // The final state where the user's input has been performed but the user is still touching the screen/ clicking
-	DraggingLink
+	Dragging,
+	DraggingCamera, // the user has one finger down/clicked on terrain and is moving across the screen greater than some minimum amount
+	DraggingLink, // user has one finger down/clicked starting on a building or link and is dragging
+	DraggingUnit, // user has one finger down/clicked starting on a unit
+	ZoomingCamera, // The state that occurs when the user move two fingers in opposite directions to zoom in and out or if using mouse when using the wheel
+}
+
+enum DragMode
+{
+	Cam,
+	Link,
+	Unit
 }
 
 // General input system settings to be altered as seen fit
 var minimumTimeUntilMove = .25; // the time in seconds that we will wait for the user to move before we interprate as a tap
-var minimumMovementDistance: float = 5; // the amount of posisiton change in a single touch gesture/click before it is considered a drag
+var minimumMovementDistance: float = 5; // the amount of position change in a single touch gesture/click before it is considered a drag
 var zoomEnabled: boolean = true; 
 var zoomEpsilon: float = 10;
 
@@ -32,7 +41,9 @@ var zoomEpsilon: float = 10;
 var zoomIn: boolean = true;
 var zoomOut: boolean = false;
 
-private var state = ControlState.WaitingForFirstInput;
+private var state : ControlState = ControlState.WaitingForFirstInput;
+private var currDragMode : DragMode;
+private var currObject : Collider;
 
 // Used for touch controls
 private var fingerDown : int[] = new int[ 2 ];
@@ -48,13 +59,14 @@ private var hasFirstClick : boolean = false;
 
 private var linkUI : LinkUI;
 private var intelSystem : IntelSystem;
+private var inspectionDisplayRef : InspectionDisplay;
 
 private var isEnabled : boolean = true;
 private var unitSelected : boolean = false;
 
 var touchCount : int;
 
-// this will point to the funciton that will perform input checking based on the device
+// this will point to the function that will perform input checking based on the device
 private var typeOfInput: function();
 
 
@@ -68,11 +80,73 @@ public function selectUnit(bool: boolean)
 	unitSelected = bool;
 }
 
+public function GetDragMode() : DragMode
+{
+	return currDragMode;
+}
+
 // ------------ These functions will be called when the given event occurs, put any code to be perform on the event in here 
 // so you don't have to search in the state machine for the spot
+
+function InitialClickEvent()
+{
+	if (inspectionDisplayRef.MouseOnDisplay())
+		return;
+	firstClickPosition = Input.mousePosition;		
+	hasFirstClick = true;
+	currObject = CheckObjSelected(firstClickPosition);
+	if (!currObject)
+		currDragMode = DragMode.Cam;
+	else if (currObject.name.Equals("ResourceRing") || currObject.name.Contains(" "))
+	{
+		Debug.Log("collided " + currObject.name);
+		if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
+			currDragMode = DragMode.Link;
+		else
+			currDragMode = DragMode.Unit;
+	}
+	else if (currObject.tag == "Unit")
+	{
+		currDragMode = DragMode.Unit;
+		currObject.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
+	}
+	else
+		currObject.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);	
+}
+
 // called whenever a drag occurs
 function DragEvent(inputChangeSinceLastTick: Vector2){
-	CameraControl.Drag(-inputChangeSinceLastTick);
+	switch (currDragMode)
+	{
+		case DragMode.Cam:
+			CameraControl.Drag(-inputChangeSinceLastTick);
+			break;
+		case DragMode.Unit:
+			break;
+	}
+}
+
+// called when a drag is released
+function ReleaseEvent()
+{
+	if (!(GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI()))
+		return;
+	switch (currDragMode)
+	{
+		case DragMode.Link:
+			/*if (GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI())
+			{*/
+				currObject = CheckObjSelected(clickPosition);
+				BuildingInteractionManager.HandleReleaseAtPoint(currObject);//clickPosition);//, DragType.Link);				
+		    //}
+			break;
+		case DragMode.Unit:
+			currObject = CheckObjSelected(clickPosition);
+			UnitManager.HandleReleaseAtPoint(currObject);
+			break;
+	}
+	state = ControlState.WaitingForFirstInput;
+	hasFirstClick = false;
 }
 
 // called when a click/tap occurs
@@ -83,8 +157,10 @@ function singleClickEvent(inputPos: Vector2){
 	// we let the builing interaction manager handle it
 	if (GUIManager.Instance().NotOnGUI(inputPos) && linkUI.CheckMouseNotOverGUI())//GUIManager.Instance().NotOnOtherGUI())
 	{
-    	BuildingInteractionManager.HandleTapAtPoint(inputPos);
+    	BuildingInteractionManager.HandleTapAtPoint(currObject);//inputPos);
     }
+    state = ControlState.WaitingForFirstInput;
+	hasFirstClick = false;
 } 
 
 function ResetControlState() {
@@ -108,6 +184,7 @@ function Start () {
 	
 	//intelSystem = GameObject.FindWithTag("Database").GetComponent(IntelSystem);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 }
 
 // will detect if the change in input position since the last tick is enough to be accepted as a drag
@@ -150,10 +227,7 @@ function HandleMobileInput(){
 	                    fingerDownFrame[ 0 ] = Time.frameCount;
 	                    
 	                    if(!hasFirstClick){
-							firstClickPosition = touch.position;		
-							hasFirstClick = true;
-							BuildingInteractionManager.HandleFirstClick(firstClickPosition);
-							Debug.Log("MODIFIED!");			
+							InitialClickEvent();		
 						}
 	                    break; // break out of the rest of the checks for efficiency
 	                }
@@ -181,35 +255,19 @@ function HandleMobileInput(){
                         
                         // if we are looking at the right finger
                         if (touch.fingerId == fingerDown[ 0 ]) {
-                        	// check if finger is over a building
-							var dragBuilding : GameObject = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
-							// if finger is not over a building, check if it is over a link
-							if (dragBuilding == null)
-								dragBuilding = BuildingInteractionManager.PointOnLink(firstClickPosition);
 	                        // Either the finger is held down long enough to count
 	                        // as a move or it is lifted, which is also a tap. 
 	                        if (Time.time > firstTouchTime + minimumTimeUntilMove || 
 	                             touch.phase == TouchPhase.Ended){
 	                            singleClickEvent(deltaSinceDown);
-	                            state = ControlState.WaitingForNoInput;
-	                            hasFirstClick = false;
 	                            break;
 	                            
 	                        }
-	                  		/*else if(DragMovementDetected(deltaSinceDown) && ModeController.selectedBuilding != null)
-							{
-								state = ControlState.DraggingLink;		
-								break;	
-							} */
-	                        else if (DragMovementDetected(deltaSinceDown) && dragBuilding == null) {//BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null){ // else if the single touch has moved more than the minimum amount we take it to be a drag
-	                        	state = ControlState.DragingCamera;
+	                        else if (DragMovementDetected(deltaSinceDown)) {
+	                        	clickPosition = touch.position;
+	                        	state = ControlState.Dragging;
 	                        	break;
-	                        }
-	                        else if(!unitSelected && DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
-							{
-								ModeController.selectedBuilding = dragBuilding;//BuildingInteractionManager.PointOnBuilding(firstClickPosition);
-								state = ControlState.DraggingLink;	
-							}	                   
+	                        }	                   
 	                    }                                           
                     }
                 }
@@ -273,36 +331,17 @@ function HandleMobileInput(){
 	        }
         }
         
-        if (state == ControlState.DragingCamera){
+        if (state == ControlState.Dragging)
+        {
         	touch = theseTouches[ 0 ];
+        	deltaSinceDown = touch.position - clickPosition;
+        	clickPosition = touch.position;
         	
-        	if (touch.phase == TouchPhase.Ended){
-        		state = ControlState.WaitingForFirstInput;
-        		hasFirstClick = false;
-        	} else {
-	       		deltaSinceDown = touch.position - fingerDownPosition[ 0 ];
-	       		fingerDownPosition[ 0 ] = touch.position;
-	       		// need to do negative in order to give the feeling of pushing the world underneath your finger
-	       		DragEvent(deltaSinceDown);
-	        }
+        	if (touch.phase == TouchPhase.Ended)
+        		ReleaseEvent();
+        	else
+        		DragEvent(deltaSinceDown);
         }
-        
-        if(state == ControlState.DraggingLink)
-		{
-			touch = theseTouches[ 0 ];
-			
-			if(touch.phase == TouchPhase.Ended)
-			{
-				if (GUIManager.Instance().NotOnGUI(touch.position) && linkUI.CheckMouseNotOverGUI())
-				{
-					BuildingInteractionManager.HandleReleaseAtPoint(touch.position);
-			    }
-			
-				state = ControlState.WaitingForFirstInput;
-				hasFirstClick = false;
-			}
-		}
-        
         
         // Now that we are zooming the camera, let's keep
 	    // feeding those changes until we no longer have two fingers
@@ -340,73 +379,47 @@ function HandleComputerInput(){
 			firstClickTime = Time.time;			
 			clickPosition = Input.mousePosition;
 			
-			if(!hasFirstClick){
-				firstClickPosition = Input.mousePosition;		
-				hasFirstClick = true;
-				BuildingInteractionManager.HandleFirstClick(firstClickPosition);
-			}
+			if(!hasFirstClick)
+				InitialClickEvent();
 		}
 	}
 	
 	if (state == ControlState.WaitingForNoInput){
 		var deltaSinceDown = Input.mousePosition - clickPosition;
-		
-		// check if mouse is over a building
-		var dragBuilding : GameObject = BuildingInteractionManager.PointOnBuilding(firstClickPosition);
-		// if mouse is not over a building, check if it is over a link
-		if (dragBuilding == null)
-			dragBuilding = BuildingInteractionManager.PointOnLink(firstClickPosition);
-		// if the mouse has moved over the threshhold then consider it a drag
-		if (DragMovementDetected(deltaSinceDown) && dragBuilding == null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) == null)//&& ModeController.selectedBuilding == null) {
-		{	
-			state = ControlState.DragingCamera;			
-		} 
-		else if(!unitSelected && DragMovementDetected(deltaSinceDown) && dragBuilding != null)//BuildingInteractionManager.PointOnBuilding(firstClickPosition) != null)//ModeController.selectedBuilding != null)
-		{
-			ModeController.selectedBuilding = dragBuilding;
-			state = ControlState.DraggingLink;				
-		}
+
+		if (DragMovementDetected(deltaSinceDown))
+			state = ControlState.Dragging;
 		else if (!Input.GetKey(KeyCode.Mouse0) /* need to decide if we want a delay auto click Time.time > firstClickTime + minimumTimeUntilMove*/){ // if the mouse has been released or held for the minimum duration then count it as a click
 			singleClickEvent(Input.mousePosition);
-			state = ControlState.WaitingForFirstInput;
-			hasFirstClick = false;
 		}
 	}
 	
-	if (state == ControlState.DragingCamera){
-		deltaSinceDown = Input.mousePosition - clickPosition;
-		clickPosition = Input.mousePosition;
-		
-		// if the mouse is still down keep dragging the camera
-		if (Input.GetKey(KeyCode.Mouse0)){
-			DragEvent(deltaSinceDown);
-		} else {
-			state = ControlState.WaitingForFirstInput;	
-			hasFirstClick = false;		
-		}
-	}
-	
-	if(state == ControlState.DraggingLink)
+	if (state == ControlState.Dragging)
 	{
 		deltaSinceDown = Input.mousePosition - clickPosition;
-		clickPosition = Input.mousePosition;		
-		
-		//If Button is released
-		if(!Input.GetKey(KeyCode.Mouse0))
-		{
-			if (GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI())
-			{
-				BuildingInteractionManager.HandleReleaseAtPoint(clickPosition);				
-		    }		 			
-			hasFirstClick = false;			
-			state = ControlState.WaitingForFirstInput;
-		}
+		clickPosition = Input.mousePosition;
+		if (!Input.GetKey(KeyCode.Mouse0))
+			ReleaseEvent();
+		else
+			DragEvent(deltaSinceDown);
 	}
 }
 
 function Update () {
 	if(intelSystem != null && !intelSystem.victory && isEnabled)
 		typeOfInput();      
+}
+
+private function CheckObjSelected(position : Vector2) : Collider
+{
+	if (inspectionDisplayRef.MouseOnDisplay())
+		return null;
+		
+	var hit : RaycastHit;
+	var ray : Ray = Camera.main.ScreenPointToRay (Vector3(position.x, position.y, 0.0f));
+	Physics.Raycast(ray, hit, 1000);
+	
+	return hit.collider;
 }
 
 public function getTouchLocation()

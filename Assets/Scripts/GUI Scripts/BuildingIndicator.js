@@ -15,6 +15,9 @@ public var linkUI : LinkUI;
 
 private var parentName:String;
 
+private var thisTransform : Transform;
+private var thisMaterial : Material;
+
 enum IndicatorState
 {
 	Neutral,
@@ -31,6 +34,9 @@ function Start () {
 	parentName = this.gameObject.transform.parent.name;
 	//Debug.Log(this.gameObject.transform.parent.name + "/ResourceRing");
 	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);	
+	
+	thisTransform = gameObject.transform;
+	thisMaterial = gameObject.renderer.material;
 }
 
 public function setResourceRing(obj:GameObject)
@@ -47,8 +53,7 @@ private function RotateActive()
 {
 	while(currState == IndicatorState.Active)
 	{
-
-			gameObject.transform.Rotate(0f,10f,0f);
+		thisTransform.Rotate(0f,10f,0f);
 
 		yield WaitForSeconds(.1f);
 	}
@@ -58,13 +63,12 @@ private function AnimateValid()
 {
 	while(currState == IndicatorState.Valid)
 	{
-
-			var offset : Vector2 = Vector2(spriteIndex * spriteSize.x, 0);
-			renderer.material.mainTextureOffset = offset;
-			renderer.material.mainTextureScale = spriteSize;
-			spriteIndex++;
-			if (spriteIndex > 2)
-				spriteIndex = 0f;
+		var offset : Vector2 = Vector2(spriteIndex * spriteSize.x, 0);
+		thisMaterial.mainTextureOffset = offset;
+		thisMaterial.mainTextureScale = spriteSize;
+		spriteIndex++;
+		if (spriteIndex > 2)
+			spriteIndex = 0f;
 		yield WaitForSeconds(.5f);
 	}
 }
@@ -95,15 +99,15 @@ function SetState (state : IndicatorState)
 		case IndicatorState.Valid:
 			currImage = validImage;
 			spriteIndex = 0f;
-			renderer.material.color = Color.white;
+			thisMaterial.color = Color.white;
 			StartCoroutine(AnimateValid());
 			break;
 		case IndicatorState.Neutral:
 			currImage = null;
-			renderer.material.color = Color.clear;
+			thisMaterial.color = Color.clear;
 			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setActiveRingMaterial(false, resourceRing);
 			break;
 	}
-	gameObject.renderer.material.mainTexture = currImage;
+	thisMaterial.mainTexture = currImage;
 }

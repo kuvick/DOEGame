@@ -216,14 +216,14 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	temp.startRotation = (rotateDegrees * angleModifier) * Mathf.Deg2Rad;
 	
 	var tempCollider : BoxCollider = temp.gameObject.AddComponent(BoxCollider);
-	if (targetVec.z == 0)
+	if (targetVec.z == 0 || (targetVec.x > 0 && targetVec.z > 0))
 		tempCollider.center.z = Mathf.Abs(targetVec.x / 2f);
-	else if (targetVec.x == 0)
+	else if (targetVec.x == 0 || (targetVec.x < 0 && targetVec.z > 0))
 		tempCollider.center.z = Mathf.Abs(targetVec.z / 2f);
-	else //if (targetVec.x > 0 && targetVec.z < 0)
+	else if (targetVec.x > 0 && targetVec.z < 0)// || (targetVec.x < 0 && targetVec.z > 0))
 		tempCollider.center.z = Mathf.Abs(targetVec.z);
-	/*else 
-		tempCollider.center.z = targetVec.x;*/
+	else 
+		tempCollider.center.z = Mathf.Abs(targetVec.x);
 		
 	/*if (targetVec.z > 0)
 		tempCollider.center.z *= -1;*/
@@ -242,6 +242,7 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	StartCoroutine(LinkCreateAnimation(temp));
 }
 
+// When links are first made, animates quickly then gradually slows down
 function LinkCreateAnimation(link : ParticleSystem)
 {
 	//Debug.Log("Link Start" + link);
@@ -255,7 +256,7 @@ function LinkCreateAnimation(link : ParticleSystem)
 	while (tempSpeed > initialPlaybackSpeed)
 	{
 		link.playbackSpeed = tempSpeed;
-		yield WaitForSeconds(.5f);
+		yield WaitForSeconds(.25f);
 		if(link == null) // in case undo function is used
 		return;
 		tempSpeed -= slowdownStep;

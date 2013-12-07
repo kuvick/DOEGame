@@ -24,8 +24,8 @@ private var validGeneralTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
-private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth + HexagonGrid.tileWidth / 3, -60, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
-private var unitSwappedOffset : Vector3 = Vector3 (-HexagonGrid.tileWidth + HexagonGrid.tileWidth / 2, 105, HexagonGrid.tileHalfHeight);
+private var unitOffset : Vector3 = new Vector3 (HexagonGrid.tileWidth / 2, 75, -50);//HexagonGrid.tileWidth + HexagonGrid.tileWidth / 3, 75, HexagonGrid.tileHalfHeight);//(HexagonGrid.tileWidth / 4 * 3) + 10, 50, 0);//(HexagonGrid.tileWidth / 4) - 10);
+private var unitSwappedOffset : Vector3 = Vector3 (-HexagonGrid.tileWidth / 2, 75, -50);//-HexagonGrid.tileWidth + HexagonGrid.tileWidth / 2, 75, HexagonGrid.tileHalfHeight);
 
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
@@ -353,7 +353,7 @@ public function SetPosition(swap : boolean) {
 	var tileCoord : Vector3 = currentBuilding.coordinate;
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
-	worldCoord += usedOffset;
+	worldCoord += Utils.ConvertToRotated(usedOffset);
 	gameObject.transform.position = worldCoord;
 	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
@@ -463,7 +463,8 @@ public function OnSelected()
 {
 	if (currentBuilding.isActive)// && selectedBuilding == currentBuilding.buildingPointer)
 	{
-		//currentBuilding.unitSelected = true;
+		ModeController.setSelectedBuilding(currentBuilding.buildingPointer);
+		currentBuilding.unitSelected = true;
 		isSelected = true;
 		inputController.selectUnit(true);
 		FindValidTargets();
@@ -528,6 +529,7 @@ public function OnDeselect()
 	isSelected = false;
 	inputController.selectUnit(false);
 	//currentBuilding.unitSelected = false;
+	currentBuilding.unitSelected = false;
 }
 
 protected function OnActivate(){
