@@ -227,6 +227,12 @@ private function FindActiveLinkedNeighbors (bUnit : BuildingOnGrid) : List.<Buil
 		if (temp.isActive)
 			activeLinked.Add(temp);
 	}
+	if (bUnit.optionalOutputAllocated)
+	{
+		temp = Database.getBuildingOnGridAtIndex(bUnit.optionalOutputLinkedTo);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}
 	return activeLinked;
 }
 
