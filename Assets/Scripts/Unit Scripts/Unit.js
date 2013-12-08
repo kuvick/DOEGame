@@ -543,6 +543,7 @@ public function OnDeselect()
 		{
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
+			currentBuilding.unitSelected = false;
 			SetTarget(selectedGridBuilding);//currentTarget = selectedGridBuilding;
 			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
@@ -573,8 +574,6 @@ public function OnDeselect()
 	}
 	isSelected = false;
 	inputController.selectUnit(false);
-	//currentBuilding.unitSelected = false;
-	currentBuilding.unitSelected = false;
 }
 
 protected function OnActivate(){

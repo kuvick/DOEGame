@@ -149,8 +149,8 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
 	
 	// create the line renderer to draw
-	AddLineRenderer(b1, b2, resource, true);
-	AddLineRenderer(b1, b2, resource, false);
+	/*AddLineRenderer(b1, b2, resource, true);
+	AddLineRenderer(b1, b2, resource, false);*/
 	AddParticleSystem(b1, b2, resource);
 }
 
@@ -263,6 +263,15 @@ function LinkCreateAnimation(link : ParticleSystem)
 	}
 	link.playbackSpeed = initialPlaybackSpeed;
 	//Debug.Log("Link End" + link);
+}
+
+function SetLinkActive(active : boolean, inputBuilding : int, outputBuilding : int)
+{
+	var tempSystem : ParticleSystem = GameObject.Find(outputBuilding + " " + inputBuilding).GetComponent(ParticleSystem);
+	if (active)
+		tempSystem.Play();
+	else
+		tempSystem.Pause();
 }
 
 function UpdateBuildingCount(curBuildings:GameObject[]):void

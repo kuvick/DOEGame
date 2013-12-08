@@ -505,12 +505,12 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			//removeLink(oldOutputBuilding, b1);
 			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource);			
 			// if input building and old output building were mutually linked, redraw the link that still remains
-			var oldOutputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(oldOutputBuildingIndex);
+			/*var oldOutputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(oldOutputBuildingIndex);
 			var possibleInputIndex : int = oldOutputBuildingOnGrid.inputLinkedTo.IndexOf(building1Index);
 			if (possibleInputIndex >= 0)
 			{
 				gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, oldOutputBuildingIndex, oldOutputBuildingOnGrid.allocatedInputs[possibleInputIndex]);
-			}
+			}*/
 		}		
 	}
 	
