@@ -533,6 +533,7 @@ public function OnSelected()
 public function OnDeselect()
 {
 	selectedBuilding = ModeController.getSelectedBuilding();
+	currentBuilding.unitSelected = false;
 	// if unit is selected, and a different building has been selected, try to path
 	if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
 	{
@@ -543,7 +544,6 @@ public function OnDeselect()
 		{
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
-			currentBuilding.unitSelected = false;
 			SetTarget(selectedGridBuilding);//currentTarget = selectedGridBuilding;
 			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
 			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
