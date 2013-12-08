@@ -771,7 +771,8 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 
 public function DeactivateLink(buildingIndex : int, linkedToIndex : int)
 {
-	drawLinks.SetLinkTexture(buildingIndex, linkedToIndex, false);
+	//drawLinks.SetLinkTexture(buildingIndex, linkedToIndex, false);
+	drawLinks.SetLinkActive(false, linkedToIndex, buildingIndex);
 	DeactivateChain(linkedToIndex, buildingIndex);
 }
 
@@ -819,7 +820,8 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
 		//DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
 		if (!buildingsOnGrid[i].deactivatedInputs.Contains(buildingsOnGrid[i].inputLinkedTo.IndexOf(buildingIndex)))
 		{
-			drawLinks.SetLinkTexture(buildingIndex, i, false);
+			//drawLinks.SetLinkTexture(buildingIndex, i, false);
+			drawLinks.SetLinkActive(false, i, buildingIndex);
 			DeactivateChain(i, buildingIndex);
 		}
 	}
@@ -936,7 +938,8 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	    		{
 	    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
 	    			//DrawLinks.SetLinkColor(buildingIndex, outLink, true);
-	    			drawLinks.SetLinkTexture(buildingIndex, outLink, true);
+	    			//drawLinks.SetLinkTexture(buildingIndex, outLink, true);
+	    			drawLinks.SetLinkActive(true, outLink, buildingIndex);
 	    		}
 	    		// attempt to recursively reactivate the chain
 				activateBuilding(outLink, true);
@@ -953,7 +956,8 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	    		{
 	    			outLinkBuilding.deactivatedInputs.Remove(outLinkInputIndex);
 	    			//DrawLinks.SetLinkColor(buildingIndex, outLink, true);
-	    			drawLinks.SetLinkTexture(buildingIndex, building.optionalOutputLinkedTo, true);
+	    			//drawLinks.SetLinkTexture(buildingIndex, building.optionalOutputLinkedTo, true);
+	    			drawLinks.SetLinkActive(true, building.optionalOutputLinkedTo, buildingIndex);
 	    		}
 	    		// attempt to recursively reactivate the chain
 				activateBuilding(building.optionalOutputLinkedTo, true);
