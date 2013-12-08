@@ -124,6 +124,33 @@ public function createPlayer(name : String):boolean
 	}
 }
 
+public function createPlayer(name : String, sfxVal:float, musicVal:float):boolean
+{
+	if(name != "")
+	{
+		for(var i : int = 0; i < profileSystem.Players.Count; i++)
+		{
+			if(profileSystem.Players[i].name == name)
+			{
+				Debug.Log("Player already exists");
+				return false;
+			}
+		}
+		var newPlayer : Player = rankSystem.generateNewPlayer(name);
+		newPlayer.sfxLevel = sfxVal;
+		newPlayer.musicLevel = musicVal;
+		//newPlayer.codexData = new CodexData();
+		//newPlayer.codexData.LoadFromSource();
+		profileSystem.Players.Add(newPlayer);
+		return true;
+	}
+	else
+	{
+		Debug.Log("Name was blank...");
+		return false;
+	}
+}
+
 public function logout()
 {
 	currentPlayer = null;
@@ -356,6 +383,8 @@ public class Player
   	//public var contactData : ContactData;
   	//public var codexData : CodexData;
   	public var codexEntries : List.<String> = new List.<String>();
+  	public var sfxLevel : float;
+  	public var musicLevel : float;
 	
 	// This updates the score or adds it if it wasn't there before
 	// Also, it outputs the difference between the stored score

@@ -27,7 +27,16 @@ public class StartMenu extends GUIControl
 	public var optionsButton:Texture;
 		private var optionsButtonRect:Rect;
 	public var exitButton:Texture;
-		
+	
+	// Options Screen:
+	public var optionsBannerTexture:Texture;
+		private var optionsBannerRect:Rect;
+		private var sfxSliderVal:float;
+		private var musicSliderVal:float;
+		private var sfxRect:Rect;
+		private var sfxLabelRect:Rect;
+		private var musicRect:Rect;
+		private var musicLabelRect:Rect;
 		
 		//Profile Select:
 	public var agentLoginText:Texture;
@@ -39,6 +48,8 @@ public class StartMenu extends GUIControl
 	public var mainMenuButtonText:Texture;
 		private var upperRightButtonRect:Rect;
 	public var profileBGText:Texture;
+	
+	public var transparentBlackTexture:Texture;
 		
 		
 		//New Profile:
@@ -104,7 +115,8 @@ public class StartMenu extends GUIControl
 	{
 		FirstScreen,
 		ProfileSelect,
-		NewProfile
+		NewProfile,
+		Options
 	}
 		
 	
@@ -160,9 +172,10 @@ public class StartMenu extends GUIControl
 		backgroundMusic = SoundManager.Instance().backgroundSounds.startMenuMusic;
 		
 		// Profile Select Screen:
-		titleBGRect = Rect(0,0, screenWidth,  titleBGText.height * percentage);
-		titleTextRect = Rect(buttonSideBuffer * screenHeight, titleBGRect.height / 2 -  (agentLoginText.height * percentage) / 2, agentLoginText.width * percentage, agentLoginText.height * percentage);
-		upperRightButtonRect = Rect(screenWidth -  (buttonSideBuffer * screenHeight) - (mainMenuButtonText.width * percentage), titleBGRect.height / 2 -  (mainMenuButtonText.height * percentage) / 2, (mainMenuButtonText.width * percentage), (mainMenuButtonText.height * percentage));
+		//titleBGRect = Rect(0,0, screenWidth,  titleBGText.height * percentage);
+		//titleTextRect = Rect(buttonSideBuffer * screenHeight, titleBGRect.height / 2 -  (agentLoginText.height * percentage) / 2, agentLoginText.width * percentage, agentLoginText.height * percentage);
+		//upperRightButtonRect = Rect(screenWidth -  (buttonSideBuffer * screenHeight) - (mainMenuButtonText.width * percentage), titleBGRect.height / 2 -  (mainMenuButtonText.height * percentage) / 2, (mainMenuButtonText.width * percentage), (mainMenuButtonText.height * percentage));
+		upperRightButtonRect = createRect(mainMenuButtonText,0.81,0.022, 0.12, true);
 		
 		profileScrollArea = Rect(buttonSideBuffer * screenHeight, (titleBGText.height * percentage) + (buttonSideBuffer * screenHeight), screenWidth -  2 * (buttonSideBuffer * screenHeight), screenHeight - (titleBGText.height * percentage) -  (buttonSideBuffer * screenHeight));
 		
@@ -171,8 +184,32 @@ public class StartMenu extends GUIControl
 		profileSelectSkin.button.fontSize = profileFontSizePercent * screenHeight;
 		profileSelectSkin.label.fontSize = profileFontSizePercent * screenHeight;
 		
+		startMenuSkin.label.fontSize = 0.030 * screenWidth;
+		
+		titleBGRect = createRect(agentLoginText,0,0, 0.246, false);
+		
 		// New Profile Screen:
 		agentNameRect = Rect(buttonSideBuffer * screenHeight, buttonSideBuffer * screenHeight, titleTextRect.width, titleTextRect.height);
+		
+		
+		//Options Screen:
+		optionsBannerRect = createRect(optionsBannerTexture,0,0, 0.246, false);
+		sfxRect = createRect(new Vector2(500, 100),0,0, 0.09, false);
+		musicRect = createRect(new Vector2(500, 100),0,0, 0.09, false);
+		sfxLabelRect = createRect(new Vector2(500, 100),0,0, 0.09, false);
+		musicLabelRect = createRect(new Vector2(500, 100),0,0, 0.09, false);
+		
+		sfxRect.x = Screen.width / 2 - sfxRect.width / 2;
+		sfxRect.y = (Screen.height / 2 - sfxRect.height / 2) - sfxRect.height;
+		sfxLabelRect.x = sfxRect.x;
+		sfxLabelRect.y = (Screen.height / 2 - sfxRect.height / 2) - (sfxRect.height * 2);
+		
+		musicRect.x = sfxRect.x;
+		musicRect.y = (Screen.height / 2 - musicRect.height / 2) + (musicRect.height * 2);
+		musicLabelRect.x = sfxRect.x;
+		musicLabelRect.y = (Screen.height / 2 - musicRect.height / 2) + musicRect.height;
+		
+		
 	}
 	
 	public function Render()
@@ -207,7 +244,8 @@ public class StartMenu extends GUIControl
 					Debug.Log("Going to " + firstLevel);
 					currentResponse.type = EventTypes.NEWGAME;
 					*/
-					Debug.Log("Options button was pressed.");
+					//Debug.Log("Options button was pressed.");
+					currentScreen = CurrentStartScreen.Options;
 					PlayButtonPress();
 				}
 				
@@ -239,7 +277,7 @@ public class StartMenu extends GUIControl
 				}
 				
 			}// end of first screen
-			else if(currentScreen == CurrentStartScreen.ProfileSelect)
+			else if(currentScreen == CurrentStartScreen.ProfileSelect || currentScreen == CurrentStartScreen.NewProfile)
 			{
 				players = saveSystem.LoadNames();
 				GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
@@ -296,12 +334,51 @@ public class StartMenu extends GUIControl
 					
 					
 					GUI.skin = profileSelectSkin;
-					if (GUI.Button(profileButton, "NEW AGENT"))
+
+					if(currentScreen == CurrentStartScreen.NewProfile)
 					{
-						newUsername = "";
-						currentScreen = CurrentStartScreen.NewProfile;
-						PlayButtonPress();
+					
+						newUsername = GUI.TextField(profileButton, newUsername, 10);
+						
+						GUI.skin = startMenuSkin;
+						midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
+						deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+						if(GUI.Button(deleteButton, approveButtonText))
+						{
+							saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
+							saveSystem.LoadPlayer(newUsername);
+							
+							
+							// If it is the first time a player is loading the game
+							//(aka no profile has been created until this one)
+							// Then it either loads the dashboard next or the specified
+							// level under the variable firstTimeLevelToLoad.
+							if(firstTime)
+							{
+								if(firstTimeLevelToLoad == "")
+									currentResponse.type = EventTypes.LEVELSELECT;
+								else
+								{
+									PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+									Application.LoadLevel("LoadingScreen");
+								}
+							}
+							else
+								currentScreen = CurrentStartScreen.ProfileSelect;
+							PlayButtonPress();
+						}
 					}
+					else
+					{
+						GUI.skin = profileSelectSkin;
+						if (GUI.Button(profileButton, "NEW AGENT"))
+						{
+							newUsername = "";
+							currentScreen = CurrentStartScreen.NewProfile;
+							PlayButtonPress();
+						}
+					}
+					
 					GUI.skin = startMenuSkin;
 					
 					
@@ -333,6 +410,7 @@ public class StartMenu extends GUIControl
 
 
 			}// end of profile select
+			/*
 			else if(currentScreen == CurrentStartScreen.NewProfile)
 			{
 			
@@ -340,6 +418,7 @@ public class StartMenu extends GUIControl
 				
 				//newUsername = GUI.TextField (Rect (screenWidth * 0.01 + profileSelectWidth, 5, 200, 20), newUsername, 25);
 				
+				/*
 				
 				//newUsername = "AGENT";
 				GUI.skin = profileSelectSkin;
@@ -391,34 +470,43 @@ public class StartMenu extends GUIControl
 					}
 				}
 				
+				*/	
+			//}// end of new profile
+			else if(currentScreen == CurrentStartScreen.Options)
+			{
+				GUI.skin = startMenuSkin;
 				
-				if(GUI.Button(upperRightButtonRect, approveButtonText))
+				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
+
+				
+				if(saveSystem.currentPlayer != null)
 				{
-					saveSystem.createPlayer(newUsername);
-					saveSystem.LoadPlayer(newUsername);
-					
-					// If it is the first time a player is loading the game
-					//(aka no profile has been created until this one)
-					// Then it either loads the dashboard next or the specified
-					// level under the variable firstTimeLevelToLoad.
-					if(firstTime)
-					{
-						if(firstTimeLevelToLoad == "")
-							currentResponse.type = EventTypes.LEVELSELECT;
-						else
-						{
-							PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
-							Application.LoadLevel("LoadingScreen");
-						}
-					}
-					else
-						currentScreen = CurrentStartScreen.ProfileSelect;
+					sfxSliderVal = saveSystem.currentPlayer.sfxLevel;
+					musicSliderVal = saveSystem.currentPlayer.musicLevel;
+				}
+				
+				GUI.Label(sfxLabelRect, "Effect Volume");
+				sfxSliderVal = GUI.HorizontalSlider (sfxRect, sfxSliderVal, 0.0, 1.0);
+				GUI.Label(musicLabelRect, "Music Volume");
+				musicSliderVal = GUI.HorizontalSlider (musicRect, musicSliderVal, 0.0, 1.0);
+				
+				if(saveSystem.currentPlayer != null)
+				{
+					saveSystem.currentPlayer.sfxLevel = sfxSliderVal;
+					saveSystem.currentPlayer.musicLevel = musicSliderVal;
+				}
+				
+				
+				if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
+				{
+					saveSystem.profileSystem.Save();
+					currentScreen = CurrentStartScreen.FirstScreen;
 					PlayButtonPress();
 				}
-			
-						
 				
-			}// end of new profile
+				
+				
+			}// end of options
 			
 		}
 	}
