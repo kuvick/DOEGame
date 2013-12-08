@@ -203,6 +203,7 @@ public class ProfileSystem
 		
 		serializer.Serialize(stream, this);
 	 	stream.Close();
+	 	Debug.Log("Saved: " + path);
  	}
  	
  	public function WebSave()
@@ -347,7 +348,8 @@ public class Player
 	public var exp : int;
 	public var rank : int;
 	public var rankName : String;
-	public var baseUnlockedIndex : int = 0;
+	public var lastUnlockedIndex : int = 0;
+	public var onTutorials : boolean = true;
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelDataList : List.<LevelData> = new List.<LevelData>();
@@ -448,6 +450,7 @@ public class Player
 			levelData.levelCompleted = true;
 			levelDataList.Add(levelData);
 		}
+		lastUnlockedIndex++;
 	}
 	
 	public function unlockLevel(levelName : String)
