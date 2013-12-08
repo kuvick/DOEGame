@@ -44,20 +44,6 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-
-	<Level>
-      <displayName>1</displayName>
-      <sceneName>GPC05</sceneName>
-      <difficulty>0</difficulty>
-      <subjectText>Level 4</subjectText>
-      <messageText>Mission text coming soon!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>1</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
 	
 	<Level>
       <displayName>2</displayName>
@@ -197,6 +183,20 @@
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>10</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level>
+      <displayName>1</displayName>
+      <sceneName>GPC05</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Level 4</subjectText>
+      <messageText>Mission text coming soon!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
