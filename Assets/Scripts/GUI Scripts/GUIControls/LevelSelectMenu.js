@@ -285,7 +285,8 @@ public class LevelSelectMenu extends GUIControl
 	private var completedLevels : List.<LevelNode>; 
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
-	private var baseUnlockedIndex : int = 0;
+	private var lastUnlockedIndex : int = 0;
+	private var onTutorials : boolean = true;
 	
 	private static var fromScoreScreen : boolean = false;
 	
@@ -391,7 +392,9 @@ public class LevelSelectMenu extends GUIControl
 	
 			playerName = saveSystem.currentPlayer.name;
 			
-			baseUnlockedIndex = saveSystem.currentPlayer.baseUnlockedIndex;
+			lastUnlockedIndex = saveSystem.currentPlayer.lastUnlockedIndex;
+			Debug.Log("start"+lastUnlockedIndex);
+			onTutorials = saveSystem.currentPlayer.onTutorials;
 			
 			// Displayed Player Name:
 			playerRect = new Rect(agentRankRect1.width + agentRankRect1.x, 
@@ -706,7 +709,7 @@ public class LevelSelectMenu extends GUIControl
 		if(GUIManager.addLevel)
 		{
 			GUIManager.addLevel = false;				
-			completeLevel(GUIManager.levelToAdd);;
+			completeLevel(GUIManager.levelToAdd);
 			GUIManager.levelToAdd = "";
 		}
 		
@@ -788,7 +791,7 @@ public class LevelSelectMenu extends GUIControl
 				case UnlockType.MISSION:
 					//Debug.Log("name" + levels[levels[i].missionRequirementIndex].sceneName);
 					//if(levels[levels.Length - 1 - levels[i].missionRequirementIndex].completed)
-					if (i > levels.Length - 1 - baseUnlockedIndex - 3)
+					if (i > levels.Length - 1 - lastUnlockedIndex - 1)// - 3)
 						levels[i].unlocked = true;
 					break;
 				case UnlockType.CONTACT:
@@ -803,16 +806,27 @@ public class LevelSelectMenu extends GUIControl
 	private function CheckForBaseUnlockIndexChange()
 	{
 		//Debug.Log("zomg"); 	//******commented to make debugging easier
+		/*Debug.Log(lastUnlockedIndex);
 		var i : int = 0;
-		for (i = levels.Length - 1 - baseUnlockedIndex; i >= 0 && i > levels.Length - 1 - baseUnlockedIndex - 3; i--)
+		for (i = levels.Length - 1 - lastUnlockedIndex; i >= 0 && i > levels.Length - 1 - lastUnlockedIndex - 1; i--)
 		{
 			//Debug.Log("zomg" + i + levels[i].sceneName); 	//******commented to make debugging easier
 			if (!levels[i].completed)
 				return;
 		}
-		//Debug.Log("changing base to " + i); 	//******commented to make debugging easier
-		baseUnlockedIndex = levels.Length - 1 - i;
-		saveSystem.currentPlayer.baseUnlockedIndex = baseUnlockedIndex;
+		Debug.Log("changing base to " + i); 	//******commented to make debugging easier
+		lastUnlockedIndex = levels.Length - 1 - i;*/
+		//Debug.Log(lastUnlockedIndex + levels[levels.Length - lastUnlockedIndex].sceneName);
+		if (onTutorials && lastUnlockedIndex > 0 && !levels[levels.length - 1 - lastUnlockedIndex].sceneName.Contains("utorial") && levels[levels.Length - lastUnlockedIndex].sceneName.Contains("utorial"))
+		{
+			onTutorials = false;
+			lastUnlockedIndex += 2;
+			Debug.Log("we");
+		}
+		saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex;
+		Debug.Log(saveSystem.currentPlayer.lastUnlockedIndex + "rawr");
+		saveSystem.currentPlayer.onTutorials = onTutorials;
+		saveSystem.SaveCurrentPlayer();
 	}
 
 
