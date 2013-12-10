@@ -88,6 +88,7 @@ public var optionalOutputIcons : GameObject[];
 public var ringTexture : Texture2D;
 public var activeRingTexture : Texture2D;
 public var buildingSiteRingTexture : Texture2D;
+public var validTargetRingTexture : Texture2D;
 
 private var premadeInputBuildings : List.<GameObject> = new List.<GameObject>();
 private var premadeOutputBuildings : List.<GameObject> = new List.<GameObject>();
@@ -155,6 +156,11 @@ function isLinked(b1:GameObject, b2:GameObject){
 	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
 }
 
+
+public function setValidTargetRingMaterial(obj: GameObject)
+{
+	obj.renderer.material.mainTexture = validTargetRingTexture;
+}
 public function setActiveRingMaterial(bool:boolean, obj: GameObject)
 {
 	if(bool)

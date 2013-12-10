@@ -112,11 +112,17 @@ function SetState (state : IndicatorState)
 			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setActiveRingMaterial(true, resourceRing);
 			break;
+		/*
 		case IndicatorState.Valid:
 			currImage = validImage;
 			spriteIndex = 0f;
 			thisMaterial.color = Color.white;
 			StartCoroutine(AnimateValid());
+			break;
+		*/
+		case IndicatorState.Valid:
+			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
+				linkUI.setValidTargetRingMaterial(resourceRing);
 			break;
 		case IndicatorState.Neutral:
 			currImage = null;
