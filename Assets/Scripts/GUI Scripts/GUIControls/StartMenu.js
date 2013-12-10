@@ -504,7 +504,7 @@ public class StartMenu extends GUIControl
 					PlayButtonPress();
 				}
 				
-				
+				SoundManager.Instance().setVolumes(sfxSliderVal, musicSliderVal);				
 				
 			}// end of options
 			

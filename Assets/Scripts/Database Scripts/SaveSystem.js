@@ -383,8 +383,8 @@ public class Player
   	//public var contactData : ContactData;
   	//public var codexData : CodexData;
   	public var codexEntries : List.<String> = new List.<String>();
-  	public var sfxLevel : float;
-  	public var musicLevel : float;
+  	public var sfxLevel : float = 1;
+  	public var musicLevel : float = .75;
 	
 	// This updates the score or adds it if it wasn't there before
 	// Also, it outputs the difference between the stored score

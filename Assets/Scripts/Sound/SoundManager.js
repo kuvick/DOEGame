@@ -37,7 +37,34 @@ public class SoundManager extends MonoBehaviour {
 	public var lowPriorityVolume : float = .25;
 	public var minimumPriorityVolume : float = .1;
 	
+	private var startMaxPriorityVolume : float = 1;
+	private var startHighPriorityVolume : float = .75;
+	private var startMediumPriorityVolume : float = .5;
+	private var startLowPriorityVolume : float = .25;
+	private var startMinimumPriorityVolume : float = .1;
+	
+	private var saveSystem : SaveSystem;
+	
 	public function Awake() {
+		var playerData : GameObject = GameObject.Find("Player Data");
+		saveSystem = playerData.GetComponent("SaveSystem");
+		
+		startMaxPriorityVolume = maxPriorityVolume;
+		startHighPriorityVolume = highPriorityVolume;
+		startMediumPriorityVolume = mediumPriorityVolume;
+		startLowPriorityVolume = lowPriorityVolume;
+		startMinimumPriorityVolume = minimumPriorityVolume;
+		
+		lowPriorityVolume = saveSystem.currentPlayer.musicLevel;
+		//Determining sound effect volumes:
+		var maxLevel : float = saveSystem.currentPlayer.sfxLevel;
+		
+		maxPriorityVolume *= maxLevel;
+		highPriorityVolume *= maxLevel;
+		mediumPriorityVolume *= maxLevel;
+		minimumPriorityVolume *= maxLevel;
+			
+	
 		var otherSoundManager:GameObject = GameObject.Find("SoundManager(Clone)");
 		if(otherSoundManager != null && otherSoundManager != this.gameObject)
 			Destroy(this.gameObject);
@@ -372,5 +399,14 @@ public class SoundManager extends MonoBehaviour {
 		default:
 			return (minimumPriorityVolume);
 		}
+	}
+	
+	public function setVolumes(sfxVal:float, musicVal:float)
+	{
+		lowPriorityVolume = musicVal;
+		maxPriorityVolume = startMaxPriorityVolume * sfxVal;
+		highPriorityVolume = startHighPriorityVolume * sfxVal;
+		mediumPriorityVolume = startMediumPriorityVolume * sfxVal;
+		minimumPriorityVolume = startMinimumPriorityVolume * sfxVal;	
 	}
 }
