@@ -230,7 +230,7 @@ public class ProfileSystem
 		
 		serializer.Serialize(stream, this);
 	 	stream.Close();
-	 	Debug.Log("Saved: " + path);
+	 	//Debug.Log("Saved: " + path);
  	}
  	
  	public function WebSave()

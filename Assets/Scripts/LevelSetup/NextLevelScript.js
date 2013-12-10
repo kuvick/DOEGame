@@ -2,6 +2,7 @@
 
 public var nextLevel : String = "";
 private static var exists : boolean = false;
+public var playSplash = true;
 
 function Awake ()
 {

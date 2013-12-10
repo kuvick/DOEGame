@@ -80,10 +80,10 @@ public class MainMenu extends GUIControl
 	private var mostRecentTurnScore : int = 0;
 	
 	//For displaying Objective Icons:
-	private var objIconSizePercentage : float = 0.12f;
+	private var objIconSizePercentage : float = 0.08f;
 	private var objIconSize : Vector2;
 	private var objIconGroupRect : Rect;
-	private var dataIconSizePercentage : float = 0.04f;
+	private var dataIconSizePercentage : float = 0.02f;
 	private var dataIconSize : Vector2;
 	
 	private var cameraControl : CameraControl;
@@ -96,14 +96,19 @@ public class MainMenu extends GUIControl
 	
 	public var showTurns: boolean = false;
 	
+	/*
 	public var objIconsBGCenter:Texture;
 	public var objIconsBGLeft:Texture;
 	public var objIconsBGRight:Texture;
 	public var objIconsBGOne:Texture;
+	*/
+	public var hasDataIcon:Texture;
+	public var hasNotDataIcon:Texture;
+	public var objectiveBanner:Texture;
 	public var scoreAndComboBG:Texture;
 	private var objIconBGRect:Rect;
 	private var objBGRect:Rect;
-	private var addedObjIconBGRect:boolean;
+	//private var addedObjIconBGRect:boolean;
 	
 	private var scoreAndComboBGRect : Rect;
 	private var scoreAndComboBGPercent :float= 0.15;
@@ -127,6 +132,7 @@ public class MainMenu extends GUIControl
 		
 		// If testing different camera angles, going through and adding
 		// the cameras to the list.
+		/*
 		if(testCameras)
 		{
 			// index of current camera
@@ -146,6 +152,7 @@ public class MainMenu extends GUIControl
 			
 			Debug.Log("# of Cameras to test: " + cameraLocations.Count);			
 		}// end of if(testCameras)
+		*/
 	}
 	
 	// For when the level is loaded and there is an intel system
@@ -162,22 +169,49 @@ public class MainMenu extends GUIControl
 		super.Initialize();
 		
 		addedObjRect = false;
-		addedObjIconBGRect = false;
+		//addedObjIconBGRect = false;
 				
 	    if (intelSystem == null) {
     		LoadLevelReferences();
     	} 
+    	
+    	
+    	
+		pauseButton = createRect(pauseTexture,0,0, 41.0 / 540.0, false);
+		pauseButton.x = screenWidth - pauseButton.width;
+		
+		waitButton = createRect(waitTexture,0,0, 143.0 / 540.0, false);
+		waitButton.x = screenWidth - waitButton.width;
+		waitButton.y = screenHeight - waitButton.height;
+		
+		undoButton = createRect(undoTexture,0,0, 143.0 / 540.0, false);
+		undoButton.y = waitButton.y;
+		
+		//scoreAndComboBGRect = createRect(scoreAndComboBG,0,0,scoreAndComboBGPercent,false);
+		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0, 49.0 / 540.0, false);
+		scoreAndComboBGRect.x = screenWidth / 2 - scoreAndComboBGRect.width / 2;
+		
+		objBGRect = createRect(objectiveBanner,0, 77.0/540.0, 282.0 / 540.0, false);
+		
+		scoreRect = createRect(new Vector2(243, 24), 223.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+
+		comboRect = createRect(new Vector2(102, 24), 110.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+		
+		timeRect = createRect(new Vector2(102, 24), 496.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+    	
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
 		var totalButtonPadding : float = hexButtonHeight + padding;
 		var hexButtonRatio : float = undoTexture.width / undoTexture.height;
 		var hexButtonWidth = hexButtonHeight * hexButtonRatio;
 		
+		/*
 		pauseButtonHeight = pauseButtonHeightPercent * screenHeight;
 		var pauseW: float = pauseTexture.width;
 		var pauseH: float = pauseTexture.height;
 		var pauseButtonRatio : float = pauseW / pauseH;
 		var pauseButtonWidth : float = pauseButtonHeight * pauseButtonRatio;
+		*/
 		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
 		
@@ -189,16 +223,14 @@ public class MainMenu extends GUIControl
 		//pauseFontHeight = pauseFontHeightPercent * screenHeight;
 		//mainMenuSkin.button.fontSize = pauseFontHeight;
 		
-		pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseButtonWidth, horizontalBarHeight + padding, pauseButtonWidth, pauseButtonHeight);
-		undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//undoTexture.width, undoTexture.height);
-		waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
+		//pauseButton = Rect(screenWidth + verticalBarWidth - padding - pauseButtonWidth, horizontalBarHeight + padding, pauseButtonWidth, pauseButtonHeight);
+		//undoButton = Rect(verticalBarWidth + padding, horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//undoTexture.width, undoTexture.height);
+		//waitButton = Rect(screenWidth - (verticalBarWidth + padding + hexButtonWidth), horizontalBarHeight + screenHeight - padding - hexButtonHeight, hexButtonWidth, hexButtonHeight);//waitTexture.width, waitTexture.height);
 		
-		scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
-		comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + (1.3 * scoreFontHeight), 0, 0);
+		//scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
+		//comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + (1.3 * scoreFontHeight), 0, 0);
 		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (4 * padding) + (3.9 * scoreFontHeight), 0, 0);
-		timeRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2.6 * scoreFontHeight), 0, 0);
-		
-		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0,scoreAndComboBGPercent,false);
+		//timeRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2.6 * scoreFontHeight), 0, 0);
 		
 		
 		var victoryHeight = missionCompleteSizePercentage * screenHeight;
@@ -232,6 +264,7 @@ public class MainMenu extends GUIControl
 		rectList.Add(pauseButton);
 		rectList.Add(waitButton);
 		rectList.Add(undoButton);
+		rectList.Add(objBGRect);
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);
 		cameraControl = cameraMain.GetComponent(CameraControl);
@@ -250,18 +283,21 @@ public class MainMenu extends GUIControl
 		
 		objIconSize = Vector2(objWidth, objHeight);
 		
+		
 		var dataHeight : float = dataIconSizePercentage * screenHeight;
-		var dataW: float = upgradeManager.iconTexture.width;
-		var dataH: float = upgradeManager.iconTexture.height;
+		//var dataW: float = upgradeManager.iconTexture.width;
+		//var dataH: float = upgradeManager.iconTexture.height;
+		var dataW: float = hasDataIcon.width;
+		var dataH: float = hasDataIcon.height;
 		var dataRatio : float = dataW / dataH;
 		var dataWidth : float = dataHeight * dataRatio;
-		
 		dataIconSize = Vector2(dataWidth, dataHeight);
 		
 		
-		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
-		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);		
-		objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
+		//var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
+		var objRectHeight : float = (objIconSize.y + padding) * intelSystem.events.Count;
+		objIconGroupRect = Rect(objBGRect.x, objBGRect.y, objIconSize.x + padding, objRectHeight + dataIconSize.x);		
+		//objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
 		
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
@@ -274,25 +310,35 @@ public class MainMenu extends GUIControl
 		
 		GUI.skin = mainMenuSkin;
 		
-		GUI.DrawTexture(scoreAndComboBGRect, scoreAndComboBG);
+		GUI.DrawTexture(scoreAndComboBGRect, scoreAndComboBG, ScaleMode.StretchToFill);
 		
-		if(intelSystem == null){
-			LoadReferences();
-  		} else {  			
-			targetFontColor = new Color(0,0,0);
-			score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
-			
-			GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
-			
-			if(showTurns)
-				GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-			
-			if(intelSystem.useTimer)
-				GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
+		
+		
+		
+		GUI.BeginGroup(scoreAndComboBGRect);
+		mainMenuSkin.label.alignment = TextAnchor.UpperCenter;
+			if(intelSystem == null){
+				LoadReferences();
+	  		} else {  			
+				targetFontColor = new Color(0,0,0);
+				score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
 				
-		}
+				GUI.Label(comboRect, "x" + intelSystem.comboSystem.getComboCount());
+				//GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
+				
+				if(showTurns)
+					GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+				
+				if(intelSystem.useTimer)
+					GUI.Label(timeRect, "" + intelSystem.GetTimeLeft());
+					//GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
+					
+			}
+			UpdateDisplayedScore();
+			GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
+			mainMenuSkin.label.alignment = TextAnchor.UpperLeft;
+		GUI.EndGroup();
 		
-		UpdateDisplayedScore();
 		// displaying number of data pieces collected
 		/*
 		if (upgradeManager != null){
@@ -306,7 +352,8 @@ public class MainMenu extends GUIControl
 		*/
 		
 		// Draw the buttons and respond to interaction
-		if(GUI.Button(pauseButton, pauseTexture))
+		GUI.DrawTexture(pauseButton, pauseTexture, ScaleMode.StretchToFill);
+		if(GUI.Button(pauseButton, ""))
 		{
 			SoundManager.Instance().playButtonClick();
 			
@@ -334,7 +381,6 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.METRIC;
 		}*/
 				
-		GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
 		
 		//if(upgradeManager != null) // REMOVING THE OTHER UPGRADE COUNTER
 			//upgradeManager.Render();
@@ -342,13 +388,16 @@ public class MainMenu extends GUIControl
 		
 		//DISPLAYING OBJECTIVE ICONS IN HUD
 		GUI.skin.label.normal.textColor = Color.white;
-		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
-		objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
-		objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding * 2 + dataIconSize.x);
+		var objRectHeight : float = (objIconSize.y + padding) * intelSystem.events.Count * 1.5;
+		objIconGroupRect = Rect(objBGRect.x, objBGRect.y, objIconSize.x + padding, objRectHeight + dataIconSize.x + padding);
 		
+		//var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
+		//objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
+		//objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding * 2 + dataIconSize.x);
 		// This resizes the size of the objective icons if they overlap the score and combo background
 		// Should only be called once unless there is a ridiculous number of objectives
 		// Typically it's around 6 or 7 that this should be called?
+		/*
 		if(scoreAndComboBGRect.width > objIconGroupRect.x)
 		{
 			//Debug.Log("Resizing obj. icon rect");
@@ -373,11 +422,11 @@ public class MainMenu extends GUIControl
 			objRectWidth = (objIconSize.x + padding) * intelSystem.events.Count;
 			objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
 			objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding * 2 + dataIconSize.x);
-			
 		}
-		
+		/*
 		
 		//DISPLAYING OBJECTIVE ICON BACKGROUND
+		/*
 		GUI.BeginGroup(objBGRect);
 		
 		if(intelSystem.events.Count > 0)
@@ -419,8 +468,12 @@ public class MainMenu extends GUIControl
 			}
 		}
 		GUI.EndGroup();
-		addedObjIconBGRect = true;
+		*/
+		GUI.DrawTexture(objBGRect, objectiveBanner, ScaleMode.StretchToFill);
 		
+		
+		//addedObjIconBGRect = true;
+		/* --- the old way to display obj icons
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
@@ -480,6 +533,72 @@ public class MainMenu extends GUIControl
 												dataIconSize.x,
 												dataIconSize.y),
 												upgradeManager.iconTexture);
+					}
+					
+				}
+			}
+		GUI.EndGroup();
+		*/
+		
+		GUI.BeginGroup(objIconGroupRect);
+			for(var i:int = 0; i < intelSystem.events.Count; i++)
+			{
+				//DISPLAYING OBJECTIVE ICON
+				var objIconRect = Rect(	0, 
+										padding + (objIconSize.y + padding) * (i*1.5),
+										objIconSize.x,
+										objIconSize.y);
+				
+				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
+				//If clicks on objective icon, centers on building
+				if(GUI.Button(objIconRect,""))
+				{
+					cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
+					var objIconScript:ObjectiveIcon = intelSystem.events[i].getIconScript();
+					objIconScript.OnSelectedFromHUD(); // See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
+					
+					var buildingData : BuildingData = intelSystem.events[i].event.buildingReference.GetComponent(BuildingData);
+					
+					//grid.CreateFlashingHexagon(buildingData.buildingData.coordinate);
+				}
+				if(!addedObjRect)
+				{
+					rectList.Add(objIconRect);
+				}
+										
+				//DISPLAYING NUMBER
+				if(intelSystem.events[i].event.type == BuildingEventType.Primary && !intelSystem.events[i].getResolved())
+				{		
+					GUI.Label(	Rect(padding / 2,
+								padding + (objIconSize.y + padding) * (i*1.5) + (objIconSize.y / 2), 
+								objIconSize.x,
+								objIconSize.y),
+								intelSystem.events[i].event.time.ToString());
+				}
+				
+				//IF IT HAS AN UPGRADE
+				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
+				{
+					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
+
+					for(var j : int = 0; j < upgradeCount.getTotalParts(); j++)
+					{
+						//DISPLAYS THE DARK UPGRADE ICON CIRCLE FOR EACH ONE PRESENT IN THE LEVEL
+						GUI.DrawTexture(Rect((padding / 2.0) + ((padding / 2) + dataIconSize.x) * j,
+												(padding + (objIconSize.y + padding) * (i*1.5)) + objIconSize.y + (padding / 2),
+												dataIconSize.x,
+												dataIconSize.y),
+												hasNotDataIcon);
+					}
+					
+					for(var k : int = 0; k < upgradeCount.getObtainedParts(); k++)
+					{	
+						//DISPLAYS THE LIGHTER UPGRADE ICON FOR EACH ONE COLLECTED
+						GUI.DrawTexture(Rect((padding / 2.0) + ((padding / 2) + dataIconSize.x) * k,
+												(padding + (objIconSize.y + padding) * (i*1.5)) + objIconSize.y + (padding / 2),
+												dataIconSize.x,
+												dataIconSize.y),
+												hasDataIcon);
 					}
 					
 				}

@@ -373,7 +373,9 @@ private function RespondTo(response:GUIEvent)
 			Application.LoadLevel("StartScreen");
 			ClearControls();
 			AddGUIToControls(startMenu);
-			startMenu.SetSplash(false);
+			var nextLevelScript : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+			nextLevelScript.playSplash = false;
+			//startMenu.SetSplash(false); - keeps turning a null error
 			break;
 		case EventTypes.SAVEQUIT:
 			Application.Quit();
@@ -494,6 +496,12 @@ public function SetNotOnOtherGUI(b : boolean)
 }
 
 public function AddGUIToControls(guiControlToAdd : GUIControl){
+	if(guiControlToAdd == null)
+	{
+		Debug.LogWarning("The GUIControl recieved was null.");
+		return;	
+	}
+
 	if (!guiControlToAdd.isInitialized){
 		guiControlToAdd.Initialize();
 	}

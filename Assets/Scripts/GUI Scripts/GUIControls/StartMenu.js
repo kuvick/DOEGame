@@ -136,6 +136,8 @@ public class StartMenu extends GUIControl
 	{
 		super.Initialize();
 		
+		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+
 		percentage = screenWidth / 1920; //Assumes images made to spec of 1920 px
 		currentScreen = CurrentStartScreen.FirstScreen;
 		
@@ -167,7 +169,9 @@ public class StartMenu extends GUIControl
 		
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		
-		RiffSplashScreens();
+		//RiffSplashScreens();
+		SetSplash(nextLevel.playSplash);
+		
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.startMenuMusic;
 		
