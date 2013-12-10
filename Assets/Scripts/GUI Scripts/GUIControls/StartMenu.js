@@ -249,6 +249,19 @@ public class StartMenu extends GUIControl
 					currentResponse.type = EventTypes.NEWGAME;
 					*/
 					//Debug.Log("Options button was pressed.");
+					
+					
+					if(saveSystem.currentPlayer != null)
+					{
+						sfxSliderVal = saveSystem.currentPlayer.sfxLevel;
+						musicSliderVal = saveSystem.currentPlayer.musicLevel;
+					}
+					else
+					{
+						sfxSliderVal = 1.0;
+						musicSliderVal = 1.0;
+					}
+					
 					currentScreen = CurrentStartScreen.Options;
 					PlayButtonPress();
 				}
@@ -503,7 +516,7 @@ public class StartMenu extends GUIControl
 				
 				if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
 				{
-					saveSystem.profileSystem.Save();
+					saveSystem.SaveCurrentPlayer();
 					currentScreen = CurrentStartScreen.FirstScreen;
 					PlayButtonPress();
 				}
