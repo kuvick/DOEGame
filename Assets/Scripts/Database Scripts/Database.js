@@ -1103,6 +1103,7 @@ static public function ReplaceBuildingSite(buildingObject: GameObject, coord : V
 	tempBuilding.indicator = buildingObject.GetComponentInChildren(BuildingIndicator);
 	if(tempBuilding.unallocatedInputs.Count <= 0)
 	{
+		tempBuilding.indicator.Initialize();
 		tempBuilding.indicator.SetState(IndicatorState.Active);
 		tempBuilding.isActive = true;
 	}
