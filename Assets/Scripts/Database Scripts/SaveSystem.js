@@ -375,8 +375,8 @@ public class Player
 	public var exp : int;
 	public var rank : int;
 	public var rankName : String;
-	public var lastUnlockedIndex : int = 0;
-	public var onTutorials : boolean = true;
+	public var lastUnlockedIndex : int = 0; // index of the last level unlocked
+	public var numToUnlock : int = 0; // used to determine how much to increment lastUnlockedIndex
 	@XmlArray("levelscores")
   	@XmlArrayItem("leveldata")
 	public var levelDataList : List.<LevelData> = new List.<LevelData>();
@@ -479,7 +479,8 @@ public class Player
 			levelData.levelCompleted = true;
 			levelDataList.Add(levelData);
 		}
-		lastUnlockedIndex++;
+		Debug.Log(lastUnlockedIndex + " " + numToUnlock);
+		lastUnlockedIndex += numToUnlock;
 	}
 	
 	public function unlockLevel(levelName : String)

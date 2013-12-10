@@ -286,7 +286,8 @@ public class LevelSelectMenu extends GUIControl
 	private var secondaryLevels : LevelNode[];
 	private var primaryLevels : LevelNode[];
 	private var lastUnlockedIndex : int = 0;
-	private var onTutorials : boolean = true;
+	
+	private var baseDifficulty : int = 0; // used for difficulty icon selection
 	
 	private static var fromScoreScreen : boolean = false;
 	
@@ -393,8 +394,6 @@ public class LevelSelectMenu extends GUIControl
 			playerName = saveSystem.currentPlayer.name;
 			
 			lastUnlockedIndex = saveSystem.currentPlayer.lastUnlockedIndex;
-			Debug.Log("start"+lastUnlockedIndex);
-			onTutorials = saveSystem.currentPlayer.onTutorials;
 			
 			// Displayed Player Name:
 			playerRect = new Rect(agentRankRect1.width + agentRankRect1.x, 
@@ -468,13 +467,14 @@ public class LevelSelectMenu extends GUIControl
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						
 						//Display proper mail icon
-						if(levelsToRender[i].difficulty < difficultyIcons.Count )
+						if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
 						{
-							GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty], ScaleMode.StretchToFill);
+							GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
 						}	
 						else
 						{
-							Debug.LogError("The given difficulty does not have a matching icon");
+							//Debug.LogError("The given difficulty does not have a matching icon");
+							GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
 						}		
 
 						levelsToRender[i].bounds.x = senderRect.width;
@@ -729,9 +729,6 @@ public class LevelSelectMenu extends GUIControl
 					levels[a].completed = true;
 			}
 		}
-			
-		CheckForBaseUnlockIndexChange();	
-		checkForUnlocks();
 		
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{
@@ -745,11 +742,18 @@ public class LevelSelectMenu extends GUIControl
 					completedLevels.Add(levels[i]);
 					countCompleted++;	
 				} else {
+					if (countUnlocked < 1)
+						baseDifficulty = levels[i].difficulty;
 					level = new Rect(0, countUnlocked * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countUnlocked * (level.height * .05);
 					levels[i].bounds = level;
 					unlockedLevels.Add(levels[i]);
-					countUnlocked++;	
+					countUnlocked++;
+					if (levels[i].sceneName.Contains("utorial"))
+					{
+						saveSystem.currentPlayer.lastUnlockedIndex = levels.Length - 1 - i;
+						break;
+					}
 				}
 				//if(showActive) // If in the Active Tab
 				//{
@@ -772,6 +776,8 @@ public class LevelSelectMenu extends GUIControl
 								
 			}
 		}
+		saveSystem.currentPlayer.numToUnlock = 3 - countUnlocked + 1;
+		saveSystem.SaveCurrentPlayer();
 		//scrollContent.height = unlockedLevels.Count * messageHeightPercent * screenHeight * 2;
 			
 	}
@@ -802,33 +808,6 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 	}
-	
-	private function CheckForBaseUnlockIndexChange()
-	{
-		//Debug.Log("zomg"); 	//******commented to make debugging easier
-		/*Debug.Log(lastUnlockedIndex);
-		var i : int = 0;
-		for (i = levels.Length - 1 - lastUnlockedIndex; i >= 0 && i > levels.Length - 1 - lastUnlockedIndex - 1; i--)
-		{
-			//Debug.Log("zomg" + i + levels[i].sceneName); 	//******commented to make debugging easier
-			if (!levels[i].completed)
-				return;
-		}
-		Debug.Log("changing base to " + i); 	//******commented to make debugging easier
-		lastUnlockedIndex = levels.Length - 1 - i;*/
-		//Debug.Log(lastUnlockedIndex + levels[levels.Length - lastUnlockedIndex].sceneName);
-		if (onTutorials && lastUnlockedIndex > 0 && !levels[levels.length - 1 - lastUnlockedIndex].sceneName.Contains("utorial") && levels[levels.Length - lastUnlockedIndex].sceneName.Contains("utorial"))
-		{
-			onTutorials = false;
-			lastUnlockedIndex += 2;
-			Debug.Log("we");
-		}
-		saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex;
-		Debug.Log(saveSystem.currentPlayer.lastUnlockedIndex + "rawr");
-		saveSystem.currentPlayer.onTutorials = onTutorials;
-		saveSystem.SaveCurrentPlayer();
-	}
-
 
 	public var characterEmailIcons : List.<SenderIcon> = new List.<SenderIcon>();
 	

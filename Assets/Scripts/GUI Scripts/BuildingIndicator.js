@@ -26,7 +26,7 @@ enum IndicatorState
 }
 
 function Start () {
-	spriteSize = Vector2(1.0f / 3f, 1f);
+	/*spriteSize = Vector2(1.0f / 3f, 1f);
 	
 	thisTransform = gameObject.transform;
 	thisMaterial = gameObject.renderer.material;
@@ -34,6 +34,22 @@ function Start () {
 	thisMaterial.color = Color.clear;
 	
 	yield WaitForSeconds(0.1);
+	parentName = this.gameObject.transform.parent.name;
+	//Debug.Log(this.gameObject.transform.parent.name + "/ResourceRing");
+	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);*/
+	Initialize();
+}
+
+function Initialize()
+{
+	spriteSize = Vector2(1.0f / 3f, 1f);
+	
+	thisTransform = gameObject.transform;
+	thisMaterial = gameObject.renderer.material;
+	
+	thisMaterial.color = Color.clear;
+	
+	//yield WaitForSeconds(0.1);
 	parentName = this.gameObject.transform.parent.name;
 	//Debug.Log(this.gameObject.transform.parent.name + "/ResourceRing");
 	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);	
