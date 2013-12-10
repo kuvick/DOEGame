@@ -4,7 +4,7 @@ private var isAllocated : boolean = false;
 private var building : BuildingOnGrid;
 public var unallocatedTex : Texture2D;
 public var allocatedTex : Texture2D;
-public var fixedTex : Texture2D;
+public var brokenTex : Texture2D;
 public var type : ResourceType;
 private var currentTex : Texture2D;
 public var ioType : IOType;
@@ -104,13 +104,15 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.layer = 10;
 	flashIcon.name = "ResourceFlash";
 	
+	SetAllocated(false);
 	if (ioType == IOType.OptOut)
 	{
 		index = -1;
-		SetActive(true);
-		solidColor = Color.red;
+		SetFlashActive(true);
+		SetFixed(false);
+		/*solidColor = Color.red;
+		renderer.material.mainTexture = brokenTex;*/
 	}
-	SetAllocated(false);
 	fadeTimer = currentTimer;
 	fadeScaler = currentScaler;
 }
@@ -136,7 +138,7 @@ public function SetAllocated (allo : boolean)
 	gameObject.renderer.material.mainTexture = currentTex;
 }
 
-public function SetActive(active : boolean)
+public function SetFlashActive(active : boolean)
 {
 	//gameObject.renderer.material.color = active ? allColor : unallColor;
 	//if (ioType != IOType.In)
@@ -155,10 +157,10 @@ public function SetFixed(fix : boolean)
 	if (ioType == IOType.OptOut)
 	{
 		if (fix)
-			currentTex = fixedTex;
+			currentTex = unallocatedTex;
 		else
 		{
-			currentTex = unallocatedTex;
+			currentTex = brokenTex;
 			SetFlashSolidColor(Color.red);
 		}
 		renderer.material.mainTexture = currentTex;
