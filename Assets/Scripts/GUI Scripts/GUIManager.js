@@ -397,7 +397,7 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.FAILUREMENU:
 			RecordEndGameData();
-		
+			inputController.SetEnabled(false);
 			ClearControls();
 			AddGUIToControls(failureMenu);
 			break;
