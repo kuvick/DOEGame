@@ -131,7 +131,7 @@ function SetLinkTexture (b1 : int, b2 : int, reset : boolean)
 	}
 }
 
-function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
+function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUsed : boolean)
 {
 	// make sure buildings are valid
 	if (buildings[b1] == null || buildings[b2] == null)
@@ -151,7 +151,7 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType)
 	// create the line renderer to draw
 	/*AddLineRenderer(b1, b2, resource, true);
 	AddLineRenderer(b1, b2, resource, false);*/
-	AddParticleSystem(b1, b2, resource);
+	AddParticleSystem(b1, b2, resource, optionalUsed);
 }
 
 function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst : boolean)
@@ -195,13 +195,18 @@ function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst :
 //	}
 }
 
-function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType)
+function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean)
 {
 	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
 	temp.gameObject.transform.position.y = 10;
 	temp.gameObject.transform.parent = Database.getBuildingAtIndex(outputBuilding).transform;
 	temp.gameObject.transform.localPosition.x = 0;
 	temp.gameObject.transform.localPosition.z = 0;
+	var tempTag : String = String.Empty;
+	if (optionalUsed)
+		tempTag = "Optional";
+	tempTag += "Link";
+	temp.gameObject.tag = tempTag;
 	temp.gameObject.name = outputBuilding + " " + inputBuilding;
 	var buildDistance : float = Vector3.Distance(buildings[outputBuilding].transform.position, buildings[inputBuilding].transform.position);
 		
@@ -267,7 +272,7 @@ function LinkCreateAnimation(link : ParticleSystem)
 
 function SetLinkActive(active : boolean, inputBuilding : int, outputBuilding : int)
 {
-	var tempSystem : ParticleSystem = GameObject.Find(outputBuilding + " " + inputBuilding).GetComponent(ParticleSystem);
+	var tempSystem : LinkParticleSystem = GameObject.Find(outputBuilding + " " + inputBuilding).GetComponent(LinkParticleSystem);
 	if (active)
 		tempSystem.Play();
 	else
