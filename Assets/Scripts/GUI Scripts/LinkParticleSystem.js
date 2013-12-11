@@ -3,6 +3,9 @@
 private var pSystem : ParticleSystem;
 private var paused : boolean = false;
 private var mat : Material;
+private var blinkIncrement : float = 0.1f;
+private var colorScale : float = 0f;
+private var transColor : Color = Color(1,1,1,0);
 
 function Start () {
 
@@ -33,9 +36,14 @@ function Pause()
 
 private function Blink()
 {
+	colorScale = 0f;
+	blinkIncrement = 0.05f;
 	while(paused)
 	{
-		mat.color = Color.Lerp(Color.white, Color.black, Time.time);
-		yield WaitForSeconds(.1f);
+		colorScale += blinkIncrement;
+		if (colorScale <= 0f || colorScale >= 1f)
+			blinkIncrement *= -1f;
+		mat.color = Color.Lerp(Color.white, transColor, colorScale);
+		yield WaitForSeconds(Mathf.Abs(blinkIncrement));
 	}
 }
