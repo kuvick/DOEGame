@@ -36,6 +36,7 @@ function Pause()
 
 private function Blink()
 {
+	// reset variables
 	colorScale = 0f;
 	blinkIncrement = 0.05f;
 	while(paused)
@@ -46,4 +47,6 @@ private function Blink()
 		mat.color = Color.Lerp(Color.white, transColor, colorScale);
 		yield WaitForSeconds(Mathf.Abs(blinkIncrement));
 	}
+	// reset to full color when pause is over
+	mat.color = Color.white;
 }
