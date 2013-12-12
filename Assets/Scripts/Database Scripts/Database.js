@@ -839,6 +839,7 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	//var linkUIRef : LinkUI = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);				
 	var tempFoundIndex : int;
 	var tempIcon : ResourceIcon;
+	var optionalUsed : boolean = false;
 					
 	if(outputBuilding.optionalOutput == linkList[lastIndex].type && 
 				outputBuilding.optionalOutputAllocated == false &&
@@ -847,6 +848,7 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 		outputBuilding.optionalOutputAllocated = true;
 		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);
 		outputBuilding.optionalOutputIcon.SetAllocated(true);	
+		optionalUsed = true;
 	}
 	else
 	{
@@ -880,7 +882,7 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	
 	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
 	//Draw New Link
-	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type);
+	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type, linkList[lastIndex].usedOptionalOutput);
 }
 
 
@@ -1307,7 +1309,7 @@ function UndoLink(typeOfUndo : int)
 			if (possibleInputIndex >= 0)
 			{
 				var b2Index : int = findBuildingIndex(b2Building);
-				drawLinks.CreateLinkDraw(b1Index, b2Index, b2Building.allocatedInputs[possibleInputIndex]);
+				drawLinks.CreateLinkDraw(b1Index, b2Index, b2Building.allocatedInputs[possibleInputIndex], linkList[lastIndex].usedOptionalOutput);
 			}
 			//activateBuilding(outputBuildingIndex, true);
 			break;

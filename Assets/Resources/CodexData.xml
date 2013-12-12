@@ -40,14 +40,14 @@
 	  <name>Organic Flash Cycle (OFC)</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Organic Flash Cycle (OFC)</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Residential Integrated Ventilation Controller (RIVEC)</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Residential Integrated Ventilation Controller (RIVEC) - fix</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -82,14 +82,14 @@
 	  <name>Low-cost, Modular, Building-integrated Photovoltaic-Thermal Collector</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Low-cost, Modular, Building-integrated Photovoltaic-Thermal Collector</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Hydrogen Storage</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/basic-and-slightly-acidic-solution-hydrogen-storage</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>hydrogenStorage</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -103,7 +103,7 @@
 	  <name>Efficient Polymer Solar Cells</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>solarcellscolored</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -124,36 +124,36 @@
 	  <name>Energy Efficient Laboratory Fume Hood</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=139</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>energy_efficent_lab_fume_hood</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Capturing Carbon Emissions to Increase Oil Production</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Capturing Carbon Emissions to Increase Oil Production</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Tidal Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Tidal_power</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>tidalpower</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Waste to Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://midmainewaste.com/about-us/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Waste to Energy</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Combined Heat and Power (CHP, or Cogeneration)</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/energy-department-turns-heat-and-power-industrial-energy-efficiency</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
-	  <description>Description goes here...</description>
+	  <iconName>heatandpower</iconName>
+	  <description>heatandpower</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>eGain Forecasting</name>
@@ -166,14 +166,14 @@
 	  <name>Electric Car Charging Station</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57604962-54/nissan-leaf-buyers-in-texas-charge-up-for-free</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>electric_car_charging_station</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Solar-Powered Airplanes</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57590789-54/electric-aircraft-start-finding-a-foothold-in-aviation-industry/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>solarairplane</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -187,14 +187,14 @@
 	  <name>MeterPlug</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57559830-54/phantom-fighter-meterplug-reports-electric-use-in-dollars/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>meter_plug</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Non-Invasive Energy Meter</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=392</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>non_invasive_energy_meter</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -208,7 +208,7 @@
 	  <name>Plastic Bags for Energy Storage</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.sciencedaily.com/releases/2013/09/130925102651.htm</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>elastic_bag_for_energy_storage</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -222,28 +222,28 @@
 	  <name>Nuclear Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>nuclear_power</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
 	<CodexEntry>
 	  <name>Ethanol Fuel for Vehicles</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>ethanol_for_cars</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Geothermal Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>geothermal_power</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Small Nuclear Reactors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>small_nuclear_reactor</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -257,14 +257,14 @@
 	  <name>Photovoltaic "Glitter"</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=78</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Photovoltaic_glitter</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Nuclear Power and Waste Disposal</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>nuclear_power_and_waste_disposal</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>  
   

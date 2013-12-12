@@ -124,6 +124,7 @@ public class LinkDragScript extends GUIControl
 					tempColor = Color.red;
 				lineRenderer.SetColors(tempColor, tempColor);
 				lineRenderer.SetWidth(10, 10);
+		
 				lineRenderer.SetPosition(0, outputBuilding.transform.position);
 				lineRenderer.SetPosition(1, mousePos);
 				

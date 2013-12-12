@@ -97,7 +97,24 @@ static function HandleFirstClick(obj : Collider) : boolean
 	var buildingObject : GameObject = obj.transform.parent.gameObject;
 	ModeController.setSelectedBuilding(buildingObject);
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
-	Debug.Log(buildingObject.name);
+	
+	if (obj.name.Contains(" "))
+	{
+		UnitManager.DeselectUnits();
+		if (obj.tag == ("OptionalLink"))
+			linkUIRef.SetSelectedOutIndex(-1);
+		else
+		{
+			var outputIndex : int = buildingOnGrid.outputLinkedTo.IndexOf(parseInt(obj.name.Split(" "[0])[1]));
+			linkUIRef.SetSelectedOutIndex(outputIndex);
+		}
+		linkUIRef.SetLinkCaseOverride(true);
+	}
+	else
+	{
+		linkUIRef.SetLinkCaseOverride(false);
+	}
+
 	if (!buildingOnGrid.unitSelected)
 	{
 		linkUIRef.HighlightTiles();
