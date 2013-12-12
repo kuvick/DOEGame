@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Levels>
-	  
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
 	<!--**************************************************-->
-    <Level>
+    <Level><!--Tutorial1-->
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
@@ -19,7 +18,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	 <Level>
+	 <Level><!--Tutorial2-->
       <displayName>0</displayName>
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
@@ -33,7 +32,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	 <Level>
+	 <Level><!--Tutorial3-->
       <displayName>0</displayName>
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
@@ -47,7 +46,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--KU04-->
       <displayName>2</displayName>
       <sceneName>KU04</sceneName>
       <difficulty>0</difficulty>
@@ -61,7 +60,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV21-->
       <displayName>3</displayName>
       <sceneName>RV21</sceneName>
       <difficulty>0</difficulty>
@@ -75,7 +74,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV14-->
       <displayName>3</displayName>
       <sceneName>RV14</sceneName>
       <difficulty>0</difficulty>
@@ -89,7 +88,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--Tutorial_RV15-->
       <displayName>4</displayName>
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -103,7 +102,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV10-->
       <displayName>4</displayName>
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -117,7 +116,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV16-->
       <displayName>5</displayName>
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -131,7 +130,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV17-->
       <displayName>6</displayName>
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -261,21 +260,6 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--RV08-remix-->
-      <displayName>10</displayName>
-      <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>No Waste to Waste</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>9</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	
 	<Level><!--RV05-remix-->
       <displayName>10</displayName>
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -368,7 +352,7 @@
 	<!--**************************************************-->
 	<!--*****************BUILDING SITES*******************-->
 		
-	<Level>
+	<Level><!--Tutorial4-->
       <displayName>14</displayName>
       <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -382,7 +366,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
-	<Level>
+	<Level><!--GPC06-->
       <displayName>15</displayName>
       <sceneName>GPC06</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -396,11 +380,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV03-remix-->
       <displayName>15</displayName>
       <sceneName>RV03-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Piece by Piece</subjectText>
+      <subjectText>RV03-remix</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -410,7 +394,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--GPC09-->
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
@@ -424,7 +408,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV02-->
       <displayName>17</displayName>
       <sceneName>RV02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
@@ -437,9 +421,8 @@
       <missionRequirementIndex>16</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-		
 	
-	<Level>
+	<Level><!--RV01-->
       <displayName>18</displayName>
       <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
@@ -452,12 +435,68 @@
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<Level>
-      <displayName>19</displayName>
-      <sceneName>RV04</sceneName> <!--- > FIX THIS LATER!!!</!-->
+
+	<Level><!--RV24-->
+      <displayName>18</displayName>
+      <sceneName>RV24</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>RV04</subjectText>
+      <subjectText>RV24</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV13-->
+      <displayName>18</displayName>
+      <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Turning the Tides</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV12-->
+      <displayName>18</displayName>
+      <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Environmental Adaptation</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--DD05-->
+      <displayName>18</displayName>
+      <sceneName>DD05</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Twin Cities</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV04-remix-->
+      <displayName>19</displayName>
+      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>RV04-remix</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -467,7 +506,21 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--GPC04-->
+      <displayName>20</displayName>
+      <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>GPC04</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>19</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV22-->
       <displayName>20</displayName>
       <sceneName>RV22</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
@@ -481,7 +534,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--RV23-->
       <displayName>21</displayName>
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -495,11 +548,15 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<!--*****************BUILDING SITES*******************-->
+	<!--**************************************************-->
+	<!--*******************AGENTS*************************-->
+			
+	<Level><!--Tutorial_GPC08-->
       <displayName>22</displayName>
-      <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Level 25</subjectText>
+      <subjectText>Tutorial_GPC08</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -509,11 +566,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--DD08-2-->
       <displayName>23</displayName>
-      <sceneName>GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Level 26 - Agents</subjectText>
+      <subjectText>DD08-2</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -523,9 +580,10 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--DD11-->
 	<Level>
       <displayName>24</displayName>
-      <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>DD08-2</sceneName> 
       <difficulty>1</difficulty>
       <subjectText>Level 27</subjectText>
       <messageText> Mission text coming soon! </messageText>
@@ -537,11 +595,12 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	
+	<Level><!--DD10-->
       <displayName>25</displayName>
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Level 28</subjectText>
+      <subjectText>Powered Up</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -551,11 +610,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--KU-02-->
       <displayName>26</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Level 29</subjectText>
+      <subjectText>KU-02</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -565,11 +624,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--GPC01-->
       <displayName>27</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
-      <subjectText>Level 30</subjectText>
+      <subjectText>GPC01</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -579,11 +638,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level>
+	<Level><!--KU-03-->
       <displayName>28</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Level 31</subjectText>
+      <subjectText>KU-03</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
