@@ -1302,15 +1302,7 @@ function UndoLink(typeOfUndo : int)
 			outputBuildingIndex = findBuildingIndex (b3Building);
 			if(b1Building.deactivatedInputs.Contains(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
 				b1Building.deactivatedInputs.Remove(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex));	
-				
-			// if b1 and b2 were mutually linked, redraw the link that still remains
-			var b1Index : int = findBuildingIndex(b1Building);
-			var possibleInputIndex : int = b2Building.inputLinkedTo.IndexOf(b1Index);
-			if (possibleInputIndex >= 0)
-			{
-				var b2Index : int = findBuildingIndex(b2Building);
-				drawLinks.CreateLinkDraw(b1Index, b2Index, b2Building.allocatedInputs[possibleInputIndex], linkList[lastIndex].usedOptionalOutput);
-			}
+
 			//activateBuilding(outputBuildingIndex, true);
 			break;
 		default: 
