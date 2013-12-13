@@ -16,7 +16,7 @@ private var iconSizePercent:float = 0.15;
 private var mainCamera:Camera;
 private var currentArrow:TutorialArrow;
 private var hasPointers:boolean;
-private var pointerSpeed:float = 0.5;
+private var pointerSpeed:float = 75;
 private var textDisplayRect:Rect;
 public var style:GUIStyle;
 
@@ -59,13 +59,13 @@ public function Render()
 				
 				if(currentArrow.isGoingStartToEnd())
 				{
-					newCurrentPoint = Vector3.Lerp(currentArrow.getCurrentPoint(), currentArrow.getEndPoint(), pointerSpeed * Time.deltaTime);
+					newCurrentPoint = Vector3.MoveTowards(currentArrow.getCurrentPoint(), currentArrow.getEndPoint(), pointerSpeed * Time.deltaTime);
 					if(Vector3.Distance(currentArrow.getCurrentPoint(), currentArrow.getEndPoint()) < currentArrow.getTolerance())
 						currentArrow.setGoingStartToEnd(false);
 				}
 				else
 				{
-					newCurrentPoint = Vector3.Lerp(currentArrow.getCurrentPoint(), currentArrow.getStartPoint(), pointerSpeed * Time.deltaTime);
+					newCurrentPoint = Vector3.MoveTowards(currentArrow.getCurrentPoint(), currentArrow.getStartPoint(), pointerSpeed * Time.deltaTime);
 					if(Vector3.Distance(currentArrow.getCurrentPoint(), currentArrow.getStartPoint()) < currentArrow.getTolerance())
 						currentArrow.setGoingStartToEnd(true);
 				}
@@ -179,7 +179,7 @@ public class TutorialArrow
 
 public function CalculateDisplay(arrow:TutorialArrow):TutorialArrow
 {
-	arrow.setTolerance(50);
+	arrow.setTolerance(5);
 	arrow.setGoingStartToEnd(true);
 
 	//location for pointer is in environment
@@ -283,14 +283,18 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 	}
 	else if(arrow.interaction == Interaction.Linking)
 	{
-		if(inputController.getState() == ControlState.DraggingLink)
+		if(inputController.getState() == ControlState.DraggingLink || 
+			inputController.getState() == ControlState.Dragging ||
+			inputController.getState() == ControlState.DraggingUnit)
 		{
 			waitingForRelease = true;
 			return false;
 		}
 		else if(waitingForRelease)
 		{
-			if(inputController.getState() != ControlState.DraggingLink)
+			if(inputController.getState() != ControlState.DraggingLink && 
+			inputController.getState() != ControlState.Dragging &&
+			inputController.getState() != ControlState.DraggingUnit)
 				return true;
 			else
 				return false;
