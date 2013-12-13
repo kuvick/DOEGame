@@ -19,9 +19,11 @@ private var hasPointers:boolean;
 private var pointerSpeed:float = 75;
 private var textDisplayRect:Rect;
 public var style:GUIStyle;
+private var linkMade:boolean;
 
 function Start()
 {
+	linkMade = false;
 	if(pointers.Count > 0)
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
@@ -260,6 +262,12 @@ public function checkTrigger()
 			currentArrow = pointers[0];
 			currentArrow = CalculateDisplay(currentArrow);
 			pointers.Remove(pointers[0]);
+			
+			if(currentArrow.interaction == Interaction.Linking)
+			{
+				var db : Database = GameObject.Find("Database").GetComponent(Database);
+				db.isWaitingForLink = true;
+			}
 		}
 	}
 }
@@ -283,22 +291,29 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 	}
 	else if(arrow.interaction == Interaction.Linking)
 	{
-		if(inputController.getState() == ControlState.DraggingLink || 
-			inputController.getState() == ControlState.Dragging ||
-			inputController.getState() == ControlState.DraggingUnit)
+		/*
+		if(inputController.GetDragMode() == DragMode.Link)
 		{
 			waitingForRelease = true;
 			return false;
 		}
 		else if(waitingForRelease)
 		{
-			if(inputController.getState() != ControlState.DraggingLink && 
-			inputController.getState() != ControlState.Dragging &&
-			inputController.getState() != ControlState.DraggingUnit)
+			if(inputController.getState() != ControlState.Dragging )
 				return true;
 			else
 				return false;
 		}
+		*/
+		if(linkMade)
+		{
+			var db : Database = GameObject.Find("Database").GetComponent(Database);
+			db.isWaitingForLink = false;
+			linkMade = false;
+			return true;
+		}
+		else
+			return false;
 	}
 	else if(arrow.interaction == Interaction.Undo)
 	{
@@ -323,6 +338,20 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 	}
 	
 	return false;
+}
+
+
+public function checkForLink(b1 : GameObject, b2 : GameObject)
+{
+	if(currentArrow == null)
+		return;
+		
+	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
+	{
+		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
+			linkMade = true;
+	}
+	
 }
 
 
