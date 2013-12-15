@@ -70,6 +70,8 @@ public var buildingIndicatorPrefab : GameObject;
 
 public static var isWaitingForLink : boolean = false;
 
+private var mainMenu:MainMenu;
+
 //*********************************************************************************************************************
 // [Functions] ********************************************************************************************************
 
@@ -81,7 +83,7 @@ function Start()
 	// Telling the GUISystem to get the references to scripts specific to the level:
 	var manager : GUIManager = guiObj.GetComponent(GUIManager);
 	manager.LoadLevelReferences();
-	var mainMenu : MainMenu = guiObj.GetComponent(MainMenu);
+	mainMenu = guiObj.GetComponent(MainMenu);
 	mainMenu.LoadLevelReferences();
 	var buildMenu : BuildingMenu = guiObj.GetComponent(BuildingMenu);
 	buildMenu.LoadLevelReferences();
@@ -519,6 +521,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 		}
     }
+    else
+    {
+    	mainMenu.missingResource();
+    }
     
     return hasResource;
 
@@ -756,6 +762,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link chain break");
+		mainMenu.chainBroken();
 		
 		//Stores links into list organized by when they were created	
 		var tempNode : LinkTurnNode = new LinkTurnNode();

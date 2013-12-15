@@ -9,6 +9,11 @@ Author: Francis Yuan
 
 public class MainMenu extends GUIControl
 {
+	// ERROR TEXT
+	public var missingResourceText:String = "Resources don’t match!";
+	public var brokenChainText:String = "Link chain broken!";
+	private var textDisplayRect:Rect;
+	
 	// For testing different camera angles
 	public var testCameras : boolean = false;
 	public var cameraLocations : List.<GameObject>;
@@ -301,6 +306,9 @@ public class MainMenu extends GUIControl
 		
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+		
+		textDisplayRect = new Rect(0,Screen.height * 0.1,Screen.width * 0.40, Screen.height);
+		textDisplayRect.x = Screen.width / 2 - textDisplayRect.width / 2;
 	}
 	
 	public function Render(){
@@ -607,7 +615,10 @@ public class MainMenu extends GUIControl
 		addedObjRect = true;
 		
 		tutorialPointers.Render();
-			
+		
+		// Displaying Error Text
+		if(displayErrorText)
+			GUI.Label(textDisplayRect, textToDisplay, tutorialPointers.style);
 	}
 	
 	private function CalcDataPiecePositions(){
@@ -690,5 +701,26 @@ public class MainMenu extends GUIControl
 		}
 		
 	}// end of drawvictorysplash
+	
+	
+	//ERROR TEXT FUNCTIONS
+	private var displayErrorText:boolean = false;
+	private var textToDisplay:String = "";
+	
+	public function chainBroken()
+	{
+		textToDisplay = brokenChainText;
+		displayErrorText = true;
+		yield WaitForSeconds(3.0);
+		displayErrorText = false;
+	}
+	
+	public function missingResource()
+	{
+		textToDisplay = missingResourceText;
+		displayErrorText = true;
+		yield WaitForSeconds(3.0);
+		displayErrorText = false;
+	}
 	
 }// end of main menu
