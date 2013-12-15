@@ -119,13 +119,22 @@ public class LinkDragScript extends GUIControl
 				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
 				//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];
 				lineRenderer.material.mainTexture = line;
-				var tempColor : Color = Color.white;
+				
+				// line renderer settings, defaulting for links
+				var lineColor : Color = Color.white;
+				var startPos : Vector3 = outputBuilding.transform.position;
+				// change appropriately for unit targeting
 				if (dragMode == DragMode.Unit)
-					tempColor = Color.red;
-				lineRenderer.SetColors(tempColor, tempColor);
+				{
+					lineColor = Color.red;
+					var buildingData : BuildingOnGrid = Database.getBuildingOnGrid(startPos);
+					startPos = buildingData.units[buildingData.selectedUnitIndex].gameObject.transform.position;
+				}
+					
+				lineRenderer.SetColors(lineColor, lineColor);
 				lineRenderer.SetWidth(10, 10);
 		
-				lineRenderer.SetPosition(0, outputBuilding.transform.position);
+				lineRenderer.SetPosition(0, startPos);
 				lineRenderer.SetPosition(1, mousePos);
 				
 				startDrag = false;
