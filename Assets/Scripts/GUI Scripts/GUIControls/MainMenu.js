@@ -585,6 +585,7 @@ public class MainMenu extends GUIControl
 				}
 				
 				//IF IT HAS AN UPGRADE
+				/*
 				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
 				{
 					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
@@ -609,7 +610,7 @@ public class MainMenu extends GUIControl
 												hasDataIcon);
 					}
 					
-				}
+				}*/
 			}
 		GUI.EndGroup();
 		addedObjRect = true;
