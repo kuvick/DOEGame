@@ -44,10 +44,14 @@ public class SoundManager extends MonoBehaviour {
 	private var startMinimumPriorityVolume : float = .1;
 	
 	private var saveSystem : SaveSystem;
+	private var waitingOnCurrentPlayer:boolean = false;
 	
 	public function Awake() {
 		var playerData : GameObject = GameObject.Find("Player Data");
 		saveSystem = playerData.GetComponent("SaveSystem");
+		
+		if(saveSystem.currentPlayer.name == "")
+			waitingOnCurrentPlayer = true;
 		
 		startMaxPriorityVolume = maxPriorityVolume;
 		startHighPriorityVolume = highPriorityVolume;
@@ -87,6 +91,17 @@ public class SoundManager extends MonoBehaviour {
 		
 		linkSounds.Init();
 		CacheAllSounds();
+	}
+	
+	function Update()
+	{
+		if(waitingOnCurrentPlayer && saveSystem.currentPlayer.name != "")
+		{
+			setVolumes(saveSystem.currentPlayer.sfxLevel, saveSystem.currentPlayer.musicLevel);
+			musicSource.volume = lowPriorityVolume;
+			
+			waitingOnCurrentPlayer = false;
+		}
 	}
 	
 	public function OnLevelWasLoaded(){
