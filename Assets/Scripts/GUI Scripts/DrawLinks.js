@@ -148,53 +148,10 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUse
 	// set the link color based on resource type
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
 	
-	// create the line renderer to draw
-	/*AddLineRenderer(b1, b2, resource, true);
-	AddLineRenderer(b1, b2, resource, false);*/
 	AddParticleSystem(b1, b2, resource, optionalUsed);
 }
 
-function AddLineRenderer(b1 : int, b2 : int, resource : ResourceType, useFirst : boolean)
-{
-	//GPC removing due to issues with v4.3
-	
-//	var toAddTo : int;
-//	var childName : String;
-//	b1Position = buildings[b1].transform.position;
-//	b2Position = buildings[b2].transform.position;
-//	if (useFirst)
-//	{
-//		toAddTo = b1;
-//		childName = b2Position.ToString();
-//	}
-//	else
-//	{
-//		toAddTo = b2;
-//		childName = b1Position.ToString();
-//	}
-//	
-//	for(var child:Transform in buildings[toAddTo].transform)
-//	{
-//		if(child.gameObject.GetComponent(LineRenderer) == null && 
-//			!linksDrawn[b1, b2])
-//		{
-//			var lineRenderer:LineRenderer = child.gameObject.AddComponent(LineRenderer);
-//			
-//			
-//			//lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-//			lineRenderer.material.mainTexture = linkTextures[resource - 1];
-//			//lineRenderer.material.SetColor ("_TintColor", linkColors[b1,b2]);
-//			lineRenderer.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
-//			lineRenderer.SetWidth(10, 10);
-//			lineRenderer.SetPosition(0, b1Position);
-//			lineRenderer.SetPosition(1, b2Position);
-//			linksDrawn[b1, b2] = linksDrawn[b2, b1] = true;
-//			child.name = childName; // used for changing the colors of specific links
-//			break;
-//		}
-//	}
-}
-
+// Creates the particle system for link visual
 function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean)
 {
 	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
@@ -220,30 +177,23 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	temp.gameObject.transform.rotation = Quaternion.Euler(0, rotateDegrees * angleModifier, 0);
 	temp.startRotation = (rotateDegrees * angleModifier) * Mathf.Deg2Rad;
 	
+	// set up a collider for direct link selection for reallocation
 	var tempCollider : BoxCollider = temp.gameObject.AddComponent(BoxCollider);
-	if (targetVec.z == 0 || (targetVec.x > 0 && targetVec.z > 0))
-		tempCollider.center.z = Mathf.Abs(targetVec.x / 2f);
-	else if (targetVec.x == 0 || (targetVec.x < 0 && targetVec.z > 0))
-		tempCollider.center.z = Mathf.Abs(targetVec.z / 2f);
-	else if (targetVec.x > 0 && targetVec.z < 0)// || (targetVec.x < 0 && targetVec.z > 0))
-		tempCollider.center.z = Mathf.Abs(targetVec.z);
-	else 
-		tempCollider.center.z = Mathf.Abs(targetVec.x);
-		
-	/*if (targetVec.z > 0)
-		tempCollider.center.z *= -1;*/
-	/*else
-		tempCollider.center.z = -targetVec.z;*/
-	/*var tempZ : float = tempCollider.center.z;
-	tempCollider.center.z = tempCollider.center.x;
-	tempCollider.center.x = tempZ;*/
+	tempCollider.center.z = Mathf.Abs(targetVec.magnitude / 2);
 	tempCollider.size = Vector3(50f, 5f, targetVec.magnitude - HexagonGrid.tileWidth);
 	
-	//Added by GPC 11/17/13
-	/*var initialPlaybackSpeed = temp.playbackSpeed;
-	temp.playbackSpeed = initialPlaybackSpeed * 8;
-	yield WaitForSeconds(1.0);
-	temp.playbackSpeed = initialPlaybackSpeed;*/
+	// if the 2 buildings are mutually linked, adjust the object positions to be side by side
+	if (CheckForMutualLink(outputBuilding, inputBuilding))
+	{
+		var offset : Vector3 = Vector3(targetVec.z, targetVec.y, targetVec.x);
+		offset.Normalize();
+		temp.gameObject.transform.localPosition -= Utils.ConvertToRotated((50 * offset));
+		
+		var inputLink : GameObject = GameObject.Find(inputBuilding + " " + outputBuilding);
+		if (inputLink)
+			inputLink.transform.localPosition += Utils.ConvertToRotated((50 * offset));
+	}
+	
 	StartCoroutine(LinkCreateAnimation(temp));
 }
 
@@ -292,12 +242,6 @@ function ReplaceBuilding (replacement : BuildingReplacement)
 	buildings[replacement.buildingIndex] = replacement.buildingObject;
 }
 
-function Update()
-{
-	
-}
-
-
 //This function determines the number of possible links each building has
 //and adds that many gameObjects to that building.
 function addObjectsToBuildings(){	
@@ -325,8 +269,27 @@ function addObjectsToBuildings(){
 	return numLinks;
 }
 
+// Destroys the link particle system game object between the given 2 buildings
 function removeLink(b1: int, b2: int)
 {
 	linksDrawn[b1,b2] = linksDrawn[b2, b1] = false;
 	Destroy(GameObject.Find(b2 + " " + b1));
+	
+	// if the buildings were mutually linked, move the remaining link back to normal position
+	if (CheckForMutualLink(b2, b1))
+	{
+		var inputLink : GameObject = GameObject.Find(b1 + " " + b2);
+		if (inputLink)
+			inputLink.transform.localPosition = Vector3(0,10,0);
+	}	
+}
+
+// check if the given buildings are mutually linked
+private function CheckForMutualLink(outputBuilding : int, inputBuilding : int) : boolean
+{
+	var outputOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(outputBuilding);
+	
+	if (outputOnGrid.inputLinkedTo.Contains(inputBuilding))
+		return true;
+	return false;
 }

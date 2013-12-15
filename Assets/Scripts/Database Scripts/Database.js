@@ -68,13 +68,15 @@ public var level_s : LevelSerializer;
 
 public var buildingIndicatorPrefab : GameObject;
 
+public static var isWaitingForLink : boolean = false;
+
 //*********************************************************************************************************************
 // [Functions] ********************************************************************************************************
 
 //*******************************************
 // [Startup Function] ***********************
 function Start()
-{
+{	
 	var guiObj : GameObject = GameObject.Find("GUI System");
 	// Telling the GUISystem to get the references to scripts specific to the level:
 	var manager : GUIManager = guiObj.GetComponent(GUIManager);
@@ -350,7 +352,7 @@ another check)
 
 */
 public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, resourceName:ResourceType, usedOptionalOutput : boolean) : boolean//hasOptionalOutput:boolean):boolean
-{
+{	
 	var outputBuilding : BuildingOnGrid = buildingsOnGrid[outputBuildingIndex];
 	var inputBuilding : BuildingOnGrid = buildingsOnGrid[inputBuildingIndex];
 	
@@ -372,7 +374,16 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		else if (inputBuilding.allocatedInputs.Contains(resourceName) && outputBuilding.unallocatedOutputs.Contains(resourceName))
 		{
 			hasResource = true;
-			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, false);	
+			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, false);
+			
+			
+			
+			if(isWaitingForLink)
+			{
+				var pointerScript1 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+				pointerScript1.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+			}
+			
 			return true;
 		}
 		// Whether the input has been allocated or not, if the output has not been allocated:
@@ -380,6 +391,13 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		{
 			hasResource = true;
 			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, true);	
+			
+			if(isWaitingForLink)
+			{
+				var pointerScript2 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+				pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+			}
+			
 			return true;
 		}
 		else if (inputBuilding.unallocatedInputs.Contains(resourceName) && outputBuilding.allocatedOutputs.Contains(resourceName))
@@ -492,6 +510,15 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
     {
     	intelSystem.buildingActivated(inputBuilding.buildingPointer);
     }*/
+    
+    if(hasResource)
+    {
+		if(isWaitingForLink)
+		{
+			var pointerScript3 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+			pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+		}
+    }
     
     return hasResource;
 
@@ -1302,15 +1329,7 @@ function UndoLink(typeOfUndo : int)
 			outputBuildingIndex = findBuildingIndex (b3Building);
 			if(b1Building.deactivatedInputs.Contains(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex)))
 				b1Building.deactivatedInputs.Remove(b1Building.inputLinkedTo.IndexOf(outputBuildingIndex));	
-				
-			// if b1 and b2 were mutually linked, redraw the link that still remains
-			var b1Index : int = findBuildingIndex(b1Building);
-			var possibleInputIndex : int = b2Building.inputLinkedTo.IndexOf(b1Index);
-			if (possibleInputIndex >= 0)
-			{
-				var b2Index : int = findBuildingIndex(b2Building);
-				drawLinks.CreateLinkDraw(b1Index, b2Index, b2Building.allocatedInputs[possibleInputIndex], linkList[lastIndex].usedOptionalOutput);
-			}
+
 			//activateBuilding(outputBuildingIndex, true);
 			break;
 		default: 

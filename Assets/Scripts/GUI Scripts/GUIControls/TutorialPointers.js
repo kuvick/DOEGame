@@ -16,12 +16,14 @@ private var iconSizePercent:float = 0.15;
 private var mainCamera:Camera;
 private var currentArrow:TutorialArrow;
 private var hasPointers:boolean;
-private var pointerSpeed:float = 0.5;
+private var pointerSpeed:float = 75;
 private var textDisplayRect:Rect;
 public var style:GUIStyle;
+private var linkMade:boolean;
 
 function Start()
 {
+	linkMade = false;
 	if(pointers.Count > 0)
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
@@ -59,13 +61,13 @@ public function Render()
 				
 				if(currentArrow.isGoingStartToEnd())
 				{
-					newCurrentPoint = Vector3.Lerp(currentArrow.getCurrentPoint(), currentArrow.getEndPoint(), pointerSpeed * Time.deltaTime);
+					newCurrentPoint = Vector3.MoveTowards(currentArrow.getCurrentPoint(), currentArrow.getEndPoint(), pointerSpeed * Time.deltaTime);
 					if(Vector3.Distance(currentArrow.getCurrentPoint(), currentArrow.getEndPoint()) < currentArrow.getTolerance())
 						currentArrow.setGoingStartToEnd(false);
 				}
 				else
 				{
-					newCurrentPoint = Vector3.Lerp(currentArrow.getCurrentPoint(), currentArrow.getStartPoint(), pointerSpeed * Time.deltaTime);
+					newCurrentPoint = Vector3.MoveTowards(currentArrow.getCurrentPoint(), currentArrow.getStartPoint(), pointerSpeed * Time.deltaTime);
 					if(Vector3.Distance(currentArrow.getCurrentPoint(), currentArrow.getStartPoint()) < currentArrow.getTolerance())
 						currentArrow.setGoingStartToEnd(true);
 				}
@@ -179,7 +181,7 @@ public class TutorialArrow
 
 public function CalculateDisplay(arrow:TutorialArrow):TutorialArrow
 {
-	arrow.setTolerance(50);
+	arrow.setTolerance(5);
 	arrow.setGoingStartToEnd(true);
 
 	//location for pointer is in environment
@@ -260,6 +262,12 @@ public function checkTrigger()
 			currentArrow = pointers[0];
 			currentArrow = CalculateDisplay(currentArrow);
 			pointers.Remove(pointers[0]);
+			
+			if(currentArrow.interaction == Interaction.Linking)
+			{
+				var db : Database = GameObject.Find("Database").GetComponent(Database);
+				db.isWaitingForLink = true;
+			}
 		}
 	}
 }
@@ -283,18 +291,29 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 	}
 	else if(arrow.interaction == Interaction.Linking)
 	{
-		if(inputController.getState() == ControlState.DraggingLink)
+		/*
+		if(inputController.GetDragMode() == DragMode.Link)
 		{
 			waitingForRelease = true;
 			return false;
 		}
 		else if(waitingForRelease)
 		{
-			if(inputController.getState() != ControlState.DraggingLink)
+			if(inputController.getState() != ControlState.Dragging )
 				return true;
 			else
 				return false;
 		}
+		*/
+		if(linkMade)
+		{
+			var db : Database = GameObject.Find("Database").GetComponent(Database);
+			db.isWaitingForLink = false;
+			linkMade = false;
+			return true;
+		}
+		else
+			return false;
 	}
 	else if(arrow.interaction == Interaction.Undo)
 	{
@@ -319,6 +338,20 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 	}
 	
 	return false;
+}
+
+
+public function checkForLink(b1 : GameObject, b2 : GameObject)
+{
+	if(currentArrow == null)
+		return;
+		
+	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
+	{
+		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
+			linkMade = true;
+	}
+	
 }
 
 
