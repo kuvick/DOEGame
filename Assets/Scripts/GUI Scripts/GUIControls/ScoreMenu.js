@@ -94,6 +94,11 @@ public class ScoreMenu extends GUIControl{
 	private var honorsLeftY : float = 516;
 	private var honorsRect : List.<Rect> = new List.<Rect>();
 	private var honorScoreRect : List.<Rect> = new List.<Rect>();
+	public var honorsExplanations : List.<String> = new List.<String>();
+	private var displayExplanation : boolean = false;
+	private var explanationRenderSpace : Rect;
+	private var explanationText:String="";
+	public var explanationBG:Texture;
 	
 	
 	// Promotion Bar
@@ -399,6 +404,10 @@ public class ScoreMenu extends GUIControl{
 			
 			GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
 			
+			if(GUI.Button(honorsRect[i],""))
+			{
+				displayExp(honorsRect[i], honorsExplanations[i]);
+			}
 		}
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		
@@ -436,6 +445,14 @@ public class ScoreMenu extends GUIControl{
 			GUI.Label(technologyNameRect, "No new technology added.", redStyle);
 		
 		GUI.EndGroup();
+		
+		if(displayExplanation)
+		{
+			scoreScreenSkin.label.wordWrap = true;
+			GUI.DrawTexture(explanationRenderSpace, explanationBG);
+			GUI.Label(explanationRenderSpace, explanationText);
+			scoreScreenSkin.label.wordWrap = false;
+		}
 		
 	}
 	
@@ -655,6 +672,20 @@ function Update()
 		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	
+	}
+	
+	private function displayExp(location:Rect, text:String)
+	{
+		explanationText = text;
+		explanationRenderSpace = createRect(new Vector2(500, 200),0,0,0.3, false);
+		explanationRenderSpace.x = location.x;
+		explanationRenderSpace.y = location.y - explanationRenderSpace.height / 2;
+		if(!displayExplanation)
+		{
+			displayExplanation = true;
+			yield WaitForSeconds(5.0);
+			displayExplanation = false;
+		}
 	}
 	
 }// End of ScoreMenuClass
