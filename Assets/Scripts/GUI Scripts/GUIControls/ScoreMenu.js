@@ -148,10 +148,18 @@ public class ScoreMenu extends GUIControl{
 	
 	private var standardFontSize:int;
 	private var largerFontSize:int;
+	
+	public var waitForNarrativeUI:boolean = false;
 
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		var narrUI:NarrativeUI = gameObject.GetComponent(NarrativeUI);
+		
+		if(narrUI != null)
+			narrUI.setEndRender(false);
+		
 		
 		counter = 0;
 		var playerData : GameObject = GameObject.Find("Player Data");		
@@ -333,127 +341,128 @@ public class ScoreMenu extends GUIControl{
 	
 	public function Render()
 	{   
-	
-		// Drawing background textures:
-		GUI.skin = scoreScreenSkin;
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
-		
-		GUI.BeginGroup(screenRect);
-		//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-		GUI.DrawTexture(infoBoxRect, infoBox);
-		
-		
-		scoreScreenSkin.customStyles[1].fontSize = largerFontSize;
-		GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
-		scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
-		
-		
-		// Buttons are rendered:
-		
-		if(GUI.Button(shareButtonRect, shareButton))
+		if(!waitForNarrativeUI)
 		{
-			currentResponse.type = EventTypes.FACEBOOK;
-			PlayButtonPress();
-		}
-		if(GUI.Button(retryButtonRect, retryButton))
-		{
-			currentResponse.type = EventTypes.RESTART;
-			PlayButtonPress();
-		}
-		if(GUI.Button(contButtonRect, contButton))
-		{
-			// Maybe switch this to level select, but can't
-			// so long as the back button returns to the level...
-			//currentResponse.type = EventTypes.MAIN;
-			//var nextLevel : String = PlayerPrefs.GetString(Strings.NextLevel);
-			//Changed GPC 9/14/13
-			var nextLevel : String = "LevelSelectScreen";
+			// Drawing background textures:
+			GUI.skin = scoreScreenSkin;
+			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
 			
-			if (nextLevel == null){
-				currentResponse.type = EventTypes.LEVELSELECT;
-				levelSelectRef.SetFromScoreScreen(true);
-			} else {
-				Application.LoadLevel(nextLevel);
-			}
-			PlayButtonPress();
-		}
-		
-		
-		// Text is rendered:
-		GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
-		GUI.Label(agentRankTitleRect, "Agent Rank", boldStyle);
-		GUI.Label(missionScoreTitleRect, "Mission Score", boldStyle);
-		GUI.Label(promotionStatusRect, "Promotion Status", boldStyle);
-		GUI.Label(honorTitleRect, "Honors", boldStyle);
-		
-		
-		
-		GUI.Label(agentNameRect, agentName);
-		GUI.Label(agentRankRect, agentRank);
-		GUI.Label(missionScoreRect, missionScore);
-		GUI.Label(totalScoreRect, totalScore);
-		
-		// Honors/bonus icons and scores are rendered:
-		GUI.skin.label.alignment = TextAnchor.UpperLeft;
-		for(var i: int = 0; i < honorsTextures.Count; i++)
-		{
-			if(honorsTextures[i].hasEarned)
-				GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
-			else
-				GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
+			GUI.BeginGroup(screenRect);
+			//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
+			GUI.DrawTexture(infoBoxRect, infoBox);
 			
-			GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
 			
-			if(GUI.Button(honorsRect[i],""))
+			scoreScreenSkin.customStyles[1].fontSize = largerFontSize;
+			GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
+			scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
+			
+			
+			// Buttons are rendered:
+			
+			if(GUI.Button(shareButtonRect, shareButton))
 			{
-				displayExp(honorsRect[i], honorsExplanations[i]);
+				currentResponse.type = EventTypes.FACEBOOK;
+				PlayButtonPress();
 			}
-		}
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		
-		// Exp Bar:
-		
-		GUI.BeginGroup (expBarRect);
-			GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarBG);
-			
-			// SCORE FILL:
-			GUI.BeginGroup (new Rect (0, 0, expBarRect.width * barDisplay, expBarRect.height));
-				GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expEarnedBar);
-			GUI.EndGroup ();
-			 
-			// EXP FILL:
-			if(!filledUp)
+			if(GUI.Button(retryButtonRect, retryButton))
 			{
-				GUI.BeginGroup (new Rect (0, 0, expBarRect.width * expFill, expBarRect.height));
-					GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarExp);
+				currentResponse.type = EventTypes.RESTART;
+				PlayButtonPress();
+			}
+			if(GUI.Button(contButtonRect, contButton))
+			{
+				// Maybe switch this to level select, but can't
+				// so long as the back button returns to the level...
+				//currentResponse.type = EventTypes.MAIN;
+				//var nextLevel : String = PlayerPrefs.GetString(Strings.NextLevel);
+				//Changed GPC 9/14/13
+				var nextLevel : String = "LevelSelectScreen";
+				
+				if (nextLevel == null){
+					currentResponse.type = EventTypes.LEVELSELECT;
+					levelSelectRef.SetFromScoreScreen(true);
+				} else {
+					Application.LoadLevel(nextLevel);
+				}
+				PlayButtonPress();
+			}
+			
+			
+			// Text is rendered:
+			GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
+			GUI.Label(agentRankTitleRect, "Agent Rank", boldStyle);
+			GUI.Label(missionScoreTitleRect, "Mission Score", boldStyle);
+			GUI.Label(promotionStatusRect, "Promotion Status", boldStyle);
+			GUI.Label(honorTitleRect, "Honors", boldStyle);
+			
+			
+			
+			GUI.Label(agentNameRect, agentName);
+			GUI.Label(agentRankRect, agentRank);
+			GUI.Label(missionScoreRect, missionScore);
+			GUI.Label(totalScoreRect, totalScore);
+			
+			// Honors/bonus icons and scores are rendered:
+			GUI.skin.label.alignment = TextAnchor.UpperLeft;
+			for(var i: int = 0; i < honorsTextures.Count; i++)
+			{
+				if(honorsTextures[i].hasEarned)
+					GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
+				else
+					GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
+				
+				GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
+				
+				if(GUI.Button(honorsRect[i],""))
+				{
+					displayExp(honorsRect[i], honorsExplanations[i]);
+				}
+			}
+			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+			
+			// Exp Bar:
+			
+			GUI.BeginGroup (expBarRect);
+				GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarBG);
+				
+				// SCORE FILL:
+				GUI.BeginGroup (new Rect (0, 0, expBarRect.width * barDisplay, expBarRect.height));
+					GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expEarnedBar);
 				GUI.EndGroup ();
+				 
+				// EXP FILL:
+				if(!filledUp)
+				{
+					GUI.BeginGroup (new Rect (0, 0, expBarRect.width * expFill, expBarRect.height));
+						GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarExp);
+					GUI.EndGroup ();
+				}
+				 
+			GUI.EndGroup ();
+			
+			GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);	
+			GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
+		
+		
+			GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
+			if(technologyName != null && technologyName != "")
+			{
+				GUI.Label(technologyNameRect, technologyName, redStyle);
+				GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
 			}
-			 
-		GUI.EndGroup ();
-		
-		GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);	
-		GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
-	
-	
-		GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
-		if(technologyName != null && technologyName != "")
-		{
-			GUI.Label(technologyNameRect, technologyName, redStyle);
-			GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
-		}
-		else	
-			GUI.Label(technologyNameRect, "No new technology added.", redStyle);
-		
-		GUI.EndGroup();
-		
-		if(displayExplanation)
-		{
-			scoreScreenSkin.label.wordWrap = true;
-			GUI.DrawTexture(explanationRenderSpace, explanationBG);
-			GUI.Label(explanationRenderSpace, explanationText);
-			scoreScreenSkin.label.wordWrap = false;
-		}
-		
+			else	
+				GUI.Label(technologyNameRect, "No new technology added.", redStyle);
+			
+			GUI.EndGroup();
+			
+			if(displayExplanation)
+			{
+				scoreScreenSkin.label.wordWrap = true;
+				GUI.DrawTexture(explanationRenderSpace, explanationBG);
+				GUI.Label(explanationRenderSpace, explanationText);
+				scoreScreenSkin.label.wordWrap = false;
+			}
+		}	
 	}
 	
 	
@@ -531,7 +540,7 @@ public class ScoreMenu extends GUIControl{
 		}
 		//Debug.Log("Rank increased " + timesRankIncreased + " times.");
 		
-		Debug.Log("Tech Name: " + technologyName);
+		//Debug.Log("Tech Name: " + technologyName);
 		
 		if(technologyName != "")
 		{
@@ -546,7 +555,7 @@ public class ScoreMenu extends GUIControl{
 		else
 			techImage = ecrbPlaceholder;
 		
-		Debug.Log("Tech Name: " + technologyName);		
+		//Debug.Log("Tech Name: " + technologyName);		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	}
 	
@@ -581,44 +590,45 @@ public class ScoreMenu extends GUIControl{
 	}
 	
 	
-function Update()
+	function Update()
 	{
-	
-		var currentWidth : float = expBarRect.width * barDisplay;
-		
-		if(currentWidth < goalWidth)
+		if(!waitForNarrativeUI)
 		{
-			barDisplay = (counter * barFillSpeed) + expFill;
-			counter++;
-		}
-	
-		// Resets the bar for the next fill:
-		if(currentWidth > expBarRect.width)
-		{
-			filledUp = true;
-			timesFilled++;
-			startRank++;
+			var currentWidth : float = expBarRect.width * barDisplay;
 			
-			agentRank = saveSystem.rankSystem.getRankName(startRank);
-			expEarned = (expEarned + expWithinRank) - currentMinExpGoal;		
-			currentMinExpGoal = saveSystem.rankSystem.expGoal(startRank) -
-								saveSystem.rankSystem.expGoal(startRank - 1);
-								
-			expEarnedFill = expEarned / currentMinExpGoal;
-			barDisplay = 0;
-			goalWidth = expEarnedFill * expBarRect.width;
-	
-			goalWidth = expEarnedFill * expBarRect.width;
-			expFill = 0;
-			counter = 0;
-			barDisplay = 0;
-			expWithinRank = 0;
-			//Debug.Log("******earned exp bar" + expEarned);
-			//Debug.Log("******current min exp goal" + currentMinExpGoal);
-			//Debug.Log("******exp earn fill" + expEarnedFill);
-		}
+			if(currentWidth < goalWidth)
+			{
+				barDisplay = (counter * barFillSpeed) + expFill;
+				counter++;
+			}
 		
-	
+			// Resets the bar for the next fill:
+			if(currentWidth > expBarRect.width)
+			{
+				filledUp = true;
+				timesFilled++;
+				startRank++;
+				
+				agentRank = saveSystem.rankSystem.getRankName(startRank);
+				expEarned = (expEarned + expWithinRank) - currentMinExpGoal;		
+				currentMinExpGoal = saveSystem.rankSystem.expGoal(startRank) -
+									saveSystem.rankSystem.expGoal(startRank - 1);
+									
+				expEarnedFill = expEarned / currentMinExpGoal;
+				barDisplay = 0;
+				goalWidth = expEarnedFill * expBarRect.width;
+		
+				goalWidth = expEarnedFill * expBarRect.width;
+				expFill = 0;
+				counter = 0;
+				barDisplay = 0;
+				expWithinRank = 0;
+				//Debug.Log("******earned exp bar" + expEarned);
+				//Debug.Log("******current min exp goal" + currentMinExpGoal);
+				//Debug.Log("******exp earn fill" + expEarnedFill);
+			}
+		
+		}
 	}
 	
 	//*******************************************************For Testing Purposes:
