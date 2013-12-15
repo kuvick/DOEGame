@@ -9,6 +9,8 @@ public class NarrativeUI extends GUIControl
 	public var levelToLoad : String = "DOEGame";
 	public var homeButton : Texture;
 	
+	public var inScoreScreen:boolean = false;
+	private var endRender:boolean = false;
 	
 	// Start Screen rectangles
 	private var slide:Rect;
@@ -82,105 +84,132 @@ public class NarrativeUI extends GUIControl
 	public var titleTextSizeModifier : float = 1.0;
 	private var titleStyle:GUIStyle;
 	
+	private var scoreMenu:ScoreMenu;
 
 	public function Start () 
 	{
-		super.Start();
-		super.Initialize();
-		
-		isWaiting = false;
-		
-		var designWidth : float = 1920;
-		var designHeight : float = 1080;
-		
-		if(dialogue.Count != narrativeSlides.Length)
-			Debug.Log("The dialogue size does not equal the narrative slide length!");
-			
-		if(speeds.Count != narrativeSlides.Length)
-			Debug.Log("The speed size does not equal the narrative slide length! You must put in a speed for each slide.");
-			
-		if(narrativeSkin == null)
-			Debug.Log("Forgot to add into the inspector the GUISkin!");
+		if(!inScoreScreen)
+		{
+			startNarrative();
+		}
 		else
-			narrativeSkin.label.fontSize = diagTextHeightPercent * screenHeight * textSizeModifier;
+		{
+			scoreMenu = GameObject.Find("GUI System").GetComponent(ScoreMenu);
+			scoreMenu.waitForNarrativeUI = true;
+			endRender = true;
+			startNarrative();
+		}
 		
-		
-		narrativeSkin.customStyles[0].fontSize = titleTextHeightPercent * screenHeight * titleTextSizeModifier;
-		currentDisplayText = dialogue[0];
-		
-		//Calculating Rect.
-		
-			// Character Name
-		
-		charNameRect = RectFactory.NewRect(	  nameX / designWidth, 
-											  nameY / designHeight,
-											  nameWidth / designWidth,
-											  nameHeight / designHeight);
-											  
-			// Level Title
-		
-		levelTitleRect = RectFactory.NewRect( titleX / designWidth, 
-											  titleY / designHeight,
-											  titleWidth / designWidth,
-											  titleHeight / designHeight);
-		
-			// Text
-		
-		diagRect = RectFactory.NewRect(		  diagX / designWidth, 
-											  diagY / designHeight,
-											  diagWidth / designWidth,
-											  diagHeight / designHeight);
-		
-			// Skip
-		skip = RectFactory.NewRect(			  skipX / designWidth, 
-											  skipY / designHeight,
-											  skipButton.width / designWidth,
-											  skipButton.height / designHeight);
-		
-			// Back
-		back = RectFactory.NewRect(	  		  backX / designWidth, 
-											  backY / designHeight,
-											  backButton.width / designWidth,
-											  backButton.height / designHeight);
-		
-			// Start
-		start = RectFactory.NewRect(	  	  startX / designWidth, 
-											  startY / designHeight,
-											  startButton.width / designWidth,
-											  startButton.height / designHeight);
-		
-			// Replay
-		replay = RectFactory.NewRect(	  	  replayX / designWidth, 
-											  replayY / designHeight,
-											  replayButton.width / designWidth,
-											  replayButton.height / designHeight);
-											  
-			// Replay
-		home = RectFactory.NewRect(	  	      homeX / designWidth, 
-											  homeY / designHeight,
-											  homeButton.width / designWidth,
-											  homeButton.height / designHeight);
-											  
-											  
-			// Tap Space
-		tapSpace = RectFactory.NewRect(	  	  0, 
-											  (homeY + homeButton.height)/ designHeight,
-											  1,
-											  tapHeight / designHeight);
-											  
-		currentSlide = 0;
-		
-		skipTimes  = new List.<float>();
-		
-		/*metrics = new MetricContainer();
-		m_display = new MetricDisplay();*/
+	}
+	
+	public function setEndRender(bool:boolean)
+	{
+		endRender = bool;
+	}
+	
+	public function startNarrative()
+	{
+	
+			super.Start();
+			super.Initialize();
+			
+			isWaiting = false;
+			
+			var designWidth : float = 1920;
+			var designHeight : float = 1080;
+			
+			if(dialogue.Count != narrativeSlides.Length)
+				Debug.Log("The dialogue size does not equal the narrative slide length!");
+				
+			if(speeds.Count != narrativeSlides.Length)
+				Debug.Log("The speed size does not equal the narrative slide length! You must put in a speed for each slide.");
+				
+			if(narrativeSkin == null)
+				Debug.Log("Forgot to add into the inspector the GUISkin!");
+			else
+				narrativeSkin.label.fontSize = diagTextHeightPercent * screenHeight * textSizeModifier;
+			
+			
+			narrativeSkin.customStyles[0].fontSize = titleTextHeightPercent * screenHeight * titleTextSizeModifier;
+			currentDisplayText = dialogue[0];
+			
+			//Calculating Rect.
+			
+				// Character Name
+			
+			charNameRect = RectFactory.NewRect(	  nameX / designWidth, 
+												  nameY / designHeight,
+												  nameWidth / designWidth,
+												  nameHeight / designHeight);
+												  
+				// Level Title
+			
+			levelTitleRect = RectFactory.NewRect( titleX / designWidth, 
+												  titleY / designHeight,
+												  titleWidth / designWidth,
+												  titleHeight / designHeight);
+			
+				// Text
+			
+			diagRect = RectFactory.NewRect(		  diagX / designWidth, 
+												  diagY / designHeight,
+												  diagWidth / designWidth,
+												  diagHeight / designHeight);
+			
+				// Skip
+			skip = RectFactory.NewRect(			  skipX / designWidth, 
+												  skipY / designHeight,
+												  skipButton.width / designWidth,
+												  skipButton.height / designHeight);
+			
+				// Back
+			back = RectFactory.NewRect(	  		  backX / designWidth, 
+												  backY / designHeight,
+												  backButton.width / designWidth,
+												  backButton.height / designHeight);
+			
+				// Start
+			start = RectFactory.NewRect(	  	  startX / designWidth, 
+												  startY / designHeight,
+												  startButton.width / designWidth,
+												  startButton.height / designHeight);
+			
+				// Replay
+			replay = RectFactory.NewRect(	  	  replayX / designWidth, 
+												  replayY / designHeight,
+												  replayButton.width / designWidth,
+												  replayButton.height / designHeight);
+												  
+				// Replay
+			home = RectFactory.NewRect(	  	      homeX / designWidth, 
+												  homeY / designHeight,
+												  homeButton.width / designWidth,
+												  homeButton.height / designHeight);
+												  
+												  
+				// Tap Space
+			tapSpace = RectFactory.NewRect(	  	  0, 
+												  (homeY + homeButton.height)/ designHeight,
+												  1,
+												  tapHeight / designHeight);
+												  
+			currentSlide = 0;
+			
+			skipTimes  = new List.<float>();
+			
+			/*metrics = new MetricContainer();
+			m_display = new MetricDisplay();*/
+	
 	}
 	
 	function Update()
 	{
-		if(!isWaiting && lastLetter < dialogue[currentSlide].length)
+		if(!endRender)
 		{
-			UpdateText();
+			if(!isWaiting && lastLetter < dialogue[currentSlide].length)
+			{
+				UpdateText();
+			}
 		}
 	}
 	
@@ -195,65 +224,83 @@ public class NarrativeUI extends GUIControl
 	
 	public function OnGUI()
 	{
-		GUI.skin = narrativeSkin;
-		titleStyle = GUI.skin.GetStyle("title");
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
-		
-		
-		if(currentSlide < narrativeSlides.Length - 1)
+		if(!endRender)
 		{
-			if (GUI.Button(tapSpace, ""))
+			GUI.skin = narrativeSkin;
+			titleStyle = GUI.skin.GetStyle("title");
+			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
+			
+			
+			if(currentSlide < narrativeSlides.Length - 1)
 			{
-				if(skipTimes.Count > 0)
+				if (GUI.Button(tapSpace, ""))
 				{
-					skipTimes.Add(Time.timeSinceLevelLoad - skipTimes[skipTimes.Count - 1]);
-				}
-				else
-					skipTimes.Add(Time.timeSinceLevelLoad);
-				
-				lastLetter = 0;
-				currentSlide++;
-			}
-			if (GUI.Button(skip, skipButton))
-			{	
-				//metrics.Narrative.wasSkipped = true;
-				LoadLevel();			
-			}
-			
-			if (GUI.Button(back, backButton))
-			{	
-				if(currentSlide > 0)
-				{
+					if(skipTimes.Count > 0)
+					{
+						skipTimes.Add(Time.timeSinceLevelLoad - skipTimes[skipTimes.Count - 1]);
+					}
+					else
+						skipTimes.Add(Time.timeSinceLevelLoad);
+					
 					lastLetter = 0;
-					currentSlide--;
-				}			
+					currentSlide++;
+				}
+				if (GUI.Button(skip, skipButton))
+				{	
+					//metrics.Narrative.wasSkipped = true;
+					if(!inScoreScreen)
+					{
+						LoadLevel();
+					}
+					else
+					{
+						endRender = true;
+						scoreMenu.waitForNarrativeUI = false;
+					}		
+				}
+				
+				if (GUI.Button(back, backButton))
+				{	
+					if(currentSlide > 0)
+					{
+						lastLetter = 0;
+						currentSlide--;
+					}			
+				}
 			}
-		}
-		else
-		{
-			if (GUI.Button(start, startButton))
-			{	
-				LoadLevel();	
+			else
+			{
+				if (GUI.Button(start, startButton))
+				{	
+					if(!inScoreScreen)
+					{
+						LoadLevel();
+					}
+					else
+					{
+						endRender = true;
+						scoreMenu.waitForNarrativeUI = false;
+					}
+				}
+				
+				if (GUI.Button(replay, replayButton))
+				{	
+					currentSlide = 0;		
+				}
 			}
 			
-			if (GUI.Button(replay, replayButton))
+			if(GUI.Button(home, homeButton))
 			{	
-				currentSlide = 0;		
+				Application.LoadLevel("StartScreen");
 			}
-		}
-		
-		if (GUI.Button(home, homeButton))
-		{	
-			Application.LoadLevel("StartScreen");
-		}
-		
-		GUI.Label(diagRect, currentDisplayText);
-		narrativeSkin.customStyles[0].alignment = TextAnchor.UpperRight;
-		GUI.Label(charNameRect, characterName, titleStyle);
-		narrativeSkin.customStyles[0].alignment = TextAnchor.UpperLeft;
-		GUI.Label(levelTitleRect, levelTitle, titleStyle);
-		
-
+			
+			GUI.Label(diagRect, currentDisplayText);
+			narrativeSkin.customStyles[0].alignment = TextAnchor.UpperRight;
+			GUI.Label(charNameRect, characterName, titleStyle);
+			narrativeSkin.customStyles[0].alignment = TextAnchor.UpperLeft;
+			GUI.Label(levelTitleRect, levelTitle, titleStyle);
+		}	
+	
 	}// end of OnGUI
 	
 	//Would eventually set this to the loading screen, but for now since there are errors...

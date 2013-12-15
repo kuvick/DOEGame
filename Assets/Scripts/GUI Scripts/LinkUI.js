@@ -16,6 +16,8 @@ private var inputBuilding:GameObject;
 private var outputBuilding:GameObject;
 private var selectedResource : ResourceType;
 
+private var menu:MainMenu;
+
 private var buildingIsSelected : boolean = false;
 
 private var unallocatedOffset:Vector2 = new Vector2(-40, -40);	//Used to set position of button relative to building
@@ -106,6 +108,7 @@ private var linkCaseOverride : boolean = false;
 
 
 function Start () {
+	menu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	numBuildings = buildings.length;
 	linkReference = new boolean[numBuildings, numBuildings];
@@ -377,7 +380,10 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 		}
 		// cancel link if no resource match found
 		else
+		{
+			menu.missingResource();
 			return false;
+		}
 	}
 	
 	//b2 : Output, b1: Input
@@ -422,6 +428,7 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 		}
 		
 	}
+	menu.missingResource();
 	return false;
 }
 
@@ -462,7 +469,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 		Debug.Log("Link was not clear");
 		return;
 	} 
-
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
@@ -479,7 +485,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	
 	if(!dragLinkCases(b1OnGrid, b2OnGrid))
 		return;
-	
 	// if an allocated input was selected, perform an overload link reallocation
 	if (allocatedInSelected)
 	{
@@ -517,7 +522,6 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 		//If the chain break causes the outputting building to be deactivated, undo the link.
 		if(!Database.getBuildingOnGridAtIndex(building2Index).isActive)
 		{
-			var menu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 			var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			intelSystem.comboSystem.resetComboCount();
