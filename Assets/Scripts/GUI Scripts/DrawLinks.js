@@ -179,7 +179,7 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	
 	// set up a collider for direct link selection for reallocation
 	var tempCollider : BoxCollider = temp.gameObject.AddComponent(BoxCollider);
-	tempCollider.center.z = Mathf.Abs(targetVec.magnitude / 2);
+	tempCollider.center.z = targetVec.magnitude / 2f;
 	tempCollider.size = Vector3(50f, 5f, targetVec.magnitude - HexagonGrid.tileWidth);
 	
 	// if the 2 buildings are mutually linked, adjust the object positions to be side by side

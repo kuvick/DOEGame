@@ -7,6 +7,7 @@ By Derrick Huey
 import System.Collections.Generic;
 
 protected var currentBuilding : BuildingOnGrid;
+private var currentIndex : int = 0; // index in the current building's unit list
 protected var previousBuilding : BuildingOnGrid;
 protected var currentPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 public var type : UnitType;
@@ -99,6 +100,7 @@ function Initiate() {
 	buildingCoord.y = 0;
 	currentBuilding = Database.getBuildingOnGrid (buildingCoord);
 	currentBuilding.units.Add(this);
+	currentIndex = currentBuilding.units.Count - 1;
 	SetPosition(false);
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
@@ -516,6 +518,7 @@ public function OnSelected()
 	{
 		ModeController.setSelectedBuilding(currentBuilding.buildingPointer);
 		currentBuilding.unitSelected = true;
+		currentBuilding.selectedUnitIndex = currentIndex;
 		isSelected = true;
 		inputController.selectUnit(true);
 		FindValidTargets();
@@ -540,6 +543,7 @@ public function OnDeselect()
 {
 	selectedBuilding = ModeController.getSelectedBuilding();
 	currentBuilding.unitSelected = false;
+	currentBuilding.selectedUnitIndex = -1;
 	// if unit is selected, and a different building has been selected, try to path
 	if (isSelected && selectedBuilding != null && selectedBuilding != currentBuilding.buildingPointer)// && validTargets.Contains(Database.getBuildingOnGrid(selectedBuilding.transform.position)))//selectedBuilding != currentBuilding.buildingPointer)
 	{

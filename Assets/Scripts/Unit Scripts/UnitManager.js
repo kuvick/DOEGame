@@ -98,7 +98,7 @@ static function CycleSelectedUnit(unitBuilding : BuildingOnGrid) : boolean
 			return false;
 		}
 		unitBuilding.units[unitBuilding.selectedUnitIndex].OnSelected();
-		return true;//unitSelected = true;
+		return true;
 	}
 	return false;
 }
