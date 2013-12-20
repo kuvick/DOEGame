@@ -28,7 +28,8 @@ public class BuildingMenu extends GUIControl
 	private var scrollRatio:float = 0.39;
 	private var scrollYPercent:float = 0.4;
 	private var buildingIconHeightPercent:float = 0.3;
-	private var buildingIconPaddingPercent:float = 0.005;
+	//private var buildingIconPaddingPercent:float = 0.005;
+	private var buildingIconPaddingPercent:float = 0.06;
 	private var buildingGroupYPercent:float = 0.25;
 	private var cancelButtonHeightPercent:float = 0.14;		
 	//private var cancelButtonFontHeightPercent:float = 0.03;	
@@ -187,7 +188,8 @@ public class BuildingMenu extends GUIControl
 		buildingIconHeight = buildingIconHeightPercent * screenHeight;
 		buildingIconPadding = buildingIconPaddingPercent * screenWidth;
 		buildingClipWidth = screenWidth - 2 * (scrollWidth + 2 * padding);
-		buildingGroupY = screenHeight * buildingGroupYPercent;
+		//buildingGroupY = screenHeight * buildingGroupYPercent;
+		buildingGroupY = 0;
 		
 		cancelButtonHeight = cancelButtonHeightPercent * screenHeight;
 		var cancelX:float = cancelButtonTexture.width;
@@ -198,11 +200,20 @@ public class BuildingMenu extends GUIControl
 		
 		//hexButtonSkin.button.fontSize = cancelButtonFontHeight;
 		
-		background = new Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		scrollLeft = new Rect(verticalBarWidth + padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
-		scrollRight = new Rect(verticalBarWidth + screenWidth - scrollWidth - padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
-		buildingClip = new Rect(verticalBarWidth + (screenWidth - buildingClipWidth)/2, horizontalBarHeight, buildingClipWidth, screenHeight);
-		cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonWidth, cancelButtonHeight);	
+		//background = new Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
+		//scrollLeft = new Rect(verticalBarWidth + padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
+		//scrollRight = new Rect(verticalBarWidth + screenWidth - scrollWidth - padding, horizontalBarHeight + scrollY, scrollWidth, scrollHeight);
+		//buildingClip = new Rect(verticalBarWidth + (screenWidth - buildingClipWidth)/2, horizontalBarHeight, buildingClipWidth, screenHeight);
+		//cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonWidth, cancelButtonHeight);	
+
+		var tempBGRect = Rect(0,0,960,540);
+		background = createRect(backgroundText,0,0,1,true);
+		buildingClip = createRect(new Vector2(714, 358), 100/tempBGRect.width, 110/ tempBGRect.height, 358/tempBGRect.height, true, tempBGRect);
+		scrollLeft = createRect(scrollLeftTexture_Active, 0.124, 0.834, 0.079, false);
+		scrollRight = createRect(scrollLeftTexture_Active, 0.65, 0.834, 0.079, false);
+		cancelButton =	createRect(cancelButtonTexture,0,0, 0.1, false);	
+		cancelButton.x = buildingClip.x;
+		cancelButton.y = buildingClip.y - cancelButton.height * 1.5;
 
 		
 		rectList.Add(background);
@@ -396,7 +407,10 @@ public class BuildingMenu extends GUIControl
 				//currentUpperRowX = j * sumWidth;
 				//**NEW**
 				currentUpperRowX = j * (buildingIconHeight + buildingIconPadding) + sumWidth;
-				buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
+				//buildingIcon = new Rect(currentPageX + currentUpperRowX, 0, buildingIconHeight, buildingIconHeight);
+				
+				buildingIcon = createRect(buildingIconImages[0], 0f,0f,0.25,false);
+				buildingIcon.x = currentPageX + currentUpperRowX;
 				buildingIconList.Add(buildingIcon);
 				
 				//Resource Icon Input Display:
@@ -431,8 +445,11 @@ public class BuildingMenu extends GUIControl
 					break;
 				}
 				currentLowerRowX = k * (buildingIconHeight + buildingIconPadding) + sumWidth;
-				buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
-				buildingIconList.Add(buildingIcon);;
+				//buildingIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight, buildingIconHeight, buildingIconHeight);
+				buildingIcon = createRect(buildingIconImages[0], 0f,0f,0.25,false);
+				buildingIcon.x = currentPageX + currentLowerRowX;
+				buildingIcon.y = buildingIconHeight;
+				buildingIconList.Add(buildingIcon);
 				
 				//Resource Icon Input Display
 				//var m : int = 0;
