@@ -9,7 +9,11 @@
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>Welcome, recruit! 
+	  Allow me to introduce the Terrachanics energy reallocation system.
+	  With it we will be able to upgrade our energy infrastructure and prevent disasters.
+	  What do you say we give it a try to get the Springville Nuclear plant?
+	  </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -19,11 +23,13 @@
     </Level>
 	
 	 <Level><!--Tutorial2-->
-      <displayName>0</displayName>
+      <displayName>1</displayName>
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Divergent Convergence</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>Your doing great! The device is functioning perfectly.
+	  Now, what do you say we try some of its more advanced functions?
+	  They should make short work of Alma city's gas shortage.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -37,7 +43,8 @@
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Time and Space</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>You have shown me proficiency with Terrachanics,
+	  now show me accuracy and speed! Let's get the ethanol flowing!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -49,11 +56,13 @@
 	<Level><!--KU04-->
       <displayName>2</displayName>
       <sceneName>KU04</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Our Fishy Friends</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>You're the new recruit, huh? Lets see if you're as good as the 
+	  doc says. Get that Hydro Dam upgraded with some Fish-Friendly designs, so 
+	  it'll be ready for my jetski fishing trip this summer.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>1</missionRequirementIndex>
@@ -63,11 +72,14 @@
 	<Level><!--RV21-->
       <displayName>3</displayName>
       <sceneName>RV21</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Think Smaller</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>Ummm... hi there. I'm the lead researcher Jerome Zabel.
+	  I know you're new here and all but... I could use some help implementing 
+	  small-scale nuclear generators going in Central Blackstone.
+	  If you aren't too busy, could you maybe give me a hand?</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>2</missionRequirementIndex>
@@ -77,11 +89,15 @@
 	<Level><!--RV14-->
       <displayName>3</displayName>
       <sceneName>RV14</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>Bright Ideas</subjectText>
-      <messageText>Mission text coming soon!</messageText>
+      <messageText>Hey there, buddy! By now you must have heard of the ECRB's top agent - Roc Bridges.
+	  Stick with me kid, and you'll go far at this place.
+	  But enough about me, lets talk about what *you* can do for *me*.
+	  Those folks at Derptronics are gonna need some shiny new Liquid Metal Battery
+	  schematics. You game?</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>2</missionRequirementIndex>
@@ -91,11 +107,15 @@
 	<Level><!--Tutorial_RV15-->
       <displayName>4</displayName>
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>4</difficulty>
       <subjectText>Nuclear Clean</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> This is ECRB Director Helena Edison. Dr. Fernandez has
+	  informed me of your progress, and has recommended you toward full 
+	  field Agent status. You will be helping Backwater with their nuclear
+	  waste disposal program. The 30% chance of exposure to toxic radition is within 
+	  nominal safety parameters, so get to it. Edison out.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>3</missionRequirementIndex>
@@ -105,9 +125,11 @@
 	<Level><!--RV10-->
       <displayName>4</displayName>
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>6</difficulty>
       <subjectText>Wires Crossed</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>Your a natural born Agent, my friend! You've done well so far,
+	  but now the real test begins. The next series of assignments will test
+	  the limits of what you have learned so far. Stay sharp!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -119,9 +141,11 @@
 	<Level><!--RV16-->
       <displayName>5</displayName>
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>7</difficulty>
       <subjectText>Get Smart</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Are you ready to be part of the future? The Smart Grid technology
+	  we help install today could help bring a new era of energy efficiency and
+	  awesome electronics for all. Now get out there and show them how its done!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -133,11 +157,14 @@
 	<Level><!--RV17-->
       <displayName>6</displayName>
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>8</difficulty>
       <subjectText>Steam Powered</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>Think you can cut it at the ECRB? This isn't your grandma's FBI
+	  where you can screw around. We need agents with their head in the game. 
+	  The Organic Flash Cycle tech you'll be handling is all about letting no
+	  thermal energy go to waste. I certainly won't if you botch this one.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>5</missionRequirementIndex>
@@ -153,7 +180,10 @@
       <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Congradulations! You passed your first set of trials! Now
+	  let's see how well you work with a partner. Nancy Sanders and her crew
+	  will be assisting you with some critical repairs to get the solar
+	  panel factory back up and running.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -167,9 +197,12 @@
       <sceneName>Tutorial6</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Multithreaded Marathon</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Nice work back there. I think you might just be partner material.
+	  Don't be waiting up for me, though. Just tell me where I'm needed and I'll
+	  jump on my Harley and get there in no time. You just stay busy with... whatever
+	  it is you do. I'm sure you're great at it.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>7</missionRequirementIndex>
@@ -179,11 +212,13 @@
 	<Level><!--GPC07-->
       <displayName>9</displayName>
       <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>The Power Core</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>You like road trips? Cuz I have a feeling this is going to
+	  turn into one for me. Got some major repairs to fix up so we can get the
+	  SuperCo refinery back up and running. Lets go make some sparks!</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>8</missionRequirementIndex>
@@ -193,11 +228,13 @@
 	<Level><!--DD12-->
       <displayName>8</displayName>
       <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>The Broken Path</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> The Springford Airport is in rough shape. We'll need to 
+	  B line it to that one quick to get it up and running again. Lets
+	  get moving!</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>7</missionRequirementIndex>
@@ -207,11 +244,15 @@
 	<Level><!--KU05-->
       <displayName>8</displayName>
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Climate Control</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>Great to see you kids getting along! Listen, I got a really
+	  important meeting with my masseu- manager, of a major energy...company...place.
+	  Super important. Mind if you handle the RIVEC tech install on this one.
+	  Thanks bud!
+	  -Roc</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>7</missionRequirementIndex>
@@ -223,9 +264,12 @@
       <sceneName>Tutorial_GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>It’s in the Bag</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>Uh... hi again. It's Jerome. Could use a hand on getting our
+	  plastic nanotube factory up and going. It'll help us make batteries from
+	  plastic bags! How cool is that! Ummm... I mean, if its cool with you and
+	  Engineer Sanders, of course.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>9</missionRequirementIndex>

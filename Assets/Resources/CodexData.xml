@@ -12,7 +12,7 @@
 	  <name>Electrofuels</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/electrofuels-tiny-organisms-making-big-impact</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Electrofuels_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -96,7 +96,7 @@
 	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Heat Transfer Interface for Thermo Solar Energy_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -117,7 +117,7 @@
 	  <name>Super Energy Saver Heat Pump</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=293</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Super Energy Saver Heat Pump_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
 	<CodexEntry>
@@ -159,7 +159,7 @@
 	  <name>eGain Forecasting</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Environmental_technology#eGain_forecasting</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>eGain Forecasting_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -180,7 +180,7 @@
 	  <name>Alge Bio-Reactor</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Algae Bioreactor_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -201,7 +201,7 @@
 	  <name>Liquid Metal Battery</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57441331-54/liquid-metal-battery-raises-$15m-in-series-b-financing/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Liquid Metal Battery_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -215,7 +215,7 @@
 	  <name>Air Powered Cars</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
-	  <iconName>ICONNAME WITHOUT PNG</iconName>
+	  <iconName>Air Powered Car_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
