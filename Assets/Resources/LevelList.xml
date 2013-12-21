@@ -348,9 +348,12 @@
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Shifting Gears</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText>Such a waste. Goddum City uses so much power, but so much
+	  more goes to waste just from switching voltages. Like switching gears 
+	  on a car. Can’t have that now, can we? Lets get these folks some good 
+	  silicon carbide thyristors to fix that right up.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>10</missionRequirementIndex>
