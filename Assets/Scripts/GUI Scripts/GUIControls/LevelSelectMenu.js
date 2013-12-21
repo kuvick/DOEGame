@@ -421,7 +421,7 @@ public class LevelSelectMenu extends GUIControl
 		}
 	}
 	
-	private function RenderLevels(levelsToRender : List.<LevelNode>)
+	private function RenderLevels(levelsToRender : List.<LevelNode>, displayDifficulty : boolean)
 	{
 		// Scroll bar
 		
@@ -467,15 +467,18 @@ public class LevelSelectMenu extends GUIControl
 							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
 						
 						//Display proper mail icon
-						if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
+						if(displayDifficulty)
 						{
-							GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
-						}	
-						else
-						{
-							//Debug.LogError("The given difficulty does not have a matching icon");
-							GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
-						}		
+							if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
+							{
+								GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
+							}	
+							else
+							{
+								//Debug.LogError("The given difficulty does not have a matching icon");
+								GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
+							}		
+						}
 
 						levelsToRender[i].bounds.x = senderRect.width;
 						
@@ -497,6 +500,14 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Render()
 	{
+		if(fromScoreScreen)
+		{
+			activeLevelIndex = 0;
+			showSplash = true;
+			fromScoreScreen = false;
+			Debug.Log("From Score Screen");
+		}
+	
 		GUI.skin = levelSelectSkin;
 	
 		// Drawing background textures:
@@ -534,9 +545,9 @@ public class LevelSelectMenu extends GUIControl
 		{
 			GUI.BeginGroup(missionBackgroundRect);
 				if (inboxTab){
-					RenderLevels(unlockedLevels);
+					RenderLevels(unlockedLevels, true);
 				} else {
-					RenderLevels(completedLevels);
+					RenderLevels(completedLevels, false);
 				}
 			GUI.EndGroup();
 			/*

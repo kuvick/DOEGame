@@ -32,7 +32,9 @@ public class StartMenu extends GUIControl
 	public var optionsBannerTexture:Texture;
 		private var optionsBannerRect:Rect;
 		private var sfxSliderVal:float;
+		private var lastSFXVal:float;
 		private var musicSliderVal:float;
+		private var lastMusicVal:float;
 		private var sfxRect:Rect;
 		private var sfxLabelRect:Rect;
 		private var musicRect:Rect;
@@ -111,6 +113,9 @@ public class StartMenu extends GUIControl
 	private var firstTime:boolean;
 	public var firstTimeLevelToLoad:String = "";
 	
+	public var deleteProfileButton:Texture;
+	private var deleteProfileButtonRect:Rect;
+	
 	public enum CurrentStartScreen
 	{
 		FirstScreen,
@@ -155,8 +160,6 @@ public class StartMenu extends GUIControl
 		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
 		facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
 		optionsButtonRect = Rect( screenWidth - (optionsButton.width * percentage) - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, optionsButton.width * percentage, optionsButton.height * percentage);
-		
-		
 		
 		profileSelectWidth = profileBGText.width * percentage;
 		profileSelectHeight = profileBGText.height * percentage;
@@ -213,7 +216,16 @@ public class StartMenu extends GUIControl
 		musicLabelRect.x = sfxRect.x;
 		musicLabelRect.y = (Screen.height / 2 - musicRect.height / 2) + musicRect.height;
 		
+		startMenuSkin.horizontalSlider.fixedHeight = 0.05 * screenHeight;
+		startMenuSkin.horizontalSliderThumb.fixedHeight = 0.05 * screenHeight;
+		startMenuSkin.horizontalSliderThumb.fixedWidth = 0.09 * screenHeight;
 		
+		deleteProfileButtonRect = createRect(deleteProfileButton, 0, 0, 0.15, false);
+		
+		deleteProfileButtonRect.x = Screen.width / 2 - deleteProfileButtonRect.width / 2;
+		deleteProfileButtonRect.y = (Screen.height / 2 - sfxRect.height / 2) + (sfxRect.height * 3.5);
+		
+		players = saveSystem.LoadNames();
 	}
 	
 	public function Render()
@@ -263,6 +275,7 @@ public class StartMenu extends GUIControl
 					}
 					
 					currentScreen = CurrentStartScreen.Options;
+					players = saveSystem.LoadNames();
 					PlayButtonPress();
 				}
 				
@@ -296,135 +309,144 @@ public class StartMenu extends GUIControl
 			}// end of first screen
 			else if(currentScreen == CurrentStartScreen.ProfileSelect || currentScreen == CurrentStartScreen.NewProfile)
 			{
-				players = saveSystem.LoadNames();
-				GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
-				
-				GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
-				GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
-				if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
+				// loads the first player on the list, essentially making only one player
+				// while leaving in the functionality in case we want to go back.
+				if(!firstTime)
 				{
-					currentScreen = CurrentStartScreen.FirstScreen;
-					PlayButtonPress();
+					saveSystem.LoadPlayer(players[0]);
+					currentResponse.type = EventTypes.LEVELSELECT;
 				}
-				
-				scrollContent.height = (players.Count + 1) * (profileSelectHeight + (buttonSideBuffer * screenHeight));
-				
-				
-				GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
-			
-				levelSelectScrollPos = GUI.BeginScrollView
-				(
-					profileScrollArea,				
-					levelSelectScrollPos,
-					scrollContent,
-					false, 
-					false
-				);				
-
-
-					var profileButton : Rect = Rect(0, 0, profileSelectWidth, profileSelectHeight);
-					var midPoint : float = profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
-					var deleteButton : Rect = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);								
+				else
+				{
+					players = saveSystem.LoadNames();
+					GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
 					
-					var distanceFromTop : float = 0;
-					
-					for(var i : int = 0; i < players.Count; i++)
+					GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
+					GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
+					if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
 					{
-						GUI.skin = profileSelectSkin;
-						midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
-						deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
-						if (GUI.Button(profileButton, players[i]))
-						{
-							saveSystem.LoadPlayer(players[i]);
-							currentResponse.type = EventTypes.LEVELSELECT;
-							PlayButtonPress();
-						}
-						GUI.skin = startMenuSkin;
-						if (GUI.Button(deleteButton, deleteButtonText))
-						{
-							saveSystem.deletePlayer(players[i]);
-							PlayButtonPress();
-						}
-						distanceFromTop +=  profileSelectHeight + (buttonSideBuffer * screenHeight);
-						profileButton.y = distanceFromTop;
+						currentScreen = CurrentStartScreen.FirstScreen;
+						PlayButtonPress();
 					}
 					
+					scrollContent.height = (players.Count + 1) * (profileSelectHeight + (buttonSideBuffer * screenHeight));
 					
-					GUI.skin = profileSelectSkin;
+					
+					GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
+				
+					levelSelectScrollPos = GUI.BeginScrollView
+					(
+						profileScrollArea,				
+						levelSelectScrollPos,
+						scrollContent,
+						false, 
+						false
+					);				
 
-					if(currentScreen == CurrentStartScreen.NewProfile)
-					{
-					
-						newUsername = GUI.TextField(profileButton, newUsername, 10);
+
+						var profileButton : Rect = Rect(0, 0, profileSelectWidth, profileSelectHeight);
+						var midPoint : float = profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
+						var deleteButton : Rect = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);								
+						
+						var distanceFromTop : float = 0;
+						
+						for(var i : int = 0; i < players.Count; i++)
+						{
+							GUI.skin = profileSelectSkin;
+							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
+							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+							if (GUI.Button(profileButton, players[i]))
+							{
+								saveSystem.LoadPlayer(players[i]);
+								currentResponse.type = EventTypes.LEVELSELECT;
+								PlayButtonPress();
+							}
+							GUI.skin = startMenuSkin;
+							if (GUI.Button(deleteButton, deleteButtonText))
+							{
+								saveSystem.deletePlayer(players[i]);
+								PlayButtonPress();
+							}
+							distanceFromTop +=  profileSelectHeight + (buttonSideBuffer * screenHeight);
+							profileButton.y = distanceFromTop;
+						}
+						
+						
+						GUI.skin = profileSelectSkin;
+
+						if(currentScreen == CurrentStartScreen.NewProfile)
+						{
+						
+							newUsername = GUI.TextField(profileButton, newUsername, 10);
+							
+							GUI.skin = startMenuSkin;
+							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
+							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+							if(GUI.Button(deleteButton, approveButtonText))
+							{
+								saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
+								saveSystem.LoadPlayer(newUsername);
+								
+								
+								// If it is the first time a player is loading the game
+								//(aka no profile has been created until this one)
+								// Then it either loads the dashboard next or the specified
+								// level under the variable firstTimeLevelToLoad.
+								if(firstTime)
+								{
+									if(firstTimeLevelToLoad == "")
+										currentResponse.type = EventTypes.LEVELSELECT;
+									else
+									{
+										PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+										Application.LoadLevel("LoadingScreen");
+									}
+								}
+								else
+									currentScreen = CurrentStartScreen.ProfileSelect;
+								PlayButtonPress();
+							}
+						}
+						else
+						{
+							GUI.skin = profileSelectSkin;
+							if (GUI.Button(profileButton, "NEW AGENT"))
+							{
+								newUsername = "";
+								currentScreen = CurrentStartScreen.NewProfile;
+								PlayButtonPress();
+							}
+						}
 						
 						GUI.skin = startMenuSkin;
-						midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
-						deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
-						if(GUI.Button(deleteButton, approveButtonText))
+						
+						
+		
+						//When we have options for the profile, put these buttons in, instead of just the delete button
+						/*
+						var optButton : Rect = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+						var deteteButton : Rect = Rect(profileSelectWidth + 2 * (buttonSideBuffer * screenHeight) + (deleteButtonText.width*percentage), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+						if (GUI.Button(optButton, profileOptText))
 						{
-							saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
-							saveSystem.LoadPlayer(newUsername);
-							
-							
-							// If it is the first time a player is loading the game
-							//(aka no profile has been created until this one)
-							// Then it either loads the dashboard next or the specified
-							// level under the variable firstTimeLevelToLoad.
-							if(firstTime)
-							{
-								if(firstTimeLevelToLoad == "")
-									currentResponse.type = EventTypes.LEVELSELECT;
-								else
-								{
-									PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
-									Application.LoadLevel("LoadingScreen");
-								}
-							}
-							else
-								currentScreen = CurrentStartScreen.ProfileSelect;
-							PlayButtonPress();
+							Debug.Log("Options for profile button pressed");
 						}
-					}
-					else
-					{
-						GUI.skin = profileSelectSkin;
-						if (GUI.Button(profileButton, "NEW AGENT"))
+						if (GUI.Button(deleteButton, deleteButtonText))
 						{
-							newUsername = "";
-							currentScreen = CurrentStartScreen.NewProfile;
-							PlayButtonPress();
+							//saveSystem.deletePlayer(players[i]);
+							showProfiles = false;
 						}
-					}
-					
-					GUI.skin = startMenuSkin;
-					
-					
-	
-					//When we have options for the profile, put these buttons in, instead of just the delete button
-					/*
-					var optButton : Rect = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
-					var deteteButton : Rect = Rect(profileSelectWidth + 2 * (buttonSideBuffer * screenHeight) + (deleteButtonText.width*percentage), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
-					if (GUI.Button(optButton, profileOptText))
-					{
-						Debug.Log("Options for profile button pressed");
-					}
-					if (GUI.Button(deleteButton, deleteButtonText))
-					{
-						//saveSystem.deletePlayer(players[i]);
-						showProfiles = false;
-					}
-					*/
-					// If we eventually want a loggout button:				
-					/*
-					if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 1), profileSelectWidth, profileSelectHeight), "Logout"))
-					{
-						saveSystem.logout();
-						showProfiles = false;
-					}
-					*/
-	
-				GUI.EndScrollView();  //End Scroll bar
-
+						*/
+						// If we eventually want a loggout button:				
+						/*
+						if (GUI.Button(Rect(screenWidth * 0.01, profileSelectHeight * (players.Count + 1), profileSelectWidth, profileSelectHeight), "Logout"))
+						{
+							saveSystem.logout();
+							showProfiles = false;
+						}
+						*/
+		
+					GUI.EndScrollView();  //End Scroll bar
+				}
 
 			}// end of profile select
 			/*
@@ -493,6 +515,16 @@ public class StartMenu extends GUIControl
 			{
 				GUI.skin = startMenuSkin;
 				
+				GUI.DrawTexture(deleteProfileButtonRect, deleteProfileButton,ScaleMode.StretchToFill);
+				if(GUI.Button(deleteProfileButtonRect, ""))
+				{
+					for(var l:int = 0; l < players.Count; l++)
+						saveSystem.deletePlayer(players[l]);
+						
+					PlayButtonPress();
+					currentScreen = CurrentStartScreen.FirstScreen;
+				}
+				
 				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
 
 				
@@ -521,12 +553,26 @@ public class StartMenu extends GUIControl
 					PlayButtonPress();
 				}
 				
-				SoundManager.Instance().setVolumes(sfxSliderVal, musicSliderVal);				
+				SoundManager.Instance().setVolumes(sfxSliderVal, musicSliderVal);
+				
+				if(lastSFXVal != sfxSliderVal)
+				{
+					lastSFXVal = sfxSliderVal;
+					PlayButtonPress();
+				}
+				
+				if(lastMusicVal != musicSliderVal)
+				{
+					lastMusicVal = musicSliderVal;
+					SoundManager.Instance().UpdateMusicVol(musicSliderVal);
+				}
 				
 			}// end of options
 			
 		}
 	}
+	
+	
 	
 	public function SetSplash(show:boolean)
 	{

@@ -150,6 +150,9 @@ public class ScoreMenu extends GUIControl{
 	private var largerFontSize:int;
 	
 	public var waitForNarrativeUI:boolean = false;
+	
+	public var dashboardButton:Texture;
+	private var dashboardButtonRect:Rect;
 
 	public function Initialize()
 	{
@@ -214,7 +217,11 @@ public class ScoreMenu extends GUIControl{
 		shareButtonRect = createRect(shareButton,1340 / designWidth, 27/designHeight, shareButton.height / designHeight, false, screenRect);
 		retryButtonRect = createRect(retryButton, 81 / designWidth, 936/designHeight, retryButton.height / designHeight, false, screenRect);
 		contButtonRect = createRect(contButton, 1225 / designWidth, 936/designHeight, contButton.height / designHeight, false, screenRect);
+		dashboardButtonRect = createRect(dashboardButton,0f,936/designHeight, dashboardButton.height / designHeight, false, screenRect);
 		
+		dashboardButtonRect.x = ((contButtonRect.x - (retryButtonRect.xMax)) / 2 - dashboardButtonRect.width / 2) + retryButtonRect.xMax;
+		
+		//dashboardButton
 		
 		var textBox : Vector2 = new Vector2(boxWidth, boxHeight);
 		
@@ -369,6 +376,13 @@ public class ScoreMenu extends GUIControl{
 				currentResponse.type = EventTypes.RESTART;
 				PlayButtonPress();
 			}
+			if(GUI.Button(dashboardButtonRect, dashboardButton))
+			{
+				//currentResponse.type = EventTypes.RESTART;
+				levelSelectRef.SetFromScoreScreen(false);
+				currentResponse.type = EventTypes.LEVELSELECT;
+				PlayButtonPress();
+			}
 			if(GUI.Button(contButtonRect, contButton))
 			{
 				// Maybe switch this to level select, but can't
@@ -378,10 +392,14 @@ public class ScoreMenu extends GUIControl{
 				//Changed GPC 9/14/13
 				var nextLevel : String = "LevelSelectScreen";
 				
-				if (nextLevel == null){
-					currentResponse.type = EventTypes.LEVELSELECT;
+				if (nextLevel == null)
+				{
 					levelSelectRef.SetFromScoreScreen(true);
-				} else {
+					currentResponse.type = EventTypes.LEVELSELECT;
+				}
+				else
+				{
+					levelSelectRef.SetFromScoreScreen(true);
 					Application.LoadLevel(nextLevel);
 				}
 				PlayButtonPress();
