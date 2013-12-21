@@ -34,6 +34,7 @@ public class StartMenu extends GUIControl
 		private var sfxSliderVal:float;
 		private var lastSFXVal:float;
 		private var musicSliderVal:float;
+		private var lastMusicVal:float;
 		private var sfxRect:Rect;
 		private var sfxLabelRect:Rect;
 		private var musicRect:Rect;
@@ -558,6 +559,12 @@ public class StartMenu extends GUIControl
 				{
 					lastSFXVal = sfxSliderVal;
 					PlayButtonPress();
+				}
+				
+				if(lastMusicVal != musicSliderVal)
+				{
+					lastMusicVal = musicSliderVal;
+					SoundManager.Instance().UpdateMusicVol(musicSliderVal);
 				}
 				
 			}// end of options
