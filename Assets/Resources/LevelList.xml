@@ -376,9 +376,10 @@
     </Level>
 	-->
 	
-	<Level><!--KU02-->
+	<!--KU02
+	<Level>
       <displayName>12</displayName>
-      <sceneName>KU02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>KU02</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Superfuel</subjectText>
       <messageText> Mission text coming soon! </messageText>
@@ -389,6 +390,7 @@
       <missionRequirementIndex>11</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	-->
 	
 	<Level><!--GPC03.1-->
       <displayName>13</displayName>
@@ -397,7 +399,7 @@
       <subjectText>Circuit Maker</subjectText>
       <messageText>Oh boy... you seen the map for this one? Who the heck built
 	  their infrastructure. We're going to have to reroute half the city to get
-	  the solar panel factory online. Good luck with that one, buddy!</messageText>
+	  the tranistor factory up and running. Good luck with that one, buddy!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
