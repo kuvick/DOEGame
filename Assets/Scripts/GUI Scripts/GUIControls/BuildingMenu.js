@@ -206,9 +206,8 @@ public class BuildingMenu extends GUIControl
 		//buildingClip = new Rect(verticalBarWidth + (screenWidth - buildingClipWidth)/2, horizontalBarHeight, buildingClipWidth, screenHeight);
 		//cancelButton =	Rect(verticalBarWidth + padding, horizontalBarHeight + padding, cancelButtonWidth, cancelButtonHeight);	
 
-		var tempBGRect = Rect(0,0,960,540);
 		background = createRect(backgroundText,0,0,1,true);
-		buildingClip = createRect(new Vector2(714, 358), 100/tempBGRect.width, 110/ tempBGRect.height, 358/tempBGRect.height, true, tempBGRect);
+		buildingClip = createRect(new Vector2(714, 358), 0.104, 0.204, 0.663, true, background);
 		scrollLeft = createRect(scrollLeftTexture_Active, 0.124, 0.834, 0.079, false);
 		scrollRight = createRect(scrollLeftTexture_Active, 0.65, 0.834, 0.079, false);
 		cancelButton =	createRect(cancelButtonTexture,0,0, 0.1, false);	
