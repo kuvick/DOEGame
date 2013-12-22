@@ -71,7 +71,7 @@ public class FailureMenu extends GUIControl
 	
 	public function Render()
 	{   
-
+		GUI.depth = 0;
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background, ScaleMode.StretchToFill);
