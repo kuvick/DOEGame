@@ -117,7 +117,8 @@ function OnGUI()
 public function Activate (disp : Tooltip, comp : InspectionComponent)
 {
 	componentSelected = true;
-	intelSys.toolTipOnScreen = true;
+	if (intelSys)
+		intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
@@ -148,7 +149,8 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 public function ActivateAndDeactivate(disp : Tooltip)
 {
 	componentSelected = true;
-	intelSys.toolTipOnScreen = true;
+	if (intelSys)
+		intelSys.toolTipOnScreen = true;
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
@@ -250,14 +252,17 @@ private function NextTooltip()
 	{
 		SoundManager.Instance().playInspectionClose();
 		componentSelected = false;
-		intelSys.toolTipOnScreen = false;
+		if(intelSys)
+			intelSys.toolTipOnScreen = false;
 		currentTooltip = null;
 		yield WaitForSeconds(0.5);
-		inputController.SetEnabled(true);
+		if (inputController)
+			inputController.SetEnabled(true);
 	}
 	else
 	{
-		inputController.SetEnabled(true);
+		if (inputController)
+			inputController.SetEnabled(true);
 		SetTooltip();
 	}
 }
@@ -269,7 +274,7 @@ private function SetTooltip()
 		currentTooltip.GetComponent().SetSelected(true);
 	if (currentTooltip.type == TooltipType.Notification)
 		notificationTimer = Time.time + notificationLength;
-	else if (currentTooltip.type == TooltipType.Alert)
+	else if (inputController && currentTooltip.type == TooltipType.Alert)
 		inputController.SetEnabled(false);
 	FormatDisplay();
 }
@@ -298,6 +303,11 @@ public function MouseOnDisplay() : boolean
 	if (componentSelected && dispRect.Contains(mousePos))
 		return true;
 	return false;
+}
+
+public function IsActive() : boolean
+{
+	return componentSelected;
 }
 
 // class to define a tooltip turn trigger

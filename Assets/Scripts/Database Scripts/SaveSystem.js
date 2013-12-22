@@ -463,6 +463,7 @@ public class Player
 	public function completeLevel(levelName : String)
 	{
 		var levelDataExists : boolean = false;
+		
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
 			if(levelDataList[i].levelName == levelName){
@@ -479,8 +480,8 @@ public class Player
 			levelData.levelCompleted = true;
 			levelDataList.Add(levelData);
 		}
-		Debug.Log(lastUnlockedIndex + " " + numToUnlock);
 		lastUnlockedIndex += numToUnlock;
+		Debug.Log(lastUnlockedIndex + " " + numToUnlock);
 	}
 	
 	public function unlockLevel(levelName : String)
