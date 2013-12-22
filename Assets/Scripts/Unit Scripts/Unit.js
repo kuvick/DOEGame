@@ -360,7 +360,11 @@ function UndoAction () : boolean
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
 		CheckPathBroken();
 		if (intelSystem.currentTurn == pathMadeTurn)
+		{
 			currentPath.Clear();
+			SetState(UnitState.Active);
+			targetIcon.renderer.enabled = false;
+		}
 		if (currentPath.Count > 0)
 			SetState(UnitState.InTransit);
 		return true;
