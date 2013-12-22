@@ -21,6 +21,7 @@ enum UnlockType
 @XmlRoot("LevelList")
 public class LevelList
 {
+	public var numInitialTutorials : int; // number of levels before dashboard is available
 	@XmlArray("Levels")
   	@XmlArrayItem("Level")
   	public var levels : List.<BasicNode> = new List.<BasicNode>();
@@ -138,6 +139,9 @@ public class LevelNode
 public class LevelSelectMenu extends GUIControl
 {
 	public var levelsFromXML : LevelList;
+	
+	public var dashboardTooltips : Tooltip[];
+	private var tooltipDisplay : InspectionDisplay;
 
 	//Images
 	public var backgroundText: Texture;
@@ -300,6 +304,8 @@ public class LevelSelectMenu extends GUIControl
 	{
 		super.Initialize();
 		
+		tooltipDisplay = gameObject.GetComponent(InspectionDisplay);
+		
 		//ADDING IN THE XML LEVELS INTO THE LEVELS ARRAY
 		levelsFromXML = levelsFromXML.Load();
 		levelsFromXML.levels.Reverse();
@@ -331,6 +337,8 @@ public class LevelSelectMenu extends GUIControl
 		saveSystem = playerData.GetComponent("SaveSystem");
 		
 		
+		
+		
 		var sideButtonArea : Rect = Rect(0,0,260/designWidth * screenWidth, 1080/designHeight * screenHeight);
 	
 										  
@@ -357,10 +365,18 @@ public class LevelSelectMenu extends GUIControl
 										  archiveIconText.height / designHeight);	
 		*/
 		
-		
-		
 		if(saveSystem.currentPlayer != null)
 		{
+			playerName = saveSystem.currentPlayer.name;
+			
+			lastUnlockedIndex = saveSystem.currentPlayer.lastUnlockedIndex;
+			
+			/*if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
+			{
+				PlayerPrefs.SetString(Strings.NextLevel, levels[levels.Length - 1 - lastUnlockedIndex].sceneName);
+				Application.LoadLevel("LoadingScreen");
+				return;
+			}*/
 								
 			agentName = saveSystem.currentPlayer.name;
 			agentRank = saveSystem.currentPlayer.rankName;
@@ -390,10 +406,6 @@ public class LevelSelectMenu extends GUIControl
 									  screenHeight * rank2Y / designHeight,
 									  (agentRank.Length * levelSelectSkin.customStyles[0].fontSize),
 									  levelSelectSkin.customStyles[0].fontSize * 2);
-	
-			playerName = saveSystem.currentPlayer.name;
-			
-			lastUnlockedIndex = saveSystem.currentPlayer.lastUnlockedIndex;
 			
 			// Displayed Player Name:
 			playerRect = new Rect(agentRankRect1.width + agentRankRect1.x, 
@@ -418,6 +430,17 @@ public class LevelSelectMenu extends GUIControl
 			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		}
+		// check whether to go directly to level instead of loading dashboard
+		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
+		{
+			PlayerPrefs.SetString(Strings.NextLevel, levels[levels.Length - 1 - lastUnlockedIndex].sceneName);
+			Application.LoadLevel("LoadingScreen");
+		}
+		else if (tooltipDisplay && lastUnlockedIndex - 2 == levelsFromXML.numInitialTutorials)
+		{
+			for (i = 0; i < dashboardTooltips.Length; i++)
+				tooltipDisplay.Activate(dashboardTooltips[i], null);
 		}
 	}
 	
@@ -500,6 +523,13 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Render()
 	{
+		// don't render dashboard if not far enough into the game
+		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
+			return;
+		
+		if (tooltipDisplay.IsActive())
+			GUI.enabled = false;
+
 		if(fromScoreScreen)
 		{
 			activeLevelIndex = 0;
@@ -762,7 +792,7 @@ public class LevelSelectMenu extends GUIControl
 					countUnlocked++;
 					if (levels[i].sceneName.Contains("utorial"))
 					{
-						saveSystem.currentPlayer.lastUnlockedIndex = levels.Length - 1 - i;
+						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - 1 - i;
 						break;
 					}
 				}
