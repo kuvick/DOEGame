@@ -350,6 +350,7 @@ public class ScoreMenu extends GUIControl{
 	{   
 		if(!waitForNarrativeUI)
 		{
+			GUI.depth = 0;
 			// Drawing background textures:
 			GUI.skin = scoreScreenSkin;
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);

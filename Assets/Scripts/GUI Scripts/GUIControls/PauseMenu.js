@@ -106,7 +106,7 @@ public class PauseMenu extends GUIControl
 	
 	public function Render()
 	{
-	
+		GUI.depth = 0;
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
 		GUI.color = transparentColor;

@@ -187,11 +187,11 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	{
 		var offset : Vector3 = Vector3(targetVec.z, targetVec.y, targetVec.x);
 		offset.Normalize();
-		temp.gameObject.transform.localPosition -= Utils.ConvertToRotated((50 * offset));
+		temp.gameObject.transform.localPosition -= Utils.ConvertToRotated((25 * offset));
 		
 		var inputLink : GameObject = GameObject.Find(inputBuilding + " " + outputBuilding);
 		if (inputLink)
-			inputLink.transform.localPosition += Utils.ConvertToRotated((50 * offset));
+			inputLink.transform.localPosition += Utils.ConvertToRotated((25 * offset));
 	}
 	
 	StartCoroutine(LinkCreateAnimation(temp));
