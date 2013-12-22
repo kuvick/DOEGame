@@ -334,7 +334,7 @@ function DoAction () : boolean
 	previousBuilding.units.Remove(this);
 	if (type != UnitType.Researcher)
 		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeID.None, UpgradeID.None));
-	Debug.Log(actionList.Count);
+	//Debug.Log(actionList.Count);
 	return true;
 }
 
@@ -378,8 +378,9 @@ public function SetPosition(swap : boolean) {
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
 	worldCoord += Utils.ConvertToRotated(usedOffset);
-		
-	gameObject.transform.position = worldCoord;
+	
+	//This is what is used to move the unit normally, from point to point; needed to be cut out:
+	//gameObject.transform.position = worldCoord;
 	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
@@ -442,7 +443,8 @@ function Update() {
 	//Movement
 	if((moveTarget != gameObject.transform.position) && moveCommand){
 		if(Vector3.Distance(gameObject.transform.position, moveTarget) != 0){
-			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,moveTarget,moveSpeed);
+			//gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,moveTarget,moveSpeed);
+			gameObject.transform.position = Vector3.Lerp(gameObject.transform.position,moveTarget,moveSpeed * Time.deltaTime);
 		}else{
 			moveCommand = false;
 		}
