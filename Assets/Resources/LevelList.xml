@@ -10,10 +10,13 @@
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
       <messageText>Welcome, recruit! 
-	  Allow me to introduce the Terrachanics energy reallocation system.
-	  With it we will be able to upgrade our energy infrastructure and prevent disasters.
-	  What do you say we give it a try to get the Springville Nuclear plant?
-	  </messageText>
+      
+	  Allow me to introduce Terrachanics, our new energy
+	  reallocation system. With its aid, we will be able
+	  to upgrade energy infrastructures and prevent
+	  disasters. What do you say we give it a try to
+	  get the Springville Nuclear Plant running in tip
+	  top shape? </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -27,9 +30,12 @@
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Divergent Convergence</subjectText>
-      <messageText>Your doing great! The device is functioning perfectly.
-	  Now, what do you say we try some of its more advanced functions?
-	  They should make short work of Alma city's gas shortage.</messageText>
+      <messageText>Fantastic work so far!
+      
+      It looks like you’ve got a hang of the basic
+      functionality of the device, so let’s move onto
+      some of its more advanced functions. They should
+      make short work of Alma City’s gas shortage!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -43,8 +49,11 @@
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Time and Space</subjectText>
-      <messageText>You have shown me proficiency with Terrachanics,
-	  now show me accuracy and speed! Let's get the ethanol flowing!</messageText>
+      <messageText>Excellent!
+      
+      You have shown me proficiency with Terrachanics,
+      now show me accuracy and speed! Let's get the
+      ethanol flowing!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -58,9 +67,13 @@
       <sceneName>KU04</sceneName>
       <difficulty>1</difficulty>
       <subjectText>Our Fishy Friends</subjectText>
-      <messageText>You're the new recruit, huh? Lets see if you're as good as the 
-	  doc says. Get that Hydro Dam upgraded with some Fish-Friendly designs, so 
-	  it'll be ready for my jetski fishing trip this summer.</messageText>
+      <messageText>You're the new recruit, huh?
+      
+      Let's see if you're as good as the doc says. Get
+      that Hydro Dam upgraded with some Fish-Friendly
+      designs...I've got an extreme jet ski fishing trip
+      coming up this summer that will be rather pointless
+      without the fish!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -74,10 +87,13 @@
       <sceneName>RV21</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Think Smaller</subjectText>
-      <messageText>Ummm... hi there. I'm the lead researcher Jerome Zabel.
-	  I know you're new here and all but... I could use some help implementing 
-	  small-scale nuclear generators going in Central Blackstone.
-	  If you aren't too busy, could you maybe give me a hand?</messageText>
+      <messageText>Um. Greetings, recruit.
+      
+      I'm the lead researcher Jerome Zabel. I know you're
+      new here and all but...I could use some help
+      implementing small-scale nuclear generators going
+      in Central Blackstone. If you aren't too busy,
+      could you maybe give me a hand?</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -91,11 +107,14 @@
       <sceneName>RV14</sceneName>
       <difficulty>3</difficulty>
       <subjectText>Bright Ideas</subjectText>
-      <messageText>Hey there, buddy! By now you must have heard of the ECRB's top agent - Roc Bridges.
-	  Stick with me kid, and you'll go far at this place.
-	  But enough about me, lets talk about what *you* can do for *me*.
-	  Those folks at Derptronics are gonna need some shiny new Liquid Metal Battery
-	  schematics. You game?</messageText>
+      <messageText>Hey there, buddy!
+      
+      By now you must have heard of the ECRB's top
+      agent - Roc Bridges. Stick with me kid, and you'll
+      go far at this place. But enough about me, lets
+      talk about what *you* can do for *me*. Those
+      folks at Derptronics are gonna need some shiny new
+      Liquid Metal Battery schematics. You game?</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -109,11 +128,17 @@
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
       <subjectText>Nuclear Clean</subjectText>
-      <messageText> This is ECRB Director Helena Edison. Dr. Fernandez has
-	  informed me of your progress, and has recommended you toward full 
-	  field Agent status. You will be helping Backwater with their nuclear
-	  waste disposal program. The 30% chance of exposure to toxic radition is within 
-	  nominal safety parameters, so get to it. Edison out.</messageText>
+      <messageText> This is ECRB Director Helena Edison.
+      
+      Dr. Fernandez has informed me of your progress,
+      and has recommended you toward full field Agent
+      status. You will be helping the town named
+      Backwater with their nuclear waste disposal
+      program. The 30% chance of exposure to toxic
+      radiation is within nominal safety parameters,
+      so get to it.
+      
+      Edison out.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -127,9 +152,12 @@
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>6</difficulty>
       <subjectText>Wires Crossed</subjectText>
-      <messageText>Your a natural born Agent, my friend! You've done well so far,
-	  but now the real test begins. The next series of assignments will test
-	  the limits of what you have learned so far. Stay sharp!</messageText>
+      <messageText>You're a natural born Agent, my friend!
+      
+      You've done well so far, but now the real test
+      begins. The next series of assignments will
+      test the limits of what you have learned so
+      far. Stay sharp!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -143,9 +171,12 @@
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>7</difficulty>
       <subjectText>Get Smart</subjectText>
-      <messageText> Are you ready to be part of the future? The Smart Grid technology
-	  we help install today could help bring a new era of energy efficiency and
-	  awesome electronics for all. Now get out there and show them how its done!</messageText>
+      <messageText>Are you ready to be part of the future?
+      
+      The Smart Grid technology we help install
+      today could help bring a new era of energy
+      efficiency and awesome electronics for all.
+      Now get out there and show them how it's done!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
