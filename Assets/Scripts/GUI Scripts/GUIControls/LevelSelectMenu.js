@@ -527,8 +527,11 @@ public class LevelSelectMenu extends GUIControl
 		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
 			return;
 		
-		if (tooltipDisplay.IsActive())
-			GUI.enabled = false;
+		if(tooltipDisplay != null)
+		{
+			if (tooltipDisplay.IsActive())
+				GUI.enabled = false;
+		}
 
 		if(fromScoreScreen)
 		{
