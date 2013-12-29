@@ -8,7 +8,8 @@ Author: Jared Mavis
 
 import System.Collections.Generic;
 
-public class CodexMenu extends GUIControl{
+public class CodexMenu extends GUIControl
+{
 	public var sidePadding : float = .05f;
 	public var codicesHeight : float = .4f;
 	public var entryLabelMaxWidthPercent : float = .4; // in percetage of screen
@@ -70,6 +71,9 @@ public class CodexMenu extends GUIControl{
 		mainView = true;
 		isHolding = false;
 		startHolding = false;
+		firstPass = false;
+		checkDelta = 0;
+		zooming = false;
 		
 		if (playerData == null){
 			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
@@ -120,7 +124,7 @@ public class CodexMenu extends GUIControl{
 	private function HoldWait()
 	{
 		//Debug.Log("waiting");
-		yield WaitForSeconds(0.1);
+		yield WaitForSeconds(0.07);
 		
 		if (startHolding && Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0)
 		{
@@ -144,75 +148,194 @@ public class CodexMenu extends GUIControl{
 	private function ReleaseWait()
 	{
 		//Debug.Log("waiting");
-		yield WaitForSeconds(0.1);
+		yield WaitForSeconds(0.03);
 		released = true;
 	}
 
+
+	//Dragging
 	private var scrollPosition : Vector2;
 	private var lastMousePos: Vector2;
 	private var useMouse:boolean;
 	private var originalYHexGroup:float;
+	private var startMousePosition:Vector2;
+	private var startTapPosition:Vector2;
+	private var checkDelta : int;
+	private var firstPass:boolean = false;
+
+	//Zooming
+	private var zooming:boolean = false;
+	private var touchZoom:boolean = false;
+	private var tapDistance:float;
+	private var zoomIn:boolean = false;
+	
 	public function Render()
 	{	
 		GUI.skin = skin;
 		
 		if(mainView)
 		{
-			//To check if the user is holding down in order to drag
-			if (!startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
+			if(Input.touchCount >= 2 || Input.GetAxis("Mouse ScrollWheel") != 0)
 			{
-				//Debug.Log("Input detected");
-				startHolding = true;
-				HoldWait();
+				//Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+				zooming = true;
 			}
-			else if (startHolding && (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount <= 0))
+			else
+				zooming = false;
+		
+			if(!zooming)
 			{
-				startHolding = false;
-				isHolding  = false;
-				ReleaseWait();
-			}
-			
-			if(isHolding)
-			{
-				var change:Vector2;
-			
-				if(useMouse)
+				//To check if the user is holding down in order to drag
+				if (!startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
 				{
-					change = Input.mousePosition - lastMousePos;
-					lastMousePos = Input.mousePosition;
+					//Debug.Log("Input detected");
+					startHolding = true;
+					
+					/*
+					firstPass = true;
+					checkDelta = 0;
+					
+					if(Input.GetKey(KeyCode.Mouse0))
+					{
+						startMousePosition = Vector2(Input.mousePosition.x, Input.mousePosition.y);
+					}
+					else
+					{
+						startMousePosition = Vector2.zero;
+					}
+						
+					if(Input.touchCount > 0)
+					{
+						startTapPosition = Vector2(Input.touches[0].position.x, Input.touches[0].position.y);
+					}
+					*/
+					HoldWait();
+				}
+				/*
+				else if(firstPass)
+				{	
+					//Debug.Log(checkDelta);
+					//Debug.Log(Input.mousePosition);
+					if(checkDelta > 2)
+					{
+						if(startMousePosition != Vector2.zero && startMousePosition != Vector2(Input.mousePosition.x, Input.mousePosition.y))
+						{
+							//Debug.Log("FirstPass1");
+							HoldWait();
+						}
+						else if(Input.touchCount > 0 && startTapPosition != Vector2(Input.touches[0].position.x, Input.touches[0].position.y))
+						{
+							//Debug.Log("FirstPass2");
+							HoldWait();
+						}
+						
+						firstPass = false;
+					}
+					else
+						checkDelta++;
+				}
+				*/
+				else if (startHolding && (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount <= 0))
+				{
+					startHolding = false;
+					isHolding  = false;
+					ReleaseWait();
+				}
+				
+				
+				if(isHolding)
+				{
+					var change:Vector2;
+				
+					if(useMouse)
+					{
+						change = Input.mousePosition - lastMousePos;
+						lastMousePos = Input.mousePosition;
+					}
+					else
+					{
+						change = Input.touches[0].deltaPosition;
+					}
+					
+					
+					hexGroup.x += change.x;
+					hexGroup.y += -change.y;
+					
+					
+					if(	hexGroup.xMax < Screen.width)
+					{
+						hexGroup.x = Screen.width - hexGroup.width;
+					}
+					else if(hexGroup.xMin > 0)
+					{
+						hexGroup.x = 0;
+					}
+					
+					if(	hexGroup.yMax < Screen.height)
+					{
+						hexGroup.y = Screen.height - hexGroup.height;
+					}
+					else if(hexGroup.yMin > originalYHexGroup)
+					{
+						hexGroup.y = originalYHexGroup;
+					}
+				}
+			}
+			else if(zooming || touchZoom)
+			{
+				if(Input.GetAxis("Mouse ScrollWheel") != 0)
+				{
+					if(Input.GetAxis("Mouse ScrollWheel") > 0)
+						zoomIn = true;
+					else if(Input.GetAxis("Mouse ScrollWheel") < 0)
+						zoomIn = false;
+				}
+				else if(Input.touchCount >= 2)
+				{
+					if(touchZoom)
+					{
+						if(tapDistance > Vector2.Distance(Input.touches[0].position, Input.touches[1].position))
+							zoomIn = false;
+						else
+							zoomIn = true;
+							
+						tapDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);	
+					}
+					else
+					{
+						touchZoom = true;
+						tapDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
+					}
 				}
 				else
 				{
-					change = Input.touches[0].deltaPosition;
+					touchZoom = false;
 				}
-				
-				
-				hexGroup.x += change.x;
-				hexGroup.y += -change.y;
-				
-				
-				if(	hexGroup.xMax < Screen.width)
+			
+			
+				//if(zoomIn && hexGroup.width < Screen.width * 2)
+				if(zoomIn && (currentNumOfCol > 3))
 				{
-					hexGroup.x = Screen.width - hexGroup.width;
+					//if(currentNumOfCol > 3)
+						//currentNumOfCol--;
+						
+					recalculateRectForHexes(1.1);
+					
+					//hexGroup.width = hexGroup.width * 1.1;
+					//hexGroup.height = hexGroup.height * 1.1;
 				}
-				else if(hexGroup.xMin > 0)
+				//else if(!zoomIn && hexGroup.width > Screen.width * 0.9)
+				else if(!zoomIn && (currentNumOfCol < 11))
 				{
-					hexGroup.x = 0;
+					//if(currentNumOfCol < 11)
+						//currentNumOfCol++;
+						
+					recalculateRectForHexes(0.9);
+					//hexGroup.width = hexGroup.width * 0.9;
+					//hexGroup.height = hexGroup.height * 0.9;
 				}
-				
-				if(	hexGroup.yMax < Screen.height)
-				{
-					hexGroup.y = Screen.height - hexGroup.height;
-				}
-				else if(hexGroup.yMin > originalYHexGroup)
-				{
-					hexGroup.y = originalYHexGroup;
-				}
-				
-				
 				
 			}
-			
 		}
 	
 		GUI.DrawTexture(backgroundRect, backgroundTexture);
@@ -244,6 +367,72 @@ public class CodexMenu extends GUIControl{
 		}
 		
 
+	}
+	
+	private function recalculateRectForHexes(percentage:float)
+	{
+		for(var i:int = 0; i < fullCodex.Count; i++)
+		{
+			hexBGRect[i] = Rect(hexBGRect[i].x * percentage, hexBGRect[i].y * percentage, hexBGRect[i].width * percentage, hexBGRect[i].height * percentage);
+			hexRect[i] = Rect(hexRect[i].x * percentage, hexRect[i].y * percentage, hexRect[i].width * percentage, hexRect[i].height * percentage);	
+		}
+		for(var j:int = 0; j < hexCoverRect.Count; j++)
+		{
+			hexCoverRect[j] = Rect(hexCoverRect[j].x * percentage, hexCoverRect[j].y * percentage, hexCoverRect[j].width * percentage, hexCoverRect[j].height * percentage);
+		}
+		
+		currentNumOfCol = (screenWidth / hexRect[0].width) + 2;
+		reArrangeHexTiles(percentage);
+	}
+	
+	private var currentNumOfCol:int = 7; // originally 5
+	private function reArrangeHexTiles(percentage:float)
+	{
+		var startHex:Rect = hexRect[0];
+		var startHexBG:Rect = hexBGRect[0];
+		
+		var row:int = -1;
+		
+		hexCoverRect.Clear();
+	
+		for(var i:int = 0; i < fullCodex.Count; i++)
+		{
+			var col:int = i % currentNumOfCol;
+			
+			if(col == 0)
+				row++;
+			
+		
+			var tempHex:Rect = startHex;
+			var tempHexBG:Rect = startHexBG;
+			
+			tempHex.x += (tempHexBG.width - (tempHexBG.width * hexDistancePercent)) * col;
+			tempHexBG.x = (tempHexBG.width - (tempHexBG.width * hexDistancePercent)) * col;
+			
+			tempHex.y += row * tempHexBG.height;
+			tempHexBG.y = row * tempHexBG.height;
+			
+			if(col % 2 == 1)
+			{
+				tempHex.y += tempHexBG.height / 2;
+				tempHexBG.y += tempHexBG.height / 2;
+			}
+			
+			hexRect[i] = tempHex;
+			hexBGRect[i] = tempHexBG;
+			
+			if(!codices.Contains(fullCodex[i]))
+			{
+				hexCoverRect.Add(tempHexBG);
+			}
+		}
+	
+		//i % 5 for width
+		// if i % 5 = 0 , start of new row
+		
+		hexGroup = new Rect(0,codexLabelRect.height * 1.3,
+				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol + 1),
+				(row + 2) * tempHexBG.height);
 	}
 	
 	
@@ -367,11 +556,13 @@ public class CodexMenu extends GUIControl{
 		startHex.x = startHexBG.width / 2 - startHex.width / 2;
 		startHex.y = startHexBG.height / 2 - startHex.height / 2;
 		
+		currentNumOfCol = (screenWidth / startHex.width) + 2;
+		
 		var row:int = -1;
 		
 		for(var i:int = 0; i < fullCodex.Count; i++)
 		{
-			var col:int = i % 5;
+			var col:int = i % currentNumOfCol;
 			
 			if(col == 0)
 				row++;
@@ -405,7 +596,7 @@ public class CodexMenu extends GUIControl{
 		// if i % 5 = 0 , start of new row
 		
 		hexGroup = new Rect(0,codexLabelRect.height * 1.3,
-				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * 6,
+				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol+1),
 				(row + 2) * tempHexBG.height);
 	
 	
