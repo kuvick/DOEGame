@@ -160,8 +160,10 @@ public class LevelSelectMenu extends GUIControl
 	private var sideButtonHeightPercent:float=0.34;
 			
 			
-	public var emailItemBackground: Texture;
+	public var emailItemBackground: Texture; // normal background
+	public var highlightedItemBackground : Texture; // background for first highlighted level
 			private var emailItemBackgroundRect: Rect;
+			private var dispEmailItemBackground : Texture; // background to display
 	public var emailMessageBackground: Texture;
 			private var emailMessageBackgroundRect: Rect;
 			private var emailMessageX:float = 66;
@@ -472,10 +474,15 @@ public class LevelSelectMenu extends GUIControl
 							
 						}
 						
-						if(i != levelsToRender.Count-1)
-						{
-							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + (levelsToRender[i].bounds.height * .75), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height / 2), emailItemBackground);
-						}
+						//if(i != levelsToRender.Count-1)
+						//{
+						// choose appropriate item background
+						if (i == 0 && displayDifficulty)
+							dispEmailItemBackground = highlightedItemBackground;
+						else
+							dispEmailItemBackground = emailItemBackground;
+						GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), dispEmailItemBackground);
+						//}
 						
 												
 						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 2);
