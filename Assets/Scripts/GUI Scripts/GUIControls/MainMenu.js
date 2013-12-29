@@ -25,7 +25,10 @@ public class MainMenu extends GUIControl
 	
 	public var enableHUD:boolean = true;
 	
-	public var disableActionButtons : boolean = false;
+	//public var disableActionButtons : boolean = false;
+	//GPC altered 12/29/13
+	public var disableUndoButton : boolean = false;
+	public var disableSkipButton : boolean = false;
 			
 	// Main Menu Rectangles
 	private var pauseButton:Rect;   		
@@ -370,14 +373,14 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
-		if(!disableActionButtons && GUI.Button(waitButton, waitTexture))
+		if(!disableSkipButton && GUI.Button(waitButton, waitTexture))
 		{
 			SoundManager.Instance().playWait();
 			intelSystem.comboSystem.resetComboCount();
 			currentResponse.type = EventTypes.WAIT;
 		}
 		
-		if(!disableActionButtons && GUI.Button(undoButton, undoTexture))
+		if(!disableUndoButton && GUI.Button(undoButton, undoTexture))
 		{
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			intelSystem.comboSystem.resetComboCount();
