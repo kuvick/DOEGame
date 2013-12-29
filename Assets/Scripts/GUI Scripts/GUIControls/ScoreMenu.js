@@ -157,7 +157,7 @@ public class ScoreMenu extends GUIControl{
 	public function Initialize()
 	{
 		super.Initialize();
-		
+
 		var narrUI:NarrativeUI = gameObject.GetComponent(NarrativeUI);
 		
 		if(narrUI != null)

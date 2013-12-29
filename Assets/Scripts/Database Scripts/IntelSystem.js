@@ -557,7 +557,7 @@ public function triggerWin()
 	
 	var event : GUIEvent = new GUIEvent();
 	event.type = EventTypes.SCORESCREEN;
-	PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
+	//PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
 	GUIManager.Instance().RecieveEvent(event);
 }
 

@@ -47,7 +47,7 @@ public class FailureMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
-		
+
 		groupRect = Rect(0,0,screenWidth - (buttonBufferPercent * screenWidth), screenHeight - (buttonBufferPercent * screenHeight));
 		
 		//Calculating Rect.
