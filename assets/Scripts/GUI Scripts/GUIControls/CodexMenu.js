@@ -64,8 +64,34 @@ public class CodexMenu extends GUIControl
 	
 	public var fullCodex : List.<CodexEntry> = new List.<CodexEntry>();
 	
+	private var totalCodex: List.<CodexEntry> = new List.<CodexEntry>();
+	private var earnedCodex: List.<CodexEntry> = new List.<CodexEntry>();
+	private var notEarnedCodex: List.<CodexEntry> = new List.<CodexEntry>();
+	
+	//Display Options
+	public var showUnlockedButton:Texture;
+	public var notShowUnlockedButton:Texture;
+	public var showLockedButton:Texture;
+	public var notShowLockedButton:Texture;
+	private var displayBox:Rect;
+	private var displayLabel:Rect;
+	private var displayUnlockedRect:Rect;
+	private var displayLockedRect:Rect;
+	private var displayUnlocked:boolean;
+	private var displayLocked:boolean;
+	
+	private var currentLockedTexture:Texture;
+	private var currentUnlockedTexture:Texture;
+	
+	private var doNotRender:boolean;
+	
+	
 	public function Initialize(){
 		super.Initialize();
+		
+		displayUnlocked = true;
+		displayLocked = true;
+		doNotRender = false;
 		
 		codices = new List.<CodexEntry>();
 		mainView = true;
@@ -74,6 +100,9 @@ public class CodexMenu extends GUIControl
 		firstPass = false;
 		checkDelta = 0;
 		zooming = false;
+		
+		currentLockedTexture = showLockedButton;
+		currentUnlockedTexture = showUnlockedButton;
 		
 		if (playerData == null){
 			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
@@ -394,6 +423,8 @@ public class CodexMenu extends GUIControl
 		var row:int = -1;
 		
 		hexCoverRect.Clear();
+		hexBGRect.Clear();
+		hexRect.Clear();
 	
 		for(var i:int = 0; i < fullCodex.Count; i++)
 		{
@@ -418,8 +449,8 @@ public class CodexMenu extends GUIControl
 				tempHexBG.y += tempHexBG.height / 2;
 			}
 			
-			hexRect[i] = tempHex;
-			hexBGRect[i] = tempHexBG;
+			hexRect.Add(tempHex);
+			hexBGRect.Add(tempHexBG);
 			
 			if(!codices.Contains(fullCodex[i]))
 			{
@@ -461,27 +492,89 @@ public class CodexMenu extends GUIControl
 		GUI.EndScrollView ();*/
 		
 		GUI.BeginGroup(hexGroup);
-			for(var i:int = 0; i < fullCodex.Count; i++)
+			if(!doNotRender)
 			{
-				GUI.DrawTexture(hexBGRect[i], hexBGTexture, ScaleMode.StretchToFill);
-				GUI.DrawTexture(hexRect[i], fullCodex[i].icon, ScaleMode.StretchToFill);
-				
-				if(codices.Contains(fullCodex[i]))
+				for(var i:int = 0; i < fullCodex.Count; i++)
 				{
-					if(released && !isHolding && GUI.Button(hexRect[i], ""))
+					GUI.DrawTexture(hexBGRect[i], hexBGTexture, ScaleMode.StretchToFill);
+					GUI.DrawTexture(hexRect[i], fullCodex[i].icon, ScaleMode.StretchToFill);
+					
+					if(codices.Contains(fullCodex[i]))
 					{
-						currentEntry = fullCodex[i];
-						mainView = false;
+						if(released && !isHolding && GUI.Button(hexRect[i], ""))
+						{
+							currentEntry = fullCodex[i];
+							mainView = false;
+						}
 					}
 				}
-			}
-			for(var j:int = 0; j < hexCoverRect.Count; j++)
+				for(var j:int = 0; j < hexCoverRect.Count; j++)
+				{
+					GUI.DrawTexture(hexCoverRect[j], hexCoverTexture, ScaleMode.StretchToFill);
+				}
+			}			
+		GUI.EndGroup();
+		
+		GUI.BeginGroup(displayBox);
+			GUI.skin.label.alignment = TextAnchor.UpperCenter;
+			GUI.Label(displayLabel, "DISPLAY");
+			GUI.skin.label.alignment = TextAnchor.UpperLeft;
+			GUI.DrawTexture(displayUnlockedRect, currentUnlockedTexture, ScaleMode.StretchToFill);
+			GUI.DrawTexture(displayLockedRect, currentLockedTexture, ScaleMode.StretchToFill);
+			
+			if(GUI.Button(displayUnlockedRect,""))
 			{
-				GUI.DrawTexture(hexCoverRect[j], hexCoverTexture, ScaleMode.StretchToFill);
+				doNotRender = false;
+				if(displayUnlocked)
+				{
+					currentUnlockedTexture = notShowUnlockedButton;					
+					if(displayLocked)
+						fullCodex = notEarnedCodex;
+					else
+						doNotRender = true;
+				}
+				else
+				{
+					currentUnlockedTexture = showUnlockedButton;					
+					if(displayLocked)
+						fullCodex = totalCodex;
+					else
+						fullCodex = earnedCodex;
+				}
+				
+				displayUnlocked = !displayUnlocked;
+				//recalculateRectForHexes(1.0);
+				reArrangeHexTiles(1.0);
 			}
 			
+			if(GUI.Button(displayLockedRect,""))
+			{
+				doNotRender = false;
+				if(displayLocked)
+				{
+					currentLockedTexture = notShowLockedButton;					
+					if(displayUnlocked)
+						fullCodex = earnedCodex;
+					else
+						doNotRender = true;
+					
+				}
+				else
+				{
+					currentLockedTexture = showLockedButton;
+					if(displayUnlocked)
+						fullCodex = totalCodex;
+					else
+						fullCodex = notEarnedCodex;
+				}
+				
+				displayLocked = !displayLocked;
+				//recalculateRectForHexes(1.0);
+				reArrangeHexTiles(1.0);
+			}
 			
 		GUI.EndGroup();
+		
 	}
 	
 	private var techEntryGroup:Rect;
@@ -517,18 +610,22 @@ public class CodexMenu extends GUIControl
 			{
 				Application.OpenURL(currentEntry.urlLink);
 			}
-			
-			
-			
-		
+
 		GUI.EndGroup();
-			
 	}
-	
 	
 	private var currentRow : int;
 	public function SetupRectangles()
 	{
+	
+		displayBox = createRect(new Vector2(369.0,218.0),1083.0/1920.0, 27.0/1080.0, 218.0/1080.0, true);
+		displayLabel = createRect(new Vector2(320.0,65.0), 0,0, 65.0/218.0, false, displayBox);
+		
+		displayLabel.x = displayBox.width / 2 - displayLabel.width / 2;
+		
+		displayUnlockedRect = createRect(showUnlockedButton,1.0/369.0, 58.0/218.0, 162.0/218.0, false, displayBox);
+		displayLockedRect  = createRect(showLockedButton,208.0/369.0, 69.0/218.0, 140.0/218.0, false, displayBox);
+		
 		
 		techEntryGroup = createRect(new Vector2(1845,746),73.0/1920.0, 264.0/1080.0, 746.0/1080.0, true);
 		awardBGRect = createRect(awardBGTexture,(1201.0 - 73.0)/1845.0, (264.0 - 264.0)/746.0, 637.0/746.0, false, techEntryGroup);
@@ -589,8 +686,14 @@ public class CodexMenu extends GUIControl
 			if(!codices.Contains(fullCodex[i]))
 			{
 				hexCoverRect.Add(tempHexBG);
+				notEarnedCodex.Add(fullCodex[i]);
 			}
+			else
+				earnedCodex.Add(fullCodex[i]);
+				
+			totalCodex.Add(fullCodex[i]);
 		}
+		
 	
 		//i % 5 for width
 		// if i % 5 = 0 , start of new row
