@@ -96,9 +96,9 @@ public class Loading extends GUIControl
 	public static var hasFinishedDelay : boolean  = false;
 	
 	public var panels:List.<Texture> = new List.<Texture>();
-	private var numOfNarrFolders = 5;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
+	private var numOfNarrFolders = 14;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
 	public var currentPanel:int = 0;	
-	private var framesPerSecond:int = 400;	// This is how long (frames) a panel is displayed before switching to the next
+	private var framesPerSecond:int = 150;	// This is how long (frames) a panel is displayed before switching to the next
 	private var currentFrame:int;
 	
 	public function Initialize()
