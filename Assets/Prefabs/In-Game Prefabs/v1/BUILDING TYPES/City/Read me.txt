@@ -1,2 +1,0 @@
-City
-Scale factor : 0.6
