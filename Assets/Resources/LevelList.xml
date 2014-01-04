@@ -63,9 +63,9 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--KU04-->
+	<Level><!--Tutorial_KU04-->
       <displayName>2</displayName>
-      <sceneName>KU04</sceneName>
+      <sceneName>Tutorial_KU04</sceneName>
       <difficulty>1</difficulty>
       <subjectText>Our Fishy Friends</subjectText>
       <messageText>You're the new recruit, huh?
@@ -291,9 +291,9 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--Tutorial_GPC02-->
+	<Level><!--GPC02-->
       <displayName>10</displayName>
-      <sceneName>Tutorial_GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>It’s in the Bag</subjectText>
       <messageText>Uh... hi again. It's Jerome. Could use a hand on getting our
@@ -672,12 +672,12 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--DD11-->
+	<!--DD11
 	<Level>
       <displayName>24</displayName>
-      <sceneName>DD08-2</sceneName> 
+      <sceneName>DD11</sceneName> 
       <difficulty>1</difficulty>
-      <subjectText>Level 27</subjectText>
+      <subjectText>DD11</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -686,8 +686,8 @@
       <missionRequirementIndex>23</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	
+	-->
+		
 	<Level><!--DD10-->
       <displayName>25</displayName>
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
