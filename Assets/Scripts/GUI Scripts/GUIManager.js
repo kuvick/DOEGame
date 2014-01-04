@@ -51,9 +51,9 @@ private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
 private var metricMenu:MetricMenu;
-private var contactsMenu:ContactsMenu;
+//private var contactsMenu:ContactsMenu;
 private var codexMenu:CodexMenu;
-private var contactInspectorMenu:ContactInspectorMenu;
+//private var contactInspectorMenu:ContactInspectorMenu;
 private var debugInfoMenu : DebugInfoMenu;
 private var editorMenu : EditorMenu;
 //private var popUpMessageDisplay:PopUpMessageDisplay;
@@ -164,9 +164,9 @@ public function Start ()
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
 	//metricMenu = GetComponent(MetricMenu);
-	contactsMenu = GetComponent(ContactsMenu);
+	//contactsMenu = GetComponent(ContactsMenu);
 	codexMenu = GetComponent(CodexMenu);
-	contactInspectorMenu = GetComponent(ContactInspectorMenu);
+	//contactInspectorMenu = GetComponent(ContactInspectorMenu);
 	debugInfoMenu = GetComponent(DebugInfoMenu);
 	editorMenu = GetComponent(EditorMenu);
 	//popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
@@ -401,15 +401,18 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			AddGUIToControls(failureMenu);
 			break;
+			/*
 		case EventTypes.CONTACTSMENU:
 			ClearControls();
 			AddGUIToControls(contactsMenu);
 			break;
+			/*
 		case EventTypes.CONTACTINPECTIONMENU:
 			contactInspectorMenu.SetContact(contactsMenu.currentContact);
 			ClearControls();
 			AddGUIToControls(contactInspectorMenu);
 			break;
+			*/
 		case EventTypes.CODEXMENU:
 			ClearControls();
 			AddGUIToControls(codexMenu);

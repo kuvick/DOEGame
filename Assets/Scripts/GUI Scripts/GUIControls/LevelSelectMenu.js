@@ -169,12 +169,6 @@ public class LevelSelectMenu extends GUIControl
 			private var emailMessageX:float = 66;
 			private var emailMessageY:float = 66;
 			private var emailMessagePercent:float = 0.75;
-	public var imagePlaceholderText: Texture;
-			private var senderIconRect: Texture;
-	public var emailReadText: Texture;
-			private var emailReadRect: Rect;
-	public var emailUnreadText: Texture;
-			private var emailUnreadRect: Rect;
 	//public var lineOverlayText: Texture;
 			//private var lineOverlayRect: Rect;
 	public var mainMenuIconText: Texture;
@@ -494,7 +488,7 @@ public class LevelSelectMenu extends GUIControl
 						if(levelsToRender[i].senderTexture != null)
 							GUI.DrawTexture(senderRect, levelsToRender[i].senderTexture,ScaleMode.StretchToFill);
 						else
-							GUI.DrawTexture(senderRect, imagePlaceholderText,ScaleMode.StretchToFill);
+							GUI.DrawTexture(senderRect, characterEmailIcons[0].senderIcon,ScaleMode.StretchToFill);
 						
 						//Display proper mail icon
 						if(displayDifficulty)

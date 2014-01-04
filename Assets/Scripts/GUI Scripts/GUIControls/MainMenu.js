@@ -16,9 +16,9 @@ public class MainMenu extends GUIControl
 	
 	// For testing different camera angles
 	public var testCameras : boolean = false;
-	public var cameraLocations : List.<GameObject>;
+	//public var cameraLocations : List.<GameObject>;
 	private var currentCamera : int;
-	public var mainCameraObject : GameObject;
+	//public var mainCameraObject : GameObject;
 
 	// Skin for Main Menu
 	public var mainMenuSkin:GUISkin;
@@ -65,12 +65,14 @@ public class MainMenu extends GUIControl
 	var cameraMain : CameraControl;
 	
 	//Data Pieces System
+	/*
 	public var dataIconBG:Texture;
 	private var dataIconHeightPercent:float = 0.14;
 	private var dataIconHeight:float;
 	private var dataIcons:List.<Texture> = new List.<Texture>();
 	private var dataRect:List.<Rect> = new List.<Rect>();
 	private var maxDataIcons : int = 3;
+	*/
 	
 	private var upgradeManager : UpgradeManager = null;
 	
@@ -225,7 +227,7 @@ public class MainMenu extends GUIControl
 		
 		scoreFontHeight = scoreFontHeightPercent * screenHeight;
 		
-		dataIconHeight = dataIconHeightPercent * screenHeight;
+		//dataIconHeight = dataIconHeightPercent * screenHeight;
 		
 		mainMenuSkin.label.fontSize = scoreFontHeight;
 	
@@ -261,7 +263,7 @@ public class MainMenu extends GUIControl
 			if(database.GetComponent(UpgradeManager) != null){
 				upgradeManager = database.GetComponent(UpgradeManager);
 				
-				CalcDataPiecePositions();
+				//CalcDataPiecePositions();
 			}
 			//dataIcons.Add(dataIcon01);
 			//dataIcons.Add(dataIcon02);
@@ -627,12 +629,13 @@ public class MainMenu extends GUIControl
 			GUI.Label(textDisplayRect, textToDisplay, tutorialPointers.style);
 	}
 	
+	/*
 	private function CalcDataPiecePositions(){
 		for (var i : int = 0; i < maxDataIcons; i++){
 			var dataXPos:float = screenWidth / (maxDataIcons * 2 + 1) - (dataIconBG.width / 2);
 			dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
 		}
-	}
+	}*/
 	
 	private function LoadReferences(){
 		if (GameObject.Find("Database")){

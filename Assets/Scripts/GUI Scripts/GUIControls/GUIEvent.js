@@ -51,8 +51,8 @@ public enum EventTypes
 	FAILUREMENU,
 	
 	// ContacsMenu events
-	CONTACTSMENU,
-	CONTACTINPECTIONMENU,
+	//CONTACTSMENU,
+	//CONTACTINPECTIONMENU,
 	
 	// CodexMenu
 	CODEXMENU,

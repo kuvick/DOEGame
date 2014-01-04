@@ -25,11 +25,11 @@ public class Loading extends GUIControl
 	
 	// Loading Screen Textures
 	public var blackBackgroundTexture : Texture2D;
-	public var loadingTexture : Texture;
-	public var iconTexture : Texture;
+	//public var loadingTexture : Texture;
+	//public var iconTexture : Texture;
 	//public var backgroundTexture : Texture2D;
-	public var foregroundTexture : Texture2D;
-	public var onlineTexture : Texture2D;
+	//public var foregroundTexture : Texture2D;
+	//public var onlineTexture : Texture2D;
 	
 	private var style : GUIStyle = GUIStyle();
 	public var boldFont : Font;
