@@ -51,6 +51,12 @@ private var intelSys:IntelSystem;
 
 private var inputController : InputController;
 
+//THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
+public var notInGame:boolean = false;
+private var currentTriggerIndex:int = 0;
+public var turnTriggers : TurnTrigger[];
+private var tutorialPointers:TutorialPointers;
+
 function Start () 
 {
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
@@ -89,6 +95,12 @@ function Start ()
 	if(hexagonGrid != null)
 		inputController = hexagonGrid.GetComponent(InputController);
 
+	if(notInGame)
+	{
+		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+		CheckTriggerToDisplay();
+	}
+
 }
 
 function Update () 
@@ -112,6 +124,9 @@ function OnGUI()
 		GUI.depth = 1;
 		Render();
 	}
+	
+	if(notInGame && tutorialPointers != null)
+		tutorialPointers.Render();
 }
 
 public function Activate (disp : Tooltip, comp : InspectionComponent)
@@ -342,4 +357,17 @@ public enum TooltipType
 {
 	Alert, // dismissed after click
 	Notification // dismissed automatically after x seconds
+}
+
+
+//CODE TO ALLOW TOOLTIPS TO APPEAR OTHER PLACES THAT AREN'T IN-GAME
+// Taken from IntelSystem.js and modified
+private function CheckTriggerToDisplay()
+{
+	if (currentTriggerIndex >= turnTriggers.length)
+		return;
+	for(currentTriggerIndex = 0;currentTriggerIndex < turnTriggers.length; currentTriggerIndex++)
+	{
+		Activate(turnTriggers[currentTriggerIndex].tooltip, null);
+	}
 }
