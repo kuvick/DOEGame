@@ -22,7 +22,7 @@ public class CodexMenu extends GUIControl
 	public var codexButtonLightStyle : GUIStyle;
 	public var codexLabelTexture : Texture2D;
 	public var backButtonTexture : Texture2D;
-	public var previousEntriesTexture : Texture2D;
+	//public var previousEntriesTexture : Texture2D;
 	public var backgroundTexture : Texture2D;
 	public var scrollViewbackgroundTexture : Texture2D;
 	
@@ -39,7 +39,7 @@ public class CodexMenu extends GUIControl
 	private var backButtonRect : Rect;
 	private var scrollViewRect : Rect;
 	private var scrollViewAreaRect : Rect;
-	private var previousEntriesRect : Rect;
+	//private var previousEntriesRect : Rect;
 	private var backgroundRect : Rect;
 	private var codicesRects : List.<Rect>;
 	
