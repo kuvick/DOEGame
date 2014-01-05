@@ -86,6 +86,13 @@ public class Loading extends GUIControl
 	private var onlineHeightScale : float = .2;
 	private var onlineHeight : float;
 	
+	// variables for confirmation to go to site
+	private var showConfirmation : boolean = false;
+	private var confirmationRect : Rect;
+	private var confirmCancelRect : Rect;
+	private var confirmContinueRect : Rect;
+	private var confirmTextRect : Rect;
+	
 	private var currentJob : Job;
 	private var currentJobDesc : String;
 	private var currentJobInformation : String;
@@ -163,6 +170,12 @@ public class Loading extends GUIControl
 			var tempTexture:Texture = panelTextures[i];
 			panels.Add(tempTexture);
 		}
+		
+		// setup confirmation window
+		confirmationRect = Rect(.3 * screenWidth, .3 * screenHeight, .4*screenWidth, .4* screenHeight);
+		confirmCancelRect = Rect(confirmationRect.x + (.2 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height,
+								confirmationRect.width * .2, confirmationRect.height * .2);
+		confirmContinueRect = Rect(confirmCancelRect.x + confirmCancelRect.width * 2, confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
 	}
 	
 	public function Render() 
@@ -189,7 +202,8 @@ public class Loading extends GUIControl
 		GUI.DrawTexture(jobWebsiteButtonRect, viewJobWebsiteButton);
 		if (GUI.Button(jobWebsiteButtonRect,"", style))
 		{
-			Application.OpenURL("http://energy.gov/jobs");
+			//Application.OpenURL("http://energy.gov/jobs");
+			showConfirmation = true;
 		}		
 		
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
@@ -242,8 +256,20 @@ public class Loading extends GUIControl
 		
 		style.alignment = TextAnchor.UpperLeft;	
 		
-		
-		
+		if (showConfirmation)
+			RenderConfirmationWindow();
+	}
+	
+	private function RenderConfirmationWindow()
+	{
+		GUI.Box(confirmationRect, "Continue to DOE website?");
+		if (GUI.Button(confirmCancelRect, "Cancel"))
+			showConfirmation = false;
+		if (GUI.Button(confirmContinueRect, "Continue"))
+		{
+			Application.OpenURL("http://energy.gov/jobs");
+			showConfirmation = false;
+		}
 	}
 	
 	private function DelayLoad(seconds:int):IEnumerator{
