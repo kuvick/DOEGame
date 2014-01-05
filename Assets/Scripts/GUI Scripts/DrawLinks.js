@@ -51,52 +51,6 @@ function Start() {
 	//resourceColors[ResourceType.Uranium - 1] = new Color(0.49, 0.149, 0.804); // purple
 }
 
-// used to set links to a specific color
-static function SetLinkColor (b1 : int, b2 : int, c : Color) 
-{
-	for(var child:Transform in buildings[b1].transform)
-	{
-		if (child.name==buildings[b2].transform.position.ToString())
-		{
-			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(c, c);
-			break;
-		}
-	}
-	for(var child:Transform in buildings[b2].transform)
-	{
-		if (child.name==buildings[b1].transform.position.ToString())
-		{
-			temp = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(c, c);
-			break;
-		}
-	}
-}
-
-// used to reset links to their original color
-static function SetLinkColor (b1 : int, b2 : int, reset : boolean) 
-{
-	for(var child:Transform in buildings[b1].transform)
-	{
-		if (child.name==buildings[b2].transform.position.ToString())
-		{
-			var temp : LineRenderer = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
-			break;
-		}
-	}
-	for(var child:Transform in buildings[b2].transform)
-	{
-		if (child.name==buildings[b1].transform.position.ToString())
-		{
-			temp = child.gameObject.GetComponent(LineRenderer);
-			temp.SetColors(Color.white, Color.white);//linkColors[b1, b2], linkColors[b1, b2]);
-			break;
-		}
-	}
-}
-
 // used for visually deactivating or reactivating links
 function SetLinkTexture (b1 : int, b2 : int, reset : boolean)
 {

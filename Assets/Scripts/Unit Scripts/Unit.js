@@ -30,9 +30,6 @@ private var unitSwappedOffset : Vector3 = Vector3 (-HexagonGrid.tileWidth / 2, 7
 
 private var selectedBuilding:GameObject;
 private var isSelected : boolean = false;
-private var pathDrawn : boolean = false;
-private var pathDrawnTimer : float;
-private var pathDrawnTimerDuration : float = 3.0f;
 private var pathMadeTurn : int;
 
 private var targetIcon : GameObject;
@@ -106,6 +103,7 @@ function Initiate() {
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	CheckActive(false);
 	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
+	MoveToTarget(false);
 }
 
 // set the unit's current state and change icon to appropriate texture
@@ -135,9 +133,6 @@ function FindPath (target : BuildingOnGrid, checkValid : boolean) : List.<Buildi
 	//foundPath.Clear();
 	if (target == null || (checkValid && !BuildingCheck(target))) // Check if building is a valid target
 		return foundPath;
-	// reset colors of current found path
-	/*if (foundPath.Count > 0)
-		SetLinkColors(currentBuilding, foundPath[0], 0, Color.white);*/
 	
 	// reset pathing variables and lists
 	var found : boolean = false;
@@ -266,28 +261,6 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 	}
 }
 
-// changes the color of all links in the found path to red
-private function SetLinkColors(col : Color) 
-{
-	for (var i : int = 0; i < currentPath.Count; i++)//var temp : BuildingOnGrid in foundPath)
-	{
-		DrawLinks.SetLinkColor(Database.findBuildingIndex(currentPath[i]), Database.findBuildingIndex(currentPath[i].pathParent), col);
-	}
-}
-
-// recursively changes the color of all links in the found path to red
-private function SetLinkColors(b1 : BuildingOnGrid, b2: BuildingOnGrid, index : int, col : Color) 
-{
-	var b1Index : int = Database.findBuildingIndex(b1);
-	var b2Index : int = Database.findBuildingIndex(b2);
-	if (b1.outputLinkedTo.Contains(b2Index) || b1.inputLinkedTo.Contains(b2Index))
-		DrawLinks.SetLinkColor(b1Index, b2Index, col);
-	// terminating case: if b2 is the last building in foundPath
-	if (currentPath.Count < 1 || b2 == currentPath[currentPath.Count - 1])
-		return;
-	SetLinkColors(currentPath[index], currentPath[index + 1], index + 1, col);
-}
-
 // activates icon fading, putting it in the proper order compared to other units
 public function ActivateFade (fadeIndex : int, totalUnits : int)
 {
@@ -316,7 +289,6 @@ function DoAction () : boolean
 	previousBuilding = currentBuilding; // set previous building in case of undo
 	currentBuilding = currentPath[0]; // set current building to next building in the path
 	currentPath.RemoveAt(0);
-	DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), Database.findBuildingIndex(previousBuilding), true);
 	
 	//GPC ONLY DO ACTION AFTER UNIT HAS STOPPED MOVING
 	
@@ -347,8 +319,6 @@ function UndoAction () : boolean
 	if (intelSystem.currentTurn == actionList[actionList.Count - 1].turn)
 	{
 		// re-add the current building to the path list and move back to the previous building
-		/*DrawLinks.SetLinkColor(Database.findBuildingIndex(currentBuilding), 
-								Database.findBuildingIndex(actionList[actionList.Count - 1].move), Color.red);*/
 		currentBuilding.unit = UnitType.None;
 		currentBuilding.units.Remove(this);
 		currentPath.Insert(0, currentBuilding);
@@ -417,11 +387,6 @@ private function SetTarget(targ : BuildingOnGrid)
 
 function Update() {
 	selectedBuilding = ModeController.getSelectedBuilding();
-	if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
-	{
-		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
-		pathDrawn = false;
-	}
 	
 	// unit icon fade
 	if (isFading)
@@ -471,11 +436,9 @@ private function FindValidTargets()
 // Checks if any links in the current path have been broken, and if so clears it
 public function CheckPathBroken()
 {
-	Debug.Log("checking path");
 	if (!CheckPathsEqual(FindPath(currentTarget, false), currentPath))
 	{
 		currentPath.Clear();
-		Debug.Log("Path cleared");
 	}
 }
 
@@ -500,22 +463,6 @@ public function GetCurrentBuilding() : BuildingOnGrid
 
 function OnGUI() {
 	selectedBuilding = ModeController.getSelectedBuilding();
-	// highlight the unit's path if its current building is selected
-	if (selectedBuilding != null && selectedBuilding == currentBuilding.buildingPointer)
-	{
-		if (currentPath.Count > 0 && !pathDrawn)
-		{
-			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
-			//pathDrawnTimer = Time.time + pathDrawnTimerDuration;
-			pathDrawn = true;
-		}
-	}
-	// if unit's path has been highlighted and a different building is selected, de-highlight the path
-	else if(pathDrawn && currentPath.Count > 0 && Time.time > pathDrawnTimer)//selectedBuilding != currentBuilding.buildingPointer)
-	{
-		SetLinkColors(currentBuilding, currentPath[0], 0, Color.white);
-		pathDrawn = false;
-	}
 }
 
 public function OnSelected()
@@ -537,12 +484,6 @@ public function OnSelected()
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
 	}
-	if (currentPath.Count > 0 && !pathDrawn)
-	{
-		SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
-		pathDrawnTimer = Time.time + pathDrawnTimerDuration;
-		pathDrawn = true;
-	}
 }
 
 public function OnDeselect()
@@ -561,9 +502,6 @@ public function OnDeselect()
 			Debug.Log("Path found");
 			//StatusMarquee.SetText("Unit target set", true);
 			SetTarget(selectedGridBuilding);//currentTarget = selectedGridBuilding;
-			SetLinkColors(currentBuilding, currentPath[0], 0, Color.red);
-			pathDrawnTimer = Time.time + pathDrawnTimerDuration;
-			pathDrawn = true;
 			pathMadeTurn = intelSystem.currentTurn;
 			Database.UndoStack.Add(UndoType.Wait);
 			SetState(UnitState.InTransit);
