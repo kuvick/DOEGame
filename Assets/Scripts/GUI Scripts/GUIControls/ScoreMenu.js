@@ -377,32 +377,10 @@ public class ScoreMenu extends GUIControl{
 				currentResponse.type = EventTypes.RESTART;
 				PlayButtonPress();
 			}
-			if(GUI.Button(dashboardButtonRect, dashboardButton))
-			{
-				//currentResponse.type = EventTypes.RESTART;
-				levelSelectRef.SetFromScoreScreen(false);
-				currentResponse.type = EventTypes.LEVELSELECT;
-				PlayButtonPress();
-			}
 			if(GUI.Button(contButtonRect, contButton))
 			{
-				// Maybe switch this to level select, but can't
-				// so long as the back button returns to the level...
-				//currentResponse.type = EventTypes.MAIN;
-				//var nextLevel : String = PlayerPrefs.GetString(Strings.NextLevel);
-				//Changed GPC 9/14/13
-				var nextLevel : String = "LevelSelectScreen";
-				
-				if (nextLevel == null)
-				{
-					levelSelectRef.SetFromScoreScreen(true);
-					currentResponse.type = EventTypes.LEVELSELECT;
-				}
-				else
-				{
-					levelSelectRef.SetFromScoreScreen(true);
-					Application.LoadLevel(nextLevel);
-				}
+				levelSelectRef.SetFromScoreScreen(false);
+				currentResponse.type = EventTypes.LEVELSELECT;
 				PlayButtonPress();
 			}
 			
