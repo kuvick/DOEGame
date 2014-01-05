@@ -51,8 +51,18 @@ private var intelSys:IntelSystem;
 
 private var inputController : InputController;
 
+//THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
+public var notInGame:boolean = false;
+private var currentTriggerIndex:int = 0;
+public var turnTriggers : TurnTrigger[];
+private var tutorialPointers:TutorialPointers;
+
+private var dOS:DisplayOnceSystem;
+public var currentToolTipIndex:int = 0;
+
 function Start () 
 {
+	dOS = new DisplayOnceSystem();
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
 	dispHeight = Screen.height * dispHeightScale;
 	dispWidth = dispHeight * dispWidthScale;
@@ -89,6 +99,12 @@ function Start ()
 	if(hexagonGrid != null)
 		inputController = hexagonGrid.GetComponent(InputController);
 
+	if(notInGame)
+	{
+		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+		CheckTriggerToDisplay();
+	}
+
 }
 
 function Update () 
@@ -112,6 +128,9 @@ function OnGUI()
 		GUI.depth = 1;
 		Render();
 	}
+	
+	if(notInGame && tutorialPointers != null)
+		tutorialPointers.Render();
 }
 
 public function Activate (disp : Tooltip, comp : InspectionComponent)
@@ -277,12 +296,22 @@ private function SetTooltip()
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 		inputController.SetEnabled(false);
 	FormatDisplay();
+	
+	
+	if(currentTooltip.toggleUndoButton || currentTooltip.toggleWaitButton)
+		var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	if(currentTooltip.toggleUndoButton)
+		mainMenu.disableUndoButton = !mainMenu.disableUndoButton;
+	if(currentTooltip.toggleWaitButton)
+		mainMenu.disableSkipButton = !mainMenu.disableSkipButton;
 }
 
 private function RenderSingle()
 {
 	if (componentSelected && GUI.Button(dispRect, dispContent))
 	{
+		dOS.HasDisplayed(currentToolTipIndex, false);
+		currentToolTipIndex++;
 		NextTooltip();
 	}
 }
@@ -291,6 +320,8 @@ private function RenderBoth()
 {
 	if (componentSelected && (GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
+		dOS.HasDisplayed(currentToolTipIndex, false);
+		currentToolTipIndex++;
 		NextTooltip();
 	}
 }
@@ -327,6 +358,9 @@ public class Tooltip
 	public var hasPriority : boolean;
 	private var inspectedComponent : InspectionComponent;
 	
+	public var toggleUndoButton : boolean = false;
+	public var toggleWaitButton : boolean = false;
+	
 	public function SetComponent(comp : InspectionComponent)
 	{
 		inspectedComponent = comp;
@@ -342,4 +376,20 @@ public enum TooltipType
 {
 	Alert, // dismissed after click
 	Notification // dismissed automatically after x seconds
+}
+
+
+//CODE TO ALLOW TOOLTIPS TO APPEAR OTHER PLACES THAT AREN'T IN-GAME
+// Taken from IntelSystem.js and modified
+private function CheckTriggerToDisplay()
+{
+	if (currentTriggerIndex >= turnTriggers.length)
+		return;
+	for(currentTriggerIndex = 0;currentTriggerIndex < turnTriggers.length; currentTriggerIndex++)
+	{
+		if(dOS.WasAlreadyDisplayed(currentToolTipIndex, false))
+			currentToolTipIndex++;
+		else
+			Activate(turnTriggers[currentTriggerIndex].tooltip, null);
+	}
 }

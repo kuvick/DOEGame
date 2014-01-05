@@ -25,11 +25,11 @@ public class Loading extends GUIControl
 	
 	// Loading Screen Textures
 	public var blackBackgroundTexture : Texture2D;
-	public var loadingTexture : Texture;
-	public var iconTexture : Texture;
+	//public var loadingTexture : Texture;
+	//public var iconTexture : Texture;
 	//public var backgroundTexture : Texture2D;
-	public var foregroundTexture : Texture2D;
-	public var onlineTexture : Texture2D;
+	//public var foregroundTexture : Texture2D;
+	//public var onlineTexture : Texture2D;
 	
 	private var style : GUIStyle = GUIStyle();
 	public var boldFont : Font;
@@ -271,13 +271,10 @@ public class Loading extends GUIControl
 		DelayLoad(loadDelay-totalLoadTime);
 		
 		var intelSystem : IntelSystem = GameObject.Find("Database").GetComponent("IntelSystem");
-		var debugMenu : DebugInfoMenu = GameObject.Find("GUI System").GetComponent("DebugInfoMenu");
 		if (intelSystem == null) Debug.LogError("Could not find intel system to update the current level.");
-		else if (debugMenu == null) Debug.LogError("Could not find debug menu to update the current level.");
 		else {
 			intelSystem.currentLevelName = levelName;
 			intelSystem.levelName = levelName;
-			debugMenu.currentLevel = levelName;
 		}
 	}
 	

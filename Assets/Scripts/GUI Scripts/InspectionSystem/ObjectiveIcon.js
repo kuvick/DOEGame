@@ -170,16 +170,16 @@ public class ObjectiveIcon extends InspectionComponent
 		if (isResolved)
 		{
 			turnMesh.active = false;
-			texture = resolvedTexture;
-			renderer.material.mainTexture = texture;
+			normalTexture = resolvedTexture;
 		}
 		else
 		{
 			if(isPrimary)
 				turnMesh.active = true;
-			texture = unresolvedTexture;
-			renderer.material.mainTexture = texture;
+			normalTexture = unresolvedTexture;
 		}
+		currentTexture = normalTexture;
+		renderer.material.mainTexture = currentTexture;
 	}
 	
 	public function Draw()

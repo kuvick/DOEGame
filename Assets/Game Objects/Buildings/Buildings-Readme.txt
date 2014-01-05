@@ -1,1 +1,0 @@
-All the buildings will be added here. As of now we will be using different color cubes (game objects) so store all those here.
