@@ -6,7 +6,7 @@ Created so that tutorial pointers and the inspection display only gets displayed
 
 */
 
-private var disableThisSystem: boolean = false;
+private var disableThisSystem: boolean = true;
 
 //Note, this will delete ALL PLAYERPREF KEYS
 public function DeleteKeys()

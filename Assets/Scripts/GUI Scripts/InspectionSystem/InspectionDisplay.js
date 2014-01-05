@@ -296,6 +296,14 @@ private function SetTooltip()
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 		inputController.SetEnabled(false);
 	FormatDisplay();
+	
+	
+	if(currentTooltip.toggleUndoButton || currentTooltip.toggleWaitButton)
+		var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	if(currentTooltip.toggleUndoButton)
+		mainMenu.disableUndoButton = !mainMenu.disableUndoButton;
+	if(currentTooltip.toggleWaitButton)
+		mainMenu.disableSkipButton = !mainMenu.disableSkipButton;
 }
 
 private function RenderSingle()
@@ -349,6 +357,9 @@ public class Tooltip
 	public var pic : Texture;
 	public var hasPriority : boolean;
 	private var inspectedComponent : InspectionComponent;
+	
+	public var toggleUndoButton : boolean = false;
+	public var toggleWaitButton : boolean = false;
 	
 	public function SetComponent(comp : InspectionComponent)
 	{
