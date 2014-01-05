@@ -22,12 +22,17 @@ public var style:GUIStyle;
 private var linkMade:boolean;
 private var tapWait:int = 25;
 private var currentTapWait:int = 0;
+private var currentColor:Color;
+private var flashSpeed:float = 0.01;
+private var transitionToClear:boolean = true;
 
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
 
 function Start()
 {
+	currentColor = Color.white;
+	
 	linkMade = false;
 	if(pointers.Count > 0)
 	{
@@ -85,6 +90,20 @@ public function Render()
 				
 				currentArrow.setCurrentPoint(newCurrentPoint);
 			}
+			else
+			{
+				if(transitionToClear)
+					currentColor.a = currentColor.a - flashSpeed;
+				else
+					currentColor.a = currentColor.a + flashSpeed;
+					
+				if(currentColor.a <= 0.5)
+					transitionToClear = false;
+				else if(currentColor.a >= 1)
+					transitionToClear = true;
+					
+				GUI.color = currentColor;
+			}
 			
 			
 			if(currentArrow.interaction == Interaction.SingleBuilding ||
@@ -97,6 +116,7 @@ public function Render()
 			}
 			
 			GUI.DrawTexture(currentArrow.getDisplayRect(), currentArrow.icon);
+			GUI.color = Color.white;
 			GUI.Label(textDisplayRect, currentArrow.displayText, style);
 			
 			if(checkForInteraction(currentArrow))
@@ -226,8 +246,6 @@ public function CalculateDisplay(arrow:TutorialArrow):TutorialArrow
 	else
 	{
 		arrow.setDisplayRect(createRect(arrow.icon, arrow.xyPercent.x, arrow.xyPercent.y,iconSizePercent));
-
-		Debug.Log(createRect(arrow.icon, arrow.xyPercent.x, arrow.xyPercent.y,iconSizePercent));
 	}
 	
 	return arrow;
