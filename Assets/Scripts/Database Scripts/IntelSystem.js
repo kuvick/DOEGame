@@ -54,6 +54,8 @@ public var useTimer : boolean = true;
 
 public var toolTipOnScreen : boolean = false;
 
+private var dOS:DisplayOnceSystem;
+
 class BuildingEvent
 {
 	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out
@@ -196,6 +198,7 @@ function Start ()
 				
 	}
 	totalEvents = events.Count + linkedEvents.Count;
+	dOS = new DisplayOnceSystem();
 	CheckTriggerToDisplay();
 	
 	comboSystem = new ComboSystem();
@@ -261,16 +264,26 @@ private function CheckTriggerToDisplay()//:boolean
 		return; //false;
 	while (currentTurn == turnTriggers[currentTriggerIndex].turn)
 	{
-		/*if (turnTriggers[currentTriggerIndex].dispPic == null)
-			display.Activate(turnTriggers[currentTriggerIndex].dispText);
+		if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
+		{
+			display.currentToolTipIndex++;
+			currentTriggerIndex++;
+			if (currentTriggerIndex >= turnTriggers.length)
+				break;
+		}
 		else
-			display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);*/
-		display.Activate(turnTriggers[currentTriggerIndex].tooltip, null);
-		currentTriggerIndex++;
-		if (currentTriggerIndex >= turnTriggers.length)
-			break;
-		//Added GPC 9/3/13
-		//return true;
+		{
+			/*if (turnTriggers[currentTriggerIndex].dispPic == null)
+				display.Activate(turnTriggers[currentTriggerIndex].dispText);
+			else
+				display.Activate(turnTriggers[currentTriggerIndex].dispPic, turnTriggers[currentTriggerIndex].dispText);*/
+			display.Activate(turnTriggers[currentTriggerIndex].tooltip, null);
+			currentTriggerIndex++;
+			if (currentTriggerIndex >= turnTriggers.length)
+				break;
+			//Added GPC 9/3/13
+			//return true;
+		}
 	}
 }
 

@@ -25,6 +25,9 @@ private var currentTapWait:int = 0;
 private var currentColor:Color;
 private var flashSpeed:float = 0.01;
 private var transitionToClear:boolean = true;
+private var arrowNumOrder:int = 0;
+
+private var dOS:DisplayOnceSystem;
 
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
@@ -32,6 +35,8 @@ public var notInGame:boolean = false;
 function Start()
 {
 	currentColor = Color.white;
+	
+	dOS = new DisplayOnceSystem();
 	
 	linkMade = false;
 	if(pointers.Count > 0)
@@ -123,6 +128,8 @@ public function Render()
 			{
 				currentArrow = null;
 				waitingForRelease = false;
+				dOS.HasDisplayed(arrowNumOrder, true);
+				arrowNumOrder++;
 			}
 			
 		}
@@ -262,42 +269,52 @@ public function convertToScreenRect(pos:Vector3, displayRect:Rect):Rect
 public function checkTrigger()
 {
 	var makeChange:boolean = false;
-	if(pointers.Count > 0)
+	
+	if(dOS.WasAlreadyDisplayed(arrowNumOrder, true))
 	{
-		// only set one to the current arrow, else
-		// it will override the others
-		if(pointers[0].trigger == StartTrigger.StartOfLevel)
+		currentArrow = null;
+		pointers.Remove(pointers[0]);
+		arrowNumOrder++;
+	}
+	else
+	{
+		if(pointers.Count > 0)
 		{
-			makeChange = true;
-		}
-		else if(pointers[0].trigger == StartTrigger.ReachBuilding)
-		{
-			if(database.buildingsOnGrid != null && database.buildingsOnGrid.Count > 0)
-				makeChange = database.isActive(pointers[0].buildingOne);
-		}
-		else if(pointers[0].trigger == StartTrigger.Turn)
-		{
-			if(intelSystem.currentTurn == pointers[0].turn)
-				makeChange = true;
-		}
-		else if(pointers[0].trigger == StartTrigger.AfterPreviousArrow)
-		{
-			// if the current arrow is set to null, then the previous
-			// one has expired
-			if(currentArrow == null)
-				makeChange = true;
-		}
-		
-		if(makeChange)
-		{
-			currentArrow = pointers[0];
-			currentArrow = CalculateDisplay(currentArrow);
-			pointers.Remove(pointers[0]);
-			
-			if(currentArrow.interaction == Interaction.Linking)
+			// only set one to the current arrow, else
+			// it will override the others
+			if(pointers[0].trigger == StartTrigger.StartOfLevel)
 			{
-				var db : Database = GameObject.Find("Database").GetComponent(Database);
-				db.isWaitingForLink = true;
+				makeChange = true;
+			}
+			else if(pointers[0].trigger == StartTrigger.ReachBuilding)
+			{
+				if(database.buildingsOnGrid != null && database.buildingsOnGrid.Count > 0)
+					makeChange = database.isActive(pointers[0].buildingOne);
+			}
+			else if(pointers[0].trigger == StartTrigger.Turn)
+			{
+				if(intelSystem.currentTurn == pointers[0].turn)
+					makeChange = true;
+			}
+			else if(pointers[0].trigger == StartTrigger.AfterPreviousArrow)
+			{
+				// if the current arrow is set to null, then the previous
+				// one has expired
+				if(currentArrow == null)
+					makeChange = true;
+			}
+			
+			if(makeChange)
+			{
+				currentArrow = pointers[0];
+				currentArrow = CalculateDisplay(currentArrow);
+				pointers.Remove(pointers[0]);
+				
+				if(currentArrow.interaction == Interaction.Linking)
+				{
+					var db : Database = GameObject.Find("Database").GetComponent(Database);
+					db.isWaitingForLink = true;
+				}
 			}
 		}
 	}

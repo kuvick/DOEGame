@@ -57,8 +57,12 @@ private var currentTriggerIndex:int = 0;
 public var turnTriggers : TurnTrigger[];
 private var tutorialPointers:TutorialPointers;
 
+private var dOS:DisplayOnceSystem;
+public var currentToolTipIndex:int = 0;
+
 function Start () 
 {
+	dOS = new DisplayOnceSystem();
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
 	dispHeight = Screen.height * dispHeightScale;
 	dispWidth = dispHeight * dispWidthScale;
@@ -298,6 +302,8 @@ private function RenderSingle()
 {
 	if (componentSelected && GUI.Button(dispRect, dispContent))
 	{
+		dOS.HasDisplayed(currentToolTipIndex, false);
+		currentToolTipIndex++;
 		NextTooltip();
 	}
 }
@@ -306,6 +312,8 @@ private function RenderBoth()
 {
 	if (componentSelected && (GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
+		dOS.HasDisplayed(currentToolTipIndex, false);
+		currentToolTipIndex++;
 		NextTooltip();
 	}
 }
@@ -368,6 +376,9 @@ private function CheckTriggerToDisplay()
 		return;
 	for(currentTriggerIndex = 0;currentTriggerIndex < turnTriggers.length; currentTriggerIndex++)
 	{
-		Activate(turnTriggers[currentTriggerIndex].tooltip, null);
+		if(dOS.WasAlreadyDisplayed(currentToolTipIndex, false))
+			currentToolTipIndex++;
+		else
+			Activate(turnTriggers[currentTriggerIndex].tooltip, null);
 	}
 }
