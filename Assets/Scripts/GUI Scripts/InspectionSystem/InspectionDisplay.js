@@ -123,7 +123,12 @@ function Update ()
 
 function OnGUI()
 {
-	if (componentSelected)
+	if(notInGame && componentSelected)
+	{
+		GUI.depth = -1;
+		Render();
+	}
+	else if(componentSelected)
 	{
 		GUI.depth = 1;
 		Render();
@@ -392,4 +397,12 @@ private function CheckTriggerToDisplay()
 		else
 			Activate(turnTriggers[currentTriggerIndex].tooltip, null);
 	}
+}
+
+public function FromScoreScreen()
+{
+	notInGame = true;
+	tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+	tutorialPointers.FromScoreScreen(true);
+	CheckTriggerToDisplay();
 }

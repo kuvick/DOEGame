@@ -9,9 +9,8 @@
 
 #pragma strict
 
-public class ScoreMenu extends GUIControl{	
-
-
+public class ScoreMenu extends GUIControl
+{
 	private var saveSystem : SaveSystem;
 	private var intelSystem : IntelSystem;
 	
@@ -153,6 +152,8 @@ public class ScoreMenu extends GUIControl{
 	
 	public var dashboardButton:Texture;
 	private var dashboardButtonRect:Rect;
+
+	public var displayToolTips:boolean = false;
 
 	public function Initialize()
 	{
@@ -343,7 +344,13 @@ public class ScoreMenu extends GUIControl{
 		technologyNameRect = createRect(codexBox, 235 / designWidth, 844/designHeight, codexBox.x / designHeight, false, screenRect);
 		addedToCodexRect = createRect(codexBox, 0, 844/designHeight, codexBox.x / designHeight, false, screenRect);
 		addedToCodexRect.x = technologyNameRect.x + (technologyName.Length * (scoreScreenSkin.customStyles[3].fontSize/1.6));
+	
 		
+		if(displayToolTips)
+		{
+			var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+			inspectionDisplay.FromScoreScreen();
+		}			
 	}
 	
 	public function Render()

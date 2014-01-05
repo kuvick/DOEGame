@@ -31,12 +31,14 @@ private var tutorialCircle:Texture;
 private var tutorialCircleRect:Rect;
 private var displayCircle:boolean = false;
 private var currentCircleSize:float;
-private var decreaseAmount: float = 0.03;
+private var decreaseAmount: float = 0.025;
+private var circleSizeStart:float = 2.0;
 
 private var dOS:DisplayOnceSystem;
 
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
+private var OnScoreScreen:boolean = false;
 
 function Start()
 {
@@ -327,7 +329,11 @@ public function checkTrigger()
 				if(currentArrow == null)
 					makeChange = true;
 			}
-			
+			else if(OnScoreScreen && pointers[0].trigger == StartTrigger.OnScoreScreen)
+			{
+				if(currentArrow == null)
+					makeChange = true;
+			}
 			if(makeChange)
 			{
 				currentArrow = pointers[0];
@@ -335,7 +341,7 @@ public function checkTrigger()
 				pointers.Remove(pointers[0]);
 				
 				displayCircle = true;
-				currentCircleSize = 1;
+				currentCircleSize = circleSizeStart;
 				tutorialCircleRect = createRect(tutorialCircle, 0,0,currentCircleSize);
 				tutorialCircleRect.x = (currentArrow.getDisplayRect().x + currentArrow.getDisplayRect().width / 2) - tutorialCircleRect.width / 2;
 				tutorialCircleRect.y = (currentArrow.getDisplayRect().y + currentArrow.getDisplayRect().height / 2) - tutorialCircleRect.height / 2;
@@ -452,7 +458,8 @@ public enum StartTrigger
 	StartOfLevel,
 	ReachBuilding,
 	Turn,
-	AfterPreviousArrow
+	AfterPreviousArrow,
+	OnScoreScreen
 }
 
 private function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float):Rect
@@ -467,4 +474,9 @@ private function createRect(texture:Texture,xPercent:float,yPercent:float, heigh
 	var y:float = Screen.height * yPercent;
 	
 	return Rect(x, y, width, height);
+}
+
+public function FromScoreScreen(bool:boolean)
+{
+	OnScoreScreen = bool;
 }
