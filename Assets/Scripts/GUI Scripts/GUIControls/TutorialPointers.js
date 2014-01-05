@@ -27,6 +27,12 @@ private var flashSpeed:float = 0.01;
 private var transitionToClear:boolean = true;
 private var arrowNumOrder:int = 0;
 
+private var tutorialCircle:Texture;
+private var tutorialCircleRect:Rect;
+private var displayCircle:boolean = false;
+private var currentCircleSize:float;
+private var decreaseAmount: float = 0.03;
+
 private var dOS:DisplayOnceSystem;
 
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
@@ -35,6 +41,8 @@ public var notInGame:boolean = false;
 function Start()
 {
 	currentColor = Color.white;
+	
+	tutorialCircle = Resources.Load("tutorialCircle") as Texture;
 	
 	dOS = new DisplayOnceSystem();
 	
@@ -123,6 +131,22 @@ public function Render()
 			GUI.DrawTexture(currentArrow.getDisplayRect(), currentArrow.icon);
 			GUI.color = Color.white;
 			GUI.Label(textDisplayRect, currentArrow.displayText, style);
+			
+			if(displayCircle)
+			{
+				GUI.DrawTexture(tutorialCircleRect, tutorialCircle);
+				
+				currentCircleSize = currentCircleSize - decreaseAmount;
+				
+				if(currentCircleSize < decreaseAmount * 2)
+					displayCircle = false;
+				else
+				{
+					tutorialCircleRect = createRect(tutorialCircle, 0,0,currentCircleSize);
+					tutorialCircleRect.x = (currentArrow.getDisplayRect().x + currentArrow.getDisplayRect().width / 2) - tutorialCircleRect.width / 2;
+					tutorialCircleRect.y = (currentArrow.getDisplayRect().y + currentArrow.getDisplayRect().height / 2) - tutorialCircleRect.height / 2;
+				}
+			}
 			
 			if(checkForInteraction(currentArrow))
 			{
@@ -310,10 +334,17 @@ public function checkTrigger()
 				currentArrow = CalculateDisplay(currentArrow);
 				pointers.Remove(pointers[0]);
 				
+				displayCircle = true;
+				currentCircleSize = 1;
+				tutorialCircleRect = createRect(tutorialCircle, 0,0,currentCircleSize);
+				tutorialCircleRect.x = (currentArrow.getDisplayRect().x + currentArrow.getDisplayRect().width / 2) - tutorialCircleRect.width / 2;
+				tutorialCircleRect.y = (currentArrow.getDisplayRect().y + currentArrow.getDisplayRect().height / 2) - tutorialCircleRect.height / 2;
+				
 				if(currentArrow.interaction == Interaction.Linking)
 				{
 					var db : Database = GameObject.Find("Database").GetComponent(Database);
 					db.isWaitingForLink = true;
+					displayCircle = false;
 				}
 			}
 		}
