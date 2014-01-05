@@ -6,6 +6,9 @@ Created so that tutorial pointers and the inspection display only gets displayed
 
 */
 
+
+// to use this script, set this to false
+// to turn it off, set this to true
 private var disableThisSystem: boolean = true;
 
 //Note, this will delete ALL PLAYERPREF KEYS

@@ -31,7 +31,8 @@ private var tutorialCircle:Texture;
 private var tutorialCircleRect:Rect;
 private var displayCircle:boolean = false;
 private var currentCircleSize:float;
-private var decreaseAmount: float = 0.03;
+private var decreaseAmount: float = 0.025;
+private var circleSizeStart:float = 2.0;
 
 private var dOS:DisplayOnceSystem;
 
@@ -335,7 +336,7 @@ public function checkTrigger()
 				pointers.Remove(pointers[0]);
 				
 				displayCircle = true;
-				currentCircleSize = 1;
+				currentCircleSize = circleSizeStart;
 				tutorialCircleRect = createRect(tutorialCircle, 0,0,currentCircleSize);
 				tutorialCircleRect.x = (currentArrow.getDisplayRect().x + currentArrow.getDisplayRect().width / 2) - tutorialCircleRect.width / 2;
 				tutorialCircleRect.y = (currentArrow.getDisplayRect().y + currentArrow.getDisplayRect().height / 2) - tutorialCircleRect.height / 2;
