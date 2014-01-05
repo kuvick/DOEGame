@@ -43,7 +43,6 @@ private var currentResponse:GUIEvent;
 private var startMenu:StartMenu;
 private var loading:Loading;
 private var mainMenu:MainMenu;
-//private var marquee:StatusMarquee;
 private var pauseMenu:PauseMenu;
 private var intelMenu:IntelMenu;
 private var buildingMenu:BuildingMenu;
@@ -51,12 +50,8 @@ private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
 private var failureMenu:FailureMenu;
 private var metricMenu:MetricMenu;
-//private var contactsMenu:ContactsMenu;
 private var codexMenu:CodexMenu;
-//private var contactInspectorMenu:ContactInspectorMenu;
-private var debugInfoMenu : DebugInfoMenu;
 private var editorMenu : EditorMenu;
-//private var popUpMessageDisplay:PopUpMessageDisplay;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -156,20 +151,14 @@ public function Start ()
 	startMenu = GetComponent(StartMenu);
 	loading = GetComponent(Loading);
 	mainMenu = GetComponent(MainMenu);
-	//marquee = GetComponent(StatusMarquee);
 	pauseMenu = GetComponent(PauseMenu);
 	intelMenu = GetComponent(IntelMenu);
 	buildingMenu = GetComponent(BuildingMenu);
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	scoreMenu = GetComponent(ScoreMenu);
 	failureMenu = GetComponent(FailureMenu);
-	//metricMenu = GetComponent(MetricMenu);
-	//contactsMenu = GetComponent(ContactsMenu);
 	codexMenu = GetComponent(CodexMenu);
-	//contactInspectorMenu = GetComponent(ContactInspectorMenu);
-	debugInfoMenu = GetComponent(DebugInfoMenu);
 	editorMenu = GetComponent(EditorMenu);
-	//popUpMessageDisplay = GetComponent(PopUpMessageDisplay);
 	
 	if (gm_instance != this) {
 		return;
@@ -208,7 +197,6 @@ public function Start ()
 		//AddGUIToControls(marquee);
 		//AddGUIToControls(popUpMessageDisplay);
 	}
-	AddGUIToControls(debugInfoMenu);
 }
 
 /*
@@ -465,7 +453,6 @@ private function ClearControls()
 		activeControls[i].ClearResponse();
 	}
 	activeControls.Clear();
-	AddGUIToControls(debugInfoMenu); // always come up
 }
 
 /*
