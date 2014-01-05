@@ -38,6 +38,7 @@ private var dOS:DisplayOnceSystem;
 
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
+private var OnScoreScreen:boolean = false;
 
 function Start()
 {
@@ -328,7 +329,11 @@ public function checkTrigger()
 				if(currentArrow == null)
 					makeChange = true;
 			}
-			
+			else if(OnScoreScreen && pointers[0].trigger == StartTrigger.OnScoreScreen)
+			{
+				if(currentArrow == null)
+					makeChange = true;
+			}
 			if(makeChange)
 			{
 				currentArrow = pointers[0];
@@ -453,7 +458,8 @@ public enum StartTrigger
 	StartOfLevel,
 	ReachBuilding,
 	Turn,
-	AfterPreviousArrow
+	AfterPreviousArrow,
+	OnScoreScreen
 }
 
 private function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float):Rect
@@ -468,4 +474,9 @@ private function createRect(texture:Texture,xPercent:float,yPercent:float, heigh
 	var y:float = Screen.height * yPercent;
 	
 	return Rect(x, y, width, height);
+}
+
+public function FromScoreScreen(bool:boolean)
+{
+	OnScoreScreen = bool;
 }
