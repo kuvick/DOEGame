@@ -609,12 +609,14 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		    tempIcon.SetAllocated(false);
 		    oldOutputBuilding.unallocatedOutputIcons.Add(tempIcon);
 		    tempIcon.SetIndex(oldOutputBuilding.unallocatedOutputIcons.Count - 1);
+		    SetBuildingResourceActive(oldOutputBuilding.unallocatedOutputIcons, true);
 	    }
 	    else
 	    {
 	    	oldOutputBuilding.optionalOutputAllocated = false;
 	    	oldOutputBuilding.optionalOutputLinkedTo = -1;
 	    	oldOutputBuilding.optionalOutputIcon.SetAllocated(false);
+	    	oldOutputBuilding.optionalOutputIcon.SetFlashActive(true);
 	    }
 	    
 		inputBuilding.inputLinkedTo[inputIndex] = outputBuildingIndex; // swap in the new output building index for the input's links
