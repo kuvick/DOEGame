@@ -13,8 +13,8 @@
       <messageText>Welcome, recruit! 
       
 	  Allow me to introduce Terrachanics, our new energy
-	  reallocation system. With its aid, we will be able
-	  to upgrade energy infrastructures and prevent
+	  reallocation system. With it we are be able
+	  to upgrade energy infrastructure and prevent
 	  disasters. What do you say we give it a try to
 	  get the Springville Nuclear Plant running in tip
 	  top shape? </messageText>
@@ -72,9 +72,10 @@
       
       Let's see if you're as good as the doc says. Get
       that Hydro Dam upgraded with some Fish-Friendly
-      designs...I've got an extreme jet ski fishing trip
-      coming up this summer that will be rather pointless
-      without the fish!</messageText>
+      designs...I've got a jet ski fishing trip
+      coming up this summer by the lake so lets
+	  get that lake swimming with fish!
+	  </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -115,7 +116,7 @@
       go far at this place. But enough about me, lets
       talk about what *you* can do for *me*. Those
       folks at Derptronics are gonna need some shiny new
-      Liquid Metal Battery schematics. You game?</messageText>
+      Liquid Metal Battery schematics ASAP. You game?</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
