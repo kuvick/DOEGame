@@ -719,13 +719,13 @@ public class CodexMenu extends GUIControl
 		
 		
 		
-		var previousEntriesLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredWidth(previousEntriesTexture, entryLabelMaxWidthPercent);
+		//var previousEntriesLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredWidth(previousEntriesTexture, entryLabelMaxWidthPercent);
 		
-		previousEntriesRect = RectFactory.NewRect(sidePadding*2,sidePadding,previousEntriesLabelSize.x, previousEntriesLabelSize.y);
+		//previousEntriesRect = RectFactory.NewRect(sidePadding*2,sidePadding,previousEntriesLabelSize.x, previousEntriesLabelSize.y);
 		
 		scrollViewWidth = 1-(2*sidePadding);
 		scrollViewRect = RectFactory.NewRect(sidePadding,(2*sidePadding)+backButtonSize.y,scrollViewWidth, 1-(2*sidePadding)-backButtonSize.y);
-		
+		/*
 		var areaAboveCodicies : float = previousEntriesLabelSize.y + (2*sidePadding);
 		codicesRects = new List.<Rect>();
 		var totalHeight : float = areaAboveCodicies;
@@ -738,5 +738,6 @@ public class CodexMenu extends GUIControl
 		}
 		
 		scrollViewAreaRect = RectFactory.NewRect(0,0,scrollViewWidth, totalHeight);
+		*/
 	}
 }

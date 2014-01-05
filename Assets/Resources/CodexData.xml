@@ -6,105 +6,105 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.smartgrid.gov/the_smart_grid#smart_grid</urlLink>
 	  <iconName>techImage_smartGrid</iconName>
-	  <description>Description goes here...</description>
+	  <description>Smart Grids monitors information on energy usage to predict demand and adapt to provide efficient and reliable electricity.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electrofuels</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/electrofuels-tiny-organisms-making-big-impact</urlLink>
 	  <iconName>Electrofuels_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>This emerging technology stores electrical energy in the chemical bonds of a renewable fuel source such as Biodiesel, Butanol or Hydrogen.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Biodiesel</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/researchers-borrow-fir-tree-create-biodiesel</urlLink>
 	  <iconName>techImage_biodiesel</iconName>
-	  <description>Description goes here...biodiesel</description>
+	  <description>Biodiesel fuel has similar properties to Road Diesel but is instead made of renewable organic matter. Often times, this matter is vegetable oil recycled from restaurants and cafeterias. Recently, researchers have found alternatives such as Bisabolane which perform more efficiently than vegitable oil and offer something closer to Road Diesel.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Silicon Carbide Thyristors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
 	  <iconName>techImage_siliconCarbideThyristors</iconName>
-	  <description>Description goes here...</description>
+	  <description>This fundemental componant of electrical devices manages the flow of electricity to ensure smooth operation. The use of Silicon Carbide increases the operating capability of the thyristor, enabling it to function in high heat and high voltage situations.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Alden Fish-Friendly Turbine</name>
+	  <name>Fish-Friendly Turbine</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/fish-friendly-turbine-making-splash-water-power</urlLink>
 	  <iconName>techImage_friendlyTurbine</iconName>
-	  <description>Description goes here...</description>
+	  <description>This cutting edge turbine design reduces the risk of injury and mortality amongst fish populations traversing dammed rivers.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Organic Flash Cycle (OFC)</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
 	  <iconName>Organic Flash Cycle (OFC)</iconName>
-	  <description>Description goes here...</description>
+	  <description>Using this newly developed approach, it is possible to reclaim waste heat from machinery and convert it back into usable energy.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Residential Integrated Ventilation Controller (RIVEC)</name>
+	  <name>Integrated Ventilation Controller</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
 	  <iconName>Residential Integrated Ventilation Controller (RIVEC) - fix</iconName>
-	  <description>Description goes here...</description>
+	  <description>This new system maximizes the air quality within a residential home while reducing the energy consumed by 18 to 44%.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Transition Metal Switchable Mirrors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=145</urlLink>
 	  <iconName>techImage_TMSM</iconName>
-	  <description>Description goes here...</description>
+	  <description>Transition Metal Switchable Mirrors enable the capability to change the reflectivity of a glass surface. this technology can be used to actively control natural light levels in a building or </description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Electrochemical Solution Growth: Gallium Nitride Crystal Growth</name>
+	  <name>Electrochemical Solution Growth</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=602</urlLink>
 	  <iconName>techImage_galliumNitrideCrystalGrowth</iconName>
-	  <description>Description goes here...</description>
+	  <description>ESG allows us to grow large quantities of high quality Gallium Nitride Crystals which are used in high efficiency LEDs and high-power transistors.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Energy Saving System to Remove Volatile Organic Compounds (VOCs) from Indoor Air</name>
+	  <name>Volatile Organic Compounds (VOCs) Removal System</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=836</urlLink>
 	  <iconName>techImage_removeVOCs</iconName>
-	  <description>Description goes here...</description>
+	  <description>This new system maximizes the air quality within a building while reducing the energy consumtion.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Process for Fabrication of Efficient Solar Cells</name>
+	  <name>Efficient Solar Cell Fabrication</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
 	  <iconName>techImage_Process for Fabrication of Efficient Solar Cells</iconName>
-	  <description>Description goes here...</description>
+	  <description>With improved processes for the fabrication of solar cells, we can now increase the efficiency of solar panels by upping the light absorption capabilities of individual cells.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Low-cost, Modular, Building-integrated Photovoltaic-Thermal Collector</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
-	  <iconName>Low-cost, Modular, Building-integrated Photovoltaic-Thermal Collector</iconName>
-	  <description>Description goes here...</description>
+	  <iconName>Building-integrated Photovoltaic-Thermal Collector</iconName>
+	  <description>This method of capturing solar energy combines solar panels and thermal collectors. The resulting technology is then used as siding and roofing material for a building, turning each surface into an energy source.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Hydrogen Storage</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/basic-and-slightly-acidic-solution-hydrogen-storage</urlLink>
 	  <iconName>hydrogenStorage</iconName>
-	  <description>Description goes here...</description>
+	  <description>Using acidic solutions, it is now possible to store Hydrogen in liquid form under mild conditions safely and without the need for mittens and scarves.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
 	  <iconName>Heat Transfer Interface for Thermo Solar Energy_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>By adding thermal collectors to solar panels, it is possible to capture lost heat and increase the efficiency of solar panels.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Efficient Polymer Solar Cells</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
 	  <iconName>solarcellscolored</iconName>
-	  <description>Description goes here...</description>
+	  <description>Scientists have increased the efficiency of solar cells by using a thin light absorbing material layered on a textured substrate. </description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Energy Saving Absorption Heat Pump Water Heater</name>
@@ -118,7 +118,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=293</urlLink>
 	  <iconName>Super Energy Saver Heat Pump_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>The Super Energy Saver Heat Pump technology is designed to improve the heating and cooling efficiency while decreasing energy consumption.</description>
 	</CodexEntry>
 	<CodexEntry>
 	  <name>Energy Efficient Laboratory Fume Hood</name>
@@ -128,39 +128,39 @@
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Capturing Carbon Emissions to Increase Oil Production</name>
+	  <name>Enhanced Oil Recovery</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
 	  <iconName>Capturing Carbon Emissions to Increase Oil Production</iconName>
-	  <description>Description goes here...</description>
+	  <description>By pumping CO2 into the ground at oil extraction locations, output for crude oil at that location can be drastically increased.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Tidal Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Tidal_power</urlLink>
 	  <iconName>tidalpower</iconName>
-	  <description>Description goes here...</description>
+	  <description>In recent years, engineers have developed a powerful system which harnesses the coming and going motion of tidal waters, converting that motion to useable energy.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Waste to Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://midmainewaste.com/about-us/</urlLink>
 	  <iconName>Waste to Energy</iconName>
-	  <description>Description goes here...</description>
+	  <description>Using consumer waste materials as fuel, this technology provides both a disposal method for garbage and a source of electricity.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Combined Heat and Power (CHP, or Cogeneration)</name>
+	  <name>Combined Heat and Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/energy-department-turns-heat-and-power-industrial-energy-efficiency</urlLink>
 	  <iconName>heatandpower</iconName>
-	  <description>heatandpower</description>
+	  <description>This method combines standard electricity production with technology that recaptures thermal exhaust, increasing the energy output we can capture from a single source significantly.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>eGain Forecasting</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Environmental_technology#eGain_forecasting</urlLink>
 	  <iconName>eGain Forecasting_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>This system analyzes weather patterns and provides custom climate control for a building based op the weathers impact.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electric Car Charging Station</name>
@@ -174,7 +174,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57590789-54/electric-aircraft-start-finding-a-foothold-in-aviation-industry/</urlLink>
 	  <iconName>solarairplane</iconName>
-	  <description>Description goes here...</description>
+	  <description>Solar Powered Planes harness sunlight through solar panels on the wings and body which power electric motors.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Alge Bio-Reactor</name>
@@ -202,14 +202,14 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57441331-54/liquid-metal-battery-raises-$15m-in-series-b-financing/</urlLink>
 	  <iconName>Liquid Metal Battery_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>The Liquid Metal Battery is designed for low cost high capacity storage of electricity from Solar or Wind Power sources.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Plastic Bags for Energy Storage</name>
+	  <name>Energy Storage With Plastic Bags</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.sciencedaily.com/releases/2013/09/130925102651.htm</urlLink>
 	  <iconName>elastic_bag_for_energy_storage</iconName>
-	  <description>Description goes here...</description>
+	  <description>By recycling waste plastic bags, we can create carbon nanotubes, a light super strong material which can be found in a variety of electronics and consumer products.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Air Powered Cars</name>
@@ -223,28 +223,28 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
 	  <iconName>nuclear_power</iconName>
-	  <description>Description goes here...</description>
+	  <description>Introduced to the public in 50's, Nuclear Power Plants demonstrated to the public that Atomic Power could be used as a tool for good rather than war.</description>
 	</CodexEntry>
 	<CodexEntry>
-	  <name>Ethanol Fuel for Vehicles</name>
+	  <name>Ethanol Fuel</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
 	  <iconName>ethanol_for_cars</iconName>
-	  <description>Description goes here...</description>
+	  <description>Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon of Ethanol Fuel.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Geothermal Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
 	  <iconName>geothermal_power</iconName>
-	  <description>Description goes here...</description>
+	  <description>Like the blacksmith Vulcan of ancient Rome, we can now harness the Geothermal Energy of our home planet to provide renewable energy.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Small Nuclear Reactors</name>
+	  <name>Modular Nuclear Reactors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
 	  <iconName>small_nuclear_reactor</iconName>
-	  <description>Description goes here...</description>
+	  <description>This technology provides a small, efficient nuclear power plant at a significantly lower cost than that of a standard sized nuclear power plant.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Silver Printing Method</name>
@@ -254,18 +254,18 @@
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Photovoltaic "Glitter"</name>
+	  <name>Microsolar Cells</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=78</urlLink>
 	  <iconName>Photovoltaic_glitter</iconName>
-	  <description>Description goes here...</description>
+	  <description>Microsolar cells require almost 100 times less silicon to produce than tradition cells and significantly lower manufacturing costs.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Nuclear Power and Waste Disposal</name>
+	  <name>Nuclear Waste Disposal</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>LINK</urlLink>
 	  <iconName>nuclear_power_and_waste_disposal</iconName>
-	  <description>Description goes here...</description>
+	  <description>Disposal of Nuclear Waste is an incredibly difficult task as the material is very dangerous. Currently, nuclear waste is stored at individual reactor sites and in geologically stable repositories carved deep into the earth.</description>
 	</CodexEntry>  
   
   </codices>
