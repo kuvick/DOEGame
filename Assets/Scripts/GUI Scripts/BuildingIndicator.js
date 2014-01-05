@@ -47,7 +47,7 @@ function Initialize()
 	thisTransform = gameObject.transform;
 	thisMaterial = gameObject.renderer.material;
 	
-	thisMaterial.color = Color.clear;
+	//thisMaterial.color = Color.clear;
 	
 	//yield WaitForSeconds(0.1);
 	parentName = this.gameObject.transform.parent.name;
@@ -80,8 +80,8 @@ private function AnimateValid()
 	while(currState == IndicatorState.Valid)
 	{
 		var offset : Vector2 = Vector2(spriteIndex * spriteSize.x, 0);
-		thisMaterial.mainTextureOffset = offset;
-		thisMaterial.mainTextureScale = spriteSize;
+		//thisMaterial.mainTextureOffset = offset;
+		//thisMaterial.mainTextureScale = spriteSize;
 		spriteIndex++;
 		if (spriteIndex > 2)
 			spriteIndex = 0f;
@@ -126,10 +126,10 @@ function SetState (state : IndicatorState)
 			break;
 		case IndicatorState.Neutral:
 			currImage = null;
-			thisMaterial.color = Color.clear;
+			//thisMaterial.color = Color.clear;
 			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setActiveRingMaterial(false, resourceRing);
 			break;
 	}
-	thisMaterial.mainTexture = currImage;
+	//thisMaterial.mainTexture = currImage;
 }
