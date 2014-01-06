@@ -521,6 +521,8 @@ public class StartMenu extends GUIControl
 					for(var l:int = 0; l < players.Count; l++)
 						saveSystem.deletePlayer(players[l]);
 						
+					var displayOnce:DisplayOnceSystem = new DisplayOnceSystem();
+					displayOnce.DeleteKeys();
 					PlayButtonPress();
 					currentScreen = CurrentStartScreen.FirstScreen;
 				}
