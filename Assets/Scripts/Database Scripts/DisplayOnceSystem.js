@@ -11,6 +11,9 @@ Created so that tutorial pointers and the inspection display only gets displayed
 // to turn it off, set this to true
 private var disableThisSystem: boolean = false;
 
+//Disabled due to errors GPC 1/5/2014
+//private var disableThisSystem: boolean = true;
+
 //Note, this will delete ALL PLAYERPREF KEYS
 public function DeleteKeys()
 {
