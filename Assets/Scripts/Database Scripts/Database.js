@@ -1038,8 +1038,15 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 			display.Activate(building.tooltipPic, building.tooltipText);
 		else
 			display.Activate(building.tooltipText);*/
+			
+		var dOS:DisplayOnceSystem = new DisplayOnceSystem();
 		for (var i : int = 0; i < building.tooltip.length; i++)
-			display.Activate(building.tooltip[i], null);
+		{
+			if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
+				display.currentToolTipIndex++;
+			else
+				display.Activate(building.tooltip[i], null);
+		}
 	}
 }
 
