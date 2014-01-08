@@ -550,7 +550,9 @@ public class StartMenu extends GUIControl
 				
 				if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
 				{
-					saveSystem.SaveCurrentPlayer();
+					if(saveSystem.currentPlayer != null)
+						saveSystem.SaveCurrentPlayer();
+						
 					currentScreen = CurrentStartScreen.FirstScreen;
 					PlayButtonPress();
 				}

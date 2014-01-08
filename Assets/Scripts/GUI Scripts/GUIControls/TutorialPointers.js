@@ -296,7 +296,7 @@ public function checkTrigger()
 {
 	var makeChange:boolean = false;
 	
-	if(dOS.WasAlreadyDisplayed(arrowNumOrder, true))
+	if(pointers.Count > 0 && dOS.WasAlreadyDisplayed(arrowNumOrder, true))
 	{
 		currentArrow = null;
 		pointers.Remove(pointers[0]);
