@@ -104,9 +104,13 @@ public class Loading extends GUIControl
 	
 	public var panels:List.<Texture> = new List.<Texture>();
 	private var numOfNarrFolders = 14;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
-	public var currentPanel:int = 0;	
+	public var currentPanel:int = 0;
+	public var nextPanel:int = 0;
 	private var framesPerSecond:int = 150;	// This is how long (frames) a panel is displayed before switching to the next
 	private var currentFrame:int;
+	private var fading:boolean;
+	private var reset:boolean;
+	private var fade:float;
 	
 	public function Initialize()
 	{
@@ -114,6 +118,10 @@ public class Loading extends GUIControl
 		
 		currentFrame = framesPerSecond;
 		currentPanel = 0;
+		nextPanel = 0;
+		fading = false;
+		reset = false;
+		fade = 1.0;
 		SetupRectangles();
 							
 		initialDescFontSize = screenHeight * descFontScale;
@@ -171,6 +179,11 @@ public class Loading extends GUIControl
 			panels.Add(tempTexture);
 		}
 		
+		if(panels.Count > 0)
+		{
+			nextPanel = 1;
+		}
+		
 		// setup confirmation window
 		confirmationRect = Rect(.3 * screenWidth, .3 * screenHeight, .4*screenWidth, .4* screenHeight);
 		confirmCancelRect = Rect(confirmationRect.x + (.2 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height,
@@ -208,15 +221,49 @@ public class Loading extends GUIControl
 		
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
 		
-		currentFrame--;
-		if(currentFrame <= 0)
+		if(panels.Count > 1)
+			currentFrame--;
+			
+		// When it reaches frame 0 and it is not fading, set to fade
+		if(!reset && !fading && currentFrame <= 0)
 		{	
-			currentFrame = framesPerSecond;
-			currentPanel++;
-			if(currentPanel >= panels.Count)
-				currentPanel = 0;
+			fading = true;
+			fade = 0f;
 		}
 		
+		// if it is set to fade, fade...until it is no longer fading,
+		// then if it's still on frame 0, reset the clock
+		if(panels.Count > 1 && fading)
+		{
+			fade += 0.01;
+			GUI.color.a = fade;
+			GUI.DrawTexture(panelRect, panels[nextPanel]);
+			GUI.color.a = 1.0f;
+			if(fade >= 1.0f)
+			{
+				reset = true;
+				fading = false;
+			}
+		}
+		else if(panels.Count > 1 && reset)
+		{
+			GUI.DrawTexture(panelRect, panels[nextPanel]);
+			
+			currentPanel = (currentPanel + 1) % panels.Count;
+			nextPanel = (nextPanel + 1) % panels.Count;
+			
+			/*
+			currentPanel++;
+			nextPanel++;
+			if(currentPanel >= )
+				currentPanel = 0;
+			if(nextPanel >= panels.Count)
+				nextPanel = 0;
+			*/	
+			currentFrame = framesPerSecond;
+			fading = false;
+			reset = false;
+		}
 		
 		
 		

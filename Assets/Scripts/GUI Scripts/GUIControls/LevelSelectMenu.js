@@ -164,7 +164,12 @@ public class LevelSelectMenu extends GUIControl
 			
 			
 	public var emailItemBackground: Texture; // normal background
-	public var highlightedItemBackground : Texture; // background for first highlighted level
+	private var highlightedItemBackground : Texture; // background for first highlighted level
+	public var highlightedItemBackground1 : Texture; // background for first highlighted level
+	public var highlightedItemBackground2 : Texture; // background for first highlighted level
+	private var blinkSpeed : float = 1.2;
+	private var isWaitingToSwitch : boolean;
+	private var useNum1BlinkTexture : boolean;	
 			private var emailItemBackgroundRect: Rect;
 			private var dispEmailItemBackground : Texture; // background to display
 	public var emailMessageBackground: Texture;
@@ -295,6 +300,9 @@ public class LevelSelectMenu extends GUIControl
 	
 	private static var fromScoreScreen : boolean = false;
 	
+	public var tutorialIcon : Texture;
+	public var rankTextures : List.<Texture> = new List.<Texture>();
+	
 	public function Start () 
 	{
 		super.Start();
@@ -304,6 +312,9 @@ public class LevelSelectMenu extends GUIControl
 	{
 		super.Initialize();
 		
+		highlightedItemBackground = highlightedItemBackground1;
+		isWaitingToSwitch = true;
+		useNum1BlinkTexture = true;
 		tooltipDisplay = gameObject.GetComponent(InspectionDisplay);
 		
 		//ADDING IN THE XML LEVELS INTO THE LEVELS ARRAY
@@ -475,6 +486,8 @@ public class LevelSelectMenu extends GUIControl
 						//if(i != levelsToRender.Count-1)
 						//{
 						// choose appropriate item background
+						
+						Blink();						
 						if (i == 0 && displayDifficulty)
 							dispEmailItemBackground = highlightedItemBackground;
 						else
@@ -489,15 +502,21 @@ public class LevelSelectMenu extends GUIControl
 						
 						
 						//If there is a sender picture, display that, else don't
-						if(levelsToRender[i].senderTexture != null)
+						if (i == 0 && displayDifficulty)
+							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, useNum1BlinkTexture),ScaleMode.StretchToFill);
+						else if(levelsToRender[i].senderTexture != null)
 							GUI.DrawTexture(senderRect, levelsToRender[i].senderTexture,ScaleMode.StretchToFill);
 						else
 							GUI.DrawTexture(senderRect, characterEmailIcons[0].senderIcon,ScaleMode.StretchToFill);
 						
-						//Display proper mail icon
+						//Display proper difficulty icon
 						if(displayDifficulty)
 						{
-							if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
+							if(levelsToRender[i].sceneName.Contains("Tutorial_"))
+							{
+								GUI.DrawTexture(statusRectangle, tutorialIcon, ScaleMode.StretchToFill);
+							}
+							else if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
 							{
 								GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
 							}	
@@ -674,6 +693,27 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		
+	}
+	
+	private function Blink()
+	{
+		if(isWaitingToSwitch)
+		{
+			isWaitingToSwitch = false;
+			yield WaitForSeconds(blinkSpeed);
+			if(useNum1BlinkTexture)
+			{
+				highlightedItemBackground = highlightedItemBackground2;
+				useNum1BlinkTexture = false; 
+			}
+			else
+			{
+				highlightedItemBackground = highlightedItemBackground1;
+				useNum1BlinkTexture = true;
+			}
+
+			isWaitingToSwitch = true;
+		}
 	}
 	
 	public function Update()
@@ -880,6 +920,26 @@ public class LevelSelectMenu extends GUIControl
 		return characterEmailIcons[0].senderIcon;
 	}
 	
+	private function getBlinkTexture(normalTexture: Texture, useFirst:boolean):Texture
+	{
+		//Debug.Log("name: " + name);
+		for(var i:int=0; i < characterEmailIcons.Count; i++)
+		{
+			if(characterEmailIcons[i].senderIcon.Equals(normalTexture))
+			{
+				if(useFirst)
+					return characterEmailIcons[i].senderIconHighlight1;
+				else
+					return characterEmailIcons[i].senderIconHighlight2;
+			}
+		}
+		
+		if(useFirst)
+			return characterEmailIcons[0].senderIconHighlight1;
+		else
+			return characterEmailIcons[0].senderIconHighlight2;
+	}
+	
 	public function convertBasicToLevel(basicNode : BasicNode):LevelNode
 	{
 		var levelNode : LevelNode = new LevelNode();
@@ -905,4 +965,6 @@ public class SenderIcon
 {
 	public var senderName : String;
 	public var senderIcon : Texture;
+	public var senderIconHighlight1 : Texture;
+	public var senderIconHighlight2 : Texture;
 }
