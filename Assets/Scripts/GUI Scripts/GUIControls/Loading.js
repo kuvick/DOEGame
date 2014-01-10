@@ -112,6 +112,8 @@ public class Loading extends GUIControl
 	private var reset:boolean;
 	private var fade:float;
 	
+	private var panelLabel:Rect;
+	
 	public function Initialize()
 	{
 		super.Initialize();
@@ -189,6 +191,8 @@ public class Loading extends GUIControl
 		confirmCancelRect = Rect(confirmationRect.x + (.2 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height,
 								confirmationRect.width * .2, confirmationRect.height * .2);
 		confirmContinueRect = Rect(confirmCancelRect.x + confirmCancelRect.width * 2, confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
+		
+		panelLabel = Rect(panelRect.x, panelRect.y - (0.1 * Screen.height),panelRect.width, 0.1 * Screen.height);
 	}
 	
 	public function Render() 
@@ -220,6 +224,14 @@ public class Loading extends GUIControl
 		}		
 		
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
+	
+		style.font = regularFont;
+		style.fontSize = descFontSize;
+		style.alignment = TextAnchor.MiddleLeft;
+		GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+		style.font = boldFont;
+		style.fontSize = loadingStatusFontSize;
+		style.alignment = TextAnchor.MiddleCenter;
 		
 		if(panels.Count > 1)
 			currentFrame--;
