@@ -141,6 +141,10 @@ public class StartMenu extends GUIControl
 	{
 		super.Initialize();
 		
+		var playerData : GameObject = GameObject.Find("Player Data");
+		saveSystem = playerData.GetComponent("SaveSystem");
+		players = saveSystem.LoadNames();
+		
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 
 		percentage = screenWidth / 1920; //Assumes images made to spec of 1920 px
@@ -167,8 +171,6 @@ public class StartMenu extends GUIControl
 		
 		profileSelectButton = Rect(screenWidth * 0.01, (screenHeight - profileSelectHeight) * 0.95, profileSelectWidth, profileSelectHeight);
 		showProfiles = false;
-		var playerData : GameObject = GameObject.Find("Player Data");
-		saveSystem = playerData.GetComponent("SaveSystem");
 		
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		
@@ -225,7 +227,17 @@ public class StartMenu extends GUIControl
 		deleteProfileButtonRect.x = Screen.width / 2 - deleteProfileButtonRect.width / 2;
 		deleteProfileButtonRect.y = (Screen.height / 2 - sfxRect.height / 2) + (sfxRect.height * 3.5);
 		
-		players = saveSystem.LoadNames();
+		
+		if(saveSystem.currentPlayer != null)
+		{
+			sfxSliderVal = saveSystem.currentPlayer.sfxLevel;
+			musicSliderVal = saveSystem.currentPlayer.musicLevel;
+		}
+		else
+		{
+			sfxSliderVal = 1.0;
+			musicSliderVal = 1.0;
+		}
 	}
 	
 	public function Render()
@@ -285,6 +297,7 @@ public class StartMenu extends GUIControl
 					if(players.Count <=0)
 					{
 						firstTime = true;
+						newUsername = "Enter Name";
 						currentScreen = CurrentStartScreen.NewProfile;
 					}
 					else
@@ -376,7 +389,7 @@ public class StartMenu extends GUIControl
 
 						if(currentScreen == CurrentStartScreen.NewProfile)
 						{
-						
+							GUI.skin.textField.fontSize = profileFontSizePercent * screenHeight;
 							newUsername = GUI.TextField(profileButton, newUsername, 10);
 							
 							GUI.skin = startMenuSkin;
@@ -384,27 +397,30 @@ public class StartMenu extends GUIControl
 							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
 							if(GUI.Button(deleteButton, approveButtonText))
 							{
-								saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
-								saveSystem.LoadPlayer(newUsername);
-								
-								
-								// If it is the first time a player is loading the game
-								//(aka no profile has been created until this one)
-								// Then it either loads the dashboard next or the specified
-								// level under the variable firstTimeLevelToLoad.
-								if(firstTime)
+								if(newUsername != "Enter Name" && newUsername != "")
 								{
-									if(firstTimeLevelToLoad == "")
-										currentResponse.type = EventTypes.LEVELSELECT;
-									else
+									saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
+									saveSystem.LoadPlayer(newUsername);
+									
+									
+									// If it is the first time a player is loading the game
+									//(aka no profile has been created until this one)
+									// Then it either loads the dashboard next or the specified
+									// level under the variable firstTimeLevelToLoad.
+									if(firstTime)
 									{
-										PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
-										Application.LoadLevel("LoadingScreen");
+										if(firstTimeLevelToLoad == "")
+											currentResponse.type = EventTypes.LEVELSELECT;
+										else
+										{
+											PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+											Application.LoadLevel("LoadingScreen");
+										}
 									}
+									else
+										currentScreen = CurrentStartScreen.ProfileSelect;
+									PlayButtonPress();
 								}
-								else
-									currentScreen = CurrentStartScreen.ProfileSelect;
-								PlayButtonPress();
 							}
 						}
 						else
@@ -412,7 +428,7 @@ public class StartMenu extends GUIControl
 							GUI.skin = profileSelectSkin;
 							if (GUI.Button(profileButton, "NEW AGENT"))
 							{
-								newUsername = "";
+								newUsername = "Enter Name";
 								currentScreen = CurrentStartScreen.NewProfile;
 								PlayButtonPress();
 							}

@@ -320,6 +320,24 @@ public class GUIControl extends MonoBehaviour
 		
 	}
 	
+	// Used to enable the GUI to automatically set pressed vs. unpressed texture
+	// (aka Unity deals with switching out the textures, this just plugs them in)
+	// Sets the pressed texture to both 'active' and 'hover'
+	public function setButtonTexture(normalTexture:Texture, pressedTexture:Texture)
+	{
+		GUI.skin.button.normal.background = normalTexture;
+		GUI.skin.button.hover.background = pressedTexture;
+		GUI.skin.button.active.background = pressedTexture;
+	}
+	
+	// Sets the textures back to null to avoid other buttons using the backgrounds
+	// to be used in conjunction with the above
+	public function resetButtonTexture()
+	{
+		GUI.skin.button.normal.background = null;
+		GUI.skin.button.hover.background = null;
+		GUI.skin.button.active.background = null;
+	}
 	
 	// To be used in "OnGUI" or "Render"
 	// This function assumes black and white

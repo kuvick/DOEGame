@@ -149,11 +149,14 @@ public class LevelSelectMenu extends GUIControl
 	
 	
 	public var codexIconText: Texture;
+	public var codexIconTextPressed: Texture;
 			private var codexIconRect: Rect;
 			private var codexX: float=35;
 			private var codexY: float=603;
 	public var archiveIconText: Texture;
 	public var newMessageText:Texture;
+	public var archiveIconTextPressed: Texture;
+	public var newMessageTextPressed:Texture;
 			private var archiveIconRect: Rect;
 			private var archiveX: float=35;
 			private var archiveY: float=206;
@@ -172,6 +175,7 @@ public class LevelSelectMenu extends GUIControl
 	//public var lineOverlayText: Texture;
 			//private var lineOverlayRect: Rect;
 	public var mainMenuIconText: Texture;
+	public var mainMenuIconTextPressed: Texture;
 			private var mainMenuIconRect: Rect;
 			private var mainMenuX: float=1563;
 			private var mainMenuY: float=24;
@@ -590,24 +594,28 @@ public class LevelSelectMenu extends GUIControl
 			}
 			*/
 			
-			GUI.DrawTexture(codexIconRect, codexIconText,ScaleMode.StretchToFill);
+			//GUI.DrawTexture(codexIconRect, codexIconText,ScaleMode.StretchToFill);			
+			setButtonTexture(codexIconText, codexIconTextPressed);
 			if(GUI.Button(codexIconRect, ""))
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
-			}
+			}			
 			
-			GUI.DrawTexture(archiveIconRect, inboxTab ? archiveIconText : newMessageText,ScaleMode.StretchToFill);
+			//GUI.DrawTexture(archiveIconRect, inboxTab ? archiveIconText : newMessageText,ScaleMode.StretchToFill);
+			setButtonTexture(inboxTab ? archiveIconText : newMessageText, inboxTab ? archiveIconTextPressed : newMessageTextPressed);
 			if(GUI.Button(archiveIconRect, ""))
 			{
 				//currentResponse.type = EventTypes.archiveMENU;
 				inboxTab = !inboxTab;
 			}
 			
-			GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
+			//GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
+			setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
 			if(GUI.Button(mainMenuIconRect, ""))
 			{
 				currentResponse.type = EventTypes.STARTMENU;
 			}
+			resetButtonTexture();
 		}				
 		else	//Renders the Splash Screen
 		{
