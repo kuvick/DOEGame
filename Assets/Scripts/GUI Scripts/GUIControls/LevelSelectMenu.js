@@ -302,6 +302,8 @@ public class LevelSelectMenu extends GUIControl
 	
 	public var tutorialIcon : Texture;
 	public var rankTextures : List.<Texture> = new List.<Texture>();
+	private var rankRect:Rect;
+	private var rankTextureNum:int;
 	
 	public function Start () 
 	{
@@ -311,6 +313,12 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		//Getting style and displaying names
+		rank1Style =  levelSelectSkin.GetStyle("title1");
+		rank2Style =  levelSelectSkin.GetStyle("title2");
+		playerNameStyle =  levelSelectSkin.GetStyle("playerName");
+		
 		
 		highlightedItemBackground = highlightedItemBackground1;
 		isWaitingToSwitch = true;
@@ -423,6 +431,23 @@ public class LevelSelectMenu extends GUIControl
 								  screenHeight * rank1Y / designHeight,
 								  playerName.Length * levelSelectSkin.customStyles[0].fontSize,
 								  levelSelectSkin.customStyles[0].fontSize * 10);
+								  
+			
+			
+			
+			var rankNameCalcSize : Vector2 = rank2Style.CalcSize(GUIContent(agentRank));
+			var playerNameCalcSize : Vector2 =  playerNameStyle.CalcSize(GUIContent(playerName));
+			
+			playerRect.x = agentRankRect2.x + rankNameCalcSize.x + padding;
+			
+			rankTextureNum = saveSystem.currentPlayer.rank;
+			
+			if(rankTextureNum >= rankTextures.Count)
+				rankTextureNum = rankTextures.Count - 1;
+		
+			rankRect = createRect(rankTextures[rankTextureNum], 991.0 / 1920.0, 9.0 / 1080.0, 144/ 1080.0, false);
+			
+			rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
 		}	
 		else
 			Debug.Log("player not logged in!");
@@ -571,16 +596,12 @@ public class LevelSelectMenu extends GUIControl
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
 		//GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
 		
-		//Getting style and displaying names
-		rank1Style =  GUI.skin.GetStyle("title1");
-		rank2Style =  GUI.skin.GetStyle("title2");
-		playerNameStyle =  GUI.skin.GetStyle("playerName");
-		
 		if(saveSystem.currentPlayer != null)
 		{
 			GUI.Label(agentRankRect2, agentRank, rank2Style);
 			GUI.Label(agentRankRect1, agentRank, rank1Style);
 			GUI.Label(playerRect, playerName, playerNameStyle);
+			GUI.DrawTexture(rankRect, rankTextures[rankTextureNum]);
 		}
 		else
 			GUI.Label(new Rect(0,0,200,200), "Not logged in...");

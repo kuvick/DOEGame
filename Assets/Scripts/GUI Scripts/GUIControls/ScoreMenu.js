@@ -343,8 +343,11 @@ public class ScoreMenu extends GUIControl
 		
 		technologyNameRect = createRect(codexBox, 235 / designWidth, 844/designHeight, codexBox.x / designHeight, false, screenRect);
 		addedToCodexRect = createRect(codexBox, 0, 844/designHeight, codexBox.x / designHeight, false, screenRect);
-		addedToCodexRect.x = technologyNameRect.x + (technologyName.Length * (scoreScreenSkin.customStyles[3].fontSize/1.6));
-	
+		//addedToCodexRect.x = technologyNameRect.x + (technologyName.Length * (scoreScreenSkin.customStyles[3].fontSize/1.6));
+		addedToCodexRect.x = technologyNameRect.x + redStyle.CalcSize(GUIContent(technologyName)).x;
+
+		GUI.Label(technologyNameRect, technologyName, redStyle);
+		GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
 		
 		if(displayToolTips)
 		{
