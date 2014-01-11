@@ -197,6 +197,7 @@ public class CodexMenu extends GUIControl
 	private var touchZoom:boolean = false;
 	private var tapDistance:float;
 	private var zoomIn:boolean = false;
+	private var minZoomDistance:float = 10.0;
 	
 	public function Render()
 	{	
@@ -312,58 +313,87 @@ public class CodexMenu extends GUIControl
 			}
 			else if(zooming || touchZoom)
 			{
+			
+				var enactZoom:boolean = true;
+				
+				// If there is a scroll wheel to take input from...
 				if(Input.GetAxis("Mouse ScrollWheel") != 0)
 				{
 					if(Input.GetAxis("Mouse ScrollWheel") > 0)
 						zoomIn = true;
 					else if(Input.GetAxis("Mouse ScrollWheel") < 0)
 						zoomIn = false;
+					else
+						enactZoom = false;
 				}
+				// If there are two fingers on the screen, use that for zooming
 				else if(Input.touchCount >= 2)
 				{
 					if(touchZoom)
 					{
-						if(tapDistance > Vector2.Distance(Input.touches[0].position, Input.touches[1].position))
-							zoomIn = false;
-						else
-							zoomIn = true;
+						//If both fingers have moved:
+						if(Input.touches[0].phase == TouchPhase.Moved && Input.touches[1].phase == TouchPhase.Moved)
+						{
+							var newDistance:float = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
 							
-						tapDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);	
+							// If both fingers have moved more than the minimum distance
+							if(minZoomDistance <= Mathf.Abs(tapDistance - newDistance))
+							{
+								if(tapDistance > newDistance)
+									zoomIn = false;
+								else
+									zoomIn = true;
+							}
+							// If fingers didn't move more than the min distance:
+							else
+								enactZoom = false;
+									
+							tapDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
+								
+						}
+						// If fingers didn't move last phase:
+						else
+							enactZoom = false;
 					}
 					else
 					{
 						touchZoom = true;
 						tapDistance = Vector2.Distance(Input.touches[0].position, Input.touches[1].position);
 					}
+								
 				}
+				// If there is no input to recieve from
 				else
 				{
 					touchZoom = false;
+					enactZoom = false;
 				}
 			
 			
-				//if(zoomIn && hexGroup.width < Screen.width * 2)
-				if(zoomIn && (currentNumOfCol > 3))
+				if(enactZoom)
 				{
-					//if(currentNumOfCol > 3)
-						//currentNumOfCol--;
+					//if(zoomIn && hexGroup.width < Screen.width * 2)
+					if(zoomIn && (currentNumOfCol > 3))
+					{
+						//if(currentNumOfCol > 3)
+							//currentNumOfCol--;
+							
+						recalculateRectForHexes(1.1);
 						
-					recalculateRectForHexes(1.1);
-					
-					//hexGroup.width = hexGroup.width * 1.1;
-					//hexGroup.height = hexGroup.height * 1.1;
+						//hexGroup.width = hexGroup.width * 1.1;
+						//hexGroup.height = hexGroup.height * 1.1;
+					}
+					//else if(!zoomIn && hexGroup.width > Screen.width * 0.9)
+					else if(!zoomIn && (currentNumOfCol < 11))
+					{
+						//if(currentNumOfCol < 11)
+							//currentNumOfCol++;
+							
+						recalculateRectForHexes(0.9);
+						//hexGroup.width = hexGroup.width * 0.9;
+						//hexGroup.height = hexGroup.height * 0.9;
+					}
 				}
-				//else if(!zoomIn && hexGroup.width > Screen.width * 0.9)
-				else if(!zoomIn && (currentNumOfCol < 11))
-				{
-					//if(currentNumOfCol < 11)
-						//currentNumOfCol++;
-						
-					recalculateRectForHexes(0.9);
-					//hexGroup.width = hexGroup.width * 0.9;
-					//hexGroup.height = hexGroup.height * 0.9;
-				}
-				
 			}
 		}
 	
