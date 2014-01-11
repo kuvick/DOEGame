@@ -85,6 +85,8 @@ public class CodexMenu extends GUIControl
 	
 	private var doNotRender:boolean;
 	
+	private var instructionRect:Rect;
+	
 	
 	public function Initialize(){
 		super.Initialize();
@@ -144,6 +146,10 @@ public class CodexMenu extends GUIControl
 		fullCodex = playerData.codexData.codices;
 		
 		SetupRectangles();
+		
+		instructionRect = createRect(Vector2(500, 60), 0,0, 60/1080, false);
+		instructionRect.x = padding * 2;
+		instructionRect.y = screenHeight - (instructionRect.height + padding * 2);
 	}
 	
 	public function OnOpen(){
@@ -604,6 +610,10 @@ public class CodexMenu extends GUIControl
 			}
 			
 		GUI.EndGroup();
+		
+		GUI.skin.label.alignment = TextAnchor.LowerLeft;
+		GUI.Label(instructionRect,"Pinch to zoom.", descriptStyle);
+		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		
 	}
 	
