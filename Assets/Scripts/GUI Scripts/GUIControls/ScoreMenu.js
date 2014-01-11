@@ -36,12 +36,14 @@ public class ScoreMenu extends GUIControl
 	
 	//Share Button
 	public var shareButton : Texture;
+	public var shareButtonPressed : Texture;
 	private var shareButtonRect : Rect;
 	private var shareButtonX : float = 1476;
 	private var shareButtonY : float = 23;
 	
 	// Retry Button
 	public var retryButton : Texture;
+	public var retryButtonPressed : Texture;
 	private var retryButtonRect : Rect;
 	private var retryButtonX : float = 69;
 	private var retryButtonY : float = 946;
@@ -49,6 +51,7 @@ public class ScoreMenu extends GUIControl
 	
 	// Cont Button
 	public var contButton : Texture;
+	public var contButtonPressed : Texture;
 	private var contButtonRect : Rect;
 	private var contButtonX : float = 1341;
 	private var contButtonY : float = 945;
@@ -377,23 +380,27 @@ public class ScoreMenu extends GUIControl
 			
 			// Buttons are rendered:
 			
-			if(GUI.Button(shareButtonRect, shareButton))
+			setButtonTexture(shareButton, shareButtonPressed);
+			if(GUI.Button(shareButtonRect, ""))
 			{
 				currentResponse.type = EventTypes.FACEBOOK;
 				PlayButtonPress();
 			}
-			if(GUI.Button(retryButtonRect, retryButton))
+			setButtonTexture(retryButton, retryButtonPressed);
+			if(GUI.Button(retryButtonRect, ""))
 			{
 				currentResponse.type = EventTypes.RESTART;
 				PlayButtonPress();
 			}
-			if(GUI.Button(contButtonRect, contButton))
+			setButtonTexture(contButton, contButtonPressed);
+			if(GUI.Button(contButtonRect, ""))
 			{
 				levelSelectRef.SetFromScoreScreen(false);
 				currentResponse.type = EventTypes.LEVELSELECT;
 				PlayButtonPress();
 			}
-			
+			resetButtonTexture();
+
 			
 			// Text is rendered:
 			GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);

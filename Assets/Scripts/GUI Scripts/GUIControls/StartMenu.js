@@ -19,14 +19,18 @@ public class StartMenu extends GUIControl
 	public var backgroundText:Texture;
 	//public var lineOverlayText:Texture;
 	public var facebookButton:Texture;
+	public var facebookButtonPressed:Texture;
 		private var facebookButtonRect:Rect;
 	public var loginButton:Texture;
+	public var loginButtonPressed:Texture;
 		private var loginButtonRect:Rect;
 	public var logo:Texture;
 		private var logoRect:Rect;
 	public var optionsButton:Texture;
+	public var optionsButtonPressed:Texture;
 		private var optionsButtonRect:Rect;
 	public var exitButton:Texture;
+	public var exitButtonPressed:Texture;
 	
 	// Options Screen:
 	public var optionsBannerTexture:Texture;
@@ -48,6 +52,7 @@ public class StartMenu extends GUIControl
 	public var deleteButtonText:Texture;
 	public var profileOptText:Texture;
 	public var mainMenuButtonText:Texture;
+	public var mainMenuButtonTextPressed:Texture;
 		private var upperRightButtonRect:Rect;
 	public var profileBGText:Texture;
 	
@@ -262,8 +267,8 @@ public class StartMenu extends GUIControl
 			
 			GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
 			
-			
-				if (GUI.Button(optionsButtonRect, optionsButton))
+				setButtonTexture(optionsButton, optionsButtonPressed);
+				if (GUI.Button(optionsButtonRect, ""))
 				{
 					/*
 					//So it can pass to the loading screen where to go next
@@ -291,7 +296,8 @@ public class StartMenu extends GUIControl
 					PlayButtonPress();
 				}
 				
-				if (GUI.Button(loginButtonRect, loginButton))
+				setButtonTexture(loginButton, loginButtonPressed);
+				if (GUI.Button(loginButtonRect, ""))
 				{
 					players = saveSystem.LoadNames();
 					if(players.Count <=0)
@@ -308,16 +314,21 @@ public class StartMenu extends GUIControl
 					PlayButtonPress();
 				}
 			
-				if (GUI.Button(facebookButtonRect, facebookButton))
+				setButtonTexture(facebookButton, facebookButtonPressed);
+				if (GUI.Button(facebookButtonRect, ""))
 				{
 					currentResponse.type = EventTypes.FACEBOOK;
 					PlayButtonPress();
 				}
 				
-				if (GUI.Button(quitButton, exitButton))
+				setButtonTexture(exitButton, exitButtonPressed);
+				if (GUI.Button(quitButton, ""))
 				{
 					Application.Quit();
 				}
+				
+				resetButtonTexture();
+
 				
 			}// end of first screen
 			else if(currentScreen == CurrentStartScreen.ProfileSelect || currentScreen == CurrentStartScreen.NewProfile)
@@ -336,12 +347,13 @@ public class StartMenu extends GUIControl
 					
 					GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
 					GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
-					if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
+					setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);
+					if (GUI.Button(upperRightButtonRect, ""))
 					{
 						currentScreen = CurrentStartScreen.FirstScreen;
 						PlayButtonPress();
 					}
-					
+					resetButtonTexture();
 					scrollContent.height = (players.Count + 1) * (profileSelectHeight + (buttonSideBuffer * screenHeight));
 					
 					
@@ -563,8 +575,8 @@ public class StartMenu extends GUIControl
 					saveSystem.currentPlayer.musicLevel = musicSliderVal;
 				}
 				
-				
-				if (GUI.Button(upperRightButtonRect, mainMenuButtonText))
+				setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);				
+				if (GUI.Button(upperRightButtonRect, ""))
 				{
 					if(saveSystem.currentPlayer != null)
 						saveSystem.SaveCurrentPlayer();
@@ -572,6 +584,7 @@ public class StartMenu extends GUIControl
 					currentScreen = CurrentStartScreen.FirstScreen;
 					PlayButtonPress();
 				}
+				resetButtonTexture();
 				
 				SoundManager.Instance().setVolumes(sfxSliderVal, musicSliderVal);
 				

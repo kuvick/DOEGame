@@ -22,6 +22,7 @@ public class CodexMenu extends GUIControl
 	public var codexButtonLightStyle : GUIStyle;
 	public var codexLabelTexture : Texture2D;
 	public var backButtonTexture : Texture2D;
+	public var backButtonTexturePressed : Texture2D;
 	//public var previousEntriesTexture : Texture2D;
 	public var backgroundTexture : Texture2D;
 	public var scrollViewbackgroundTexture : Texture2D;
@@ -417,20 +418,22 @@ public class CodexMenu extends GUIControl
 		
 		// Header:
 		GUI.DrawTexture(codexLabelRect, codexLabelTexture);
-		GUI.DrawTexture(backButtonRect, backButtonTexture,ScaleMode.StretchToFill);
-		if(!isHolding && GUI.Button(backButtonRect, ""))
+		setButtonTexture(backButtonTexture, backButtonTexturePressed);
+		if(GUI.Button(backButtonRect, ""))
 		{
-			
-			if(mainView)
+			if(!isHolding)
 			{
-				currentResponse.type = EventTypes.LEVELSELECT;
-			}
-			else
-			{
-				mainView = true;
+				if(mainView)
+				{
+					currentResponse.type = EventTypes.LEVELSELECT;
+				}
+				else
+				{
+					mainView = true;
+				}
 			}
 		}
-		
+		resetButtonTexture();
 
 	}
 	
@@ -624,6 +627,7 @@ public class CodexMenu extends GUIControl
 	public var infoBoxTexture:Texture;
 	private var infoBoxRect:Rect;
 	public var learnMoreButton:Texture;
+	public var learnMoreButtonPressed:Texture;
 	private var learnMoreRect:Rect;
 	private var titleRect:Rect;
 	private var descriptionRect:Rect;
@@ -644,13 +648,12 @@ public class CodexMenu extends GUIControl
 			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);
 			GUI.DrawTexture(techIconRect, currentEntry.icon, ScaleMode.StretchToFill);
 			
-			
-			GUI.DrawTexture(learnMoreRect, learnMoreButton, ScaleMode.StretchToFill);
+			setButtonTexture(learnMoreButton, learnMoreButtonPressed);
 			if(GUI.Button(learnMoreRect, ""))
 			{
 				Application.OpenURL(currentEntry.urlLink);
 			}
-
+			resetButtonTexture();
 		GUI.EndGroup();
 	}
 	

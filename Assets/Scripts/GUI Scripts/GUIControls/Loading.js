@@ -53,6 +53,7 @@ public class Loading extends GUIControl
 	//public var viewJobOnlineButton:Texture;
 		//private var jobOnlineButtonRect:Rect;
 	public var viewJobWebsiteButton:Texture;
+	public var viewJobWebsiteButtonPressed:Texture;
 		private var jobWebsiteButtonRect:Rect;
 	public var placeholderPanel:Texture;
 		private var panelRect:Rect;
@@ -224,13 +225,13 @@ public class Loading extends GUIControl
 		}
 		*/
 		
-		GUI.DrawTexture(jobWebsiteButtonRect, viewJobWebsiteButton);
+		setButtonTexture(viewJobWebsiteButton, viewJobWebsiteButtonPressed, style);
 		if (GUI.Button(jobWebsiteButtonRect,"", style))
 		{
 			//Application.OpenURL("http://energy.gov/jobs");
 			showConfirmation = true;
-		}		
-		
+		}
+		resetButtonTexture(style);
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
 	
 		style.font = regularFont;

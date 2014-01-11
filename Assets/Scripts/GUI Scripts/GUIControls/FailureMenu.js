@@ -16,14 +16,17 @@ public class FailureMenu extends GUIControl
 
 	// Restart Button
 	public var restartButton : Texture;
+	public var restartButtonPressed : Texture;
 	private var restartButtonRect : Rect;
 	
 	// Dashboard Button
 	public var dashboardButton : Texture;
+	public var dashboardButtonPressed : Texture;
 	private var dashboardButtonRect : Rect;
 	
 	// Main Menu Button
 	public var mainMenuButton : Texture;
+	public var mainMenuButtonPressed : Texture;
 	private var mainMenuButtonRect : Rect;
 
 	//Button Vars
@@ -82,26 +85,26 @@ public class FailureMenu extends GUIControl
 		
 		
 		// Buttons are rendered:
-		GUI.DrawTexture(restartButtonRect, restartButton, ScaleMode.StretchToFill);
+		setButtonTexture(restartButton, restartButtonPressed);
 		if(GUI.Button(restartButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.RESTART;
 		}
 		
-		GUI.DrawTexture(dashboardButtonRect, dashboardButton, ScaleMode.StretchToFill);
+		setButtonTexture(dashboardButton, dashboardButtonPressed);
 		if(GUI.Button(dashboardButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		
-		GUI.DrawTexture(mainMenuButtonRect, mainMenuButton, ScaleMode.StretchToFill);
+		setButtonTexture(mainMenuButton, mainMenuButtonPressed);
 		if(GUI.Button(mainMenuButtonRect, ""))
 		{
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
-		
+		resetButtonTexture();
 		GUI.EndGroup();
 
 
