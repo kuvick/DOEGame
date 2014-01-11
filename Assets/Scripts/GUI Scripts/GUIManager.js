@@ -352,7 +352,16 @@ private function RespondTo(response:GUIEvent)
 			
 		// Pause Menu responses
 		case EventTypes.RESTART:
-			Application.LoadLevel(Application.loadedLevel);
+			if(intelSystem != null && intelSystem.currentLevelName != "")
+			{
+				//Debug.Log(intelSystem.currentLevelName + " will be loaded.");
+				Application.LoadLevel(intelSystem.currentLevelName);
+			}
+			else
+			{
+				//Debug.Log(Application.loadedLevel + " will be loaded.");
+				Application.LoadLevel(Application.loadedLevel);	// originally just set to this
+			}	
 			ClearControls();
 			AddGUIToControls(mainMenu);
 			//AddGUIToControls(marquee);
