@@ -330,6 +330,13 @@ public class GUIControl extends MonoBehaviour
 		GUI.skin.button.active.background = pressedTexture;
 	}
 	
+	public function setButtonTexture(normalTexture:Texture, pressedTexture:Texture, style:GUIStyle)
+	{
+		style.normal.background = normalTexture;
+		style.hover.background = pressedTexture;
+		style.active.background = pressedTexture;
+	}
+	
 	// Sets the textures back to null to avoid other buttons using the backgrounds
 	// to be used in conjunction with the above
 	public function resetButtonTexture()
@@ -337,6 +344,13 @@ public class GUIControl extends MonoBehaviour
 		GUI.skin.button.normal.background = null;
 		GUI.skin.button.hover.background = null;
 		GUI.skin.button.active.background = null;
+	}
+	
+	public function resetButtonTexture(style:GUIStyle)
+	{
+		style.normal.background = null;
+		style.hover.background = null;
+		style.active.background = null;
 	}
 	
 	// To be used in "OnGUI" or "Render"

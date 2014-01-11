@@ -46,6 +46,7 @@ public class Loading extends GUIControl
 	public var loadingBackground:Texture;
 		private var loadingBGRect:Rect;
 	public var loadingStatusBox:Texture;
+	public var loadingStatusBoxPressed:Texture;
 		private var loadingStatusBoxRect:Rect;
 	//public var viewFullDescriptButton:Texture;
 		//private var fullDescriptButtonRect:Rect;
@@ -128,6 +129,8 @@ public class Loading extends GUIControl
 							
 		initialDescFontSize = screenHeight * descFontScale;
 		style.normal.textColor = Color.white;
+		style.active.textColor = Color.white;
+		style.hover.textColor = Color.white;
 		style.font = regularFont;
 		style.wordWrap = true;
 		/*style.normal.background = null;
@@ -193,6 +196,10 @@ public class Loading extends GUIControl
 		confirmContinueRect = Rect(confirmCancelRect.x + confirmCancelRect.width * 2, confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
 		
 		panelLabel = Rect(panelRect.x, panelRect.y - (0.1 * Screen.height),panelRect.width, 0.1 * Screen.height);
+		style.stretchWidth = true;
+		style.stretchHeight = true;
+		style.margin = RectOffset (0, 0, 0, 0);
+		style.padding = RectOffset (0, 0, 0, 0);
 	}
 	
 	public function Render() 
@@ -205,6 +212,7 @@ public class Loading extends GUIControl
 		GUI.DrawTexture(loadingBGRect, loadingBackground);
 		
 		GUI.DrawTexture(loadingBGRect, loadingBackground);
+		
 		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
 		/*
@@ -292,13 +300,15 @@ public class Loading extends GUIControl
 		{
 			if (hasFinishedDelay)
 			{
-				if (GUI.Button(loadingStatusRect, "Begin Mission", style))
+				setButtonTexture(loadingStatusBox, loadingStatusBoxPressed, style);		
+				if (GUI.Button(loadingStatusBoxRect, "Begin Mission", style))
 				{
 					//Since the timer starts as soon as the level loads, this resets it for when the player starts the mission
 					var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 					intelSystem.resetTimer();
 					currentResponse.type = EventTypes.DONELOADING;
 				}
+				resetButtonTexture(style);
 			}
 			/*
 			if (GUI.Button(toggleDescriptionRect, toggleText, style))
