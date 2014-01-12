@@ -54,6 +54,7 @@ public class BuildingMenu extends GUIControl
 	public var scrollRightTexture_Inactive:Texture;
 	
 	public var cancelButtonTexture:Texture;
+	public var cancelButtonTexturePressed:Texture;
 	public var backgroundText: Texture;
 	
 	// Building Menu animation
@@ -210,9 +211,12 @@ public class BuildingMenu extends GUIControl
 		buildingClip = createRect(new Vector2(714, 358), 0.104, 0.204, 0.663, true, background);
 		scrollLeft = createRect(scrollLeftTexture_Active, 0.124, 0.834, 0.079, false);
 		scrollRight = createRect(scrollLeftTexture_Active, 0.65, 0.834, 0.079, false);
-		cancelButton =	createRect(cancelButtonTexture,0,0, 0.1, false);	
-		cancelButton.x = buildingClip.x;
-		cancelButton.y = buildingClip.y - cancelButton.height * 1.5;
+		cancelButton =	createRect(cancelButtonTexture,0,0, 0.07, false);	
+		//cancelButton.x = buildingClip.x;
+		//cancelButton.y = buildingClip.y - cancelButton.height * 1.5;
+		
+		cancelButton.y = cancelButton.height * 0.8;
+		cancelButton.x = (buildingClip.x + buildingClip.width) - padding;
 
 		
 		rectList.Add(background);
@@ -332,15 +336,18 @@ public class BuildingMenu extends GUIControl
 			GUI.EndGroup();
 		GUI.EndGroup();
 		
-		
-		//GUI.skin = hexButtonSkin;
-		
-		if (GUI.Button(cancelButton, cancelButtonTexture))
+		setButtonTexture(cancelButtonTexture, cancelButtonTexturePressed);
+		if (GUI.Button(cancelButton, ""))
 		{
 			SoundManager.Instance().playCancel();
 			currentResponse.type = EventTypes.MAIN;
 			ModeController.setSelectedBuilding(null);
 		}
+		resetButtonTexture();
+		
+		//GUI.skin = hexButtonSkin;
+		
+
 	}
 	
 	public function Update()
