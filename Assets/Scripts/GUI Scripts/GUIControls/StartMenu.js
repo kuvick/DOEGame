@@ -121,6 +121,16 @@ public class StartMenu extends GUIControl
 	public var deleteProfileButton:Texture;
 	private var deleteProfileButtonRect:Rect;
 	
+	private var showConfirmation : boolean = false;
+	private var style : GUIStyle = GUIStyle();
+	public var regularFont : Font;
+	public var infoBox:Texture;
+	public var infoButton:Texture;
+	public var infoButtonPressed:Texture;
+	private var confirmationRect : Rect;
+	private var confirmCancelRect : Rect;
+	private var confirmContinueRect : Rect;
+	
 	public enum CurrentStartScreen
 	{
 		FirstScreen,
@@ -145,6 +155,25 @@ public class StartMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		style.normal.textColor = Color.white;
+		style.active.textColor = Color.white;
+		style.hover.textColor = Color.white;
+		style.wordWrap = true;
+		style.stretchWidth = true;
+		style.stretchHeight = true;
+		style.margin = RectOffset (0, 0, 0, 0);
+		style.padding = RectOffset (0, 0, 0, 0);
+		style.font = regularFont;
+		style.fontSize = (screenHeight * 0.04) * .9;
+		style.alignment = TextAnchor.MiddleCenter;
+		showConfirmation = false;
+		
+		// setup confirmation window
+		confirmationRect = Rect(.3 * screenWidth, .3 * screenHeight, .4*screenWidth, .4* screenHeight);
+		confirmCancelRect = Rect(confirmationRect.x + (.1 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height - padding,
+								confirmationRect.width * .3, confirmationRect.height * .3);
+		confirmContinueRect = Rect((confirmationRect.x + confirmationRect.width) - ((.1 * confirmationRect.width) + confirmCancelRect.width), confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
 		
 		var playerData : GameObject = GameObject.Find("Player Data");
 		saveSystem = playerData.GetComponent("SaveSystem");
@@ -546,13 +575,7 @@ public class StartMenu extends GUIControl
 				GUI.DrawTexture(deleteProfileButtonRect, deleteProfileButton,ScaleMode.StretchToFill);
 				if(GUI.Button(deleteProfileButtonRect, ""))
 				{
-					for(var l:int = 0; l < players.Count; l++)
-						saveSystem.deletePlayer(players[l]);
-						
-					var displayOnce:DisplayOnceSystem = new DisplayOnceSystem();
-					displayOnce.DeleteKeys();
-					PlayButtonPress();
-					currentScreen = CurrentStartScreen.FirstScreen;
+					showConfirmation = true;
 				}
 				
 				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
@@ -599,6 +622,30 @@ public class StartMenu extends GUIControl
 					lastMusicVal = musicSliderVal;
 					SoundManager.Instance().UpdateMusicVol(musicSliderVal);
 				}
+				
+				//**********************
+				// Confirmation Box:
+				if(showConfirmation)
+				{
+					setButtonTexture(infoBox, infoBox, style);
+					GUI.Box(confirmationRect, "Are you sure you want to delete player data?", style);
+					setButtonTexture(infoButton, infoButtonPressed, style);
+					if (GUI.Button(confirmCancelRect, "Cancel", style))
+						showConfirmation = false;
+					if (GUI.Button(confirmContinueRect, "Continue", style))
+					{
+						for(var l:int = 0; l < players.Count; l++)
+							saveSystem.deletePlayer(players[l]);
+							
+						var displayOnce:DisplayOnceSystem = new DisplayOnceSystem();
+						displayOnce.DeleteKeys();
+						PlayButtonPress();
+						showConfirmation = false;
+						currentScreen = CurrentStartScreen.FirstScreen;
+					}
+					resetButtonTexture(style);
+				}
+				//**********************
 				
 			}// end of options
 			
