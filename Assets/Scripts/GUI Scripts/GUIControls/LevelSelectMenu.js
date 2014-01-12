@@ -242,7 +242,7 @@ public class LevelSelectMenu extends GUIControl
 	//Scroll
 	private var scrollArea:Rect;
 	private var scrollArea2: Rect;
-	private var levelSelectScrollPos:Vector2;
+	private var levelSelectScrollPos:Vector2 = Vector2.zero;
 	private var scrollContent : Rect;
 	
 	private var scrollAreaWidthPercent : float = 0.75;
@@ -485,7 +485,7 @@ public class LevelSelectMenu extends GUIControl
 	{
 		// Scroll bar
 		
-		GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
+		//GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
 		
 			levelSelectScrollPos = GUI.BeginScrollView
 			(
@@ -648,6 +648,10 @@ public class LevelSelectMenu extends GUIControl
 			{
 				//currentResponse.type = EventTypes.archiveMENU;
 				inboxTab = !inboxTab;
+				if (inboxTab)
+					scrollContent.height = (unlockedLevels.Count + 1) * (messageHeightPercent * screenHeight) + (levels.Length + 1) * .05;
+				else
+					scrollContent.height = (completedLevels.Count + 1) * (messageHeightPercent * screenHeight) + (levels.Length + 1) * .05;
 			}
 			
 			//GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
