@@ -197,8 +197,8 @@ public class NarrativeUI extends GUIControl
 			
 			skipTimes  = new List.<float>();
 			
-			/*metrics = new MetricContainer();
-			m_display = new MetricDisplay();*/
+			metrics = new MetricContainer();
+			m_display = new MetricDisplay();
 	
 	}
 	
@@ -247,7 +247,7 @@ public class NarrativeUI extends GUIControl
 				}
 				if (GUI.Button(skip, skipButton))
 				{	
-					//metrics.Narrative.wasSkipped = true;
+					metrics.Narrative.wasSkipped = true;
 					if(!inScoreScreen)
 					{
 						LoadLevel();
@@ -307,7 +307,9 @@ public class NarrativeUI extends GUIControl
 	private function LoadLevel()
 	{
 		Debug.Log("loading level in narrative ui");
-		//WriteMetricData();		
+		#if (!UNITY_WEBPLAYER)
+		WriteMetricData();	
+		#endif	
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 		nextLevel.nextLevel = levelToLoad;
@@ -315,6 +317,7 @@ public class NarrativeUI extends GUIControl
 		Application.LoadLevel("LoadingScreen");
 	}
 	
+	#if (!UNITY_WEBPLAYER)
 	private function WriteMetricData()
 	{
 		metrics.Narrative.timeSpentTotal = Time.timeSinceLevelLoad;
@@ -327,6 +330,8 @@ public class NarrativeUI extends GUIControl
 		var path : String = Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE");
 		if(!Directory.Exists(path))
 			System.IO.Directory.CreateDirectory(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE"));													
-		metrics.SaveNarrative(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE/"));	
+		metrics.SaveNarrative(Path.Combine(Application.dataPath, "Metrics/" + sceneName + "/NARRATIVE/"));
+		Debug.Log(Application.dataPath);	
 	}
+	#endif
 }

@@ -90,6 +90,7 @@ public class NarrativeData
 	public var timeSpentTotal : float;
 	public var timeBeforeClick : List.<float>;
 	public var wasSkipped : boolean = false;
+	public var siteClicks : int = 0;
 	
 	function NarrativeData(){}
 	
@@ -98,6 +99,22 @@ public class NarrativeData
 		this.timeSpentTotal = timeSpentTotal;
 		this.wasSkipped = wasSkipped;
 	}	
+}
+
+public class SessionData
+{
+	public var sessionDuration : float = 0;
+	public var siteClicks : int = 0;
+	
+	function SessionData(){}
+}
+
+public class GeneralData
+{
+	public var timesPlayed : int = 0;
+	public var lastSession : String;
+	
+	function GeneralData(){}
 }
 
 @XmlRoot("MetricCollection")
@@ -120,6 +137,9 @@ public class MetricContainer
 	
 	@XmlAttribute("Narratives")
 	public var Narrative : NarrativeData;
+	
+	private static var session : SessionData;
+	private static var general : GeneralData;
 	
 	function MetricContainer()
 	{
@@ -177,7 +197,6 @@ public class MetricContainer
 	{		
 		var pattern : String = "[^0-9]";
 		var Now : String = System.DateTime.Now.ToString();		
-		
 		//Remove all characters except numbers
 		Now = Regex.Replace(Now, pattern, String.Empty);
 		
@@ -207,6 +226,69 @@ public class MetricContainer
 		var stream : FileStream = new FileStream(path, FileMode.Create);
 		serializer.Serialize(stream, this.Narrative);		
 		stream.Close();
+	}
+	
+	public static function StartSession()
+	{
+		session = new SessionData();
+	}
+	
+	public static function IncrementSessionSiteClicks()
+	{
+		session.siteClicks++;
+	}
+	
+	public static function SaveSessionData(path : String)
+	{
+		var Now : String = System.DateTime.Now.ToString();		
+		
+		if (!Directory.Exists(path))
+			System.IO.Directory.CreateDirectory(path);
+			
+		Now = Regex.Replace(Now, "/", "-");
+		Now = Regex.Replace(Now, ":", String.Empty);
+		
+		path = Path.Combine(path, Now + "_SESSION.xml");
+	
+		session.sessionDuration = Time.time;
+	
+		var serializer : XmlSerializer = new XmlSerializer(SessionData);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.session);		
+		stream.Close();	
+	}
+	
+	public static function IncrementGeneralTimesPlayed()
+	{
+		general.timesPlayed++;
+	}
+	
+	public static function LoadGeneralData(path : String)
+	{
+		general = new GeneralData();
+		
+		if (!File.Exists(path))
+			return;
+	
+		var serializer : XmlSerializer = new XmlSerializer(GeneralData);
+		var stream : FileStream = new FileStream(path, FileMode.Open);
+		general = serializer.Deserialize(stream) as GeneralData;
+		stream.Close();
+	}
+	
+	public static function SaveGeneralData(path : String)
+	{
+		if (!Directory.Exists(path))
+			System.IO.Directory.CreateDirectory(path);
+		
+		path = Path.Combine(path, "GENERAL.xml");
+		
+		general.lastSession = System.DateTime.Now.ToString();
+	
+		var serializer : XmlSerializer = new XmlSerializer(GeneralData);		
+		var stream : FileStream = new FileStream(path, FileMode.Create);
+		serializer.Serialize(stream, this.general);		
+		stream.Close();	
 	}
 	
 	public static function Load(path : String) : MetricContainer

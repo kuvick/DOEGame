@@ -297,7 +297,8 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.FACEBOOK:
 			break;
 		case EventTypes.QUIT:
-			Application.Quit();
+			Utils.QuitGame();
+			//Application.Quit();
 		
 		// Loading responses
 		case EventTypes.DONELOADING:
@@ -375,7 +376,8 @@ private function RespondTo(response:GUIEvent)
 			//startMenu.SetSplash(false); - keeps turning a null error
 			break;
 		case EventTypes.SAVEQUIT:
-			Application.Quit();
+			Utils.QuitGame();
+			//Application.Quit();
 			break;
 			
 		// Intel Menu responses
@@ -434,8 +436,8 @@ private function SetupLoading(nextLevel : String)
 
 private function RecordEndGameData()
 {
-
-	/*database.metrics.EndGame = new EndGameData(
+	#if (!UNITY_WEBPLAYER)
+	database.metrics.EndGame = new EndGameData(
 								intelSystem.getPrimaryScore() + intelSystem.getOptionalScore(),
 								intelSystem.totalEvents,
 								intelSystem.events.Count + intelSystem.linkedEvents.Count,
@@ -447,8 +449,9 @@ private function RecordEndGameData()
 	System.IO.Directory.CreateDirectory(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN"));													
 	database.metrics.SaveEndGame(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/END/"));
 	database.metrics.SaveLink(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/LINK/"));
-	database.metrics.SaveTurn(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));*/
-	
+	database.metrics.SaveTurn(Path.Combine(Application.persistentDataPath, "Metrics/" + intelSystem.currentLevelName + "/TURN/"));
+	Debug.Log(Application.persistentDataPath);
+	#endif
 	UndoPressed = 0;
 	intelSystem.totalEvents = 0;
 }
