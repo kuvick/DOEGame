@@ -216,6 +216,7 @@ public class LevelSelectMenu extends GUIControl
 		private var rank2Y:float=31;
 	private var scrollThumbWidth:float=0.03;
 	public var backButtonText: Texture;
+	public var backButtonTextPressed: Texture;
 	private var rank1Style:GUIStyle;
 	private var rank2Style:GUIStyle;
 	private var playerNameStyle:GUIStyle;
@@ -707,11 +708,12 @@ public class LevelSelectMenu extends GUIControl
 
 			GUI.EndGroup();
 			
-			GUI.DrawTexture(archiveIconRect, backButtonText, ScaleMode.StretchToFill);
+			setButtonTexture(backButtonText, backButtonTextPressed);
 			if(GUI.Button(archiveIconRect, ""))
 			{
 				showSplash = false;
 			}
+			resetButtonTexture();
 		}
 		
 	}

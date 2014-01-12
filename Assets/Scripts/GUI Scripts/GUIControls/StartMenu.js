@@ -63,6 +63,7 @@ public class StartMenu extends GUIControl
 	public var nameBannerText:Texture;
 		private var agentNameRect:Rect;
 	public var approveButtonText:Texture;
+	public var approveButtonTextPressed:Texture;
 	public var keys : List.<Texture> = new List.<Texture>();
 		private var keysRect : List.<Rect> = new List.<Rect>();
 
@@ -119,6 +120,7 @@ public class StartMenu extends GUIControl
 	public var firstTimeLevelToLoad:String = "";
 	
 	public var deleteProfileButton:Texture;
+	public var deleteProfileButtonPressed:Texture;
 	private var deleteProfileButtonRect:Rect;
 	
 	private var showConfirmation : boolean = false;
@@ -436,7 +438,8 @@ public class StartMenu extends GUIControl
 							GUI.skin = startMenuSkin;
 							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
 							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
-							if(GUI.Button(deleteButton, approveButtonText))
+							setButtonTexture(approveButtonText, approveButtonTextPressed);
+							if(GUI.Button(deleteButton, ""))
 							{
 								if(newUsername != "Enter Name" && newUsername != "")
 								{
@@ -463,6 +466,7 @@ public class StartMenu extends GUIControl
 									PlayButtonPress();
 								}
 							}
+							resetButtonTexture();
 						}
 						else
 						{
@@ -572,11 +576,12 @@ public class StartMenu extends GUIControl
 			{
 				GUI.skin = startMenuSkin;
 				
-				GUI.DrawTexture(deleteProfileButtonRect, deleteProfileButton,ScaleMode.StretchToFill);
+				setButtonTexture(deleteProfileButton, deleteProfileButtonPressed);
 				if(GUI.Button(deleteProfileButtonRect, ""))
 				{
 					showConfirmation = true;
 				}
+				resetButtonTexture();
 				
 				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
 
@@ -587,10 +592,13 @@ public class StartMenu extends GUIControl
 					musicSliderVal = saveSystem.currentPlayer.musicLevel;
 				}
 				
-				GUI.Label(sfxLabelRect, "Effect Volume");
-				sfxSliderVal = GUI.HorizontalSlider (sfxRect, sfxSliderVal, 0.0, 1.0);
-				GUI.Label(musicLabelRect, "Music Volume");
-				musicSliderVal = GUI.HorizontalSlider (musicRect, musicSliderVal, 0.0, 1.0);
+				if(!showConfirmation)
+				{
+					GUI.Label(sfxLabelRect, "Effect Volume");
+					sfxSliderVal = GUI.HorizontalSlider (sfxRect, sfxSliderVal, 0.0, 1.0);
+					GUI.Label(musicLabelRect, "Music Volume");
+					musicSliderVal = GUI.HorizontalSlider (musicRect, musicSliderVal, 0.0, 1.0);
+				}
 				
 				if(saveSystem.currentPlayer != null)
 				{
