@@ -2,6 +2,15 @@
 /// Utils.js
 /// Provides misc functions to be used throughout the game
 
+// exits game and calls necessary functions
+public static function QuitGame()
+{
+	#if (!UNITY_WEBPLAYER)
+	MetricContainer.SaveSessionData(Path.Combine(Application.persistentDataPath, "Metrics/Session/"));
+	MetricContainer.SaveGeneralData(Path.Combine(Application.persistentDataPath, "Metrics/"));
+	#endif
+	Application.Quit();
+}
 
 /// Will return the width and height in percentages of what the texture should be so that it is not distorted
 public static function CalcTextureDimensionsWithDesiredHeight(texture : Texture2D, desiredHeightAsPercentage : float) : Vector2{

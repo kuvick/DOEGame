@@ -347,6 +347,7 @@ public class Loading extends GUIControl
 			showConfirmation = false;
 		if (GUI.Button(confirmContinueRect, "Continue", style))
 		{
+			MetricContainer.IncrementSessionSiteClicks();
 			Application.OpenURL("http://energy.gov/jobs");
 			showConfirmation = false;
 		}

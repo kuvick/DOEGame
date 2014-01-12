@@ -355,7 +355,8 @@ public class StartMenu extends GUIControl
 				setButtonTexture(exitButton, exitButtonPressed);
 				if (GUI.Button(quitButton, ""))
 				{
-					Application.Quit();
+					Utils.QuitGame();
+					//Application.Quit();
 				}
 				
 				resetButtonTexture();
@@ -681,6 +682,11 @@ public class StartMenu extends GUIControl
 		//showSplash = true;
 		if (showSplash)
 		{
+			#if (!UNITY_WEBPLAYER)
+			MetricContainer.StartSession();
+			MetricContainer.LoadGeneralData(Path.Combine(Application.persistentDataPath, "Metrics/GENERAL.xml"));
+			MetricContainer.IncrementGeneralTimesPlayed();
+			#endif
 			currentTexture = splashDOEBG;
 			currentIcon = splashDOEIcon;
 			yield WaitForSeconds(2);
