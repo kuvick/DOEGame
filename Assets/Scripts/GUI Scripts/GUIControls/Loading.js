@@ -116,6 +116,10 @@ public class Loading extends GUIControl
 	
 	private var panelLabel:Rect;
 	
+	public var infoBox:Texture;
+	public var infoButton:Texture;
+	public var infoButtonPressed:Texture;
+	
 	public function Initialize()
 	{
 		super.Initialize();
@@ -192,9 +196,9 @@ public class Loading extends GUIControl
 		
 		// setup confirmation window
 		confirmationRect = Rect(.3 * screenWidth, .3 * screenHeight, .4*screenWidth, .4* screenHeight);
-		confirmCancelRect = Rect(confirmationRect.x + (.2 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height,
-								confirmationRect.width * .2, confirmationRect.height * .2);
-		confirmContinueRect = Rect(confirmCancelRect.x + confirmCancelRect.width * 2, confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
+		confirmCancelRect = Rect(confirmationRect.x + (.1 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height - padding,
+								confirmationRect.width * .3, confirmationRect.height * .3);
+		confirmContinueRect = Rect((confirmationRect.x + confirmationRect.width) - ((.1 * confirmationRect.width) + confirmCancelRect.width), confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
 		
 		panelLabel = Rect(panelRect.x, panelRect.y - (0.1 * Screen.height),panelRect.width, 0.1 * Screen.height);
 		style.stretchWidth = true;
@@ -332,14 +336,25 @@ public class Loading extends GUIControl
 	
 	private function RenderConfirmationWindow()
 	{
-		GUI.Box(confirmationRect, "Continue to DOE website?");
-		if (GUI.Button(confirmCancelRect, "Cancel"))
+		style.font = regularFont;
+		style.fontSize = descFontSize * .9;
+		style.alignment = TextAnchor.MiddleCenter;
+		
+		setButtonTexture(infoBox, infoBox, style);
+		GUI.Box(confirmationRect, "Continue to DOE website?", style);
+		setButtonTexture(infoButton, infoButtonPressed, style);
+		if (GUI.Button(confirmCancelRect, "Cancel", style))
 			showConfirmation = false;
-		if (GUI.Button(confirmContinueRect, "Continue"))
+		if (GUI.Button(confirmContinueRect, "Continue", style))
 		{
 			Application.OpenURL("http://energy.gov/jobs");
 			showConfirmation = false;
 		}
+		resetButtonTexture(style);
+		
+		style.font = boldFont;
+		style.fontSize = loadingStatusFontSize;
+		style.alignment = TextAnchor.MiddleCenter;
 	}
 	
 	private function DelayLoad(seconds:int):IEnumerator{
