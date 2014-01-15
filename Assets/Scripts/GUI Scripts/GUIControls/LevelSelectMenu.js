@@ -199,6 +199,7 @@ public class LevelSelectMenu extends GUIControl
 	private var designWidth : float = 1920;
 	private var designHeight : float = 1080;
 	public var startLevelButtonTexture: Texture;
+	public var startLevelButtonTexturePressed: Texture;
 	private var missionScrollArea: Rect;
 		private var missionScrollX:float =41;
 		private var missionScrollY:float = 50;
@@ -693,21 +694,25 @@ public class LevelSelectMenu extends GUIControl
 
 				if(inboxTab)
 				{
-					GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
+					setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
+					//GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
 					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
 						Application.LoadLevel("LoadingScreen");
 					}
+					resetButtonTexture();
 				}
 				else
 				{
-					GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
+					setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
+					//GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
 					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
 						Application.LoadLevel("LoadingScreen");
 					}
+					resetButtonTexture();
 				}
 
 			GUI.EndGroup();
