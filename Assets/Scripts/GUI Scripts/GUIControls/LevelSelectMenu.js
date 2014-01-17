@@ -457,7 +457,7 @@ public class LevelSelectMenu extends GUIControl
 		scrollPosition = new Vector2(0.125, 0.125);
 		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
 		messageBuffer = new Vector2(.004 * splashBounds.width, .004 * splashBounds.height);
-		messageRect = new Rect(messageBuffer.x, messageBuffer.y, splashBounds.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
+		messageRect = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		
 		LoadLevelList();
 		//scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
