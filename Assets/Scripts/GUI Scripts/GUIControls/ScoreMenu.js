@@ -24,7 +24,8 @@ public class ScoreMenu extends GUIControl
 	public var scoreScreenSkin : GUISkin;
 	public var background : Texture;
 	//public var lineOverlay : Texture;
-	public var infoBox : Texture;
+	//public var infoBox : Texture;
+	public var infoBox : TransparentGradientTexture;
 	private var infoBoxRect:Rect;
 	
 	// Honors Textures
@@ -212,7 +213,8 @@ public class ScoreMenu extends GUIControl
 		var designHeight : float = 1080;
 		
 		
-		infoBoxRect = createRect(infoBox, 81 / designWidth, 74 / designHeight, infoBox.height / designHeight, false, screenRect);
+		//infoBoxRect = createRect(infoBox, 81 / designWidth, 74 / designHeight, infoBox.height / designHeight, false, screenRect);
+		infoBoxRect = createRect(infoBox.topTexture, 81 / designWidth, 74 / designHeight, infoBox.topTexture.height / designHeight, false, screenRect);
 		
 		
 		
@@ -370,7 +372,8 @@ public class ScoreMenu extends GUIControl
 			
 			GUI.BeginGroup(screenRect);
 			//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-			GUI.DrawTexture(infoBoxRect, infoBox);
+			//GUI.DrawTexture(infoBoxRect, infoBox);
+			infoBox.Display(infoBoxRect);
 			
 			
 			scoreScreenSkin.customStyles[1].fontSize = largerFontSize;
