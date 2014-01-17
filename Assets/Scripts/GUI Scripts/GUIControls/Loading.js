@@ -238,13 +238,16 @@ public class Loading extends GUIControl
 		resetButtonTexture(style);
 		GUI.DrawTexture(panelRect, panels[currentPanel]);
 	
-		style.font = regularFont;
-		style.fontSize = descFontSize;
-		style.alignment = TextAnchor.MiddleLeft;
-		GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
-		style.font = boldFont;
-		style.fontSize = loadingStatusFontSize;
-		style.alignment = TextAnchor.MiddleCenter;
+		if(!fading && !reset)
+		{
+			style.font = regularFont;
+			style.fontSize = descFontSize;
+			style.alignment = TextAnchor.MiddleRight;
+			GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+			style.font = boldFont;
+			style.fontSize = loadingStatusFontSize;
+			style.alignment = TextAnchor.MiddleCenter;
+		}
 		
 		if(panels.Count > 1)
 			currentFrame--;
@@ -262,7 +265,19 @@ public class Loading extends GUIControl
 		{
 			fade += 0.01;
 			GUI.color.a = fade;
+			
+			style.font = regularFont;
+			style.fontSize = descFontSize;
+			style.alignment = TextAnchor.MiddleRight;
+			GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+			
 			GUI.DrawTexture(panelRect, panels[nextPanel]);
+			GUI.color.a = 1.0 - fade;
+			
+			GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+			style.font = boldFont;
+			style.fontSize = loadingStatusFontSize;
+			style.alignment = TextAnchor.MiddleCenter;
 			GUI.color.a = 1.0f;
 			if(fade >= 1.0f)
 			{
@@ -272,6 +287,14 @@ public class Loading extends GUIControl
 		}
 		else if(panels.Count > 1 && reset)
 		{
+			style.font = regularFont;
+			style.fontSize = descFontSize;
+			style.alignment = TextAnchor.MiddleRight;
+			GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+			style.font = boldFont;
+			style.fontSize = loadingStatusFontSize;
+			style.alignment = TextAnchor.MiddleCenter;
+			
 			GUI.DrawTexture(panelRect, panels[nextPanel]);
 			
 			currentPanel = (currentPanel + 1) % panels.Count;
