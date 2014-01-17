@@ -169,6 +169,7 @@ public class LevelSelectMenu extends GUIControl
 	public var highlightedItemBackground2 : Texture; // background for first highlighted level
 	private var blinkSpeed : float = 1.2;
 	private var isWaitingToSwitch : boolean;
+	private var fade:float;
 	private var useNum1BlinkTexture : boolean;	
 			private var emailItemBackgroundRect: Rect;
 			private var dispEmailItemBackground : Texture; // background to display
@@ -324,6 +325,7 @@ public class LevelSelectMenu extends GUIControl
 		
 		highlightedItemBackground = highlightedItemBackground1;
 		isWaitingToSwitch = true;
+		fade = 0f;
 		useNum1BlinkTexture = true;
 		tooltipDisplay = gameObject.GetComponent(InspectionDisplay);
 		
@@ -514,12 +516,42 @@ public class LevelSelectMenu extends GUIControl
 						//{
 						// choose appropriate item background
 						
-						Blink();						
+						//Blink();
+						
+						//Now fades in and out between the two textures
+						if(useNum1BlinkTexture)
+						{
+							fade += 0.01;
+							if(fade >=1f)
+								useNum1BlinkTexture = false;
+						}
+						else
+						{
+							fade -= 0.01;
+							if(fade <=0f)
+								useNum1BlinkTexture = true;
+						}
+						
+				
+						
+						if (i == 0 && displayDifficulty)
+						{
+							
+							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), highlightedItemBackground1);
+							GUI.color.a = fade;
+							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), highlightedItemBackground2);
+							GUI.color.a = 1.0f;
+						}
+						else
+							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), emailItemBackground);
+						
+						/*
 						if (i == 0 && displayDifficulty)
 							dispEmailItemBackground = highlightedItemBackground;
 						else
 							dispEmailItemBackground = emailItemBackground;
 						GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), dispEmailItemBackground);
+						*/
 						//}
 						
 												
@@ -530,7 +562,13 @@ public class LevelSelectMenu extends GUIControl
 						
 						//If there is a sender picture, display that, else don't
 						if (i == 0 && displayDifficulty)
-							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, useNum1BlinkTexture),ScaleMode.StretchToFill);
+						{							
+							
+							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, true),ScaleMode.StretchToFill);
+							GUI.color.a = fade;
+							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, false),ScaleMode.StretchToFill);
+							GUI.color.a = 1.0f;
+						}
 						else if(levelsToRender[i].senderTexture != null)
 							GUI.DrawTexture(senderRect, levelsToRender[i].senderTexture,ScaleMode.StretchToFill);
 						else
@@ -727,6 +765,7 @@ public class LevelSelectMenu extends GUIControl
 		
 	}
 	
+	/*
 	private function Blink()
 	{
 		if(isWaitingToSwitch)
@@ -746,7 +785,8 @@ public class LevelSelectMenu extends GUIControl
 
 			isWaitingToSwitch = true;
 		}
-	}
+		
+	}*/
 	
 	public function Update()
 	{
