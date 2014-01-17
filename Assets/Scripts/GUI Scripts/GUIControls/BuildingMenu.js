@@ -152,7 +152,8 @@ public class BuildingMenu extends GUIControl
 	{
 		for (var i:int = 0; i < buildingIconImages.length; i++)
 		{
-			if(buildingIconImages[i].name == name)
+			//if(buildingIconImages[i].name == name)
+			if(buildingIconImages[i].name.Equals(name,System.StringComparison.OrdinalIgnoreCase))
 			{
 				return buildingIconImages[i];
 			}
