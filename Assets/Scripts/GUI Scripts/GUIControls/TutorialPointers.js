@@ -136,8 +136,9 @@ public function Render()
 			
 			if(displayCircle)
 			{
+				GUI.color.a = 0.5f;
 				GUI.DrawTexture(tutorialCircleRect, tutorialCircle);
-				
+				GUI.color.a = 1.0f;
 				currentCircleSize = currentCircleSize - decreaseAmount;
 				
 				if(currentCircleSize < decreaseAmount * 2)
