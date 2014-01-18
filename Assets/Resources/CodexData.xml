@@ -96,7 +96,7 @@
 	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
-	  <iconName>Heat Transfer Interface for Thermo Solar Energy_01</iconName>
+	  <iconName>ThermoSolarEnergy</iconName>
 	  <description>By adding thermal collectors to solar panels, it is possible to capture lost heat and increase the efficiency of solar panels.</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -110,14 +110,14 @@
 	  <name>Energy Saving Absorption Heat Pump Water Heater</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=297</urlLink>
-	  <iconName>techImage_Energy Saving Absorption Heat Pump Water Heater</iconName>
+	  <iconName>techImage_HeatPumpWaterHeater</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Super Energy Saver Heat Pump</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=293</urlLink>
-	  <iconName>Super Energy Saver Heat Pump_01</iconName>
+	  <iconName>SuperEnergySaverHeatPump</iconName>
 	  <description>The Super Energy Saver Heat Pump technology is designed to improve the heating and cooling efficiency while decreasing energy consumption.</description>
 	</CodexEntry>
 	<CodexEntry>
@@ -131,7 +131,7 @@
 	  <name>Enhanced Oil Recovery</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
-	  <iconName>Capturing Carbon Emissions to Increase Oil Production</iconName>
+	  <iconName>CapturingCarbonEmissions</iconName>
 	  <description>By pumping CO2 into the ground at oil extraction locations, output for crude oil at that location can be drastically increased.</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -145,7 +145,7 @@
 	  <name>Waste to Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://midmainewaste.com/about-us/</urlLink>
-	  <iconName>Waste to Energy</iconName>
+	  <iconName>waste</iconName>
 	  <description>Using consumer waste materials as fuel, this technology provides both a disposal method for garbage and a source of electricity.</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -159,7 +159,7 @@
 	  <name>eGain Forecasting</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Environmental_technology#eGain_forecasting</urlLink>
-	  <iconName>eGain Forecasting_01</iconName>
+	  <iconName>eGainForecasting_01</iconName>
 	  <description>This system analyzes weather patterns and provides custom climate control for a building based op the weathers impact.</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -180,7 +180,7 @@
 	  <name>Alge Bio-Reactor</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
-	  <iconName>Algae Bioreactor_01</iconName>
+	  <iconName>AlgaeBioreactor_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -201,7 +201,7 @@
 	  <name>Liquid Metal Battery</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57441331-54/liquid-metal-battery-raises-$15m-in-series-b-financing/</urlLink>
-	  <iconName>Liquid Metal Battery_01</iconName>
+	  <iconName>LiquidMetalBattery_01</iconName>
 	  <description>The Liquid Metal Battery is designed for low cost high capacity storage of electricity from Solar or Wind Power sources.</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -215,7 +215,7 @@
 	  <name>Air Powered Cars</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
-	  <iconName>Air Powered Car_01</iconName>
+	  <iconName>AirPoweredCar_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
@@ -250,7 +250,7 @@
 	  <name>Silver Printing Method</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
-	  <iconName>techImage_Silver printing method</iconName>
+	  <iconName>techImage_Silverprintingmethod</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
   	<CodexEntry>
