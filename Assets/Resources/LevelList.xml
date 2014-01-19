@@ -197,7 +197,7 @@
 	<Level><!-- RV09 easy, order of attack challenge, multiple solutions-->
       <displayName>11</displayName>
       <sceneName>RV09</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Soak Up the Sun</subjectText>
       <messageText> They sure picked a great place for a solar panel factory, huh? A big storm just passed through here and messed up half the town. Not to worry, this is my specialty! I hear those Newfangled panels are supposed to be shiny, too.</messageText>
       <isPrimary>true</isPrimary>
@@ -211,7 +211,7 @@
 	<Level><!--GPC07 medium, requires long queue-->
       <displayName>9</displayName>
       <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>The Power Core</subjectText>
       <messageText>You like road trips? Cuz I have a feeling this is going to turn into one for me. Got some major repairs to fix up so we can get the SuperCo refinery back up and running. Lets go make some sparks!</messageText>
       <isPrimary>true</isPrimary>
@@ -225,7 +225,7 @@
 	<Level><!--RV06 false complexity, moderate-->
       <displayName>11</displayName>
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>Shifting Gears</subjectText>
       <messageText>Such a waste. Goddum City uses so much power, but so much more goes to waste just from switching voltages. Like switching gears on a car. Can’t have that now, can we? Lets get these folks some good silicon carbide thyristors to fix that right up.</messageText>
       <isPrimary>true</isPrimary>
@@ -239,7 +239,7 @@
 	<Level><!--RV08-remix easy, similtaneous action-->
 	  <displayName>10</displayName>
       <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>4</difficulty>
       <subjectText> Trash Powered</subjectText>
       <messageText>Grandpa always said never be afraid to get dirty. Then he'd share his theories on UFOs. Good old Grandpa, always a source of wisdom. Anyway, what was I messaging you again? Oh yeah, the JunkBros biofuel company could use a hand in setting up supply lines. With their help these folks may just have a few less landfills and some cheaper energy bills.</messageText>
       <isPrimary>true</isPrimary>
@@ -253,7 +253,7 @@
 	<Level><!--RV05-remix distant originators, simple upstream-->
       <displayName>10</displayName>
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>4</difficulty>
       <subjectText>No Waste to Waste</subjectText>
       <messageText>Can you believe what Raiden Packing Co is throwing away? Why most of this stuff could be repurposed into potent energy sources! What are we waiting for, lets get that company fixed up and making some energy! </messageText>
       <isPrimary>true</isPrimary>
@@ -267,7 +267,7 @@
 	<Level><!--KU05 hard, requires long queue and analysis, big map-->
       <displayName>8</displayName>
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
+      <difficulty>5</difficulty>
       <subjectText>Climate Control</subjectText>
       <messageText>Great to see you kids getting along! Listen, I got a really important meeting with my masseu- manager, of a major energy...company...place. Super important. Mind if you handle the RIVEC tech install on this one.&#10;&#10;Thanks bud!&#10;&#10;-Roc</messageText>
       <isPrimary>true</isPrimary>
@@ -281,7 +281,7 @@
 	<Level><!--GPC02 tricky, requires "upstream" and reallocation-->
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>6</difficulty>
       <subjectText>It’s in the Bag</subjectText>
       <messageText>Uh... hi again. It's Jerome. Could use a hand on getting our plastic nanotube factory up and going. It'll help us make batteries from plastic bags! How cool is that! Ummm... I mean, if its cool with you and Engineer Sanders, of course.</messageText>
       <isPrimary>true</isPrimary>
@@ -295,7 +295,7 @@
 	<Level><!--KU03 hard, long queue, reallocation-->
       <displayName>10</displayName>
       <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>7</difficulty>
       <subjectText>Heating Troubles</subjectText>
       <messageText> Oh boy… this town’s in rough shape. Underperforming reactor, broken down gas station. Don’t get me started on the heating system for the Avalon Apartment Complex. Oh well, hand me Billy the Blowtorch and we’ll get to work on this mess! </messageText>
       <isPrimary>true</isPrimary>
@@ -331,7 +331,7 @@
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
+      <rankRequirement>7</rankRequirement>
       <missionRequirementIndex>12</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
@@ -357,9 +357,9 @@
 	<Level><!--GPC06 multiple building sites, secondary objective, straightforward-->
       <displayName>15</displayName>
       <sceneName>GPC06</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Piece by Piece</subjectText>
-      <messageText>I just got the data back from your last mission. Hmmm... the hyperbuilder is performing 4% below expected. Gah, I knew I should have sprung for Mark 4 articulator instead of Mark 3. Oh well.&#10;&#10;In any case, the biofuel company in Southton needs a few good researchers to help increase their production capacity. Perhaps some of the nearby mine engineers could help?</messageText>
+      <messageText>I just got the data back from your last mission. Hmmm... the Hyperfabricator is performing 4% below expected. Gah, I knew I should have sprung for Mark 4 articulator instead of Mark 3. Oh well.&#10;&#10;In any case, the biofuel company in Southton needs a few good researchers to help increase their production capacity. Perhaps some of the nearby mine engineers could help?</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -372,7 +372,7 @@
 	<Level><!--RV03-remix easy, secondary objective, minor false complexity -->
       <displayName>15</displayName>
       <sceneName>RV03-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>RV03-remix</subjectText>
       <messageText> Jealous? Why would I be jealous of that upstart, prodigal little genius? I'd be able to invent cool stuff like his too if I didn't have important research to do! For instance, I have devised a way to recycle waste carbon dioxide emissions to augment drilling efficiency and allow Bob's Gas Shack to keep up with its high volume of traffic.&#10;&#10;Now let's go give them a hand!</messageText>
       <isPrimary>true</isPrimary>
@@ -387,7 +387,7 @@
 	<Level><!--RV13 moderate/easy-->
       <displayName>18</displayName>
       <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Turning the Tides</subjectText>
       <messageText> Miss me? I knew you would. Jerome's fancy hyperfabrication is great and all, but nothing compares to elbow grease. And blow torches... and fire... sorry, drifted off for a minute there. This next job needs us out by the coast to get some tidal power systems online. Let's get cracking!</messageText>
       <isPrimary>true</isPrimary>
@@ -402,7 +402,7 @@
 	<Level><!--RV02 moderate difficulty, false complexity, short engineer queue -->
       <displayName>17</displayName>
       <sceneName>RV02</sceneName> 
-      <difficulty>1</difficulty>
+      <difficulty>12/difficulty>
       <subjectText>Under Pressure</subjectText>
       <messageText>Futura City is hoping to be the most modern city in the world! They are phasing in fuel cell cars and vehicles into commercial vehicles as we speak... though the cost of hydrogen shipment is a bit steep. My hydrogen tank design aught to do the trick!</messageText>
       <isPrimary>true</isPrimary>
@@ -416,7 +416,7 @@
 	<Level><!--RV01 moderate, figure out piece location-->
       <displayName>18</displayName>
       <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>Photovoltaic Forts</subjectText>
       <messageText> Check this out. I think I've figured out the key to integrating photovoltaic cells into the external building surfaces. This could... help... Roc, what are you doing with that. Be careful with tha-</messageText>
       <isPrimary>true</isPrimary>
@@ -446,7 +446,7 @@
 	<Level><!--RV23 moderate, building placement-->
       <displayName>21</displayName>
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>4</difficulty>
       <subjectText>Fire in the Hole!</subjectText>
       <messageText>...and that was my geothermal energy prototype. Fortunately I turned it off before Roc brought the whole building down on us. On the bright side, I got enough data to confirm it is ready for field use. Let's get it set up in Joetown.</messageText>
       <isPrimary>true</isPrimary>
@@ -460,7 +460,7 @@
 	<Level><!--DD05 moderate, double primary objective-->
       <displayName>18</displayName>
       <sceneName>DD05</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>5</difficulty>
       <subjectText>Twin Cities</subjectText>
       <messageText> Kanon and Tanon are great cities for manufaturing... not so much for science. Luckily they've come around and now want to become major green energy manufacturers. If we can get their energy grid in order, we might just get a couple great allies out of this one.</messageText>
       <isPrimary>true</isPrimary>
@@ -474,7 +474,7 @@
 	<Level><!--RV04-remix moderate, tight time limit, false complexity-->
       <displayName>19</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>6</difficulty>
       <subjectText>The Modern City</subjectText>
       <messageText> You crazy kids and your toys. Jerome and Raoul can't stop talking about the hyperfabricator in the breakroom. Me, I'd take a good old hammer over sentient nanobots anyday. Or however that thing works. Anyway, Finn City's got some issues with their grid, so lets sort that mess out.</messageText>
       <isPrimary>true</isPrimary>
@@ -488,7 +488,7 @@
 	<Level> <!--KU02 med-high perception challenge, large map, distant originators, false complexity -->
       <displayName>12</displayName>
       <sceneName>KU02</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>7</difficulty>
       <subjectText>Convergence</subjectText>
       <messageText> Stintson gets a lot of trucks through it day to day. It's the hub of many major supply routes across the country. If we could modernize their gas station with the latest Biodiesel, it would go a long way toward cutting down shipping costs.</messageText>
       <isPrimary>true</isPrimary>
@@ -502,7 +502,7 @@
 	<Level><!--RV12 difficult, building placement-->
       <displayName>18</displayName>
       <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>7</difficulty>
       <subjectText>Environmental Adaptation</subjectText>
       <messageText> Lictor City sure has had some crazy weather lately. Having to turn up the AC one day and the heat the next results in a lot of wasted power. I just got the specs in today on a new system for weather forecasting that could automate their climate controls. I hope it works! </messageText>
       <isPrimary>true</isPrimary>
@@ -516,7 +516,7 @@
 	<Level><!--GPC09 hard, particular about building placement, secondary objective-->
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>8</difficulty>
       <subjectText>Corn Cars</subjectText>
       <messageText>Alright, I think I got it this time! I've found
 	  the right balance between speed and accuracy on this one. 
@@ -536,11 +536,11 @@
 	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation-->
       <displayName>20</displayName>
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
-      <subjectText>GPC04</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <difficulty>7</difficulty>
+      <subjectText>Project Icarus</subjectText>
+      <messageText>We won't have to go far for this one. The airport in Dexpoint flies ECRB agents out all over the country. If we can upgrade their planes to use solar panel technology, we can cut our costs down big time. Maybe even put some more money into the R&D budget... anyway, let's get to it.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>19</missionRequirementIndex>
@@ -551,11 +551,11 @@
 	<Level><!--RV22 hard, reallocation, large map-->
       <displayName>20</displayName>
       <sceneName>RV22</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>8</difficulty>
       <subjectText>RV22</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> You've come a long way, Agent. This next assignment will assess your skills and be used toward your canidature as a Class A Energy Agent. Good luck. You'll need it.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>19</missionRequirementIndex>
@@ -569,11 +569,11 @@
 	<Level><!--Tutorial_GPC08-->
       <displayName>22</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
-      <subjectText>Tutorial_GPC08</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <difficulty>0</difficulty>
+      <subjectText>Super Spy</subjectText>
+      <messageText>You're in the big leagues now, my friend. How's it feel to be on top? The boss wants me to show you the ropes on field agent duty, so lets get this party started.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>21</missionRequirementIndex>
@@ -584,10 +584,10 @@
       <displayName>26</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>KU-02</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText>Hypercafabricatordors</subjectText>
+      <messageText> So we got another one using Jerome's Hyperfa... invention. Leave getting the specs for biofuels to me. I just need a few directions. GPS is busted.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>25</missionRequirementIndex>
@@ -597,11 +597,11 @@
 	<Level><!--DD08-2 mid/easy, precise order of action, reallocation, long queue-->
       <displayName>23</displayName>
       <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>DD08-2</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>22</missionRequirementIndex>
@@ -611,40 +611,25 @@
 	<Level><!--KU-03 mid/easy, multiple reallocation-->
       <displayName>28</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>KU-03</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>27</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<!-- Secondary Objective too easy!, building that can get two outputs from 1 bldg REVISE-->
-	<Level> <!--DD11 hard, double primary objective, secondary objective, long queue-->
-      <displayName>24</displayName>
-      <sceneName>DD11</sceneName> 
-      <difficulty>1</difficulty>
-      <subjectText>DD11</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>23</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-			
+				
 	<Level><!--DD10 moderate, action ordering, -->
       <displayName>25</displayName>
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>Powered Up</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>24</missionRequirementIndex>
@@ -654,15 +639,30 @@
 	<Level><!--GPC01 moderate, upstream, reallocation, -->
       <displayName>27</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
+      <difficulty>3</difficulty>
       <subjectText>GPC01</subjectText>
       <messageText> Mission text coming soon! </messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>26</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>		
+	
+	<!-- Secondary Objective too easy!, building that can get two outputs from 1 bldg REVISE-->
+	<Level> <!--DD11 hard, double primary objective, secondary objective, long queue-->
+      <displayName>24</displayName>
+      <sceneName>DD11</sceneName> 
+      <difficulty>4</difficulty>
+      <subjectText>DD11</subjectText>
+      <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Agent Roc Bridges</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>23</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
   </Levels>
 </LevelList>
