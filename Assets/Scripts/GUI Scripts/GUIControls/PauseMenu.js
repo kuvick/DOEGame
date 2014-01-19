@@ -60,6 +60,13 @@ public class PauseMenu extends GUIControl
 	private var hexTextY : float = 0;
 	private var hexPercent : float = 1;
 
+	// current level text
+	private var levelName : String;
+	private var levelRect : Rect;
+	private var levelSize : Vector2 = Vector2(5, 1);
+	private var levelXPercent : float = .2f;
+	private var levelYPercent : float = .05f;
+	private var levelHeightPercent : float = .11f;
 
 	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
 	private var groupRect:Rect;
@@ -101,9 +108,9 @@ public class PauseMenu extends GUIControl
 			// Main Menu Button
 		mainMenuButtonRect = createRect(mainMenuButton, buttonXPercent, buttonInitialYPercent + (buttonPercent*2) + (buttonBufferPercent*2), buttonPercent, true, groupRect);
 		
-		
-		
-		
+		// level name display
+		levelRect = createRect(levelSize, levelXPercent, levelYPercent, levelHeightPercent, false);
+		levelName = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
 	}
@@ -124,6 +131,10 @@ public class PauseMenu extends GUIControl
 		GUI.BeginGroup(groupRect);
 		
 		GUI.DrawTexture(pauseTextRect, pauseText, ScaleMode.StretchToFill);
+		var oldAnchor : TextAnchor = GUI.skin.label.alignment;
+		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+		GUI.Label(levelRect, levelName);
+		GUI.skin.label.alignment = oldAnchor;
 		
 		// Buttons are rendered:
 		setButtonTexture(backButton, backButtonPressed);

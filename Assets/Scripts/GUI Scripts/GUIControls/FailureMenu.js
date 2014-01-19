@@ -42,7 +42,14 @@ public class FailureMenu extends GUIControl
 	private var hexTextX : float = 0.39;
 	private var hexTextY : float = 0;
 	private var hexPercent : float = 1;
-
+	
+	// current level text
+	private var levelName : String;
+	private var levelRect : Rect;
+	private var levelSize : Vector2 = Vector2(5, 1);
+	private var levelXPercent : float = .2f;
+	private var levelYPercent : float = .05f;
+	private var levelHeightPercent : float = .11f;
 
 	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
 	private var groupRect:Rect;
@@ -69,6 +76,10 @@ public class FailureMenu extends GUIControl
 			// Hex Texture
 		hexTextRect = createRect(hexText, hexTextX, hexTextY, hexPercent, false);
 		
+		// level name display
+		levelRect = createRect(levelSize, levelXPercent, levelYPercent, levelHeightPercent, false);
+		levelName = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
+		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.failureMenuMusic;
 	}
 	
@@ -83,6 +94,10 @@ public class FailureMenu extends GUIControl
 		GUI.BeginGroup(groupRect);
 		GUI.DrawTexture(failTextRect, failText, ScaleMode.StretchToFill);
 		
+		var oldAnchor : TextAnchor = GUI.skin.label.alignment;
+		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+		GUI.Label(levelRect, levelName);
+		GUI.skin.label.alignment = oldAnchor;
 		
 		// Buttons are rendered:
 		setButtonTexture(restartButton, restartButtonPressed);

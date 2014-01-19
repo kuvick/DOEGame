@@ -737,6 +737,7 @@ public class LevelSelectMenu extends GUIControl
 					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
+						PlayerPrefs.SetString(Strings.CurrentLevel, unlockedLevels[activeLevelIndex].subjectText);
 						Application.LoadLevel("LoadingScreen");
 					}
 					resetButtonTexture();
@@ -748,6 +749,7 @@ public class LevelSelectMenu extends GUIControl
 					if(GUI.Button(startLevelButton, ""))
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
+						PlayerPrefs.SetString(Strings.CurrentLevel, completedLevels[activeLevelIndex].subjectText);
 						Application.LoadLevel("LoadingScreen");
 					}
 					resetButtonTexture();
