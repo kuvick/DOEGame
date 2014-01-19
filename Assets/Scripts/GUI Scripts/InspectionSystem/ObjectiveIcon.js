@@ -52,6 +52,7 @@ public class ObjectiveIcon extends InspectionComponent
 		//Modified local and world coordinates so they don't overlap over resource icons (GPC 8/16/13)
 		transform.position.y += 80;
 		transform.localPosition.y += 75;
+		transform.position += Utils.ConvertToRotated(Vector3(0,0, -25));
 		
 		gameObject.transform.localScale = iconScale;
 		
