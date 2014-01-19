@@ -382,6 +382,8 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.WAIT;
 		}
 		
+		if (intelSystem.currentTurn <= 0)
+			GUI.enabled = false;
 		if(!disableUndoButton && GUI.Button(undoButton, undoTexture))
 		{
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
@@ -390,6 +392,7 @@ public class MainMenu extends GUIControl
 			
 			currentResponse.type = EventTypes.UNDO;
 		}
+		GUI.enabled = true;
 		
 		/*if(Input.GetKeyDown(KeyCode.M))
 		{
