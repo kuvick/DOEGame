@@ -73,12 +73,17 @@ public class BuildingMenu extends GUIControl
 	private var resourceIconHeight:float;
 	private var resourceIconHeightPercent:float = 0.08;
 	
+	private var ringList:List.<Rect>;
+	private var ringOffsetPercent : float = .1f;
+	
 	private var isEditor : boolean = false; // used to determine what functions to use if in the level editor
 	private var editorSelectedTile : Vector2; // coordinate of selected tile in level editor
 	
 	private var databaseRef : Database;
 	
 	public var buildingIconImages : Texture[];
+	
+	public var ringTexture : Texture;
 	
 	public var darkenedIconTexture : Texture;
 	
@@ -282,6 +287,8 @@ public class BuildingMenu extends GUIControl
 				{
 					// Drawings Building Icon
 					GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
+					GUI.DrawTexture(ringList[i], ringTexture);
+					
 					// Draws Input Icons:
 					for (var k : int = 0; k < buildingChoices[i].data.unallocatedOutputs.length; k++)//for(var output : ResourceType in buildingChoices[i].data.unallocatedOutputs)
 					{
@@ -385,6 +392,7 @@ public class BuildingMenu extends GUIControl
 		
 		buildingIconList = new List.<Rect>();
 		resourceIconList = new List.<Rect>();
+		ringList = new List.<Rect>();
 		numPages = Mathf.CeilToInt(buildingChoices.Length/6.0);
 		if (numPages > 1)
 		{
@@ -397,6 +405,9 @@ public class BuildingMenu extends GUIControl
 		buildingGroup = new Rect(0, buildingGroupY, screenWidth * numPages, screenHeight);
 		
 		var buildingNum : int = 0;
+		
+		var ringOffset : float;
+		var ringRect : Rect;
 		
 		// Calculate the rect dimensions of every page of building icons
 		// Each page consists of up to six icons split into two rows of three
@@ -420,22 +431,34 @@ public class BuildingMenu extends GUIControl
 				buildingIcon.x = currentPageX + currentUpperRowX;
 				buildingIconList.Add(buildingIcon);
 				
-				//Resource Icon Input Display:
+				ringOffset = buildingIcon.width * ringOffsetPercent;
+				ringRect = Rect(buildingIcon.x + (ringOffset / 4f), buildingIcon.y, buildingIcon.width - ringOffset, buildingIcon.width - ringOffset);
+				ringList.Add(ringRect);
+				
+				//Resource Icon Output Display:
 				//var l : int = 0;
+				var resourcePosition : Vector2 = Vector2(resourceIconHeight / 4f, resourceIconHeight / 2f);
+				var resourceSpacing : Vector2 = Vector2(resourceIconHeight, resourceIconHeight /  2f);
 				for(var l : int = 0; l < buildingChoices[buildingNum].data.unallocatedOutputs.length; l++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					//resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
-					resourceIcon = new Rect(currentPageX + currentUpperRowX, (resourceIconHeight) * l, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentUpperRowX + resourcePosition.x, /*(resourceIconHeight) * l*/ resourcePosition.y, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
+					resourceSpacing.y *= -1f;
+					resourcePosition += resourceSpacing;
 					//l++;
 				}
-				//Resource Icon Output Display:
+				//Resource Icon Input Display:
 				//l = 0;
+				resourcePosition = Vector2(resourceIconHeight / 4f, resourceIconHeight / 2f);
+				resourceSpacing = Vector2(resourceIconHeight, resourceIconHeight / 2f);
 				for(l = 0; l < buildingChoices[buildingNum].data.unallocatedInputs.length; l++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					//resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight/1.5) * l, resourceIconHeight, resourceIconHeight);
-					resourceIcon = new Rect(currentPageX + currentUpperRowX + (buildingIconHeight / 1.4), (buildingIconHeight / 1.4) - (resourceIconHeight * l), resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentUpperRowX /*+ (buildingIconHeight / 1.4)*/ + resourcePosition.x, (buildingIconHeight / 1.4) - resourcePosition.y/*(resourceIconHeight * l)*/, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
+					resourceSpacing.y *= -1f;
+					resourcePosition += resourceSpacing;
 					//l++;
 				}				
 				buildingNum++;
@@ -458,22 +481,34 @@ public class BuildingMenu extends GUIControl
 				buildingIcon.y = buildingIconHeight;
 				buildingIconList.Add(buildingIcon);
 				
-				//Resource Icon Input Display
+				ringOffset = buildingIcon.width * ringOffsetPercent;
+				ringRect = Rect(buildingIcon.x + (ringOffset / 4f), buildingIcon.y, buildingIcon.width - ringOffset, buildingIcon.width - ringOffset);
+				ringList.Add(ringRect);
+				
+				//Resource Icon Output Display
 				//var m : int = 0;
+				resourcePosition = Vector2(resourceIconHeight / 4f, resourceIconHeight / 2f);
+				resourceSpacing = Vector2(resourceIconHeight, resourceIconHeight / 2f);
 				for(var m : int = 0; m < buildingChoices[buildingNum].data.unallocatedOutputs.length; m++)//var output : ResourceType in buildingChoices[buildingNum].data.unallocatedOutputs)
 				{
 					//resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
-					resourceIcon = new Rect(currentPageX + currentLowerRowX, buildingIconHeight + (resourceIconHeight) * m, resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentLowerRowX + resourcePosition.x, buildingIconHeight + resourcePosition.y/*(resourceIconHeight) * m*/, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
+					resourceSpacing.y *= -1f;
+					resourcePosition += resourceSpacing;
 					//m++;
 				}
-				//Resource Icon Output Display
+				//Resource Icon Input Display
 				//m = 0;
+				resourcePosition = Vector2(resourceIconHeight / 4f, resourceIconHeight / 2f);
+				resourceSpacing = Vector2(resourceIconHeight, resourceIconHeight / 2f);
 				for(m = 0; m < buildingChoices[buildingNum].data.unallocatedInputs.length; m++)//var input : ResourceType in buildingChoices[buildingNum].data.unallocatedInputs)
 				{
 					//resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight/1.5) * m, resourceIconHeight, resourceIconHeight);
-					resourceIcon = new Rect(currentPageX + currentLowerRowX + (buildingIconHeight / 1.4), (buildingIconHeight * 1.7) - (resourceIconHeight * m), resourceIconHeight, resourceIconHeight);
+					resourceIcon = new Rect(currentPageX + currentLowerRowX + resourcePosition.x/*(buildingIconHeight / 1.4)*/, (buildingIconHeight * 1.7) - resourcePosition.y/*(resourceIconHeight * m)*/, resourceIconHeight, resourceIconHeight);
 					resourceIconList.Add(resourceIcon);
+					resourceSpacing.y *= -1f;
+					resourcePosition += resourceSpacing;
 					//m++;
 				}
 				buildingNum++;
@@ -519,46 +554,46 @@ public class BuildingMenu extends GUIControl
 	// It also deletes the building site where it is to place the building.
 	public function Place(index : int)
 	{
-			var position : Vector3 = selectedBuildingSite.transform.position;
-			
-			//Database.deleteBuildingSite(buildingData.GetLocation());
+		var position : Vector3 = selectedBuildingSite.transform.position;
 		
-			var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
-			var build: GameObject;
-			
-			build = Instantiate(buildingChoices[index].building, position, buildingChoices[index].building.transform.rotation);
-			
-			//FOR THE VISUAL SCRIPT
-			var replaceName : String = build.name.Replace("(Clone)", "");
-			build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
-			
-			ReplaceBuildingData (build, buildingChoices[index].data);
-			
-			GameObject.Find("Database").GetComponent(Database).Save("BuildingSite");
+		//Database.deleteBuildingSite(buildingData.GetLocation());
+	
+		var coordinate : Vector2 = grid.worldToTileCoordinates( position.x, position.z);			
+		var build: GameObject;
+		
+		build = Instantiate(buildingChoices[index].building, position, buildingChoices[index].building.transform.rotation);
+		
+		//FOR THE VISUAL SCRIPT
+		var replaceName : String = build.name.Replace("(Clone)", "");
+		build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
+		
+		ReplaceBuildingData (build, buildingChoices[index].data);
+		
+		GameObject.Find("Database").GetComponent(Database).Save("BuildingSite");
 
-			Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
-						
-			//deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
-			GameObject.DestroyImmediate(selectedBuildingSite);
-			Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
-			//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
-			databaseRef.activateBuilding(databaseRef.findBuildingIndex( coordinate ), true);
-			
-			SoundManager.Instance().PlayBuildingPlaced();
-			
-			
-			
-			
-			//RemoveBuildingFromList(index);
-			buildingChoices[index].setWasUsed(true); // No longer removing from list, now just disabling it from useage
-			buildingsChosen.Add(index);
-			
-			
-			
-			
-			var intelSystem = GameObject.Find("Database").GetComponentInChildren(IntelSystem);
-			intelSystem.comboSystem.incrementComboCount();
-			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
+		Database.AddToAddList(new Vector3(coordinate.x, coordinate.y, 0));
+					
+		//deleteBuildingSite(new Vector3(coordinate.x, coordinate.y, 0));
+		GameObject.DestroyImmediate(selectedBuildingSite);
+		Database.ReplaceBuildingSite(build, new Vector3(coordinate.x, coordinate.y, 0));
+		//Database.addBuildingToGrid(build, new Vector3(coordinate.x, coordinate.y, 0));
+		databaseRef.activateBuilding(databaseRef.findBuildingIndex( coordinate ), true);
+		
+		SoundManager.Instance().PlayBuildingPlaced();
+		
+		
+		
+		
+		//RemoveBuildingFromList(index);
+		buildingChoices[index].setWasUsed(true); // No longer removing from list, now just disabling it from useage
+		buildingsChosen.Add(index);
+		
+		
+		
+		
+		var intelSystem = GameObject.Find("Database").GetComponentInChildren(IntelSystem);
+		intelSystem.comboSystem.incrementComboCount();
+		intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 	}
 	
 	// Used for placing buildings in the level editor
