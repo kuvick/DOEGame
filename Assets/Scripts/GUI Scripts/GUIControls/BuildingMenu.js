@@ -528,6 +528,10 @@ public class BuildingMenu extends GUIControl
 			
 			build = Instantiate(buildingChoices[index].building, position, buildingChoices[index].building.transform.rotation);
 			
+			//FOR THE VISUAL SCRIPT
+			var replaceName : String = build.name.Replace("(Clone)", "");
+			build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
+			
 			ReplaceBuildingData (build, buildingChoices[index].data);
 			
 			GameObject.Find("Database").GetComponent(Database).Save("BuildingSite");
