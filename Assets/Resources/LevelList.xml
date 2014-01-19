@@ -368,20 +368,6 @@
       <contactRequirement></contactRequirement>
     </Level>
 
-	<Level><!--RV12 very easy, false complexity-->
-      <displayName>18</displayName>
-      <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
-      <subjectText>Environmental Adaptation</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>17</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
 	<Level><!--RV03-remix easy, secondary objective, minor false complexity -->
       <displayName>15</displayName>
@@ -403,9 +389,9 @@
       <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Turning the Tides</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Miss me? I knew you would. Jerome's fancy hyperfabrication is great and all, but nothing compares to elbow grease. And blow torches... and fire... sorry, drifted off for a minute there. This next job needs us out by the coast to get some tidal power systems online. Let's get cracking!</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
@@ -427,13 +413,12 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--                                                          END MISSION TEXT-->
 	<Level><!--RV01 moderate, figure out piece location-->
       <displayName>18</displayName>
       <sceneName>RV01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Photovoltaic Forts</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Check this out. I think I've figured out the key to integrating photovoltaic cells into the external building surfaces. This could... help... Roc, what are you doing with that. Be careful with tha-</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -442,10 +427,10 @@
       <contactRequirement></contactRequirement>
     </Level>
 
-	<!--Does not use Engineer mechanic                                      REVISE-->
-	<Level><!--RV24 moderate, false complexity-->
+	<!--RV24 moderate, false complexity	                                
+	<Level>
       <displayName>18</displayName>
-      <sceneName>RV24</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>RV24</sceneName>
       <difficulty>1</difficulty>
       <subjectText>RV24</subjectText>
       <messageText> Mission text coming soon! </messageText>
@@ -456,15 +441,16 @@
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	-->
 	
 	<Level><!--RV23 moderate, building placement-->
       <displayName>21</displayName>
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>RV23</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText>Fire in the Hole!</subjectText>
+      <messageText>...and that was my geothermal energy prototype. Fortunately I turned it off before Roc brought the whole building down on us. On the bright side, I got enough data to confirm it is ready for field use. Let's get it set up in Joetown.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>20</missionRequirementIndex>
@@ -476,9 +462,9 @@
       <sceneName>DD05</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Twin Cities</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> Kanon and Tanon are great cities for manufaturing... not so much for science. Luckily they've come around and now want to become major green energy manufacturers. If we can get their energy grid in order, we might just get a couple great allies out of this one.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
@@ -489,10 +475,10 @@
       <displayName>19</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>RV04-remix</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText>The Modern City</subjectText>
+      <messageText> You crazy kids and your toys. Jerome and Raoul can't stop talking about the hyperfabricator in the breakroom. Me, I'd take a good old hammer over sentient nanobots anyday. Or however that thing works. Anyway, Finn City's got some issues with their grid, so lets sort that mess out.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>18</missionRequirementIndex>
@@ -503,13 +489,27 @@
       <displayName>12</displayName>
       <sceneName>KU02</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>Superfuel</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText>Convergence</subjectText>
+      <messageText> Stintson gets a lot of trucks through it day to day. It's the hub of many major supply routes across the country. If we could modernize their gas station with the latest Biodiesel, it would go a long way toward cutting down shipping costs.</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>11</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV12 difficult, building placement-->
+      <displayName>18</displayName>
+      <sceneName>RV12</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Environmental Adaptation</subjectText>
+      <messageText> Lictor City sure has had some crazy weather lately. Having to turn up the AC one day and the heat the next results in a lot of wasted power. I just got the specs in today on a new system for weather forecasting that could automate their climate controls. I hope it works! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
