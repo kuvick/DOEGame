@@ -88,7 +88,7 @@ function Start () {
 	targetIcon.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
 	
 	//Added -GPC 11/10/13
-	moveTarget = gameObject.transform.position;
+	//moveTarget = gameObject.transform.position;
 }
 
 function Initiate() {
@@ -103,7 +103,7 @@ function Initiate() {
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	CheckActive(false);
 	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
-	MoveToTarget(false);
+	//MoveToTarget(false);
 }
 
 // set the unit's current state and change icon to appropriate texture
@@ -292,7 +292,7 @@ function DoAction () : boolean
 	
 	//GPC ONLY DO ACTION AFTER UNIT HAS STOPPED MOVING
 	
-	SetPosition(false); // move unit to its new position
+	//SetPosition(false); // move unit to its new position
 	//MoveToTarget(false);
 	if (currentPath.Count < 1)
 	{
@@ -324,7 +324,7 @@ function UndoAction () : boolean
 		currentPath.Insert(0, currentBuilding);
 		previousBuilding = currentBuilding;
 		currentBuilding = actionList[actionList.Count - 1].move;
-		SetPosition(false);
+		//SetPosition(false);
 		currentBuilding.unit = type;
 		currentBuilding.units.Add(this);
 		actionList.RemoveAt(actionList.Count - 1); // pop from end of the action list
@@ -350,7 +350,7 @@ public function SetPosition(swap : boolean) {
 	worldCoord += Utils.ConvertToRotated(usedOffset);
 	
 	//This is what is used to move the unit normally, from point to point; needed to be cut out:
-	//gameObject.transform.position = worldCoord;
+	gameObject.transform.position = worldCoord;
 	//Debug.Log("Unit moved to " + currentBuilding.buildingName);
 }
 
@@ -359,7 +359,7 @@ public function MoveToTarget(swap : boolean) {
 	var tileCoord : Vector3 = currentBuilding.coordinate;
 	var worldCoord : Vector3 = HexagonGrid.TileToWorldCoordinates(tileCoord.x, tileCoord.y);
 	var usedOffset : Vector3 = swap ? unitSwappedOffset : unitOffset;
-	worldCoord += usedOffset;
+	worldCoord += Utils.ConvertToRotated(usedOffset);
 	
 	//this.MoveToPoint(worldCoord);
 	

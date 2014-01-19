@@ -135,6 +135,6 @@ static function FlipUnitPositions(unitSet : List.<Unit>)
 	for (var i : int = 1; i < unitSet.Count; i++)
 	{
 		if (unitSet[i].type != firstType)
-			unitSet[i].SetPosition(true);
+			unitSet[i].MoveToTarget(true);
 	}
 }
