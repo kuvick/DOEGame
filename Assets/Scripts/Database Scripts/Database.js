@@ -1787,7 +1787,7 @@ class IOPut
 	
 	function IOPut(){}
 	
-	function IOPut(t : type, r : ResourceType)
+	function IOPut(t : IOType, r : ResourceType)
 	{
 		type = t;
 		resource = r;
