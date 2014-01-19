@@ -598,8 +598,8 @@
       <displayName>23</displayName>
       <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
-      <subjectText>DD08-2</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText> You're Fired!</subjectText>
+      <messageText> Gotcha! Nah, they wouldn't fire you. Heck, they should- errr, I mean obviously not fire me. They'd be lost without me. Ahem, anyway, Combined Heat and Power Tech. CHP. Sounds delicious. Let's get those boys a shiny new toy!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -612,8 +612,8 @@
       <displayName>28</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
-      <subjectText>KU-03</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText> Beat the Heat </subjectText>
+      <messageText> Transitional Metal Switchable Mirrors are the key to the future, my friend. Like transition lenses for skycrapers. Think of the cash I- errr, others will save cooling downt their apartments in the hot summer sun. </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -640,8 +640,8 @@
       <displayName>27</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
-      <subjectText>GPC01</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <subjectText>Simple Misunderstanding</subjectText>
+      <messageText> Funny story... I *allegedly* botched our last job in Catsun City, and to settle things we've offered to give them free Algae Bio-Reactor upgrades to make their apartments self-sufficient. Complete misunderstanding, I assure you, but hey, politics. Let's get this over with.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
