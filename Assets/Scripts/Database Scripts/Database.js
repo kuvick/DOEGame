@@ -921,8 +921,6 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	GameObject.FindWithTag("MainCamera").GetComponent(DrawLinks).CreateLinkDraw(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding), linkList[lastIndex].type, linkList[lastIndex].usedOptionalOutput);
 }
 
-
-
 //*******************************************
 // [Building Activation Functions] **********
 
@@ -1752,17 +1750,54 @@ class BuildingOnGrid
 	
 	var heldUpgradeID : UpgradeID;
 	var heldUpgradeTooltip : Tooltip;
-	/*var heldUpgradeTooltipText : String;
-	var heldUpgradeTooltipPic : Texture2D;*/
-	//var neededUpgrade : UpgradeType = UpgradeType.None;
-	
-	//var highlighter : GameObject;
+
 	var indicator : BuildingIndicator;
 	
 	var tooltip : Tooltip[];
 	var hasTooltipTrigger : boolean = false;
-	/*var tooltipText : String;
-	var tooltipPic : Texture2D;*/
+	
+	private function AllocateOutput(resource : ResourceType, inputBuilding : int) : boolean
+	{
+		var resourceIndex : int = unallocatedOutputs.IndexOf(resource);
+		if (resourceIndex < 0)
+			return false;
+	}
+
+	private function DeallocateResource(resource : ResourceType) : boolean
+	{
+		var resourceIndex : int = allocatedOutputs.IndexOf(resource);
+		if (resourceIndex < 0)
+			return false;
+	}
+
+	private function ReallocateResource(resource : ResourceType) : boolean
+	{
+		var resourceIndex : int = allocatedOutputs.IndexOf(resource);
+		if (resourceIndex < 0)
+			return false;
+	}
+}
+
+class IOPut
+{
+	var type : IOType;
+	var resource : ResourceType;
+	var icon : ResourceIcon;
+	var linkedTo : int;
+	
+	function IOPut(){}
+	
+	function IOPut(t : type, r : ResourceType)
+	{
+		type = t;
+		resource = r;
+		linkedTo = -1;
+	}
+	
+	function SetIcon (i : ResourceIcon)
+	{
+		icon = i;
+	}
 }
 
 // This class contains information stored about a particular turn
