@@ -82,6 +82,7 @@ public class BuildingMenu extends GUIControl
 	private var databaseRef : Database;
 	
 	public var buildingIconImages : Texture[];
+	public var buildingIconSelectedImages : Texture[];
 	
 	public var ringTexture : Texture;
 	
@@ -106,6 +107,7 @@ public class BuildingMenu extends GUIControl
 		public var building : GameObject;
 		public var data : BuildingOnGridData;
 		public var icon : Texture;
+		public var selectedIcon : Texture;
 		private var wasUsed : boolean = false;
 		
 		public function getWasUsed():boolean
@@ -170,6 +172,21 @@ public class BuildingMenu extends GUIControl
 		
 	}
 	
+	private function matchSelectedIcons(name:String):Texture
+	{
+		for (var i:int = 0; i < buildingIconImages.length; i++)
+		{
+			if(buildingIconSelectedImages[i].name.Equals(name,System.StringComparison.OrdinalIgnoreCase))
+			{
+				return buildingIconSelectedImages[i];
+			}
+		}
+		
+		
+		Debug.LogError("Could not find matching icon for the building menu! Check the BuildingMenu in the GUI System to make sure all building icons appear there and are properly named to match the prefab. (e.g., CornfieldFarm should be used instead of CornFieldFarm for the prefab and icon names)");
+		return null;
+		
+	}
 	
 	public function Initialize()
 	{
@@ -184,6 +201,7 @@ public class BuildingMenu extends GUIControl
 			var setData : BuildingData = buildingChoices[i].building.GetComponent(BuildingData);
 			setData.buildingData = buildingChoices[i].data;
 			buildingChoices[i].icon = matchIcons(buildingChoices[i].building.name);
+			buildingChoices[i].selectedIcon = matchSelectedIcons(buildingChoices[i].building.name);
 			//i++;
 		}
 		
@@ -286,7 +304,31 @@ public class BuildingMenu extends GUIControl
 				for (var i:int = 0; i < buildingChoices.length; i++)
 				{
 					// Drawings Building Icon
-					GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
+					if(!buildingChoices[i].getWasUsed())
+					{
+						setButtonTexture(buildingChoices[i].icon, buildingChoices[i].selectedIcon);
+						if(GUI.Button(buildingIconList[i], "" ))
+						{
+							if (isEditor)
+							{
+								EditorPlace(i);
+								currentResponse.type = EventTypes.EDITORMENU;
+							}
+							else
+							{
+								Place(i);						
+								currentResponse.type = EventTypes.MAIN;
+							}
+						}
+						resetButtonTexture();
+					}
+					else
+					{
+						GUI.DrawTexture(buildingIconList[i], buildingChoices[i].icon);
+					}
+					
+					
+					
 					GUI.DrawTexture(ringList[i], ringTexture);
 					
 					// Draws Input Icons:
@@ -319,24 +361,7 @@ public class BuildingMenu extends GUIControl
 					}
 					
 					//If the building isn't used yet, overlay button overtop
-					if(!buildingChoices[i].getWasUsed())
-					{
-						if(GUI.Button(buildingIconList[i], "" ))
-						{
-							if (isEditor)
-							{
-								EditorPlace(i);
-								currentResponse.type = EventTypes.EDITORMENU;
-							}
-							else
-							{
-								Place(i);						
-								currentResponse.type = EventTypes.MAIN;
-							}
-						}
-					}
-					//Else display dark tile over it.
-					else
+					if(buildingChoices[i].getWasUsed())
 					{
 						GUI.DrawTexture(buildingIconList[i], darkenedIconTexture);
 					}
