@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<DeveloperList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Developers>
+    
+<!-- -->
+
+    <!--Multi-Team-->
+    
+    <Developer>
+      <firstName>Glen</firstName>
+      <lastName>Cooney</lastName>
+      <isLeader>true</isLeader>
+      <Teams>
+        <Team>Designer</Team>
+        <Team>Programmer</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Katharine</firstName>
+      <lastName>Uvick</lastName>
+      <isLeader>true</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+        <Team>Programmer</Team>
+        <Team>Designer</Team>
+      </Teams>
+    </Developer>
+    
+    <!--Programmers-->
+    
+    <Developer>
+      <firstName>Derrick</firstName>
+      <lastName>Huey</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Programmer</Team>
+      </Teams>
+    </Developer>
+    
+    <!--Designers-->
+    
+    <Developer>
+      <firstName>Dustin</firstName>
+      <lastName>Dano</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Designer</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Ryan</firstName>
+      <lastName>Vachon</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Designer</Team>
+      </Teams>
+    </Developer>
+    
+    <!--Artists-->
+    
+    <Developer>
+      <firstName>Craig</firstName>
+      <lastName>Landen</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+      </Teams>
+    </Developer>
+        
+    <Developer>
+      <firstName>Danny</firstName>
+      <lastName>Tran</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+      </Teams>
+    </Developer>
+        
+    <Developer>
+      <firstName>Noelle</firstName>
+      <lastName>Hebert</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+      </Teams>
+    </Developer>
+        
+    <Developer>
+      <firstName>Rebecca</firstName>
+      <lastName>Williams</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Kaitlyn</firstName>
+      <lastName>McIntosh</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Artist</Team>
+      </Teams>
+    </Developer>
+    
+    <!--Audio-->
+    
+    <Developer>
+      <firstName>Heather</firstName>
+      <lastName>Plunkard</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Audio</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Luke</firstName>
+      <lastName>Roberts</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Audio</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>David</firstName>
+      <lastName>Martell</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+        <Team>Audio</Team>
+      </Teams>
+    </Developer>
+    
+	<!--Special Mention-->
+	
+    <Developer>
+      <firstName>Jared</firstName>
+      <lastName>Mavis</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Robin</firstName>
+      <lastName>Clark</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+  </Developers>
+</DeveloperList>

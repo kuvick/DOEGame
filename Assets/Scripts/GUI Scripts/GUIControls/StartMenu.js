@@ -31,6 +31,9 @@ public class StartMenu extends GUIControl
 		private var optionsButtonRect:Rect;
 	public var exitButton:Texture;
 	public var exitButtonPressed:Texture;
+	public var creditsButton:Texture;
+	public var creditsButtonPressed:Texture;
+		private var creditsButtonRect:Rect;
 	
 	// Options Screen:
 	public var optionsBannerTexture:Texture;
@@ -194,6 +197,8 @@ public class StartMenu extends GUIControl
 		
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		quitButton = Rect(screenWidth - (exitButton.width * percentage) - (buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), (exitButton.width * percentage), (exitButton.height * percentage));
+		creditsButtonRect = Rect((buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), (creditsButton.width * percentage), (creditsButton.height * percentage));
+		
 		
 		// The distance from the bottom of the screen for the buttons
 		var distFromBottomOfScreen : float = screenHeight - (buttonSideBuffer * screenHeight) - (loginButton.height * percentage);
@@ -297,6 +302,13 @@ public class StartMenu extends GUIControl
 			{
 			
 			GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
+				
+				setButtonTexture(creditsButton, creditsButtonPressed);
+				if (GUI.Button(creditsButtonRect, ""))
+				{
+					PlayButtonPress();
+					Application.LoadLevel("Credits");
+				}
 			
 				setButtonTexture(optionsButton, optionsButtonPressed);
 				if (GUI.Button(optionsButtonRect, ""))

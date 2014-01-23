@@ -402,7 +402,7 @@
 	<Level><!--RV02 moderate difficulty, false complexity, short engineer queue -->
       <displayName>17</displayName>
       <sceneName>RV02</sceneName> 
-      <difficulty>12/difficulty>
+      <difficulty>12</difficulty>
       <subjectText>Under Pressure</subjectText>
       <messageText>Futura City is hoping to be the most modern city in the world! They are phasing in fuel cell cars and vehicles into commercial vehicles as we speak... though the cost of hydrogen shipment is a bit steep. My hydrogen tank design aught to do the trick!</messageText>
       <isPrimary>true</isPrimary>
@@ -538,7 +538,7 @@
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>7</difficulty>
       <subjectText>Project Icarus</subjectText>
-      <messageText>We won't have to go far for this one. The airport in Dexpoint flies ECRB agents out all over the country. If we can upgrade their planes to use solar panel technology, we can cut our costs down big time. Maybe even put some more money into the R&D budget... anyway, let's get to it.</messageText>
+      <messageText>We won't have to go far for this one. The airport in Dexpoint flies ECRB agents out all over the country. If we can upgrade their planes to use solar panel technology, we can cut our costs down big time. Maybe even put some more money into the R&amp;D budget... anyway, let's get to it.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
