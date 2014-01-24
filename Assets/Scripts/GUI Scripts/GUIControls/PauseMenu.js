@@ -143,6 +143,14 @@ public class PauseMenu extends GUIControl
 			currentResponse.type = EventTypes.MAIN;
 			PlayButtonPress();
 		}
+		
+		//	ANDROID BACK BUTTON
+		if(Input.GetKeyUp(KeyCode.Escape))
+		{
+			currentResponse.type = EventTypes.MAIN;
+			PlayButtonPress();
+		}
+		
 		setButtonTexture(restartButton, restartButtonPressed);
 		if(GUI.Button(restartButtonRect, ""))
 		{

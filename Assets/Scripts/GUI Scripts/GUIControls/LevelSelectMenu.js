@@ -308,6 +308,8 @@ public class LevelSelectMenu extends GUIControl
 	private var rankRect:Rect;
 	private var rankTextureNum:int;
 	
+	private var returnedFromMessage:boolean;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -316,6 +318,8 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		returnedFromMessage = false;
 		
 		//Getting style and displaying names
 		rank1Style =  levelSelectSkin.GetStyle("title1");
@@ -707,6 +711,13 @@ public class LevelSelectMenu extends GUIControl
 				currentResponse.type = EventTypes.STARTMENU;
 			}
 			resetButtonTexture();
+			
+			//	ANDROID BACK BUTTON
+			if(!returnedFromMessage && Input.GetKeyUp(KeyCode.Escape))
+				currentResponse.type = EventTypes.STARTMENU;
+			else if(returnedFromMessage)
+				returnedFromMessage = false;
+
 		}				
 		else	//Renders the Splash Screen
 		{
@@ -770,6 +781,13 @@ public class LevelSelectMenu extends GUIControl
 				showSplash = false;
 			}
 			resetButtonTexture();
+			
+			//	ANDROID BACK BUTTON
+			if(Input.GetKeyUp(KeyCode.Escape))
+			{
+				returnedFromMessage = true;
+				showSplash = false;
+			}
 		}
 		
 	}

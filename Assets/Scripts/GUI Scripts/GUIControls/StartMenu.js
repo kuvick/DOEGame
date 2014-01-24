@@ -301,7 +301,7 @@ public class StartMenu extends GUIControl
 			if(currentScreen == CurrentStartScreen.FirstScreen)
 			{
 			
-			GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
+				GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
 				
 				setButtonTexture(creditsButton, creditsButtonPressed);
 				if (GUI.Button(creditsButtonRect, ""))
@@ -398,6 +398,14 @@ public class StartMenu extends GUIControl
 						PlayButtonPress();
 					}
 					resetButtonTexture();
+					
+					// ANDROID BACK BUTTON
+					if(Input.GetKeyUp(KeyCode.Escape))
+					{
+						currentScreen = CurrentStartScreen.FirstScreen;
+						PlayButtonPress();
+					}
+					
 					scrollContent.height = (players.Count + 1) * (profileSelectHeight + (buttonSideBuffer * screenHeight));
 					
 					
@@ -630,6 +638,16 @@ public class StartMenu extends GUIControl
 				}
 				resetButtonTexture();
 				
+				//	ANDROID BACK BUTTON
+				if(Input.GetKeyUp(KeyCode.Escape))
+				{
+					if(saveSystem.currentPlayer != null)
+						saveSystem.SaveCurrentPlayer();
+						
+					currentScreen = CurrentStartScreen.FirstScreen;
+					PlayButtonPress();
+				}
+				
 				SoundManager.Instance().setVolumes(sfxSliderVal, musicSliderVal);
 				
 				if(lastSFXVal != sfxSliderVal)
@@ -665,6 +683,10 @@ public class StartMenu extends GUIControl
 						currentScreen = CurrentStartScreen.FirstScreen;
 					}
 					resetButtonTexture(style);
+					
+					//	ANDROID BACK BUTTON
+					if(Input.GetKeyUp(KeyCode.Escape))
+						showConfirmation = false;
 				}
 				//**********************
 				
