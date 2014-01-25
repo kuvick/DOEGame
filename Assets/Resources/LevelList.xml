@@ -106,6 +106,20 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<Level><!--RV19-->
+      <displayName>4</displayName>
+      <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>4</difficulty>
+      <subjectText>Awesome Level Bro</subjectText>
+      <messageText> PLACE. HOLDER. TEXT. </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>3</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--RV10-->
       <displayName>4</displayName>
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -140,6 +154,20 @@
       <difficulty>8</difficulty>
       <subjectText>Steam Powered</subjectText>
       <messageText>Think you can cut it at the ECRB? We need agents with their head in the game. The Organic Flash Cycle tech you'll be handling is all about letting no thermal energy go to waste. I certainly won't if you botch this one.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>5</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV18-->
+      <displayName>6</displayName>
+      <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>9</difficulty>
+      <subjectText> Witty Subject</subjectText>
+      <messageText> Really? You passed that one? That's surprising... you probably cheated. Here's a *harder* one.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -325,7 +353,7 @@
 	<Level><!--GPC03.1 mutual link, advanced queue, reallocation, tight deadline-->
       <displayName>13</displayName>
       <sceneName>GPC03.1</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>8</difficulty>
       <subjectText>Circuit Maker</subjectText>
       <messageText>Oh boy... you seen the map for this one? Who the heck built their infrastructure? We're going to have to reroute half the city to get the tranistor factory up and running. We got a tight deadline on this one to boot.&#10;&#10;Good luck with this one, buddy!</messageText>
       <isPrimary>true</isPrimary>
@@ -399,7 +427,7 @@
     </Level>
 	
 	<!--Resources don't make sense                                       REVISE-->
-	<Level><!--RV02 moderate difficulty, false complexity, short engineer queue -->
+	<Level><!--RV02 moderate difficulty, false complexity, short engineer queue-->
       <displayName>17</displayName>
       <sceneName>RV02</sceneName> 
       <difficulty>12/difficulty>
@@ -552,8 +580,8 @@
       <displayName>20</displayName>
       <sceneName>RV22</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
-      <subjectText>RV22</subjectText>
-      <messageText> You've come a long way, Agent. This next assignment will assess your skills and be used toward your canidature as a Class A Energy Agent. Good luck. You'll need it.</messageText>
+      <subjectText>Rise to the Challenge</subjectText>
+      <messageText> You've come a long way, Agent. This next assignment will assess your skills and be used toward your candidature as a Class A Energy Agent. Good luck. You'll need it.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -627,7 +655,7 @@
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
       <subjectText>Powered Up</subjectText>
-      <messageText> Mission text coming soon! </messageText>
+      <messageText> I see my skills are rubbing off on you. Now lets make things interesting -  this next one has a tight timetable for us to deliver the COOL TECH upgrade to the local power station. Think you can keep up?  </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -651,12 +679,29 @@
     </Level>		
 	
 	<!-- Secondary Objective too easy!, building that can get two outputs from 1 bldg REVISE-->
-	<Level> <!--DD11 hard, double primary objective, secondary objective, long queue-->
+	
+	<!--DD11 hard, double primary objective, secondary objective, long queue
+	<Level> 
       <displayName>24</displayName>
       <sceneName>DD11</sceneName> 
       <difficulty>4</difficulty>
       <subjectText>DD11</subjectText>
       <messageText> Mission text coming soon! </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Agent Roc Bridges</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>23</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	-->
+	
+	<Level> <!--RV25 -->
+      <displayName>24</displayName>
+      <sceneName>DD11</sceneName> 
+      <difficulty>4</difficulty>
+      <subjectText>RV25</subjectText>
+      <messageText> Placeholder </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
