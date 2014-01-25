@@ -308,6 +308,8 @@ public class LevelSelectMenu extends GUIControl
 	private var rankRect:Rect;
 	private var rankTextureNum:int;
 	
+	private var returnedFromMessage:boolean;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -316,6 +318,8 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		returnedFromMessage = false;
 		
 		//Getting style and displaying names
 		rank1Style =  levelSelectSkin.GetStyle("title1");
@@ -583,7 +587,14 @@ public class LevelSelectMenu extends GUIControl
 							}
 							else if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
 							{
-								GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
+								if((levelsToRender[i].difficulty - baseDifficulty) >= 0 && (levelsToRender[i].difficulty - baseDifficulty) < difficultyIcons.Count)
+									GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
+								else if (levelsToRender[i].difficulty - baseDifficulty < 0)
+									GUI.DrawTexture(statusRectangle, difficultyIcons[0], ScaleMode.StretchToFill);
+								else
+									GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
+								
+								//Debug.Log((levelsToRender[i].difficulty - baseDifficulty) + " - " + levelsToRender[i].displayName + " = " + levelsToRender[i].difficulty);
 							}	
 							else
 							{
@@ -700,6 +711,13 @@ public class LevelSelectMenu extends GUIControl
 				currentResponse.type = EventTypes.STARTMENU;
 			}
 			resetButtonTexture();
+			
+			//	ANDROID BACK BUTTON
+			if(!returnedFromMessage && Input.GetKeyUp(KeyCode.Escape))
+				currentResponse.type = EventTypes.STARTMENU;
+			else if(returnedFromMessage)
+				returnedFromMessage = false;
+
 		}				
 		else	//Renders the Splash Screen
 		{
@@ -763,6 +781,13 @@ public class LevelSelectMenu extends GUIControl
 				showSplash = false;
 			}
 			resetButtonTexture();
+			
+			//	ANDROID BACK BUTTON
+			if(Input.GetKeyUp(KeyCode.Escape))
+			{
+				returnedFromMessage = true;
+				showSplash = false;
+			}
 		}
 		
 	}

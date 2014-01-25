@@ -375,6 +375,13 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
+		//	ANDROID BACK BUTTON
+		if(Input.GetKeyUp(KeyCode.Escape))
+		{
+			SoundManager.Instance().playButtonClick();
+			currentResponse.type = EventTypes.PAUSE;
+		}
+		
 		if(!disableSkipButton && GUI.Button(waitButton, waitTexture))
 		{
 			SoundManager.Instance().playWait();
