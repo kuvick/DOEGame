@@ -695,7 +695,7 @@ public class MainMenu extends GUIControl
 		//animates the mission complete until it is in the center
 		if(!hasReachedDestination)
 		{
-			GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture);
+			GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
 			
 			victorySplashRectangle.x -= speed * Time.deltaTime * Mathf.Abs(victorySplashRectangle.x - xFinalDestination);
 			
@@ -715,7 +715,7 @@ public class MainMenu extends GUIControl
 			}
 			else
 			{			
-				GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture);
+				GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
 			}
 		}
 		

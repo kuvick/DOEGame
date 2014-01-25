@@ -213,7 +213,7 @@ public class Loading extends GUIControl
 			
 				// New Loading Textures
 		
-		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText);
+		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
 		GUI.DrawTexture(loadingBGRect, loadingBackground);
 		
 		GUI.DrawTexture(loadingBGRect, loadingBackground);

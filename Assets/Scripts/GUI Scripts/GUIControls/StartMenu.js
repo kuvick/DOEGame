@@ -283,7 +283,8 @@ public class StartMenu extends GUIControl
 	
 	public function Render()
 	{
-		GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
+		//GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
+		GUI.DrawTexture(background, currentTexture, ScaleMode.StretchToFill);
 		if (showSplash)
 		{
 			var newWidth : float = currentIcon.width * percentage;
