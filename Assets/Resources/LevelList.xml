@@ -22,7 +22,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	 <Level><!--Tutorial2-->
+	<Level><!--Tutorial2-->
       <displayName>1</displayName>
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
@@ -36,7 +36,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	 <Level><!--Tutorial3-->
+	<Level><!--Tutorial3-->
       <displayName>0</displayName>
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
@@ -50,7 +50,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--Tutorial_KU04-->
+	<Level><!--Tutorial_KU04 UNDO button introduced-->
       <displayName>2</displayName>
       <sceneName>Tutorial_KU04</sceneName>
       <difficulty>1</difficulty>
@@ -106,6 +106,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--UPDATE TERRAIN -->
 	<Level><!--RV19-->
       <displayName>4</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -162,6 +163,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--UPDATE TERRAIN -->
 	<Level><!--RV18-->
       <displayName>6</displayName>
       <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
