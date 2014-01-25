@@ -214,7 +214,8 @@ public class ScoreMenu extends GUIControl
 		
 		
 		//infoBoxRect = createRect(infoBox, 81 / designWidth, 74 / designHeight, infoBox.height / designHeight, false, screenRect);
-		infoBoxRect = createRect(infoBox.topTexture, 81 / designWidth, 74 / designHeight, infoBox.topTexture.height / designHeight, false, screenRect);
+		//infoBoxRect = createRect(infoBox.topTexture, 81 / designWidth, 74 / designHeight, infoBox.topTexture.height / designHeight, false, screenRect);
+		infoBoxRect = createRect(Vector2(1768, 847), 81 / designWidth, 74 / designHeight, 847 / designHeight, false, screenRect);
 		
 		
 		
