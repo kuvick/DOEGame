@@ -247,7 +247,7 @@ private function CheckForMutualLink(outputBuilding : int, inputBuilding : int) :
 {
 	var outputOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(outputBuilding);
 	
-	if (outputOnGrid.FindLinkIndex(inputBuilding, outputOnGrid.allInputs))//inputLinkedTo.Contains(inputBuilding))
+	if (outputOnGrid.FindLinkIndex(inputBuilding, outputOnGrid.allInputs) >= 0)//inputLinkedTo.Contains(inputBuilding))
 		return true;
 	return false;
 }
