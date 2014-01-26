@@ -53,6 +53,7 @@ public class CodexMenu extends GUIControl
 	
 	private var isHolding:boolean;
 	private var startHolding:boolean;
+	private var confirmHolding:boolean;
 	
 	private var hexBGRect:List.<Rect> = new List.<Rect>();
 	private var hexRect:List.<Rect> = new List.<Rect>();
@@ -100,6 +101,7 @@ public class CodexMenu extends GUIControl
 		mainView = true;
 		isHolding = false;
 		startHolding = false;
+		confirmHolding = false;
 		firstPass = false;
 		checkDelta = 0;
 		zooming = false;
@@ -160,14 +162,10 @@ public class CodexMenu extends GUIControl
 	private function HoldWait()
 	{
 		//Debug.Log("waiting");
-		yield WaitForSeconds(0.07);
+		//yield WaitForSeconds(0.07);
 		
-		if (startHolding && Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0)
+		if (startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
 		{
-			startHolding = true;
-			isHolding = true;
-			released = false;
-			
 			if(Input.GetKey(KeyCode.Mouse0))
 			{
 				lastMousePos = Input.mousePosition;
@@ -175,7 +173,6 @@ public class CodexMenu extends GUIControl
 			}
 			else
 				useMouse = false;
-				//Input.touches[0].deltaPosition
 		}
 	}
 	
@@ -222,60 +219,47 @@ public class CodexMenu extends GUIControl
 		
 			if(!zooming)
 			{
+			
 				//To check if the user is holding down in order to drag
 				if (!startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
 				{
 					//Debug.Log("Input detected");
 					startHolding = true;
+					confirmHolding = false;
+					HoldWait();		
 					
-					/*
-					firstPass = true;
-					checkDelta = 0;
-					
-					if(Input.GetKey(KeyCode.Mouse0))
+				}
+				else if(startHolding && !confirmHolding)
+				{
+					var changeTest:Vector2;
+				
+					if(useMouse)
 					{
-						startMousePosition = Vector2(Input.mousePosition.x, Input.mousePosition.y);
+						changeTest = Input.mousePosition - lastMousePos;
+						lastMousePos = Input.mousePosition;
 					}
 					else
 					{
-						startMousePosition = Vector2.zero;
+						changeTest = Input.touches[0].deltaPosition;
+					}
+					
+					// Sees if the player has moved the minimum distance
+					if((Mathf.Abs(changeTest.x) > 1) || (Mathf.Abs(changeTest.y) > 1))
+					{
+						startHolding = true;
+						confirmHolding = true;
+						isHolding = true;
+						released = false;
 					}
 						
-					if(Input.touchCount > 0)
-					{
-						startTapPosition = Vector2(Input.touches[0].position.x, Input.touches[0].position.y);
-					}
-					*/
-					HoldWait();
 				}
-				/*
-				else if(firstPass)
-				{	
-					//Debug.Log(checkDelta);
-					//Debug.Log(Input.mousePosition);
-					if(checkDelta > 2)
-					{
-						if(startMousePosition != Vector2.zero && startMousePosition != Vector2(Input.mousePosition.x, Input.mousePosition.y))
-						{
-							//Debug.Log("FirstPass1");
-							HoldWait();
-						}
-						else if(Input.touchCount > 0 && startTapPosition != Vector2(Input.touches[0].position.x, Input.touches[0].position.y))
-						{
-							//Debug.Log("FirstPass2");
-							HoldWait();
-						}
-						
-						firstPass = false;
-					}
-					else
-						checkDelta++;
-				}
-				*/
-				else if (startHolding && (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount <= 0))
+
+
+				if (startHolding && (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount <= 0))
 				{
 					startHolding = false;
 					isHolding  = false;
+					confirmHolding = false;
 					ReleaseWait();
 				}
 				
