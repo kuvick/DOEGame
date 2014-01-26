@@ -356,6 +356,8 @@ public function resolveEvent( script : EventScript)
 {
 	//Debug.Log(script.event.name + " was resolved!");
 	var tempScript : EventScript = script;
+	if (tempScript.getResolved())
+		return;
 	var tempNode : EventStackNode = new EventStackNode();
 	tempNode.event = script;
 	tempNode.turnAdded = currentTurn;
