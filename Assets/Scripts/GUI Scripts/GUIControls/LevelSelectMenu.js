@@ -478,8 +478,8 @@ public class LevelSelectMenu extends GUIControl
 		// check whether to go directly to level instead of loading dashboard
 		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
 		{
-			PlayerPrefs.SetString(Strings.NextLevel, levels[levels.Length - 1 - lastUnlockedIndex].sceneName);
-			Application.LoadLevel("LoadingScreen");
+			showSplash = true;
+			activeLevelIndex = 0;//levels.Length - 1 - lastUnlockedIndex;
 		}
 		else if (tooltipDisplay && lastUnlockedIndex - 2 == levelsFromXML.numInitialTutorials)
 		{
@@ -623,10 +623,6 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Render()
 	{
-		// don't render dashboard if not far enough into the game
-		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
-			return;
-		
 		if(tooltipDisplay != null)
 		{
 			if (tooltipDisplay.IsActive())
@@ -776,14 +772,17 @@ public class LevelSelectMenu extends GUIControl
 			GUI.EndGroup();
 			
 			setButtonTexture(backButtonText, backButtonTextPressed);
+			if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
+				GUI.enabled = false;
 			if(GUI.Button(archiveIconRect, ""))
 			{
 				showSplash = false;
 			}
 			resetButtonTexture();
+			GUI.enabled = true;
 			
 			//	ANDROID BACK BUTTON
-			if(Input.GetKeyUp(KeyCode.Escape))
+			if(Input.GetKeyUp(KeyCode.Escape) && lastUnlockedIndex >= levelsFromXML.numInitialTutorials)
 			{
 				returnedFromMessage = true;
 				showSplash = false;
