@@ -89,6 +89,8 @@ public class CodexMenu extends GUIControl
 	
 	private var instructionRect:Rect;
 	
+	private var returningFromTechView:boolean;
+	
 	
 	public function Initialize(){
 		super.Initialize();
@@ -96,6 +98,8 @@ public class CodexMenu extends GUIControl
 		displayUnlocked = true;
 		displayLocked = true;
 		doNotRender = false;
+		
+		returningFromTechView = false;
 		
 		codices = new List.<CodexEntry>();
 		mainView = true;
@@ -418,6 +422,26 @@ public class CodexMenu extends GUIControl
 			}
 		}
 		resetButtonTexture();
+		
+		
+		//	ANDROID BACK BUTTON
+		if(returningFromTechView)
+			returningFromTechView = false;
+		else if(Input.GetKeyUp(KeyCode.Escape))
+		{
+			if(!isHolding)
+			{
+				if(!returningFromTechView && mainView)
+				{
+					currentResponse.type = EventTypes.LEVELSELECT;
+				}
+				else
+				{
+					mainView = true;
+					returningFromTechView = true;
+				}
+			}
+		}
 
 	}
 	
