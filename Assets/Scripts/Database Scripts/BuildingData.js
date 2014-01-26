@@ -106,15 +106,18 @@ public function convertBuildingOnGridDataIntoBuildingOnGrid(): BuildingOnGrid
 	
 	for (var i : int = 0; i < buildingData.unallocatedInputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedInputs)
 	{
-		buildingOnGrid.unallocatedInputs.Add(buildingData.unallocatedInputs[i]);//tempVar);
+		//buildingOnGrid.unallocatedInputs.Add(buildingData.unallocatedInputs[i]);//tempVar);
+		buildingOnGrid.unallInputs.Add(new IOPut(IOType.In, buildingData.unallocatedInputs[i]));
 	}
 	
 	for (i = 0; i < buildingData.unallocatedOutputs.length; i++)//var tempVar : ResourceType in buildingData.unallocatedOutputs)
 	{
-		buildingOnGrid.unallocatedOutputs.Add(buildingData.unallocatedOutputs[i]);//tempVar);
+		//buildingOnGrid.unallocatedOutputs.Add(buildingData.unallocatedOutputs[i]);//tempVar);
+		buildingOnGrid.unallOutputs.Add(new IOPut(IOType.Out, buildingData.unallocatedOutputs[i]));
 	}
 	
-	buildingOnGrid.optionalOutput = buildingData.optionalOutput;
+	//buildingOnGrid.optionalOutput = buildingData.optionalOutput;
+	buildingOnGrid.optOutput = new IOPut(IOType.OptOut, buildingData.optionalOutput);
 	
 	buildingOnGrid.premadeLinks = buildingData.premadeLinks;
 	

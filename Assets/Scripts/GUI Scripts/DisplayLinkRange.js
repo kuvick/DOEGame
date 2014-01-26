@@ -183,9 +183,10 @@ function HightlightBuildingTilesInRange(selectedBuilding : GameObject)
 			{//b && isInRange){
 				var tempBuilding = Database.getBuildingOnGrid(selectedBuilding.transform.position);
 				
-				for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+				//for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+				for(var j = 0; j < tempBuilding.unallOutputs.Count; j++)
 				{
-					Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]);
+					Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallOutputs[j].resource);//unallocatedOutputs[j]);
 				}	
 				
 						

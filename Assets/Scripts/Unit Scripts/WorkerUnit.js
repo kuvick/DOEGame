@@ -17,7 +17,7 @@ class WorkerUnit extends Unit {
 	// Checks that the target building has optional outputs
 	protected function BuildingCheck (target : BuildingOnGrid)
 	{
-		if (!super(target) || target.optionalOutput == ResourceType.None)
+		if (!super(target) || target.optOutput.resource == ResourceType.None)//ionalOutput == ResourceType.None)
 			return false;
 		return true;
 	}
@@ -31,10 +31,10 @@ class WorkerUnit extends Unit {
 			else if (currentBuilding.optionalOutputLinkedTo >= 0)
 				databaseRef.activateBuilding(Database.findBuildingIndex(currentBuilding), true);*/
 			buildingOptionalFixedPreviousSetting = currentBuilding.optionalOutputFixed;
-			if (currentBuilding.optionalOutputIcon)
+			if (currentBuilding.optOutput.icon)//ionalOutputIcon)
 			{
-				currentBuilding.optionalOutputIcon.SetFlashSolidColor(Color.white);//SetActive(true);
-				currentBuilding.optionalOutputIcon.SetFixed(true);
+				currentBuilding.optOutput.icon.SetFlashSolidColor(Color.white);//ionalOutputIcon.SetFlashSolidColor(Color.white);//SetActive(true);
+				currentBuilding.optOutput.icon.SetFixed(true);//ionalOutputIcon.SetFixed(true);
 				currentBuilding.optionalOutputFixed = true;
 			}
 			/*if (previousBuilding.optionalOutputIcon)
@@ -47,8 +47,8 @@ class WorkerUnit extends Unit {
 		if(super())
 		{
 			previousBuilding.optionalOutputFixed = buildingOptionalFixedPreviousSetting;
-			if (!buildingOptionalFixedPreviousSetting && previousBuilding.optionalOutputIcon)
-				previousBuilding.optionalOutputIcon.SetFixed(false);//SetFlashSolidColor(Color.red);
+			if (!buildingOptionalFixedPreviousSetting && previousBuilding.optOutput.icon)//ionalOutputIcon)
+				previousBuilding.optOutput.icon.SetFixed(false);//ionalOutputIcon.SetFixed(false);//SetFlashSolidColor(Color.red);
 		}
 	}
 }

@@ -85,6 +85,8 @@ function SetLinkTexture (b1 : int, b2 : int, reset : boolean)
 	}
 }
 
+// b2 = output building
+// b1 = input building
 function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUsed : boolean)
 {
 	// make sure buildings are valid
@@ -92,9 +94,9 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUse
 		return;
 		
 	// make sure buildings are linked
-	var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
+	/*var isLinked:boolean = gameObject.GetComponent(LinkUI).isLinked(buildings[b1], buildings[b2]);
 	if (!isLinked)
-		return;
+		return;*/
 	
 	// set link resource type
 	linkResources[b1, b2] = linkResources[b2, b1] = resource;
@@ -224,6 +226,8 @@ function addObjectsToBuildings(){
 }
 
 // Destroys the link particle system game object between the given 2 buildings
+// b2 = output building
+// b1 = input building
 function removeLink(b1: int, b2: int)
 {
 	linksDrawn[b1,b2] = linksDrawn[b2, b1] = false;
@@ -243,7 +247,7 @@ private function CheckForMutualLink(outputBuilding : int, inputBuilding : int) :
 {
 	var outputOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(outputBuilding);
 	
-	if (outputOnGrid.inputLinkedTo.Contains(inputBuilding))
+	if (outputOnGrid.FindLinkIndex(inputBuilding, outputOnGrid.allInputs))//inputLinkedTo.Contains(inputBuilding))
 		return true;
 	return false;
 }

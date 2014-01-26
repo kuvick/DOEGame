@@ -105,7 +105,8 @@ static function HandleFirstClick(obj : Collider) : boolean
 			linkUIRef.SetSelectedOutIndex(-1);
 		else
 		{
-			var outputIndex : int = buildingOnGrid.outputLinkedTo.IndexOf(parseInt(obj.name.Split(" "[0])[1]));
+			//var outputIndex : int = buildingOnGrid.outputLinkedTo.IndexOf(parseInt(obj.name.Split(" "[0])[1]));
+			var outputIndex : int = buildingOnGrid.FindLinkIndex(parseInt(obj.name.Split(" "[0])[1]), buildingOnGrid.allOutputs);
 			linkUIRef.SetSelectedOutIndex(outputIndex);
 		}
 		linkUIRef.SetLinkCaseOverride(true);

@@ -203,25 +203,33 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	indicator2.setResourceRing(tempRing);
 	
 	startPos += Utils.ConvertToRotated(inputStartPos);
-	GenerateIconSet(building.unallocatedInputs, inputIcons, 
-					building.unallocatedInputIcons, startPos, 1f, building);
+	/*GenerateIconSet(building.unallocatedInputs, inputIcons, 
+					building.unallocatedInputIcons, startPos, 1f, building);*/
+	GenerateIconSet(building.unallInputs, inputIcons, startPos, 1f, building);
 	startPos = building.buildingPointer.transform.position;
 	startPos += Utils.ConvertToRotated(outputStartPos);
-	var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
-					building.unallocatedOutputIcons, startPos, -1f, building);
+	/*var optPos : Vector2 = GenerateIconSet(building.unallocatedOutputs, outputIcons, 
+					building.unallocatedOutputIcons, startPos, -1f, building);*/
+	var optPos : Vector2 = GenerateIconSet(building.unallOutputs, outputIcons, 
+											startPos, -1f, building);
 	startPos.x = optPos.x;
 	startPos.z = optPos.y;
-	if (building.optionalOutput != ResourceType.None)
+	if (building.optOutput.resource != ResourceType.None)//ionalOutput != ResourceType.None)
 	{
-		var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optionalOutput - 1], startPos, Quaternion.identity);
+		//var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optionalOutput - 1], startPos, Quaternion.identity);
+		var tempObject : GameObject = Instantiate(optionalOutputIcons[building.optOutput.resource - 1], startPos, Quaternion.identity);
 		var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
 		tempScript.Initialize(building);
-		building.optionalOutputIcon = tempScript;
+		//building.optionalOutputIcon = tempScript;
+		building.optOutput.SetIcon(tempScript);
 	}
 }
 
-private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[], 
+/*private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet : GameObject[], 
 									buildingIconSet : List.<ResourceIcon>, startPos : Vector3, startSpacingDir : float,
+									building : BuildingOnGrid) : Vector2*/
+private function GenerateIconSet(ioputSet : List.<IOPut>, iconPrefabSet : GameObject[], 
+									startPos : Vector3, startSpacingDir : float,
 									building : BuildingOnGrid) : Vector2
 {
 	var xSpacing : float = 45;
@@ -230,14 +238,17 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 	resourceSpacing.z = Mathf.Abs(resourceSpacing.z) * startSpacingDir;
 	for (var i : int = 0; i < ioputSet.Count; i++)
 	{
-		if (ioputSet[i] != ResourceType.None)
+		//if (ioputSet[i] != ResourceType.None)
+		if (ioputSet[i].resource != ResourceType.None)
 		{
-			var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
+			//var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i] - 1],pos, Quaternion.identity);
+			var tempObject : GameObject = Instantiate(iconPrefabSet[ioputSet[i].resource - 1],pos, Quaternion.identity);
 			tempObject.transform.parent = building.buildingPointer.transform;
 			var tempScript : ResourceIcon = tempObject.GetComponent(ResourceIcon);
 			tempScript.Initialize(building);
 			tempScript.SetIndex(i);
-			buildingIconSet.Add(tempScript);
+			//buildingIconSet.Add(tempScript);
+			ioputSet[i].SetIcon(tempScript);
 			pos += Utils.ConvertToRotated(resourceSpacing);
 			resourceSpacing.z *= -1f;
 		}
@@ -248,7 +259,7 @@ private function GenerateIconSet(ioputSet : List.<ResourceType>, iconPrefabSet :
 //Removes links between b1 and  b2
 function removeLink(b1: GameObject, b2:GameObject)
 {
-	var b1Index: int;
+	/*var b1Index: int;
 	var b2Index: int;
 	var removeLinkReference : boolean = true;
 	for(var b: int = 0; b < buildings.length; b++)
@@ -290,7 +301,7 @@ function removeLink(b1: GameObject, b2:GameObject)
 		}
 	}
 	
-	this.gameObject.GetComponent(DrawLinks).removeLink(b1Index, b2Index);
+	this.gameObject.GetComponent(DrawLinks).removeLink(b1Index, b2Index);*/
 }
 
 // This function is used to link buildings b1 and b2
@@ -308,7 +319,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
 	var resource:ResourceType;
-	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
+	var hasOptional:boolean = (linkBuilding.optOutput.resource != ResourceType.None && linkBuilding.optOutput.linkedTo >= 0//ionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.optionalOutputFixed && linkBuilding.isActive);
 	var oldInputBuildingIndex : int = 0;
 	var oldOutputBuildingIndex : int = 0;
@@ -323,7 +334,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			linkReference[building1Index, building2Index] = true;
 			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
 			removeLink(b1, oldOutputBuilding);
-			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);			
+			//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);			
 		}		
 	}
 	
@@ -336,7 +347,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			linkReference[building1Index, building2Index] = true;
 			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
 			removeLink(b2, oldInputBuilding);
-			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
+			//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
 		}
 		
 		//If the chain break causes the outputting building to be deactivated, undo the link.
@@ -354,7 +365,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
+		//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
 	}
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
@@ -366,15 +377,15 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 	// case if player directly selected a link to reallocate
 	if (linkCaseOverride)
 	{
-		if (optionalOutputUsed && CheckForInput(b1, b2.optionalOutput))
+		if (optionalOutputUsed && CheckForInput(b1, b2.optOutput.resource))//ionalOutput))
 		{
-			selectedResource = b2.optionalOutput;
+			selectedResource = b2.optOutput.resource;//ionalOutput;
 			allocatedOutSelected = true;
 			return true;
 		}
-		else if (!optionalOutputUsed && CheckForInput(b1, b2.allocatedOutputs[selectedOutIndex]))
+		else if (!optionalOutputUsed && CheckForInput(b1, b2.allOutputs[selectedOutIndex].resource))//ocatedOutputs[selectedOutIndex]))
 		{
-			selectedResource = b2.allocatedOutputs[selectedOutIndex];
+			selectedResource = b2.allOutputs[selectedOutIndex].resource;//ocatedOutputs[selectedOutIndex];
 			allocatedOutSelected = true;
 			return true;
 		}
@@ -387,40 +398,44 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 	}
 	
 	//b2 : Output, b1: Input
-	if(b2.unallocatedOutputs.Count > 0 && b2.isActive)
+	//if(b2.unallocatedOutputs.Count > 0 && b2.isActive)
+	if(b2.unallOutputs.Count > 0 && b2.isActive)
 	{
 		//Case: Output is Unallocated
-		for(var i = 0; i < b2.unallocatedOutputs.Count; i++)
+		for(var i = 0; i < b2.unallOutputs.Count; i++)//ocatedOutputs.Count; i++)
 		{
-			if (CheckForInput(b1, b2.unallocatedOutputs[i]))
+			if (CheckForInput(b1, b2.unallOutputs[i].resource))//ocatedOutputs[i]))
 			{
-				selectedResource = b2.unallocatedOutputs[i];
+				selectedResource = b2.unallOutputs[i].resource;//ocatedOutputs[i];
 				return true;
 			}					
 		}
 	}				
 	
 	//Case : Optional Output 
-	if(b2.isActive && b2.optionalOutput != ResourceType.None && b2.optionalOutputFixed)//b2.unit != UnitType.None)
+	//if(b2.isActive && b2.optionalOutput != ResourceType.None && b2.optionalOutputFixed)//b2.unit != UnitType.None)
+	if(b2.isActive && b2.optOutput.resource != ResourceType.None && b2.optionalOutputFixed)
 	{
-		if (CheckForInput(b1, b2.optionalOutput))
+		if (CheckForInput(b1, b2.optOutput.resource))//ionalOutput))
 		{
-			selectedResource = b2.optionalOutput;
+			selectedResource = b2.optOutput.resource;//ionalOutput;
 			optionalOutputUsed = true;
-			if (b2.optionalOutputAllocated)
+			if (b2.optOutput.linkedTo >= 0)//ionalOutputAllocated)
 				allocatedOutSelected = true;
 			return true;
 		}
 	}
 	
 	//Case: Output is Allocated
-	if(b2.allocatedOutputs.Count > 0 && b2.isActive)
+	//if(b2.allocatedOutputs.Count > 0 && b2.isActive)
+	if(b2.allOutputs.Count > 0 && b2.isActive)
 	{
-		for(var k = 0; k < b2.allocatedOutputs.Count; k++)
+		//for(var k = 0; k < b2.allocatedOutputs.Count; k++)
+		for(var k = 0; k < b2.allOutputs.Count; k++)
 		{
-			if (CheckForInput(b1, b2.allocatedOutputs[k]))
+			if (CheckForInput(b1, b2.allOutputs[k].resource))//ocatedOutputs[k]))
 			{
-				selectedResource = b2.allocatedOutputs[k];
+				selectedResource = b2.allOutputs[k].resource;//ocatedOutputs[k];
 				selectedOutIndex = k;
 				allocatedOutSelected = true;
 				return true;
@@ -436,11 +451,11 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 private function CheckForInput(building : BuildingOnGrid, resource : ResourceType) : boolean
 {
 	//Case: Input is unallocated
-	if(building.unallocatedInputs.Count > 0)
+	if(building.unallInputs.Count > 0)//ocatedInputs.Count > 0)
 	{
-		for(var j : int = 0; j < building.unallocatedInputs.Count; j++)
+		for(var j : int = 0; j < building.unallInputs.Count; j++)//ocatedInputs.Count; j++)
 		{
-			if(building.unallocatedInputs[j] == resource)
+			if(building.unallInputs[j].resource == resource)//ocatedInputs[j] == resource)
 			{	
 				selectedResource = resource;
 				return true;
@@ -449,11 +464,11 @@ private function CheckForInput(building : BuildingOnGrid, resource : ResourceTyp
 	}
 	
 	//Case : Input is allocated
-	if(building.allocatedInputs.Count > 0)
+	if(building.allInputs.Count > 0)//ocatedInputs.Count > 0)
 	{
-		for(j = 0; j < building.allocatedInputs.Count; j++)
+		for(j = 0; j < building.allInputs.Count; j++)//ocatedInputs.Count; j++)
 		{
-			if(building.allocatedInputs[j] == resource)
+			if(building.allInputs[j].resource == resource)//ocatedInputs[j] == resource)
 			{
 				selectedResource = resource;
 				allocatedInSelected = true;
@@ -475,7 +490,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	
 	var building1Index:int = Database.findBuildingIndex(new Vector3(building1TileCoord.x, building1TileCoord.y, 0.0));
 	var building2Index:int = Database.findBuildingIndex(new Vector3(building2TileCoord.x, building2TileCoord.y, 0.0));
-	var hasOptional:boolean = (linkBuilding.optionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
+	var hasOptional:boolean = (linkBuilding.optOutput.resource != ResourceType.None && linkBuilding.optOutput.linkedTo >= 0//ionalOutput != ResourceType.None && !linkBuilding.optionalOutputAllocated//linkBuilding.optionalOutputName.length > 0 && linkBuilding.optionalOutputNum.length > 0
 								&& linkBuilding.optionalOutputFixed && linkBuilding.isActive);
 	var oldInputBuildingIndex : int = 0;
 	var oldOutputBuildingIndex : int = 0;
@@ -495,7 +510,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			var oldOutputBuilding : GameObject = Database.getBuildingAtIndex(oldOutputBuildingIndex);
 			removeLink(b1, oldOutputBuilding);
 			//removeLink(oldOutputBuilding, b1);
-			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);			
+			//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);			
 			// if input building and old output building were mutually linked, redraw the link that still remains
 			/*var oldOutputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGridAtIndex(oldOutputBuildingIndex);
 			var possibleInputIndex : int = oldOutputBuildingOnGrid.inputLinkedTo.IndexOf(building1Index);
@@ -516,7 +531,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			var oldInputBuilding : GameObject = Database.getBuildingAtIndex(oldInputBuildingIndex);
 			//removeLink(b2, oldInputBuilding);
 			removeLink(oldInputBuilding, b2);
-			gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
+			//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
 		}
 		
 		//If the chain break causes the outputting building to be deactivated, undo the link.
@@ -534,7 +549,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	else if(GameObject.Find("Database").GetComponent(Database).linkBuildings(building2Index, building1Index, selectedResource, optionalOutputUsed) && (!isLinked(b1, b2)))
 	{
 		linkReference[building1Index, building2Index] = true;
-		gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
+		//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);
 	}
 	allocatedInSelected = false;
 	allocatedOutSelected = false;
@@ -603,26 +618,27 @@ function HighlightTiles()
 		{
 			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
 			
-			for(var j = 0; j < tempBuilding.unallocatedOutputs.Count; j++)
+			for(var j = 0; j < tempBuilding.unallOutputs.Count; j++)//ocatedOutputs.Count; j++)
 			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallocatedOutputs[j]))
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallOutputs[j].resource))//ocatedOutputs[j]))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
 					
 				}
 			}		
-			for(j = 0; j < tempBuilding.allocatedOutputs.Count; j++)
+			for(j = 0; j < tempBuilding.allOutputs.Count; j++)//ocatedOutputs.Count; j++)
 			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allocatedOutputs[j]))
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allOutputs[j].resource))//ocatedOutputs[j]))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
 				}
 			}	
-			if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
+			//if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
+			if(tempBuilding.optOutput.resource != ResourceType.None && tempBuilding.optionalOutputFixed)
 			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optionalOutput))
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
@@ -673,7 +689,7 @@ function DrawInputButtons (buttonRect : Rect, resourceList : List.<ResourceType>
 		// if selected building's optional outputs are active, check if it has a matching output
 		// if so make input button active
 		if (buildingIsSelected && selectedGridBuilding.unit == UnitType.Worker && selectedGridBuilding.isActive &&
-			resourceList[i] == selectedGridBuilding.optionalOutput && optionalOutputUsed)
+			resourceList[i] == selectedGridBuilding.optOutput.resource && optionalOutputUsed)//ionalOutput && optionalOutputUsed)
 		{
 			buildingHighlightColor = targetHighlightColor;
 		}
@@ -803,7 +819,9 @@ function Update()
 	{
 		inputBuilding = selectedBuilding;
 		var inputBuildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(selectedBuilding.transform.position);
-		allocatedInSelected = (inputBuildingOnGrid.allocatedInputs.Contains(selectedResource) && !inputBuildingOnGrid.unallocatedInputs.Contains(selectedResource));
+		//allocatedInSelected = (inputBuildingOnGrid.allocatedInputs.Contains(selectedResource) && !inputBuildingOnGrid.unallocatedInputs.Contains(selectedResource));
+		allocatedInSelected = (inputBuildingOnGrid.FindResourceIndex(selectedResource, inputBuildingOnGrid.allInputs) >= 0
+								 && inputBuildingOnGrid.FindResourceIndex(selectedResource, inputBuildingOnGrid.unallInputs) < 0);
 	}
 	
 	if(useDragLink)

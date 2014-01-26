@@ -212,21 +212,23 @@ private function FindActiveLinkedNeighbors (bUnit : BuildingOnGrid) : List.<Buil
 	var activeLinked : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 	var temp : BuildingOnGrid;
 
-	for (var i : int in bUnit.inputLinkedTo)
+	for (var i : int = 0; i < bUnit.allInputs.Count; i++)// in bUnit.inputLinkedTo)
 	{
-		temp = Database.getBuildingOnGridAtIndex(i);
+		var index : int = bUnit.allInputs[i].linkedTo;
+		temp = Database.getBuildingOnGridAtIndex(index);
 		if (temp.isActive)
 			activeLinked.Add(temp);
 	}
-	for (var i : int in bUnit.outputLinkedTo)
+	for (i = 0; i < bUnit.allOutputs.Count; i++)// in bUnit.outputLinkedTo)
 	{
-		temp = Database.getBuildingOnGridAtIndex(i);
+		index = bUnit.allOutputs[i].linkedTo;
+		temp = Database.getBuildingOnGridAtIndex(index);
 		if (temp.isActive)
 			activeLinked.Add(temp);
 	}
-	if (bUnit.optionalOutputAllocated)
+	if (bUnit.optOutput.linkedTo >= 0)//ionalOutputAllocated)
 	{
-		temp = Database.getBuildingOnGridAtIndex(bUnit.optionalOutputLinkedTo);
+		temp = Database.getBuildingOnGridAtIndex(bUnit.optOutput.linkedTo);//ionalOutputLinkedTo);
 		if (temp.isActive)
 			activeLinked.Add(temp);
 	}
