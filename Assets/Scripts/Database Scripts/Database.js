@@ -375,8 +375,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 	{
 		/*if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
 			&& inputBuilding.unallocatedInputs.Contains(resourceName))*/
-		if (outputBuilding.optOutput.resource == resourceName && outputBuilding.optOutput.linkedTo >= 0
-			&& inputBuilding.FindResourceIndex(resourceName, inputBuilding.unallInputs))
+		if (outputBuilding.optOutput.resource == resourceName && outputBuilding.optOutput.linkedTo < 0
+			&& inputBuilding.FindResourceIndex(resourceName, inputBuilding.unallInputs) >= 0)
 			hasResource = true;
 	}
 	else
@@ -490,6 +490,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks);
 		else
 			outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks);
+
 		inputBuilding.AllocateInput(resourceName, outputBuildingIndex);
 	    
 	    buildingsOnGrid[outputBuildingIndex] = outputBuilding;
