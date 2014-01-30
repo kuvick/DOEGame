@@ -111,10 +111,10 @@
       <displayName>4</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
-      <subjectText>Awesome Level Bro</subjectText>
-      <messageText> PLACE. HOLDER. TEXT. </messageText>
+      <subjectText>The Real Challenge Begins</subjectText> <!-- PLACEHOLDER TEXT-->
+      <messageText> Well done! I knew I could count on you! But I see you still thirst for a challenge! I'm sending the specs on a new assignment your way now. You won't be dissapointed! </messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Director Helena Edison</senderName>
+      <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>3</missionRequirementIndex>
@@ -168,7 +168,7 @@
       <displayName>6</displayName>
       <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>9</difficulty>
-      <subjectText> Witty Subject</subjectText>
+      <subjectText> Witty Subject</subjectText> <!-- PLACEHOLDER TEXT-->
       <messageText> Really? You passed that one? That's surprising... you probably cheated. Here's a *harder* one.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
@@ -403,7 +403,7 @@
       <displayName>15</displayName>
       <sceneName>RV03-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>RV03-remix</subjectText>
+      <subjectText>Gases to Gas</subjectText>
       <messageText> Jealous? Why would I be jealous of that upstart, prodigal little genius? I'd be able to invent cool stuff like his too if I didn't have important research to do! For instance, I have devised a way to recycle waste carbon dioxide emissions to augment drilling efficiency and allow Bob's Gas Shack to keep up with its high volume of traffic.&#10;&#10;Now let's go give them a hand!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
@@ -548,13 +548,7 @@
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
       <subjectText>Corn Cars</subjectText>
-      <messageText>Alright, I think I got it this time! I've found
-	  the right balance between speed and accuracy on this one. 
-	  Hyperbuild should give you no trouble this time. Probably.
-	  
-	  It should come in handy with this next mission. We're on
-	  a limited time window, so every extra minute counts. Get
-	  that gas station upgraded!</messageText>
+      <messageText>Alright, I think I got it this time! I've found the right balance between speed and accuracy on this one. Hyperbuild should give you no trouble this time. Probably.	It should come in handy with this next mission. We're on a limited time window, so every extra minute counts. Get that gas station upgraded!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -702,8 +696,8 @@
       <displayName>24</displayName>
       <sceneName>DD11</sceneName> 
       <difficulty>4</difficulty>
-      <subjectText>RV25</subjectText>
-      <messageText> Placeholder </messageText>
+      <subjectText> Endgame </subjectText><!-- PLACEHOLDER TEXT-->
+      <messageText> Agent, this is Director Edison. We have a serious issue requiring your immediate attention. All other Agents are indisposed and you are the only one in the vicinity to tackle this. Make the ECRB proud and take care of this one. </messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
