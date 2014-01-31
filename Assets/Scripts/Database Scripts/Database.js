@@ -1204,6 +1204,7 @@ static public function ReplaceBuildingSite(buildingObject: GameObject, coord : V
 	var tempBuildingData : BuildingData = buildingObject.GetComponent(BuildingData);
 	//tempBuilding = defaultBuildingScript.convertBuildingOnGridDataIntoBuildingOnGrid(tempBuildingData.buildingData);
 	tempBuilding = tempBuildingData.convertBuildingOnGridDataIntoBuildingOnGrid();
+	tempBuilding.index = buildingSiteID;
 	tempBuilding.coordinate = coord;
 	tempBuilding.buildingPointer = buildingObject;
 	//tempBuilding.highlighter = getBuildingOnGridAtIndex(buildingSiteID).highlighter;
