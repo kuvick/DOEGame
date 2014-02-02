@@ -996,7 +996,16 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	if(building.unallInputs.Count > 0 || building.deactivatedInputs.Count > 0)
 	//if(building.unallocatedInputs.Count > 0 )
 	{
-		canActivate = false;
+		// specific mutual link activation case where child building only has 1 input, currently unable to determine general case solution
+		// checks if current building only has 1 input, the building that input is linked to only has 1 input, and if that child's input is linked to the current building
+		if (building.deactivatedInputs.Count == 1 && buildingsOnGrid[building.allInputs[building.deactivatedInputs[0]].linkedTo].allInputs.Count == 1 && buildingsOnGrid[building.allInputs[building.deactivatedInputs[0]].linkedTo].allInputs[0].linkedTo == building.index)
+		{
+			canActivate = true;
+			drawLinks.SetLinkActive(true, building.index, building.allInputs[0].linkedTo);
+			building.deactivatedInputs.RemoveAt(0);
+		}
+		else
+			canActivate = false;
 		//Debug.Log(buildingIndex + " failed activate of " + building.buildingName + " " + building.unallocatedInputs.Count + " " + building.deactivatedInputs.Count);
 	}
     
