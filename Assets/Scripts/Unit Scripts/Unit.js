@@ -493,6 +493,7 @@ public function OnSelected()
 			validSpecificTargets[i].highlighter.renderer.material.color = targetHighlightColor;*/
 		SoundManager.Instance().PlayUnitSelected(this);
 		SetState(UnitState.Selected);
+		UnitManager.SetSelectedUnit(this);
 	}
 }
 

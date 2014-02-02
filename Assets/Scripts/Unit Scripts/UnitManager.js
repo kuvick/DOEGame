@@ -5,6 +5,7 @@ By Derrick Huey
 #pragma strict
 
 private static var unitList : List.<Unit> = new List.<Unit>();
+private static var selectedUnit : Unit;
 public var upgradeTextures : Texture[];
 
 function Start () {
@@ -61,10 +62,20 @@ static function CheckUnitPathsBroken()
 	}
 }
 
+static function SetSelectedUnit(selected : Unit)
+{
+	selectedUnit = selected;
+}
+
 static function DeselectUnits()
 {
-	for (var i : int = 0; i < unitList.Count; i++)
-		unitList[i].OnDeselect();
+	/*for (var i : int = 0; i < unitList.Count; i++)
+		unitList[i].OnDeselect();*/
+	if (selectedUnit)
+	{
+		selectedUnit.OnDeselect();
+		selectedUnit = null;
+	}
 }
 
 static function CheckUnitsActive()
@@ -86,6 +97,7 @@ static function HandleReleaseAtPoint(obj : Collider)
 // If the building has multiple units on it, cycles which one is selected
 static function CycleSelectedUnit(unitBuilding : BuildingOnGrid) : boolean
 {
+	Debug.Log("nya");
 	if (unitBuilding.units.Count > 0 && unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
 	{
 		if (unitBuilding.selectedUnitIndex >= 0)

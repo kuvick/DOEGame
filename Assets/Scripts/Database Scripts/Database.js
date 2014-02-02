@@ -1911,7 +1911,7 @@ class BuildingOnGrid
 		var resourceIndex : int = FindResourceIndex(resource, unallOutputs);
 		if (resourceIndex < 0)
 			return false;
-		Debug.Log("how2");
+
 		var ioPut : IOPut = unallOutputs[resourceIndex];
 		ioPut.Allocate(inputBuilding);
 		unallOutputs.RemoveAt(resourceIndex);
