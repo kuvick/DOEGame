@@ -97,7 +97,6 @@ static function HandleReleaseAtPoint(obj : Collider)
 // If the building has multiple units on it, cycles which one is selected
 static function CycleSelectedUnit(unitBuilding : BuildingOnGrid) : boolean
 {
-	Debug.Log("nya");
 	if (unitBuilding.units.Count > 0 && unitBuilding.selectedUnitIndex < unitBuilding.units.Count)
 	{
 		if (unitBuilding.selectedUnitIndex >= 0)

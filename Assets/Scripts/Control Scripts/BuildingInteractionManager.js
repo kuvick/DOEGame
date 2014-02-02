@@ -132,7 +132,10 @@ static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
 	if (!obj)
 		ModeController.setSelectedBuilding(null);
 		//return;
-	linkUIRef.HighlightTiles();
+	if (!obj || obj.tag != "Unit")
+		linkUIRef.HighlightTiles();
+	else if (obj.tag == "Unit")
+		unitSelected = true;
 	var selBuilding : GameObject = ModeController.getSelectedBuilding();
 	if(selBuilding)
 	{
