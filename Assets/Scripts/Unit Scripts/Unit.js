@@ -15,13 +15,15 @@ protected var actionList : List.<UnitAction> = new List.<UnitAction>();
 protected var currentTarget : BuildingOnGrid = null;
 
 protected var intelSystem : IntelSystem;
+protected var linkUIRef : LinkUI;
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
 
-private var validSpecificTargets = new List.<BuildingOnGrid>();
-private var validGeneralTargets = new List.<BuildingOnGrid>();
+/*private var validSpecificTargets = new List.<BuildingOnGrid>();
+private var validGeneralTargets = new List.<BuildingOnGrid>();*/
+private var validTargets = new List.<BuildingOnGrid>();
 private var targetHighlightColor : Color = new Color(0,1,1,.5); // for specific targets (ie optional output for worker)
 private var generalHighlightColor : Color = new Color(0,1,0,.5); // for general targets (any active building there is a path to)
 
@@ -101,6 +103,7 @@ function Initiate() {
 	SetPosition(false);
 	//Debug.Log("Building is: " + currentBuilding.buildingName);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	CheckActive(false);
 	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 	//MoveToTarget(false);
@@ -421,17 +424,19 @@ function Update() {
 // determines which buildings a unit can move to
 private function FindValidTargets()
 {
-	validSpecificTargets.Clear();
-	validGeneralTargets.Clear();
+	/*validSpecificTargets.Clear();
+	validGeneralTargets.Clear();*/
+	validTargets.Clear();
 	var buildings : List.<BuildingOnGrid> = Database.getBuildingsOnGrid();
 	for (var i : int = 0; i < buildings.Count; i++)
 	{
 		if (buildings[i] == currentBuilding)
 			continue;
-		if (FindPath(buildings[i], true).Count > 0)
-			validSpecificTargets.Add(buildings[i]);
-		else if (FindPath(buildings[i], false).Count > 0)
-			validGeneralTargets.Add(buildings[i]);
+		if (FindPath(buildings[i], true).Count > 0 || FindPath(buildings[i], false).Count > 0)
+			validTargets.Add(buildings[i]);
+			//validSpecificTargets.Add(buildings[i]);
+		/*else if (FindPath(buildings[i], false).Count > 0)
+			validGeneralTargets.Add(buildings[i]);*/
 	}
 }
 
@@ -477,7 +482,10 @@ public function OnSelected()
 		isSelected = true;
 		inputController.selectUnit(true);
 		FindValidTargets();
+
 		// highlight applicable buildings
+		for (var i : int = 0; i < validTargets.Count; i++)
+			validTargets[i].indicator.SetState(IndicatorState.Valid);
 		/*
 		for (var i : int = 0; i < validGeneralTargets.Count; i++)
 			validGeneralTargets[i].highlighter.renderer.material.color = generalHighlightColor;
@@ -510,7 +518,7 @@ public function OnDeselect()
 			intelSystem.addTurn();
 			intelSystem.comboSystem.incrementComboCount();
 			intelSystem.incrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
-			ModeController.setSelectedBuilding(null);
+			//ModeController.setSelectedBuilding(null);
 			ModeController.setSelectedInputBuilding(null);
 			SoundManager.Instance().PlayUnitOrdered(this);
 		}
@@ -528,8 +536,10 @@ public function OnDeselect()
 		else
 			SetState(UnitState.Active);
 	}
+	ModeController.setSelectedBuilding(null);
 	isSelected = false;
 	inputController.selectUnit(false);
+	linkUIRef.HighlightTiles();
 }
 
 protected function OnActivate(){
