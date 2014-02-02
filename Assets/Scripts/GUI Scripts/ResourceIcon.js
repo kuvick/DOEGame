@@ -122,6 +122,14 @@ public function SetFlashSolidColor (color : Color)
 	solidColor = color;
 }
 
+public function SetActive(active : boolean)
+{
+	if (active)
+		renderer.material.color = Color.white;
+	else
+		renderer.material.color = Color.gray; 
+}
+
 public function SetAllocated (allo : boolean)
 {
 	isAllocated = allo;
