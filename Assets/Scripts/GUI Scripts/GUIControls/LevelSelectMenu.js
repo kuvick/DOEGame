@@ -772,14 +772,12 @@ public class LevelSelectMenu extends GUIControl
 			GUI.EndGroup();
 			
 			setButtonTexture(backButtonText, backButtonTextPressed);
-			if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
-				GUI.enabled = false;
-			if(GUI.Button(archiveIconRect, ""))
+			// only display back button if past the initial tutorials
+			if(lastUnlockedIndex >= levelsFromXML.numInitialTutorials && GUI.Button(archiveIconRect, ""))
 			{
 				showSplash = false;
 			}
 			resetButtonTexture();
-			GUI.enabled = true;
 			
 			//	ANDROID BACK BUTTON
 			if(Input.GetKeyUp(KeyCode.Escape) && lastUnlockedIndex >= levelsFromXML.numInitialTutorials)
