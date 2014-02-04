@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Jobs>
 	<Job>
-		<Title>Secret Agent</Title>	
-		<Description>Explore the world while doing super cool stuff. Get to wear a super classy suit.</Description>	
+		<Title>Accounting and Budget</Title>	
+		<Description>Develop new financial policies, principles, and procedures.</Description>	
 	</Job>
 	<Job>
-		<Title>Engineer</Title>	
-		<Description>Build and invent really cool, far out tech.</Description>	
+		<Title>Computer Engineer</Title>	
+		<Description>Develop test plans to test computer software functions and computer devices.</Description>	
 	</Job>
 	<Job>
-		<Title>Researcher</Title>	
-		<Description>Collect the data, save the world. Look super smart in a lab coat.</Description>	
+		<Title>Electrical Engineer</Title>	
+		<Description>Manage special projects and keep the grid running smoothly.</Description>	
 	</Job>
 	<Job>
-		<Title>Computer Technician</Title>	
-		<Description>Make sure the system doesn't fry.</Description>
+		<Title>General Engineer</Title>	
+		<Description>Help develop oxy-combustion, solid oxide fuel cells, and chemical looping technologies.</Description>
 	</Job>
-</Jobs>	
+	<Job>
+		<Title>Nuclear Engineer</Title>	
+		<Description>Help assess the operations and procedures of nuclear processing facilities.</Description>	
+	</Job>
+	<Job>
+		<Title>Information Technology</Title>	
+		<Description>Support, implement, and program software systems and applications.</Description>	
+	</Job>
+	<Job>
+		<Title>Operations Research Analyst</Title>	
+		<Description>Desgin and conduct tests that reflect real-world issues, problems, and environments.</Description>	
+	</Job>
+	<Job>
+		<Title>Industry Economist</Title>	
+		<Description>Explore and analyze the trends and issues facing the world's energy economies and markets.</Description>	
+	</Job>
+	<Job>
+		<Title>Physicist</Title>	
+		<Description>Be a part of research programs and projects in the area of instrumentation in Nuclear Physics.</Description>	
+	</Job>
+	<Job>
+		<Title>High Voltage Electrician</Title>	
+		<Description>Interface with high voltage equipment and install transformers, circuit breakers, and capacitors.</Description>	
+	</Job>
+</Jobs>

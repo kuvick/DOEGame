@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Jobs>
+	<Job>
+		<Title>Secret Agent</Title>	
+		<Description>Explore the world while doing super cool stuff. Get to wear a super classy suit.</Description>	
+	</Job>
+	<Job>
+		<Title>Engineer</Title>	
+		<Description>Build and invent really cool, far out tech.</Description>	
+	</Job>
+	<Job>
+		<Title>Researcher</Title>	
+		<Description>Collect the data, save the world. Look super smart in a lab coat.</Description>	
+	</Job>
+	<Job>
+		<Title>Computer Technician</Title>	
+		<Description>Make sure the system doesn't fry.</Description>
+	</Job>
+</Jobs>	
