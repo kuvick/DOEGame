@@ -927,6 +927,7 @@ public class LevelSelectMenu extends GUIControl
 					level = new Rect(0, countCompleted * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countCompleted * (level.height * .05);
 					levels[i].bounds = level;
+					levels[i].subjectText = (levels.Length - i) + ": " + levels[i].subjectText;
 					levels[i].completed = true;
 					completedLevels.Add(levels[i]);
 					countCompleted++;	
@@ -936,6 +937,7 @@ public class LevelSelectMenu extends GUIControl
 					level = new Rect(0, countUnlocked * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countUnlocked * (level.height * .05);
 					levels[i].bounds = level;
+					levels[i].subjectText = (levels.Length - i) + ": " + levels[i].subjectText;
 					unlockedLevels.Add(levels[i]);
 					countUnlocked++;
 					if (levels[i].sceneName.Contains("utorial"))
