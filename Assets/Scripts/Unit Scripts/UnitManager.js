@@ -5,6 +5,7 @@ By Derrick Huey
 #pragma strict
 
 private static var unitList : List.<Unit> = new List.<Unit>();
+private static var selectedUnit : Unit;
 public var upgradeTextures : Texture[];
 
 function Start () {
@@ -61,10 +62,20 @@ static function CheckUnitPathsBroken()
 	}
 }
 
+static function SetSelectedUnit(selected : Unit)
+{
+	selectedUnit = selected;
+}
+
 static function DeselectUnits()
 {
-	for (var i : int = 0; i < unitList.Count; i++)
-		unitList[i].OnDeselect();
+	/*for (var i : int = 0; i < unitList.Count; i++)
+		unitList[i].OnDeselect();*/
+	if (selectedUnit)
+	{
+		selectedUnit.OnDeselect();
+		selectedUnit = null;
+	}
 }
 
 static function CheckUnitsActive()

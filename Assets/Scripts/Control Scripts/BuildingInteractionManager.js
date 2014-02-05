@@ -132,10 +132,14 @@ static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
 	if (!obj)
 		ModeController.setSelectedBuilding(null);
 		//return;
-		
+	if (!obj || obj.tag != "Unit")
+		linkUIRef.HighlightTiles();
+	else if (obj.tag == "Unit")
+		unitSelected = true;
 	var selBuilding : GameObject = ModeController.getSelectedBuilding();
 	if(selBuilding)
 	{
+		//Debug.Log(selBuilding + " " + ModeController.getPreviousBuilding());
 		var unitBuilding : BuildingOnGrid = Database.getBuildingOnGridAtIndex(Database.getBuildingIndex(selBuilding));
 			// if tapping the same building again, select appropriate unit
 		if (selBuilding == ModeController.getPreviousBuilding())
@@ -178,7 +182,7 @@ static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
 			}*/
 		//}
 	//}
-	linkUIRef.HighlightTiles();
+	//linkUIRef.HighlightTiles();
 	/*if (isEditor)
 		editorMenuRef.DoAction(buildPosCoord);*/
 	if(!unitSelected)
