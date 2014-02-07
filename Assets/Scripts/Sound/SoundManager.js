@@ -48,9 +48,11 @@ public class SoundManager extends MonoBehaviour {
 	
 	public function Awake() {
 		var playerData : GameObject = GameObject.Find("Player Data");
-		saveSystem = playerData.GetComponent("SaveSystem");
 		
-		if(saveSystem.currentPlayer.name == "")
+		if(playerData != null)
+			saveSystem = playerData.GetComponent("SaveSystem");
+		
+		if(saveSystem != null && saveSystem.currentPlayer.name == "")
 			waitingOnCurrentPlayer = true;
 		
 		startMaxPriorityVolume = maxPriorityVolume;
@@ -59,15 +61,18 @@ public class SoundManager extends MonoBehaviour {
 		startLowPriorityVolume = lowPriorityVolume;
 		startMinimumPriorityVolume = minimumPriorityVolume;
 		
-		lowPriorityVolume = saveSystem.currentPlayer.musicLevel;
-		//Determining sound effect volumes:
-		var maxLevel : float = saveSystem.currentPlayer.sfxLevel;
 		
-		maxPriorityVolume *= maxLevel;
-		highPriorityVolume *= maxLevel;
-		mediumPriorityVolume *= maxLevel;
-		minimumPriorityVolume *= maxLevel;
+		if(saveSystem != null)
+		{
+			lowPriorityVolume = saveSystem.currentPlayer.musicLevel;
+			//Determining sound effect volumes:
+			var maxLevel : float = saveSystem.currentPlayer.sfxLevel;
 			
+			maxPriorityVolume *= maxLevel;
+			highPriorityVolume *= maxLevel;
+			mediumPriorityVolume *= maxLevel;
+			minimumPriorityVolume *= maxLevel;
+		}	
 	
 		var otherSoundManager:GameObject = GameObject.Find("SoundManager(Clone)");
 		if(otherSoundManager != null && otherSoundManager != this.gameObject)
@@ -95,7 +100,7 @@ public class SoundManager extends MonoBehaviour {
 	
 	function Update()
 	{
-		if(waitingOnCurrentPlayer && saveSystem.currentPlayer.name != "")
+		if(waitingOnCurrentPlayer && saveSystem != null && saveSystem.currentPlayer.name != "")
 		{
 			setVolumes(saveSystem.currentPlayer.sfxLevel, saveSystem.currentPlayer.musicLevel);
 			musicSource.volume = lowPriorityVolume;
