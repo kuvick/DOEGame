@@ -238,10 +238,24 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<Level><!--RV08-remix easy, similtaneous action-->
+	  <displayName>10</displayName>
+      <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>3</difficulty>
+      <subjectText> Trash Powered</subjectText>
+      <messageText>Grandpa always said never be afraid to get dirty. Then he'd share his theories on UFOs. Good old Grandpa, always a source of wisdom. Anyway, what was I messaging you again? Oh yeah, the JunkBros biofuel company could use a hand in setting up supply lines. With their help these folks may just have a few less landfills and some cheaper energy bills.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>9</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--GPC07 medium, requires long queue-->
       <displayName>9</displayName>
       <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
+      <difficulty>4</difficulty>
       <subjectText>The Power Core</subjectText>
       <messageText>You like road trips? Cuz I have a feeling this is going to turn into one for me. Got some major repairs to fix up so we can get the SuperCo refinery back up and running. Lets go make some sparks!</messageText>
       <isPrimary>true</isPrimary>
@@ -255,7 +269,7 @@
 	<Level><!--RV06 false complexity, moderate-->
       <displayName>11</displayName>
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
+      <difficulty>4</difficulty>
       <subjectText>Shifting Gears</subjectText>
       <messageText>Such a waste. Goddum City uses so much power, but so much more goes to waste just from switching voltages. Like switching gears on a car. Can’t have that now, can we? Lets get these folks some good silicon carbide thyristors to fix that right up.</messageText>
       <isPrimary>true</isPrimary>
@@ -266,24 +280,10 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--RV08-remix easy, similtaneous action-->
-	  <displayName>10</displayName>
-      <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText> Trash Powered</subjectText>
-      <messageText>Grandpa always said never be afraid to get dirty. Then he'd share his theories on UFOs. Good old Grandpa, always a source of wisdom. Anyway, what was I messaging you again? Oh yeah, the JunkBros biofuel company could use a hand in setting up supply lines. With their help these folks may just have a few less landfills and some cheaper energy bills.</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>9</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
 	<Level><!--RV05-remix distant originators, simple upstream-->
       <displayName>10</displayName>
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
+      <difficulty>5</difficulty>
       <subjectText>No Waste to Waste</subjectText>
       <messageText>Can you believe what Raiden Packing Co is throwing away? Why most of this stuff could be repurposed into potent energy sources! What are we waiting for, lets get that company fixed up and making some energy! </messageText>
       <isPrimary>true</isPrimary>
@@ -335,23 +335,7 @@
       <missionRequirementIndex>9</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<!-- GPC05 unfinished, false complexity,                 STANDARD SOLUTION TOO EASY
-	<Level>
-      <displayName>1</displayName>
-      <sceneName>GPC05</sceneName>
-      <difficulty>0</difficulty>
-      <subjectText>More for the Taking</subjectText>
-      <messageText>Mission text coming soon!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>1</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	-->
-	
+		
 	<Level><!--GPC03.1 mutual link, advanced queue, reallocation, tight deadline-->
       <displayName>13</displayName>
       <sceneName>GPC03.1</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -456,22 +440,6 @@
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-
-	<!--RV24 moderate, false complexity	                                
-	<Level>
-      <displayName>18</displayName>
-      <sceneName>RV24</sceneName>
-      <difficulty>1</difficulty>
-      <subjectText>RV24</subjectText>
-      <messageText> Mission text coming soon! </messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>17</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	-->
 	
 	<Level><!--RV23 moderate, building placement-->
       <displayName>21</displayName>
@@ -632,6 +600,20 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<Level><!--KU01 -->
+      <displayName>23</displayName>
+      <sceneName>KU01</sceneName>
+      <difficulty>2</difficulty>
+      <subjectText> You're Fired!</subjectText>
+      <messageText> Gotcha! Nah, they wouldn't fire you. Heck, they should- errr, I mean obviously not fire me. They'd be lost without me. Ahem, anyway, Combined Heat and Power Tech. CHP. Sounds delicious. Let's get those boys a shiny new toy!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Agent Roc Bridges</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>22</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--KU-03 mid/easy, multiple reallocation-->
       <displayName>28</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -645,7 +627,21 @@
       <missionRequirementIndex>27</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-				
+
+	<Level><!--RV26 -->
+      <displayName>25</displayName>
+      <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>3</difficulty>
+      <subjectText>Powered Up</subjectText>
+      <messageText> I see my skills are rubbing off on you. Now lets make things interesting -  this next one has a tight timetable for us to deliver the COOL TECH upgrade to the local power station. Think you can keep up?  </messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Agent Roc Bridges</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>24</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--DD10 moderate, action ordering, -->
       <displayName>25</displayName>
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -673,11 +669,8 @@
       <missionRequirementIndex>26</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>		
-	
-	<!-- Secondary Objective too easy!, building that can get two outputs from 1 bldg REVISE-->
-	
-	<!--DD11 hard, double primary objective, secondary objective, long queue
-	<Level> 
+			
+	<Level> <!--DD11-->
       <displayName>24</displayName>
       <sceneName>DD11</sceneName> 
       <difficulty>4</difficulty>
@@ -690,7 +683,34 @@
       <missionRequirementIndex>23</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	-->
+	
+	<Level> <!-- GPC05 -->
+      <displayName>1</displayName>
+      <sceneName>GPC05</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>More for the Taking</subjectText>
+      <messageText>Mission text coming soon!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>1</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+			
+	<Level> <!-- DD09 -->
+      <displayName>1</displayName>
+      <sceneName>DD09</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>More for the Taking</subjectText>
+      <messageText>Mission text coming soon!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>1</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
 	
 	<Level> <!--RV25 -->
       <displayName>24</displayName>
