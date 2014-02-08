@@ -37,7 +37,6 @@ public class MainMenu extends GUIControl
 	private var scoreRect:Rect;
 	private var turnRect:Rect;
 	private var comboRect:Rect;
-	private var zoomButton:Rect;
 	private var timeRect:Rect;
 	
 	// Main Menu Scaling
@@ -127,6 +126,11 @@ public class MainMenu extends GUIControl
 	
 	private var tutorialPointers:TutorialPointers;
 	
+	public var zoomButton:Texture;
+	private var zoomButtonRect:Rect;
+	private var isZoomedOut:boolean;
+	public var enableZoom:boolean = false;
+	
 	public function Start () 
 	{
 		super.Start();		
@@ -187,7 +191,11 @@ public class MainMenu extends GUIControl
     		LoadLevelReferences();
     	} 
     	
+    	isZoomedOut = false;
     	
+    	zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
+    	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
+    	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
     	
 		pauseButton = createRect(pauseTexture,0,0, 41.0 / 540.0, false);
 		pauseButton.x = screenWidth - pauseButton.width;
@@ -637,6 +645,23 @@ public class MainMenu extends GUIControl
 		// Displaying Error Text
 		if(displayErrorText)
 			GUI.Label(textDisplayRect, textToDisplay, tutorialPointers.style);
+			
+		if(enableZoom)
+		{
+			if(GUI.Button(zoomButtonRect, zoomButton))
+			{
+				if(!isZoomedOut)
+				{
+					cameraMain.cameraZoom(false);
+					isZoomedOut = true;
+				}
+				else
+				{
+					cameraMain.cameraZoom(true);
+					isZoomedOut = false;
+				}
+			}
+		}
 	}
 	
 	/*

@@ -43,6 +43,10 @@ private var tolerance: float = 10f;
 private var currentCenter: Vector3;
 private var speed : float = 5f;
 
+private var zooming:boolean;
+private var destinationSize:float;
+private var zoomingIn:boolean;
+
 private enum AspectRatios
 {
 	FourByFive,
@@ -59,6 +63,8 @@ function Start () {
 	currentCenter = centerOnPoint;
 	hexOrigin = HexagonGrid.TileToWorldCoordinates(0,0);
 	
+	zooming = false;
+	zoomingIn = false;
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
@@ -316,6 +322,30 @@ public function Update()
 			isCentering = false;
 	}
 	
+	if(zooming)
+	{
+		if(zoomingIn)
+		{
+			thisCamera.orthographicSize -= 5f;
+			
+			if(thisCamera.orthographicSize <= destinationSize)
+			{
+				thisCamera.orthographicSize = destinationSize;
+				zooming = false;
+			}
+		}
+		else
+		{
+			thisCamera.orthographicSize += 5f;
+			
+			if(thisCamera.orthographicSize >= destinationSize)
+			{
+				thisCamera.orthographicSize = destinationSize;
+				zooming = false;
+			}
+		}
+	}
+	
 }
 
 public function OnDrawGizmos()
@@ -428,6 +458,23 @@ public function OnDrawGizmos()
 	}
 	
 	
+}
+
+public function cameraZoom(zoomIn:boolean)
+{
+	if(zoomIn)
+	{
+		destinationSize = 250f;
+		zoomingIn = zoomIn;
+		zooming = true;
+	}
+	else
+	{
+		destinationSize = 400f;
+		zoomingIn = zoomIn;
+		zooming = true;
+	}
+
 }
 
 public function centerCameraOnPointInWorld(centerPoint : Vector3)
