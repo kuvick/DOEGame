@@ -17,10 +17,6 @@ private var flashScale : Vector3 = Vector3(6,6,6);
 
 private var flashIcon : GameObject;
 
-private var fadeTimer : float = 0.0;
-private static var currentTimer : float = 0.0;
-private var fadeScaler : float = 1.0;
-private static var currentScaler : float = 1.0;
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
 
@@ -33,6 +29,7 @@ private var unallColor : Color = Color(1.0,1.0,1.0,.5);
 private var allColor : Color = Color(1.0,1.0,1.0,1.0);
 
 private var flashActive : boolean = false;
+private var inactive : boolean = false;
 
 enum IOType
 {
@@ -49,15 +46,15 @@ function Update () {
 	else
 		currentScale = smallScale;
 	gameObject.transform.localScale = currentScale;*/
-	if (fadeTimer >= 1 || fadeTimer <= 0)
-			fadeScaler *= -1;
-	fadeTimer += Time.smoothDeltaTime * fadeScaler;
-	currentTimer = fadeTimer;
-	currentScaler = fadeScaler;
 	if (flashActive)
 	{
-		if (fadeTimer >= 0)
-			flashIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, fadeTimer);
+		if (LinkUI.fadeTimer >= 0)
+			flashIcon.renderer.material.color = Color.Lerp(transparentColor, solidColor, LinkUI.fadeTimer);
+	}
+	if (inactive)
+	{
+		if (LinkUI.fadeTimer >= 0)
+			renderer.material.color = Color.Lerp(Color.gray, Color.white, LinkUI.fadeTimer);
 	}
 }
 
@@ -113,8 +110,6 @@ public function Initialize(building : BuildingOnGrid)
 		/*solidColor = Color.red;
 		renderer.material.mainTexture = brokenTex;*/
 	}
-	fadeTimer = currentTimer;
-	fadeScaler = currentScaler;
 }
 
 public function SetFlashSolidColor (color : Color)
@@ -126,8 +121,9 @@ public function SetActive(active : boolean)
 {
 	if (active)
 		renderer.material.color = Color.white;
-	else
-		renderer.material.color = Color.gray; 
+	/*else
+		renderer.material.color = Color.gray; */
+	inactive = !active;
 }
 
 public function SetAllocated (allo : boolean)

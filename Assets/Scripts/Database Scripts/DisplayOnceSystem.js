@@ -5,7 +5,8 @@ DisplayOnceSystem.js
 Created so that tutorial pointers and the inspection display only gets displayed once.
 
 */
-
+public class DisplayOnceSystem
+{
 
 // to use this script, set this to false
 // to turn it off, set this to true
@@ -14,6 +15,15 @@ private var disableThisSystem: boolean = false;
 //Disabled due to errors GPC 1/5/2014
 //private var disableThisSystem: boolean = true;
 
+public function DisplayOnceSystem()
+{
+
+}
+
+public function DisplayOnceSystem(inGame : boolean)
+{
+	disableThisSystem = inGame;
+}
 
 // Note, this will delete ALL PLAYERPREF KEYS
 // This is used to delete all keys when a player is deleted.
@@ -98,4 +108,4 @@ public function HasDisplayed(index:int, isATutorialPointer:boolean)
 }
 
 
-
+}

@@ -853,12 +853,12 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	return -1;
 }
 
-public function DeactivateLink(buildingIndex : int, linkedToIndex : int)
+/*public function DeactivateLink(buildingIndex : int, linkedToIndex : int)
 {
 	//drawLinks.SetLinkTexture(buildingIndex, linkedToIndex, false);
 	drawLinks.SetLinkActive(false, linkedToIndex, buildingIndex);
 	DeactivateChain(linkedToIndex, buildingIndex);
-}
+}*/
 
 // Recursively deactivates all of the buildings in the chain of output links
 public function DeactivateChain (buildingIndex : int, parentIndex : int)
@@ -872,7 +872,17 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
     SetBuildingResourceFlashActive(building.allocatedInputIcons, false);
     SetBuildingResourceFlashActive(building.allocatedOutputIcons, false);*/
     SetBuildingResourceFlashActive(building.unallOutputs, false);
-    building.SetIOPutsActive(building.isActive);
+    
+    if (building.allInputs.Count > 0 || building.allOutputs.Count > 0)
+    {
+    	if (building.unallOutputs.Count <= 0)
+    		building.SetOutputsActive(building.isActive);
+    	// if input is not allocated, means it is the last resource added to the unallocated inputs
+    	if (parentIndex < 0)
+    		building.unallInputs[building.unallInputs.Count - 1].icon.SetActive(building.isActive);
+    	else
+    		building.allInputs[building.FindLinkIndex(parentIndex, building.allInputs)].icon.SetActive(building.isActive);
+    }
     building.indicator.SetState(IndicatorState.Neutral);
     if (building.optOutput.linkedTo >= 0/*ionalOutputAllocated*/ || building.optionalOutputFixed)
     	//building.optionalOutputIcon.SetFlashActive(false);
@@ -906,7 +916,7 @@ public function DeactivateChain (buildingIndex : int, parentIndex : int)
 	for (var i : int = 0; i < building.allOutputs.Count; i++) //in building.outputLinkedTo)
 	{
 		var index : int = building.allOutputs[i].linkedTo;
-		//DrawLinks.SetLinkColor(buildingIndex, i, Color.gray);
+		
 		if (!buildingsOnGrid[index].deactivatedInputs.Contains(buildingsOnGrid[index].FindLinkIndex(buildingIndex, buildingsOnGrid[index].allInputs)))//inputLinkedTo.IndexOf(buildingIndex)))
 		{
 			//drawLinks.SetLinkTexture(buildingIndex, i, false);
@@ -971,6 +981,11 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 	inputBuilding.allocatedInputIcons.Add(tempIcon);
 	tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);*/
 	inputBuilding.AllocateInput(linkList[lastIndex].type, findBuildingIndex(outputBuilding));
+	if (!outputBuilding.isActive)
+	{
+		DeactivateChain(findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding));
+		drawLinks.SetLinkActive(false, findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding));
+	}
 	
 	linkUIRef.linkReference[findBuildingIndex(inputBuilding), findBuildingIndex(outputBuilding)] = true;		
 	//Draw New Link
@@ -1010,7 +1025,8 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
 	}
     
     building.isActive = canActivate;
-    building.SetIOPutsActive(building.isActive);
+    if (building.isActive)
+    	building.SetIOPutsActive(building.isActive);
     // if building is activated and has an event, activate the event
     if (building.isActive && building.hasEvent)
     	intelSystem.buildingActivated(building.buildingPointer);
@@ -1107,12 +1123,12 @@ private function CheckBuildingActiveTrigger(building : BuildingOnGrid)
 		else
 			display.Activate(building.tooltipText);*/
 			
-		var dOS:DisplayOnceSystem = new DisplayOnceSystem();
+		//var dOS:DisplayOnceSystem = new DisplayOnceSystem();
 		for (var i : int = 0; i < building.tooltip.length; i++)
 		{
-			if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
+			/*if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
 				display.currentToolTipIndex++;
-			else
+			else*/
 				display.Activate(building.tooltip[i], null);
 		}
 	}
@@ -1860,6 +1876,12 @@ class BuildingOnGrid
 			optOutput.icon.SetActive(active);
 	}
 	
+	public function SetOutputsActive(active : boolean)
+	{
+		SetIOPutListActive(allOutputs, active);
+		SetIOPutListActive(unallOutputs, active);
+	}
+	
 	private function SetIOPutListActive(list : List.<IOPut>, active : boolean)
 	{
 		for (var i : int = 0; i < list.Count; i++)
@@ -1961,11 +1983,16 @@ class BuildingOnGrid
 		var resourceIndex : int = FindResourceIndex(resource, unallInputs);
 		if (resourceIndex < 0)
 			return false;
-			
+		
 		var ioPut : IOPut = unallInputs[resourceIndex];
 		ioPut.Allocate(outputBuilding);
 		unallInputs.RemoveAt(resourceIndex);
 		allInputs.Add(ioPut);
+		/*if (!Database.getBuildingOnGridAtIndex(outputBuilding).isActive)
+		{
+			deactivatedInputs.Add(allInputs.Count - 1);
+			allInputs[allInputs.Count - 1].icon.SetActive(false);
+		}*/
 		return true;
 	}
 
@@ -1975,6 +2002,8 @@ class BuildingOnGrid
 		if (resourceIndex < 0)
 			return false;
 			
+		if (deactivatedInputs.Contains(resourceIndex))
+			deactivatedInputs.Remove(resourceIndex);
 		var ioPut : IOPut = allInputs[resourceIndex];
 		ioPut.Deallocate();
 		allInputs.RemoveAt(resourceIndex);
@@ -1988,6 +2017,8 @@ class BuildingOnGrid
 		if (resourceIndex < 0)
 			return false;
 			
+		if (deactivatedInputs.Contains(resourceIndex))
+			deactivatedInputs.Remove(resourceIndex);
 		var ioPut : IOPut = allInputs[resourceIndex];
 		ioPut.Deallocate();
 		allInputs.RemoveAt(resourceIndex);

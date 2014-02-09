@@ -257,8 +257,11 @@ private function SetParent (child : BuildingOnGrid, pparent : BuildingOnGrid, ta
 	var tempDist : float = Vector3.Distance(pparent.coordinate, targ.coordinate);
 	// change the child's parent if:
 	// a) a parent has not yet been set or
-	// b) the child's current parent distance from the start is >= than the new one would be and the new parent distance from the target is less than the current parent's
-	if (child.pathParentDistFromTarg < 0 || (child.pathParentDistFromStart >= pparent.pathParentDistFromStart + 1 && tempDist < child.pathParentDistFromTarg))
+	// b) the child's current parent distance from the start is = to the new one and the new parent distance from the target is less than the current parent's or
+	// c) the child's current parent distance from start is > the new one
+	if (child.pathParentDistFromTarg < 0 || 
+		(child.pathParentDistFromStart == pparent.pathParentDistFromStart + 1 && tempDist < child.pathParentDistFromTarg) || 
+		child.pathParentDistFromStart > pparent.pathParentDistFromStart + 1)
 	{
 		child.pathParent = pparent;
 		child.pathParentDistFromTarg = tempDist;

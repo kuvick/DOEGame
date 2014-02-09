@@ -106,6 +106,8 @@ private var displayLink : DisplayLinkRange;
 public var useDragLink : boolean = true;
 private var linkCaseOverride : boolean = false;
 
+public static var fadeTimer : float = 0.0;
+private static var fadeScaler : float = 1.0;
 
 function Start () {
 	menu = GameObject.Find("GUI System").GetComponent(MainMenu);
@@ -848,7 +850,9 @@ function Update()
 		HighlightTiles();
 	}
 	
-
+	if (fadeTimer >= 1 || fadeTimer <= 0)
+		fadeScaler *= -1;
+	fadeTimer += Time.smoothDeltaTime * fadeScaler;
 }
 
 private function RectInsideGUI(rectangle : Rect){

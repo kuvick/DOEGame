@@ -264,7 +264,7 @@ private function CheckTriggerToDisplay()//:boolean
 		return; //false;
 	while (currentTurn == turnTriggers[currentTriggerIndex].turn)
 	{
-		if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
+		/*if(dOS.WasAlreadyDisplayed(display.currentToolTipIndex, false))
 		{
 			display.currentToolTipIndex++;
 			currentTriggerIndex++;
@@ -272,7 +272,7 @@ private function CheckTriggerToDisplay()//:boolean
 				break;
 		}
 		else
-		{
+		{*/
 			/*if (turnTriggers[currentTriggerIndex].dispPic == null)
 				display.Activate(turnTriggers[currentTriggerIndex].dispText);
 			else
@@ -283,7 +283,7 @@ private function CheckTriggerToDisplay()//:boolean
 				break;
 			//Added GPC 9/3/13
 			//return true;
-		}
+		//}
 	}
 }
 
