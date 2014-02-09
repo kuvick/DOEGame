@@ -1839,7 +1839,8 @@ class BuildingOnGrid
 	
 	// Unit pathing variables
 	var pathParent : BuildingOnGrid = null;
-	var pathParentDist : float = -1;
+	var pathParentDistFromTarg : float = -1;
+	var pathParentDistFromStart : int = 0;
 	
 	var heldUpgradeID : UpgradeID;
 	var heldUpgradeTooltip : Tooltip;
