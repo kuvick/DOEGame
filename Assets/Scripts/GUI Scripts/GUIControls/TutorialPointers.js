@@ -46,7 +46,7 @@ function Start()
 	
 	tutorialCircle = Resources.Load("tutorialCircle") as Texture;
 	
-	dOS = new DisplayOnceSystem();
+	dOS = new DisplayOnceSystem(!notInGame);
 	
 	linkMade = false;
 	if(pointers.Count > 0)

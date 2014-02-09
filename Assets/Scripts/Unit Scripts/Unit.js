@@ -204,10 +204,24 @@ private function PopulateNextOpen (targ : BuildingOnGrid) {
 			}
 			else
 			{
-				nextOpen.Add(temp);
+				//nextOpen.Add(temp);
+				AddSorted(nextOpen, temp);
 			}
 		}
 	}
+}
+
+private function AddSorted(buildingList : List.<BuildingOnGrid>, toAdd : BuildingOnGrid)
+{
+	for (var i : int = 0; i < buildingList.Count; i++)
+	{
+		if (toAdd.pathParentDistFromTarg > buildingList[i].pathParentDistFromTarg)
+			break;
+	}
+	if (i == buildingList.Count)
+		buildingList.Add(toAdd);
+	else
+		buildingList.Insert(i+1, toAdd);
 }
 
 // returns a list of all active buildings that are linked to the specified building
@@ -241,10 +255,17 @@ private function FindActiveLinkedNeighbors (bUnit : BuildingOnGrid) : List.<Buil
 // sets the appropriate link path parent of a building
 private function SetParent (child : BuildingOnGrid, pparent : BuildingOnGrid, targ : BuildingOnGrid) : BuildingOnGrid {
 	var tempDist : float = Vector3.Distance(pparent.coordinate, targ.coordinate);
-	if (child.pathParentDist < 0 || tempDist < child.pathParentDist)
+	// change the child's parent if:
+	// a) a parent has not yet been set or
+	// b) the child's current parent distance from the start is = to the new one and the new parent distance from the target is less than the current parent's or
+	// c) the child's current parent distance from start is > the new one
+	if (child.pathParentDistFromTarg < 0 || 
+		(child.pathParentDistFromStart == pparent.pathParentDistFromStart + 1 && tempDist < child.pathParentDistFromTarg) || 
+		child.pathParentDistFromStart > pparent.pathParentDistFromStart + 1)
 	{
 		child.pathParent = pparent;
-		child.pathParentDist = tempDist;
+		child.pathParentDistFromTarg = tempDist;
+		child.pathParentDistFromStart = pparent.pathParentDistFromStart + 1;
 	}
 	return child;
 }
@@ -262,7 +283,8 @@ private function ClearListPathVars (l : List.<BuildingOnGrid>) {
 	for (i = 0; i < l.Count; i++)
 	{
 		l[i].pathParent = null;
-		l[i].pathParentDist = -1;
+		l[i].pathParentDistFromTarg = -1;
+		l[i].pathParentDistFromStart = 0;
 	}
 }
 
