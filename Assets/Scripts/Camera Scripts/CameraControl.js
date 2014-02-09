@@ -11,6 +11,7 @@
 
 static private var hexOrigin: Vector3;
 static private var thisCamera: Camera;
+static private var guiCamera: Camera;
 
 static public var bCP : Vector3;
 static public var bD : Vector3;
@@ -65,6 +66,8 @@ function Start () {
 	
 	zooming = false;
 	zoomingIn = false;
+	
+	guiCamera = GameObject.Find("GUI Camera").GetComponent(Camera);
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
@@ -327,20 +330,24 @@ public function Update()
 		if(zoomingIn)
 		{
 			thisCamera.orthographicSize -= 5f;
+			guiCamera.orthographicSize -= 5f;
 			
 			if(thisCamera.orthographicSize <= destinationSize)
 			{
 				thisCamera.orthographicSize = destinationSize;
+				guiCamera.orthographicSize = destinationSize;
 				zooming = false;
 			}
 		}
 		else
 		{
 			thisCamera.orthographicSize += 5f;
+			guiCamera.orthographicSize += 5f;
 			
 			if(thisCamera.orthographicSize >= destinationSize)
 			{
 				thisCamera.orthographicSize = destinationSize;
+				guiCamera.orthographicSize = destinationSize;
 				zooming = false;
 			}
 		}
