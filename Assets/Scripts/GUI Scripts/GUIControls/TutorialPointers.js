@@ -75,6 +75,12 @@ function Start()
 		hasPointers = false;
 }
 
+public function Disable()
+{
+	hasPointers = false;
+	pointers.Clear();
+}
+
 public function Render()
 {
 	if(hasPointers)

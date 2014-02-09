@@ -480,6 +480,8 @@ public class LevelSelectMenu extends GUIControl
 		{
 			showSplash = true;
 			activeLevelIndex = 0;//levels.Length - 1 - lastUnlockedIndex;
+			var pointers : TutorialPointers = gameObject.GetComponent(TutorialPointers);
+			pointers.Disable();
 		}
 		else if (tooltipDisplay && lastUnlockedIndex - 2 == levelsFromXML.numInitialTutorials)
 		{
