@@ -9,6 +9,7 @@ private var dispText : String = String.Empty;
 private var dispRect : Rect;
 private var dispTopRect : Rect;
 private var dispBotRect : Rect;
+private var nextRect : Rect;
 private var borderRect : Rect;
 private var borderOffset : float;
 private var borderOffsetScale : float = 0.015;
@@ -71,6 +72,7 @@ function Start ()
 	dispRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset,dispWidth,dispHeight);
 	dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	dispBotRect = Rect(dispRect.x, dispRect.y + (dispRect.height / 2f), dispRect.width, dispRect.height / 2f);
+	nextRect = Rect(dispRect.x, dispBotRect.y + (dispBotRect.height / 2f), dispRect.width, dispBotRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
 	
@@ -313,7 +315,8 @@ private function SetTooltip()
 
 private function RenderSingle()
 {
-	if (componentSelected && GUI.Button(dispRect, dispContent))
+	GUI.Box(dispRect, dispContent);
+	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{
 		dOS.HasDisplayed(currentToolTipIndex, false);
 		currentToolTipIndex++;
@@ -323,7 +326,9 @@ private function RenderSingle()
 
 private function RenderBoth()
 {
-	if (componentSelected && (GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
+	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
+	GUI.Label(dispBotRect, currentTooltip.text);
+	if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
 		dOS.HasDisplayed(currentToolTipIndex, false);
 		currentToolTipIndex++;
