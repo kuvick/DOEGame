@@ -22,7 +22,7 @@ private var dispHeightScale : float = .6;
 
 private var dispRightOffset : float;
 //private var dispRightOffsetScale : float = .025;
-private var dispRightOffsetScale : float = .3;
+private var dispRightOffsetScale : float = .06;
 private var dispTopOffset : float;
 
 //private var dispTopOffsetScale : float = .25;
