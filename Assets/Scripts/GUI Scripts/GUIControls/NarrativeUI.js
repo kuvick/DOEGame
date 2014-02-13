@@ -206,7 +206,7 @@ public class NarrativeUI extends GUIControl
 	{
 		if(!endRender)
 		{
-			if(!isWaiting && lastLetter < dialogue[currentSlide].length)
+			if(!isWaiting && lastLetter <= dialogue[currentSlide].length)
 			{
 				UpdateText();
 			}
