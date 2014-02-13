@@ -333,34 +333,37 @@ public class MainMenu extends GUIControl
 		
 		GUI.skin = mainMenuSkin;
 		
-		GUI.DrawTexture(scoreAndComboBGRect, scoreAndComboBG, ScaleMode.StretchToFill);
-		
-		
-		
-		
-		GUI.BeginGroup(scoreAndComboBGRect);
-		mainMenuSkin.label.alignment = TextAnchor.UpperCenter;
-			if(intelSystem == null){
-				LoadReferences();
-	  		} else {  			
-				targetFontColor = new Color(0,0,0);
-				score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
-				
-				GUI.Label(comboRect, "x" + intelSystem.comboSystem.getComboCount());
-				//GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
-				
-				if(showTurns)
-					GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
-				
-				if(intelSystem.useTimer)
-					GUI.Label(timeRect, "" + intelSystem.GetTimeLeft());
-					//GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
-					
-			}
-			UpdateDisplayedScore();
-			GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
-			mainMenuSkin.label.alignment = TextAnchor.UpperLeft;
-		GUI.EndGroup();
+		//Disabling top HUD frame (GPC 2/13/14)
+//		GUI.DrawTexture(scoreAndComboBG/Rect, scoreAndComboBG, ScaleMode.StretchToFill);
+//		
+//		
+//		
+//		
+//		GUI.BeginGroup(scoreAndComboBGRect);
+//		mainMenuSkin.label.alignment = TextAnchor.UpperCenter;
+//			if(intelSystem == null){
+//				LoadReferences();
+//	  		} else {  			
+//				targetFontColor = new Color(0,0,0);
+//				score = intelSystem.getPrimaryScore() + intelSystem.getOptionalScore();
+//				
+//				GUI.Label(comboRect, "x" + intelSystem.comboSystem.getComboCount());
+//				//GUI.Label(comboRect, "Combo x" + intelSystem.comboSystem.getComboCount());
+//				
+//				if(showTurns)
+//					GUI.Label(turnRect, "Turn: " + intelSystem.currentTurn);
+//				
+//				if(intelSystem.useTimer)
+//					GUI.Label(timeRect, "" + intelSystem.GetTimeLeft());
+//					//GUI.Label(timeRect, "Time: " + intelSystem.GetTimeLeft());
+//					
+//			}
+//			UpdateDisplayedScore();
+//			GUI.Label(scoreRect, currentlyDisplayedScore.ToString());
+//			mainMenuSkin.label.alignment = TextAnchor.UpperLeft;
+//		GUI.EndGroup();
+
+
 		
 		// displaying number of data pieces collected
 		/*
