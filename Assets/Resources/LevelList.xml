@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>3</numInitialTutorials>
+<numInitialTutorials>4</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
 	<!--**************************************************-->
 	
 	<!-- Keep messageText as one line. Use &#10; for a new line/enter -->
+	
+	<!--Briefing1-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing1</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Blank</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
 	
 	
 	<!-- TUTORIAL -->
