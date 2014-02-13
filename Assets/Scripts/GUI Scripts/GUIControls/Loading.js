@@ -332,8 +332,12 @@ public class Loading extends GUIControl
 				if (GUI.Button(loadingStatusBoxRect, "Begin Mission", style))
 				{
 					//Since the timer starts as soon as the level loads, this resets it for when the player starts the mission
-					var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-					intelSystem.resetTimer();
+					//If statement added for non-IntelSystem scenes GPC 2/13/14
+					if(GameObject.Find("Database")){
+						var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+						intelSystem.resetTimer();
+					}
+					
 					currentResponse.type = EventTypes.DONELOADING;
 				}
 				resetButtonTexture(style);
@@ -396,7 +400,9 @@ public class Loading extends GUIControl
 		}
 		guiCamera.gameObject.SetActiveRecursively(true);
 		
+		//Testing to see what this works GPC 2/13/14 
 		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version
+		//Application.LoadLevel(levelName); // This will freeze the game without pro version
 		
 		yield WaitForSeconds(3);
 		hasLoaded = true;
@@ -405,11 +411,14 @@ public class Loading extends GUIControl
 		
 		DelayLoad(loadDelay-totalLoadTime);
 		
-		var intelSystem : IntelSystem = GameObject.Find("Database").GetComponent("IntelSystem");
-		if (intelSystem == null) Debug.LogError("Could not find intel system to update the current level.");
-		else {
-			intelSystem.currentLevelName = levelName;
-			intelSystem.levelName = levelName;
+		//Added if statement for non-IntelSystem levels GPC 2/13/14
+		if(GameObject.Find("Database")){
+			var intelSystem : IntelSystem = GameObject.Find("Database").GetComponent("IntelSystem");
+			if (intelSystem == null) Debug.LogError("Could not find intel system to update the current level.");
+			else {
+				intelSystem.currentLevelName = levelName;
+				intelSystem.levelName = levelName;
+			}
 		}
 	}
 	

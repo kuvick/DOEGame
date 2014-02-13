@@ -302,8 +302,11 @@ private function RespondTo(response:GUIEvent)
 		
 		// Loading responses
 		case EventTypes.DONELOADING:
-			gm_instance = GameObject.Find("GUI System").GetComponent(GUIManager);
-			gm_instance.addMainMenu();
+			//If statement added for non-GUISystem scenes GPC 2/13/14
+			if(GameObject.Find("GUI System")){
+				gm_instance = GameObject.Find("GUI System").GetComponent(GUIManager);
+				gm_instance.addMainMenu();
+			}
 			Destroy(this.gameObject);
 			break;
 			
