@@ -23,7 +23,21 @@
       <contactRequirement></contactRequirement>
     </Level>	
 	
-	
+		<!--Briefing2-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing2</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Blank2</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+		
 	<!-- TUTORIAL -->
     <!-- Basic Linking Introduced -->
     <Level><!--Tutorial1-->
