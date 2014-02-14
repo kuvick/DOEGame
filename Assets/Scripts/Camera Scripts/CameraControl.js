@@ -32,6 +32,7 @@ public var aspectRatio : AspectRatios;
 public var useDefaultAspectRatio : boolean = true;
 private var revertedToDefault = true;
 public var cameraHeight = 400;
+public var cameraSize = 250;
 static public var cameraAngle : float = 60;
 
 public var showCameraLocation : boolean = false;
@@ -71,7 +72,8 @@ function Start () {
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
-	thisCamera.orthographicSize = 250;
+	thisCamera.orthographicSize = cameraSize;
+	guiCamera.orthographicSize = cameraSize;
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	//*************
 	
