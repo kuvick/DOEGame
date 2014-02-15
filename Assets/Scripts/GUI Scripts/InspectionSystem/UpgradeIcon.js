@@ -93,11 +93,67 @@ public class UpgradeIcon extends InspectionComponent
 	public function SetActive(active : boolean)
 	{
 		super(active);
-		renderer.enabled = isActive;
+		if(active)
+		{
+			renderer.enabled = true;
+			if(wasCollected)
+			{
+				transform.localScale = originalScale;
+				wasCollected = false;
+			}
+		}
+		else
+		{
+			wasCollected = true;
+			firstLoop = true;
+		}
 	}
 	
 	public function OnSelected()
 	{
 		SendToDisplay();
 	}
+	
+	private var wasCollected:boolean = false;
+	private var firstLoop:boolean = true;
+	private var originalScale:Vector3;
+	private var speed:float = 0.05;
+	private var switchScale:boolean = false;
+	function Update()
+	{
+		if(wasCollected)
+		{
+			if(firstLoop)
+			{
+				originalScale = transform.localScale;
+				switchScale = false;
+				firstLoop = false;				
+			}
+			
+			if(!switchScale)
+			{
+				transform.localScale += Vector3((originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed);
+				
+				if(transform.localScale.x >= originalScale.x * 2)
+					switchScale = true;
+			}
+			else
+			{
+				transform.localScale -= Vector3((originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed);
+			}
+			
+			if(transform.localScale.x <= 0.1)
+			{
+				renderer.enabled = false;
+				transform.localScale = originalScale;
+				wasCollected = false;
+			}
+		}	
+	}// end of Update
 }
+
+
+
+
+
+
