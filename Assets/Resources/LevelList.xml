@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>4</numInitialTutorials>
+<numInitialTutorials>3</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -8,7 +8,7 @@
 	
 	<!-- Keep messageText as one line. Use &#10; for a new line/enter -->
 	
-	<!--Briefing1-->
+	<!--Briefing1
 	<Level>
       <displayName>0</displayName>
       <sceneName>Briefing1</sceneName>
@@ -22,8 +22,9 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>	
+	-->
 	
-		<!--Briefing2-->
+	<!--Briefing2
 	<Level>
       <displayName>0</displayName>
       <sceneName>Briefing2</sceneName>
@@ -37,6 +38,7 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	-->
 		
 	<!-- TUTORIAL -->
     <!-- Basic Linking Introduced -->
