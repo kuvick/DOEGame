@@ -106,6 +106,7 @@ public class Loading extends GUIControl
 	
 	public var panels:List.<Texture> = new List.<Texture>();
 	private var numOfNarrFolders = 14;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
+	private static var lastNarrShown : int = -1;
 	public var currentPanel:int = 0;
 	public var nextPanel:int = 0;
 	private var framesPerSecond:int = 150;	// This is how long (frames) a panel is displayed before switching to the next
@@ -180,7 +181,13 @@ public class Loading extends GUIControl
 		loadingStatusRect.y += loadingStatusBoxRect.y;
 		loadingStatusFontSize = 0.10 * screenHeight;
 		
-		var path : String = "NarrativePanels/" + Random.Range(1, numOfNarrFolders + 1);
+		var narrToDisplay : int;
+		do
+		{
+			narrToDisplay = Random.Range(1, numOfNarrFolders + 1);
+		} while (narrToDisplay == lastNarrShown);
+		lastNarrShown = narrToDisplay;
+		var path : String = "NarrativePanels/" + narrToDisplay;//Random.Range(1, numOfNarrFolders + 1);
 		var panelTextures: Object[] = Resources.LoadAll(path, Texture);
 		
 		for(var i:int = 0; i < panelTextures.length; i++)
