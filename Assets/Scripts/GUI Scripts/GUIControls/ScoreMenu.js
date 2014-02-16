@@ -420,7 +420,8 @@ public class ScoreMenu extends GUIControl
 			
 			GUI.Label(agentNameRect, agentName);
 			GUI.Label(agentRankRect, agentRank);
-			GUI.Label(missionScoreRect, missionScore);
+			GUI.Label(missionScoreRect, missionScore + " XP");
+			
 			GUI.Label(totalScoreRect, totalScore);
 			
 			// Honors/bonus icons and scores are rendered:
