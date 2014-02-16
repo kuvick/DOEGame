@@ -89,9 +89,9 @@ function Start ()
 	skin.button.active.background = null;
 	skin.button.hover.background = null;
 	skin.button.wordWrap = true;
-	skin.box.normal.background = border;
-	skin.box.active.background = border;
-	skin.box.hover.background = border;
+	skin.box.normal.background = null;
+	skin.box.active.background = null;
+	skin.box.hover.background = null;
 	//Added GPC 9/3/13
 	if(GameObject.Find("Database") != null){
 		intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
@@ -247,7 +247,7 @@ private function Render()
 {
 	GUI.skin = skin;
 	
-	GUI.Box(borderRect, String.Empty);
+	GUI.DrawTexture(borderRect, border);
 	
 	//When the inspection window is pressed while the component is selected (GPC 9/3/13)
 	/*if(componentSelected && GUI.Button(dispRect, dispText))
