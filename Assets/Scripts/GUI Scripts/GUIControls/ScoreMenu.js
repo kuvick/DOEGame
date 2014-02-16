@@ -158,6 +158,7 @@ public class ScoreMenu extends GUIControl
 	private var dashboardButtonRect:Rect;
 
 	public var displayToolTips:boolean = false;
+	private var inspectionDispRef : InspectionDisplay;
 
 	public function Initialize()
 	{
@@ -355,15 +356,17 @@ public class ScoreMenu extends GUIControl
 		GUI.Label(technologyNameRect, technologyName, redStyle);
 		GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
 		
+		inspectionDispRef = gameObject.GetComponent(InspectionDisplay);
 		if(displayToolTips)
 		{
-			var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-			inspectionDisplay.FromScoreScreen();
+			//var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+			inspectionDispRef.FromScoreScreen();
 		}			
 	}
 	
 	public function Render()
 	{   
+		GUI.enabled = !inspectionDispRef.IsActive();
 		if(!waitForNarrativeUI)
 		{
 			GUI.depth = 0;
@@ -417,7 +420,8 @@ public class ScoreMenu extends GUIControl
 			
 			GUI.Label(agentNameRect, agentName);
 			GUI.Label(agentRankRect, agentRank);
-			GUI.Label(missionScoreRect, missionScore);
+			GUI.Label(missionScoreRect, missionScore + " XP");
+			
 			GUI.Label(totalScoreRect, totalScore);
 			
 			// Honors/bonus icons and scores are rendered:

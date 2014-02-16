@@ -44,7 +44,7 @@ private var startMenu:StartMenu;
 private var loading:Loading;
 private var mainMenu:MainMenu;
 private var pauseMenu:PauseMenu;
-private var intelMenu:IntelMenu;
+private var helpMenu:HelpMenu;
 private var buildingMenu:BuildingMenu;
 private var levelSelectMenu:LevelSelectMenu;
 private var scoreMenu:ScoreMenu;
@@ -152,7 +152,7 @@ public function Start ()
 	loading = GetComponent(Loading);
 	mainMenu = GetComponent(MainMenu);
 	pauseMenu = GetComponent(PauseMenu);
-	intelMenu = GetComponent(IntelMenu);
+	helpMenu = GetComponent(HelpMenu);
 	buildingMenu = GetComponent(BuildingMenu);
 	levelSelectMenu = GetComponent(LevelSelectMenu);
 	scoreMenu = GetComponent(ScoreMenu);
@@ -243,7 +243,7 @@ public function OnGUI()
 	}
 	
 	if(!activeControls.Contains(pauseMenu)
-		&& !activeControls.Contains(intelMenu)
+		&& !activeControls.Contains(helpMenu)
 		&& !activeControls.Contains(buildingMenu)
 		&& activeControls.Contains(mainMenu))
 	{
@@ -328,7 +328,7 @@ private function RespondTo(response:GUIEvent)
 			break;*/
 		case EventTypes.INTEL:
 			ClearControls();
-			AddGUIToControls(intelMenu);
+			AddGUIToControls(helpMenu);
 			//AddGUIToControls(marquee);
 			break;
 		case EventTypes.WAIT:

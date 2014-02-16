@@ -8,14 +8,11 @@ Author: Francis Yuan
 
 #pragma strict
 
-public class IntelMenu extends GUIControl
+public class HelpMenu extends GUIControl
 {
 	// Skins for GUI components
 	public var hexButtonSkin:GUISkin;
 	public var intelMenuSkin:GUISkin;			// GUISkin component for the event icon, set in Inspector
-	
-	// Event List
-	private var eventList:EventLinkedList;
 
 	// Intel Menu rectangles
 	private var scrollArea:Rect; 				
@@ -40,16 +37,33 @@ public class IntelMenu extends GUIControl
 	private var eventNodeHeight:float;
 	private var fontHeight:float;
 	
+	private var optionHeightPercent : float;
+	private var descHeightPercent : float;
+	private var optionSelected : boolean = false;
+	private var optionRects : Rect[];
+	private var descRect : Rect;
+	
 	// Intel Menu textures
 	public var left:Texture;
 	public var right:Texture;
-	public var border:Texture;
+	public var backgroundTex:Texture;
 	
 	// Intel Menu Icon textures
 	public var defaultIcon:Texture;
 	
 	private var intelSystem : IntelSystem;
 	private var turn : int = 0;
+	
+	public var helpOptions : HelpOption[];
+	private var currOption : int = 0;	
+	
+	private var showMain : boolean = true;
+	
+	private class HelpOption
+	{
+		public var name : Texture;
+		public var description : Texture;
+	}
 	
 	public function Start () 
 	{
@@ -58,7 +72,7 @@ public class IntelMenu extends GUIControl
 	
 	public function LoadLevelReferences()
 	{
-		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		
 	}
 	
 	public function Initialize()
@@ -68,16 +82,25 @@ public class IntelMenu extends GUIControl
 		closeButtonHeight = closeButtonHeightPercent * screenHeight;
 		eventNodeHeight = eventNodeHeightPercent * screenHeight * 4;
 		
-		fontHeight = fontHeightPercent * screenHeight;
+		/*fontHeight = fontHeightPercent * screenHeight;
 		hexButtonSkin.button.fontSize = fontHeight;
-		intelMenuSkin.label.fontSize = fontHeight;
+		intelMenuSkin.label.fontSize = fontHeight;*/
 		
 		//EVENT LIST (ADDING RANDOM STUFF FOR TESTING)
-		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
+		background = createRect(backgroundTex, .125f, .1f, .8f, true);
+		descRect = createRect(helpOptions[0].description, .225f, .2f, .6f, true);
 		closeButton = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, closeButtonHeight, closeButtonHeight);	
 	
-		scrollArea = Rect(background.x + padding, closeButton.y + closeButton.height + padding, background.width - 2 * padding, background.height - closeButton.height - (2 * padding));
+		scrollArea = createRect(helpOptions[0].description, .2f, .2f, .6f, true);//Rect(background.x + padding, closeButton.y + closeButton.height + padding, background.width - 2 * padding, background.height - closeButton.height - (2 * padding));
 		scrollContent = Rect(0, 0, scrollArea.width - 2 * padding, 1000);
+		
+		optionRects = new Rect[helpOptions.Length];
+		var startY : float = .2f;
+		for (var i : int = 0; i < helpOptions.Length; i++)
+		{
+			optionRects[i] = createRect(helpOptions[0].name, .225f, startY, .1f, true);
+			startY += .15f;
+		}
 		
 		eventNodeIcon = Rect(padding, 0, eventNodeHeight/2, eventNodeHeight/2);
 		eventNodeDescription = Rect(eventNodeIcon.x + eventNodeHeight, 0, scrollContent.width - 2.5 * eventNodeHeight, eventNodeHeight);
@@ -88,33 +111,9 @@ public class IntelMenu extends GUIControl
 		eventNodeIcon.x = eventNodeDescription.x + eventNodeIcon.width/1.6;			
 		
 		/*Build Event List*/
-		eventList = new EventLinkedList();
-		if(intelSystem != null)					
-		{
-			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
-			
-			/*Query active BuildingEvents from IntelSystem*/
-			for(var i : int = 0; i < tempList.Count; i++)//var event: BuildingEvent in tempList)		
-			{
-				eventList.InsertNode(tempList[i]);//event);			
-			}						
-		}
+
 		// Add the background's rect to the rectList for checking input collision
 		rectList.Add(background);
-	}
-	
-	public function UpdateEventList()
-	{
-		if(intelSystem != null)					
-		{
-			var tempList : List.<BuildingEvent> = intelSystem.getEventList();
-			eventList.Clear();
-			/*Query active BuildingEvents from IntelSystem*/
-			for(var i : int = 0; i < tempList.Count; i++)//var event: BuildingEvent in tempList)		
-			{
-				eventList.InsertNode(tempList[i]);//event);			
-			}						
-		}	
 	}
 	
 	/*
@@ -126,12 +125,7 @@ public class IntelMenu extends GUIControl
 	*/
 	public function Render()
 	{
-		if(turn != intelSystem.currentTurn)
-		{
-			UpdateEventList();
-			turn = intelSystem.currentTurn;
-		}
-		GUI.Box(background, "");
+		GUI.DrawTexture(background, backgroundTex);
 		
 		GUI.skin = hexButtonSkin;
 		// Closes the event list
@@ -141,20 +135,21 @@ public class IntelMenu extends GUIControl
 		}		
 		
 		// Scroll bar
-		intelMenuScrollPos = GUI.BeginScrollView
+		/*intelMenuScrollPos = GUI.BeginScrollView
 		(
 			scrollArea,
 			intelMenuScrollPos,
 			scrollContent
-		);
-			
+		);*/
+			if (showMain)
+				RenderMenu();
+			else
+				RenderOption(currOption);
 		//Array of events
 		var currentHeight:int;
-		var currNode:EventNode = eventList.head;
+
 		var i : int = 0;
 		
-		while(currNode != null)
-		{
 			currentHeight = (i * eventNodeHeight * .78); //Magic Number was: 0.78
 				
 			eventNodeIcon.y = currentHeight + eventNodeIcon.height /2;
@@ -165,70 +160,33 @@ public class IntelMenu extends GUIControl
 			
 			GUI.skin = intelMenuSkin;
 								
-			GUI.DrawTexture(eventNodeDescription, border);			
-			
-			/*
-				Render Node Type
-			*/
-			if(currNode.data.icon == null)
-			{
-				GUI.DrawTexture(eventNodeIcon, defaultIcon);							
-			}
-			else{
-				GUI.DrawTexture(eventNodeIcon, currNode.data.icon);						
-			}
-			
-			//drawTitle(currNode.data.title, currNode.data.type);
-
+			//GUI.DrawTexture(eventNodeDescription, border);			
 			
 			eventNodeDescription.y += fontHeight/2;
-			//GUI.Label(eventNodeDescription, currNode.data.description);
 			
-			drawTurns(currNode.data.time);
 			
-			if (GUI.Button(eventNodeHitbox, ""))
-			{
-			//	Debug.Log("\"" + currNode.data.description + "\"" + " clicked");
-			}
 			
-			currNode = currNode.next;
 			++i;
+		//GUI.EndScrollView();
+	}
+	
+	// Renders the specified help option
+	private function RenderOption(toDisplay : int)
+	{
+		if (GUI.Button(descRect, helpOptions[toDisplay].description))
+			showMain = true;
+	}
+	
+	// Renders help menu options
+	private function RenderMenu()
+	{
+		for (var i : int = 0; i < optionRects.Length; i++)
+		{
+			if (GUI.Button(optionRects[i], helpOptions[i].name))
+			{
+				showMain = false;
+				currOption = i;
+			}
 		}
-		GUI.EndScrollView();
-	}
-	
-	//Draws the Title of an Event
-	private function drawTitle(newTitle:String, newType: int)
-	{
-		/*Skin Modification for Title display*/
-				intelMenuSkin.label.alignment = TextAnchor.MiddleLeft;
-				intelMenuSkin.label.fontStyle = FontStyle.Bold;
-				
-				if(newType == 0)
-				{
-					GUI.Label(eventNodeTitle, newTitle + " :: Primary");	//Display Title as Label
-				}
-				else
-				{
-					GUI.Label(eventNodeTitle, newTitle + " :: Secondary");	//Display Title as Label
-				}								
-				
-				intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
-				intelMenuSkin.label.fontStyle = FontStyle.Normal;
-			/*End of Skin Modification*/
-	}
-	
-	//Draws the Turns remaining of each event
-	private function drawTurns(time:int)
-	{
-		/*Skin Modification for Turns Display*/
-			intelMenuSkin.label.alignment = TextAnchor.MiddleRight;
-			intelMenuSkin.label.fontStyle = FontStyle.Bold;
-			
-			GUI.Label(eventNodeTurns, time.ToString());
-			
-			intelMenuSkin.label.alignment = TextAnchor.MiddleCenter;
-			intelMenuSkin.label.fontStyle = FontStyle.Normal;
-		/*End of Skin Modification*/
 	}
 }

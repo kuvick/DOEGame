@@ -103,9 +103,8 @@ function Start ()
 	}
 
 	var guiObj : GameObject = GameObject.Find("GUI System");
-	var intelMenu : IntelMenu = guiObj.GetComponent(IntelMenu);
 	display = guiObj.GetComponent(InspectionDisplay);
-	intelMenu.LoadLevelReferences();
+
 	eventStack = new List.<EventStackNode>();
 	//codicesUnlockedThisLevel = new List.<String>();
 	//contactsUnlockedThisLevel = new List.<String>();

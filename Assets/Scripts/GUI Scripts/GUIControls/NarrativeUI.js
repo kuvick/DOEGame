@@ -241,11 +241,18 @@ public class NarrativeUI extends GUIControl
 					}
 					else
 						skipTimes.Add(Time.timeSinceLevelLoad);
-					
-					lastLetter = 0;
-					currentSlide++;
+					if (lastLetter < dialogue[currentSlide].Length - 1)
+						lastLetter = dialogue[currentSlide].Length - 1;
+					else
+					{
+						lastLetter = 0;
+						currentSlide++;
+					}
 				}
-				if (GUI.Button(skip, skipButton))
+				GUI.enabled = false;
+				GUI.Button(start, startButton);
+				GUI.enabled = true;
+				/*if (GUI.Button(skip, skipButton))
 				{	
 					metrics.Narrative.wasSkipped = true;
 					if(!inScoreScreen)
@@ -257,7 +264,7 @@ public class NarrativeUI extends GUIControl
 						endRender = true;
 						scoreMenu.waitForNarrativeUI = false;
 					}		
-				}
+				}*/
 				
 				if (GUI.Button(back, backButton))
 				{	

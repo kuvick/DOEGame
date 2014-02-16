@@ -107,6 +107,8 @@ public class MainMenu extends GUIControl
 	
 	public var showTurns: boolean = false;
 	
+	private var inspectionDispRef : InspectionDisplay;
+	
 	/*
 	public var objIconsBGCenter:Texture;
 	public var objIconsBGLeft:Texture;
@@ -322,6 +324,8 @@ public class MainMenu extends GUIControl
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
 		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 		
+		inspectionDispRef = gameObject.GetComponent(InspectionDisplay);
+		
 		textDisplayRect = new Rect(0,Screen.height * 0.1,Screen.width * 0.40, Screen.height);
 		textDisplayRect.x = Screen.width / 2 - textDisplayRect.width / 2;
 	}
@@ -332,7 +336,7 @@ public class MainMenu extends GUIControl
 			DrawVictorySplash();
 		
 		GUI.skin = mainMenuSkin;
-		
+		GUI.enabled = !inspectionDispRef.IsActive();
 		//Disabling top HUD frame (GPC 2/13/14)
 //		GUI.DrawTexture(scoreAndComboBG/Rect, scoreAndComboBG, ScaleMode.StretchToFill);
 //		
@@ -410,12 +414,12 @@ public class MainMenu extends GUIControl
 			
 			currentResponse.type = EventTypes.UNDO;
 		}
-		GUI.enabled = true;
+		GUI.enabled = !inspectionDispRef.IsActive();//GUI.enabled = true;
 		
-		/*if(Input.GetKeyDown(KeyCode.M))
+		if(Input.GetKeyDown(KeyCode.H))
 		{
-			currentResponse.type = EventTypes.METRIC;
-		}*/
+			currentResponse.type = EventTypes.INTEL;
+		}
 				
 		
 		//if(upgradeManager != null) // REMOVING THE OTHER UPGRADE COUNTER
