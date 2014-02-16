@@ -416,10 +416,10 @@ public class MainMenu extends GUIControl
 		}
 		GUI.enabled = !inspectionDispRef.IsActive();//GUI.enabled = true;
 		
-		/*if(Input.GetKeyDown(KeyCode.M))
+		if(Input.GetKeyDown(KeyCode.H))
 		{
-			currentResponse.type = EventTypes.METRIC;
-		}*/
+			currentResponse.type = EventTypes.INTEL;
+		}
 				
 		
 		//if(upgradeManager != null) // REMOVING THE OTHER UPGRADE COUNTER
