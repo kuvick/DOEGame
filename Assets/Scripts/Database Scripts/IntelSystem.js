@@ -122,6 +122,7 @@ function Start ()
 	primaryScore = 0;
 	optionalScore = 0;
 	victory = false;
+	levelName = Application.loadedLevelName;
 	
 	var tempBuildingData : BuildingData;
 	var tempBuilding : BuildingOnGrid;

@@ -463,7 +463,7 @@ public class Player
 	public function completeLevel(levelName : String)
 	{
 		var levelDataExists : boolean = false;
-		
+		Debug.Log("completing " + levelName);
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
 			if(levelDataList[i].levelName == levelName){
@@ -481,6 +481,17 @@ public class Player
 			levelDataList.Add(levelData);
 		}
 		lastUnlockedIndex += numToUnlock;
+		var toComplete : String = PlayerPrefs.GetString("LevelToComplete", levelName);
+		if (toComplete != levelName)
+		{
+			Debug.Log("yes");
+			var briefData : LevelData = new LevelData();
+			briefData.levelName = toComplete;
+			briefData.levelCompleted = true;
+			levelDataList.Add(briefData);
+			lastUnlockedIndex++;
+		}
+		PlayerPrefs.DeleteKey("LevelToComplete");
 		Debug.Log(lastUnlockedIndex + " " + numToUnlock);
 	}
 	

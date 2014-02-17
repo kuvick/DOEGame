@@ -231,7 +231,7 @@ public class NarrativeUI extends GUIControl
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
 			
 			
-			if(currentSlide < narrativeSlides.Length - 1)
+			if(currentSlide < narrativeSlides.Length - 1 || lastLetter < dialogue[currentSlide].Length - 1)
 			{
 				if (GUI.Button(tapSpace, ""))
 				{
@@ -282,13 +282,13 @@ public class NarrativeUI extends GUIControl
 					if(!inScoreScreen)
 					{
 						//Temporary Hack to make Briefings complete correctly for demo GPC 2/17/14 
-						var playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
-						playerData.currentPlayer.completeLevel(EditorApplication.currentScene.ToString());
+						/*var playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
+						playerData.currentPlayer.completeLevel(EditorApplication.currentScene.ToString());*/
 							
-						var event : GUIEvent = new GUIEvent();
+						/*var event : GUIEvent = new GUIEvent();
 						event.type = EventTypes.SCORESCREEN;
 						//PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
-						GUIManager.Instance().RecieveEvent(event);
+						GUIManager.Instance().RecieveEvent(event);*/
 						//RecordEndGameData();
 						
 						LoadLevel();
@@ -329,7 +329,7 @@ public class NarrativeUI extends GUIControl
 		#endif	
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
-		//nextLevel.nextLevel = levelToLoad;
+		nextLevel.nextLevel = levelToLoad;
 		//PlayerPrefs.SetString(Strings.NextLevel, levelToLoad);
 		//Altered GPC 2/17/14
 		Application.LoadLevel(nextLevel.nextLevel);
