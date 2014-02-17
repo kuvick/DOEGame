@@ -281,6 +281,16 @@ public class NarrativeUI extends GUIControl
 				{	
 					if(!inScoreScreen)
 					{
+						//Temporary Hack to make Briefings complete correctly for demo GPC 2/17/14 
+						var playerData = GameObject.Find("Player Data").GetComponent(SaveSystem) as SaveSystem;
+						playerData.currentPlayer.completeLevel(EditorApplication.currentScene.ToString());
+							
+						var event : GUIEvent = new GUIEvent();
+						event.type = EventTypes.SCORESCREEN;
+						//PlayerPrefs.SetString(Strings.NextLevel, LevelSetup.getNextLevel());
+						GUIManager.Instance().RecieveEvent(event);
+						//RecordEndGameData();
+						
 						LoadLevel();
 					}
 					else
@@ -319,9 +329,10 @@ public class NarrativeUI extends GUIControl
 		#endif	
 		//So it can pass to the loading screen where to go next
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
-		nextLevel.nextLevel = levelToLoad;
-		PlayerPrefs.SetString(Strings.NextLevel, levelToLoad);
-		Application.LoadLevel("LoadingScreen");
+		//nextLevel.nextLevel = levelToLoad;
+		//PlayerPrefs.SetString(Strings.NextLevel, levelToLoad);
+		//Altered GPC 2/17/14
+		Application.LoadLevel(nextLevel.nextLevel);
 	}
 	
 	#if (!UNITY_WEBPLAYER)
