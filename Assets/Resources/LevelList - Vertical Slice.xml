@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>3</numInitialTutorials>
+<numInitialTutorials>0</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -63,6 +63,11 @@
       <missionRequirementIndex>1</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<!--                                                                                2/10 Secondary Objective Added -->
+	<!-- EASY -->
+    <!-- Multiple Originators. Mutual Links Possible -->
+	<Level><!--RV14-->
       <displayName>3</displayName>
       <sceneName>RV14</sceneName>
       <difficulty>3</difficulty>

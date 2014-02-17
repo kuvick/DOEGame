@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>4</numInitialTutorials>
+<numInitialTutorials>3</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -41,8 +41,9 @@
 	-->
 		
 	<!-- TUTORIAL -->
-    <!-- Basic Linking Introduced 
-    <Level><!--Tutorial1
+    <!-- Basic Linking Introduced -->
+	<!-- Tutorial1
+    <Level>
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
@@ -54,8 +55,9 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>
+    </Level> 
 	-->
+	
 	
 	<!-- TUTORIAL -->
     <!-- Multiple Inputs and Multiple Outputs -->
