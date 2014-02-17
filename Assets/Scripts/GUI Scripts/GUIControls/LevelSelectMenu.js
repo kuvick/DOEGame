@@ -310,6 +310,8 @@ public class LevelSelectMenu extends GUIControl
 	
 	private var returnedFromMessage:boolean;
 	
+	private var checkRender : boolean = false;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -479,6 +481,7 @@ public class LevelSelectMenu extends GUIControl
 		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
 		{
 			showSplash = true;
+			checkRender = true;
 			activeLevelIndex = 0;//levels.Length - 1 - lastUnlockedIndex;
 			var pointers : TutorialPointers = gameObject.GetComponent(TutorialPointers);
 			pointers.Disable();
@@ -509,13 +512,16 @@ public class LevelSelectMenu extends GUIControl
 				GUI.BeginGroup(levelGroup);
 					for (var i:int = 0; i < levelsToRender.Count; i++)
 					{
+						// if on level archive, do not show briefings
+						if (!inboxTab && levelsToRender[i].sceneName.Contains("riefing"))
+							continue;
+
 						if(PlayerPrefs.HasKey(levelsToRender[i].sceneName + "Score"))
 						{
 							if(inboxTab)
 								unlockedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
 							else
 								completedLevels[i].setScore(PlayerPrefs.GetInt(levelsToRender[i].sceneName + "Score"));
-							
 						}
 						
 						//if(i != levelsToRender.Count-1)
@@ -614,6 +620,12 @@ public class LevelSelectMenu extends GUIControl
 						//If a message has been selected, show the splash screen
 						if(GUI.Button(levelsToRender[i].bounds, subjectString))
 						{
+							if (levelsToRender[i].sceneName.Contains("riefing"))
+							{
+								Application.LoadLevel(levelsToRender[i].sceneName);
+								PlayerPrefs.SetString("LevelToComplete", levelsToRender[i].sceneName);
+								break;
+							}
 							showSplash = true;
 							activeLevelIndex = i;							
 						}
@@ -625,6 +637,14 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Render()
 	{
+		// checks when in initial tutorial levels, if latest level is a briefing go straight to it
+		if (checkRender && unlockedLevels[activeLevelIndex].sceneName.Contains("riefing"))
+		{
+			Application.LoadLevel(unlockedLevels[activeLevelIndex].sceneName);
+			PlayerPrefs.SetString("LevelToComplete", unlockedLevels[activeLevelIndex].sceneName);
+			return;
+		}
+
 		if(tooltipDisplay != null)
 		{
 			if (tooltipDisplay.IsActive())
@@ -897,12 +917,12 @@ public class LevelSelectMenu extends GUIControl
 		var countUnlocked : int = 0;
 		var countCompleted : int = 0;
 		
-		if(GUIManager.addLevel)
+		/*if(GUIManager.addLevel)
 		{
 			GUIManager.addLevel = false;				
 			completeLevel(GUIManager.levelToAdd);
 			GUIManager.levelToAdd = "";
-		}
+		}*/
 		
 		// Calculate the rect dimensions of every level
 		
@@ -921,15 +941,18 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		
+		var actualLevelIndex : int = numLevels - 1;
 		for (var i:int = numLevels - 1; i >= 0; i--)
 		{
 			if(levels[i].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[i].sceneName))
 			{	
 				if (levels[i].completed || saveSystem.currentPlayer.levelHasBeenCompleted(levels[i].sceneName)){
+					if (levels[i].sceneName.Contains("riefing")) // don't show briefings on completed level list
+						continue;
 					level = new Rect(0, countCompleted * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countCompleted * (level.height * .05);
 					levels[i].bounds = level;
-					levels[i].subjectText = (levels.Length - i) + ": " + levels[i].subjectText;
+					levels[i].subjectText = (levels.Length - actualLevelIndex) + ": " + levels[i].subjectText;
 					levels[i].completed = true;
 					completedLevels.Add(levels[i]);
 					countCompleted++;	
@@ -939,7 +962,7 @@ public class LevelSelectMenu extends GUIControl
 					level = new Rect(0, countUnlocked * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countUnlocked * (level.height * .05);
 					levels[i].bounds = level;
-					levels[i].subjectText = (levels.Length - i) + ": " + levels[i].subjectText;
+					levels[i].subjectText = (levels.Length - actualLevelIndex) + ": " + levels[i].subjectText;
 					unlockedLevels.Add(levels[i]);
 					countUnlocked++;
 					if (levels[i].sceneName.Contains("utorial"))
@@ -947,6 +970,8 @@ public class LevelSelectMenu extends GUIControl
 						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - 1 - i;
 						break;
 					}
+					else if (levels[i].sceneName.Contains("riefing"))
+						i--;
 				}
 				//if(showActive) // If in the Active Tab
 				//{
@@ -966,8 +991,9 @@ public class LevelSelectMenu extends GUIControl
 						count++;
 					}
 				}*/		
-								
+						
 			}
+			actualLevelIndex--;
 		}
 		saveSystem.currentPlayer.numToUnlock = 3 - countUnlocked + 1;
 		saveSystem.SaveCurrentPlayer();
