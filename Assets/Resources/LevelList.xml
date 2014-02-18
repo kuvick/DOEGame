@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>1</numInitialTutorials>
+<numInitialTutorials>3</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
 	<!--**************************************************-->
 	
 	<!-- Keep messageText as one line. Use &#10; for a new line/enter -->
-	  	
+	
+  	<!--Briefing1 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing1</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Blank</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>		
+	
 	<Level><!--Tutorial1-->
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
@@ -94,6 +109,21 @@
       <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<!--Briefing2 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing2</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Briefing 2</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
 		
 	<Level><!--Tutorial4-->
       <displayName>14</displayName>
@@ -126,6 +156,21 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
+		<!--Briefing3 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing3</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Briefing 3</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
+	
 	<Level> <!--Tutorial5 SKIP BUTTON INTRODUCED-->
       <displayName>7</displayName>
       <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -153,7 +198,22 @@
       <missionRequirementIndex>7</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-			
+	
+	<!--Briefing4 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing4</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Briefing 4 </subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
+	
 	<Level><!--Tutorial_GPC08-->
       <displayName>22</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
