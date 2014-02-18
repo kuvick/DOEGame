@@ -1005,7 +1005,7 @@ public class LevelSelectMenu extends GUIControl
 	{
 		for(var i :int = 0; i < levels.length; i++)
 		{
-			switch(levels[i].howToUnlock)
+			/*switch(levels[i].howToUnlock)
 			{
 				case UnlockType.RANK:
 					if(saveSystem.currentPlayer.rank >= levels[i].rankRequirement)
@@ -1024,7 +1024,9 @@ public class LevelSelectMenu extends GUIControl
 				case UnlockType.NONE:
 					levels[i].unlocked = true;
 					break;
-			}
+			}*/
+			if (i > levels.Length - 1 - lastUnlockedIndex - 1)// - 3)
+				levels[i].unlocked = true;
 		}
 	}
 
