@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>3</numInitialTutorials>
+<numInitialTutorials>4</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -11,10 +11,10 @@
 	<!--Briefing1 -->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Briefing1</sceneName>
+      <sceneName>Tutorial_Briefing1</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>Blank</subjectText>
-      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -31,7 +31,7 @@
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
-      <messageText>Welcome, recruit! &#10; &#10;Allow me to introduce Terrachanics, our new energy  reallocation system. With it we are be able to upgrade energy infrastructure and prevent disasters. What do you say we give it a try to get the Springville Nuclear Plant running in tip top shape? </messageText>
+      <messageText>An introduction to how Linking works.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -39,8 +39,6 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level> 
-	
-	
 	
 	<!-- TUTORIAL -->
     <!-- Multiple Inputs and Multiple Outputs -->
@@ -235,7 +233,7 @@
       <sceneName>Briefing2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>If You Build It...</subjectText>
-      <messageText>************************************************************PLAYER NEVER SEES THIS TEXT</messageText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -252,7 +250,7 @@
       <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>If You Build It...</subjectText>
-      <messageText>************************************************************PLAYER NEVER SEES THIS TEXT</messageText>
+      <messageText>*An introduction to how Building Sites work</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -454,6 +452,21 @@
 	<!--**************************************************-->	
 	<!--***********************ENGINEER*******************-->
 	
+	<!--Briefing3-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing3</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>The Fixer</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<!--                                                                                2/10 Secondary Objective Added -->
 	<!--                                                                                                UPDATE TERRAIN -->
 	<!-- TUTORIAL -->
@@ -463,7 +476,7 @@
       <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
-      <messageText> Congradulations! You passed your first set of trials! Now let's see how well you work with a partner. Nancy Sanders and her crew will be assisting you with some critical repairs to get the solar panel factory back up and running.</messageText>
+      <messageText>An introduction to how Engineers work</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -630,12 +643,27 @@
 	<!--**************************************************-->
 	<!--*******************AGENTS*************************-->
 			
+	<!--Briefing4-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing4</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Super Spy</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--Tutorial_GPC08-->
       <displayName>22</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Super Spy</subjectText>
-      <messageText>You're in the big leagues now, my friend. How's it feel to be on top? The boss wants me to show you the ropes on field agent duty, so lets get this party started.</messageText>
+      <messageText>An introduction to how Agents work</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
