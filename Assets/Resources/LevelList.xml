@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>3</numInitialTutorials>
+<numInitialTutorials>0</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -8,13 +8,13 @@
 	
 	<!-- Keep messageText as one line. Use &#10; for a new line/enter -->
 	
-  	<!--Briefing1 -->
+  	<!--Briefing1-->
 	<Level>
       <displayName>0</displayName>
       <sceneName>Briefing1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Blank</subjectText>
-      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <messageText> Player never sees this. </messageText>                                  <!-- NOT VISIBLE TO PLAYER-->
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -23,12 +23,13 @@
       <contactRequirement></contactRequirement>
     </Level>		
 	
+	
 	<Level><!--Tutorial1-->
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
-      <messageText>Welcome, recruit! &#10; &#10;Allow me to introduce Terrachanics, our new energy  reallocation system. With it we are be able to upgrade energy infrastructure and prevent disasters. What do you say we give it a try to get the Springville Nuclear Plant running in tip top shape? </messageText>
+      <messageText> Player never sees this. </messageText>                                  <!-- NOT VISIBLE TO PLAYER-->
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
