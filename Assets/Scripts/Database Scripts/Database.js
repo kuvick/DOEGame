@@ -398,7 +398,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			if(isWaitingForLink)
 			{
 				var pointerScript1 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
-				pointerScript1.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+				//Altered GPC 2/20/14
+				//pointerScript1.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+				pointerScript1.checkForLink();
 			}
 			
 			return true;
@@ -413,7 +415,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			if(isWaitingForLink)
 			{
 				var pointerScript2 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
-				pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+				//Altered GPC 2/20/14
+				//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+				pointerScript2.checkForLink();
 			}
 			
 			return true;
@@ -541,7 +545,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		if(isWaitingForLink)
 		{
 			var pointerScript3 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
-			pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+			//Altered GPC 2/20/14
+			//pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
+			pointerScript3.checkForLink();
 		}
     }
     else

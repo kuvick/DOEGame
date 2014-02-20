@@ -334,6 +334,11 @@ function DoAction () : boolean
 	if (type != UnitType.Researcher)
 		actionList.Add(new UnitAction(previousBuilding, intelSystem.currentTurn - 1, UpgradeID.None, UpgradeID.None));
 	//Debug.Log(actionList.Count);
+	
+	//Added GPC 2/20/14
+	var pointerScript1 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+	pointerScript1.checkForLink();
+	
 	return true;
 }
 
