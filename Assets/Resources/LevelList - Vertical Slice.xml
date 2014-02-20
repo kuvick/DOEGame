@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<numInitialTutorials>0</numInitialTutorials>
+<numInitialTutorials>4</numInitialTutorials>
   <Levels>
 	<!--************************LINKING*******************-->
 	<!--**************************************************-->
@@ -8,12 +8,28 @@
 	
 	<!-- Keep messageText as one line. Use &#10; for a new line/enter -->
 	
-    <Level><!--Tutorial1-->
+  	<!--Briefing1-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing1</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Blank</subjectText>
+      <messageText> Player never sees this. </messageText>                                  <!-- NOT VISIBLE TO PLAYER-->
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>		
+	
+	
+	<Level><!--Tutorial1-->
       <displayName>0</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
-      <messageText>Welcome, recruit! &#10; &#10;Allow me to introduce Terrachanics, our new energy  reallocation system. With it we are be able to upgrade energy infrastructure and prevent disasters. What do you say we give it a try to get the Springville Nuclear Plant running in tip top shape? </messageText>
+      <messageText> Player never sees this. </messageText>                                  <!-- NOT VISIBLE TO PLAYER-->
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>NONE</howToUnlock>
@@ -94,7 +110,68 @@
       <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-
+	
+	<!--Briefing2 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing2</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Briefing 2</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
+		
+	<Level><!--Tutorial4-->
+      <displayName>14</displayName>
+      <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>If You Build It...</subjectText>
+      <messageText>Perfect timing! Jerome has just completed a new feature of the Terrachanics device allowing us to perform hyperfabrication of buildings in the field thanks to advanced, 3D printing techniques?&#10;&#10;Exciting, yes?</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>13</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<!--                                                                                           Secondary Objective -->
+	<!-- MEDIUM -->
+	<!-- Building Sites -->
+	<Level><!--GPC06 multiple building sites, secondary objective, straightforward-->
+      <displayName>15</displayName>
+      <sceneName>GPC06</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Piece by Piece</subjectText>
+      <messageText>I just got the data back from your last mission. Hmmm... the Hyperfabricator is performing 4% below expected. Gah, I knew I should have sprung for Mark 4 articulator instead of Mark 3. Oh well.&#10;&#10;In any case, the biofuel company in Southton needs a few good researchers to help increase their production capacity. Perhaps some of the nearby mine engineers could help?</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>14</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+		
+		<!--Briefing3 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing3</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Briefing 3</subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
+	
 	<Level> <!--Tutorial5 SKIP BUTTON INTRODUCED-->
       <displayName>7</displayName>
       <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -123,20 +200,21 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--Tutorial4-->
-      <displayName>14</displayName>
-      <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
+	<!--Briefing4 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Briefing4</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>If You Build It...</subjectText>
-      <messageText>Perfect timing! Jerome has just completed a new feature of the Terrachanics device allowing us to perform hyperfabrication of buildings in the field thanks to advanced, 3D printing techniques?&#10;&#10;Exciting, yes?</messageText>
+      <subjectText>Briefing 4 </subjectText>
+      <messageText>This screen will be removed in future builds of the game.</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
+      <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>13</missionRequirementIndex>
+      <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>
-		
+    </Level>	
+	
 	<Level><!--Tutorial_GPC08-->
       <displayName>22</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
