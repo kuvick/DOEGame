@@ -206,7 +206,7 @@
 	<!--                                                                                           Secondary Objective -->
 	<!-- MEDIUM -->
 	<!-- Building Sites -->
-	<!--GPC06 multiple building sites, secondary objective, straightforward
+	<!--GPC06 multiple building sites, secondary objective, straightforward-->
 	<Level>
       <displayName>15</displayName>
       <sceneName>GPC06</sceneName>
@@ -219,7 +219,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>14</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
 
 	<!-- Funds and broken output, boring use of Engineer                     REVISE-->
 	<Level><!--RV13 moderate/easy-->
@@ -252,7 +252,7 @@
       <contactRequirement></contactRequirement>
     </Level>-->
 	
-	<!--RV01 moderate, figure out piece location
+	<!--RV01 moderate, figure out piece location-->
 	<Level>
       <displayName>18</displayName>
       <sceneName>RV01</sceneName>
@@ -265,7 +265,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
 	
 	<!--*****************BUILDING SITES********************************************************************************-->
 	<!--***************************************************************************************************************-->	
@@ -566,7 +566,7 @@
 	<!-- MEDIUM/HARD      LINKING -->
 	<!-- Reallocation -->
 	  	
-	<!--DD05 moderate, double primary objective     BUILD SITE
+	<!--DD05 moderate, double primary objective     BUILD SITE-->
      <Level>
       <displayName>18</displayName>
       <sceneName>DD05</sceneName> 
@@ -579,7 +579,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
   
 	<Level><!--RV26      AGENT -->
       <displayName>25</displayName>
@@ -720,7 +720,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--RV12 difficult, building placement  ENGINEER
+	<!--RV12 difficult, building placement  ENGINEER-->
 	<Level>
       <displayName>18</displayName>
       <sceneName>RV12</sceneName>
@@ -733,7 +733,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
 		
 	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation  ENGINEER-->
       <displayName>20</displayName>
@@ -750,7 +750,7 @@
     </Level>
 	
 	<!--Too many environmental assets                                        UPDATE -->
-	<!--RV22 hard, reallocation, large map  ENGINEER
+	<!--RV22 hard, reallocation, large map  ENGINEER-->
 	<Level>
 	  <displayName>20</displayName>
       <sceneName>RV22</sceneName> 
@@ -763,7 +763,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>19</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
     	
 	<Level><!--KU03 hard, long queue, reallocation  BUILD SITE-->
       <displayName>10</displayName>
