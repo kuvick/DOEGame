@@ -25,6 +25,11 @@ function Start ()
 	blueMaterial.SetTexture("_MainTex", normalTexture);
 	blueMaterial.SetTexture("_SubTex", blueTexture);
 	
+	blueMaterial.mainTextureScale = Vector2(1,1);
+	blueMaterial.mainTextureOffset = Vector2(0,0);
+	blueMaterial.SetTextureOffset("_SubTex", Vector2(0,0));
+	blueMaterial.SetTextureScale("_SubTex", Vector2(1,1));
+	
 	color1 = Color.white;
 	color2 = Color.white;
 	color1.a = 0f;

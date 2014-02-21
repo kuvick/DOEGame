@@ -93,10 +93,10 @@ public class ScoreMenu extends GUIControl
 	private var honorsBoxWidth : float = 1104;
 	private var honorScoreOffsetX : float = 168;
 	private var honorScoreOffsetY : float = 225;
-	private var honorsLeftX : float = 128;
-	private var honorsLeftY : float = 516;
+	private var honorsLeftX : float = 140;
+	private var honorsLeftY : float = 530;
 	private var honorsRect : List.<Rect> = new List.<Rect>();
-	private var honorScoreRect : List.<Rect> = new List.<Rect>();
+	//private var honorScoreRect : List.<Rect> = new List.<Rect>();
 	public var honorsExplanations : List.<String> = new List.<String>();
 	private var displayExplanation : boolean = false;
 	private var explanationRenderSpace : Rect;
@@ -159,12 +159,18 @@ public class ScoreMenu extends GUIControl
 
 	public var displayToolTips:boolean = false;
 	private var inspectionDispRef : InspectionDisplay;
+	
+	public var starFillTexture:Texture;
+	public var starUnfilledTexture:Texture;
+	private var starRect : List.<Rect> = new List.<Rect>();
+	private var numOfStars : int;
 
 	public function Initialize()
 	{
 		super.Initialize();
 
 		var narrUI:NarrativeUI = gameObject.GetComponent(NarrativeUI);
+		numOfStars = 0;
 		
 		if(narrUI != null)
 			narrUI.setEndRender(false);
@@ -312,9 +318,10 @@ public class ScoreMenu extends GUIControl
 											  honorsTextures[i].earned.height / designHeight);
 			*/
 			
+			/*
 			var rectScore : Rect = new Rect();
 			rectScore = createRect(honorsTextures[i].earned, (width + honorScoreOffsetX) / designWidth, (honorsLeftY + honorScoreOffsetY) / designHeight, honorsTextures[i].earned.height / designHeight, false, screenRect);
-											  
+			*/								  
 			/*
 			rectScore =	 RectFactory.NewRect((width + honorScoreOffsetX) / designWidth, 
 											  (honorsLeftY + honorScoreOffsetY) / designHeight,
@@ -322,8 +329,23 @@ public class ScoreMenu extends GUIControl
 											  honorsTextures[i].earned.height / designHeight);
 		  	*/
 			honorsRect.Add(rect);
-			honorScoreRect.Add(rectScore);
+			//honorScoreRect.Add(rectScore);
 		}
+		
+		var tempRect : Rect = new Rect();
+		tempRect = createRect(starFillTexture, 0,0, starFillTexture.height / designHeight, false, screenRect);
+		
+		var middleStart:float = (missionScoreRect.width / 2) - (tempRect.width * 5) / 2;
+		
+		for(var j:int = 0; j < 5; j++)
+		{
+			tempRect = new Rect();
+			tempRect = createRect(starFillTexture, 0,0, starFillTexture.height / designHeight, false, screenRect);
+			tempRect.x = middleStart + (j * tempRect.width);
+			
+			starRect.Add(tempRect);
+		}
+		
 		
 			// Exp Bar:
 			/*
@@ -420,9 +442,19 @@ public class ScoreMenu extends GUIControl
 			
 			GUI.Label(agentNameRect, agentName);
 			GUI.Label(agentRankRect, agentRank);
-			GUI.Label(missionScoreRect, missionScore + " XP");
+			//GUI.Label(missionScoreRect, missionScore + " XP");
+			GUI.BeginGroup(missionScoreRect);
+				for(var j:int = 0; j < 5; j++)
+				{
+					if(numOfStars >= (j+1))
+						GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
+					else
+						GUI.DrawTexture(starRect[j], starUnfilledTexture, ScaleMode.StretchToFill);
+				}
 			
-			GUI.Label(totalScoreRect, totalScore);
+			GUI.EndGroup();
+			
+			//GUI.Label(totalScoreRect, totalScore);
 			
 			// Honors/bonus icons and scores are rendered:
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
@@ -433,7 +465,7 @@ public class ScoreMenu extends GUIControl
 				else
 					GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
 				
-				GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
+				//GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
 				
 				if(GUI.Button(honorsRect[i],""))
 				{
@@ -492,31 +524,38 @@ public class ScoreMenu extends GUIControl
 	// and also to do the saving and calculations of rank, etc.
 	function generateText()
 	{
+		numOfStars = 1;
+		
 		// Honors Icons
 		for(var i:int = 0; i < honorsTextures.Count; i++)
 		{
 			//honorsTextures[i].earned
-			if(honorsTextures[i].type == HonorType.Agile)
+			if(honorsTextures[i].type == HonorType.Efficient)
 			{
-				if(intelSystem.comboSystem.getHighestCombo() > 0)
+				if(!intelSystem.getUsedUndoOrWait())
 				{
-					honorsTextures[i].score = 100 * intelSystem.comboSystem.getHighestCombo();
+					honorsTextures[i].score = 25;
 					honorsTextures[i].hasEarned = true;
+					numOfStars++;
 				}
 			}
-			else if(honorsTextures[i].type == HonorType.Efficient)
+			else if(honorsTextures[i].type == HonorType.Agile)
 			{
-				if(intelSystem.GetTimeLeft() > 0)
+				Debug.Log(intelSystem.GetTimeLeft() + " ... time");
+				if(intelSystem.GetTimeLeft() >= 30)
 				{
-					honorsTextures[i].score = 200 * intelSystem.GetTimeLeft();
+					honorsTextures[i].score = 25;
 					honorsTextures[i].hasEarned = true;
+					numOfStars++;
 				}
 			}
 			else if(honorsTextures[i].type == HonorType.Resourceful)
 			{
 				if(intelSystem.getOptionalScore() > 0)
 				{
-					honorsTextures[i].score = 1000;
+					//honorsTextures[i].score = 1000;
+					honorsTextures[i].score = 50; // +2 stars for optional objective; 25 points each
+					numOfStars += 2;
 					honorsTextures[i].hasEarned = true;
 				}
 			}
@@ -531,7 +570,9 @@ public class ScoreMenu extends GUIControl
 		else
 			currentMinExpGoal = saveSystem.rankSystem.expGoal(saveSystem.currentPlayer.rank);
 		
-		var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore() + (50 * intelSystem.GetTimeLeft());
+		//var tempScore : int = intelSystem.getOptionalScore() + intelSystem.getPrimaryScore() + (50 * intelSystem.GetTimeLeft());
+		
+		var tempScore : int = 100;
 		
 		// Adding in honors scores
 		for(var j:int = 0; j < honorsTextures.Count; j++)
@@ -543,12 +584,14 @@ public class ScoreMenu extends GUIControl
 		expWithinRank = saveSystem.rankSystem.expForThisRank(saveSystem.currentPlayer.rank, saveSystem.currentPlayer.exp);	
 		
 		//Debug.Log("Total Score: " + tempScore);
-		var totScore : int = tempScore + AddComboPoints();
+		//var totScore : int = tempScore + AddComboPoints();
 		//Debug.Log("Total Score with Combo: " + totScore);
 		
-		totalScore = totScore.ToString() + ConvertComboToString();
+		//totalScore = totScore.ToString() + ConvertComboToString();
+	
 		
-		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, totScore);
+		
+		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, tempScore);
 		saveSystem.currentPlayer.exp += expEarned;
 		//Debug.Log("EXP EARNED: " + expEarned);
 		
