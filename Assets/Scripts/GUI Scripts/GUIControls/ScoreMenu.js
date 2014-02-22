@@ -36,11 +36,11 @@ public class ScoreMenu extends GUIControl
 	private var missionRating : int = 0;
 	
 	//Share Button
-	public var shareButton : Texture;
-	public var shareButtonPressed : Texture;
-	private var shareButtonRect : Rect;
-	private var shareButtonX : float = 1476;
-	private var shareButtonY : float = 23;
+	//public var shareButton : Texture;
+	//public var shareButtonPressed : Texture;
+	//private var shareButtonRect : Rect;
+	//private var shareButtonX : float = 1476;
+	//private var shareButtonY : float = 23;
 	
 	// Retry Button
 	public var retryButton : Texture;
@@ -228,7 +228,7 @@ public class ScoreMenu extends GUIControl
 		
 		//createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float, adjustSizeIfOutsideBoundaries:boolean, compareToRect:Rect);
 		
-		shareButtonRect = createRect(shareButton,1340 / designWidth, 27/designHeight, shareButton.height / designHeight, false, screenRect);
+		//shareButtonRect = createRect(shareButton,1340 / designWidth, 27/designHeight, shareButton.height / designHeight, false, screenRect);
 		retryButtonRect = createRect(retryButton, 81 / designWidth, 936/designHeight, retryButton.height / designHeight, false, screenRect);
 		contButtonRect = createRect(contButton, 1225 / designWidth, 936/designHeight, contButton.height / designHeight, false, screenRect);
 		dashboardButtonRect = createRect(dashboardButton,0f,936/designHeight, dashboardButton.height / designHeight, false, screenRect);
@@ -409,12 +409,14 @@ public class ScoreMenu extends GUIControl
 			
 			// Buttons are rendered:
 			
+			/*
 			setButtonTexture(shareButton, shareButtonPressed);
 			if(GUI.Button(shareButtonRect, ""))
 			{
 				currentResponse.type = EventTypes.FACEBOOK;
 				PlayButtonPress();
 			}
+			*/
 			setButtonTexture(retryButton, retryButtonPressed);
 			if(GUI.Button(retryButtonRect, ""))
 			{

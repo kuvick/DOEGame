@@ -18,9 +18,9 @@ public class StartMenu extends GUIControl
 	public var splashDOEIcon:Texture;
 	public var backgroundText:Texture;
 	//public var lineOverlayText:Texture;
-	public var facebookButton:Texture;
-	public var facebookButtonPressed:Texture;
-		private var facebookButtonRect:Rect;
+	//public var facebookButton:Texture;
+	//public var facebookButtonPressed:Texture;
+		//private var facebookButtonRect:Rect;
 	public var loginButton:Texture;
 	public var loginButtonPressed:Texture;
 		private var loginButtonRect:Rect;
@@ -203,7 +203,7 @@ public class StartMenu extends GUIControl
 		// The distance from the bottom of the screen for the buttons
 		var distFromBottomOfScreen : float = screenHeight - (buttonSideBuffer * screenHeight) - (loginButton.height * percentage);
 		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
-		facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
+		//facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
 		optionsButtonRect = Rect( screenWidth - (optionsButton.width * percentage) - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, optionsButton.width * percentage, optionsButton.height * percentage);
 		
 		profileSelectWidth = profileBGText.width * percentage;
@@ -357,14 +357,14 @@ public class StartMenu extends GUIControl
 					}
 					PlayButtonPress();
 				}
-			
+				/*
 				setButtonTexture(facebookButton, facebookButtonPressed);
 				if (GUI.Button(facebookButtonRect, ""))
 				{
 					currentResponse.type = EventTypes.FACEBOOK;
 					PlayButtonPress();
 				}
-				
+				*/
 				setButtonTexture(exitButton, exitButtonPressed);
 				if (GUI.Button(quitButton, ""))
 				{
