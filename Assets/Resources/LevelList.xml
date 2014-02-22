@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!-- Keep messageText as one line. Use &#10; for a new line/enter -->
-<numInitialTutorials>5</numInitialTutorials>
+<numInitialTutorials>7</numInitialTutorials>
   <Levels>
 	<!--************************LINKING********************************************************************************-->
 		
@@ -70,8 +70,10 @@
     </Level>
 	
 	<!-- TUTORIAL -->
-    <!-- Undo Button introduced -->
-	<Level>
+                                   <!--**************** UNDO BUTTON *****************-->
+	
+								   
+	<Level><!--Tutorial_KU04-->
       <displayName>2</displayName>
       <sceneName>Tutorial_KU04</sceneName>
       <difficulty>1</difficulty>
@@ -85,10 +87,9 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
-	<!--                                                    Tutorial on Secondary Objectives and Multiple Start Points -->
 	<!--                                                                                2/10 Secondary Objective Added -->
 	<!-- EASY -->
-    <!-- Multiple Originators. Mutual Links Possible -->
+    <!-- Secondary Objectives and Multiple Start Points -->
 	<Level><!--Tutorial_RV21 RENAMED-->
       <displayName>3</displayName>
       <sceneName>Tutorial_RV21</sceneName>
@@ -100,6 +101,23 @@
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>2</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	     
+			
+	<!-- TUTORIAL-->
+	<!-- Mutual Links, Reallocation -->
+	<Level><!--Tutorial_RV15-->
+      <displayName>4</displayName>
+      <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>4</difficulty>
+      <subjectText>Nuclear Clean</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -117,22 +135,6 @@
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>2</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-		
-	<!-- TUTORIAL-->
-	<!-- Mutual Links, Reallocation -->
-	<Level><!--Tutorial_RV15-->
-      <displayName>4</displayName>
-      <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>Nuclear Clean</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Director Helena Edison</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>3</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -187,6 +189,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!-- DISABLED -->
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
 	<!--RV03-remix easy, minor false complexity 
 	<Level>
@@ -220,37 +223,6 @@
       <missionRequirementIndex>14</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-
-	<!-- Funds and broken output, boring use of Engineer                     REVISE-->
-	<Level><!--RV13 moderate/easy-->
-      <displayName>18</displayName>
-      <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
-      <subjectText>Turning the Tides</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>17</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<!--Resources don't make sense                                       REVISE-->
-	<!--RV02 moderate difficulty, false complexity, short engineer queue
-	<Level>
-      <displayName>17</displayName>
-      <sceneName>RV02</sceneName> 
-      <difficulty>12</difficulty>
-      <subjectText>Under Pressure</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>16</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>-->
 	
 	<!--RV01 moderate, figure out piece location-->
 	<Level>
@@ -266,6 +238,37 @@
       <missionRequirementIndex>17</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<!-- MEDIUM      BUILD SITE-->
+	<!-- Building placement -->
+	<Level><!--RV23 -->
+      <displayName>21</displayName>
+      <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>4</difficulty>
+      <subjectText>Fire in the Hole!</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>20</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--GPC09 medium, particular about building placement, secondary objective  ENGINEER-->
+      <displayName>16</displayName>
+      <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>8</difficulty>
+      <subjectText>Corn Cars</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>15</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	
 	<!--*****************BUILDING SITES********************************************************************************-->
 	<!--***************************************************************************************************************-->	
@@ -323,7 +326,7 @@
       <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>The Broken Path</subjectText>
-      <messageText> The Springford Airport is in rough shape. We'll need to B line it to that one quick to get it up and running again. Let's get moving!</messageText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -346,6 +349,21 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!-- Funds and broken output, boring use of Engineer                     REVISE-->
+	<Level><!--RV13 moderate/easy-->
+      <displayName>18</displayName>
+      <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>2</difficulty>
+      <subjectText>Turning the Tides</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>17</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<Level><!--RV08-remix easy, similtaneous action-->
 	  <displayName>10</displayName>
       <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -359,48 +377,24 @@
       <missionRequirementIndex>9</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<Level><!--GPC07 medium, requires long queue-->
-      <displayName>9</displayName>
-      <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>The Power Core</subjectText>
-      <messageText>You like road trips? Cuz I have a feeling this is going to turn into one for me. Got some major repairs to fix up so we can get the SuperCo refinery back up and running. Lets go make some sparks!</messageText>
+		
+	<!-- DISABLED -->
+	<!--Resources don't make sense                                       REVISE-->
+	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER
+	<Level>
+      <displayName>17</displayName>
+      <sceneName>RV02</sceneName> 
+      <difficulty>12</difficulty>
+      <subjectText>Under Pressure</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>8</missionRequirementIndex>
+      <missionRequirementIndex>16</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>
+    </Level>-->
 
-	<Level><!--RV06 false complexity, moderate-->
-      <displayName>11</displayName>
-      <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>Shifting Gears</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>10</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level><!--RV05-remix distant originators, simple upstream-->
-      <displayName>10</displayName>
-      <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>5</difficulty>
-      <subjectText>No Waste to Waste</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>9</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
     
 	<!--***********************ENGINEER*******************-->
 	<!--**************************************************-->
@@ -497,27 +491,80 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-  <!--********************************************************************************************************** MIDGAME -->
-  <!--********************************************************************************************************** MIDGAME -->
-  <!--********************************************************************************************************** MIDGAME -->
-  <!--********************************************************************************************************** MIDGAME -->
- 
-	<!-- MEDIUM      BUILD SITE-->
-	<!-- Building placement -->
-	<Level><!--RV23 -->
-      <displayName>21</displayName>
-      <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>Fire in the Hole!</subjectText>
+	<Level><!--DD10 moderate, action ordering,       AGENT-->
+      <displayName>25</displayName>
+      <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>3</difficulty>
+      <subjectText>Powered Up</subjectText>
       <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>20</missionRequirementIndex>
+      <missionRequirementIndex>24</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-  
+	
+  <!--********************************************************************************************************** MIDGAME -->
+  <!--********************************************************************************************************** MIDGAME -->
+  <!--********************************************************************************************************** MIDGAME -->
+  <!--********************************************************************************************************** MIDGAME -->
+  <Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
+      <displayName>19</displayName>
+      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>6</difficulty>
+      <subjectText>The Modern City</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>18</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+    
+  <Level><!--GPC07 medium, requires long queue              ENGINEER-->
+      <displayName>9</displayName>
+      <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>4</difficulty>
+      <subjectText>The Power Core</subjectText>
+      <messageText>You like road trips? Cuz I have a feeling this is going to turn into one for me. Got some major repairs to fix up so we can get the SuperCo refinery back up and running. Lets go make some sparks!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>8</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+
+	<Level><!--RV06 false complexity, moderate              ENGINEER-->
+      <displayName>11</displayName>
+      <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>4</difficulty>
+      <subjectText>Shifting Gears</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>10</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV05-remix distant originators, simple upstream              ENGINEER-->
+      <displayName>10</displayName>
+      <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>5</difficulty>
+      <subjectText>No Waste to Waste</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>9</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+   
      <!--                                                                                                UPDATE TERRAIN -->
 	<!-- MEDIUM      LINKING-->
 	<!-- Limited time window -->
@@ -535,37 +582,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--RV04-remix moderate, tight time limit, false complexity      BUILD SITE-->
-      <displayName>19</displayName>
-      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>6</difficulty>
-      <subjectText>The Modern City</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>18</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<Level><!--DD10 moderate, action ordering,       AGENT-->
-      <displayName>25</displayName>
-      <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
-      <subjectText>Powered Up</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Agent Roc Bridges</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>24</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	<!-- MEDIUM/HARD      LINKING -->
-	<!-- Reallocation -->
-	  	
+  	<!--                                                                                            PRONE TO CORRUPTION-->
 	<!--DD05 moderate, double primary objective     BUILD SITE-->
      <Level>
       <displayName>18</displayName>
@@ -581,11 +598,11 @@
       <contactRequirement></contactRequirement>
     </Level>
   
-	<Level><!--RV26      AGENT -->
+	<Level><!--RV26                       ENGINEER -->
       <displayName>25</displayName>
       <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
-      <subjectText>Powered Up</subjectText>
+      <subjectText>Powered Up v2</subjectText>
       <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -623,6 +640,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	                                                                                              <!--2/21 TWEAK CAMERA BOUNDS-->
 	<Level><!--GPC02 medium, requires "upstream" and reallocation  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -654,21 +672,7 @@
       <missionRequirementIndex>5</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-	
-	<Level><!--GPC09 medium, particular about building placement, secondary objective  ENGINEER-->
-      <displayName>16</displayName>
-      <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>8</difficulty>
-      <subjectText>Corn Cars</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>15</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
+			
 	<!-- MEDIUM/HARD    LINKING-->
 	<!-- Reallocation -->
 	<Level><!--RV16-->
@@ -815,7 +819,7 @@
       <displayName>1</displayName>
       <sceneName>DD09</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>More for the Taking</subjectText>
+      <subjectText>Stuff things</subjectText>
       <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -841,6 +845,8 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
+	
+	<!-- DISABLED -->
 	<!--                                                                                  Verify solvable after bugfix -->
 	<!-- HARD             AGENT-->
 	<!-- complex reallocation, link pathing, timing -->

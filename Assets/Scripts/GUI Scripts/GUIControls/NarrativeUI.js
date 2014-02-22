@@ -24,17 +24,18 @@ public class NarrativeUI extends GUIControl
 	private var skipX : float = 1577;
 	private var skipY : float = 969;
 	
-	private var backX : float = 64;
-	private var backY : float = 969;
+	private var backX : float = 200;
+	private var backY : float = 950;
 	
-	private var startX : float = 1557;
-	private var startY : float = 969;
+	//Values modified GPC 2/21/14 
+	private var startX : float = 1550;
+	private var startY : float = 950;
 	
-	private var replayX : float = 23;
-	private var replayY : float = 969;
+	private var replayX : float = 200;
+	private var replayY : float = 950;
 	
 	private var homeX : float = 1777;
-	private var homeY : float = 15;
+	private var homeY : float = 40;
 	
 	// "Tap Space" - so the user can cont. when they tap the image
 	private var tapHeight : float = 872;
@@ -162,30 +163,55 @@ public class NarrativeUI extends GUIControl
 												  skipButton.width / designWidth,
 												  skipButton.height / designHeight);
 			
-				// Back
-			back = RectFactory.NewRect(	  		  backX / designWidth, 
-												  backY / designHeight,
-												  backButton.width / designWidth,
-												  backButton.height / designHeight);
+//				// Back
+//			back = RectFactory.NewRect(	  		  backX / designWidth, 
+//												  backY / designHeight,
+//												  backButton.width / designWidth,
+//												  backButton.height / designHeight);
+
+	// Back
+			back = RectFactory.NewRect(	  		  (backX - (backButton.width/2) ) / designWidth, 
+												  (backY - (backButton.height/2) ) / designHeight,
+												  backButton.width / designWidth * 1.5,
+												  backButton.height / designHeight * 1.5);
 			
 				// Start
-			start = RectFactory.NewRect(	  	  startX / designWidth, 
-												  startY / designHeight,
-												  startButton.width / designWidth,
-												  startButton.height / designHeight);
+//			start = RectFactory.NewRect(	  	  startX / designWidth, 
+//												  startY / designHeight,
+//												  startButton.width / designWidth,
+//												  startButton.height / designHeight);
+
+			//GPC 2/21/14 Attempting to make buttons larger
+			start = RectFactory.NewRect(	  	  (startX - (startButton.width/2) ) / designWidth, 
+												  (startY - (startButton.height/2) ) / designHeight,
+												  startButton.width / designWidth * 1.5,
+												  startButton.height / designHeight * 1.5);
 			
+//			
+//				// Replay
+//			replay = RectFactory.NewRect(	  	  replayX / designWidth, 
+//												  replayY / designHeight,
+//												  replayButton.width / designWidth,
+//												  replayButton.height / designHeight);
+//												  
 				// Replay
-			replay = RectFactory.NewRect(	  	  replayX / designWidth, 
-												  replayY / designHeight,
-												  replayButton.width / designWidth,
-												  replayButton.height / designHeight);
+			replay = RectFactory.NewRect(	  	  (replayX - (replayButton.width/2) ) / designWidth, 
+												  (replayY - (replayButton.height/2) ) / designHeight,
+												  replayButton.width / designWidth * 1.5,
+												  replayButton.height / designHeight * 1.5);							  
 												  
-				// Replay
-			home = RectFactory.NewRect(	  	      homeX / designWidth, 
-												  homeY / designHeight,
-												  homeButton.width / designWidth,
-												  homeButton.height / designHeight);
 												  
+//				// Home
+//			home = RectFactory.NewRect(	  	      homeX / designWidth, 
+//												  homeY / designHeight,
+//												  homeButton.width / designWidth,
+//												  homeButton.height / designHeight);
+									
+				// Home
+			home = RectFactory.NewRect(	  	      (homeX - (homeButton.width/2) ) / designWidth, 
+												  (homeY - (homeButton.height/2) ) / designHeight,
+												  homeButton.width / designWidth * 1.5,
+												  homeButton.height / designHeight * 1.5);			  
 												  
 				// Tap Space
 			tapSpace = RectFactory.NewRect(	  	  0, 
@@ -223,9 +249,10 @@ public class NarrativeUI extends GUIControl
 	}
 	
 	public function OnGUI()
+	//public function Render()
 	{
-		if(!endRender)
-		{
+		//if(!endRender)
+		//{
 			GUI.skin = narrativeSkin;
 			titleStyle = GUI.skin.GetStyle("title");
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
@@ -316,7 +343,7 @@ public class NarrativeUI extends GUIControl
 			GUI.Label(charNameRect, characterName, titleStyle);
 			narrativeSkin.customStyles[0].alignment = TextAnchor.UpperLeft;
 			GUI.Label(levelTitleRect, levelTitle, titleStyle);
-		}	
+		//}	
 	
 	}// end of OnGUI
 	
