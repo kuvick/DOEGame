@@ -56,6 +56,18 @@ public var toolTipOnScreen : boolean = false;
 
 private var dOS:DisplayOnceSystem;
 
+private var usedUndoOrWait:boolean;
+
+public function pressedUndoOrWait()
+{
+	usedUndoOrWait = true;
+}
+
+public function getUsedUndoOrWait():boolean
+{
+	return usedUndoOrWait;
+}
+
 class BuildingEvent
 {
 	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out
@@ -97,6 +109,8 @@ class EventStackNode
 
 function Start ()
 {
+	usedUndoOrWait = false;
+	
 	if(!useTimer)
 	{
 		timeLeft = 0;

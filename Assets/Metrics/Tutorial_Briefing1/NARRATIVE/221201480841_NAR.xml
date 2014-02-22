@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<NarrativeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <timeSpentTotal>8.3948</timeSpentTotal>
+  <timeBeforeClick>
+    <float>1.41579974</float>
+    <float>0.36556685</float>
+    <float>1.54873276</float>
+    <float>0.5317328</float>
+    <float>1.71490145</float>
+    <float>0.6978977</float>
+    <float>1.881069</float>
+    <float>0.864063</float>
+    <float>2.01400256</float>
+    <float>1.03022957</float>
+    <float>2.1469357</float>
+    <float>1.19639659</float>
+    <float>2.31310153</float>
+    <float>1.36256528</float>
+    <float>2.51250124</float>
+    <float>1.49549723</float>
+    <float>2.71190214</float>
+    <float>1.66166353</float>
+    <float>2.91130257</float>
+    <float>1.82782984</float>
+    <float>3.0774703</float>
+    <float>1.99399614</float>
+    <float>3.24363613</float>
+    <float>2.16016436</float>
+    <float>3.443036</float>
+    <float>2.32633018</float>
+    <float>3.60920238</float>
+    <float>2.525731</float>
+    <float>3.77536917</float>
+    <float>2.691897</float>
+    <float>3.94153547</float>
+  </timeBeforeClick>
+  <wasSkipped>false</wasSkipped>
+  <siteClicks>0</siteClicks>
+</NarrativeData>

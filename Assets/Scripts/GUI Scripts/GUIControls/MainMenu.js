@@ -399,6 +399,7 @@ public class MainMenu extends GUIControl
 		
 		if(!disableSkipButton && GUI.Button(waitButton, waitTexture))
 		{
+			intelSystem.pressedUndoOrWait();
 			SoundManager.Instance().playWait();
 			intelSystem.comboSystem.resetComboCount();
 			currentResponse.type = EventTypes.WAIT;
@@ -408,6 +409,7 @@ public class MainMenu extends GUIControl
 			GUI.enabled = false;
 		if(!disableUndoButton && GUI.Button(undoButton, undoTexture))
 		{
+			intelSystem.pressedUndoOrWait();
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			intelSystem.comboSystem.resetComboCount();
 			SoundManager.Instance().playUndo();
