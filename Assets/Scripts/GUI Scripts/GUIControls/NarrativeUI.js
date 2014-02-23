@@ -8,6 +8,7 @@ public class NarrativeUI extends GUIControl
 	public var narrativeSkin : GUISkin;
 	public var levelToLoad : String = "DOEGame";
 	public var homeButton : Texture;
+	public var overlayUI:Texture;
 	
 	public var inScoreScreen:boolean = false;
 	private var endRender:boolean = false;
@@ -19,6 +20,7 @@ public class NarrativeUI extends GUIControl
 	private var start:Rect;
 	private var replay:Rect;
 	private var home:Rect;
+	private var overlay:Rect;
 
 	// Buttons
 	private var skipX : float = 1577;
@@ -170,6 +172,7 @@ public class NarrativeUI extends GUIControl
 //												  backButton.height / designHeight);
 
 	// Back
+		/*
 			back = RectFactory.NewRect(	  		  (backX - (backButton.width/2) ) / designWidth, 
 												  (backY - (backButton.height/2) ) / designHeight,
 												  backButton.width / designWidth * 1.5,
@@ -195,11 +198,12 @@ public class NarrativeUI extends GUIControl
 //												  replayButton.height / designHeight);
 //												  
 				// Replay
+				/*
 			replay = RectFactory.NewRect(	  	  (replayX - (replayButton.width/2) ) / designWidth, 
 												  (replayY - (replayButton.height/2) ) / designHeight,
 												  replayButton.width / designWidth * 1.5,
 												  replayButton.height / designHeight * 1.5);							  
-												  
+				*/								  
 												  
 //				// Home
 //			home = RectFactory.NewRect(	  	      homeX / designWidth, 
@@ -208,16 +212,30 @@ public class NarrativeUI extends GUIControl
 //												  homeButton.height / designHeight);
 									
 				// Home
+				/*
 			home = RectFactory.NewRect(	  	      (homeX - (homeButton.width/2) ) / designWidth, 
 												  (homeY - (homeButton.height/2) ) / designHeight,
 												  homeButton.width / designWidth * 1.5,
 												  homeButton.height / designHeight * 1.5);			  
 												  
+*/
+												  
+												  
+												  
+												  
+			overlay = createRect(overlayUI, 0,0,1,false);
+			overlay.x = Screen.width / 2 - overlay.width / 2;
+			overlay.y = Screen.height / 2 - overlay.height / 2;
+			home = createRect(homeButton, 0.86, 0.01, 0.09, false, overlay);
+			replay = createRect(replayButton, 0.007, 0.9, 0.09, false, overlay);
+			start = createRect(startButton, 0.809, 0.9, 0.09, false, overlay);
+			back = createRect(backButton, 0.007, 0.9, 0.09, false, overlay);
+												  
 				// Tap Space
 			tapSpace = RectFactory.NewRect(	  	  0, 
 												  (homeY + homeButton.height)/ designHeight,
 												  1,
-												  tapHeight / designHeight);
+												  tapHeight / designHeight);							  
 												  
 			currentSlide = 0;
 			
@@ -257,6 +275,7 @@ public class NarrativeUI extends GUIControl
 			titleStyle = GUI.skin.GetStyle("title");
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
 			
+			GUI.DrawTexture(overlay, overlayUI, ScaleMode.StretchToFill);
 			
 			if(currentSlide < narrativeSlides.Length - 1 || lastLetter < dialogue[currentSlide].Length - 1)
 			{

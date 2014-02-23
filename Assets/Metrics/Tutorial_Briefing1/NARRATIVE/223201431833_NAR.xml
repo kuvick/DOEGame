@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<NarrativeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <timeSpentTotal>39.5854149</timeSpentTotal>
+  <timeBeforeClick>
+    <float>3.16094542</float>
+    <float>2.41656256</float>
+    <float>5.193346</float>
+    <float>3.53523827</float>
+    <float>8.178148</float>
+    <float>5.51804256</float>
+    <float>10.817584</float>
+    <float>7.109376</float>
+    <float>11.40179</float>
+    <float>9.190413</float>
+    <float>12.12736</float>
+    <float>9.886214</float>
+    <float>12.3427267</float>
+    <float>10.8979006</float>
+    <float>17.7357025</float>
+    <float>11.0810528</float>
+    <float>17.88561</float>
+    <float>11.2480412</float>
+    <float>18.05262</float>
+    <float>11.4304657</float>
+    <float>18.2195644</float>
+    <float>11.5974255</float>
+    <float>18.4032612</float>
+    <float>11.7804661</float>
+    <float>19.0535622</float>
+    <float>12.2867451</float>
+    <float>19.5671272</float>
+    <float>12.85128</float>
+    <float>20.0998611</float>
+    <float>13.8187981</float>
+    <float>20.2840843</float>
+    <float>14.4348068</float>
+    <float>20.4671974</float>
+  </timeBeforeClick>
+  <wasSkipped>false</wasSkipped>
+  <siteClicks>0</siteClicks>
+</NarrativeData>
