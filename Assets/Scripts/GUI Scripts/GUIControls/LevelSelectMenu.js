@@ -52,6 +52,7 @@ public class BasicNode
 	
 	public var subjectText : String = "";
 	public var messageText : String = "";
+	public var objectiveText : String = String.Empty;
 	
 	public var isPrimary : boolean = true;
 	public var senderName : String = "";
@@ -73,6 +74,7 @@ public class LevelNode
 	
 	public var subjectText : String;
 	public var messageText : String;
+	public var objectiveText : String;
 	public var unlocked : boolean = false;
 	
 	public var bounds : Rect;
@@ -751,7 +753,9 @@ public class LevelSelectMenu extends GUIControl
 				{
 					if(!unlockedLevels[activeLevelIndex].wasRead)
 						unlockedLevels[activeLevelIndex].wasRead = true;														
-					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " + unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText;
+					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
+											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
+											+ "\n\n<color=red><i>Objective: " + unlockedLevels[activeLevelIndex].objectiveText + "</i></color>";
 					
 					GUI.Label(messageRect, message);						
 				}
@@ -760,7 +764,9 @@ public class LevelSelectMenu extends GUIControl
 					if(!completedLevels[activeLevelIndex].wasRead)
 						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " + completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText);			
+					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
+								+ completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText
+								+ "\n\n<color=red><i>Objective: " + completedLevels[activeLevelIndex].objectiveText + "</i></color>");			
 
 				}
 					
@@ -1076,6 +1082,7 @@ public class LevelSelectMenu extends GUIControl
 		levelNode.difficulty = basicNode.difficulty;
 		levelNode.subjectText = basicNode.subjectText;
 		levelNode.messageText = basicNode.messageText;
+		levelNode.objectiveText = basicNode.objectiveText;
 		levelNode.isPrimary = basicNode.isPrimary;
 		levelNode.senderName = basicNode.senderName;
 		levelNode.howToUnlock = basicNode.howToUnlock;
