@@ -10,7 +10,7 @@ function Start () {
 		Application.LoadLevel (1);
 		return;
 	#endif
-	
+	#if UNITY_ANDROID
 	var expPath : String = GooglePlayDownloader.GetExpansionFilePath();
 
 	if (expPath == null)
@@ -34,8 +34,9 @@ function Start () {
       		StartCoroutine(LoadMyLevel());  
         } 
 	}
+	#endif
 }
-
+#if UNITY_ANDROID
 private function LoadMyLevel() {
 
     var expPath : String = GooglePlayDownloader.GetExpansionFilePath();
@@ -66,7 +67,7 @@ private function NoStorageX() {
 	yield WaitForSeconds(20);
     Application.Quit();
 }
-
+#endif
 function Update () {
 
 }
