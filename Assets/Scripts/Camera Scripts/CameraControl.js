@@ -35,6 +35,9 @@ public var cameraHeight = 400;
 public var cameraSize = 250;
 static public var cameraAngle : float = 60;
 
+public var maxZoom : float;
+public var minZoom : float;
+
 public var showCameraLocation : boolean = false;
 
 public var centerOnPoint: Vector3;
@@ -72,8 +75,18 @@ function Start () {
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
-	thisCamera.orthographicSize = cameraSize;
-	guiCamera.orthographicSize = cameraSize;
+	if (minZoom > 0)
+	{
+		thisCamera.orthographicSize = minZoom;
+		guiCamera.orthographicSize = minZoom;
+		destinationSize = minZoom;
+	}
+	else
+	{
+		thisCamera.orthographicSize = cameraSize;
+		guiCamera.orthographicSize = cameraSize;
+		destinationSize = cameraSize;
+	}
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	//*************
 	
@@ -315,8 +328,6 @@ public function Update()
 			CameraControl.bD = borderDimensions;
 		}
 	}
-	
-	
 
 	if(isCentering)
 	{
@@ -484,6 +495,16 @@ public function cameraZoom(zoomIn:boolean)
 		zooming = true;
 	}
 
+}
+
+public function Zoom(amount : float, zoomIn : boolean)
+{
+	zoomingIn = zoomIn;
+	zooming = true;
+	if(zoomIn)
+		destinationSize = Mathf.Clamp(destinationSize - amount, maxZoom, minZoom);
+	else
+		destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);
 }
 
 public function centerCameraOnPointInWorld(centerPoint : Vector3)
