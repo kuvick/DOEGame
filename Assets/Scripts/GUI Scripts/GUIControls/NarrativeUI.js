@@ -243,27 +243,31 @@ public class NarrativeUI extends GUIControl
 			
 			metrics = new MetricContainer();
 			m_display = new MetricDisplay();
-	
+		
+		StartCoroutine(UpdateText());
 	}
 	
 	function Update()
 	{
-		if(!endRender)
+		/*if(!endRender)
 		{
 			if(!isWaiting && lastLetter <= dialogue[currentSlide].length)
 			{
 				UpdateText();
 			}
-		}
+		}*/
 	}
 	
 	private function UpdateText()
 	{
-		isWaiting = true;
-		currentDisplayText = dialogue[currentSlide].Substring(0, lastLetter);
-		yield WaitForSeconds(speeds[currentSlide]);
-		lastLetter += 1;
-		isWaiting = false;
+		//isWaiting = true;
+		while (lastLetter <= dialogue[currentSlide].length)
+		{
+			currentDisplayText = dialogue[currentSlide].Substring(0, lastLetter);
+			yield WaitForSeconds(speeds[currentSlide]);
+			lastLetter += 1;
+		}
+		//isWaiting = false;
 	}
 	
 	public function OnGUI()
@@ -293,6 +297,7 @@ public class NarrativeUI extends GUIControl
 					{
 						lastLetter = 0;
 						currentSlide++;
+						StartCoroutine(UpdateText());
 					}
 				}
 				GUI.enabled = false;
@@ -318,6 +323,7 @@ public class NarrativeUI extends GUIControl
 					{
 						lastLetter = 0;
 						currentSlide--;
+						StartCoroutine(UpdateText());
 					}			
 				}
 			}
@@ -348,7 +354,9 @@ public class NarrativeUI extends GUIControl
 				
 				if (GUI.Button(replay, replayButton))
 				{	
+					lastLetter = 0;
 					currentSlide = 0;		
+					StartCoroutine(UpdateText());
 				}
 			}
 			
