@@ -100,10 +100,11 @@ function InitialClickEvent()
 	else if (currObject.name.Equals("ResourceRing") || currObject.name.Contains(" "))
 	{
 		//Debug.Log("collided " + currObject.name);
-		if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
+		/*if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
 			currDragMode = DragMode.Link;
 		else
-			currDragMode = DragMode.Unit;
+			currDragMode = DragMode.Unit;*/
+		currDragMode = BuildingInteractionManager.HandleFirstClick(currObject);
 	}
 	else if (currObject.tag == "Unit")
 	{
