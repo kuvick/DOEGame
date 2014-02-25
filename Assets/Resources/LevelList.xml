@@ -191,7 +191,7 @@
 	
 	<!-- DISABLED -->
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
-	<!--RV03-remix easy, minor false complexity 
+	<!--RV03-remix easy, minor false complexity -->
 	<Level>
       <displayName>15</displayName>
       <sceneName>RV03-remix</sceneName>
@@ -204,7 +204,7 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>14</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
 		
 	<!--                                                                                           Secondary Objective -->
 	<!-- MEDIUM -->
