@@ -8,7 +8,7 @@ public class NarrativeUI extends GUIControl
 	public var narrativeSkin : GUISkin;
 	public var levelToLoad : String = "DOEGame";
 	public var homeButton : Texture;
-	public var overlayUI:Texture;
+	//public var overlayUI:Texture;
 	
 	public var inScoreScreen:boolean = false;
 	private var endRender:boolean = false;
@@ -20,7 +20,7 @@ public class NarrativeUI extends GUIControl
 	private var start:Rect;
 	private var replay:Rect;
 	private var home:Rect;
-	private var overlay:Rect;
+	//private var overlay:Rect;
 
 	// Buttons
 	private var skipX : float = 1577;
@@ -88,6 +88,8 @@ public class NarrativeUI extends GUIControl
 	private var titleStyle:GUIStyle;
 	
 	private var scoreMenu:ScoreMenu;
+	
+	//private var nextLevel : NextLevelScript;
 
 	public function Start () 
 	{
@@ -102,7 +104,10 @@ public class NarrativeUI extends GUIControl
 			endRender = true;
 			startNarrative();
 		}
-		
+				
+		//var s = GameObject.Find("GUIScript");
+		//nextLevel = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+		//Debug.Log(nextLevel.nextLevel + " assign 1");
 	}
 	
 	public function setEndRender(bool:boolean)
@@ -112,11 +117,10 @@ public class NarrativeUI extends GUIControl
 	
 	public function startNarrative()
 	{
-	
-			super.Start();
+			//super.Start();
 			super.Initialize();
 			
-			isWaiting = false;
+			//isWaiting = false;
 			
 			var designWidth : float = 1920;
 			var designHeight : float = 1080;
@@ -223,13 +227,19 @@ public class NarrativeUI extends GUIControl
 												  
 												  
 												  
-			overlay = createRect(overlayUI, 0,0,1,false);
-			overlay.x = Screen.width / 2 - overlay.width / 2;
-			overlay.y = Screen.height / 2 - overlay.height / 2;
-			home = createRect(homeButton, 0.86, 0.01, 0.09, false, overlay);
-			replay = createRect(replayButton, 0.007, 0.9, 0.09, false, overlay);
-			start = createRect(startButton, 0.809, 0.9, 0.09, false, overlay);
-			back = createRect(backButton, 0.007, 0.9, 0.09, false, overlay);
+//			overlay = createRect(overlayUI, 0,0,1,false);
+//			overlay.x = Screen.width / 2 - overlay.width / 2;
+//			overlay.y = Screen.height / 2 - overlay.height / 2;
+//			home = createRect(homeButton, 0.86, 0.01, 0.09, false, overlay);
+			
+			//replay = createRect(replayButton, 0.007, 0.9, 0.09, false, overlay);
+			//start = createRect(startButton, 0.809, 0.9, 0.09, false, overlay);
+			//back = createRect(backButton, 0.007, 0.9, 0.09, false, overlay);
+
+			home = createRect(homeButton, 0.86, 0.01, 0.09, false);			
+			replay = createRect(replayButton, 0.007, 0.9, 0.09, false);
+			start = createRect(startButton, 0.809, 0.9, 0.09, false);
+			back = createRect(backButton, 0.007, 0.9, 0.09, false);
 												  
 				// Tap Space
 			tapSpace = RectFactory.NewRect(	  	  0, 
@@ -279,7 +289,7 @@ public class NarrativeUI extends GUIControl
 			titleStyle = GUI.skin.GetStyle("title");
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
 			
-			GUI.DrawTexture(overlay, overlayUI, ScaleMode.StretchToFill);
+			//GUI.DrawTexture(overlay, overlayUI, ScaleMode.StretchToFill);
 			
 			if(currentSlide < narrativeSlides.Length - 1 || lastLetter < dialogue[currentSlide].Length - 1)
 			{
@@ -343,6 +353,7 @@ public class NarrativeUI extends GUIControl
 						GUIManager.Instance().RecieveEvent(event);*/
 						//RecordEndGameData();
 						
+						//Debug.Log(nextLevel.nextLevel + " assign 2");
 						LoadLevel();
 					}
 					else
@@ -377,16 +388,24 @@ public class NarrativeUI extends GUIControl
 	//Would eventually set this to the loading screen, but for now since there are errors...
 	private function LoadLevel()
 	{
-		Debug.Log("loading level in narrative ui");
-		#if (!UNITY_WEBPLAYER)
-		WriteMetricData();	
-		#endif	
-		//So it can pass to the loading screen where to go next
-		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
-		nextLevel.nextLevel = levelToLoad;
+//		Debug.Log("loading level in narrative ui");
+//		#if (!UNITY_WEBPLAYER)
+//		WriteMetricData();	
+//		#endif	
+//		//So it can pass to the loading screen where to go next
+//		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+//		nextLevel.nextLevel = levelToLoad;
+//		//PlayerPrefs.SetString(Strings.NextLevel, levelToLoad);
+//		//Altered GPC 2/17/14
+//		Application.LoadLevel(nextLevel.nextLevel);
+
 		//PlayerPrefs.SetString(Strings.NextLevel, levelToLoad);
 		//Altered GPC 2/17/14
-		Application.LoadLevel(nextLevel.nextLevel);
+		//nextLevel = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+		//var nextLevel = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+		
+		//Application.LoadLevel(nextLevel.nextLevel);
+		Application.LoadLevel(levelToLoad);
 	}
 	
 	#if (!UNITY_WEBPLAYER)
