@@ -268,6 +268,8 @@ public class LevelSelectMenu extends GUIControl
 	private var splashBounds : Rect;
 	private var splashWidthPercent : float = 0.75;
 	private var splashHeightPercent : float = 0.75;
+	
+	
 	private var activeLevelIndex : int = -1;
 	
 	private var startLevelButton : Rect;
@@ -466,7 +468,7 @@ public class LevelSelectMenu extends GUIControl
 			
 		scrollPosition = new Vector2(0.125, 0.125);
 		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
-		messageBuffer = new Vector2(.004 * splashBounds.width, .004 * splashBounds.height);
+		//messageBuffer = new Vector2(.003 * splashBounds.width, .003 * splashBounds.height);
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		
 		LoadLevelList();
@@ -755,7 +757,7 @@ public class LevelSelectMenu extends GUIControl
 						unlockedLevels[activeLevelIndex].wasRead = true;														
 					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
 											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
-											+ "\n\n<color=red><i>Objective: " + unlockedLevels[activeLevelIndex].objectiveText + "</i></color>";
+											+ "\n\n<size=18><color=yellow><b>Objective: \n     " + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
 					
 					GUI.Label(messageRect, message);						
 				}
@@ -766,7 +768,7 @@ public class LevelSelectMenu extends GUIControl
 					
 					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
 								+ completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText
-								+ "\n\n<color=red><i>Objective: " + completedLevels[activeLevelIndex].objectiveText + "</i></color>");			
+								+ "\n\n<color=green><i>Objective: \n" + completedLevels[activeLevelIndex].objectiveText + "</i></color>");			
 
 				}
 					
