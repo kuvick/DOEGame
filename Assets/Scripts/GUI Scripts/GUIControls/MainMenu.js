@@ -595,7 +595,7 @@ public class MainMenu extends GUIControl
 				//If clicks on objective icon, centers on building
 				if(GUI.Button(objIconRect,""))
 				{
-					cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
+					//cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
 					var objIconScript:ObjectiveIcon = intelSystem.events[i].getIconScript();
 					objIconScript.OnSelectedFromHUD(); // See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
 					
