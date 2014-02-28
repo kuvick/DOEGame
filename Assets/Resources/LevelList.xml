@@ -187,7 +187,8 @@
       <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>If You Build It...</subjectText>
-      <messageText>*An introduction to how Building Sites work</messageText>
+      <messageText>An introduction to how Building Sites work</messageText>
+	  <objectiveText>Help Nava Automotive complete their ethanol fuel conversion research.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -204,7 +205,8 @@
       <sceneName>RV03-remix</sceneName>
       <difficulty>1</difficulty>
       <subjectText>Gases to Gas</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>An introduction to how Building Sites work</messageText>
+	  <objectiveText>Optimize oil production by reusing Carbon Emissions from oil drilling.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -221,9 +223,10 @@
       <displayName>15</displayName>
       <sceneName>GPC06</sceneName>
       <difficulty>1</difficulty>
-      <subjectText>Piece by Piece</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <subjectText>Our Fishy Friends</subjectText>
+      <messageText>Still only reading 89% efficiency on this thing. I can’t get a Nobel Prize for that! Help me out, man. Get those fishies happy and the scientific community happier.</messageText>
+      <objectiveText>Install Fish-Friendly Turbine technology to prevent the Hydroelectric Dam from disrupting local fishing industry.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -236,9 +239,10 @@
       <displayName>18</displayName>
       <sceneName>RV01</sceneName>
       <difficulty>3</difficulty>
-      <subjectText>Photovoltaic Forts</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <subjectText>Beat the Heat</subjectText>
+      <messageText>Brenton’s got it rough this year. Record heat is stalling their car production factory, on top of AC costs. Not for long with this baby!</messageText>
+	  <objectiveText>Oversee implementation of Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -253,8 +257,9 @@
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
       <subjectText>Fire in the Hole!</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <messageText>A city near a volcano… yeah, no thanks. But hey, if the people of Stark are cool with it, we can work magic beneath their feet.</messageText>
+      <objectiveText>Help Stark support its growing population by implementing geothermal power.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -266,9 +271,10 @@
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
-      <subjectText>Corn Cars</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <subjectText>Truckstop Trouble</subjectText>
+      <messageText>Oh yes! You are rocking it with the Hyperfabricator. I bet we can get the Windfarm and Ethanol depot up in one shot this time, don’t you?</messageText>
+      <objectiveText>The Midland truck depot needs to start supplying ethanol fuel to provide to new green trucking industry.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -306,6 +312,7 @@
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
       <messageText>An introduction to how Engineers work</messageText>
+	  <objectiveText>Help recruit scientists to develop cutting edge energy storage technology.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -319,7 +326,8 @@
       <sceneName>Tutorial_6</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Multithreaded Marathon</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Looks like the Hillbrad nuclear plant is out of commission. Not a huge issue, thankfully, but sure puts the nearby city folks in a tough spot. Nothing that we can’t handle, though.</messageText>
+	  <objectiveText>Help restore power to Hillbrad city.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -333,8 +341,9 @@
       <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>The Broken Path</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <messageText>No fuel for the planes? We’ll have none of that. Got the annual Robotic Deathtrap convention coming up in a month. No way I’m missing that this year.</messageText>
+      <objectiveText>Repair supply lines to bring fuel back to the Duncan Airport.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -347,7 +356,8 @@
       <sceneName>RV09</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Soak Up the Sun</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Oh boy. Derptronics sure picked a great place to make a solar factory. They got the tech, but their neighbors could use some straightening out. Lets get to it.</messageText>
+	  <objectiveText>Help Derptronics develop efficient polymer solar cell technology for solar panels.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -362,7 +372,8 @@
       <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
       <subjectText>Turning the Tides</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Finally HIlbert is looking to refurbish their decommissioned oil rig into a tidal power engine. That kind of project gives me warm fuzzy feelings at night.</messageText>
+	  <objectiveText>Convert the HIlbert coastal oil drill into a tidal power station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -376,8 +387,9 @@
       <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
       <subjectText> Trash Powered</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <messageText>Never throw things away. That was Aunt Irma’s motto. Probably wouldn’t power a car… or a rocket… but hey, who am I to judge her research methods.</messageText>
+      <objectiveText>Develop supply lines to bring the JunkCo waste conversion facility online.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
