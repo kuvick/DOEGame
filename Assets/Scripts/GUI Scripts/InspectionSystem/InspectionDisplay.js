@@ -317,8 +317,12 @@ private function RenderSingle()
 {
 	GUI.Box(dispRect, dispContent);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
-	{
-		dOS.HasDisplayed(currentToolTipIndex, false);
+	{	
+		if(notInGame)
+			dOS.HasDisplayed(currentToolTipIndex, false, true);
+		else
+			dOS.HasDisplayed(currentToolTipIndex, false, false);
+		
 		currentToolTipIndex++;
 		NextTooltip();
 	}
@@ -330,7 +334,11 @@ private function RenderBoth()
 	GUI.Label(dispBotRect, currentTooltip.text);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
-		dOS.HasDisplayed(currentToolTipIndex, false);
+		if(notInGame)
+			dOS.HasDisplayed(currentToolTipIndex, false, true);
+		else
+			dOS.HasDisplayed(currentToolTipIndex, false, false);
+			
 		currentToolTipIndex++;
 		NextTooltip();
 	}
@@ -397,7 +405,9 @@ private function CheckTriggerToDisplay()
 		return;
 	for(currentTriggerIndex = 0;currentTriggerIndex < turnTriggers.length; currentTriggerIndex++)
 	{
-		if(dOS.WasAlreadyDisplayed(currentToolTipIndex, false))
+		if(!notInGame && dOS.WasAlreadyDisplayed(currentToolTipIndex, false, false))
+			currentToolTipIndex++;
+		else if(notInGame && dOS.WasAlreadyDisplayed(currentToolTipIndex, false, true))
 			currentToolTipIndex++;
 		else
 			Activate(turnTriggers[currentTriggerIndex].tooltip, null);
