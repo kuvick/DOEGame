@@ -386,7 +386,7 @@
 	  <displayName>10</displayName>
       <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
-      <subjectText> Trash Powered</subjectText>
+      <subjectText>Trash Powered</subjectText>
       <messageText>Never throw things away. That was Aunt Irma’s motto. Probably wouldn’t power a car… or a rocket… but hey, who am I to judge her research methods.</messageText>
       <objectiveText>Develop supply lines to bring the JunkCo waste conversion facility online.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -396,25 +396,22 @@
       <missionRequirementIndex>9</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-		
-	<!-- DISABLED -->
-	<!--Resources don't make sense                                       REVISE-->
-	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER
-	<Level>
-      <displayName>17</displayName>
-      <sceneName>RV02</sceneName> 
-      <difficulty>12</difficulty>
-      <subjectText>Under Pressure</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
+	
+	 <Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
+      <displayName>19</displayName>
+      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>6</difficulty>
+      <subjectText>Power in Your Hands</subjectText>
+      <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Prototech has gone and made it first! Ugh, always beating me to the punch.</messageText>
+      <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
+	  <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>16</missionRequirementIndex>
+      <missionRequirementIndex>18</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
-
-    
+    </Level>
+	
 	<!--***********************ENGINEER*******************-->
 	<!--**************************************************-->
 	<!--*******************AGENTS*************************-->
@@ -440,6 +437,7 @@
       <difficulty>0</difficulty>
       <subjectText>Super Spy</subjectText>
       <messageText>An introduction to how Agents work</messageText>
+	  <objectiveText>Deliver plans for solar powered car charging stations.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -452,8 +450,9 @@
       <displayName>26</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Hypercafabricatordors</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <subjectText>Garbage Run</subjectText>
+      <messageText>I hear the tech on this one involves using garbage to run your car. Not in my Hummer! But hey, I guess someone ought to offset my pollution.</messageText>
+	  <objectiveText>Escort scientist to help implement a Biodiesel fueling station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -467,7 +466,8 @@
       <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
       <subjectText> You're Fired!</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Way to be my eyes in the skies there, buddy! Not a fan of multi-tasking myself, but I hear CHP is going to be huge in heating and powering factories.</messageText>
+	  <objectiveText>Implement a Combined Heat and Power System into the aeronautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -484,7 +484,8 @@
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
       <subjectText> Beat the Heat </subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Auton sounds like a great place to get a tan, eh? Not if its from sitting at your desk at work. These guys need some stylish TMSM tech to give them some extra shade!</messageText>
+	  <objectiveText>Upgrade Auton’s tallest office building to use transition metal switchable mirrors to cut AC costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -501,7 +502,8 @@
       <sceneName>KU01</sceneName>
       <difficulty>2</difficulty>
       <subjectText> Another witty title here</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>
+	  <objectiveText>Help Derptronics install a new Voltatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -515,7 +517,8 @@
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
       <subjectText>Powered Up</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Just one more job and we’ll be getting you a sweet suit like mine. Lets see you earn those stars!</messageText>
+	  <objectiveText>Mobilize local scientists to assist in bringing the latest high-volume power plant online.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -528,19 +531,7 @@
   <!--********************************************************************************************************** MIDGAME -->
   <!--********************************************************************************************************** MIDGAME -->
   <!--********************************************************************************************************** MIDGAME -->
-    <Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
-      <displayName>19</displayName>
-      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>6</difficulty>
-      <subjectText>The Modern City</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>18</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
+   
     
     <Level><!--GPC07 medium, requires long queue              ENGINEER-->
       <displayName>9</displayName>
@@ -815,6 +806,24 @@
       <missionRequirementIndex>23</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	
+	<!-- DISABLED -->
+	<!--Resources don't make sense                                       REVISE-->
+	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER-->
+	<Level>
+      <displayName>17</displayName>
+      <sceneName>RV02</sceneName> 
+      <difficulty>12</difficulty>
+      <subjectText>Under Pressure</subjectText>
+      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>16</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	
 	<Level> <!-- GPC05 AGENT -->
       <displayName>1</displayName>
