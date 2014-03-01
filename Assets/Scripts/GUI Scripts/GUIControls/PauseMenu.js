@@ -71,6 +71,7 @@ public class PauseMenu extends GUIControl
 	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
 	private var groupRect:Rect;
 	
+	private var intelSystem:IntelSystem;
 	
 	public function Start()
 	{
@@ -113,10 +114,14 @@ public class PauseMenu extends GUIControl
 		levelName = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
+		
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		intelSystem.isPaused = true;
 	}
 	
 	public function Render()
 	{
+		intelSystem.isPaused = true;
 		GUI.depth = 0;
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
@@ -140,6 +145,7 @@ public class PauseMenu extends GUIControl
 		setButtonTexture(backButton, backButtonPressed);
 		if(GUI.Button(backButtonRect, ""))
 		{
+			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.MAIN;
 			PlayButtonPress();
 		}
@@ -148,23 +154,27 @@ public class PauseMenu extends GUIControl
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			intelSystem.isPaused = false;
 			PlayButtonPress();
 		}
 		
 		setButtonTexture(restartButton, restartButtonPressed);
 		if(GUI.Button(restartButtonRect, ""))
 		{
+			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.RESTART;
 		}
 		setButtonTexture(dashboardButton, dashboardButtonPressed);
 		if(GUI.Button(dashboardButtonRect, ""))
 		{
+			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		setButtonTexture(mainMenuButton, mainMenuButtonPressed);
 		if(GUI.Button(mainMenuButtonRect, ""))
 		{
+			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
