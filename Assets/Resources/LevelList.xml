@@ -538,8 +538,9 @@
       <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
       <subjectText>The Power Core</subjectText>
-      <messageText>You like road trips? Cuz I have a feeling this is going to turn into one for me. Got some major repairs to fix up so we can get the SuperCo refinery back up and running. Lets go make some sparks!</messageText>
-      <isPrimary>true</isPrimary>
+      <messageText>Aw man, this is going to be a bit of a haul. Gotta get way the heck across town to get that Hydro plant running. Oh well, that refinery isn’t going to fix itself.</messageText>
+      <objectiveText>Restore power to the Yormund Refinery.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
@@ -552,7 +553,8 @@
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
       <subjectText>Shifting Gears</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Ah ha! Just the thing to improve the power conversion of the Hyperfabricator. Hilbert is smart to go with silicon carbide thyristors.</messageText>
+	  <objectiveText>Implement silicon carbide thyristors into inner Braklin’s residential district.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -566,7 +568,8 @@
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>5</difficulty>
       <subjectText>No Waste to Waste</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>How exciting! all of the Terrachanics components are fully operational and in your capable hands. I couldn’t be prouder!</messageText>
+	  <objectiveText>Reallocate resources to support the recently built electronics factory in Jaynestown.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -583,7 +586,8 @@
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>4</difficulty>
       <subjectText>The Real Challenge Begins</subjectText> <!-- PLACEHOLDER TEXT-->
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Efficiency isn’t enough, you know. Don’t want to fry your tenants with an overworked electrical system, right? Just ask my prototype here… gotta go!</messageText>
+	  <objectiveText>Modernize the failing electrical system of the Canis Towers apartment complex.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -599,7 +603,8 @@
       <sceneName>DD05</sceneName> 
       <difficulty>5</difficulty>
       <subjectText>Twin Cities</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>This new Organic Flash Cycle system ingeniously traps waste heat to boost efficiency of solar and geothermal systems! I can’t wait to see it in action!</messageText>
+	  <objectiveText>Install an Organic Flash Cycle system into Derptech Tower to optimize their building-mounted solar array.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -613,7 +618,8 @@
       <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
       <subjectText>Powered Up v2</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Did I ever mention I had a twin? She’s from a different department, but she can help out in a pinch. Gonna need her for this next one for sure.</messageText>
+	  <objectiveText>Convert the Sanspoof textile mill into an Alternative Energy Lab.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -627,7 +633,8 @@
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>3</difficulty>
       <subjectText>Simple Misunderstanding</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>I figured out the problem - conventional batteries. This algae bio-reactor tech could boost the Hyperfabricators speed by 15%!</messageText>
+	  <objectiveText>Help mount Algae-based bioreactor panels to Imperial Apartments to make them energy independent.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -641,7 +648,8 @@
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>5</difficulty>
       <subjectText>Climate Control</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Pollution out here does a number on the residents. Air filtration systems take a big cut out of Derptronics’ profits. With this RIVEC setup we can cut costs nearly in half!</messageText>
+	  <objectiveText>Upgrade Wild Tower’s ventalation to use a Residential Integrated Ventilation Controller.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -656,7 +664,8 @@
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>6</difficulty>
       <subjectText>It’s in the Bag</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Once more factory that’s gone off the rails. What is up with these people anyway? Are they trying to go out of business?</messageText>
+	  <objectiveText>Help modernize Brightbulbus’s operations to use efficient flourescent lighting.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -674,7 +683,8 @@
       <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>9</difficulty>
       <subjectText> Witty Subject</subjectText> <!-- PLACEHOLDER TEXT-->
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>I always wanted a cabin in the middle of nowhere. A nice break away from my adoring fans. Don’t give me that look, they are coming. Just you wait!</messageText>
+	  <objectiveText>Provide resources to Bzzt Pow! Electrical to expand their power line coverage.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -690,7 +700,8 @@
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>7</difficulty>
       <subjectText>Get Smart</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>The future is now, my friend! Soon you’ll see smart grids from coast to coast, but everything has to start somewhere.</messageText>
+	  <objectiveText>Help mobilize local scientists and engineers to help implement a large-scale smartgrid.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -707,7 +718,8 @@
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>6</difficulty>
       <subjectText>Wires Crossed</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Ah ha! I caught em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you should get on that.</messageText>
+	  <objectiveText>Gather resources to bring the Nuka Nuclear plant online.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -725,7 +737,8 @@
       <sceneName>KU02</sceneName>
       <difficulty>7</difficulty>
       <subjectText>Convergence</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>It’s scary when Helen is scared! But not to worry, we are in capable hands. Let us hurry to get electrofuel distribution going to see if we can bait our would-be rivals out of hiding.</messageText>
+	  <objectiveText>Upgrade the Gaseous Clay fuel depot to use electrofuels to cut fuel costs for truckers.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -740,7 +753,8 @@
       <sceneName>RV12</sceneName>
       <difficulty>7</difficulty>
       <subjectText>Environmental Adaptation</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Winter is coming! In about 5 months. But hey, the winters can be nasty in New Vermachusetts, but with a forecasting grid their power systems can take it.</messageText>
+	  <objectiveText>Implement a Forecasting Grid system to residential centers to adjust power distribution to weather conditions.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -754,7 +768,8 @@
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>7</difficulty>
       <subjectText>Project Icarus</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Not my private jet! I pay good money to rent- err… own that thing! I’ll do some snooping while you get Air Lions Airlines the tech for solar powered planes.</messageText>
+	  <objectiveText>Allocate resources to support prototype flights of new solar powered planes.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -770,7 +785,8 @@
       <sceneName>RV22</sceneName> 
       <difficulty>8</difficulty>
       <subjectText>Rise to the Challenge</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Be cautious with this next assignment. We believe we are closing in on the source of the security breach. Be cautious.</messageText>
+	  <objectiveText>Help get Bill Bowes’ Lab equipment company funding for their energy efficient fume hoods.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -778,13 +794,33 @@
       <missionRequirementIndex>19</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-    	
+
+	<!-- DISABLED -->
+	<!--Resources don't make sense                                       REVISE-->
+	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER-->
+	<Level>
+      <displayName>17</displayName>
+      <sceneName>RV02</sceneName> 
+      <difficulty>12</difficulty>
+      <subjectText>Under Pressure</subjectText>
+      <messageText>Not gonna lie, this ones a doozy. Hightown needs a lot of help to get their Hydrogen storage research completed, but I think you can handle it. Get it done!</messageText>
+	  <objectiveText>Reroute energy sources to ensure the Abco factory can complete its Hydrogen Storage research.</objectiveText>
+      <isPrimary>true</isPrimary>
+      <senderName>Researcher Jerome Zabel</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>16</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	
 	<Level><!--KU03 hard, long queue, reallocation  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>7</difficulty>
       <subjectText>Heating Troubles</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Lower costs, less pollution, what more could you want out of a heating/AC system? Nobody’s sabotaging this baby on my watch!</messageText>
+	  <objectiveText>Install a Super Energy Saver Heat pump system to optimize air conditioning and heating systems in Lictor City.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -798,7 +834,8 @@
       <sceneName>DD11</sceneName> 
       <difficulty>4</difficulty>
       <subjectText>DD11</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Counter-espionage is all about getting into the other guy’s head. Mind games. I figure here they are trying to hit us with a diversion on the refinery, but I know their game!</messageText>
+	  <objectiveText>Assist with critical refinery maintenance and deliver Dr. Watson to the Hilbert solar lab.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -807,30 +844,13 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!-- DISABLED -->
-	<!--Resources don't make sense                                       REVISE-->
-	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER-->
-	<Level>
-      <displayName>17</displayName>
-      <sceneName>RV02</sceneName> 
-      <difficulty>12</difficulty>
-      <subjectText>Under Pressure</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>16</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	
 	<Level> <!-- GPC05 AGENT -->
       <displayName>1</displayName>
       <sceneName>GPC05</sceneName>
       <difficulty>0</difficulty>
       <subjectText>More for the Taking</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Hilbert sure was happy to get Watson back. They have finished their Heat Transfer interface for optimizing solar panels. Lets take ‘em for a spin.</messageText>
+	  <objectiveText>Install Heat Transfer Interfaces to help reduce costs at the waste treatment plant.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -848,7 +868,8 @@
       <sceneName>DD09</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Stuff things</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>Me and Nancy got a job, eh? Move on over for the dream team! We got some special schematics ready for the Fizzle Fusion folks.</messageText>
+	  <objectiveText>Provide blueprints for Fizzle Fusion’s Tesla-inspired wireless power converter research.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -864,7 +885,8 @@
       <sceneName>GPC03.1</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
       <subjectText>Circuit Maker</subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
+      <messageText>ShockJock Fabrication is at it again! They got themselves as nice Gallium Nitride Crystal growth system for high-efficiency transistors. Nancy has all the fun!</messageText>
+	  <objectiveText>Help repair the power grid to allow ShockJock Frabrication to complete their Gallium Nitride Crystal Growth research.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -884,8 +906,9 @@
       <sceneName>RV25</sceneName> 
       <difficulty>4</difficulty>
       <subjectText> Endgame </subjectText>
-      <messageText>UPDATED NARRATIVE COMING SOON!</messageText>
-      <isPrimary>true</isPrimary>
+      <messageText>Last blast, kiddo. Just one more job and we’ll get to the bottom of this. We’re going to upgrade one of the ECRB’s own labs with enhanced cyber security to try to catch them in the act.</messageText>
+      <objectiveText>Upgrade cyber security of the local smartgrid system as a countermeasure against cyber attacks.</objectiveText>
+	  <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>

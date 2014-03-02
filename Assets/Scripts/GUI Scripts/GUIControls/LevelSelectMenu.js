@@ -382,6 +382,7 @@ public class LevelSelectMenu extends GUIControl
 		mainMenuIconRect = createRect(mainMenuIconText, mainMenuX / designWidth, mainMenuY / designHeight, mainMenuPercent, true);										  
 		progressBarRect = createRect(progressBarBGText, progressBarX / designWidth, progressBarY / designHeight, progressBarPercent, false);
 		
+		
 		emailMessageBackgroundRect = createRect(emailMessageBackground,emailMessageX/ designWidth, emailMessageY/designHeight, emailMessagePercent, true, missionBackgroundRect);
 		// Scroll Area:
 		missionScrollArea = createRect(Vector2(missionScrollWidth, missionScrollHeight), missionScrollX / designWidth, missionScrollY / designHeight, missionScrollAreaPercent, true, missionBackgroundRect);
@@ -461,7 +462,14 @@ public class LevelSelectMenu extends GUIControl
 		
 			rankRect = createRect(rankTextures[rankTextureNum], 991.0 / 1920.0, 9.0 / 1080.0, 144/ 1080.0, false);
 			
-			rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
+			//rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
+			
+			rankRect.x = padding;
+			agentRankRect1.x += rankRect.width + padding;
+			agentRankRect2.x += rankRect.width + padding;
+			playerRect.x += rankRect.width + padding;
+			progressBarRect.x = agentRankRect1.x;
+			
 		}	
 		else
 			Debug.Log("player not logged in!");
