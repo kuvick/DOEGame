@@ -30,6 +30,11 @@ public class ObjectiveIcon extends InspectionComponent
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
 	
+	public function getIsPrimary():boolean
+	{
+		return isPrimary;
+	}
+	
 	public function Initialize(pos : Transform, icon : Texture2D, inspIcon : Texture2D, resIcon : Texture2D, disp : Tooltip,
 								type : BuildingEventType, turns : int)
 	{

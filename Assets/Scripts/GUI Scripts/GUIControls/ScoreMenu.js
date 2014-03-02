@@ -30,6 +30,7 @@ public class ScoreMenu extends GUIControl
 	
 	// Honors Textures
 	public var honorsTextures : List.<HonorIcon> = new List.<HonorIcon>();
+	public var noHonorTexture:Texture;
 	
 	// Ratings Textures
 	public var ratings : List.<Texture> = new List.<Texture>();
@@ -92,11 +93,11 @@ public class ScoreMenu extends GUIControl
 	// Honors
 	private var honorsBoxWidth : float = 1104;
 	private var honorScoreOffsetX : float = 168;
-	private var honorScoreOffsetY : float = 225;
+	private var honorScoreOffsetY : float = 200;
 	private var honorsLeftX : float = 140;
 	private var honorsLeftY : float = 530;
 	private var honorsRect : List.<Rect> = new List.<Rect>();
-	//private var honorScoreRect : List.<Rect> = new List.<Rect>();
+	private var honorStarRect : List.<Rect> = new List.<Rect>();
 	public var honorsExplanations : List.<String> = new List.<String>();
 	private var displayExplanation : boolean = false;
 	private var explanationRenderSpace : Rect;
@@ -164,6 +165,7 @@ public class ScoreMenu extends GUIControl
 	public var starUnfilledTexture:Texture;
 	private var starRect : List.<Rect> = new List.<Rect>();
 	private var numOfStars : int;
+	private var numOfStarsCould : int;
 
 	public function Initialize()
 	{
@@ -181,8 +183,6 @@ public class ScoreMenu extends GUIControl
 		saveSystem = playerData.GetComponent("SaveSystem");
 		
 		
-		
-		
 		if(!doTest)
 		{
 			var database : GameObject = GameObject.Find("Database");
@@ -198,6 +198,7 @@ public class ScoreMenu extends GUIControl
 		
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+		screenRect.x = (screenWidth / 2) - (screenRect.width / 2);
 		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
 		
 		//standardFontSize = 0.040 * screenHeight;
@@ -322,14 +323,11 @@ public class ScoreMenu extends GUIControl
 			var rectScore : Rect = new Rect();
 			rectScore = createRect(honorsTextures[i].earned, (width + honorScoreOffsetX) / designWidth, (honorsLeftY + honorScoreOffsetY) / designHeight, honorsTextures[i].earned.height / designHeight, false, screenRect);
 			*/								  
-			/*
-			rectScore =	 RectFactory.NewRect((width + honorScoreOffsetX) / designWidth, 
-											  (honorsLeftY + honorScoreOffsetY) / designHeight,
-											  honorsTextures[i].earned.width / designWidth,
-											  honorsTextures[i].earned.height / designHeight);
-		  	*/
+			var rectScore : Rect = new Rect();								  
+			rectScore = createRect(starFillTexture, (width + honorScoreOffsetX) / designWidth,(honorsLeftY + honorScoreOffsetY) / designHeight, starFillTexture.height / designHeight, false, screenRect);
+					  	
 			honorsRect.Add(rect);
-			//honorScoreRect.Add(rectScore);
+			honorStarRect.Add(rectScore);
 		}
 		
 		var tempRect : Rect = new Rect();
@@ -446,7 +444,7 @@ public class ScoreMenu extends GUIControl
 			GUI.Label(agentRankRect, agentRank);
 			//GUI.Label(missionScoreRect, missionScore + " XP");
 			GUI.BeginGroup(missionScoreRect);
-				for(var j:int = 0; j < 5; j++)
+				for(var j:int = 0; j < numOfStarsCould; j++)
 				{
 					if(numOfStars >= (j+1))
 						GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
@@ -462,12 +460,41 @@ public class ScoreMenu extends GUIControl
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			for(var i: int = 0; i < honorsTextures.Count; i++)
 			{
-				if(honorsTextures[i].hasEarned)
-					GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
+				if(honorsTextures[i].couldBeEarned)
+				{
+					if(honorsTextures[i].hasEarned)
+						GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
+					else
+						GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
+				}
 				else
-					GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
+					GUI.DrawTexture(honorsRect[i], noHonorTexture);
 				
-				//GUI.Label(honorScoreRect[i], honorsTextures[i].score.ToString());
+				
+				if(honorsTextures[i].couldBeEarned)
+				{
+					if(honorsTextures[i].hasEarned)
+						GUI.DrawTexture(honorStarRect[i], starFillTexture);
+					else
+						GUI.DrawTexture(honorStarRect[i], starUnfilledTexture);
+						
+					if(honorsTextures[i].type == HonorType.Resourceful)
+					{
+						var tempRect = honorStarRect[i];
+						
+						tempRect.x += honorStarRect[i].width;
+					
+						if(honorsTextures[i].hasEarned)
+							GUI.DrawTexture(tempRect, starFillTexture);
+						else
+							GUI.DrawTexture(tempRect, starUnfilledTexture);
+							
+						//honorStarRect[i].x -= honorStarRect[i].width;
+					}
+				}	
+				
+				
+				
 				
 				if(GUI.Button(honorsRect[i],""))
 				{
@@ -527,6 +554,7 @@ public class ScoreMenu extends GUIControl
 	function generateText()
 	{
 		numOfStars = 1;
+		numOfStarsCould = 1;
 		
 		// Honors Icons
 		for(var i:int = 0; i < honorsTextures.Count; i++)
@@ -534,7 +562,14 @@ public class ScoreMenu extends GUIControl
 			//honorsTextures[i].earned
 			if(honorsTextures[i].type == HonorType.Efficient)
 			{
-				if(!intelSystem.getUsedUndoOrWait())
+				var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+			
+				honorsTextures[i].couldBeEarned = (!mainMenu.disableUndoButton || !mainMenu.disableSkipButton);
+				
+				if(honorsTextures[i].couldBeEarned)
+					numOfStarsCould++;
+			
+				if(honorsTextures[i].couldBeEarned && !intelSystem.getUsedUndoOrWait())
 				{
 					honorsTextures[i].score = 25;
 					honorsTextures[i].hasEarned = true;
@@ -543,8 +578,14 @@ public class ScoreMenu extends GUIControl
 			}
 			else if(honorsTextures[i].type == HonorType.Agile)
 			{
-				Debug.Log(intelSystem.GetTimeLeft() + " ... time");
-				if(intelSystem.GetTimeLeft() >= 30)
+				//Debug.Log(intelSystem.GetTimeLeft() + " ... time");
+				
+				honorsTextures[i].couldBeEarned = intelSystem.useTimer;
+				
+				if(honorsTextures[i].couldBeEarned)
+					numOfStarsCould++;
+				
+				if(honorsTextures[i].couldBeEarned && intelSystem.GetTimeLeft() >= 30)
 				{
 					honorsTextures[i].score = 25;
 					honorsTextures[i].hasEarned = true;
@@ -553,7 +594,12 @@ public class ScoreMenu extends GUIControl
 			}
 			else if(honorsTextures[i].type == HonorType.Resourceful)
 			{
-				if(intelSystem.getOptionalScore() > 0)
+				honorsTextures[i].couldBeEarned = intelSystem.hasSecondaryEvent();
+				
+				if(honorsTextures[i].couldBeEarned)
+					numOfStarsCould+=2;
+				
+				if(honorsTextures[i].couldBeEarned && intelSystem.getOptionalScore() > 0)
 				{
 					//honorsTextures[i].score = 1000;
 					honorsTextures[i].score = 50; // +2 stars for optional objective; 25 points each
@@ -562,6 +608,22 @@ public class ScoreMenu extends GUIControl
 				}
 			}
 		}
+		
+		/*
+		var tempRect : Rect = new Rect();
+		tempRect = createRect(starFillTexture, 0,0, starFillTexture.height / 1080, false, screenRect);
+		
+		var middleStart:float = (missionScoreRect.width / 2) - (tempRect.width * numOfStarsCould) / 2;
+		
+		for(var n:int = 0; n < numOfStarsCould; n++)
+		{
+			tempRect = new Rect();
+			tempRect = createRect(starFillTexture, 0,0, starFillTexture.height / 1080, false, screenRect);
+			tempRect.x = middleStart + (n * tempRect.width);
+			
+			starRect.Add(tempRect);
+		}
+		*/
 	
 		agentName = saveSystem.currentPlayer.name;
 		agentRank = saveSystem.currentPlayer.rankName;
@@ -647,6 +709,7 @@ public class ScoreMenu extends GUIControl
 		var notEarned : Texture;
 		var hasEarned : boolean;
 		var score : int = 0;
+		var couldBeEarned:boolean;
 	}
 	
 	enum HonorType
