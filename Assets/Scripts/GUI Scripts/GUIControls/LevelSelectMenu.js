@@ -609,14 +609,14 @@ public class LevelSelectMenu extends GUIControl
 							{
 								GUI.DrawTexture(statusRectangle, tutorialIcon, ScaleMode.StretchToFill);
 							}
-							else if(levelsToRender[i].difficulty - baseDifficulty < difficultyIcons.Count )
+							else if(levelsToRender[i].difficulty < difficultyIcons.Count )
 							{
-								if((levelsToRender[i].difficulty - baseDifficulty) >= 0 && (levelsToRender[i].difficulty - baseDifficulty) < difficultyIcons.Count)
+								/*if((levelsToRender[i].difficulty - baseDifficulty) >= 0 && (levelsToRender[i].difficulty - baseDifficulty) < difficultyIcons.Count)
 									GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty - baseDifficulty], ScaleMode.StretchToFill);
 								else if (levelsToRender[i].difficulty - baseDifficulty < 0)
 									GUI.DrawTexture(statusRectangle, difficultyIcons[0], ScaleMode.StretchToFill);
-								else
-									GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
+								else*/
+								GUI.DrawTexture(statusRectangle, difficultyIcons[levelsToRender[i].difficulty], ScaleMode.StretchToFill);
 								
 								//Debug.Log((levelsToRender[i].difficulty - baseDifficulty) + " - " + levelsToRender[i].displayName + " = " + levelsToRender[i].difficulty);
 							}	
