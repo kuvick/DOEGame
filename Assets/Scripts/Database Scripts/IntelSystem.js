@@ -69,6 +69,16 @@ public function getUsedUndoOrWait():boolean
 	return usedUndoOrWait;
 }
 
+public function hasSecondaryEvent():boolean
+{
+	for(var i:int = 0; i < events.Count; i++)
+	{
+		if(!events[i].getObjIcon().getIsPrimary())
+			return true;
+	}
+	return false;
+}
+
 class BuildingEvent
 {
 	//var name : String = "";				// Used for accessing in editor				(?) may want to cut out

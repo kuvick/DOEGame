@@ -43,6 +43,11 @@ private var icon : ObjectiveIcon;
 
 private var resolved : boolean = false;
 
+public function getObjIcon():ObjectiveIcon
+{
+	return icon;
+}
+
 public function Initialize()
 {
 	//indicator.Initialize(gameObject.transform, event, event.type);
