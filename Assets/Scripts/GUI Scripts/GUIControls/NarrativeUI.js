@@ -363,11 +363,14 @@ public class NarrativeUI extends GUIControl
 					}
 				}
 				
-				if (GUI.Button(replay, replayButton))
+				if (GUI.Button(back, backButton))
 				{	
-					lastLetter = 0;
-					currentSlide = 0;		
-					StartCoroutine(UpdateText());
+					if(currentSlide > 0)
+					{
+						lastLetter = 0;
+						currentSlide--;
+						StartCoroutine(UpdateText());
+					}			
 				}
 			}
 			

@@ -55,6 +55,28 @@ public function GetKeyString(index:int, isATutorialPointer:boolean):String
 	return name + isATutorialPointer + index;
 }
 
+// Creates the string for the asset in order to store it.
+// Uses the level name, whether it is a pointer (or a slide), and it's index within the array
+public function GetKeyString(index:int, isATutorialPointer:boolean, isOnGUIScreen:boolean):String
+{
+	var name : String = "";
+	
+	if(Application.loadedLevelName == "LoadingScreen")
+	{
+		if(PlayerPrefs.HasKey(Strings.NextLevel))
+			name = PlayerPrefs.GetString(Strings.NextLevel);
+	}
+	
+	if(name == "")
+	{
+		name = Application.loadedLevelName;
+	}
+	
+	//Debug.Log(name + isATutorialPointer + index);
+	
+	return name + isATutorialPointer + index + isOnGUIScreen;
+}
+
 // Returns true if the asset has already been displayed (which means the stored
 // value will be 1. Returns false if it is displaying for the first time.
 public function WasAlreadyDisplayed(index:int, isATutorialPointer:boolean):boolean
@@ -106,6 +128,36 @@ public function HasDisplayed(index:int, isATutorialPointer:boolean)
 		PlayerPrefs.SetInt(name,1);
 	}
 }
+
+//**************
+// Returns true if the asset has already been displayed (which means the stored
+// value will be 1. Returns false if it is displaying for the first time.
+public function WasAlreadyDisplayed(index:int, isATutorialPointer:boolean, isOnGUIScreen:boolean):boolean
+{
+	if(!disableThisSystem)
+	{
+		var name:String = GetKeyString(index, isATutorialPointer, isOnGUIScreen);
+		
+		if(PlayerPrefs.HasKey(name))
+			if(PlayerPrefs.GetInt(name) == 1)
+				return true;
+			else
+				return false;
+	}
+	else
+		return false;
+}
+// This function is the same as the above, to be used if the
+// key string is not known.
+public function HasDisplayed(index:int, isATutorialPointer:boolean, isOnGUIScreen:boolean)
+{	
+	if(!disableThisSystem)
+	{
+		var name:String = GetKeyString(index, isATutorialPointer, isOnGUIScreen);
+		PlayerPrefs.SetInt(name,1);
+	}
+}
+
 
 
 }

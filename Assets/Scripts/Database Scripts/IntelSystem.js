@@ -53,6 +53,7 @@ private var timeLeft : int = 60;
 public var useTimer : boolean = true;
 
 public var toolTipOnScreen : boolean = false;
+public var isPaused : boolean = false;
 
 private var dOS:DisplayOnceSystem;
 
@@ -230,7 +231,7 @@ public function DecrementTimer()
 {
 	while (timeLeft > 0 && !victory)
 	{
-		if(!toolTipOnScreen)
+		if(!toolTipOnScreen && !isPaused)
 			timeLeft--;
 		yield WaitForSeconds(1.0);
 	}
@@ -594,7 +595,7 @@ public function triggerWin()
 //**
 // Added only for the purpose of autmoatically allowing a win
 function Update()
-{
+{		
 	if(Input.GetKeyDown(KeyCode.W))
 		victory = true;
 }
