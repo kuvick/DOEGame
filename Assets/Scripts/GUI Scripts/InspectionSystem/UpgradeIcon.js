@@ -40,6 +40,8 @@ public class UpgradeIcon extends InspectionComponent
 		transform.position.y += 80;
 		transform.localPosition.y += 60;
 		
+		transform.position += Utils.ConvertToRotated(Vector3(0,0, -25));
+		
 		gameObject.transform.localScale = iconScale;
 		
 		Initialize(disp);
