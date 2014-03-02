@@ -572,7 +572,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	
 	if (oldOutputBuildingIndex == outputBuildingIndex)
 	{
-		Debug.Log("Overload failed");
+		Debug.Log("Overload failedA");
 		return -1;
 	}
 	
@@ -588,7 +588,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	{
 		/*if (outputBuilding.optionalOutput == resourceName && !outputBuilding.optionalOutputAllocated
 			&& inputBuilding.allocatedInputs[selectedInIndex] == resourceName)*/
-		if (outputBuilding.optOutput.resource == resourceName && outputBuilding.optOutput.linkedTo >= 0
+		if (outputBuilding.optOutput.resource == resourceName 
 			&& inputBuilding.allInputs[selectedInIndex].resource == resourceName)
 			hasResource = true;
 	}
@@ -605,7 +605,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		var tempFoundIndex : int;
 		var tempIcon : ResourceIcon;
 		
-		if(usedOptionalOutput)
+		if(usedOptionalOutput && !allocatedOutSelected)
     	{
 		    /*outputBuilding.optionalOutputAllocated = true;
 		    outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
@@ -707,7 +707,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 	
 	if (hasResource)
 		return oldOutputBuildingIndex;//hasResource;
-	Debug.Log("Overload failed");
+	Debug.Log("Overload failedB");
 	return -1;
 }
 
@@ -729,7 +729,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	
 	if (oldInputBuildingIndex == inputBuildingIndex)
 	{
-		Debug.Log("Chain break failed");
+		Debug.Log("Chain break failedA");
 		return -1;
 	}
 	
@@ -743,7 +743,8 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	{
 		/*if (outputBuilding.optionalOutput == resourceName //&& !outputBuilding.optionalOutputAllocated
 			&& inputList.Contains(resourceName))*/
-		if (outputBuilding.optOutput.resource == resourceName && inputBuilding.FindResourceIndex(resourceName, inputList) >= 0)
+		if (outputBuilding.optOutput.resource == resourceName && outputBuilding.optOutput.linkedTo >= 0
+			&& inputBuilding.FindResourceIndex(resourceName, inputList) >= 0)
 			hasResource = true;
 			Debug.Log("used optional");
 	}
@@ -798,6 +799,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		if (usedOptionalOutput)
 		{
 			//outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
+			outputBuilding.DeallocateOptOutput(resourceName, drawLinks);
 			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks);
 		}
 		else
@@ -855,7 +857,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	
 	if (hasResource)
 		return oldInputBuildingIndex;//hasResource;
-	Debug.Log("Chain break failed");
+	Debug.Log("Chain break failedB");
 	return -1;
 }
 
