@@ -404,7 +404,7 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 		// cancel link if no resource match found
 		else
 		{
-			menu.missingResource();
+			//menu.missingResource();
 			return false;
 		}
 	}
@@ -455,7 +455,7 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 		}
 		
 	}
-	menu.missingResource();
+	//menu.missingResource();
 	return false;
 }
 

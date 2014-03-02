@@ -550,10 +550,10 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			pointerScript3.checkForLink();
 		}
     }
-    else
+    /*else
     {
     	mainMenu.missingResource();
-    }
+    }*/
     
     return hasResource;
 
@@ -816,7 +816,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		buildingsOnGrid[inputBuildingIndex] = inputBuilding;
 		activateBuilding(inputBuildingIndex, true);
 		Debug.Log("End of link chain break");
-		mainMenu.chainBroken();
+		//mainMenu.chainBroken();
 		
 		//Stores links into list organized by when they were created	
 		var tempNode : LinkTurnNode = new LinkTurnNode();
