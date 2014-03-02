@@ -87,8 +87,12 @@ public var allocatedOutputTex : Texture2D[];
 public var inputIcons : GameObject[];
 public var outputIcons : GameObject[];
 public var optionalOutputIcons : GameObject[];
-public var ringTexture : Texture2D;
+
+public var inactiveRingTexture : Texture2D;
 public var activeRingTexture : Texture2D;
+public var startingRingTexture : Texture2D;
+public var activeObjectiveRingTexture : Texture2D;
+public var inactiveObjectiveRingTexture : Texture2D;
 public var buildingSiteRingTexture : Texture2D;
 public var validTargetRingTexture : Texture2D;
 
@@ -172,7 +176,7 @@ public function setActiveRingMaterial(bool:boolean, obj: GameObject)
 	if(bool)
 		obj.renderer.material.mainTexture = activeRingTexture;
 	else
-		obj.renderer.material.mainTexture = ringTexture;
+		obj.renderer.material.mainTexture = inactiveRingTexture;
 }
 public function setBuildingSiteRingMaterial(obj: GameObject)
 {
@@ -185,6 +189,8 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	
 	// generate building resource ring
 	var tempRing : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, startPos, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
+	var tempIndicator:BuildingIndicator = building.buildingPointer.GetComponentInChildren(BuildingIndicator);
+	tempIndicator.SetResourceRing(tempRing);
 	tempRing.transform.parent = building.buildingPointer.transform;
 	tempRing.transform.localPosition.y = 25;
 	tempRing.name = "ResourceRing";
@@ -196,13 +202,17 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 		return;
 	}
 	else if(building.isActive)
-		tempRing.renderer.material.mainTexture = activeRingTexture;
+		//tempRing.renderer.material.mainTexture = activeRingTexture;
+		tempIndicator.SetImages(startingRingTexture, inactiveRingTexture, validTargetRingTexture);
 	else
-		tempRing.renderer.material.mainTexture = ringTexture;
-	
-	//tempRing.collider.enabled = false;
-	var indicator2:BuildingIndicator = building.buildingPointer.GetComponentInChildren(BuildingIndicator);
-	indicator2.setResourceRing(tempRing);
+	{
+		//tempRing.renderer.material.mainTexture = ringTexture;
+		if (building.hasEvent)
+			tempIndicator.SetImages(activeObjectiveRingTexture, inactiveObjectiveRingTexture, validTargetRingTexture);
+		else		
+			tempIndicator.SetImages(activeRingTexture, inactiveRingTexture, validTargetRingTexture);
+	}
+	tempIndicator.SetState(IndicatorState.Active);
 	
 	startPos += Utils.ConvertToRotated(inputStartPos);
 	/*GenerateIconSet(building.unallocatedInputs, inputIcons, 

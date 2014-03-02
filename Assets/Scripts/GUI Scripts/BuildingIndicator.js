@@ -1,7 +1,8 @@
 ﻿#pragma strict
 
-public var activeImage : Texture2D;
-public var validImage : Texture2D;
+private var activeImage : Texture2D;
+private var inactiveImage : Texture2D;
+private var validImage : Texture2D;
 
 private var currState : IndicatorState;
 private var currImage : Texture2D;
@@ -55,11 +56,17 @@ function Initialize()
 	linkUI = GameObject.Find("Main Camera").GetComponent(LinkUI);	
 }
 
-public function setResourceRing(obj:GameObject)
+public function SetResourceRing(obj:GameObject)
 {
 	resourceRing = obj;
 }
 
+public function SetImages(active : Texture2D, inactive : Texture2D, valid : Texture2D)
+{
+	activeImage = active;
+	inactiveImage = inactive;
+	validImage = valid;
+}
 
 function Update () {
 	
@@ -91,15 +98,9 @@ private function AnimateValid()
 
 function SetState (state : IndicatorState)
 {
-	if (currState == state)
+	if (currState == state || parentName == "BuildingSite")
 		return;
 	currState = state;
-	
-	if(linkUI!= null && resourceRing != null && parentName == "BuildingSite")
-	{
-		linkUI.setBuildingSiteRingMaterial(resourceRing);
-		return;
-	}
 	
 	switch (currState)
 	{
@@ -109,8 +110,9 @@ function SetState (state : IndicatorState)
 			//renderer.material.mainTextureScale = Vector2(-1,-1);
 			//renderer.material.color = Color.white;
 			//StartCoroutine(RotateActive());
-			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
-				linkUI.setActiveRingMaterial(true, resourceRing);
+			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
+				linkUI.setActiveRingMaterial(true, resourceRing);*/
+			currImage = activeImage;
 			break;
 		/*
 		case IndicatorState.Valid:
@@ -121,15 +123,16 @@ function SetState (state : IndicatorState)
 			break;
 		*/
 		case IndicatorState.Valid:
-			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
-				linkUI.setValidTargetRingMaterial(resourceRing);
+			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
+				linkUI.setValidTargetRingMaterial(resourceRing);*/
+			currImage = validImage;
 			break;
 		case IndicatorState.Neutral:
-			currImage = null;
+			currImage = inactiveImage;
 			//thisMaterial.color = Color.clear;
-			if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
-				linkUI.setActiveRingMaterial(false, resourceRing);
+			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
+				linkUI.setActiveRingMaterial(false, resourceRing);*/
 			break;
 	}
-	//thisMaterial.mainTexture = currImage;
+	resourceRing.renderer.material.mainTexture = currImage;
 }
