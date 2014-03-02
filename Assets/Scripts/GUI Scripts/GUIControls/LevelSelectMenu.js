@@ -973,13 +973,21 @@ public class LevelSelectMenu extends GUIControl
 					levels[i].subjectText = (levels.Length - actualLevelIndex) + ": " + levels[i].subjectText;
 					unlockedLevels.Add(levels[i]);
 					countUnlocked++;
+					
+					if (levels[i].sceneName.Contains("riefing"))
+					{
+						i--; // decrement i to prevent the paired level from displaying
+						// set loading playerpref variables to paired level
+						PlayerPrefs.SetString(Strings.NextLevel, levels[i].sceneName);
+						PlayerPrefs.SetString(Strings.CurrentLevel, levels[i].subjectText);
+					}
+					
+					// display no more levels past a tutorial
 					if (levels[i].sceneName.Contains("utorial"))
 					{
 						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - 1 - i;
 						break;
-					}
-					else if (levels[i].sceneName.Contains("riefing"))
-						i--;
+					} 
 				}
 				//if(showActive) // If in the Active Tab
 				//{

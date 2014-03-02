@@ -408,7 +408,8 @@ public class NarrativeUI extends GUIControl
 		//var nextLevel = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 		
 		//Application.LoadLevel(nextLevel.nextLevel);
-		Application.LoadLevel(levelToLoad);
+		//Application.LoadLevel(levelToLoad);
+		Application.LoadLevel("LoadingScreen");
 	}
 	
 	#if (!UNITY_WEBPLAYER)
