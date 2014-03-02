@@ -391,7 +391,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		else if(inputBuilding.FindResourceIndex(resourceName, inputBuilding.allInputs) >= 0 && outputBuilding.FindResourceIndex(resourceName, outputBuilding.unallOutputs) >= 0)
 		{
 			hasResource = true;
-			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, false);
+			//OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, false);
 			
 			
 			
@@ -410,7 +410,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		else if(inputBuilding.FindResourceIndex(resourceName, inputBuilding.allInputs) >= 0 && outputBuilding.FindResourceIndex(resourceName, outputBuilding.allOutputs) >= 0)
 		{
 			hasResource = true;
-			OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, true);	
+			//OverloadLink (outputBuildingIndex, inputBuildingIndex, 0, resourceName, false, true);	
 			
 			if(isWaitingForLink)
 			{
