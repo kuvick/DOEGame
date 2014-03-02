@@ -500,8 +500,12 @@ public class LevelSelectMenu extends GUIControl
 		}
 		else if (tooltipDisplay && lastUnlockedIndex - 2 == levelsFromXML.numInitialTutorials)
 		{
+			var dOS : DisplayOnceSystem = new DisplayOnceSystem(false);
 			for (i = 0; i < dashboardTooltips.Length; i++)
-				tooltipDisplay.Activate(dashboardTooltips[i], null);
+			{
+				if(!dOS.WasAlreadyDisplayed(i, false, true))
+					tooltipDisplay.Activate(dashboardTooltips[i], null);
+			}
 		}
 	}
 	
@@ -982,18 +986,20 @@ public class LevelSelectMenu extends GUIControl
 					unlockedLevels.Add(levels[i]);
 					countUnlocked++;
 					
+					var tutorialUnlockedModifier : int = 1;
 					if (levels[i].sceneName.Contains("riefing"))
 					{
 						i--; // decrement i to prevent the paired level from displaying
 						// set loading playerpref variables to paired level
 						PlayerPrefs.SetString(Strings.NextLevel, levels[i].sceneName);
 						PlayerPrefs.SetString(Strings.CurrentLevel, levels[i].subjectText);
+						tutorialUnlockedModifier = 2;
 					}
 					
 					// display no more levels past a tutorial
 					if (levels[i].sceneName.Contains("utorial"))
 					{
-						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - 1 - i;
+						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - tutorialUnlockedModifier - i;
 						break;
 					} 
 				}
