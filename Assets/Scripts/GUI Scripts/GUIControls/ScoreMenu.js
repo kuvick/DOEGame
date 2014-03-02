@@ -571,7 +571,7 @@ public class ScoreMenu extends GUIControl
 			
 				if(honorsTextures[i].couldBeEarned && !intelSystem.getUsedUndoOrWait())
 				{
-					honorsTextures[i].score = 25;
+					honorsTextures[i].score = 10;
 					honorsTextures[i].hasEarned = true;
 					numOfStars++;
 				}
@@ -587,7 +587,7 @@ public class ScoreMenu extends GUIControl
 				
 				if(honorsTextures[i].couldBeEarned && intelSystem.GetTimeLeft() >= 30)
 				{
-					honorsTextures[i].score = 25;
+					honorsTextures[i].score = 10;
 					honorsTextures[i].hasEarned = true;
 					numOfStars++;
 				}
@@ -602,7 +602,7 @@ public class ScoreMenu extends GUIControl
 				if(honorsTextures[i].couldBeEarned && intelSystem.getOptionalScore() > 0)
 				{
 					//honorsTextures[i].score = 1000;
-					honorsTextures[i].score = 50; // +2 stars for optional objective; 25 points each
+					honorsTextures[i].score = 20; // +2 stars for optional objective; 25 points each
 					numOfStars += 2;
 					honorsTextures[i].hasEarned = true;
 				}
