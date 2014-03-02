@@ -962,7 +962,7 @@ public class LevelSelectMenu extends GUIControl
 		}
 		
 		var actualLevelIndex : int = numLevels - 1;
-		for (var i:int = numLevels - 1; i >= 0; i--)
+		for (var i:int = numLevels - 1; i >= 0 && countUnlocked < 3; i--)
 		{
 			if(levels[i].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[i].sceneName))
 			{	
