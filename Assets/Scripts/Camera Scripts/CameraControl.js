@@ -35,6 +35,9 @@ public var cameraHeight = 400;
 public var cameraSize = 250;
 static public var cameraAngle : float = 60;
 
+public var maxZoom : float;
+public var minZoom : float;
+
 public var showCameraLocation : boolean = false;
 
 public var centerOnPoint: Vector3;
@@ -72,8 +75,20 @@ function Start () {
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
-	thisCamera.orthographicSize = cameraSize;
-	guiCamera.orthographicSize = cameraSize;
+	if (minZoom > 0)
+	{
+		thisCamera.orthographicSize = minZoom;
+		guiCamera.orthographicSize = minZoom;
+		destinationSize = minZoom;
+	}
+	else
+	{
+		thisCamera.orthographicSize = cameraSize;
+		guiCamera.orthographicSize = cameraSize;
+		destinationSize = cameraSize;
+	}
+	if (maxZoom <= 0)
+		maxZoom = cameraSize;
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	//*************
 	
@@ -233,8 +248,6 @@ static public function Drag(currentInputPos: Vector2){
 										+ (-bD.z / 2) * Mathf.Cos((Mathf.PI / 180) * -45) + bCP.z);
 		}
 	}
-	
-	
 }
 
 public function Update()
@@ -354,7 +367,6 @@ public function Update()
 			}
 		}
 	}
-	
 }
 
 public function OnDrawGizmos()
@@ -463,10 +475,7 @@ public function OnDrawGizmos()
 		Gizmos.DrawCube(centerOnPoint, new Vector3(25, 50, 25));
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawCube(currentCenter, new Vector3(25, 50, 25));	
-		
 	}
-	
-	
 }
 
 public function cameraZoom(zoomIn:boolean)
@@ -483,7 +492,16 @@ public function cameraZoom(zoomIn:boolean)
 		zoomingIn = zoomIn;
 		zooming = true;
 	}
+}
 
+public function Zoom(amount : float, zoomIn : boolean)
+{
+	zoomingIn = zoomIn;
+ 	zooming = true;
+ 	if(zoomIn)
+ 		destinationSize = Mathf.Clamp(destinationSize - amount, maxZoom, minZoom);
+ 	else
+ 		destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);
 }
 
 public function centerCameraOnPointInWorld(centerPoint : Vector3)

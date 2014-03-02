@@ -92,11 +92,14 @@ static function HandleFirstClick(position : Vector2)
 }
 
 // returns true if unit is not selected and building linking should be used
-static function HandleFirstClick(obj : Collider) : boolean
+static function HandleFirstClick(obj : Collider) : DragMode
 {
 	var buildingObject : GameObject = obj.transform.parent.gameObject;
 	ModeController.setSelectedBuilding(buildingObject);
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
+	
+	if (!buildingOnGrid.isActive)
+		return DragMode.Cam;
 	
 	if (obj.name.Contains(" "))
 	{
@@ -119,10 +122,10 @@ static function HandleFirstClick(obj : Collider) : boolean
 	if (!buildingOnGrid.unitSelected)
 	{
 		linkUIRef.HighlightTiles();
-		return true;
+		return DragMode.Link;
 	}
 	else
-		return false;
+		return DragMode.Unit;
 }
 
 // will determine what to do with the tap at the given point

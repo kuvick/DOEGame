@@ -60,6 +60,7 @@ private var hasFirstClick : boolean = false;
 private var linkUI : LinkUI;
 private var intelSystem : IntelSystem;
 private var inspectionDisplayRef : InspectionDisplay;
+private var cameraControlRef : CameraControl;
 
 private var isEnabled : boolean = true;
 private var unitSelected : boolean = false;
@@ -100,10 +101,11 @@ function InitialClickEvent()
 	else if (currObject.name.Equals("ResourceRing") || currObject.name.Contains(" "))
 	{
 		//Debug.Log("collided " + currObject.name);
-		if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
+		/*if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
 			currDragMode = DragMode.Link;
 		else
-			currDragMode = DragMode.Unit;
+			currDragMode = DragMode.Unit;*/
+		currDragMode = BuildingInteractionManager.HandleFirstClick(currObject);
 	}
 	else if (currObject.tag == "Unit")
 	{
@@ -149,6 +151,16 @@ function ReleaseEvent()
 	hasFirstClick = false;
 }
 
+// Pinch zoom event
+function PinchEvent(touch0 : Touch, touch1 : Touch)
+{
+	var originalVector = fingerDownPosition[ 1 ] - fingerDownPosition[ 0 ];
+	var currentVector = touch1.position - touch0.position;            
+	var deltaDistance = originalVector.magnitude - currentVector.magnitude;
+	
+	cameraControlRef.Zoom(deltaDistance, deltaDistance >= 0);
+}
+
 // called when a click/tap occurs
 function singleClickEvent(inputPos: Vector2){	
 	// At this point the user has indicated a tap on a point on the screen
@@ -185,6 +197,7 @@ function Start () {
 	//intelSystem = GameObject.FindWithTag("Database").GetComponent(IntelSystem);
 	intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 	inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+	cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
 }
 
 // will detect if the change in input position since the last tick is enough to be accepted as a drag
@@ -364,7 +377,10 @@ function HandleMobileInput(){
 	        
             // A finger was lifted, so let's just wait until we have no fingers
             // before we reset to the origin state
-			state = ControlState.WaitingForNoInput;
+            if (!gotTouch0 || !gotTouch1)
+				state = ControlState.WaitingForNoInput;
+			else
+				PinchEvent(touch0, touch1);
 	    } 
     }    
 }
