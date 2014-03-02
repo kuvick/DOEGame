@@ -89,9 +89,14 @@ public class NarrativeUI extends GUIControl
 	
 	private var scoreMenu:ScoreMenu;
 	
+	private var screenRect : Rect;
+	
 	//private var nextLevel : NextLevelScript;
 
 	public function Start () 
+	
+	
+	
 	{
 		if(!inScoreScreen)
 		{
@@ -120,6 +125,11 @@ public class NarrativeUI extends GUIControl
 			//super.Start();
 			super.Initialize();
 			
+			// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
+			screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+			screenRect.x = (screenWidth / 2) - (screenRect.width / 2);
+			screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
+			
 			//isWaiting = false;
 			
 			var designWidth : float = 1920;
@@ -134,40 +144,49 @@ public class NarrativeUI extends GUIControl
 			if(narrativeSkin == null)
 				Debug.Log("Forgot to add into the inspector the GUISkin!");
 			else
-				narrativeSkin.label.fontSize = diagTextHeightPercent * screenHeight * textSizeModifier;
+				narrativeSkin.label.fontSize = diagTextHeightPercent * screenRect.height * textSizeModifier;
 			
 			
-			narrativeSkin.customStyles[0].fontSize = titleTextHeightPercent * screenHeight * titleTextSizeModifier;
+			narrativeSkin.customStyles[0].fontSize = titleTextHeightPercent * screenRect.height * titleTextSizeModifier;
 			currentDisplayText = dialogue[0];
 			
 			//Calculating Rect.
 			
 				// Character Name
 			
+			charNameRect = createRect(Vector2(nameWidth, nameHeight), nameX / designWidth, nameY / designHeight, nameHeight / designHeight, false, screenRect);
+			/*
 			charNameRect = RectFactory.NewRect(	  nameX / designWidth, 
 												  nameY / designHeight,
 												  nameWidth / designWidth,
 												  nameHeight / designHeight);
-												  
+			*/									  
 				// Level Title
-			
+			levelTitleRect = createRect(Vector2(titleWidth, titleHeight), titleX / designWidth, titleY / designHeight, titleHeight / designHeight, false, screenRect);
+			/*
 			levelTitleRect = RectFactory.NewRect( titleX / designWidth, 
 												  titleY / designHeight,
 												  titleWidth / designWidth,
 												  titleHeight / designHeight);
+			*/
 			
 				// Text
+				
+			diagRect = createRect(Vector2(diagWidth, diagHeight), diagX / designWidth, diagY / designHeight, diagHeight / designHeight, false, screenRect);
 			
+			/*
 			diagRect = RectFactory.NewRect(		  diagX / designWidth, 
 												  diagY / designHeight,
 												  diagWidth / designWidth,
-												  diagHeight / designHeight);
+			*/									  //diagHeight / designHeight);
 			
 				// Skip
-			skip = RectFactory.NewRect(			  skipX / designWidth, 
+				
+			skip = createRect(skipButton, skipX / designWidth, skipY / designHeight, skipButton.height / designHeight, false, screenRect);
+			/*skip = RectFactory.NewRect(			  skipX / designWidth, 
 												  skipY / designHeight,
 												  skipButton.width / designWidth,
-												  skipButton.height / designHeight);
+												  skipButton.height / designHeight);*/
 			
 //				// Back
 //			back = RectFactory.NewRect(	  		  backX / designWidth, 
@@ -227,25 +246,30 @@ public class NarrativeUI extends GUIControl
 												  
 												  
 												  
-//			overlay = createRect(overlayUI, 0,0,1,false);
-//			overlay.x = Screen.width / 2 - overlay.width / 2;
-//			overlay.y = Screen.height / 2 - overlay.height / 2;
+//			overlay = createRect(overlayUI, 0,0,1,false, screenRect);
+//			overlay.x = screenRect.width / 2 - overlay.width / 2;
+//			overlay.y = screenRect.height / 2 - overlay.height / 2;
 //			home = createRect(homeButton, 0.86, 0.01, 0.09, false, overlay);
 			
 			//replay = createRect(replayButton, 0.007, 0.9, 0.09, false, overlay);
 			//start = createRect(startButton, 0.809, 0.9, 0.09, false, overlay);
 			//back = createRect(backButton, 0.007, 0.9, 0.09, false, overlay);
 
-			home = createRect(homeButton, 0.86, 0.01, 0.09, false);			
-			replay = createRect(replayButton, 0.007, 0.9, 0.09, false);
-			start = createRect(startButton, 0.809, 0.9, 0.09, false);
-			back = createRect(backButton, 0.007, 0.9, 0.09, false);
+			home = createRect(homeButton, 0.86, 0.01, 0.09, false, screenRect);			
+			replay = createRect(replayButton, 0.007, 0.9, 0.09, false, screenRect);
+			start = createRect(startButton, 0.809, 0.9, 0.09, false, screenRect);
+			back = createRect(backButton, 0.007, 0.9, 0.09, false, screenRect);
 												  
 				// Tap Space
+				/*
 			tapSpace = RectFactory.NewRect(	  	  0, 
 												  (homeY + homeButton.height)/ designHeight,
 												  1,
-												  tapHeight / designHeight);							  
+												  tapHeight / designHeight);
+				*/
+				
+			tapSpace = createRect(Vector2(1920, tapHeight), 0, (homeY + homeButton.height)/ designHeight, tapHeight / designHeight, false, screenRect);
+												  														  
 												  
 			currentSlide = 0;
 			
@@ -285,9 +309,10 @@ public class NarrativeUI extends GUIControl
 	{
 		//if(!endRender)
 		//{
+			GUI.BeginGroup(screenRect);
 			GUI.skin = narrativeSkin;
 			titleStyle = GUI.skin.GetStyle("title");
-			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), narrativeSlides[currentSlide]);
+			GUI.DrawTexture(Rect(0,0,screenRect.width, screenRect.height), narrativeSlides[currentSlide]);
 			
 			//GUI.DrawTexture(overlay, overlayUI, ScaleMode.StretchToFill);
 			
@@ -386,6 +411,7 @@ public class NarrativeUI extends GUIControl
 			GUI.Label(levelTitleRect, levelTitle, titleStyle);
 		//}	
 	
+		GUI.EndGroup();
 	}// end of OnGUI
 	
 	//Would eventually set this to the loading screen, but for now since there are errors...
