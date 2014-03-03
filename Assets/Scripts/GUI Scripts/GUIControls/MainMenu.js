@@ -213,7 +213,8 @@ public class MainMenu extends GUIControl
 		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0, 49.0 / 540.0, false);
 		scoreAndComboBGRect.x = screenWidth / 2 - scoreAndComboBGRect.width / 2;
 		
-		objBGRect = createRect(objectiveBanner,0, 77.0/540.0, 282.0 / 540.0, false);
+		objBGRect = createRect(objectiveBanner,0, 0, 55.0 / 540.0, false);
+		objBGRect.x = screenWidth / 2 - objBGRect.width / 2;
 		
 		scoreRect = createRect(new Vector2(243, 24), 223.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
 
@@ -317,8 +318,8 @@ public class MainMenu extends GUIControl
 		
 		
 		//var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
-		var objRectHeight : float = (objIconSize.y + padding) * intelSystem.events.Count;
-		objIconGroupRect = Rect(objBGRect.x, objBGRect.y, objIconSize.x + padding, objRectHeight + dataIconSize.x);		
+		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
+		objIconGroupRect = Rect(objBGRect.x, objBGRect.y + 0.1 * objBGRect.height, objRectWidth, objIconSize.y + padding);
 		//objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
 		
 		grid = GameObject.Find("HexagonGrid").GetComponent(HexagonGrid);
@@ -430,8 +431,8 @@ public class MainMenu extends GUIControl
 		
 		//DISPLAYING OBJECTIVE ICONS IN HUD
 		GUI.skin.label.normal.textColor = Color.white;
-		var objRectHeight : float = (objIconSize.y + padding) * intelSystem.events.Count * 1.5;
-		objIconGroupRect = Rect(objBGRect.x, objBGRect.y, objIconSize.x + padding, objRectHeight + dataIconSize.x + padding);
+		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count * 2;
+		objIconGroupRect = Rect(objBGRect.x + objIconSize.x * 1.2, objBGRect.y + 0.1 * objBGRect.height, objRectWidth + dataIconSize.x + padding, objIconSize.y + padding);
 		
 		//var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		//objIconGroupRect = Rect(pauseButton.x - objRectWidth, horizontalBarHeight + padding, objRectWidth, objIconSize.y + padding + dataIconSize.x);
@@ -586,8 +587,8 @@ public class MainMenu extends GUIControl
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
 				//DISPLAYING OBJECTIVE ICON
-				var objIconRect = Rect(	0, 
-										padding + (objIconSize.y + padding) * (i*1.5),
+				var objIconRect = Rect(	padding + (objIconSize.x + padding) * (i*2), 
+										0,
 										objIconSize.x,
 										objIconSize.y);
 				
@@ -611,8 +612,8 @@ public class MainMenu extends GUIControl
 				//DISPLAYING NUMBER
 				if(intelSystem.events[i].event.type == BuildingEventType.Primary && !intelSystem.events[i].getResolved())
 				{		
-					GUI.Label(	Rect(padding / 2,
-								padding + (objIconSize.y + padding) * (i*1.5) + (objIconSize.y / 2), 
+					GUI.Label(	Rect(padding + (objIconSize.x + padding) * (i*2) + (objIconSize.y / 2),
+								padding / 2, 
 								objIconSize.x,
 								objIconSize.y),
 								intelSystem.events[i].event.time.ToString());
