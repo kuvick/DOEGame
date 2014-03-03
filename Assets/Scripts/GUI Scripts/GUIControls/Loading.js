@@ -121,9 +121,49 @@ public class Loading extends GUIControl
 	public var infoButton:Texture;
 	public var infoButtonPressed:Texture;
 	
+	public var buttonSkin:GUISkin;
+	public var buttonStyle:GUIStyle;
+	
+	public var jobBox:Texture;
+	private var jobBoxRect:Rect;
+	
+	public var missionBeginButton:Texture;
+	public var missionBeginButtonPressed:Texture;
+	public var missionLoadingButton:Texture;
+	
+	private var screenRect:Rect;
+	
+	private var displayComicPanels:boolean;
+	
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		
+		if(PlayerPrefs.HasKey("displayComicPanels"))
+		{
+			if(PlayerPrefs.GetInt("displayComicPanels") == 1)
+			{
+				displayComicPanels = false;
+				PlayerPrefs.SetInt("displayComicPanels", 0);
+			}
+			else
+			{
+				displayComicPanels = true;
+				PlayerPrefs.SetInt("displayComicPanels", 1);
+			}
+		}
+		else
+		{
+			displayComicPanels = true;
+			PlayerPrefs.SetInt("displayComicPanels", 1);
+			
+		}
+
+		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
+		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+		screenRect.x = (screenWidth / 2) - (screenRect.width / 2);
+		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
 		
 		currentFrame = framesPerSecond;
 		currentPanel = 0;
@@ -133,12 +173,17 @@ public class Loading extends GUIControl
 		fade = 1.0;
 		SetupRectangles();
 							
-		initialDescFontSize = screenHeight * descFontScale;
+		initialDescFontSize = screenRect.height * descFontScale;
 		style.normal.textColor = Color.white;
 		style.active.textColor = Color.white;
 		style.hover.textColor = Color.white;
 		style.font = regularFont;
 		style.wordWrap = true;
+		
+		buttonStyle = buttonSkin.GetStyle("BlueButtonRight");
+		//buttonStyle.fontSize = 48 * Screen.height / 1080.0;
+        buttonStyle.fontSize = Mathf.Min(Screen.width, Screen.height) / 30;
+		
 		/*style.normal.background = null;
 		style.active.background = null;
 		style.hover.background = null;*/
@@ -152,34 +197,41 @@ public class Loading extends GUIControl
 	
 		var percentage:float = screenWidth / 1920; //Assumes images made to spec of 1920 px
 		
-		loadingBGRect = createRect(loadingBackground,0,0.04, 0.86, false);
+		loadingBGRect = createRect(loadingBackground,0,0.04, 0.86, false, screenRect);
 		
-		loadingStatusBoxRect = createRect(loadingStatusBox, 0, 0.81, 0.15, false);
-		loadingStatusBoxRect.x = (screenWidth / 2) - (loadingStatusBoxRect.width) / 2;
+		loadingStatusBoxRect = createRect(loadingStatusBox, 0, 0.81, 0.15, false, screenRect);
+		loadingStatusBoxRect.x = (screenRect.width / 2) - (loadingStatusBoxRect.width) / 2;
 		
 		
-		jobWebsiteButtonRect = createRect(viewJobWebsiteButton,0.55,0.61, 0.099, true);
+		jobWebsiteButtonRect = createRect(viewJobWebsiteButton,0.55,0.61, 0.099, true, screenRect);
 		
 		//fullDescriptButtonRect = createRect(viewFullDescriptButton,0.55,0.67, 0.099, true);
 		//jobOnlineButtonRect = createRect(viewJobOnlineButton,0.55,0.55, 0.099, true);
-		panelRect = createRect(placeholderPanel,0.05,0.26, 0.5, true, Rect(0,0,screenWidth / 2, screenHeight));
+		//panelRect = createRect(placeholderPanel,0.05,0.26, 0.5, true, screenRect);
+		
+		panelRect = createRect(placeholderPanel,0,0, 0.6, true, screenRect);
+		panelRect.x = screenRect.width / 2 - panelRect.width / 2;
+		panelRect.y = screenRect.height / 2 - panelRect.height / 2 - padding;
+		
 		
 		jobWebsiteButtonRect.y = panelRect.y + panelRect.height - jobWebsiteButtonRect.height;
-		jobWebsiteButtonRect.x = screenWidth - jobWebsiteButtonRect.width - panelRect.x;
+		jobWebsiteButtonRect.x = screenRect.width - jobWebsiteButtonRect.width - panelRect.x;
 		
 		
 		
-		jobTextRect = createRect( Vector2(810, 414), 0.55,0.16, 0.38, true);
+		jobTextRect = createRect( Vector2(732, 370), 0.48,0.22, 0.38, false, screenRect);
 		
-		jobTextRect.y = panelRect.y;
+		jobWebsiteButtonRect = createRect( Vector2(626, 145), 0.48, 0.58, 0.13, false, screenRect);
+		
+		//jobTextRect.y = panelRect.y;
 		
 		// So the job text rect will go all the way to just a little bit above the jobs online button
 		jobTextRect.height = jobWebsiteButtonRect.y -(jobTextRect.y + padding);
 		
 		loadingStatusRect = createRect( Vector2(855, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
-		loadingStatusRect.x = (screenWidth / 2) - (loadingStatusRect.width) / 2;
+		loadingStatusRect.x = (screenRect.width / 2) - (loadingStatusRect.width) / 2;
 		loadingStatusRect.y += loadingStatusBoxRect.y;
-		loadingStatusFontSize = 0.10 * screenHeight;
+		loadingStatusFontSize = 0.10 * screenRect.height;
 		
 		var narrToDisplay : int;
 		do
@@ -202,12 +254,22 @@ public class Loading extends GUIControl
 		}
 		
 		// setup confirmation window
-		confirmationRect = Rect(.3 * screenWidth, .3 * screenHeight, .4*screenWidth, .4* screenHeight);
+		confirmationRect = Rect(.3 * screenRect.width, .3 * screenRect.height, .4*screenRect.width, .4* screenRect.height);
 		confirmCancelRect = Rect(confirmationRect.x + (.1 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height - padding,
 								confirmationRect.width * .3, confirmationRect.height * .3);
 		confirmContinueRect = Rect((confirmationRect.x + confirmationRect.width) - ((.1 * confirmationRect.width) + confirmCancelRect.width), confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
 		
-		panelLabel = Rect(panelRect.x, panelRect.y - (0.1 * Screen.height),panelRect.width, 0.1 * Screen.height);
+		panelLabel = Rect(panelRect.x, panelRect.y - (0.1 * screenRect.height),panelRect.width, 0.1 * screenRect.height);
+		var height:int = style.CalcHeight(GUIContent("TEST"), panelLabel.width);
+		//panelLabel.y = panelRect.y - height * 2.2;
+		//panelLabel.x = panelRect.x + panelRect.width;
+		panelLabel.x = panelRect.x + panelRect.width + padding;
+		panelLabel.y = panelRect.y;
+		
+		jobBoxRect = createRect(jobBox, 0,0,0.63, false, screenRect);
+		jobBoxRect.x = screenRect.width / 2 - jobBoxRect.width / 2;
+		jobBoxRect.y = screenRect.height / 2 - jobBoxRect.height / 2 - padding * 2;
+		
 		style.stretchWidth = true;
 		style.stretchHeight = true;
 		style.margin = RectOffset (0, 0, 0, 0);
@@ -216,136 +278,145 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
+		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
+		
 		GUI.depth = 0;
+		GUI.BeginGroup(screenRect);	
 			
 				// New Loading Textures
 		
-		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
-		GUI.DrawTexture(loadingBGRect, loadingBackground);
-		
-		GUI.DrawTexture(loadingBGRect, loadingBackground);
-		
+		GUI.DrawTexture(loadingBGRect, loadingBackground);		
 		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
-		/*
-		GUI.DrawTexture(fullDescriptButtonRect, viewFullDescriptButton);
-		GUI.DrawTexture(jobOnlineButtonRect, viewJobOnlineButton);
-		if (GUI.Button(jobOnlineButtonRect,"", style))
-		{
-			Application.OpenURL(currentJob.url);
-		}
-		*/
 		
-		setButtonTexture(viewJobWebsiteButton, viewJobWebsiteButtonPressed, style);
-		if (GUI.Button(jobWebsiteButtonRect,"", style))
+		if(displayComicPanels)
 		{
-			//Application.OpenURL("http://energy.gov/jobs");
-			showConfirmation = true;
-		}
-		resetButtonTexture(style);
-		GUI.DrawTexture(panelRect, panels[currentPanel]);
-	
-		if(!fading && !reset)
-		{
-			style.font = regularFont;
-			style.fontSize = descFontSize;
-			style.alignment = TextAnchor.MiddleRight;
-			GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
-			style.font = boldFont;
-			style.fontSize = loadingStatusFontSize;
-			style.alignment = TextAnchor.MiddleCenter;
-		}
+			GUI.DrawTexture(panelRect, panels[currentPanel]);
 		
-		if(panels.Count > 1)
-			currentFrame--;
-			
-		// When it reaches frame 0 and it is not fading, set to fade
-		if(!reset && !fading && currentFrame <= 0)
-		{	
-			fading = true;
-			fade = 0f;
-		}
-		
-		// if it is set to fade, fade...until it is no longer fading,
-		// then if it's still on frame 0, reset the clock
-		if(panels.Count > 1 && fading)
-		{
-			fade += 0.01;
-			GUI.color.a = fade;
-			
-			style.font = regularFont;
-			style.fontSize = descFontSize;
-			style.alignment = TextAnchor.MiddleRight;
-			GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
-			
-			GUI.DrawTexture(panelRect, panels[nextPanel]);
-			GUI.color.a = 1.0 - fade;
-			
-			GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
-			style.font = boldFont;
-			style.fontSize = loadingStatusFontSize;
-			style.alignment = TextAnchor.MiddleCenter;
-			GUI.color.a = 1.0f;
-			if(fade >= 1.0f)
+			if(!fading && !reset)
 			{
-				reset = true;
+				style.font = regularFont;
+				style.fontSize = descFontSize;
+				style.alignment = TextAnchor.UpperLeft;
+				GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				style.font = boldFont;
+				style.fontSize = loadingStatusFontSize;
+				style.alignment = TextAnchor.MiddleCenter;
+			}
+			
+			if(panels.Count > 1)
+				currentFrame--;
+				
+			// When it reaches frame 0 and it is not fading, set to fade
+			if(!reset && !fading && currentFrame <= 0)
+			{	
+				fading = true;
+				fade = 0f;
+			}
+			
+			// if it is set to fade, fade...until it is no longer fading,
+			// then if it's still on frame 0, reset the clock
+			if(panels.Count > 1 && fading)
+			{
+				fade += 0.01;
+				GUI.color.a = fade;
+				
+				style.font = regularFont;
+				style.fontSize = descFontSize;
+				//style.alignment = TextAnchor.MiddleRight;
+				style.alignment = TextAnchor.UpperLeft;
+				GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				
+				GUI.DrawTexture(panelRect, panels[nextPanel]);
+				GUI.color.a = 1.0 - fade;
+				
+				GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				style.font = boldFont;
+				style.fontSize = loadingStatusFontSize;
+				style.alignment = TextAnchor.MiddleCenter;
+				GUI.color.a = 1.0f;
+				if(fade >= 1.0f)
+				{
+					reset = true;
+					fading = false;
+				}
+			}
+			else if(panels.Count > 1 && reset)
+			{
+				style.font = regularFont;
+				style.fontSize = descFontSize;
+				style.alignment = TextAnchor.UpperLeft;
+				GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				style.font = boldFont;
+				style.fontSize = loadingStatusFontSize;
+				style.alignment = TextAnchor.MiddleCenter;
+				
+				GUI.DrawTexture(panelRect, panels[nextPanel]);
+				
+				currentPanel = (currentPanel + 1) % panels.Count;
+				nextPanel = (nextPanel + 1) % panels.Count;
+				
+				/*
+				currentPanel++;
+				nextPanel++;
+				if(currentPanel >= )
+					currentPanel = 0;
+				if(nextPanel >= panels.Count)
+					nextPanel = 0;
+				*/	
+				currentFrame = framesPerSecond;
 				fading = false;
+				reset = false;
 			}
 		}
-		else if(panels.Count > 1 && reset)
+		else
 		{
+			GUI.DrawTexture(jobBoxRect, jobBox);
+			/*
+			setButtonTexture(viewJobWebsiteButton, viewJobWebsiteButtonPressed, style);
+			if (GUI.Button(jobWebsiteButtonRect,"", style))
+			{
+				//Application.OpenURL("http://energy.gov/jobs");
+				showConfirmation = true;
+			}
+			resetButtonTexture(style);
+			*/
+			
+			if (GUI.Button(jobWebsiteButtonRect,"Explore Careers", buttonStyle))
+			{
+				//Application.OpenURL("http://energy.gov/jobs");
+				showConfirmation = true;
+			}
+			
+			
 			style.font = regularFont;
 			style.fontSize = descFontSize;
-			style.alignment = TextAnchor.MiddleRight;
-			GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+			style.alignment = TextAnchor.UpperLeft;
+			GUI.Label(jobTextRect, currentJobInformation, style);
+			
 			style.font = boldFont;
 			style.fontSize = loadingStatusFontSize;
 			style.alignment = TextAnchor.MiddleCenter;
-			
-			GUI.DrawTexture(panelRect, panels[nextPanel]);
-			
-			currentPanel = (currentPanel + 1) % panels.Count;
-			nextPanel = (nextPanel + 1) % panels.Count;
-			
-			/*
-			currentPanel++;
-			nextPanel++;
-			if(currentPanel >= )
-				currentPanel = 0;
-			if(nextPanel >= panels.Count)
-				nextPanel = 0;
-			*/	
-			currentFrame = framesPerSecond;
-			fading = false;
-			reset = false;
+		
 		}
-		
-		
-		
-		style.font = regularFont;
-		style.fontSize = descFontSize;
-		style.alignment = TextAnchor.UpperLeft;
-		GUI.Label(jobTextRect, currentJobInformation, style);
-		
-		style.font = boldFont;
-		style.fontSize = loadingStatusFontSize;
-		style.alignment = TextAnchor.MiddleCenter;
-		
 		if (hasLoaded)
 		{
 			if (hasFinishedDelay)
 			{
-				setButtonTexture(loadingStatusBox, loadingStatusBoxPressed, style);		
-				if (GUI.Button(loadingStatusBoxRect, "Begin Mission", style))
+				setButtonTexture(missionBeginButton, missionBeginButtonPressed, style);		
+				if (GUI.Button(loadingStatusBoxRect, "", style))
 				{
-					//Since the timer starts as soon as the level loads, this resets it for when the player starts the mission
-					//If statement added for non-IntelSystem scenes GPC 2/13/14
-					if(GameObject.Find("Database")){
-						var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-						intelSystem.resetTimer();
+					if(!showConfirmation)
+					{
+						//Since the timer starts as soon as the level loads, this resets it for when the player starts the mission
+						//If statement added for non-IntelSystem scenes GPC 2/13/14
+						if(GameObject.Find("Database")){
+							var intelSystem:IntelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+							intelSystem.resetTimer();
+						}
+						
+						currentResponse.type = EventTypes.DONELOADING;
 					}
-					
-					currentResponse.type = EventTypes.DONELOADING;
 				}
 				resetButtonTexture(style);
 			}
@@ -358,14 +429,20 @@ public class Loading extends GUIControl
 		}
 		else if (!hasFinishedDelay)
 		{
-			GUI.Label(loadingStatusRect, "Loading...", style);
+			GUI.DrawTexture(loadingStatusBoxRect, missionLoadingButton);
 		}
 		
 		
 		style.alignment = TextAnchor.UpperLeft;	
 		
 		if (showConfirmation)
+		{
+			GUI.enabled = true;
 			RenderConfirmationWindow();
+			GUI.enabled = false;
+		}
+		
+		GUI.EndGroup();
 	}
 	
 	private function RenderConfirmationWindow()
@@ -378,12 +455,16 @@ public class Loading extends GUIControl
 		GUI.Box(confirmationRect, "Continue to DOE website?", style);
 		setButtonTexture(infoButton, infoButtonPressed, style);
 		if (GUI.Button(confirmCancelRect, "Cancel", style))
+		{
 			showConfirmation = false;
+			GUI.enabled = true;
+		}
 		if (GUI.Button(confirmContinueRect, "Continue", style))
 		{
 			MetricContainer.IncrementSessionSiteClicks();
 			Application.OpenURL("http://energy.gov/jobs");
 			showConfirmation = false;
+			GUI.enabled = true;
 		}
 		resetButtonTexture(style);
 		
@@ -448,7 +529,7 @@ public class Loading extends GUIControl
 		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
 		descRect.y = (screenHeight - height) / 2;
 		
-		descFontSize = screenHeight * 0.04;
+		descFontSize = Mathf.Min(Screen.width, Screen.height) * 0.035;
 		currentJobInformation = currentJobDesc;
 	}
 	
