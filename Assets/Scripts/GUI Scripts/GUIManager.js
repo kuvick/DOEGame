@@ -52,6 +52,7 @@ private var failureMenu:FailureMenu;
 private var metricMenu:MetricMenu;
 private var codexMenu:CodexMenu;
 private var editorMenu : EditorMenu;
+private var gameComplete: GameComplete;
 
 // Delete this later when BuildingMenu is done
 static var buildingMenuOpen;
@@ -159,6 +160,7 @@ public function Start ()
 	failureMenu = GetComponent(FailureMenu);
 	codexMenu = GetComponent(CodexMenu);
 	editorMenu = GetComponent(EditorMenu);
+	gameComplete = GetComponent(GameComplete);
 	
 	if (gm_instance != this) {
 		return;
@@ -331,6 +333,13 @@ private function RespondTo(response:GUIEvent)
 			AddGUIToControls(helpMenu);
 			//AddGUIToControls(marquee);
 			break;
+			
+		case EventTypes.GAMECOMPLETE:
+			ClearControls();
+			AddGUIToControls(gameComplete);
+			//AddGUIToControls(marquee);
+			break;
+			
 		case EventTypes.WAIT:
 			if(intelSystem != null)
 				intelSystem.addTurn();				

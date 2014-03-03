@@ -12,7 +12,11 @@ enum DeveloperType
 	Artist,
 	Programmer,
 	Designer,
-	Audio
+	Audio, 
+	ArtistPast,
+	ProgrammerPast,
+	DesignerPast,
+	AudioPast
 }
 
 
@@ -79,6 +83,10 @@ private var programmers: List.<Developer>;
 private var designers: List.<Developer>;
 private var audioDevs: List.<Developer>;
 private var specialMention: List.<Developer>;
+private var artistsPast: List.<Developer>;
+private var programmersPast: List.<Developer>;
+private var designersPast: List.<Developer>;
+private var audioDevsPast: List.<Developer>;
 
 private var credits:List.<String> = new List.<String>();
 private var creditsRect:List.<Rect> = new List.<Rect>();
@@ -108,6 +116,12 @@ function Start ()
 	audioDevs = generateList(developerList, DeveloperType.Audio);
 	specialMention = generateList(developerList, DeveloperType.SpecialMention);
 	
+	artistsPast = generateList(developerList, DeveloperType.ArtistPast);
+	programmersPast = generateList(developerList, DeveloperType.ProgrammerPast);
+	designersPast = generateList(developerList, DeveloperType.DesignerPast);
+	audioDevsPast = generateList(developerList, DeveloperType.AudioPast);
+	
+	credits.Add("\n\nPresent\n");
 	credits.Add("\n\nART\n");
 	credits.Add(generateCreditString(artists));
 	credits.Add("\n\nAUDIO\n");
@@ -116,8 +130,20 @@ function Start ()
 	credits.Add(generateCreditString(designers));
 	credits.Add("\n\nPROGRAMMING\n");
 	credits.Add(generateCreditString(programmers));
-	credits.Add("\n\nSPECIAL MENTION\n");
+	
+	credits.Add("\n\n\nPast\n");
+	credits.Add("\n\nART\n");
+	credits.Add(generateCreditString(artistsPast));
+	//credits.Add("\n\nAUDIO\n");
+	//credits.Add(generateCreditString(audioDevsPast));
+	credits.Add("\n\nDESIGN\n");
+	credits.Add(generateCreditString(designersPast));
+	credits.Add("\n\nPROGRAMMING\n");
+	credits.Add(generateCreditString(programmersPast));
+	
+	credits.Add("\n\n\nSpecial Mention\n");
 	credits.Add(generateCreditString(specialMention));
+	
 	
 	skin.label.fontSize = fontSizePercent * Screen.height * 1.5;
 	skin.label.alignment = TextAnchor.UpperCenter;
@@ -204,7 +230,13 @@ function OnGUI()
 	
 	for(var i:int = 0; i < credits.Count; i++)
 	{
-		if(i % 2 == 1)
+		if(i == 0 || i == 9)
+			skin.label.font = boldFont;
+		else if(i < 9 && i % 2 == 1)
+			skin.label.font = boldFont;
+		else if(i < 9)
+			skin.label.font = stdFont;
+		else if(i > 9 && i % 2 == 1)
 			skin.label.font = stdFont;
 		else
 			skin.label.font = boldFont;

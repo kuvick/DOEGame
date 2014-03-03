@@ -480,6 +480,15 @@ public class LevelSelectMenu extends GUIControl
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
 		
 		LoadLevelList();
+		
+		//Debug.Log("Unlocked: " + unlockedLevels.Count);
+		//Debug.Log("Finished: " + completedLevels.Count);
+		
+		if(unlockedLevels.Count <= 0)
+		{
+			currentResponse.type = EventTypes.GAMECOMPLETE;
+		}
+		
 		//scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		scrollContent = Rect(0, 0, missionBackgroundRect.width, (unlockedLevels.Count + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;

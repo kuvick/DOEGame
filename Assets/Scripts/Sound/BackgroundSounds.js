@@ -10,6 +10,7 @@ public class BackgroundSounds {
 	public var failureMenuMusic : SoundType;
 	public var scoreMenuMusic : SoundType;
 	public var loadingMenuMusic : SoundType;
+	public var creditsMenuMusic : SoundType;
 	
 	public function CacheSounds(){
 		startMenuMusic.CacheSoundClip();
@@ -19,5 +20,6 @@ public class BackgroundSounds {
 		failureMenuMusic.CacheSoundClip();
 		loadingMenuMusic.CacheSoundClip();
 		scoreMenuMusic.CacheSoundClip();
+		creditsMenuMusic.CacheSoundClip();
 	}	
 }

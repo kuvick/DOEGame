@@ -134,14 +134,23 @@
       </Teams>
     </Developer>
     
-	<!--Special Mention-->
+	<!--Past-->
 	
     <Developer>
       <firstName>Jared</firstName>
       <lastName>Mavis</lastName>
       <isLeader>false</isLeader>
       <Teams>
-      	<Team>SpecialMention</Team>
+      	<Team>ProgrammerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Chris</firstName>
+      <lastName>Peterson</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ProgrammerPast</Team>
       </Teams>
     </Developer>
     
@@ -150,9 +159,183 @@
       <lastName>Clark</lastName>
       <isLeader>false</isLeader>
       <Teams>
+      	<Team>ArtistPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Craig</firstName>
+      <lastName>Ellsworth</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>DesignerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Gina</firstName>
+      <lastName>El-Reedy</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>DesignerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <!--Special Thanks -->
+    
+    <Developer>
+      <firstName>Tim</firstName>
+      <lastName>Michaels</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
       	<Team>SpecialMention</Team>
       </Teams>
     </Developer>
+    
+    <Developer>
+      <firstName>Donny</firstName>
+      <lastName>Torrey</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Erik</firstName>
+      <lastName>Martin</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>DesignerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Ajinkya</firstName>
+      <lastName>Waghulde</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ProgrammerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Chase</firstName>
+      <lastName>Sandmann</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>DesignerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Teng</firstName>
+      <lastName>Lu</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ProgrammerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Francis</firstName>
+      <lastName>Yuan</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ProgrammerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Stephen</firstName>
+      <lastName>Hopkins</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ProgrammerPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Michael</firstName>
+      <lastName>Rosgen</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ArtistPast</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Katherine</firstName>
+      <lastName>Luae</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Luciano</firstName>
+      <lastName>Fenu</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+	<Developer>
+      <firstName>Jason</firstName>
+      <lastName>Frostick</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Will</firstName>
+      <lastName>Fallows</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+    <Developer>
+      <firstName>Jerrod</firstName>
+      <lastName>Johnson</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+	<Developer>
+      <firstName>Alan</firstName>
+      <lastName>Hung</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+	<Developer>
+      <firstName>Amina</firstName>
+      <lastName>Obe</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>SpecialMention</Team>
+      </Teams>
+    </Developer>
+    
+	<Developer>
+      <firstName>Chris</firstName>
+      <lastName>Velez</lastName>
+      <isLeader>false</isLeader>
+      <Teams>
+      	<Team>ArtistPast</Team>
+      </Teams>
+    </Developer>
+    
     
   </Developers>
 </DeveloperList>
