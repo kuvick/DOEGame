@@ -26,7 +26,7 @@
 	</Job>
 	<Job>
 		<Title>Operations Research Analyst</Title>	
-		<Description>Desgin and conduct tests that reflect real-world issues, problems, and environments.</Description>	
+		<Description>Design and conduct tests that reflect real-world issues, problems, and environments.</Description>	
 	</Job>
 	<Job>
 		<Title>Industry Economist</Title>	
@@ -39,5 +39,21 @@
 	<Job>
 		<Title>High Voltage Electrician</Title>	
 		<Description>Interface with high voltage equipment and install transformers, circuit breakers, and capacitors.</Description>	
+	</Job>
+	<Job>
+		<Title>Electronics Engineer/Title>	
+		<Description>Provide electronic engineering associated with communications systems and ensure the systems operate correctly.</Description>	
+	</Job>
+	<Job>
+		<Title>Economist</Title>	
+		<Description>Conduct economic analyses and prepare forecasts for different energy markets.  Be on top of the latest trends in the world's energy economies.</Description>	
+	</Job>
+	<Job>
+		<Title>Public Utilities Specialist</Title>	
+		<Description>Complete energy settlement transactions and manage a variety of projects. Develop contracts to sell power to wholesale customers.</Description>	
+	</Job>
+	<Job>
+		<Title>Statistical Mathematician</Title>	
+		<Description>Use statistical computing software to research, analyze, and process energy pricing, production, supply, and distribution data.</Description>	
 	</Job>
 </Jobs>
