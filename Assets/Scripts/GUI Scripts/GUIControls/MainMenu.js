@@ -118,13 +118,13 @@ public class MainMenu extends GUIControl
 	public var hasDataIcon:Texture;
 	public var hasNotDataIcon:Texture;
 	public var objectiveBanner:Texture;
-	public var scoreAndComboBG:Texture;
+	//public var scoreAndComboBG:Texture;
 	private var objIconBGRect:Rect;
 	private var objBGRect:Rect;
 	//private var addedObjIconBGRect:boolean;
 	
-	private var scoreAndComboBGRect : Rect;
-	private var scoreAndComboBGPercent :float= 0.15;
+	//private var scoreAndComboBGRect : Rect;
+	//private var scoreAndComboBGPercent :float= 0.15;
 	
 	private var tutorialPointers:TutorialPointers;
 	
@@ -210,17 +210,17 @@ public class MainMenu extends GUIControl
 		undoButton.y = waitButton.y;
 		
 		//scoreAndComboBGRect = createRect(scoreAndComboBG,0,0,scoreAndComboBGPercent,false);
-		scoreAndComboBGRect = createRect(scoreAndComboBG,0,0, 49.0 / 540.0, false);
-		scoreAndComboBGRect.x = screenWidth / 2 - scoreAndComboBGRect.width / 2;
+		//scoreAndComboBGRect = createRect(scoreAndComboBG,0,0, 49.0 / 540.0, false);
+		//scoreAndComboBGRect.x = screenWidth / 2 - scoreAndComboBGRect.width / 2;
 		
 		objBGRect = createRect(objectiveBanner,0, 0, 55.0 / 540.0, false);
 		objBGRect.x = screenWidth / 2 - objBGRect.width / 2;
 		
-		scoreRect = createRect(new Vector2(243, 24), 223.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+		//scoreRect = createRect(new Vector2(243, 24), 223.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
 
-		comboRect = createRect(new Vector2(102, 24), 110.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+		//comboRect = createRect(new Vector2(102, 24), 110.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
 		
-		timeRect = createRect(new Vector2(102, 24), 496.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
+		//timeRect = createRect(new Vector2(102, 24), 496.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
     	
 
 		hexButtonHeight = hexButtonHeightPercent * screenHeight;
