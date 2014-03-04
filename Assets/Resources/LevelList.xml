@@ -62,7 +62,7 @@
       <difficulty>0</difficulty>
       <subjectText>Forge your Path!</subjectText>
       <messageText>You’re doing great so far, but the real test has only begun. Many of the challenges ahead will require speed as much as accuracy. Let’s see what you got!</messageText>
-      <objectiveText>Help UberGas take advantage of ethanol fuel to boost business</objectiveText>
+      <objectiveText>Help Ubergas take advantage of ethanol fuel to boost business</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -78,7 +78,7 @@
 	<Level><!--Tutorial_KU04-->
       <displayName>2</displayName>
       <sceneName>Tutorial_KU04</sceneName>
-      <difficulty>1</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Follow the Signs</subjectText>
       <messageText>History is being made before our eyes, my friend! I’m unlocking additional components of Terrachanics for you to utilize for the challenge ahead.</messageText>
 	  <objectiveText>Mobilize area professionals to help repair the Hydrolyss Dam.</objectiveText>
@@ -96,10 +96,10 @@
 	<Level><!--Tutorial_RV21 RENAMED-->
       <displayName>3</displayName>
       <sceneName>Tutorial_RV21</sceneName>
-      <difficulty>2</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Many Beginnings</subjectText>
-      <messageText>History is being made before our eyes, my friend! I’m unlocking additional components of Terrachanics for you to utilize for the challenge ahead.</messageText>
-      <objectiveText>Direct gas and utility modernizations in Central Blackstone</objectiveText>
+      <messageText>I’m getting some excellent readings on my end! The prototype is holding strong. What do you say we test its limits, eh?</messageText>
+      <objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -114,9 +114,9 @@
 	<Level><!--Tutorial_RV15-->
       <displayName>4</displayName>
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Director's Orders</subjectText>
-      <messageText>Helena Edison, Director or the ECRB. Dr. Fernandez speaks highly of you, but I will see for myself. Your assignment involves moderate radiological exposure. Developing extra limbs is not covered in your health package, so don’t screw this up.</messageText>
+      <messageText>Helena Edison, ECRB Executive Director. Dr. Fernandez speaks highly of you. Your assignment involves moderate radiological exposure. Developing extra limbs is not covered in your health package, so don’t screw this up.</messageText>
       <objectiveText>Bring the Wakisashi Nuclear plant online.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -132,7 +132,7 @@
 	<Level><!--RV14-->
       <displayName>3</displayName>
       <sceneName>RV14</sceneName>
-      <difficulty>3</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>The Light of Invention</subjectText>
       <messageText>I knew I could count on you! Edison spoke very highly of you. In her own way. The subtext was clearly there, I assure you. Anyway, onward and upward!</messageText>
       <objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>
@@ -149,7 +149,7 @@
 	<Level><!--RV17-->
       <displayName>6</displayName>
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>8</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Steam Powered</subjectText>
       <messageText>So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>
       <objectiveText>Davincraft Aeronautics needs an Organic Flash Cycle system to keep up with demand for airplane parts.</objectiveText>
@@ -203,9 +203,9 @@
 	<Level>
       <displayName>15</displayName>
       <sceneName>RV03-remix</sceneName>
-      <difficulty>1</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Gases to Gas</subjectText>
-      <messageText>An introduction to how Building Sites work</messageText>
+      <messageText>Good, the Hyperfabricator didn’t overheat this time. Not to say it’s dangerous or anything… most of the time. Anyway! What do you say we help some folks with their drill?</messageText>
 	  <objectiveText>Optimize oil production by reusing Carbon Emissions from oil drilling.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
@@ -222,7 +222,7 @@
 	<Level>
       <displayName>15</displayName>
       <sceneName>GPC06</sceneName>
-      <difficulty>1</difficulty>
+     <difficulty>0</difficulty>
       <subjectText>Our Fishy Friends</subjectText>
       <messageText>Still only reading 89% efficiency on this thing. I can’t get a Nobel Prize for that! Help me out, man. Get those fishies happy and the scientific community happier.</messageText>
       <objectiveText>Install Fish-Friendly Turbine technology to prevent the Hydroelectric Dam from disrupting local fishing industry.</objectiveText>
@@ -238,7 +238,7 @@
 	<Level>
       <displayName>18</displayName>
       <sceneName>RV01</sceneName>
-      <difficulty>3</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Beat the Heat</subjectText>
       <messageText>Brenton’s got it rough this year. Record heat is stalling their car production factory, on top of AC costs. Not for long with this baby!</messageText>
 	  <objectiveText>Oversee implementation of Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
@@ -255,7 +255,7 @@
 	<Level><!--RV23 -->
       <displayName>21</displayName>
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Fire in the Hole!</subjectText>
       <messageText>A city near a volcano… yeah, no thanks. But hey, if the people of Stark are cool with it, we can work magic beneath their feet.</messageText>
       <objectiveText>Help Stark support its growing population by implementing geothermal power.</objectiveText>
@@ -270,7 +270,7 @@
 	<Level><!--GPC09 medium, particular about building placement, secondary objective  ENGINEER-->
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>8</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Truckstop Trouble</subjectText>
       <messageText>Oh yes! You are rocking it with the Hyperfabricator. I bet we can get the Windfarm and Ethanol depot up in one shot this time, don’t you?</messageText>
       <objectiveText>The Midland truck depot needs to start supplying ethanol fuel to provide to new green trucking industry.</objectiveText>
@@ -339,9 +339,9 @@
 	<Level><!--DD12 Very easy, straightforward-->
 	  <displayName>8</displayName>
       <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>The Broken Path</subjectText>
-      <messageText>No fuel for the planes? We’ll have none of that. Got the annual Robotic Deathtrap convention coming up in a month. No way I’m missing that this year.</messageText>
+      <messageText>No fuel for the planes? We’ll have none of that! Got the annual Robotic Deathtrap convention coming up in a month. No way I’m missing it this year.</messageText>
       <objectiveText>Repair supply lines to bring fuel back to the Duncan Airport.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
@@ -354,10 +354,10 @@
 	<Level><!-- RV09 easy, order of attack challenge, multiple solutions-->
       <displayName>11</displayName>
       <sceneName>RV09</sceneName>
-      <difficulty>2</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Soak Up the Sun</subjectText>
       <messageText>Oh boy. Derptronics sure picked a great place to make a solar factory. They got the tech, but their neighbors could use some straightening out. Lets get to it.</messageText>
-	  <objectiveText>Help Derptronics develop efficient polymer solar cell technology for solar panels.</objectiveText>
+	  <objectiveText>Help Derptronics develop efficient polymer solar cell technology to optimize their solar panels.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -370,10 +370,10 @@
 	<Level><!--RV13 moderate/easy-->
       <displayName>18</displayName>
       <sceneName>RV13</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Turning the Tides</subjectText>
       <messageText>Finally HIlbert is looking to refurbish their decommissioned oil rig into a tidal power engine. That kind of project gives me warm fuzzy feelings at night.</messageText>
-	  <objectiveText>Convert the HIlbert coastal oil drill into a tidal power station.</objectiveText>
+	  <objectiveText>Convert the Hilbert coastal oil drill into a tidal power station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -385,9 +385,9 @@
 	<Level><!--RV08-remix easy, similtaneous action-->
 	  <displayName>10</displayName>
       <sceneName>RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Trash Powered</subjectText>
-      <messageText>Never throw things away. That was Aunt Irma’s motto. Probably wouldn’t power a car… or a rocket… but hey, who am I to judge her research methods.</messageText>
+      <messageText>Never throw things away. That was Aunt Irma’s motto. Sure, they called her a horder, but I say she was a scientific genius ahead of her time.</messageText>
       <objectiveText>Develop supply lines to bring the JunkCo waste conversion facility online.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
@@ -400,7 +400,7 @@
 	 <Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
       <displayName>19</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>6</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Power in Your Hands</subjectText>
       <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Prototech has gone and made it first! Ugh, always beating me to the punch.</messageText>
       <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
@@ -449,7 +449,7 @@
 	<Level><!--KU-02 easy, building site placement, reallocation-->
       <displayName>26</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>1</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Garbage Run</subjectText>
       <messageText>I hear the tech on this one involves using garbage to run your car. Not in my Hummer! But hey, I guess someone ought to offset my pollution.</messageText>
 	  <objectiveText>Escort scientist to help implement a Biodiesel fueling station.</objectiveText>
@@ -464,8 +464,8 @@
 	<Level><!--DD08-2 mid/easy, precise order of action, reallocation, long queue-->
       <displayName>23</displayName>
       <sceneName>DD08-2</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
-      <subjectText> You're Fired!</subjectText>
+      <difficulty>0</difficulty>
+      <subjectText>The Power of Heat</subjectText>
       <messageText>Way to be my eyes in the skies there, buddy! Not a fan of multi-tasking myself, but I hear CHP is going to be huge in heating and powering factories.</messageText>
 	  <objectiveText>Implement a Combined Heat and Power System into the aeronautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -482,8 +482,8 @@
 	<Level><!--KU-03-->
       <displayName>28</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>2</difficulty>
-      <subjectText> Beat the Heat </subjectText>
+      <difficulty>0</difficulty>
+      <subjectText>Beat the Heat</subjectText>
       <messageText>Auton sounds like a great place to get a tan, eh? Not if its from sitting at your desk at work. These guys need some stylish TMSM tech to give them some extra shade!</messageText>
 	  <objectiveText>Upgrade Auton’s tallest office building to use transition metal switchable mirrors to cut AC costs.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -500,8 +500,8 @@
 	<Level><!--KU01 -->
       <displayName>23</displayName>
       <sceneName>KU01</sceneName>
-      <difficulty>2</difficulty>
-      <subjectText> Another witty title here</subjectText>
+      <difficulty>0</difficulty>
+      <subjectText>Fresh Air for Cheap</subjectText>
       <messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>
 	  <objectiveText>Help Derptronics install a new Voltatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -515,7 +515,7 @@
 	<Level><!--DD10 moderate, action ordering,       AGENT-->
       <displayName>25</displayName>
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
+      <difficulty>0</difficulty>
       <subjectText>Powered Up</subjectText>
       <messageText>Just one more job and we’ll be getting you a sweet suit like mine. Lets see you earn those stars!</messageText>
 	  <objectiveText>Mobilize local scientists to assist in bringing the latest high-volume power plant online.</objectiveText>
@@ -532,12 +532,26 @@
   <!--********************************************************************************************************** MIDGAME -->
   <!--********************************************************************************************************** MIDGAME -->
    
+	<!--Briefing5 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Tutorial_Briefing5</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>	
     
     <Level><!--GPC07 medium, requires long queue              ENGINEER-->
       <displayName>9</displayName>
       <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>The Power Core</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Runner Gal</subjectText>
       <messageText>Aw man, this is going to be a bit of a haul. Gotta get way the heck across town to get that Hydro plant running. Oh well, that refinery isn’t going to fix itself.</messageText>
       <objectiveText>Restore power to the Yormund Refinery.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -551,7 +565,7 @@
 	<Level><!--RV06 false complexity, moderate              ENGINEER-->
       <displayName>11</displayName>
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Shifting Gears</subjectText>
       <messageText>Ah ha! Just the thing to improve the power conversion of the Hyperfabricator. Hilbert is smart to go with silicon carbide thyristors.</messageText>
 	  <objectiveText>Implement silicon carbide thyristors into inner Braklin’s residential district.</objectiveText>
@@ -563,11 +577,12 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!-- Move to earlier??? -->
 	<Level><!--RV05-remix distant originators, simple upstream              ENGINEER-->
       <displayName>10</displayName>
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>5</difficulty>
-      <subjectText>No Waste to Waste</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Wireless Rewiring</subjectText>
       <messageText>How exciting! all of the Terrachanics components are fully operational and in your capable hands. I couldn’t be prouder!</messageText>
 	  <objectiveText>Reallocate resources to support the recently built electronics factory in Jaynestown.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -584,8 +599,8 @@
 	<Level><!--RV19-->
       <displayName>4</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>4</difficulty>
-      <subjectText>The Real Challenge Begins</subjectText> <!-- PLACEHOLDER TEXT-->
+      <difficulty>1</difficulty>
+      <subjectText>Infrastructure is Serious Business</subjectText> <!-- PLACEHOLDER TEXT-->
       <messageText>Efficiency isn’t enough, you know. Don’t want to fry your tenants with an overworked electrical system, right? Just ask my prototype here… gotta go!</messageText>
 	  <objectiveText>Modernize the failing electrical system of the Canis Towers apartment complex.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -601,8 +616,8 @@
      <Level>
       <displayName>18</displayName>
       <sceneName>DD05</sceneName> 
-      <difficulty>5</difficulty>
-      <subjectText>Twin Cities</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Sun Tower 20,000</subjectText>
       <messageText>This new Organic Flash Cycle system ingeniously traps waste heat to boost efficiency of solar and geothermal systems! I can’t wait to see it in action!</messageText>
 	  <objectiveText>Install an Organic Flash Cycle system into Derptech Tower to optimize their building-mounted solar array.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -613,11 +628,12 @@
       <contactRequirement></contactRequirement>
     </Level>
   
+	<!-- Multiple Primary Objectives-->
 	<Level><!--RV26                       ENGINEER -->
       <displayName>25</displayName>
       <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
-      <subjectText>Powered Up v2</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Regal and Energetic</subjectText>
       <messageText>Did I ever mention I had a twin? She’s from a different department, but she can help out in a pinch. Gonna need her for this next one for sure.</messageText>
 	  <objectiveText>Convert the Sanspoof textile mill into an Alternative Energy Lab.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -631,9 +647,9 @@
 	<Level><!--GPC01 moderate, upstream, reallocation,        AGENT-->
       <displayName>27</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>3</difficulty>
-      <subjectText>Simple Misunderstanding</subjectText>
-      <messageText>I figured out the problem - conventional batteries. This algae bio-reactor tech could boost the Hyperfabricators speed by 15%!</messageText>
+      <difficulty>1</difficulty>
+      <subjectText>Swamp Science</subjectText>
+      <messageText>I figured out the problem - conventional batteries! This algae bio-reactor tech could boost the Hyperfabricators speed by 20%!</messageText>
 	  <objectiveText>Help mount Algae-based bioreactor panels to Imperial Apartments to make them energy independent.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -646,8 +662,8 @@
 	<Level><!--KU05 medium, requires long queue and analysis, big map  BUILD SITE-->
       <displayName>8</displayName>
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>5</difficulty>
-      <subjectText>Climate Control</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Clearing the Air</subjectText>
       <messageText>Pollution out here does a number on the residents. Air filtration systems take a big cut out of Derptronics’ profits. With this RIVEC setup we can cut costs nearly in half!</messageText>
 	  <objectiveText>Upgrade Wild Tower’s ventalation to use a Residential Integrated Ventilation Controller.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -662,8 +678,8 @@
 	<Level><!--GPC02 medium, requires "upstream" and reallocation  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>6</difficulty>
-      <subjectText>It’s in the Bag</subjectText>
+      <difficulty>1</difficulty>
+      <subjectText>Bright Ideas/subjectText>
       <messageText>Once more factory that’s gone off the rails. What is up with these people anyway? Are they trying to go out of business?</messageText>
 	  <objectiveText>Help modernize Brightbulbus’s operations to use efficient flourescent lighting.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -681,8 +697,8 @@
 	<Level><!--RV18-->
       <displayName>6</displayName>
       <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>9</difficulty>
-      <subjectText> Witty Subject</subjectText> <!-- PLACEHOLDER TEXT-->
+      <difficulty>1</difficulty>
+      <subjectText>Somewhere in Nowhere</subjectText> <!-- PLACEHOLDER TEXT-->
       <messageText>I always wanted a cabin in the middle of nowhere. A nice break away from my adoring fans. Don’t give me that look, they are coming. Just you wait!</messageText>
 	  <objectiveText>Provide resources to Bzzt Pow! Electrical to expand their power line coverage.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -698,7 +714,7 @@
 	<Level><!--RV16-->
       <displayName>5</displayName>
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>7</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Get Smart</subjectText>
       <messageText>The future is now, my friend! Soon you’ll see smart grids from coast to coast, but everything has to start somewhere.</messageText>
 	  <objectiveText>Help mobilize local scientists and engineers to help implement a large-scale smartgrid.</objectiveText>
@@ -716,7 +732,7 @@
 	<Level><!--RV10-->
       <displayName>4</displayName>
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>6</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Wires Crossed</subjectText>
       <messageText>Ah ha! I caught em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you should get on that.</messageText>
 	  <objectiveText>Gather resources to bring the Nuka Nuclear plant online.</objectiveText>
@@ -732,11 +748,28 @@
   <!-- *********************************************************************************************************LATEGAME -->
   <!-- *********************************************************************************************************LATEGAME -->
   <!-- *********************************************************************************************************LATEGAME -->
-    <Level> <!--KU02 med-high perception challenge, large map, distant originators, false complexity  ENGINEER-->
+	
+	<!-- INSERT LATEGAME BRIEFING -->
+	<!--Briefing6 -->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Tutorial_Briefing6</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+  
+	<Level> <!--KU02 med-high perception challenge, large map, distant originators, false complexity  AGENT-->
       <displayName>12</displayName>
       <sceneName>KU02</sceneName>
-      <difficulty>7</difficulty>
-      <subjectText>Convergence</subjectText>
+      <difficulty>2</difficulty>
+      <subjectText>Superfuel</subjectText>
       <messageText>It’s scary when Helen is scared! But not to worry, we are in capable hands. Let us hurry to get electrofuel distribution going to see if we can bait our would-be rivals out of hiding.</messageText>
 	  <objectiveText>Upgrade the Gaseous Clay fuel depot to use electrofuels to cut fuel costs for truckers.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -747,11 +780,11 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--RV12 difficult, building placement  ENGINEER-->
+	<!--RV12 difficult, building placement  BUILDING SITE-->
 	<Level>
       <displayName>18</displayName>
       <sceneName>RV12</sceneName>
-      <difficulty>7</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Environmental Adaptation</subjectText>
       <messageText>Winter is coming! In about 5 months. But hey, the winters can be nasty in New Vermachusetts, but with a forecasting grid their power systems can take it.</messageText>
 	  <objectiveText>Implement a Forecasting Grid system to residential centers to adjust power distribution to weather conditions.</objectiveText>
@@ -763,10 +796,10 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
-	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation  ENGINEER-->
+	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation  BUILD SITE-->
       <displayName>20</displayName>
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>7</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Project Icarus</subjectText>
       <messageText>Not my private jet! I pay good money to rent- err… own that thing! I’ll do some snooping while you get Air Lions Airlines the tech for solar powered planes.</messageText>
 	  <objectiveText>Allocate resources to support prototype flights of new solar powered planes.</objectiveText>
@@ -779,13 +812,13 @@
     </Level>
 	
 	<!--Too many environmental assets                                        UPDATE -->
-	<!--RV22 hard, reallocation, large map  ENGINEER-->
+	<!--RV22 hard, reallocation, large map  BUILD SITE-->
 	<Level>
 	  <displayName>20</displayName>
       <sceneName>RV22</sceneName> 
-      <difficulty>8</difficulty>
-      <subjectText>Rise to the Challenge</subjectText>
-      <messageText>Be cautious with this next assignment. We believe we are closing in on the source of the security breach. Be cautious.</messageText>
+      <difficulty>2</difficulty>
+      <subjectText>Assignment 3314 Class A-2 Priority Alpha</subjectText>
+      <messageText>We have reason to believe your Secondary Objectives may contain clues to the culprits behind the cyber attacks. Check them out.</messageText>
 	  <objectiveText>Help get Bill Bowes’ Lab equipment company funding for their energy efficient fume hoods.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
@@ -795,18 +828,17 @@
       <contactRequirement></contactRequirement>
     </Level>
 
-	<!-- DISABLED -->
 	<!--Resources don't make sense                                       REVISE-->
 	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER-->
 	<Level>
       <displayName>17</displayName>
       <sceneName>RV02</sceneName> 
-      <difficulty>12</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>Under Pressure</subjectText>
       <messageText>Not gonna lie, this ones a doozy. Hightown needs a lot of help to get their Hydrogen storage research completed, but I think you can handle it. Get it done!</messageText>
 	  <objectiveText>Reroute energy sources to ensure the Abco factory can complete its Hydrogen Storage research.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>16</missionRequirementIndex>
@@ -817,9 +849,9 @@
 	<Level><!--KU03 hard, long queue, reallocation  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>7</difficulty>
-      <subjectText>Heating Troubles</subjectText>
-      <messageText>Lower costs, less pollution, what more could you want out of a heating/AC system? Nobody’s sabotaging this baby on my watch!</messageText>
+      <difficulty>2</difficulty>
+      <subjectText>Air Time</subjectText>
+      <messageText>Lower costs, less pollution... what more could you want out of a heating/AC system? Nobody’s sabotaging this baby on my watch!</messageText>
 	  <objectiveText>Install a Super Energy Saver Heat pump system to optimize air conditioning and heating systems in Lictor City.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
@@ -832,7 +864,7 @@
 	<Level> <!--DD11 AGENT-->
       <displayName>24</displayName>
       <sceneName>DD11</sceneName> 
-      <difficulty>4</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>DD11</subjectText>
       <messageText>Counter-espionage is all about getting into the other guy’s head. Mind games. I figure here they are trying to hit us with a diversion on the refinery, but I know their game!</messageText>
 	  <objectiveText>Assist with critical refinery maintenance and deliver Dr. Watson to the Hilbert solar lab.</objectiveText>
@@ -847,7 +879,7 @@
 	<Level> <!-- GPC05 AGENT -->
       <displayName>1</displayName>
       <sceneName>GPC05</sceneName>
-      <difficulty>0</difficulty>
+      <difficulty>2</difficulty>
       <subjectText>More for the Taking</subjectText>
       <messageText>Hilbert sure was happy to get Watson back. They have finished their Heat Transfer interface for optimizing solar panels. Lets take ‘em for a spin.</messageText>
 	  <objectiveText>Install Heat Transfer Interfaces to help reduce costs at the waste treatment plant.</objectiveText>
@@ -866,8 +898,8 @@
 	<Level> <!-- DD09 AGENT -->
       <displayName>1</displayName>
       <sceneName>DD09</sceneName>
-      <difficulty>0</difficulty>
-      <subjectText>Stuff things</subjectText>
+      <difficulty>2</difficulty>
+      <subjectText>The Dream Team</subjectText>
       <messageText>Me and Nancy got a job, eh? Move on over for the dream team! We got some special schematics ready for the Fizzle Fusion folks.</messageText>
 	  <objectiveText>Provide blueprints for Fizzle Fusion’s Tesla-inspired wireless power converter research.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -888,24 +920,22 @@
       <messageText>ShockJock Fabrication is at it again! They got themselves as nice Gallium Nitride Crystal growth system for high-efficiency transistors. Nancy has all the fun!</messageText>
 	  <objectiveText>Help repair the power grid to allow ShockJock Frabrication to complete their Gallium Nitride Crystal Growth research.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>7</rankRequirement>
       <missionRequirementIndex>12</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 		
-	
-	<!-- DISABLED -->
 	<!--                                                                                  Verify solvable after bugfix -->
 	<!-- HARD             AGENT-->
 	<!-- complex reallocation, link pathing, timing -->
-	<!--RV25 HARD AGENT 
+	<!--RV25 HARD AGENT -->
 	<Level> 
 	  <displayName>24</displayName>
       <sceneName>RV25</sceneName> 
       <difficulty>4</difficulty>
-      <subjectText> Endgame </subjectText>
+      <subjectText>The Endgame</subjectText>
       <messageText>Last blast, kiddo. Just one more job and we’ll get to the bottom of this. We’re going to upgrade one of the ECRB’s own labs with enhanced cyber security to try to catch them in the act.</messageText>
       <objectiveText>Upgrade cyber security of the local smartgrid system as a countermeasure against cyber attacks.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -914,6 +944,8 @@
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>23</missionRequirementIndex>
       <contactRequirement></contactRequirement>
-    </Level>-->
+    </Level>
+	
+	<!-- INSERT FINAL BRIEFING -->
    </Levels>
 </LevelList>
