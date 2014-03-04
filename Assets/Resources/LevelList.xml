@@ -679,7 +679,7 @@
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Bright Ideas/subjectText>
+      <subjectText>Bright Ideas</subjectText>
       <messageText>Once more factory that’s gone off the rails. What is up with these people anyway? Are they trying to go out of business?</messageText>
 	  <objectiveText>Help modernize Brightbulbus’s operations to use efficient flourescent lighting.</objectiveText>
       <isPrimary>true</isPrimary>
