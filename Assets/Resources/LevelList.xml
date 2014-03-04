@@ -537,7 +537,7 @@
       <displayName>0</displayName>
       <sceneName>Tutorial_Briefing5</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
+      <subjectText>Security Breach</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
@@ -755,7 +755,7 @@
       <displayName>0</displayName>
       <sceneName>Tutorial_Briefing6</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
+      <subjectText>Shutting Down the System</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
