@@ -1246,13 +1246,17 @@ static public function ReplaceBuildingSite(buildingObject: GameObject, coord : V
 	tempBuilding.indicator = buildingObject.GetComponentInChildren(BuildingIndicator);
 	if(tempBuilding.unallInputs.Count <= 0)//ocatedInputs.Count <= 0)
 	{
+		
+		tempBuilding.isActive = true;
+	}
+	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
+	if(tempBuilding.unallInputs.Count <= 0)//ocatedInputs.Count <= 0)
+	{
 		tempBuilding.indicator.Initialize();
 		tempBuilding.indicator.SetState(IndicatorState.Active);
-		tempBuilding.isActive = true;
 	}
 	else
 		tempBuilding.indicator.SetState(IndicatorState.Neutral);
-	linkUIRef.GenerateBuildingResourceIcons(tempBuilding);
 	buildingsOnGrid[buildingSiteID] = tempBuilding;
 	//buildingsOnGrid.Splice(buildingSiteID, 1, tempBuilding);
 	BroadcastBuildingUpdate(buildingObject, buildingSiteID);

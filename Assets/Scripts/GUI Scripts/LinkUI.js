@@ -196,6 +196,7 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	tempRing.name = "ResourceRing";
 	tempRing.transform.localScale = Vector3(15,15,15);
 	tempRing.layer = 10;
+	
 	if (building.buildingName.Contains("Site"))
 	{
 		tempRing.renderer.material.mainTexture = buildingSiteRingTexture;

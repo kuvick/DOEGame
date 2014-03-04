@@ -134,5 +134,6 @@ function SetState (state : IndicatorState)
 				linkUI.setActiveRingMaterial(false, resourceRing);*/
 			break;
 	}
-	resourceRing.renderer.material.mainTexture = currImage;
+	//if(resourceRing != null)
+		resourceRing.renderer.material.mainTexture = currImage;
 }
