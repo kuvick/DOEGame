@@ -64,21 +64,25 @@ public var currentToolTipIndex:int = 0;
 function Start () 
 {
 	dOS = new DisplayOnceSystem();
+	
+	var padding : float = Screen.height * 0.02;
+	
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
 	dispHeight = Screen.height * dispHeightScale;
 	dispWidth = dispHeight * dispWidthScale;
 	dispRightOffset = dispRightOffsetScale * Screen.width;
 	dispTopOffset = dispTopOffsetScale * Screen.height;
-	dispRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset,dispWidth,dispHeight);
+	dispRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2,dispTopOffset,dispWidth - padding * 5,dispHeight);
 	dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
-	dispBotRect = Rect(dispRect.x, dispRect.y + (dispRect.height / 2f), dispRect.width, dispRect.height / 2f);
+	dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
 	nextRect = Rect(dispRect.x, dispBotRect.y + (dispBotRect.height / 2f), dispRect.width, dispBotRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
 	
 	dispPicSize = Screen.width * dispPicSizeScale * 2;
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
-	skin.label.fontSize = fontScale * Screen.height;
+	skin.label.fontSize = fontScale * Screen.height * 1.3;
+	skin.box.fontSize = fontScale * Screen.height * 1.3;
 	
 	
 	//Apply Scaling
