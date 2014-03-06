@@ -101,7 +101,7 @@ private var speed:float = 0.8;
 
 function Start ()
 {
-	developerList = developerList.Load();
+	//developerList = developerList.Load();
 	triggeredReturn = false;
 	
 	
@@ -110,6 +110,7 @@ function Start ()
 	
 	logoRect = new Rect(Screen.width / 2 - logoWidth / 2, Screen.height, logoWidth, logoHeight);
 	
+	/*
 	artists = generateList(developerList, DeveloperType.Artist);
 	programmers = generateList(developerList, DeveloperType.Programmer);
 	designers = generateList(developerList, DeveloperType.Designer);
@@ -143,6 +144,40 @@ function Start ()
 	
 	credits.Add("\n\n\nSpecial Mention\n");
 	credits.Add(generateCreditString(specialMention));
+	*/
+	
+	credits.Add("\n\nLead Designer\n");
+	credits.Add("Glen Cooney");
+	credits.Add("\n\nLead Artist\n");
+	credits.Add("Katharine Uvick");
+	credits.Add("\n\nProducer\n");
+	credits.Add("Glen Cooney");
+	credits.Add("\n\nGame Design\n");
+	credits.Add("Dustin Dano\n Katharine Uvick\n Ryan Vachon");
+	credits.Add("\n\nProgramming Team Manager\n");
+	credits.Add("Glen Cooney");
+	credits.Add("\n\nProgrammers\n");
+	credits.Add("Katharine Uvick\n Derrick Huey");
+	credits.Add("\n\nArtists\n");
+	credits.Add("Noelle Hébert\n Craig Landen\n Danny Tran");
+	credits.Add("\n\nAudio Team\n");
+	credits.Add("Luke Roberts\n Heather Plunkard");
+	credits.Add("\n\n\n\nPAST MEMBERS\n\n\nSenior Designer\n");
+	credits.Add("Craig Ellsworth");
+	credits.Add("\n\nDesigners\n");
+	credits.Add("Gina El-Reedy\nDonny Torrey\nErik Martin\nTim Michaels\nChase Sandmann");
+	credits.Add("\n\nLead Programmer\n");
+	credits.Add("Ajinkya Wughulde");
+	credits.Add("\n\nProgrammers\n");
+	credits.Add("Will Fallows\nStephen Hopkins\nJared Mavis\nChris Peterson\nTeng Lu\nFrancis Yuan");
+	credits.Add("\n\nLead Artists\n");
+	credits.Add("Michael Rosgen\nRobin Clark\nChris Velez");
+	credits.Add("\n\nArtists\n");
+	credits.Add("Rebecca Williams\nKaitlyn McIntosh");
+	credits.Add("\n\nSpecial Thanks to:\n");
+	credits.Add("Jerrod Johnson\nLuciano Fenu\nJason Frostock\nAmina Obe\n");
+	
+	
 	
 	
 	skin.label.fontSize = fontSizePercent * Screen.height * 1.5;
@@ -230,6 +265,7 @@ function OnGUI()
 	
 	for(var i:int = 0; i < credits.Count; i++)
 	{
+		/*
 		if(i == 0 || i == 9)
 			skin.label.font = boldFont;
 		else if(i < 9 && i % 2 == 1)
@@ -240,6 +276,12 @@ function OnGUI()
 			skin.label.font = stdFont;
 		else
 			skin.label.font = boldFont;
+		*/
+		
+		if(i % 2 == 1)
+			skin.label.font = stdFont;
+		else
+			skin.label.font = boldFont;		
 		
 		GUI.Label(creditsRect[i], credits[i]);
 		
