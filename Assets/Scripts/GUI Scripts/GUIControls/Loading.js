@@ -180,7 +180,8 @@ public class Loading extends GUIControl
 		style.font = regularFont;
 		style.wordWrap = true;
 		
-		buttonStyle = buttonSkin.GetStyle("BlueButtonRight");
+		//Making error. Not sure what this is. GPC 3/5/14
+		//buttonStyle = buttonSkin.GetStyle("BlueButtonRight");
 		//buttonStyle.fontSize = 48 * Screen.height / 1080.0;
         buttonStyle.fontSize = Mathf.Min(Screen.width, Screen.height) / 30;
 		
