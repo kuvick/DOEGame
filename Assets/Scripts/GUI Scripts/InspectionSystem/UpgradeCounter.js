@@ -11,9 +11,22 @@ public class UpgradeCounter extends InspectionComponent
 	private var width : float;
 	private var widthScale : float = 0.1;
 	
-	public function Initialize(id : UpgradeID, icon : Texture2D, disp : Tooltip)
+	private var event:EventScript;
+	
+	public function getEvent():EventScript
+	{
+		return event;
+	}
+	
+	public function setEvent(eventPointer:EventScript)
+	{
+		event = eventPointer;
+	}
+	
+	public function Initialize(id : UpgradeID, icon : Texture2D, disp : Tooltip, eventPointer: EventScript)
 	{
 		this.id = id;
+		event = eventPointer;
 		normalTexture = icon;
 		selectedTexture = icon;
 		topOffset = Screen.height * topOffsetScale;
@@ -22,9 +35,10 @@ public class UpgradeCounter extends InspectionComponent
 		Initialize(disp);
 	}
 	
-	public function Initialize(id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D)
+	public function Initialize(id : UpgradeID, icon : Texture2D, text : String, pic : Texture2D, eventPointer: EventScript)
 	{
 		this.id = id;
+		event = eventPointer;
 		normalTexture = icon;
 		selectedTexture = icon;
 		topOffset = Screen.height * topOffsetScale;

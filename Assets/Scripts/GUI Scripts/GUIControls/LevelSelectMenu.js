@@ -273,9 +273,9 @@ public class LevelSelectMenu extends GUIControl
 	private var activeLevelIndex : int = -1;
 	
 	private var startLevelButton : Rect;
-	private var startLevelButtonX : float = 0.72;
-	private var startLevelButtonY : float = 0.60;
-	private var startLevelButtonPercent:float = 0.19;
+	private var startLevelButtonX : float = 0.667;
+	private var startLevelButtonY : float = 0.66;
+	private var startLevelButtonPercent:float = 0.15;
 	
 	private var messageBuffer : Vector2;
 	private var messageRect : Rect;

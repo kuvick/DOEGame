@@ -133,6 +133,13 @@ public class MainMenu extends GUIControl
 	private var isZoomedOut:boolean;
 	public var enableZoom:boolean = false;
 	
+	private var color:Color;
+	private var speedColor:float = 0.05;
+	private var resolvedObj:boolean = false;
+	private var firstLoop:boolean = true;
+	private var setNewObjTexture:Texture;
+	private var eventID:int = 0;
+	
 	public function Start () 
 	{
 		super.Start();		
@@ -329,6 +336,17 @@ public class MainMenu extends GUIControl
 		
 		textDisplayRect = new Rect(0,Screen.height * 0.1,Screen.width * 0.40, Screen.height);
 		textDisplayRect.x = Screen.width / 2 - textDisplayRect.width / 2;
+		
+		if(intelSystem != null)
+		{
+		
+			for(var i:int = 0; i < intelSystem.events.Count; i++)
+			{
+				intelSystem.events[i].getObjIcon().setID(i);
+			}
+						
+		}
+		
 	}
 	
 	public function Render(){
@@ -515,74 +533,8 @@ public class MainMenu extends GUIControl
 		GUI.DrawTexture(objBGRect, objectiveBanner, ScaleMode.StretchToFill);
 		
 		
-		//addedObjIconBGRect = true;
-		/* --- the old way to display obj icons
-		GUI.BeginGroup(objIconGroupRect);
-			for(var i:int = 0; i < intelSystem.events.Count; i++)
-			{
-				//DISPLAYING OBJECTIVE ICON
-				var objIconRect = Rect(	(objIconSize.x + padding) * i, 
-										0,
-										objIconSize.x,
-										objIconSize.y);
-				
-				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
-				//If clicks on objective icon, centers on building
-				if(GUI.Button(objIconRect,""))
-				{
-					cameraControl.centerCameraOnPointInWorld(intelSystem.events[i].event.buildingReference.transform.position);
-					var objIconScript:ObjectiveIcon = intelSystem.events[i].getIconScript();
-					objIconScript.OnSelectedFromHUD(); // See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
-					
-					var buildingData : BuildingData = intelSystem.events[i].event.buildingReference.GetComponent(BuildingData);
-					
-					grid.CreateFlashingHexagon(buildingData.buildingData.coordinate);
-				}
-				if(!addedObjRect)
-				{
-					rectList.Add(objIconRect);
-				}
-										
-				//DISPLAYING NUMBER
-				if(intelSystem.events[i].event.type == BuildingEventType.Primary && !intelSystem.events[i].getResolved())
-				{		
-					GUI.Label(Rect(	(objIconSize.x + padding) * i, 
-											objIconSize.y / 2f,
-											objIconSize.x,
-											objIconSize.y),
-											intelSystem.events[i].event.time.ToString());
-				}
-				
-				//IF IT HAS AN UPGRADE
-				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
-				{
-					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
-
-					for(var j : int = 0; j < upgradeCount.getTotalParts(); j++)
-					{
-						//DISPLAYS THE DARK UPGRADE ICON CIRCLE FOR EACH ONE PRESENT IN THE LEVEL
-						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * j,
-												objIconSize.y + (padding / 2),
-												dataIconSize.x,
-												dataIconSize.y),
-												upgradeManager.notCollectedIconTexture);
-					}
-					
-					for(var k : int = 0; k < upgradeCount.getObtainedParts(); k++)
-					{	
-						//DISPLAYS THE LIGHTER UPGRADE ICON FOR EACH ONE COLLECTED
-						GUI.DrawTexture(Rect((objIconSize.x + padding) * i + ((padding / 2) + dataIconSize.x) * k,
-												objIconSize.y + (padding / 2),
-												dataIconSize.x,
-												dataIconSize.y),
-												upgradeManager.iconTexture);
-					}
-					
-				}
-			}
-		GUI.EndGroup();
-		*/
 		
+
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
@@ -593,6 +545,36 @@ public class MainMenu extends GUIControl
 										objIconSize.y);
 				
 				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
+						
+				
+				/*
+				if(resolvedObj)
+				{
+					if(firstLoop)
+					{
+						color.a = 0f;
+						firstLoop = false;
+					}
+					
+					color.a += speedColor;
+					
+					
+					if(color.a >= 1.0)
+					{
+						color.a = 1.0f;
+						resolvedObj = false;
+						firstLoop = true;
+						intelSystem.events[i].setIcon(setNewObjTexture);
+					}
+					GUI.color = color;
+					
+					GUI.DrawTexture(objIconRect, setNewObjTexture);
+					
+					GUI.color = Color.white;
+				}
+
+				*/
+				
 				//If clicks on objective icon, centers on building
 				if(GUI.Button(objIconRect,""))
 				{
@@ -618,34 +600,7 @@ public class MainMenu extends GUIControl
 								objIconSize.y),
 								intelSystem.events[i].event.time.ToString());
 				}
-				
-				//IF IT HAS AN UPGRADE
-				/*
-				if(intelSystem.events[i].event.upgrade != UpgradeID.None)
-				{
-					var upgradeCount : UpgradeCounter = upgradeManager.getUpgradeCounter(intelSystem.events[i].event.upgrade);
 
-					for(var j : int = 0; j < upgradeCount.getTotalParts(); j++)
-					{
-						//DISPLAYS THE DARK UPGRADE ICON CIRCLE FOR EACH ONE PRESENT IN THE LEVEL
-						GUI.DrawTexture(Rect((padding / 2.0) + ((padding / 2) + dataIconSize.x) * j,
-												(padding + (objIconSize.y + padding) * (i*1.5)) + objIconSize.y + (padding / 2),
-												dataIconSize.x,
-												dataIconSize.y),
-												hasNotDataIcon);
-					}
-					
-					for(var k : int = 0; k < upgradeCount.getObtainedParts(); k++)
-					{	
-						//DISPLAYS THE LIGHTER UPGRADE ICON FOR EACH ONE COLLECTED
-						GUI.DrawTexture(Rect((padding / 2.0) + ((padding / 2) + dataIconSize.x) * k,
-												(padding + (objIconSize.y + padding) * (i*1.5)) + objIconSize.y + (padding / 2),
-												dataIconSize.x,
-												dataIconSize.y),
-												hasDataIcon);
-					}
-					
-				}*/
 			}
 		GUI.EndGroup();
 		addedObjRect = true;
@@ -681,6 +636,21 @@ public class MainMenu extends GUIControl
 			dataRect.Add(new Rect(dataXPos * (i + 1) * 2, horizontalBarHeight + padding, dataIconBG.width, dataIconBG.height));
 		}
 	}*/
+	
+	public function triggerObjIconChange(id: int, resolvedText:Texture)
+	{
+		if(resolvedObj)
+		{
+			intelSystem.events[eventID].setIcon(setNewObjTexture);
+		}
+		
+		eventID = id;
+		setNewObjTexture = resolvedText;
+		resolvedObj = true;
+		firstLoop = true;
+		
+	}
+	
 	
 	private function LoadReferences(){
 		if (GameObject.Find("Database")){

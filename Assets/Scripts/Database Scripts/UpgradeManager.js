@@ -58,7 +58,7 @@ private function CreateCounters()
 		{
 			/*counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText, 
 										events[i].event.upgradeTooltipPic);*/
-			counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip);
+			counterSet[i].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip, events[i]);
 		}
 	}
 	
@@ -68,7 +68,7 @@ private function CreateCounters()
 		{
 			/*counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeText,
 																events[i].event.upgradeTooltipPic);*/
-			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip);
+			counterSet[events[i].event.upgrade - 1].Initialize(events[i].event.upgrade, counterTexture, events[i].event.upgradeTooltip, events[i]);
 			numCounters++;
 		}
 	}
@@ -168,7 +168,11 @@ public function PickupUpgrade(building : GameObject, id : UpgradeID)
 		Debug.Log("picked up");
 		temp.SetActive(false);
 		if (id != UpgradeID.Dummy)
+		{
 			counterSet[id - 1].IncrementObtained();
+
+			counterSet[id - 1].getEvent().getObjIcon().pickedUpDataSetTrue();
+		}
 	}
 }
 
