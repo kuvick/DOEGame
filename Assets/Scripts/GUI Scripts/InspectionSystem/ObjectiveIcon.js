@@ -25,10 +25,18 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var resolvedTexture : Texture2D;
 	private var unresolvedTexture : Texture2D;
+	private var dataPickedUpTexture : Texture2D;
 	private var isResolved : boolean = false;
 	
 	//Added to adjust icon scaling (GPC 8/16/13)
 	private var iconScale : Vector3 = Vector3(7,7,7);
+	
+	private var eventID:int;
+	
+	public function setID(num:int)
+	{
+		eventID = num;
+	}
 	
 	public function getIsPrimary():boolean
 	{
@@ -76,9 +84,13 @@ public class ObjectiveIcon extends InspectionComponent
 		{
 			turnMesh.active = false;
 			isPrimary = false;
+			dataPickedUpTexture = Resources.Load("dataSecondaryUnInspectedDATA") as Texture2D;
 		}
 		else
+		{
 			turnMesh.text = String.Empty + turns;
+			dataPickedUpTexture = Resources.Load("dataPrimaryUnInspectedDATA") as Texture2D;
+		}
 		
 		
 		//Added by GPC 8/16/13
@@ -222,12 +234,25 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var switchScale:boolean;
 	
+	
+	private var pickedUpData:boolean = false;
+	
+	public function isAnimating():boolean
+	{
+		return resolvedObj;
+	}
+	
 	function Update()
 	{
 		if(resolvedObj)
 		{
+			pickedUpData = false;
 			if(firstLoop)
 			{
+			
+				var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+				mainMenu.triggerObjIconChange(eventID, resolvedTexture);
+			
 				originalScale = transform.localScale;
 				switchScale = false;
 				
@@ -285,6 +310,79 @@ public class ObjectiveIcon extends InspectionComponent
 			blueMaterial.SetColor("_Color1", color1);
 			blueMaterial.SetColor("_Color2", color2);
 		}
+	
+		if(!resolvedObj && pickedUpData)
+		{
+			if(firstLoop)
+			{
+				originalScale = transform.localScale;
+				switchScale = false;
+				
+				originalMaterial = this.gameObject.renderer.material;
+				blueMaterial = Resources.Load("BuildingSite/BuildingAppear") as Material;
+				
+				this.gameObject.renderer.material = blueMaterial;
+				
+				if(resolvedObj)
+					blueMaterial.SetTexture("_MainTex", resolvedTexture);
+				else
+					blueMaterial.SetTexture("_MainTex", dataPickedUpTexture);
+				blueMaterial.SetTexture("_SubTex", unresolvedTexture);
+				
+				blueMaterial.mainTextureScale = Vector2(-1,-1);
+				blueMaterial.mainTextureOffset = Vector2(1,1);
+				
+				
+				blueMaterial.SetTextureOffset("_SubTex", Vector2(1,1));
+				blueMaterial.SetTextureScale("_SubTex", Vector2(-1,-1));
+				
+				color1 = Color.white;
+				color2 = Color.white;
+				color1.a = 0f;
+				color2.a = 1f;
+				
+				blueMaterial.SetColor("_Color1", color1);
+				blueMaterial.SetColor("_Color2", color2);
+				
+				firstLoop = false;
+			}
+			
+			color1.a += speed;
+			color2.a = 1.0 - color1.a;
+			
+			if(!switchScale)
+			{
+				transform.localScale += Vector3((originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed);
+				
+				if(color1.a >= 0.5)
+					switchScale = true;
+			}
+			else
+			{
+				transform.localScale -= Vector3((originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed, (originalScale.x * 2) *  speed);
+			}
+			
+			if(color1.a >= 1.0)
+			{
+				color1.a = 1.0f;
+				pickedUpData = false;
+				firstLoop = true;
+				switchScale = false;
+				this.gameObject.renderer.material = originalMaterial;
+				if(resolvedObj)
+					renderer.material.mainTexture = resolvedTexture;
+				else
+					renderer.material.mainTexture = dataPickedUpTexture;
+				transform.localScale = originalScale;
+			}
+			blueMaterial.SetColor("_Color1", color1);
+			blueMaterial.SetColor("_Color2", color2);
+		}
+	}
+	
+	public function pickedUpDataSetTrue()
+	{
+		pickedUpData = true;
 	}
 	
 }

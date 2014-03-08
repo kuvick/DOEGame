@@ -154,6 +154,11 @@ public function getIcon():Texture
 	return icon.texture;
 }
 
+public function setIcon(text:Texture)
+{
+	icon.texture = text;
+}
+
 public function getIconScript():ObjectiveIcon
 {
 	return icon;
