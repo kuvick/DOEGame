@@ -486,7 +486,13 @@ public class LevelSelectMenu extends GUIControl
 		
 		if(unlockedLevels.Count <= 0)
 		{
-			currentResponse.type = EventTypes.GAMECOMPLETE;
+			if(PlayerPrefs.HasKey("DisplayedGameComplete"))
+			{			
+				if(PlayerPrefs.GetInt("DisplayedGameComplete") != 1)
+					currentResponse.type = EventTypes.GAMECOMPLETE;
+			}
+			else
+				currentResponse.type = EventTypes.GAMECOMPLETE;
 		}
 		
 		//scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));

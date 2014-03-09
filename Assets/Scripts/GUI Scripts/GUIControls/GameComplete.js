@@ -55,6 +55,8 @@ public class GameComplete extends GUIControl
 			
 		}
 		
+		PlayerPrefs.SetInt("DisplayedGameComplete", 1);
+		
 	}
 	
 	public function Render()
