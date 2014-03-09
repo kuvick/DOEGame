@@ -341,6 +341,11 @@ public function checkTrigger()
 				if(currentArrow == null)
 					makeChange = true;
 			}
+			else if(pointers[0].trigger == StartTrigger.OnBuildingMenu && GUIManager.Instance().GetCurrentResponse().type == EventTypes.BUILDING)
+			{
+				if(currentArrow == null)
+					makeChange = true;
+			}
 			if(makeChange)
 			{
 				currentArrow = pointers[0];
@@ -472,7 +477,8 @@ public enum StartTrigger
 	ReachBuilding,
 	Turn,
 	AfterPreviousArrow,
-	OnScoreScreen
+	OnScoreScreen,
+	OnBuildingMenu
 }
 
 private function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float):Rect

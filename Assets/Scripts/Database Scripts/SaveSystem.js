@@ -452,9 +452,13 @@ public class Player
 	public function unlockCodex(codexName : String, data : CodexData):boolean
 	{
 		//codexData.UnlockCodex(codexName);
-		if(!codexEntries.Contains(codexName) && data.UnlockCodex(codexName))
+		if(data.UnlockCodex(codexName))//!codexEntries.Contains(codexName) && )
 		{
-			codexEntries.Add(codexName);
+			var alreadyUnlocked = codexEntries.Contains(codexName);
+			if(!alreadyUnlocked)//codexEntries.Contains(codexName))
+				codexEntries.Add(codexName);
+			else
+				(GameObject.Find("GUI System").GetComponent(ScoreMenu) as ScoreMenu).SetTechAlreadyUnlocked(true);
 			return true;
 		}
 		return false;

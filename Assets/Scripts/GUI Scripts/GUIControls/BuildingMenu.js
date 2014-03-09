@@ -88,6 +88,7 @@ public class BuildingMenu extends GUIControl
 	
 	public var darkenedIconTexture : Texture;
 	
+	private var tutorialPointers:TutorialPointers;
 	/*
 	Since it is easier to keep track of buildings in one spot, since all
 	Building Sites utlize the same list and there is the requirement of
@@ -248,6 +249,8 @@ public class BuildingMenu extends GUIControl
 		
 		LoadBuildingList();
 		buildingsChosen = new List.<int>();
+		
+		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	}
 	
 	
@@ -380,7 +383,7 @@ public class BuildingMenu extends GUIControl
 		resetButtonTexture();
 		
 		//GUI.skin = hexButtonSkin;
-		
+		tutorialPointers.Render();
 
 	}
 	

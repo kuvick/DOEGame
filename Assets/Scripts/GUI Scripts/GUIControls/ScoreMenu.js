@@ -166,6 +166,8 @@ public class ScoreMenu extends GUIControl
 	private var starRect : List.<Rect> = new List.<Rect>();
 	private var numOfStars : int;
 	private var numOfStarsCould : int;
+	
+	private var techAlreadyUnlocked:boolean = false;
 
 	public function Initialize()
 	{
@@ -530,8 +532,11 @@ public class ScoreMenu extends GUIControl
 			GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
 			if(technologyName != null && technologyName != "")
 			{
+				var dispText : String = " added to the Codex";
+				if (techAlreadyUnlocked)
+					dispText = " is already in the Codex";
 				GUI.Label(technologyNameRect, technologyName, redStyle);
-				GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
+				GUI.Label(addedToCodexRect, dispText, yellowStyle);
 			}
 			else	
 				GUI.Label(technologyNameRect, "No new technology added.", redStyle);
@@ -686,6 +691,11 @@ public class ScoreMenu extends GUIControl
 		
 		//Debug.Log("Tech Name: " + technologyName);		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
+	}
+	
+	function SetTechAlreadyUnlocked(already : boolean)
+	{
+		techAlreadyUnlocked = already;
 	}
 	
 	function AddComboPoints(): int
