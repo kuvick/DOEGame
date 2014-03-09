@@ -268,7 +268,8 @@ public function RecieveEvent(e:GUIEvent)
 */
 private function RespondTo(response:GUIEvent)
 {
-	switch (response.type)
+	currentResponse = response;
+	switch (currentResponse.type)
 	{
 		// Non-unique responses
 		case EventTypes.MAIN:
@@ -432,6 +433,11 @@ private function RespondTo(response:GUIEvent)
 			ClearControls();
 			AddGUIToControls(editorMenu);
 	}
+}
+
+public function GetCurrentResponse() : GUIEvent
+{
+	return currentResponse;
 }
 
 private function SetupLoading(nextLevel : String)

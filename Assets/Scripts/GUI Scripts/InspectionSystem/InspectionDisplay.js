@@ -309,12 +309,12 @@ private function SetTooltip()
 	FormatDisplay();
 	
 	
-	if(currentTooltip.toggleUndoButton || currentTooltip.toggleWaitButton)
+	/*if(currentTooltip.toggleUndoButton || currentTooltip.toggleWaitButton)
 		var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	if(currentTooltip.toggleUndoButton)
 		mainMenu.disableUndoButton = !mainMenu.disableUndoButton;
 	if(currentTooltip.toggleWaitButton)
-		mainMenu.disableSkipButton = !mainMenu.disableSkipButton;
+		mainMenu.disableSkipButton = !mainMenu.disableSkipButton;*/
 }
 
 private function RenderSingle()
