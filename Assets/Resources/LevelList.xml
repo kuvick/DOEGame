@@ -295,7 +295,7 @@
       <subjectText>The Fixer</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>0</missionRequirementIndex>
@@ -314,7 +314,7 @@
       <messageText>An introduction to how Engineers work</messageText>
 	  <objectiveText>Help recruit scientists to develop cutting edge energy storage technology.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>6</missionRequirementIndex>
@@ -865,7 +865,7 @@
       <displayName>24</displayName>
       <sceneName>DD11</sceneName> 
       <difficulty>2</difficulty>
-      <subjectText>DD11</subjectText>
+      <subjectText>Tactical Espionage Action</subjectText>
       <messageText>Counter-espionage is all about getting into the other guy’s head. Mind games. I figure here they are trying to hit us with a diversion on the refinery, but I know their game!</messageText>
 	  <objectiveText>Assist with critical refinery maintenance and deliver Dr. Watson to the Hilbert solar lab.</objectiveText>
       <isPrimary>true</isPrimary>

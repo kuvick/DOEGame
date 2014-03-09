@@ -131,7 +131,8 @@ public function SetAllocated (allo : boolean)
 	isAllocated = allo;
 	if (isAllocated)
 	{
-		currentTex = allocatedTex;
+		//Disabling texture change to see if this makes the game more readible GPC 3/8/14
+		//currentTex = allocatedTex;
 		//gameObject.renderer.material.color = allColor;
 	}
 	else

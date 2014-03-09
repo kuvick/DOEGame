@@ -202,7 +202,8 @@ public class StartMenu extends GUIControl
 		
 		// The distance from the bottom of the screen for the buttons
 		var distFromBottomOfScreen : float = screenHeight - (buttonSideBuffer * screenHeight) - (loginButton.height * percentage);
-		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
+		//loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
+		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * (percentage/1.5), loginButton.height * (percentage/1.5));
 		//facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
 		optionsButtonRect = Rect( screenWidth - (optionsButton.width * percentage) - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, optionsButton.width * percentage, optionsButton.height * percentage);
 		
