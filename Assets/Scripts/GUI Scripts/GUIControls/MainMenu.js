@@ -31,7 +31,8 @@ public class MainMenu extends GUIControl
 	public var disableSkipButton : boolean = false;
 			
 	// Main Menu Rectangles
-	private var pauseButton:Rect;   		
+	private var pauseButton:Rect;  
+	private var helpButton:Rect; 		
 	private var waitButton:Rect; 				
 	private var undoButton:Rect;				
 	private var scoreRect:Rect;
@@ -212,6 +213,9 @@ public class MainMenu extends GUIControl
     	
 		pauseButton = createRect(pauseTexture,0,0, 41.0 / 540.0, false);
 		pauseButton.x = screenWidth - pauseButton.width;
+		
+		helpButton = createRect(zoomButton,0,0, 41.0 / 540.0, false);
+		helpButton.x = pauseButton.x - (pauseButton.width);
 		
 		waitButton = createRect(waitTexture,0,0, 143.0 / 540.0, false);
 		waitButton.x = screenWidth - waitButton.width;
@@ -411,6 +415,10 @@ public class MainMenu extends GUIControl
 			
 			currentResponse.type = EventTypes.PAUSE;
 		}
+		
+		GUI.DrawTexture(helpButton, zoomButton, ScaleMode.StretchToFill);
+		if(GUI.Button(helpButton, String.Empty))
+			currentResponse.type = EventTypes.INTEL;
 		
 		//	ANDROID BACK BUTTON
 		if(Input.GetKeyUp(KeyCode.Escape))
