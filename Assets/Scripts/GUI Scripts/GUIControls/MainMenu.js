@@ -91,7 +91,8 @@ public class MainMenu extends GUIControl
 	private var mostRecentTurnScore : int = 0;
 	
 	//For displaying Objective Icons:
-	private var objIconSizePercentage : float = 0.08f;
+	//private var objIconSizePercentage : float = 0.08f;
+	private var objIconSizePercentage : float = 0.11f;
 	private var objIconSize : Vector2;
 	private var objIconGroupRect : Rect;
 	private var dataIconSizePercentage : float = 0.02f;
@@ -139,6 +140,9 @@ public class MainMenu extends GUIControl
 	private var firstLoop:boolean = true;
 	private var setNewObjTexture:Texture;
 	private var eventID:int = 0;
+	
+	//DEBUGGING
+	public var levelSkipAndroid:boolean = false;
 	
 	public function Start () 
 	{
@@ -220,7 +224,8 @@ public class MainMenu extends GUIControl
 		//scoreAndComboBGRect = createRect(scoreAndComboBG,0,0, 49.0 / 540.0, false);
 		//scoreAndComboBGRect.x = screenWidth / 2 - scoreAndComboBGRect.width / 2;
 		
-		objBGRect = createRect(objectiveBanner,0, 0, 55.0 / 540.0, false);
+		//objBGRect = createRect(objectiveBanner,0, 0, 55.0 / 540.0, false);
+		objBGRect = createRect(objectiveBanner,0, 0, 75 / 540.0, false);
 		objBGRect.x = screenWidth / 2 - objBGRect.width / 2;
 		
 		//scoreRect = createRect(new Vector2(243, 24), 223.0 / 691.0, 22.0 / 48.0, 24.0 / 48.0, false, scoreAndComboBGRect);
@@ -323,8 +328,6 @@ public class MainMenu extends GUIControl
 		var dataWidth : float = dataHeight * dataRatio;
 		dataIconSize = Vector2(dataWidth, dataHeight);
 		
-		
-		//var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		var objRectWidth : float = (objIconSize.x + padding) * intelSystem.events.Count;
 		objIconGroupRect = Rect(objBGRect.x, objBGRect.y + 0.1 * objBGRect.height, objRectWidth, objIconSize.y + padding);
 		//objBGRect = Rect(pauseButton.x - objRectWidth - padding, horizontalBarHeight, objRectWidth + padding, objIconSize.y + padding*2 + dataIconSize.x);
@@ -413,7 +416,12 @@ public class MainMenu extends GUIControl
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
 			SoundManager.Instance().playButtonClick();
-			currentResponse.type = EventTypes.PAUSE;
+			
+			if(levelSkipAndroid){
+				intelSystem.victory = true;
+			}else{	
+				currentResponse.type = EventTypes.PAUSE;
+			}
 		}
 		
 		if(!disableSkipButton && GUI.Button(waitButton, waitTexture))

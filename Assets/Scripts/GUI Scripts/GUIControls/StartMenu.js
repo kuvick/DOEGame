@@ -186,7 +186,7 @@ public class StartMenu extends GUIControl
 		
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 
-		percentage = screenWidth / 1920; //Assumes images made to spec of 1920 px
+		percentage = screenWidth / 1920 * 1.3; //Assumes images made to spec of 1920 px
 		currentScreen = CurrentStartScreen.FirstScreen;
 		
 		
@@ -213,6 +213,7 @@ public class StartMenu extends GUIControl
 		profileSelectButton = Rect(screenWidth * 0.01, (screenHeight - profileSelectHeight) * 0.95, profileSelectWidth, profileSelectHeight);
 		showProfiles = false;
 		
+		//logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		
 		//RiffSplashScreens();

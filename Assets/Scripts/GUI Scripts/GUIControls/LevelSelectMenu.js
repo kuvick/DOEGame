@@ -865,14 +865,14 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Update()
 	{
-		if(Input.GetKeyDown("k"))
-		{
-			unlockLevel("Tut1");
-		}
-		if(Input.GetKeyDown("j"))
-		{
-			unlockLevel("Tut2");
-		}
+//		if(Input.GetKeyDown("k"))
+//		{
+//			unlockLevel("Tut1");
+//		}
+//		if(Input.GetKeyDown("j"))
+//		{
+//			unlockLevel("Tut2");
+//		}
 	}
 	
 	public static function SetFromScoreScreen (fromScore : boolean)
