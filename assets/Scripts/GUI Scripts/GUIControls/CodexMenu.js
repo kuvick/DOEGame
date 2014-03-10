@@ -55,6 +55,8 @@ public class CodexMenu extends GUIControl
 	private var startHolding:boolean;
 	private var confirmHolding:boolean;
 	
+	private var startHex : Rect;
+	private var startHexBG : Rect;
 	private var hexBGRect:List.<Rect> = new List.<Rect>();
 	private var hexRect:List.<Rect> = new List.<Rect>();
 	private var hexCoverRect:List.<Rect> = new List.<Rect>();
@@ -464,8 +466,11 @@ public class CodexMenu extends GUIControl
 	private var currentNumOfCol:int = 7; // originally 5
 	private function reArrangeHexTiles(percentage:float)
 	{
-		var startHex:Rect = hexRect[0];
-		var startHexBG:Rect = hexBGRect[0];
+		/*if (hexRect.Count <= 0 || hexBGRect.Count <= 0)
+			return;*/
+		
+		/*var startHex:Rect = hexRect[0];
+		var startHexBG:Rect = hexBGRect[0];*/
 		
 		var row:int = -1;
 		
@@ -541,7 +546,7 @@ public class CodexMenu extends GUIControl
 		GUI.BeginGroup(hexGroup);
 			if(!doNotRender)
 			{
-				for(var i:int = 0; i < fullCodex.Count; i++)
+				for(var i:int = 0; i < fullCodex.Count && i < hexBGRect.Count; i++)
 				{
 					GUI.DrawTexture(hexBGRect[i], hexBGTexture, ScaleMode.StretchToFill);
 					GUI.DrawTexture(hexRect[i], fullCodex[i].icon, ScaleMode.StretchToFill);
@@ -698,8 +703,8 @@ public class CodexMenu extends GUIControl
 		
 		
 	
-		var startHex:Rect = createRect(fullCodex[0].icon,0,0, 0.4102, false);
-		var startHexBG:Rect = createRect(hexBGTexture,0,0, 0.4667, false);
+		startHex = createRect(fullCodex[0].icon,0,0, 0.4102, false);
+		startHexBG = createRect(hexBGTexture,0,0, 0.4667, false);
 		
 		startHex.x = startHexBG.width / 2 - startHex.width / 2;
 		startHex.y = startHexBG.height / 2 - startHex.height / 2;
