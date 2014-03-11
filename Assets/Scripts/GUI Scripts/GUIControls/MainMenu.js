@@ -416,10 +416,12 @@ public class MainMenu extends GUIControl
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
-		GUI.DrawTexture(helpButton, zoomButton, ScaleMode.StretchToFill);
-		if(GUI.Button(helpButton, String.Empty))
-			currentResponse.type = EventTypes.INTEL;
+		//Help menu disabled for now GPC 3/10/14
 		
+//		GUI.DrawTexture(helpButton, zoomButton, ScaleMode.StretchToFill);
+//		if(GUI.Button(helpButton, String.Empty))
+//			currentResponse.type = EventTypes.INTEL;
+//		
 		//	ANDROID BACK BUTTON
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
