@@ -464,11 +464,11 @@ public class LevelSelectMenu extends GUIControl
 			
 			//rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
 			
-			rankRect.x = padding;
-			agentRankRect1.x += rankRect.width + padding;
-			agentRankRect2.x += rankRect.width + padding;
-			playerRect.x += rankRect.width + padding;
-			progressBarRect.x = agentRankRect1.x;
+			rankRect.x = missionBackgroundRect.x + padding;
+			agentRankRect1.x += rankRect.x + rankRect.width + padding;
+			agentRankRect2.x += rankRect.x + rankRect.width + padding;
+			playerRect.x += rankRect.x + rankRect.width + padding;
+			progressBarRect.x = agentRankRect1.x - rankRect.width * 1.5f + padding;
 			
 		}	
 		else
