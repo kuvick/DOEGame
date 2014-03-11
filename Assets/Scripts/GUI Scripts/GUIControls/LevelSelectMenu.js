@@ -464,11 +464,11 @@ public class LevelSelectMenu extends GUIControl
 			
 			//rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
 			
-			rankRect.x = padding;
-			agentRankRect1.x += rankRect.width + padding;
-			agentRankRect2.x += rankRect.width + padding;
-			playerRect.x += rankRect.width + padding;
-			progressBarRect.x = agentRankRect1.x;
+			rankRect.x = missionBackgroundRect.x + padding;
+			agentRankRect1.x += rankRect.x + rankRect.width + padding;
+			agentRankRect2.x += rankRect.x + rankRect.width + padding;
+			playerRect.x += rankRect.x + rankRect.width + padding;
+			progressBarRect.x = agentRankRect1.x - rankRect.width * 1.5f + padding;
 			
 		}	
 		else
@@ -770,6 +770,12 @@ public class LevelSelectMenu extends GUIControl
 		}				
 		else	//Renders the Splash Screen
 		{
+			setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
+			if(GUI.Button(mainMenuIconRect, ""))
+			{
+				currentResponse.type = EventTypes.STARTMENU;
+			}
+			resetButtonTexture();
 			GUI.BeginGroup(missionBackgroundRect);
 				
 				GUI.DrawTexture(emailMessageBackgroundRect, emailMessageBackground,ScaleMode.StretchToFill);
