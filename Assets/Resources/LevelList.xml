@@ -154,7 +154,7 @@
       <messageText>So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>
       <objectiveText>Davincraft Aeronautics needs an Organic Flash Cycle system to keep up with demand for airplane parts.</objectiveText>
 	  <isPrimary>true</isPrimary>
-      <senderName>Director Helena Edison</senderName>
+      <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>5</missionRequirementIndex>
@@ -172,7 +172,7 @@
       <subjectText>If You Build It...</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>0</missionRequirementIndex>
@@ -190,7 +190,7 @@
       <messageText>An introduction to how Building Sites work</messageText>
 	  <objectiveText>Help Nava Automotive complete their ethanol fuel conversion research.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>13</missionRequirementIndex>
@@ -424,7 +424,7 @@
       <subjectText>Super Spy</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>NONE</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>0</missionRequirementIndex>

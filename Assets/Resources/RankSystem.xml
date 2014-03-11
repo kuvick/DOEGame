@@ -3,48 +3,72 @@
 	<!-- Currently using a system that automatically calculates min exp 
 	If we want to do it hard-coded, or only have it automatically calculate min exp
 	for past the level cap, would need to add min_exp attribute to the rank-->
-	<exp_multiplier>1.5</exp_multiplier>
+	<exp_multiplier>1.4</exp_multiplier>
 	<base_experience>50000</base_experience>
 	<Ranks>
 		<Rank>
-			<Name>New Recruit</Name>
+			<Name>Recruit</Name>
 			<Level>0</Level>
 		</Rank>
 		<Rank>
-			<Name>Agent Trainee</Name>
+			<Name>Desk Jockey</Name>
 			<Level>1</Level>
 		</Rank>
 		<Rank>
-			<Name>Probationary Agent</Name>
+			<Name>Agent Traineey</Name>
 			<Level>2</Level>
 		</Rank>
 		<Rank>
-			<Name>Novice Agent</Name>
+			<Name>Probationary Agent</Name>
 			<Level>3</Level>
 		</Rank>
 		<Rank>
-			<Name>Assistent Energy Agent</Name>
+			<Name>Novice Agent</Name>
 			<Level>4</Level>
 		</Rank>
 		<Rank>
-			<Name>Energy Agent</Name>
+			<Name>Assistent Energy Agent</Name>
 			<Level>5</Level>
 		</Rank>
 		<Rank>
-			<Name>Superior Energy Agent</Name>
+			<Name>Energy Agent</Name>
 			<Level>6</Level>
 		</Rank>
 		<Rank>
-			<Name>Chief Agent</Name>
+			<Name>Elite Agent</Name>
 			<Level>7</Level>
 		</Rank>
 		<Rank>
-			<Name>Senior Agent</Name>
+			<Name>Overqualified Agent</Name>
 			<Level>8</Level>
 		</Rank>
 		<Rank>
-			<Name>Elite Energy Agent</Name>
+			<Name>Hotshot Agent</Name>
 			<Level>9</Level>
+		</Rank>
+		<Rank>
+			<Name>Top Agent</Name>
+			<Level>10</Level>
+		</Rank>
+		<Rank>
+			<Name>Awesome Agent</Name>
+			<Level>11</Level>
+		</Rank>
+		<Rank>
+			<Name>Class A Agent</Name>
+			<Level>12</Level>
+		</Rank>
+		<Rank>
+			<Name>Ridiculously Good Agent</Name>
+			<Level>13</Level>
+		</Rank>
+		<Rank>
+			<Name>007 Material</Name>
+			<Level>14</Level>
+		</Rank>
+		<Rank>
+			<Name>World Class Agent</Name>
+			<Level>15</Level>
 		</Rank>
 	</Ranks>
 </RankSystem>
