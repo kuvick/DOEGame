@@ -90,9 +90,11 @@ function Start () {
 		guiCamera.orthographicSize = cameraSize;
 		buildingCamera.orthographicSize = cameraSize;
 		destinationSize = cameraSize;
+		minZoom = cameraSize + 150;
 	}
 	if (maxZoom <= 0)
 		maxZoom = cameraSize;
+
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	//*************
 	
@@ -506,10 +508,11 @@ public function Zoom(amount : float, zoomIn : boolean)
 {
 	zoomingIn = zoomIn;
  	zooming = true;
- 	if(zoomIn)
+ 	destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);
+ 	/*if(zoomIn)
  		destinationSize = Mathf.Clamp(destinationSize - amount, maxZoom, minZoom);
  	else
- 		destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);
+ 		destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);*/
 }
 
 public function centerCameraOnPointInWorld(centerPoint : Vector3)

@@ -470,8 +470,19 @@ public class CodexMenu extends GUIControl
 		/*if (hexRect.Count <= 0 || hexBGRect.Count <= 0)
 			return;*/
 		
-		/*var startHex:Rect = hexRect[0];
-		var startHexBG:Rect = hexBGRect[0];*/
+		var firstHex:Rect = hexRect[0];
+		var firstHexBG:Rect = hexBGRect[0];
+		
+		if (hexRect.Count > 0)
+		{
+			firstHex = hexRect[0];
+			firstHexBG = hexBGRect[0];
+		}
+		else
+		{
+			firstHex = startHex;
+			firstHexBG = startHexBG;
+		}
 		
 		var row:int = -1;
 		
@@ -487,8 +498,8 @@ public class CodexMenu extends GUIControl
 				row++;
 			
 		
-			var tempHex:Rect = startHex;
-			var tempHexBG:Rect = startHexBG;
+			var tempHex:Rect = firstHex;
+			var tempHexBG:Rect = firstHexBG;
 			
 			tempHex.x += (tempHexBG.width - (tempHexBG.width * hexDistancePercent)) * col;
 			tempHexBG.x = (tempHexBG.width - (tempHexBG.width * hexDistancePercent)) * col;

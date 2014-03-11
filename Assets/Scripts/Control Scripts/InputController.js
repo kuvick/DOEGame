@@ -50,6 +50,7 @@ private var fingerDown : int[] = new int[ 2 ];
 private var fingerDownPosition : Vector2[] = new Vector2[ 2 ];
 private var fingerDownFrame : int[] = new int[ 2 ];
 private var firstTouchTime : float;
+private var lastPinchDelta : float = 0;
 
 // used for mouse
 private var firstClickTime: float;
@@ -157,8 +158,10 @@ function PinchEvent(touch0 : Touch, touch1 : Touch)
 	var originalVector = fingerDownPosition[ 1 ] - fingerDownPosition[ 0 ];
 	var currentVector = touch1.position - touch0.position;            
 	var deltaDistance = originalVector.magnitude - currentVector.magnitude;
-	
-	cameraControlRef.Zoom(deltaDistance, deltaDistance >= 0);
+		
+	var zoomAmount : float = deltaDistance - lastPinchDelta;
+	cameraControlRef.Zoom(zoomAmount, zoomAmount >= 0);
+	lastPinchDelta = deltaDistance;
 }
 
 // called when a click/tap occurs
@@ -334,6 +337,7 @@ function HandleMobileInput(){
 	                    if ( Mathf.Abs( deltaDistance ) > zoomEpsilon ){
 	                        // The distance between fingers has changed enough
 	                        state = ControlState.ZoomingCamera;
+	                        lastPinchDelta = 0;
 	                    }
 	                }               
 	            }
