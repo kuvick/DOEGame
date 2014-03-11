@@ -246,7 +246,8 @@ public class CodexMenu extends GUIControl
 					}
 					else
 					{
-						changeTest = Input.touches[0].deltaPosition;
+						if (Input.touchCount > 0)
+							changeTest = Input.touches[0].deltaPosition;
 					}
 					
 					// Sees if the player has moved the minimum distance
