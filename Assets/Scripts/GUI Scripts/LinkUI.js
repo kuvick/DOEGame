@@ -110,7 +110,7 @@ private var displayLink : DisplayLinkRange;
 public var useDragLink : boolean = true;
 private var linkCaseOverride : boolean = false;
 
-public static var fadeTimer : float = 0.0;
+public static var fadeTimer : float = 0.5;
 private static var fadeScaler : float = 1.0;
 
 function Start () {
@@ -818,7 +818,7 @@ function Update()
 {
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-	
+
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	if (selectedBuilding == null)
@@ -864,6 +864,7 @@ function Update()
 	if (fadeTimer >= 1 || fadeTimer <= 0)
 		fadeScaler *= -1;
 	fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	Mathf.Clamp(fadeTimer, 0, 1);
 }
 
 private function RectInsideGUI(rectangle : Rect){
