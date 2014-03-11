@@ -99,6 +99,10 @@ private var triggeredReturn:boolean;
 
 private var speed:float = 0.8;
 
+private var tapToContinueRect:Rect;
+
+private var style:GUIStyle;
+
 function Start ()
 {
 	//developerList = developerList.Load();
@@ -201,6 +205,17 @@ function Start ()
 	content.text = "Thanks for playing!";
 	creditsHeight = skin.label.CalcHeight(content, Screen.width);
 	creditsRect.Add(new Rect(0, creditsRect[creditsRect.Count-1].y + creditsRect[creditsRect.Count-1].height + Screen.height/2, Screen.width, creditsHeight));
+	
+	style = new GUIStyle();
+	style.font = skin.label.font;
+	style.fontSize = skin.label.fontSize;
+	style.alignment = TextAnchor.UpperLeft;
+	style.normal.textColor = Color.white;
+	
+	var padding : float = Screen.height * 0.02;
+	var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
+	tapToContinueRect = Rect(Screen.width - size.x - padding, Screen.height - size.y - padding, size.x, size.y);
+	
 }
 
 function generateCreditString(devs: List.<Developer>):String
@@ -259,6 +274,10 @@ function generateList(devs: DeveloperList, type:DeveloperType): List.<Developer>
 function OnGUI()
 {
 	GUI.skin = skin;
+	
+	GUI.Label(tapToContinueRect, "Tap to continue.", style);
+	if(Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0)
+		Application.LoadLevel("StartScreen");
 	
 	GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
 	logoRect.y -= speed;
