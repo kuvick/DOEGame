@@ -183,6 +183,8 @@ public class StartMenu extends GUIControl
 		var playerData : GameObject = GameObject.Find("Player Data");
 		saveSystem = playerData.GetComponent("SaveSystem");
 		players = saveSystem.LoadNames();
+		if (saveSystem.currentPlayer && saveSystem.currentPlayer.name == "")
+			saveSystem.deletePlayer("");
 		
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 
@@ -346,7 +348,7 @@ public class StartMenu extends GUIControl
 				if (GUI.Button(loginButtonRect, ""))
 				{
 					players = saveSystem.LoadNames();
-					if(players.Count <=0)
+					if(players.Count <=0 || players[0] == "")
 					{
 						firstTime = true;
 						newUsername = "Enter Name";
