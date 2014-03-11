@@ -32,12 +32,12 @@ private var aspectRatioHeight : float = 4;
 public var aspectRatio : AspectRatios;
 public var useDefaultAspectRatio : boolean = true;
 private var revertedToDefault = true;
-public var cameraHeight = 400;
-public var cameraSize = 250;
+/*public var cameraHeight = 400;
+public var cameraSize = 250;*/
 static public var cameraAngle : float = 60;
 
-public var maxZoom : float;
-public var minZoom : float;
+public var maxZoomIn : float = 250; // max camera can be zoomed in, this will be the lower number
+public var maxZoomOut : float = 400; // max camera can be zoomed out, this will be the higher number
 
 public var showCameraLocation : boolean = false;
 
@@ -77,7 +77,7 @@ function Start () {
 	
 	// Setting camera for the current standard
 	thisCamera.orthographic = true;
-	if (minZoom > 0)
+	/*if (minZoom > 0)
 	{
 		thisCamera.orthographicSize = minZoom;
 		guiCamera.orthographicSize = minZoom;
@@ -91,9 +91,16 @@ function Start () {
 		buildingCamera.orthographicSize = cameraSize;
 		destinationSize = cameraSize;
 		minZoom = cameraSize + 150;
-	}
-	if (maxZoom <= 0)
-		maxZoom = cameraSize;
+	}*/
+	if (maxZoomIn <= 0)
+		maxZoomIn = 250f;
+	if (maxZoomOut <= 0)
+		maxZoomOut = 400f;
+		
+	thisCamera.orthographicSize = maxZoomIn;
+	guiCamera.orthographicSize = maxZoomIn;
+	buildingCamera.orthographicSize = maxZoomIn;
+	destinationSize = maxZoomIn;
 
 	thisCamera.transform.eulerAngles = Vector3(45,45,0);
 	//*************
@@ -492,13 +499,13 @@ public function cameraZoom(zoomIn:boolean)
 {
 	if(zoomIn)
 	{
-		destinationSize = 250f;
+		destinationSize = maxZoomIn;
 		zoomingIn = zoomIn;
 		zooming = true;
 	}
 	else
 	{
-		destinationSize = 400f;
+		destinationSize = maxZoomOut;
 		zoomingIn = zoomIn;
 		zooming = true;
 	}
@@ -508,7 +515,7 @@ public function Zoom(amount : float, zoomIn : boolean)
 {
 	zoomingIn = zoomIn;
  	zooming = true;
- 	destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);
+ 	destinationSize = Mathf.Clamp(destinationSize + amount, maxZoomIn, maxZoomOut);
  	/*if(zoomIn)
  		destinationSize = Mathf.Clamp(destinationSize - amount, maxZoom, minZoom);
  	else
