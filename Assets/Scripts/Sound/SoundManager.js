@@ -100,7 +100,7 @@ public class SoundManager extends MonoBehaviour {
 	
 	function Update()
 	{
-		if(waitingOnCurrentPlayer && saveSystem != null && saveSystem.currentPlayer.name != "")
+		if(waitingOnCurrentPlayer && saveSystem != null && saveSystem.currentPlayer && saveSystem.currentPlayer.name != "")
 		{
 			setVolumes(saveSystem.currentPlayer.sfxLevel, saveSystem.currentPlayer.musicLevel);
 			musicSource.volume = lowPriorityVolume;
