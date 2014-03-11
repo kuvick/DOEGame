@@ -770,6 +770,12 @@ public class LevelSelectMenu extends GUIControl
 		}				
 		else	//Renders the Splash Screen
 		{
+			setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
+			if(GUI.Button(mainMenuIconRect, ""))
+			{
+				currentResponse.type = EventTypes.STARTMENU;
+			}
+			resetButtonTexture();
 			GUI.BeginGroup(missionBackgroundRect);
 				
 				GUI.DrawTexture(emailMessageBackgroundRect, emailMessageBackground,ScaleMode.StretchToFill);
