@@ -191,6 +191,8 @@ public class StartMenu extends GUIControl
 		percentage = screenWidth / 1920 * 1.3; //Assumes images made to spec of 1920 px
 		currentScreen = CurrentStartScreen.FirstScreen;
 		
+		var generalButtonWidth : float = (creditsButton.width * percentage);
+		var generalButtonHeight : float = (creditsButton.height * percentage);
 		
 		// Start Screen:				
 		fontHeight = fontHeightPercent * screenHeight;
@@ -198,16 +200,16 @@ public class StartMenu extends GUIControl
 
 		
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		quitButton = Rect(screenWidth - (exitButton.width * percentage) - (buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), (exitButton.width * percentage), (exitButton.height * percentage));
-		creditsButtonRect = Rect((buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), (creditsButton.width * percentage), (creditsButton.height * percentage));
+		quitButton = Rect(screenWidth - generalButtonWidth - (buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
+		creditsButtonRect = Rect((buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
 		
 		
 		// The distance from the bottom of the screen for the buttons
-		var distFromBottomOfScreen : float = screenHeight - (buttonSideBuffer * screenHeight) - (loginButton.height * percentage);
+		var distFromBottomOfScreen : float = screenHeight - (buttonSideBuffer * screenHeight) - generalButtonHeight;
 		//loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
-		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * (percentage/1.5), loginButton.height * (percentage/1.5));
+		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, generalButtonWidth, generalButtonHeight);
 		//facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
-		optionsButtonRect = Rect( screenWidth - (optionsButton.width * percentage) - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, optionsButton.width * percentage, optionsButton.height * percentage);
+		optionsButtonRect = Rect( screenWidth - generalButtonWidth - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, generalButtonWidth, generalButtonHeight);
 		
 		profileSelectWidth = profileBGText.width * percentage;
 		profileSelectHeight = profileBGText.height * percentage;
