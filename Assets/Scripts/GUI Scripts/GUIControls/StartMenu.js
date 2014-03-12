@@ -464,8 +464,8 @@ public class StartMenu extends GUIControl
 							newUsername = GUI.TextField(profileButton, newUsername, 10);
 							
 							GUI.skin = startMenuSkin;
-							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
-							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);
+							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage *.8f) / 2;
+							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
 							setButtonTexture(approveButtonText, approveButtonTextPressed);
 							if(GUI.Button(deleteButton, ""))
 							{
