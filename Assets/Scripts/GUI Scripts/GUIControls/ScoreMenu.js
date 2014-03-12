@@ -580,6 +580,13 @@ public class ScoreMenu extends GUIControl
 					honorsTextures[i].hasEarned = true;
 					numOfStars++;
 				}
+				
+				if(!honorsTextures[i].couldBeEarned)
+				{
+					honorsTextures[i].score = 10;
+					numOfStars++;
+				}
+				
 			}
 			else if(honorsTextures[i].type == HonorType.Agile)
 			{
@@ -594,6 +601,12 @@ public class ScoreMenu extends GUIControl
 				{
 					honorsTextures[i].score = 10;
 					honorsTextures[i].hasEarned = true;
+					numOfStars++;
+				}
+				
+				if(!honorsTextures[i].couldBeEarned)
+				{
+					honorsTextures[i].score = 10;
 					numOfStars++;
 				}
 			}
@@ -611,8 +624,14 @@ public class ScoreMenu extends GUIControl
 					numOfStars += 2;
 					honorsTextures[i].hasEarned = true;
 				}
+				if(!honorsTextures[i].couldBeEarned)
+				{
+					honorsTextures[i].score = 20;
+					numOfStars+=2;
+				}
 			}
 		}
+		numOfStarsCould = 5;
 		
 		/*
 		var tempRect : Rect = new Rect();
