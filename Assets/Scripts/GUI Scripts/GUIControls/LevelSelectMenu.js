@@ -1010,7 +1010,8 @@ public class LevelSelectMenu extends GUIControl
 					var tutorialUnlockedModifier : int = 1;
 					if (levels[i].sceneName.Contains("riefing"))
 					{
-						i--; // decrement i to prevent the paired level from displaying
+						if(i!=0)
+							i--; // decrement i to prevent the paired level from displaying
 						// set loading playerpref variables to paired level
 						PlayerPrefs.SetString(Strings.NextLevel, levels[i].sceneName);
 						PlayerPrefs.SetString(Strings.CurrentLevel, levels[i].subjectText);
