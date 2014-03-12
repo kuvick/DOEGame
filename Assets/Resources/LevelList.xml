@@ -946,6 +946,21 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--Briefing3-->
+	<Level>
+      <displayName>0</displayName>
+      <sceneName>Tutorial_Briefing7</sceneName>
+      <difficulty>0</difficulty>
+      <subjectText>Official Commendation</subjectText>
+      <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
+      <isPrimary>true</isPrimary>
+      <senderName>Director Helena Edison</senderName>
+      <howToUnlock>NONE</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>0</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
 	<!-- INSERT FINAL BRIEFING -->
    </Levels>
 </LevelList>
