@@ -369,4 +369,34 @@ public class GUIControl extends MonoBehaviour
 	{
 		
 	}
+	
+	// Creates a bounding box that can be used to maintain a certain screen ratio
+	// that fits within the current screen size. This is different from
+	// createRect because it ensures the width is equal to Screen Width
+	// (which makes sense since this game is horizontal and not vertical)
+	public function createScreenRect(resolutionWidth:float, resolutionHeight:float):Rect
+	{
+
+		//var height:float = heightPercentage * screenHeight;
+		var textRatio:float = resolutionHeight / resolutionWidth;
+		var height:float = Screen.width * textRatio;
+		var y:float = Screen.height / 2 - height / 2;
+		
+		return Rect(0, y, Screen.width, height);	
+	}
+	public function createScreenRect():Rect
+	{
+
+		//var height:float = heightPercentage * screenHeight;
+		var textRatio:float = 16f/9f;
+		var height:float = Screen.width * textRatio;
+		var y:float = Screen.height / 2 - height / 2;
+		
+		return Rect(0, y, Screen.width, height);	
+	}
+	
+	public function calcFontSize(ratio:float):float
+	{
+		return Mathf.Min(Screen.width, Screen.height) / ratio;
+	}
 }
