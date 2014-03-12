@@ -66,6 +66,7 @@ public class Loading extends GUIControl
 	private var descFontScale : float = 0.2;
 	private var initialDescFontSize : float;
 	private var descFontSize : float;
+	private var jobFontSize:float;
 	
 	private var leftOffsetScale : float = 0.025;
 	private var leftOffset : float;
@@ -135,6 +136,10 @@ public class Loading extends GUIControl
 	
 	private var displayComicPanels:boolean;
 	
+	public var websiteButton:Texture;
+	public var websiteButtonPressed:Texture;
+	
+	
 	public function Initialize()
 	{
 		super.Initialize();
@@ -161,9 +166,10 @@ public class Loading extends GUIControl
 		}
 
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
-		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
-		screenRect.x = (screenWidth / 2) - (screenRect.width / 2);
-		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
+		//screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+		//screenRect.x = (Screen.width / 2) - (screenRect.width / 2);
+		//screenRect.y = (Screen.height / 2) - (screenRect.height / 2);
+		screenRect = createScreenRect(1920f, 1080f);
 		
 		currentFrame = framesPerSecond;
 		currentPanel = 0;
@@ -180,9 +186,11 @@ public class Loading extends GUIControl
 		style.font = regularFont;
 		style.wordWrap = true;
 		
+		jobFontSize = calcFontSize(18);
+		
 		//Making error. Not sure what this is. GPC 3/5/14
-		//buttonStyle = buttonSkin.GetStyle("BlueButtonRight");
-		//buttonStyle.fontSize = 48 * Screen.height / 1080.0;
+		buttonStyle = buttonSkin.GetStyle("BlueButtonRight");
+		buttonStyle.fontSize = 48 * Screen.height / 1080.0;
         buttonStyle.fontSize = Mathf.Min(Screen.width, Screen.height) / 30;
 		
 		/*style.normal.background = null;
@@ -200,11 +208,20 @@ public class Loading extends GUIControl
 		
 		loadingBGRect = createRect(loadingBackground,0,0.04, 0.86, false, screenRect);
 		
+		//var newWidth:float = Screen.width;
+		//var percentOfScreen:float = newWidth / loadingBGRect.width;
+		//var newHeight:float = loadingBGRect.height * percentOfScreen;
+		//var newY:float =  Screen.height / 2 - newHeight / 2;
+		//loadingBGRect = Rect(Screen.width / 2 - newWidth / 2, newY, newWidth, newHeight);
+		
+		
+		
+		
 		loadingStatusBoxRect = createRect(loadingStatusBox, 0, 0.81, 0.15, false, screenRect);
 		loadingStatusBoxRect.x = (screenRect.width / 2) - (loadingStatusBoxRect.width) / 2;
 		
 		
-		jobWebsiteButtonRect = createRect(viewJobWebsiteButton,0.55,0.61, 0.099, true, screenRect);
+		jobWebsiteButtonRect = createRect(websiteButton,0.55,0.61, 0.099, true, screenRect);
 		
 		//fullDescriptButtonRect = createRect(viewFullDescriptButton,0.55,0.67, 0.099, true);
 		//jobOnlineButtonRect = createRect(viewJobOnlineButton,0.55,0.55, 0.099, true);
@@ -220,14 +237,15 @@ public class Loading extends GUIControl
 		
 		
 		
-		jobTextRect = createRect( Vector2(732, 370), 0.48,0.22, 0.38, false, screenRect);
+		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);
 		
 		jobWebsiteButtonRect = createRect( Vector2(626, 145), 0.48, 0.58, 0.13, false, screenRect);
 		
 		//jobTextRect.y = panelRect.y;
 		
 		// So the job text rect will go all the way to just a little bit above the jobs online button
-		jobTextRect.height = jobWebsiteButtonRect.y -(jobTextRect.y + padding);
+		//jobTextRect.height = jobWebsiteButtonRect.y -(jobTextRect.y + padding);
+		//jobTextRect.height = jobTextRect.height - jobWebsiteButtonRect.height;
 		
 		loadingStatusRect = createRect( Vector2(855, 134), 0, 0.08, 0.85, true, loadingStatusBoxRect);
 		loadingStatusRect.x = (screenRect.width / 2) - (loadingStatusRect.width) / 2;
@@ -275,6 +293,8 @@ public class Loading extends GUIControl
 		style.stretchHeight = true;
 		style.margin = RectOffset (0, 0, 0, 0);
 		style.padding = RectOffset (0, 0, 0, 0);
+		
+		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
 	}
 	
 	public function Render() 
@@ -286,7 +306,7 @@ public class Loading extends GUIControl
 			
 				// New Loading Textures
 		
-		GUI.DrawTexture(loadingBGRect, loadingBackground);		
+		GUI.DrawTexture(loadingBGRect, loadingBackground, ScaleMode.StretchToFill);		
 		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
 		
@@ -383,15 +403,24 @@ public class Loading extends GUIControl
 			resetButtonTexture(style);
 			*/
 			
-			if (GUI.Button(jobWebsiteButtonRect,"Explore Careers", buttonStyle))
+			setButtonTexture(websiteButton, websiteButtonPressed, style);
+			
+			if(showConfirmation)
+				GUI.enabled = false;
+			
+			if (GUI.Button(jobWebsiteButtonRect,"", style))
 			{
 				//Application.OpenURL("http://energy.gov/jobs");
 				showConfirmation = true;
 			}
+			resetButtonTexture(style);
+			
+			if(showConfirmation)
+				GUI.enabled = true;
 			
 			
 			style.font = regularFont;
-			style.fontSize = descFontSize;
+			style.fontSize = jobFontSize;
 			style.alignment = TextAnchor.UpperLeft;
 			GUI.Label(jobTextRect, currentJobInformation, style);
 			
@@ -404,7 +433,8 @@ public class Loading extends GUIControl
 		{
 			if (hasFinishedDelay)
 			{
-				setButtonTexture(missionBeginButton, missionBeginButtonPressed, style);		
+				setButtonTexture(missionBeginButton, missionBeginButtonPressed, style);	
+						
 				if (GUI.Button(loadingStatusBoxRect, "", style))
 				{
 					if(!showConfirmation)
@@ -438,9 +468,7 @@ public class Loading extends GUIControl
 		
 		if (showConfirmation)
 		{
-			GUI.enabled = true;
 			RenderConfirmationWindow();
-			GUI.enabled = false;
 		}
 		
 		GUI.EndGroup();
@@ -458,14 +486,12 @@ public class Loading extends GUIControl
 		if (GUI.Button(confirmCancelRect, "Cancel", style))
 		{
 			showConfirmation = false;
-			GUI.enabled = true;
 		}
 		if (GUI.Button(confirmContinueRect, "Continue", style))
 		{
-			MetricContainer.IncrementSessionSiteClicks();
-			Application.OpenURL("http://energy.gov/jobs");
+			//MetricContainer.IncrementSessionSiteClicks(); -- this line is causing an error
+			Application.OpenURL("http://energy.gov/jobs/jobs");
 			showConfirmation = false;
-			GUI.enabled = true;
 		}
 		resetButtonTexture(style);
 		
@@ -526,12 +552,13 @@ public class Loading extends GUIControl
 		//currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
 		
 		style.font = regularFont;//boldFont;
-		descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
+		//descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
 		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
 		descRect.y = (screenHeight - height) / 2;
 		
 		descFontSize = Mathf.Min(Screen.width, Screen.height) * 0.035;
 		currentJobInformation = currentJobDesc;
+		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
 	}
 	
 	// calculates and sets font size to fit text within a given rect, starting from a given initial size

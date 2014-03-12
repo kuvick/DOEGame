@@ -14,8 +14,8 @@ public static class JobDatabase
 		reader.LoadFile(jobFileName);
 		jobList = reader.GetJobList();
 		initialized = true;
-		Debug.Log("initialize jobs: " + jobList.Count);
-		Debug.Log("job database initialized");
+		//Debug.Log("initialize jobs: " + jobList.Count);
+		//Debug.Log("job database initialized");
 	}
 	
 	
