@@ -93,9 +93,38 @@ public class CodexMenu extends GUIControl
 	
 	private var returningFromTechView:boolean;
 	
+	// variables for confirmation to go to site
+	private var showConfirmation : boolean = false;
+	private var confirmationRect : Rect;
+	private var confirmCancelRect : Rect;
+	private var confirmContinueRect : Rect;
+	private var confirmTextRect : Rect;
+	
+	public var infoBox:Texture;
+	public var infoButton:Texture;
+	public var infoButtonPressed:Texture;
+	
+	private var style:GUIStyle = GUIStyle();
+	
 	
 	public function Initialize(){
 		super.Initialize();
+		
+		// setup confirmation window
+		
+		style.normal.textColor = Color.white;
+		style.active.textColor = Color.white;
+		style.hover.textColor = Color.white;
+		style.font = descriptStyle.font;
+		style.wordWrap = true;
+		style.fontSize = Mathf.Min(Screen.width, Screen.height) * 0.035 * 0.9;		
+		style.alignment = TextAnchor.MiddleCenter;
+		
+		confirmationRect = Rect(.3 * Screen.width, .3 * Screen.height, .4*Screen.width, .4* Screen.height);
+		confirmCancelRect = Rect(confirmationRect.x + (.1 * confirmationRect.width), confirmationRect.y + .7 * confirmationRect.height - padding,
+								confirmationRect.width * .3, confirmationRect.height * .3);
+		confirmContinueRect = Rect((confirmationRect.x + confirmationRect.width) - ((.1 * confirmationRect.width) + confirmCancelRect.width), confirmCancelRect.y, confirmCancelRect.width, confirmCancelRect.height);
+		
 		
 		displayUnlocked = true;
 		displayLocked = true;
@@ -210,7 +239,7 @@ public class CodexMenu extends GUIControl
 	private var minZoomDistance:float = 10.0;
 	
 	public function Render()
-	{	
+	{
 		GUI.skin = skin;
 		
 		if(mainView)
@@ -410,6 +439,10 @@ public class CodexMenu extends GUIControl
 		// Header:
 		GUI.DrawTexture(codexLabelRect, codexLabelTexture);
 		setButtonTexture(backButtonTexture, backButtonTexturePressed);
+		
+		if(showConfirmation)
+				GUI.enabled = false;
+
 		if(GUI.Button(backButtonRect, ""))
 		{
 			if(!isHolding)
@@ -424,6 +457,10 @@ public class CodexMenu extends GUIControl
 				}
 			}
 		}
+		
+		if(showConfirmation)
+				GUI.enabled = true;
+		
 		resetButtonTexture();
 		
 		
@@ -444,6 +481,11 @@ public class CodexMenu extends GUIControl
 					returningFromTechView = true;
 				}
 			}
+		}
+		
+		if (showConfirmation)
+		{
+			RenderConfirmationWindow();
 		}
 
 	}
@@ -673,12 +715,23 @@ public class CodexMenu extends GUIControl
 			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);
 			GUI.DrawTexture(techIconRect, currentEntry.icon, ScaleMode.StretchToFill);
 			
+			
+			if(showConfirmation)
+				GUI.enabled = false;
+			
 			setButtonTexture(learnMoreButton, learnMoreButtonPressed);
 			if(GUI.Button(learnMoreRect, ""))
 			{
-				Application.OpenURL(currentEntry.urlLink);
+				//Application.OpenURL(currentEntry.urlLink);
+				showConfirmation = true;
 			}
-			resetButtonTexture();
+			resetButtonTexture(style);
+			
+			if(showConfirmation)
+				GUI.enabled = true;
+			
+			
+			
 		GUI.EndGroup();
 	}
 	
@@ -807,5 +860,23 @@ public class CodexMenu extends GUIControl
 		
 		scrollViewAreaRect = RectFactory.NewRect(0,0,scrollViewWidth, totalHeight);
 		*/
+	}
+	
+	private function RenderConfirmationWindow()
+	{		
+		setButtonTexture(infoBox, infoBox, style);
+		GUI.Box(confirmationRect, "Continue to technology website?", style);
+		setButtonTexture(infoButton, infoButtonPressed, style);
+		if (GUI.Button(confirmCancelRect, "Cancel", style))
+		{
+			showConfirmation = false;
+		}
+		if (GUI.Button(confirmContinueRect, "Continue", style))
+		{
+			//MetricContainer.IncrementSessionSiteClicks(); -- this line is causing an error
+			Application.OpenURL(currentEntry.urlLink);
+			showConfirmation = false;
+		}
+		resetButtonTexture(style);
 	}
 }

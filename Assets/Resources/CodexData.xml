@@ -156,7 +156,7 @@
 	  <description>This method combines standard electricity production with technology that recaptures thermal exhaust, increasing the energy output we can capture from a single source significantly.</description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>eGain Forecasting</name>
+	  <name>Forecasting Grid</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://en.wikipedia.org/wiki/Environmental_technology#eGain_forecasting</urlLink>
 	  <iconName>eGainForecasting_01</iconName>
