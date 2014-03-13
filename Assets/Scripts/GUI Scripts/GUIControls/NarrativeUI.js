@@ -435,7 +435,10 @@ public class NarrativeUI extends GUIControl
 		
 		//Application.LoadLevel(nextLevel.nextLevel);
 		//Application.LoadLevel(levelToLoad);
-		Application.LoadLevel("LoadingScreen");
+		if (PlayerPrefs.GetString(Strings.NextLevel) != "GameComplete")
+			Application.LoadLevel("LoadingScreen");
+		else
+			Application.LoadLevel("LevelSelectScreen");
 	}
 	
 	#if (!UNITY_WEBPLAYER)

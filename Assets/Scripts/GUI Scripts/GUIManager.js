@@ -282,7 +282,8 @@ private function RespondTo(response:GUIEvent)
 			Application.LoadLevel("LevelSelectScreen");
 			
 			ClearControls();
-			AddGUIToControls(levelSelectMenu);
+			// DH: Commented out 3-13, was causing level select to be double loaded and having issues with end game
+			//AddGUIToControls(levelSelectMenu);
 			break;
 		case EventTypes.BUILDING:
 			ClearControls();
