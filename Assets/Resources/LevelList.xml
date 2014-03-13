@@ -702,7 +702,7 @@
       <messageText>I always wanted a cabin in the middle of nowhere. A nice break away from my adoring fans. Don’t give me that look, they are coming. Just you wait!</messageText>
 	  <objectiveText>Provide resources to Bzzt Pow! Electrical to expand their power line coverage.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Director Helena Edison</senderName>
+      <senderName>Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>5</missionRequirementIndex>
