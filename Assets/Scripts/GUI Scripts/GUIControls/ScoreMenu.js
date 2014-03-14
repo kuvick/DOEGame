@@ -70,6 +70,7 @@ public class ScoreMenu extends GUIControl
 	public var ecrbPlaceholder : Texture;
 	private var techImage : Texture;
 	private var techImageRect : Rect;
+	private var techEntry : CodexEntry;
 	
 	// Text
 	private var textX : float = 810;
@@ -525,8 +526,18 @@ public class ScoreMenu extends GUIControl
 				 
 			GUI.EndGroup ();
 			
-			GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);	
+			GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);
 			GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
+			
+			if(techEntry != null)
+			{
+				if(GUI.Button(techImageRect, ""))
+				{
+					currentResponse.type = EventTypes.CODEXMENU;
+					var codexMenu:CodexMenu = GameObject.Find("GUI System").GetComponent(CodexMenu);
+					codexMenu.takeToCodexEntry(techEntry);
+				}
+			}
 		
 		
 			GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
@@ -704,9 +715,15 @@ public class ScoreMenu extends GUIControl
 		}
 		
 		if(technologyName != "")
+		{
 			techImage = saveSystem.codexData.GetCodexEntry(technologyName).icon;
+			techEntry = saveSystem.codexData.GetCodexEntry(technologyName);
+		}
 		else
+		{
 			techImage = ecrbPlaceholder;
+			techEntry = null;
+		}
 		
 		//Debug.Log("Tech Name: " + technologyName);		
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);

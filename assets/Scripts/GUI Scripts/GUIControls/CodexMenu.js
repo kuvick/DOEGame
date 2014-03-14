@@ -106,6 +106,8 @@ public class CodexMenu extends GUIControl
 	
 	private var style:GUIStyle = GUIStyle();
 	
+	private var fromScoreScreen:boolean = false;
+	
 	
 	public function Initialize(){
 		super.Initialize();
@@ -133,7 +135,11 @@ public class CodexMenu extends GUIControl
 		returningFromTechView = false;
 		
 		codices = new List.<CodexEntry>();
-		mainView = true;
+		
+		if(!fromScoreScreen)
+			mainView = true;
+		else
+			mainView = false;
 		isHolding = false;
 		startHolding = false;
 		confirmHolding = false;
@@ -453,7 +459,10 @@ public class CodexMenu extends GUIControl
 				}
 				else
 				{
-					mainView = true;
+					if(!fromScoreScreen)
+						mainView = true;
+					else
+						currentResponse.type = EventTypes.SCORESCREEN;
 				}
 			}
 		}
@@ -744,7 +753,7 @@ public class CodexMenu extends GUIControl
 		
 		displayLabel.x = displayBox.width / 2 - displayLabel.width / 2;
 		
-		displayUnlockedRect = createRect(showUnlockedButton,1.0/369.0, 58.0/218.0, 162.0/218.0, false, displayBox);
+		displayUnlockedRect = createRect(showUnlockedButton,1.0/369.0, 69.0/218.0, 140.0/218.0, false, displayBox);
 		displayLockedRect  = createRect(showLockedButton,208.0/369.0, 69.0/218.0, 140.0/218.0, false, displayBox);
 		
 		
@@ -860,6 +869,13 @@ public class CodexMenu extends GUIControl
 		
 		scrollViewAreaRect = RectFactory.NewRect(0,0,scrollViewWidth, totalHeight);
 		*/
+	}
+	
+	public function takeToCodexEntry(entry:CodexEntry)
+	{
+		currentEntry = entry;
+		mainView = false;
+		fromScoreScreen = true;
 	}
 	
 	private function RenderConfirmationWindow()
