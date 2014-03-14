@@ -505,7 +505,7 @@ public class LevelSelectMenu extends GUIControl
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 		}
 		// check whether to go directly to level instead of loading dashboard
-		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials)
+		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials || (unlockedLevels.Count > 0 && unlockedLevels[0] == levels[0]))
 		{
 			showSplash = true;
 			checkRender = true;
