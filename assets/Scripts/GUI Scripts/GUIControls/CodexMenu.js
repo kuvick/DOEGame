@@ -406,23 +406,46 @@ public class CodexMenu extends GUIControl
 				if(enactZoom)
 				{
 					//if(zoomIn && hexGroup.width < Screen.width * 2)
-					if(zoomIn && (currentNumOfCol > 3))
+					//if(zoomIn && (currentNumOfCol > 3))
+					
+					if(zoomIn && (hexGroup.width < 2000))
 					{
 						//if(currentNumOfCol > 3)
 							//currentNumOfCol--;
-							
-						recalculateRectForHexes(1.1);
+						/*if(touchZoom)
+							recalculateRectForHexes(tapDistance);
+						else
+						{
+							var change1:float = 1f + Mathf.Abs(Input.GetAxis("Mouse ScrollWheel"));
+							if(change1 > 1.3)
+								change1 = 1.3;
+							recalculateRectForHexes(change1);
+						}
+						*/	
+						recalculateRectForHexes(1.01);
 						
 						//hexGroup.width = hexGroup.width * 1.1;
 						//hexGroup.height = hexGroup.height * 1.1;
 					}
 					//else if(!zoomIn && hexGroup.width > Screen.width * 0.9)
-					else if(!zoomIn && (currentNumOfCol < 11))
+					//else if(!zoomIn && (currentNumOfCol < 11))
+					else if(!zoomIn && (hexGroup.width > 900))
 					{
+						/*
+						if(touchZoom)
+							recalculateRectForHexes(1f / tapDistance);
+						else
+						{
+							var change2:float = Mathf.Abs(Input.GetAxis("Mouse ScrollWheel"));
+							if(change2 < 0.5)
+								change2 = 0.5;
+							recalculateRectForHexes(change2);
+						}
+						*/
+					
 						//if(currentNumOfCol < 11)
 							//currentNumOfCol++;
-							
-						recalculateRectForHexes(0.9);
+						recalculateRectForHexes(0.99);
 						//hexGroup.width = hexGroup.width * 0.9;
 						//hexGroup.height = hexGroup.height * 0.9;
 					}
@@ -501,6 +524,9 @@ public class CodexMenu extends GUIControl
 	
 	private function recalculateRectForHexes(percentage:float)
 	{
+		var addedWidth:float = hexBGRect[0].width;
+		var addedHeight:float = hexBGRect[0].height;
+		
 		for(var i:int = 0; i < fullCodex.Count; i++)
 		{
 			hexBGRect[i] = Rect(hexBGRect[i].x * percentage, hexBGRect[i].y * percentage, hexBGRect[i].width * percentage, hexBGRect[i].height * percentage);
@@ -511,8 +537,15 @@ public class CodexMenu extends GUIControl
 			hexCoverRect[j] = Rect(hexCoverRect[j].x * percentage, hexCoverRect[j].y * percentage, hexCoverRect[j].width * percentage, hexCoverRect[j].height * percentage);
 		}
 		
-		currentNumOfCol = (screenWidth / hexRect[0].width) + 2;
-		reArrangeHexTiles(percentage);
+		addedWidth = -1 * (hexBGRect[0].width - addedWidth) * (currentNumOfCol / 9);
+		addedHeight = -1 * (hexBGRect[0].height - addedHeight) * (totalRows / 5);
+		
+		//currentNumOfCol = (screenWidth / hexRect[0].width) + 2;
+		//reArrangeHexTiles(percentage);
+		hexGroup = new Rect(hexGroup.x + addedWidth,
+				hexGroup.y + addedHeight,
+				(hexBGRect[0].width - (hexBGRect[0].width * hexDistancePercent)) * (currentNumOfCol + 1),
+				(totalRows + 2) * hexBGRect[0].height);
 	}
 	
 	private var currentNumOfCol:int = 7; // originally 5
@@ -710,6 +743,7 @@ public class CodexMenu extends GUIControl
 	
 	public var titleStyle:GUIStyle;
 	public var descriptStyle:GUIStyle;
+	private var totalRows:int;
 	
 	private function RenderEntry()
 	{
@@ -831,6 +865,8 @@ public class CodexMenu extends GUIControl
 		hexGroup = new Rect(0,codexLabelRect.height * 1.3,
 				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol+1),
 				(row + 2) * tempHexBG.height);
+				
+		totalRows = row;
 	
 	
 		originalYHexGroup = hexGroup.y;
