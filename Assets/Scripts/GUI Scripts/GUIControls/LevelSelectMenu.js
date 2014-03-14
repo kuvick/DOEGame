@@ -316,6 +316,17 @@ public class LevelSelectMenu extends GUIControl
 	
 	private var checkRender : boolean = false;
 	
+	//Dragging
+	private var lastMousePos: Vector2;
+	private var useMouse:boolean;
+	private var startMousePosition:Vector2;
+	private var startTapPosition:Vector2;
+	private var checkDelta : int;
+	private var firstPass:boolean;
+	private var isHolding:boolean;
+	private var startHolding:boolean;
+	private var confirmHolding:boolean;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -324,6 +335,14 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		//Dragging variables:
+		isHolding = false;
+		startHolding = false;
+		confirmHolding = false;
+		firstPass = false;
+		checkDelta = 0;
+		
 		
 		returnedFromMessage = false;
 		
@@ -526,6 +545,81 @@ public class LevelSelectMenu extends GUIControl
 	
 	private function RenderLevels(levelsToRender : List.<LevelNode>, displayDifficulty : boolean)
 	{
+		
+		// USES DRAGGING CODE FROM CODEX MENU BUT CHANGED TO FIT THIS SCREEN
+		if(!inboxTab)
+		{
+			//To check if the user is holding down in order to drag
+			if (!startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
+			{
+				//Debug.Log("Input detected");
+				startHolding = true;
+				confirmHolding = false;
+				HoldWait();
+				
+			}
+			else if(startHolding && !confirmHolding)
+			{
+				var changeTest:Vector2;
+			
+				if(useMouse)
+				{
+					changeTest = Input.mousePosition - lastMousePos;
+					lastMousePos = Input.mousePosition;
+				}
+				else
+				{
+					if (Input.touchCount > 0)
+						changeTest = Input.touches[0].deltaPosition;
+				}
+				
+				// Sees if the player has moved the minimum distance
+				if((Mathf.Abs(changeTest.x) > 1) || (Mathf.Abs(changeTest.y) > 1))
+				{
+					startHolding = true;
+					confirmHolding = true;
+					isHolding = true;
+					released = false;
+				}
+					
+			}
+
+			// CHECKING FOR RELEASE
+			if (startHolding && (!Input.GetKey(KeyCode.Mouse0) && Input.touchCount <= 0))
+			{
+				startHolding = false;
+				isHolding  = false;
+				confirmHolding = false;
+				ReleaseWait();
+			}
+			
+			
+			if(isHolding)
+			{
+				var change:Vector2;
+			
+				if(useMouse)
+				{
+					change = Input.mousePosition - lastMousePos;
+					lastMousePos = Input.mousePosition;
+				}
+				else
+				{
+					change = Input.touches[0].deltaPosition;
+				}
+				
+				levelSelectScrollPos.y += (change.y) * 2;
+				
+				if(	levelSelectScrollPos.y < 0)
+				{
+					levelSelectScrollPos.y = 0;
+				}
+				// Scroll seems to automatically stop when it can go no further
+			}
+			
+
+		}
+	
 		// Scroll bar
 		
 		//GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
@@ -750,7 +844,7 @@ public class LevelSelectMenu extends GUIControl
 				if (inboxTab)
 					scrollContent.height = (unlockedLevels.Count + 1) * (messageHeightPercent * screenHeight) + (levels.Length + 1) * .05;
 				else
-					scrollContent.height = (completedLevels.Count + 1) * (messageHeightPercent * screenHeight) + (levels.Length + 1) * .05;
+					scrollContent.height = (completedLevels.Count + 3) * (messageHeightPercent * screenHeight) + (levels.Length + 1) * .05;
 			}
 			
 			//GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
@@ -850,6 +944,32 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		
+	}
+	
+	private function HoldWait()
+	{
+		//Debug.Log("waiting");
+		//yield WaitForSeconds(0.07);
+		
+		if (startHolding && (Input.GetKey(KeyCode.Mouse0) || Input.touchCount > 0))
+		{
+			if(Input.GetKey(KeyCode.Mouse0))
+			{
+				lastMousePos = Input.mousePosition;
+				useMouse = true;
+			}
+			else
+				useMouse = false;
+		}
+	}
+	
+	//So it doesn't recongize it as a "click" for the button underneath
+	private var released:boolean;
+	private function ReleaseWait()
+	{
+		//Debug.Log("waiting");
+		yield WaitForSeconds(0.03);
+		released = true;
 	}
 	
 	/*
