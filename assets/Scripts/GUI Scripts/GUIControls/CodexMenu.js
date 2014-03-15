@@ -665,7 +665,7 @@ public class CodexMenu extends GUIControl
 		
 		GUI.BeginGroup(displayBox);
 			GUI.skin.label.alignment = TextAnchor.UpperCenter;
-			GUI.Label(displayLabel, "DISPLAY");
+			GUI.Label(displayLabel, "SHOW:");
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			GUI.DrawTexture(displayUnlockedRect, currentUnlockedTexture, ScaleMode.StretchToFill);
 			GUI.DrawTexture(displayLockedRect, currentLockedTexture, ScaleMode.StretchToFill);
