@@ -185,12 +185,14 @@ public class ObjectiveIcon extends InspectionComponent
 	public function SetResolved(res : boolean)
 	{
 		isResolved = res;
+		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		if (isResolved)
 		{
 			turnMesh.active = false;
 			//normalTexture = resolvedTexture;
 			resolvedObj = true;
 			firstLoop = true;
+			mainMenu.triggerObjIconChange(eventID, resolvedTexture);
 		}
 		else
 		{
@@ -208,6 +210,7 @@ public class ObjectiveIcon extends InspectionComponent
 				renderer.material.mainTexture = unresolvedTexture;
 				transform.localScale = originalScale;
 			}
+			mainMenu.triggerObjIconChange(eventID, unresolvedTexture);
 		}
 		currentTexture = normalTexture;
 		renderer.material.mainTexture = currentTexture;
@@ -248,11 +251,7 @@ public class ObjectiveIcon extends InspectionComponent
 		{
 			pickedUpData = false;
 			if(firstLoop)
-			{
-			
-				var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-				mainMenu.triggerObjIconChange(eventID, resolvedTexture);
-			
+			{			
 				originalScale = transform.localScale;
 				switchScale = false;
 				
@@ -383,6 +382,24 @@ public class ObjectiveIcon extends InspectionComponent
 	public function pickedUpDataSetTrue()
 	{
 		pickedUpData = true;
+		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		mainMenu.triggerObjIconChange(eventID, dataPickedUpTexture);
+	}
+	public function resetTexture()
+	{
+		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		mainMenu.triggerObjIconChange(eventID, unresolvedTexture);
+		pickedUpData = false;
+		
+		color1.a = 1.0f;
+		pickedUpData = false;
+		firstLoop = true;
+		switchScale = false;
+		this.gameObject.renderer.material = originalMaterial;
+		renderer.material.mainTexture = unresolvedTexture;
+		transform.localScale = originalScale;
+		blueMaterial.SetColor("_Color1", color1);
+		
 	}
 	
 }

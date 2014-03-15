@@ -136,11 +136,15 @@ public class MainMenu extends GUIControl
 	public var enableZoom:boolean = false;
 	
 	private var color:Color;
-	private var speedColor:float = 0.05;
+	private var speedColor:float = 0.03;
 	private var resolvedObj:boolean = false;
+	private var pickedUpData:boolean = false;
 	private var firstLoop:boolean = true;
 	private var setNewObjTexture:Texture;
 	private var eventID:int = 0;
+	private var centerPos:Vector2;
+	private var recIncrement:float;
+	private var switchScale:boolean;
 	
 	//DEBUGGING
 	public var levelSkipAndroid:boolean = false;
@@ -197,6 +201,8 @@ public class MainMenu extends GUIControl
 	public function Initialize()
 	{	
 		super.Initialize();
+		
+		color = Color.white;
 		
 		addedObjRect = false;
 		//addedObjIconBGRect = false;
@@ -343,16 +349,6 @@ public class MainMenu extends GUIControl
 		
 		textDisplayRect = new Rect(0,Screen.height * 0.1,Screen.width * 0.40, Screen.height);
 		textDisplayRect.x = Screen.width / 2 - textDisplayRect.width / 2;
-		
-		if(intelSystem != null)
-		{
-		
-			for(var i:int = 0; i < intelSystem.events.Count; i++)
-			{
-				intelSystem.events[i].getObjIcon().setID(i);
-			}
-						
-		}
 		
 	}
 	
@@ -556,34 +552,65 @@ public class MainMenu extends GUIControl
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
-				//DISPLAYING OBJECTIVE ICON
-				var objIconRect = Rect(	padding + (objIconSize.x + padding) * (i*2), 
+				var objIconRect: Rect = Rect(	padding + (objIconSize.x + padding) * (i*2), 
 										0,
 										objIconSize.x,
 										objIconSize.y);
+				//DISPLAYING OBJECTIVE ICON						
+				if(resolvedObj && eventID == i && !firstLoop)
+				{
+					
+					objIconRect = Rect(	centerPos.x - ((objIconSize.x + recIncrement) / 2), 
+										centerPos.y - ((objIconSize.y + recIncrement) / 2),
+										objIconSize.x + recIncrement,
+										objIconSize.y + recIncrement);
+
+
+					if(!switchScale)
+					{
+						recIncrement+= 1;
+						if(recIncrement > 15)
+							switchScale = true;
+					}
+					else
+					{
+						recIncrement-= 1;
+						if(recIncrement <= 0)
+						{
+							color.a = 1.0f;
+							resolvedObj = false;
+							firstLoop = true;
+							intelSystem.events[i].setIcon(setNewObjTexture);
+						}
+					}
+			
+				}
 				
 				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
 						
 				
-				/*
-				if(resolvedObj)
+				// ANIMATION
+				if(resolvedObj && eventID == i)
 				{
 					if(firstLoop)
 					{
 						color.a = 0f;
 						firstLoop = false;
+						recIncrement = 0;
+						switchScale = false;
+						centerPos = Vector2(objIconRect.x + objIconRect.width / 2, objIconRect.y + objIconRect.height / 2);
 					}
 					
 					color.a += speedColor;
 					
-					
+					/*
 					if(color.a >= 1.0)
 					{
 						color.a = 1.0f;
 						resolvedObj = false;
 						firstLoop = true;
 						intelSystem.events[i].setIcon(setNewObjTexture);
-					}
+					}*/
 					GUI.color = color;
 					
 					GUI.DrawTexture(objIconRect, setNewObjTexture);
@@ -591,7 +618,7 @@ public class MainMenu extends GUIControl
 					GUI.color = Color.white;
 				}
 
-				*/
+				
 				
 				//If clicks on objective icon, centers on building
 				if(GUI.Button(objIconRect,""))
@@ -655,18 +682,13 @@ public class MainMenu extends GUIControl
 		}
 	}*/
 	
-	public function triggerObjIconChange(id: int, resolvedText:Texture)
-	{
-		if(resolvedObj)
-		{
-			intelSystem.events[eventID].setIcon(setNewObjTexture);
-		}
-		
+	public function triggerObjIconChange(id: int, newText:Texture)
+	{		
 		eventID = id;
-		setNewObjTexture = resolvedText;
+		setNewObjTexture = newText;
 		resolvedObj = true;
 		firstLoop = true;
-		
+		pickedUpData = false;
 	}
 	
 	

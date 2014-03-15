@@ -192,7 +192,9 @@ function Start ()
 					// or a singular event
 					tempEventClass.showIcon = true;
 					tempEventClass.SetIconActive(true);
+					tempEventClass.getObjIcon().setID(i);
 					events.Add(tempEventClass);
+					//events[i]
 					
 					if(tempEventClass.event.type == BuildingEventType.Primary)
 					{
