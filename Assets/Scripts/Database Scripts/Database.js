@@ -858,13 +858,13 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	
 	if (hasResource)
 	{
-		/*if(isWaitingForLink)
+		if(isWaitingForLink)
 		{
 			var pointerScript2 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 			//Altered GPC 2/20/14
 			//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 			pointerScript2.checkForLink();
-		}*/
+		}
 			
 		return oldInputBuildingIndex;//hasResource;
 	}
