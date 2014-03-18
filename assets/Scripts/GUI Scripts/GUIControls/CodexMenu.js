@@ -554,8 +554,8 @@ public class CodexMenu extends GUIControl
 		/*if (hexRect.Count <= 0 || hexBGRect.Count <= 0)
 			return;*/
 		
-		var firstHex:Rect = hexRect[0];
-		var firstHexBG:Rect = hexBGRect[0];
+		var firstHex:Rect;// = hexRect[0];
+		var firstHexBG:Rect;// = hexBGRect[0];
 		
 		if (hexRect.Count > 0)
 		{
