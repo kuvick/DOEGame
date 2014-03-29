@@ -198,7 +198,7 @@ public class LevelSelectMenu extends GUIControl
 			private var progressBarRect: Rect;
 			private var progressBarX: float=54;
 			private var progressBarY: float=120;
-			private var progressBarPercent:float=0.034;
+			private var progressBarPercent:float=0.028;
 	private var designWidth : float = 1920;
 	private var designHeight : float = 1080;
 	public var startLevelButtonTexture: Texture;
@@ -242,6 +242,7 @@ public class LevelSelectMenu extends GUIControl
 	
 	private var levelGroup:Rect;
 
+	private var screenRect:Rect;
 	
 	//Scroll
 	private var scrollArea:Rect;
@@ -327,6 +328,8 @@ public class LevelSelectMenu extends GUIControl
 	private var startHolding:boolean;
 	private var confirmHolding:boolean;
 	
+	private var topRect:Rect;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -335,6 +338,11 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
+		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
+		screenRect.x = (screenWidth / 2) - (screenRect.width / 2);
+		screenRect.y = (screenHeight / 2) - (screenRect.height / 2);
 		
 		//Dragging variables:
 		isHolding = false;
@@ -391,15 +399,17 @@ public class LevelSelectMenu extends GUIControl
 		
 		
 		
-		var sideButtonArea : Rect = Rect(0,0,260/designWidth * screenWidth, 1080/designHeight * screenHeight);
+		//var sideButtonArea : Rect = Rect(0,0,260/designWidth * screenWidth, 1080/designHeight * screenHeight);
+		
+		var sideButtonArea : Rect = createRect(Vector2(280,1080),0,0,1, false, screenRect);
 	
 										  
 		codexIconRect = createRect(codexIconText, codexX / 260, codexY / designHeight, sideButtonHeightPercent, true, sideButtonArea);
 		archiveIconRect = createRect(archiveIconText, archiveX / 260, archiveY / designHeight, sideButtonHeightPercent, true, sideButtonArea);
 		
-		missionBackgroundRect = createRect(missionBackgroundText, missionBGX / designWidth, missionBGY / designHeight, missionBGHeightPercent, true);
-		mainMenuIconRect = createRect(mainMenuIconText, mainMenuX / designWidth, mainMenuY / designHeight, mainMenuPercent, true);										  
-		progressBarRect = createRect(progressBarBGText, progressBarX / designWidth, progressBarY / designHeight, progressBarPercent, false);
+		missionBackgroundRect = createRect(missionBackgroundText, missionBGX / designWidth, missionBGY / designHeight, missionBGHeightPercent, true, screenRect);
+		mainMenuIconRect = createRect(mainMenuIconText, mainMenuX / designWidth, mainMenuY / designHeight, mainMenuPercent, false, screenRect);										  
+		progressBarRect = createRect(progressBarBGText, progressBarX / designWidth, progressBarY / designHeight, progressBarPercent, false, screenRect);
 		
 		
 		emailMessageBackgroundRect = createRect(emailMessageBackground,emailMessageX/ designWidth, emailMessageY/designHeight, emailMessagePercent, true, missionBackgroundRect);
@@ -453,7 +463,7 @@ public class LevelSelectMenu extends GUIControl
 									  screenHeight * rank1Y / designHeight,
 									  (agentRank.Length * levelSelectSkin.customStyles[0].fontSize * 0.7),
 									  levelSelectSkin.customStyles[0].fontSize * 2);
-											  
+			
 			// Rank Rect 1:
 			agentRankRect2 = new Rect(screenWidth * rank2X / designWidth, 
 									  screenHeight * rank2Y / designHeight,
@@ -465,8 +475,6 @@ public class LevelSelectMenu extends GUIControl
 								  screenHeight * rank1Y / designHeight,
 								  playerName.Length * levelSelectSkin.customStyles[0].fontSize,
 								  levelSelectSkin.customStyles[0].fontSize * 10);
-								  
-			
 			
 			
 			var rankNameCalcSize : Vector2 = rank2Style.CalcSize(GUIContent(agentRank));
@@ -487,8 +495,40 @@ public class LevelSelectMenu extends GUIControl
 			agentRankRect1.x += rankRect.x + rankRect.width + padding;
 			agentRankRect2.x += rankRect.x + rankRect.width + padding;
 			playerRect.x += rankRect.x + rankRect.width + padding;
-			progressBarRect.x = agentRankRect1.x - rankRect.width * 1.5f + padding;
+			//progressBarRect.x = agentRankRect1.x - rankRect.width * 1.5f + padding;
+			progressBarRect.x = agentRankRect1.x;
 			
+			
+			topRect = createRect(Vector2(1545, 171), 0,0, 0.158, false, screenRect);
+			
+			if(topRect.width > mainMenuIconRect.x)
+				topRect.width -= (mainMenuIconRect.x - topRect.width - padding);
+
+			if(topRect.height > missionBackgroundRect.y)
+				topRect.height -= (missionBackgroundRect.y - topRect.height - padding);
+			
+			rankRect = createRect(Vector2(rankRect.width, rankRect.height), rankRect.x / topRect.width, rankRect.y / topRect.height, rankRect.height/topRect.height, true, topRect);
+			
+			var maintainSize: Vector2 = Vector2(agentRankRect1.width,agentRankRect1.height);
+			agentRankRect1 = createRect(Vector2(agentRankRect1.width, agentRankRect1.height), agentRankRect1.x / topRect.width, agentRankRect1.y / topRect.height, agentRankRect1.height/topRect.height, true, topRect);
+			agentRankRect1.width = maintainSize.x;
+			agentRankRect1.height = maintainSize.y;
+			
+			maintainSize = Vector2(agentRankRect2.width,agentRankRect2.height);
+			agentRankRect2 = createRect(Vector2(agentRankRect2.width, agentRankRect2.height), agentRankRect2.x / topRect.width, agentRankRect2.y / topRect.height, agentRankRect2.height/topRect.height, true, topRect);
+			agentRankRect2.width = maintainSize.x;
+			agentRankRect2.height = maintainSize.y;
+			
+			maintainSize = Vector2(playerRect.width,playerRect.height);
+			playerRect = createRect(Vector2(playerRect.width, playerRect.height), playerRect.x / topRect.width, playerRect.y / topRect.height, playerRect.height/topRect.height, true, topRect);
+			playerRect.width = maintainSize.x;
+			playerRect.height = maintainSize.y;
+			
+			var gap : float  = agentRankRect1.x - (rankRect.x + rankRect.width + padding);
+			agentRankRect1.x -= gap;
+			agentRankRect2.x -= gap;
+			playerRect.x -= gap;
+						
 		}	
 		else
 			Debug.Log("player not logged in!");
@@ -762,6 +802,7 @@ public class LevelSelectMenu extends GUIControl
 	
 	public function Render()
 	{
+		GUI.BeginGroup(screenRect);
 		// checks when in initial tutorial levels, if latest level is a briefing go straight to it
 		if (checkRender && unlockedLevels[activeLevelIndex].sceneName.Contains("riefing"))
 		{
@@ -792,10 +833,12 @@ public class LevelSelectMenu extends GUIControl
 		
 		if(saveSystem.currentPlayer != null)
 		{
-			GUI.Label(agentRankRect2, agentRank, rank2Style);
-			GUI.Label(agentRankRect1, agentRank, rank1Style);
-			GUI.Label(playerRect, playerName, playerNameStyle);
-			GUI.DrawTexture(rankRect, rankTextures[rankTextureNum]);
+			GUI.BeginGroup(topRect);
+				GUI.Label(agentRankRect2, agentRank, rank2Style);
+				GUI.Label(agentRankRect1, agentRank, rank1Style);
+				GUI.Label(playerRect, playerName, playerNameStyle);
+				GUI.DrawTexture(rankRect, rankTextures[rankTextureNum]);
+			GUI.EndGroup();
 		}
 		else
 			GUI.Label(new Rect(0,0,200,200), "Not logged in...");
@@ -943,7 +986,7 @@ public class LevelSelectMenu extends GUIControl
 				showSplash = false;
 			}
 		}
-		
+		GUI.EndGroup();
 	}
 	
 	private function HoldWait()

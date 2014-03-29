@@ -9,66 +9,82 @@
 		<Rank>
 			<Name>Recruit</Name>
 			<Level>0</Level>
+			<MinExp>0</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Desk Jockey</Name>
 			<Level>1</Level>
+			<MinExp>500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Agent Traineey</Name>
 			<Level>2</Level>
+			<MinExp>1000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Probationary Agent</Name>
 			<Level>3</Level>
+			<MinExp>1500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Novice Agent</Name>
 			<Level>4</Level>
+			<MinExp>2000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Assistent Energy Agent</Name>
 			<Level>5</Level>
+			<MinExp>2500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Energy Agent</Name>
 			<Level>6</Level>
+			<MinExp>3000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Elite Agent</Name>
 			<Level>7</Level>
+			<MinExp>3500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Overqualified Agent</Name>
 			<Level>8</Level>
+			<MinExp>4000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Hotshot Agent</Name>
 			<Level>9</Level>
+			<MinExp>4500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Top Agent</Name>
 			<Level>10</Level>
+			<MinExp>5000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Awesome Agent</Name>
 			<Level>11</Level>
+			<MinExp>5500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Class A Agent</Name>
 			<Level>12</Level>
+			<MinExp>6000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>Ridiculously Good Agent</Name>
 			<Level>13</Level>
+			<MinExp>6500</MinExp>
 		</Rank>
 		<Rank>
 			<Name>007 Material</Name>
 			<Level>14</Level>
+			<MinExp>7000</MinExp>
 		</Rank>
 		<Rank>
 			<Name>World Class Agent</Name>
 			<Level>15</Level>
+			<MinExp>7500</MinExp>
 		</Rank>
 	</Ranks>
 </RankSystem>

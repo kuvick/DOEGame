@@ -88,6 +88,7 @@ public class RankSystem
 	 // Generates it for all that are currently in the list
 	 public function generateMinExp()
 	 {
+	 	/*
 	 	for(var i : int = 0; i < Ranks.Count; i++)
 	 	{
 	 		if(Ranks[i].Level <= 0)
@@ -99,6 +100,7 @@ public class RankSystem
 	 			Ranks[i].MinExp = base_experience * Mathf.Pow(exp_multiplier, Ranks[i].Level - 1);
 	 		}
 	 	}
+	 	*/
 	 }
 	 
 	 // Generates and returns the minexp for a specific rank
