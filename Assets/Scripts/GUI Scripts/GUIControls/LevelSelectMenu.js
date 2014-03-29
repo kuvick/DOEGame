@@ -882,7 +882,7 @@ public class LevelSelectMenu extends GUIControl
 				{
 					if(!unlockedLevels[activeLevelIndex].wasRead)
 						unlockedLevels[activeLevelIndex].wasRead = true;														
-					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
+					var message:String = "From: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
 											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
 											+ "\n\n<size=18><color=yellow><b>Objective: \n     " + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
 					
@@ -893,7 +893,7 @@ public class LevelSelectMenu extends GUIControl
 					if(!completedLevels[activeLevelIndex].wasRead)
 						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					GUI.Label(messageRect, "Sender: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
+					GUI.Label(messageRect, "From: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
 								+ completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText
 								+ "\n\n<color=green><i>Objective: \n" + completedLevels[activeLevelIndex].objectiveText + "</i></color>");			
 

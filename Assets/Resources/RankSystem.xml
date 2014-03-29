@@ -4,7 +4,7 @@
 	If we want to do it hard-coded, or only have it automatically calculate min exp
 	for past the level cap, would need to add min_exp attribute to the rank-->
 	<exp_multiplier>1.4</exp_multiplier>
-	<base_experience>50000</base_experience>
+	<base_experience>1000</base_experience>
 	<Ranks>
 		<Rank>
 			<Name>Recruit</Name>

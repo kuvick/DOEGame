@@ -84,6 +84,7 @@ private function RotateActive()
 
 private function AnimateValid()
 {
+	/*
 	while(currState == IndicatorState.Valid)
 	{
 		var offset : Vector2 = Vector2(spriteIndex * spriteSize.x, 0);
@@ -94,6 +95,20 @@ private function AnimateValid()
 			spriteIndex = 0f;
 		yield WaitForSeconds(.5f);
 	}
+	*/
+	
+	while(currState == IndicatorState.Valid)
+	{
+		//thisMaterial.mainTextureScale = Vector2(thisMaterial.mainTextureScale.x + 0.01, thisMaterial.mainTextureScale.y + 0.01);
+		
+		resourceRing.transform.localScale = Vector3(resourceRing.transform.localScale.x + 0.5, resourceRing.transform.localScale.y + 0.5, resourceRing.transform.localScale.z + 0.5);
+		if(resourceRing.transform.localScale.x >= 15)
+			resourceRing.transform.localScale = Vector3(5,5,5);
+		
+		yield WaitForSeconds(.01f);
+	}
+	resourceRing.transform.localScale = Vector3(15,15,15);
+	
 }
 
 function SetState (state : IndicatorState)
@@ -126,6 +141,7 @@ function SetState (state : IndicatorState)
 			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setValidTargetRingMaterial(resourceRing);*/
 			currImage = validImage;
+			StartCoroutine(AnimateValid());
 			break;
 		case IndicatorState.Neutral:
 			currImage = inactiveImage;
