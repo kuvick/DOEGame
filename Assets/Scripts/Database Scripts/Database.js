@@ -149,10 +149,21 @@ function Start()
 		playtestID = GenerateID();
 	}
 	
+	
+	var isOrigin:boolean;
+	var cameraControl:CameraControl = cameraObj.GetComponent(CameraControl);
+	
+	
 	// Determines wheter buildings can be activated at the start of the game
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
-		activateBuilding(i, false);
+	{
+		isOrigin = activateBuilding(i, false);
 		
+		if(isOrigin && cameraControl.originBuilding == null)
+			cameraControl.originBuilding = getBuildingAtIndex(i);
+		
+	}
+
 	// Level Serialization
 	/*level_s = new LevelSerializer();
 	WriteLevel();*/

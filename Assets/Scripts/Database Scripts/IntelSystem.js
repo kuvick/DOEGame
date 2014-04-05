@@ -231,6 +231,17 @@ function Start ()
 	comboSystem = new ComboSystem();
 	
 	StartCoroutine(DecrementTimer());
+	
+	
+	
+	for(var j:int = 0; j < events.Count; j++)
+	{
+		if(events[j].event.type == BuildingEventType.Primary)
+		{
+			var cameraContr : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
+			cameraContr.finalBuilding = events[j].event.buildingReference;
+		}
+	}
 }
 
 public function resetTimer()

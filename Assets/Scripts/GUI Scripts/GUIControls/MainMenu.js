@@ -146,6 +146,10 @@ public class MainMenu extends GUIControl
 	private var recIncrement:float;
 	private var switchScale:boolean;
 	
+	private var sparkRect:Rect;
+	public var sparkTextures:List.<Texture> = new List.<Texture>();
+	private var currentSparkTexture:int = 0;
+	
 	//DEBUGGING
 	public var levelSkipAndroid:boolean = false;
 	
@@ -210,6 +214,12 @@ public class MainMenu extends GUIControl
 	    if (intelSystem == null) {
     		LoadLevelReferences();
     	} 
+    	
+    	
+    	sparkRect = createRect(sparkTextures[0],0,0, 0.1, false);
+    	sparkRect.x = Screen.width / 2 - sparkRect.width / 2;
+    	sparkRect.y = Screen.height / 2 - sparkRect.height / 2;
+    	
     	
     	isZoomedOut = false;
     	
@@ -302,6 +312,7 @@ public class MainMenu extends GUIControl
 			//dataIcons.Add(dataIcon02);
 			//dataIcons.Add(dataIcon03);
 		} else {
+		
 			Debug.LogWarning("Could not find the database in the main menu");
 		}
 
@@ -355,7 +366,9 @@ public class MainMenu extends GUIControl
 	public function Render(){
 		if (!enableHUD) return; 
 		if(intelSystem.victory) 
+		{
 			DrawVictorySplash();
+		}
 		
 		GUI.skin = mainMenuSkin;
 		GUI.enabled = !inspectionDispRef.IsActive();
@@ -734,36 +747,52 @@ public class MainMenu extends GUIControl
 	private var hasReachedDestination:boolean = false;
 	private var tolerance:float = 10f;
 	private var speed:float = 2f;
+	private var startPath:boolean = false;
+	public var startMissionComplete: boolean = false;
 	
 	private function DrawVictorySplash()
 	{		
-		//animates the mission complete until it is in the center
-		if(!hasReachedDestination)
+		if(!startPath)
 		{
-			GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
-			
-			victorySplashRectangle.x -= speed * Time.deltaTime * Mathf.Abs(victorySplashRectangle.x - xFinalDestination);
-			
-			if(victorySplashRectangle.x - tolerance < xFinalDestination)
-				hasReachedDestination = true;
-		
+			cameraControl.FindPath();
+			startPath = true;
 		}
-		//triggers count down until it goes to score screen
+		else if(startMissionComplete)
+		{
+			//animates the mission complete until it is in the center
+			if(!hasReachedDestination)
+			{
+				GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
+				
+				victorySplashRectangle.x -= speed * Time.deltaTime * Mathf.Abs(victorySplashRectangle.x - xFinalDestination);
+				
+				if(victorySplashRectangle.x - tolerance < xFinalDestination)
+					hasReachedDestination = true;
+			
+			}
+			//triggers count down until it goes to score screen
+			else
+			{
+				if(victorySplashStartTime == 0)
+					victorySplashStartTime = Time.time;
+				if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+				{
+					victorySplashStartTime = 0;
+					intelSystem.triggerWin();
+				}
+				else
+				{			
+					GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
+				}
+			}
+		}
 		else
 		{
-			if(victorySplashStartTime == 0)
-				victorySplashStartTime = Time.time;
-			if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
-			{
-				victorySplashStartTime = 0;
-				intelSystem.triggerWin();
-			}
-			else
-			{			
-				GUI.DrawTexture(victorySplashRectangle, missionCompleteTexture, ScaleMode.StretchToFill);
-			}
+			GUI.DrawTexture(sparkRect, sparkTextures[currentSparkTexture]);
+			currentSparkTexture++;
+			if(currentSparkTexture >= sparkTextures.Count)
+				currentSparkTexture = 0;
 		}
-		
 	}// end of drawvictorysplash
 	
 	

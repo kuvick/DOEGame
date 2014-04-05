@@ -264,7 +264,13 @@ static public function Drag(currentInputPos: Vector2){
 }
 
 public function Update()
-{	
+{
+	if(animateCamera)
+	{
+		FollowTrace();
+	}
+
+
 
 	if(!useDefaultAspectRatio)
 	{
@@ -539,4 +545,211 @@ public function centerCameraOnPointInWorld(centerPoint : Vector3)
 		
 	cameraPosForCentering = thisCamera.transform.position + difference;
 	isCentering = true;
+}
+
+
+
+private var nextPoint:Vector3;
+private function FollowTrace()
+{
+	if(!isCentering)
+	{
+		if(tracePath.Count > 0 )
+		{
+			var obj: GameObject = tracePath[0].buildingPointer;
+			nextPoint = obj.transform.position;
+			tracePath.RemoveAt(0);
+		
+			centerCameraOnPointInWorld(nextPoint);
+		}
+		else
+		{
+		 	animateCamera = false;
+		 	var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		 	mainMenu.startMissionComplete = true;
+		 	// trigger game end
+		}
+	}
+}
+
+
+
+// *******************************************************************************************************
+// ALL OF THE FOLLOWING CODE TAKEN AND MODIFIED FROM UNIT.JS
+// *******************************************************************************************************
+// Modified function from the Unit.js script
+public var originBuilding:GameObject;
+public var finalBuilding: GameObject;
+private var tracePath:List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+
+private var open = new List.<BuildingOnGrid>();
+private var nextOpen = new List.<BuildingOnGrid>();
+private var closed = new List.<BuildingOnGrid>();
+private var animateCamera:boolean = false;
+
+function FindPath ()
+{
+
+	var buildingCoord : Vector3 = finalBuilding.transform.position;
+	buildingCoord.y = 0;
+
+
+	var foundPath : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+	var target : BuildingOnGrid = Database.getBuildingOnGrid (buildingCoord);
+	// reset pathing variables and lists
+	var found : boolean = false;
+	open.Clear();
+	nextOpen.Clear();
+	closed.Clear();
+	tracePath.Clear();
+	
+	var activeLinkedNeighbors;
+ 	buildingCoord = originBuilding.transform.position;
+	buildingCoord.y = 0;
+	var current : BuildingOnGrid = Database.getBuildingOnGrid (buildingCoord);
+	open.Add(current);
+	
+	
+	while (!closed.Contains(target) && open.Count > 0 && current != target && current != null)
+	{
+		PopulateNextOpen(target);
+		if (nextOpen.Contains(target))
+		{
+			current = target;
+			continue;
+		}
+		open.Clear();
+		for (var i:int = 0; i < nextOpen.Count; i++)
+			open.Add(nextOpen[i]);
+		nextOpen.Clear();
+	}
+	if (current == target && target != null)
+	{
+		foundPath.Add(current);
+		while (current.pathParent != null)
+		{
+			foundPath.Add(current.pathParent);
+			current = current.pathParent;
+		}
+		foundPath.Reverse();
+		foundPath.RemoveAt(0);
+		found = true;
+	}
+	
+	ClearAllPathVars();
+	//return found;
+	tracePath = foundPath;
+	nextPoint = originBuilding.transform.position;
+	centerCameraOnPointInWorld(nextPoint);
+	animateCamera = true;
+}
+
+// from Unit.js script
+private function PopulateNextOpen (targ : BuildingOnGrid)
+{
+	var activeLinkedNeighbors : List.<BuildingOnGrid>;
+	for (var i:int = 0; i < open.Count; i++)
+	{
+		closed.Add(open[i]);
+		activeLinkedNeighbors = FindActiveLinkedNeighbors (open[i]);
+		for (var j:int = 0; j < activeLinkedNeighbors.Count; j++)
+		{
+			if (closed.Contains(activeLinkedNeighbors[j]))
+				continue;
+			var temp:BuildingOnGrid = SetParent(activeLinkedNeighbors[j], open[i], targ);
+			if (nextOpen.Contains(activeLinkedNeighbors[j]))
+			{
+				nextOpen[nextOpen.IndexOf(activeLinkedNeighbors[j])] = temp;
+			}
+			else
+			{
+				//nextOpen.Add(temp);
+				AddSorted(nextOpen, temp);
+			}
+		}
+	}
+}
+
+//from Unit.js script
+private function AddSorted(buildingList : List.<BuildingOnGrid>, toAdd : BuildingOnGrid)
+{
+	for (var i : int = 0; i < buildingList.Count; i++)
+	{
+		if (toAdd.pathParentDistFromTarg > buildingList[i].pathParentDistFromTarg)
+			break;
+	}
+	if (i == buildingList.Count)
+		buildingList.Add(toAdd);
+	else
+		buildingList.Insert(i+1, toAdd);
+}
+
+//from Unit.js script
+// resets the path variables in all buildings checked
+private function ClearAllPathVars () {
+	ClearListPathVars(open);
+	ClearListPathVars(nextOpen);
+	ClearListPathVars(closed);
+}
+
+//from Unit.js script
+// resets the path variables of the given list
+private function ClearListPathVars (l : List.<BuildingOnGrid>) {
+	var i : int;
+	for (i = 0; i < l.Count; i++)
+	{
+		l[i].pathParent = null;
+		l[i].pathParentDistFromTarg = -1;
+		l[i].pathParentDistFromStart = 0;
+	}
+}
+
+//from Unit.js script
+// returns a list of all active buildings that are linked to the specified building
+private function FindActiveLinkedNeighbors (bUnit : BuildingOnGrid) : List.<BuildingOnGrid>
+{
+	var activeLinked : List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+	var temp : BuildingOnGrid;
+
+	for (var i : int = 0; i < bUnit.allInputs.Count; i++)// in bUnit.inputLinkedTo)
+	{
+		var index : int = bUnit.allInputs[i].linkedTo;
+		temp = Database.getBuildingOnGridAtIndex(index);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}
+	for (i = 0; i < bUnit.allOutputs.Count; i++)// in bUnit.outputLinkedTo)
+	{
+		index = bUnit.allOutputs[i].linkedTo;
+		temp = Database.getBuildingOnGridAtIndex(index);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}
+	if (bUnit.optOutput.linkedTo >= 0)//ionalOutputAllocated)
+	{
+		temp = Database.getBuildingOnGridAtIndex(bUnit.optOutput.linkedTo);//ionalOutputLinkedTo);
+		if (temp.isActive)
+			activeLinked.Add(temp);
+	}
+	return activeLinked;
+}
+
+//from Unit.js script
+// sets the appropriate link path parent of a building
+private function SetParent (child : BuildingOnGrid, pparent : BuildingOnGrid, targ : BuildingOnGrid) : BuildingOnGrid
+{
+	var tempDist : float = Vector3.Distance(pparent.coordinate, targ.coordinate);
+	// change the child's parent if:
+	// a) a parent has not yet been set or
+	// b) the child's current parent distance from the start is = to the new one and the new parent distance from the target is less than the current parent's or
+	// c) the child's current parent distance from start is > the new one
+	if (child.pathParentDistFromTarg < 0 || 
+		(child.pathParentDistFromStart == pparent.pathParentDistFromStart + 1 && tempDist < child.pathParentDistFromTarg) || 
+		child.pathParentDistFromStart > pparent.pathParentDistFromStart + 1)
+	{
+		child.pathParent = pparent;
+		child.pathParentDistFromTarg = tempDist;
+		child.pathParentDistFromStart = pparent.pathParentDistFromStart + 1;
+	}
+	return child;
 }
