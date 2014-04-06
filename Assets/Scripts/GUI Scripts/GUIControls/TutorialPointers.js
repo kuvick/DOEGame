@@ -170,6 +170,16 @@ public function Render()
 	}//end of hasPointers
 }// end of Render
 
+public function TriggerIsActive() : boolean
+{
+	return currentArrow != null;
+}
+
+public function GetCurrentArrow() : TutorialArrow
+{
+	return currentArrow;
+}
+
 public class TutorialArrow
 {
 	public var icon:Texture;

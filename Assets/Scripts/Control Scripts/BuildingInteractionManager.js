@@ -26,6 +26,7 @@ private static var buildingMenuRef : BuildingMenu;
 private static var editorMenuRef : EditorMenu;
 private static var inspectionDisplayRef : InspectionDisplay;
 private static var linkUIRef : LinkUI;
+private static var tutorialPointers : TutorialPointers;
 public static var resourceSetters : List.<BuildingResourceSetter>;
 
 private static var unitSelected : boolean = false;
@@ -45,6 +46,7 @@ function Start () {
 		isEditor = false;
 		inspectionDisplayRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 		linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);//GameObject.Find("Main Camera").GetComponent(LinkUI);
+		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	}
 }
 
@@ -97,8 +99,10 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	var buildingObject : GameObject = obj.transform.parent.gameObject;
 	ModeController.setSelectedBuilding(buildingObject);
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
+	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
 	
-	if (!buildingOnGrid.isActive)
+	// camera drag if building is not active or, if a tutorial pointer is active it is not the correct building
+	if (!buildingOnGrid.isActive || (pointer != null && buildingOnGrid.buildingPointer != pointer.buildingOne))
 		return DragMode.Cam;
 	
 	if (obj.name.Contains(" "))
@@ -245,7 +249,8 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 
 static function HandleReleaseAtPoint(obj : Collider)
 {
-	if (!obj)
+	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
+	if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
 		ModeController.setSelectedBuilding(null);
 	else
 	{
