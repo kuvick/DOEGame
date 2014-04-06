@@ -104,6 +104,13 @@ public class CodexMenu extends GUIControl
 	public var infoButton:Texture;
 	public var infoButtonPressed:Texture;
 	
+	public var zoomButton:Texture;
+	private var zoomButtonRect:Rect;
+	private var lastButtonZoom:boolean;
+	private var maxZoom : float;
+	private var minZoom : float;
+	private var zoomFromButton : boolean; // indicates whether the zoom button was pressed or not
+	
 	private var style:GUIStyle = GUIStyle();
 	
 	private var fromScoreScreen:boolean = false;
@@ -194,6 +201,10 @@ public class CodexMenu extends GUIControl
 		instructionRect = createRect(Vector2(500, 60), 0,0, 60/1080, false);
 		instructionRect.x = padding * 2;
 		instructionRect.y = screenHeight - (instructionRect.height + padding * 2);
+		
+		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
+    	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
+    	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
 	}
 	
 	public function OnOpen(){
@@ -255,7 +266,7 @@ public class CodexMenu extends GUIControl
 				//Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
 				zooming = true;
 			}
-			else
+			else if (!zoomFromButton)
 				zooming = false;
 		
 			if(!zooming)
@@ -349,8 +360,12 @@ public class CodexMenu extends GUIControl
 			
 				var enactZoom:boolean = true;
 				
+				if (zoomFromButton)
+				{
+					zoomIn = !lastButtonZoom;
+				}
 				// If there is a scroll wheel to take input from...
-				if(Input.GetAxis("Mouse ScrollWheel") != 0)
+				else if(Input.GetAxis("Mouse ScrollWheel") != 0)
 				{
 					if(Input.GetAxis("Mouse ScrollWheel") > 0)
 						zoomIn = true;
@@ -408,7 +423,16 @@ public class CodexMenu extends GUIControl
 					//if(zoomIn && hexGroup.width < Screen.width * 2)
 					//if(zoomIn && (currentNumOfCol > 3))
 					
-					if(zoomIn && (hexGroup.width < 2000))
+					if (zoomFromButton && (hexGroup.width >= 2000 || hexGroup.width <= 900))
+					{
+						enactZoom = false;
+						zoomFromButton = false;
+						if (hexGroup.width >= 2000)
+							recalculateRectForHexes(.99);
+						else
+							recalculateRectForHexes(1.01);
+					}
+					else if(zoomIn && (hexGroup.width < 2000))
 					{
 						//if(currentNumOfCol > 3)
 							//currentNumOfCol--;
@@ -488,6 +512,13 @@ public class CodexMenu extends GUIControl
 						currentResponse.type = EventTypes.SCORESCREEN;
 				}
 			}
+		}
+		
+		if(GUI.Button(zoomButtonRect, zoomButton))
+		{
+			zoomFromButton = true;
+			lastButtonZoom = !lastButtonZoom;
+			zooming = true;
 		}
 		
 		if(showConfirmation)
