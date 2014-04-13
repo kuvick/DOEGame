@@ -12,7 +12,7 @@ function Awake() {
 	
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
 	SoundManager.Instance(); // load up the sounds if needed
-	if (backgroundMusic != String.Empty)
+	if (backgroundMusic != null && backgroundMusic != String.Empty)
 		SoundManager.Instance().backgroundSounds.inGameMusic.audioClipName = backgroundMusic;
 }
 
