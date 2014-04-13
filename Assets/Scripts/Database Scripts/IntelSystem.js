@@ -629,9 +629,11 @@ public function triggerLoss()
 {
 	victory = false;
 	var event : GUIEvent = new GUIEvent();
-	event.type = EventTypes.FAILUREMENU;
-	GUIManager.Instance().RecieveEvent(event);
+	event.type = EventTypes.RESTART;//FAILUREMENU;
+	
 	SoundManager.Instance().PlayPrimaryObjectiveExpired();
+	yield WaitForSeconds(1.5f);
+	GUIManager.Instance().RecieveEvent(event);
 }
 
 // Goes through the events and decreases the
