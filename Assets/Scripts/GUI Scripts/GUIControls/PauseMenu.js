@@ -21,7 +21,7 @@ public class PauseMenu extends GUIControl
 	public var pauseText : Texture;
 	private var pauseTextRect : Rect;
 	private var pauseTextPercent:float = 0.14;
-	private var pauseTextX : float = 0.54;
+	private var pauseTextX : float = .04;//0.54;
 	private var pauseTextY : float = 0.23;
 	
 	// Back Button
@@ -29,7 +29,7 @@ public class PauseMenu extends GUIControl
 	public var backButtonPressed : Texture;
 	private var backButtonRect : Rect;
 	private var backButtonPercent:float = 0.11;
-	private var backButtonX : float = 0.03;
+	private var backButtonX : float = .8;//0.03;
 	private var backButtonY : float = 0.05;
 	
 	// Restart Button
@@ -51,12 +51,12 @@ public class PauseMenu extends GUIControl
 	private var buttonPercent: float = 0.11;
 	private var buttonBufferPercent: float = 0.04;
 	private var buttonInitialYPercent: float = 0.45;
-	private var buttonXPercent: float = 0.59;
+	private var buttonXPercent: float = .09;//0.59;
 	
 	// Hex Texture
 	public var hexText : Texture;
 	private var hexTextRect : Rect;
-	private var hexTextX : float = 0.39;
+	private var hexTextX : float = 0;//0.39;
 	private var hexTextY : float = 0;
 	private var hexPercent : float = 1;
 
@@ -138,7 +138,7 @@ public class PauseMenu extends GUIControl
 		GUI.DrawTexture(pauseTextRect, pauseText, ScaleMode.StretchToFill);
 		var oldAnchor : TextAnchor = GUI.skin.label.alignment;
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
-		GUI.Label(levelRect, levelName);
+		//GUI.Label(levelRect, levelName);
 		GUI.skin.label.alignment = oldAnchor;
 		
 		// Buttons are rendered:
