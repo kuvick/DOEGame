@@ -5,11 +5,15 @@ enum Ratio {_4x3, _3x2, _16x9, _5x3, _16x10};
 
 public var wantedScreenRatio : Ratio;
 
+public var backgroundMusic : String;
+
 function Awake() {
 	var ratioAmount : float = ConvertRatio(wantedScreenRatio);
 	
 	ScreenSettingsManager.instance.CalculateSettings(ratioAmount);
 	SoundManager.Instance(); // load up the sounds if needed
+	if (backgroundMusic != String.Empty)
+		SoundManager.Instance().backgroundSounds.inGameMusic.audioClipName = backgroundMusic;
 }
 
 function OnDestroy () {
