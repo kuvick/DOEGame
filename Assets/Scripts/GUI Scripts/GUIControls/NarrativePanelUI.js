@@ -376,8 +376,8 @@ public class NarrativePanelUI extends GUIControl
 				if(popUpRect == Rect(0,0,0,0))
 				{
 					popUpRect = createRect(narrativeSlides[currentSlide].popUp, 0.02, 0.12, 0.60, false, screenRect);
-					popUpRect.x += narrativeSlides[currentSlide].popUpRectOffset.x * screenRect.width;
-					popUpRect.y += narrativeSlides[currentSlide].popUpRectOffset.y * screenRect.height;
+					//popUpRect.x += narrativeSlides[currentSlide].popUpRectOffset.x * screenRect.width;
+					//popUpRect.y += narrativeSlides[currentSlide].popUpRectOffset.y * screenRect.height;
 				}
 				GUI.DrawTexture(popUpRect, narrativeSlides[currentSlide].popUp);
 			}
