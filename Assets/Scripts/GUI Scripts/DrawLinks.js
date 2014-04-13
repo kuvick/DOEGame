@@ -104,11 +104,20 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUse
 	// set the link color based on resource type
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
 	
-	AddParticleSystem(b1, b2, resource, optionalUsed);
+	AddParticleSystem(b1, b2, resource, optionalUsed, false);
+}
+
+function CreateTraceDraw(b1 : int, b2 : int)
+{
+	// make sure buildings are valid
+	if (buildings[b1] == null || buildings[b2] == null)
+		return;
+		
+	AddParticleSystem(b1, b2, ResourceType.Power, false, true);
 }
 
 // Creates the particle system for link visual
-function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean)
+function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean, isTrace : boolean)
 {
 	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
 	temp.gameObject.transform.position.y = 10;
@@ -138,16 +147,27 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 	tempCollider.center.z = targetVec.magnitude / 2f;
 	tempCollider.size = Vector3(50f, 5f, targetVec.magnitude - HexagonGrid.tileWidth);
 	
-	// if the 2 buildings are mutually linked, adjust the object positions to be side by side
-	if (CheckForMutualLink(outputBuilding, inputBuilding))
+	if (!isTrace)
 	{
-		var offset : Vector3 = Vector3(targetVec.z, targetVec.y, targetVec.x);
-		offset.Normalize();
-		temp.gameObject.transform.localPosition -= Utils.ConvertToRotated((25 * offset));
-		
-		var inputLink : GameObject = GameObject.Find(inputBuilding + " " + outputBuilding);
-		if (inputLink)
-			inputLink.transform.localPosition += Utils.ConvertToRotated((25 * offset));
+		// if the 2 buildings are mutually linked, adjust the object positions to be side by side
+		if (CheckForMutualLink(outputBuilding, inputBuilding))
+		{
+			var offset : Vector3 = Vector3(targetVec.z, targetVec.y, targetVec.x);
+			offset.Normalize();
+			temp.gameObject.transform.localPosition -= Utils.ConvertToRotated((25 * offset));
+			
+			var inputLink : GameObject = GameObject.Find(inputBuilding + " " + outputBuilding);
+			if (inputLink)
+				inputLink.transform.localPosition += Utils.ConvertToRotated((25 * offset));
+		}
+	}
+	else
+	{
+		temp.gameObject.name += "Trace";
+		//removeLink(inputBuilding, outputBuilding);
+		temp.gameObject.transform.position.y += 5;
+		temp.emissionRate = 2f;
+		temp.maxParticles = 30;
 	}
 	
 	StartCoroutine(LinkCreateAnimation(temp));

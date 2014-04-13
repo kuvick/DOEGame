@@ -557,9 +557,12 @@ private function FollowTrace()
 		if(tracePath.Count > 0 )
 		{
 			var obj: GameObject = tracePath[0].buildingPointer;
+			if (tracePath.Count > 1)
+				(gameObject.GetComponent(DrawLinks) as DrawLinks).CreateTraceDraw(Database.getBuildingIndex(tracePath[1].buildingPointer), Database.getBuildingIndex(tracePath[0].buildingPointer));
 			nextPoint = obj.transform.position;
 			tracePath.RemoveAt(0);
-		
+			
+			
 			centerCameraOnPointInWorld(nextPoint);
 		}
 		else
@@ -632,15 +635,15 @@ function FindPath ()
 			current = current.pathParent;
 		}
 		foundPath.Reverse();
-		foundPath.RemoveAt(0);
+		//foundPath.RemoveAt(0);
 		found = true;
 	}
 	
 	ClearAllPathVars();
 	//return found;
 	tracePath = foundPath;
-	nextPoint = originBuilding.transform.position;
-	centerCameraOnPointInWorld(nextPoint);
+	/*nextPoint = originBuilding.transform.position;
+	centerCameraOnPointInWorld(nextPoint);*/
 	animateCamera = true;
 }
 
