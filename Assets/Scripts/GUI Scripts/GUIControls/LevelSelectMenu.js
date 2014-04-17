@@ -279,7 +279,11 @@ public class LevelSelectMenu extends GUIControl
 	private var startLevelButtonPercent:float = 0.15;
 	
 	private var messageBuffer : Vector2;
+	
+	private var senderRect_desc : Rect;
+	private var subjectRect : Rect;
 	private var messageRect : Rect;
+	private var objectiveRect : Rect;
 	
 	// Level Select Menu scaling
 		
@@ -535,8 +539,37 @@ public class LevelSelectMenu extends GUIControl
 			
 		scrollPosition = new Vector2(0.125, 0.125);
 		splashBounds = new Rect((screenWidth * scrollPosition.x), (screenHeight * scrollPosition.y), splashWidthPercent * screenWidth, splashHeightPercent * screenHeight);
+		var boxHeight = (splashBounds.height - messageBuffer.y) * 0.095;
+				
 		//messageBuffer = new Vector2(.003 * splashBounds.width, .003 * splashBounds.height);
-		messageRect = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
+		
+		//REPLACE THIS GPC 4/17/14
+		messageBuffer = new Vector2(.02 * splashBounds.width, .01 * splashBounds.height); //MOVE BUFFER TO TOP DECLARATION!
+		
+		//MOVE THIS TO TOP!!!
+		//var subjectHeight:float = boxHeight - messageBuffer.y;
+				
+		//senderRect_desc = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, splashBounds.height - messageBuffer.y);
+		senderRect_desc = new Rect(messageBuffer.x, messageBuffer.y, emailMessageBackgroundRect.width - messageBuffer.x, boxHeight);
+				
+		//messageBuffer = new Vector2(.02 * splashBounds.width, .001 * splashBounds.height);
+		subjectRect = new Rect(messageBuffer.x, messageBuffer.y + boxHeight, emailMessageBackgroundRect.width - messageBuffer.x, boxHeight);
+		
+		//messageBuffer = new Vector2(.02 * splashBounds.width, .001 * splashBounds.height);
+		messageRect = new Rect(messageBuffer.x, messageBuffer.y + (boxHeight*2), emailMessageBackgroundRect.width - messageBuffer.x, boxHeight * 4);
+		
+		//messageBuffer = new Vector2(.07 * splashBounds.width, .001 * splashBounds.height);
+		//var objectiveRightBuffer = 0.05 * splashBounds.width;
+		var objectiveRightBuffer = 0.2 * splashBounds.width;
+		objectiveRect = new Rect(messageBuffer.x, messageBuffer.y+(boxHeight*5.5), emailMessageBackgroundRect.width - objectiveRightBuffer, boxHeight * 3);
+		
+		
+		
+//		GUI.Label(senderRect, message);						
+//					GUI.Label(subjectRect, message);						
+//					GUI.Label(messageRect, message);											
+//					GUI.Label(objectiveRect, message);	
+		
 		
 		LoadLevelList();
 		
@@ -920,25 +953,63 @@ public class LevelSelectMenu extends GUIControl
 				GUI.BeginGroup(emailMessageBackgroundRect);
 					//levelSelectSkin.label.fontSize = levelSelectFontSize;				
 	
+				//Initialize MOVE TO TOP GPC 4/17/14
+				var sender:String;
+				var subject:String;
+				var message:String;
+				var mission:String;
+				var objective:String;
+				
+				var dropShadowRect:Rect = new Rect(splashBounds.width * 0.001,splashBounds.height * 0.001,0,0);
+	
 				GUI.skin = levelSelectSkin;		
 				if(inboxTab)
 				{
 					if(!unlockedLevels[activeLevelIndex].wasRead)
 						unlockedLevels[activeLevelIndex].wasRead = true;														
-					var message:String = "From: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
-											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
-											+ "\n\n<size=18><color=yellow><b>Objective: \n     " + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+						
+						//Modified GPC 4/17/14
+//					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
+//											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
+//											+ "\n\n<size=18><color=yellow><b>Objective: \n     " + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+					sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
+					subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
+					message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
+					//objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+					objective = "<size=22><b><i>" + unlockedLevels[activeLevelIndex].objectiveText + "</i></b></size>";
 					
-					GUI.Label(messageRect, message);						
+					//GPC 4/17 Dropshadows added. Move this to a separate function.					
+					var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
+					GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
+					GUI.Label(senderRect_desc, sender);	
+					
+					var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
+					GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
+					GUI.Label(subjectRect, subject);	
+					
+					var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
+					GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
+					GUI.Label(messageRect, message);	
+					
+					var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
+					GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
+					objective = "<color=cyan>" + objective + "</color>";																														
+					GUI.Label(objectiveRect, objective);						
 				}
 				else
 				{
 					if(!completedLevels[activeLevelIndex].wasRead)
 						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					GUI.Label(messageRect, "From: " + completedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
-								+ completedLevels[activeLevelIndex].subjectText + "\n\n" + completedLevels[activeLevelIndex].messageText
-								+ "\n\n<color=green><i>Objective: \n" + completedLevels[activeLevelIndex].objectiveText + "</i></color>");			
+					sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
+					subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
+					message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
+					objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+										
+					GUI.Label(senderRect_desc, sender);						
+					GUI.Label(subjectRect, subject);						
+					GUI.Label(messageRect, message);											
+					GUI.Label(objectiveRect, objective);
 
 				}
 					

@@ -118,9 +118,9 @@
       <difficulty>0</difficulty>
       <subjectText>Director's Orders</subjectText>
       <messageText>Helena Edison, ECRB Executive Director. Dr. Fernandez has assured me you can handle sensative missions. We'll see about that.</messageText>
-      <objectiveText>Bring the Wakisashi Nuclear plant online.</objectiveText>
+      <objectiveText>Bring the Pygram Nuclear plant online.</objectiveText>
 	  <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Director Helena Edison</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>3</missionRequirementIndex>
@@ -571,7 +571,7 @@
       <messageText>Ah ha! Just the thing to improve the power conversion of the Hyperfabricator. Hilbert is smart to go with silicon carbide thyristors.</messageText>
 	  <objectiveText>Implement silicon carbide thyristors into inner Braklin’s residential district.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>10</missionRequirementIndex>
@@ -584,7 +584,7 @@
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Wireless Rewiring</subjectText>
-      <messageText>How exciting! all of the Terrachanics components are fully operational and in your capable hands. I couldn’t be prouder!</messageText>
+      <messageText>How exciting! All of the Terrachanics components are fully operational and in your capable hands. I couldn’t be prouder!</messageText>
 	  <objectiveText>Reallocate resources to support the recently built electronics factory in Jaynestown.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -602,7 +602,7 @@
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Infrastructure is Serious Business</subjectText> <!-- PLACEHOLDER TEXT-->
-      <messageText>There is no excuse for a poor electrical grid in the 21st century. Let us bring these fine people into the future!</messageText>
+      <messageText>There is no excuse for a poor electrical grid in the 21st century! Let us bring these fine people into the future!</messageText>
 	  <objectiveText>Modernize the failing electrical system of the Canis Towers apartment complex.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -619,7 +619,7 @@
       <sceneName>DD05</sceneName> 
       <difficulty>1</difficulty>
       <subjectText>Sun Tower 20,000</subjectText>
-      <messageText>This new Organic Flash Cycle system ingeniously traps waste heat to boost efficiency of solar and geothermal systems! I can’t wait to see it in action!</messageText>
+      <messageText>This Organic Flash Cycle system recycles waste heat to make solar and geothermal systems way more efficient. Dude... 3D printers powered by lava!</messageText>
 	  <objectiveText>Install an Organic Flash Cycle system into Derptech Tower to optimize their building-mounted solar array.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
@@ -750,7 +750,6 @@
   <!-- *********************************************************************************************************LATEGAME -->
   <!-- *********************************************************************************************************LATEGAME -->
 	
-	<!-- INSERT LATEGAME BRIEFING -->
 	<!--Briefing6 -->
 	<Level>
       <displayName>0</displayName>
@@ -771,7 +770,7 @@
       <sceneName>KU02</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Superfuel</subjectText>
-      <messageText>Not to worry! Perhaps getting electrofuel distribution going will help bait our would-be rivals out of hiding.</messageText>
+      <messageText>Hackers eh? Nothing we can't handle! Let's see if getting this electrofuel distribution up will bait them out of hiding.</messageText>
 	  <objectiveText>Upgrade the Gaseous Clay fuel depot to use electrofuels to cut fuel costs for truckers.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
@@ -787,10 +786,10 @@
       <sceneName>RV12</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Environmental Adaptation</subjectText>
-      <messageText>Winter is coming! In about 5 months. But hey, the winters can be nasty in New Vermachusetts, but with a forecasting grid their power systems can take it.</messageText>
+      <messageText>Winter is coming! In about 5 months. But hey, the winters can be rough in New Vermachusetts, but with a forecasting grid their power systems can take it.</messageText>
 	  <objectiveText>Implement a Forecasting Grid system to residential centers to adjust power distribution to weather conditions.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Researcher Jerome Zabel</senderName>
+      <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>17</missionRequirementIndex>
@@ -855,7 +854,7 @@
       <messageText>Lower costs, less pollution... what more could you want out of a heating/AC system? Nobody’s sabotaging this baby on my watch!</messageText>
 	  <objectiveText>Install a Super Energy Saver Heat pump system to optimize air conditioning and heating systems in Lictor City.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
+      <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>9</missionRequirementIndex>
@@ -882,7 +881,7 @@
       <sceneName>GPC05</sceneName>
       <difficulty>2</difficulty>
       <subjectText>More for the Taking</subjectText>
-      <messageText>Hilbert sure was happy to get Watson back. They have finished their Heat Transfer interface for optimizing solar panels. Lets take ‘em for a spin.</messageText>
+      <messageText>It is important not just to look at the mountaintop, but the sludge in the river beneath it! With a few upgrades we can get the waste treatment plant working at peak efficiency.</messageText>
 	  <objectiveText>Install Heat Transfer Interfaces to help reduce costs at the waste treatment plant.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -904,7 +903,7 @@
       <messageText>Me and Nancy got a job, eh? Move on over for the dream team! We got some special schematics ready for the Fizzle Fusion folks.</messageText>
 	  <objectiveText>Provide blueprints for Fizzle Fusion’s Tesla-inspired wireless power converter research.</objectiveText>
       <isPrimary>true</isPrimary>
-      <senderName>Dr. Raoul Fernandez</senderName>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>1</missionRequirementIndex>
