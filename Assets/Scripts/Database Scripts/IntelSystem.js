@@ -59,6 +59,8 @@ private var dOS:DisplayOnceSystem;
 
 private var usedUndoOrWait:boolean;
 
+private var failurePath : List.<GameObject> = new List.<GameObject>();
+
 public function pressedUndoOrWait()
 {
 	usedUndoOrWait = true;
@@ -176,6 +178,7 @@ function Start ()
 					tempEventClass.event.icon = primaryIcons[iconIndex];
 					tempEventClass.event.inspIcon = primaryIcons[iconIndex + 1];
 					tempEventClass.event.resolvedIcon = primaryIcons[4];
+					failurePath.Add(tempEventClass.event.buildingReference);
 				}
 				else
 				{
@@ -184,6 +187,7 @@ function Start ()
 					tempEventClass.event.resolvedIcon = secondaryIcons[4];
 				}
 				tempEventClass.Initialize();
+				
 				tempEventClass.event.buildingReference = buildingObject;
 				
 				if(!tempEventClass.event.isChild)
@@ -629,11 +633,16 @@ public function triggerLoss()
 {
 	victory = false;
 	var event : GUIEvent = new GUIEvent();
-	event.type = EventTypes.RESTART;//FAILUREMENU;
+	event.type = EventTypes.CLEAR;//FAILUREMENU;
+	//GUIManager.Instance().RecieveEvent(event);
 	
 	SoundManager.Instance().PlayPrimaryObjectiveExpired();
-	yield WaitForSeconds(1.5f);
-	GUIManager.Instance().RecieveEvent(event);
+	var cameraContr : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
+	cameraContr.SetFailureTrace(failurePath);
+	//GUIManager.Instance().RecieveEvent(event);
+	/*yield WaitForSeconds(1.5f);
+	event.type = EventTypes.RESTART;
+	GUIManager.Instance().RecieveEvent(event);*/
 }
 
 // Goes through the events and decreases the

@@ -59,6 +59,8 @@ public enum EventTypes
 	
 	EDITORMENU,
 	
+	CLEAR,
+	
 	GAMECOMPLETE
 }
 

@@ -48,6 +48,11 @@ public function getObjIcon():ObjectiveIcon
 	return icon;
 }
 
+function Start()
+{
+	event.buildingReference = gameObject;
+}
+
 public function Initialize()
 {
 	//indicator.Initialize(gameObject.transform, event, event.type);

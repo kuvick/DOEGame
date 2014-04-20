@@ -433,6 +433,10 @@ private function RespondTo(response:GUIEvent)
 		case EventTypes.EDITORMENU:
 			ClearControls();
 			AddGUIToControls(editorMenu);
+			break;
+		case EventTypes.CLEAR:
+			ClearControls();
+			break;
 	}
 }
 

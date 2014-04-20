@@ -547,7 +547,11 @@ public function centerCameraOnPointInWorld(centerPoint : Vector3)
 	isCentering = true;
 }
 
-
+public function SetFailureTrace(path : List.<GameObject>)
+{
+	tracePath = path;
+	animateCamera = true;
+}
 
 private var nextPoint:Vector3;
 private function FollowTrace()
@@ -556,10 +560,10 @@ private function FollowTrace()
 	{
 		if(tracePath.Count > 0 )
 		{
-			var obj: GameObject = tracePath[0].buildingPointer;
+			/*var obj: GameObject = tracePath[0].buildingPointer;
 			if (tracePath.Count > 1)
-				(gameObject.GetComponent(DrawLinks) as DrawLinks).CreateTraceDraw(Database.getBuildingIndex(tracePath[1].buildingPointer), Database.getBuildingIndex(tracePath[0].buildingPointer));
-			nextPoint = obj.transform.position;
+				(gameObject.GetComponent(DrawLinks) as DrawLinks).CreateTraceDraw(Database.getBuildingIndex(tracePath[1].buildingPointer), Database.getBuildingIndex(tracePath[0].buildingPointer));*/
+			nextPoint = tracePath[0].transform.position;
 			tracePath.RemoveAt(0);
 			
 			
@@ -568,8 +572,12 @@ private function FollowTrace()
 		else
 		{
 		 	animateCamera = false;
-		 	var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-		 	mainMenu.startMissionComplete = true;
+		 	/*var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		 	mainMenu.startMissionComplete = true;*/
+		 	var event : GUIEvent = new GUIEvent();
+			event.type = EventTypes.RESTART;//FAILUREMENU;
+			yield WaitForSeconds(1f);
+			GUIManager.Instance().RecieveEvent(event);
 		 	// trigger game end
 		}
 	}
@@ -611,7 +619,7 @@ private function TraceEndPath(path : List.<BuildingOnGrid>)
 // Modified function from the Unit.js script
 public var originBuilding:List.<GameObject> = new List.<GameObject>();
 public var finalBuilding:List.<GameObject> = new List.<GameObject>();
-private var tracePath:List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
+private var tracePath:List.<GameObject> = new List.<GameObject>();//<BuildingOnGrid> = new List.<BuildingOnGrid>();
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();
@@ -632,7 +640,7 @@ function FindPath (startBuilding : GameObject, targetBuilding : GameObject)
 	open.Clear();
 	nextOpen.Clear();
 	closed.Clear();
-	tracePath.Clear();
+	//tracePath.Clear();
 	
 	var activeLinkedNeighbors;
  	buildingCoord = startBuilding.transform.position;
