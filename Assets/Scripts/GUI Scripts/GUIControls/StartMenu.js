@@ -22,17 +22,17 @@ public class StartMenu extends GUIControl
 	//public var facebookButtonPressed:Texture;
 		//private var facebookButtonRect:Rect;
 	public var loginButton:Texture;
-	public var loginButtonPressed:Texture;
+	//public var loginButtonPressed:Texture;
 		private var loginButtonRect:Rect;
 	public var logo:Texture;
 		private var logoRect:Rect;
 	public var optionsButton:Texture;
-	public var optionsButtonPressed:Texture;
+	//public var optionsButtonPressed:Texture;
 		private var optionsButtonRect:Rect;
 	public var exitButton:Texture;
-	public var exitButtonPressed:Texture;
+	//public var exitButtonPressed:Texture;
 	public var creditsButton:Texture;
-	public var creditsButtonPressed:Texture;
+	//public var creditsButtonPressed:Texture;
 		private var creditsButtonRect:Rect;
 	
 	// Options Screen:
@@ -55,7 +55,7 @@ public class StartMenu extends GUIControl
 	public var deleteButtonText:Texture;
 	public var profileOptText:Texture;
 	public var mainMenuButtonText:Texture;
-	public var mainMenuButtonTextPressed:Texture;
+	//public var mainMenuButtonTextPressed:Texture;
 		private var upperRightButtonRect:Rect;
 	public var profileBGText:Texture;
 	
@@ -66,7 +66,7 @@ public class StartMenu extends GUIControl
 	public var nameBannerText:Texture;
 		private var agentNameRect:Rect;
 	public var approveButtonText:Texture;
-	public var approveButtonTextPressed:Texture;
+	//public var approveButtonTextPressed:Texture;
 	public var keys : List.<Texture> = new List.<Texture>();
 		private var keysRect : List.<Rect> = new List.<Rect>();
 
@@ -123,7 +123,7 @@ public class StartMenu extends GUIControl
 	public var firstTimeLevelToLoad:String = "";
 	
 	public var deleteProfileButton:Texture;
-	public var deleteProfileButtonPressed:Texture;
+	//public var deleteProfileButtonPressed:Texture;
 	private var deleteProfileButtonRect:Rect;
 	
 	private var showConfirmation : boolean = false;
@@ -131,10 +131,20 @@ public class StartMenu extends GUIControl
 	public var regularFont : Font;
 	public var infoBox:Texture;
 	public var infoButton:Texture;
-	public var infoButtonPressed:Texture;
+	//public var infoButtonPressed:Texture;
 	private var confirmationRect : Rect;
 	private var confirmCancelRect : Rect;
 	private var confirmContinueRect : Rect;
+	
+	
+	
+	private var startButtonAB:AnimatedButton;
+	private var optionsButtonAB:AnimatedButton;
+	private var creditsButtonAB:AnimatedButton;
+	private var quitButtonAB:AnimatedButton;
+	private var mainMenuButtonAB:AnimatedButton;
+	private var deleteProfileButtonAB:AnimatedButton;
+	
 	
 	public enum CurrentStartScreen
 	{
@@ -188,7 +198,7 @@ public class StartMenu extends GUIControl
 		
 		var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 
-		percentage = screenWidth / 1920 * 1.3; //Assumes images made to spec of 1920 px
+		percentage = screenWidth / 1920 * 1.15; //Assumes images made to spec of 1920 px
 		currentScreen = CurrentStartScreen.FirstScreen;
 		
 		var generalButtonWidth : float = (creditsButton.width * percentage);
@@ -200,7 +210,6 @@ public class StartMenu extends GUIControl
 
 		
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
-		quitButton = Rect(screenWidth - generalButtonWidth - (buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
 		creditsButtonRect = Rect((buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
 		
 		
@@ -209,6 +218,10 @@ public class StartMenu extends GUIControl
 		//loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, loginButton.width * percentage, loginButton.height * percentage);
 		loginButtonRect = Rect(buttonSideBuffer * screenHeight, distFromBottomOfScreen, generalButtonWidth, generalButtonHeight);
 		//facebookButtonRect = Rect(screenWidth/2 - (facebookButton.width * percentage)/2 - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, facebookButton.width * percentage, facebookButton.height * percentage);
+		
+		generalButtonWidth = (optionsButton.width * percentage);
+		generalButtonHeight = (optionsButton.height * percentage);
+		quitButton = Rect(screenWidth - generalButtonWidth - (buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
 		optionsButtonRect = Rect( screenWidth - generalButtonWidth - (buttonSideBuffer * screenHeight), distFromBottomOfScreen, generalButtonWidth, generalButtonHeight);
 		
 		profileSelectWidth = profileBGText.width * percentage;
@@ -217,6 +230,13 @@ public class StartMenu extends GUIControl
 		
 		profileSelectButton = Rect(screenWidth * 0.01, (screenHeight - profileSelectHeight) * 0.95, profileSelectWidth, profileSelectHeight);
 		showProfiles = false;
+		
+		
+		startButtonAB = new AnimatedButton(Color.green, loginButton, loginButtonRect);
+		creditsButtonAB = new AnimatedButton(Color.blue, creditsButton, creditsButtonRect);
+		optionsButtonAB = new AnimatedButton(Color.blue, optionsButton, optionsButtonRect);
+		quitButtonAB = new AnimatedButton(Color.blue, exitButton, quitButton);
+		
 		
 		//logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
@@ -285,6 +305,10 @@ public class StartMenu extends GUIControl
 			sfxSliderVal = 1.0;
 			musicSliderVal = 1.0;
 		}
+		
+		mainMenuButtonAB = new AnimatedButton(Color.blue, mainMenuButtonText, upperRightButtonRect);
+		deleteProfileButtonAB = new AnimatedButton(Color.blue, deleteProfileButton, deleteProfileButtonRect);
+		
 	}
 	
 	public function Render()
@@ -310,15 +334,105 @@ public class StartMenu extends GUIControl
 			
 				GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
 				
+				/*
 				setButtonTexture(creditsButton, creditsButtonPressed);
 				if (GUI.Button(creditsButtonRect, ""))
 				{
 					PlayButtonPress();
 					Application.LoadLevel("Credits");
 				}
-			
+				
 				setButtonTexture(optionsButton, optionsButtonPressed);
 				if (GUI.Button(optionsButtonRect, ""))
+				{
+					/*
+					//So it can pass to the loading screen where to go next
+					var nextLevel : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
+					nextLevel.nextLevel = firstLevel;
+					Debug.Log("Going to " + firstLevel);
+					currentResponse.type = EventTypes.NEWGAME;
+					
+					//Debug.Log("Options button was pressed.");
+					
+					
+					if(saveSystem.currentPlayer != null)
+					{
+						sfxSliderVal = saveSystem.currentPlayer.sfxLevel;
+						musicSliderVal = saveSystem.currentPlayer.musicLevel;
+					}
+					else
+					{
+						sfxSliderVal = 1.0;
+						musicSliderVal = 1.0;
+					}
+					
+					currentScreen = CurrentStartScreen.Options;
+					players = saveSystem.LoadNames();
+					PlayButtonPress();
+				}
+				
+				
+				setButtonTexture(loginButton, loginButtonPressed);
+				if (GUI.Button(loginButtonRect, ""))
+				{
+					players = saveSystem.LoadNames();
+					if(players.Count <=0 || players[0] == "")
+					{
+						firstTime = true;
+						newUsername = "Enter Name";
+						currentScreen = CurrentStartScreen.NewProfile;
+					}
+					else
+					{
+						firstTime = false;
+						currentScreen = CurrentStartScreen.ProfileSelect;
+					}
+					PlayButtonPress();
+				}
+
+				
+				resetButtonTexture();				
+				
+				
+				setButtonTexture(facebookButton, facebookButtonPressed);
+				if (GUI.Button(facebookButtonRect, ""))
+				{
+					currentResponse.type = EventTypes.FACEBOOK;
+					PlayButtonPress();
+				}
+				
+				setButtonTexture(exitButton, exitButtonPressed);
+				if (GUI.Button(quitButton, ""))
+				{
+					Utils.QuitGame();
+					//Application.Quit();
+				}
+				*/
+				//resetButtonTexture();
+				
+				
+				if(startButtonAB.Render())
+				{
+					players = saveSystem.LoadNames();
+					if(players.Count <=0 || players[0] == "")
+					{
+						firstTime = true;
+						newUsername = "Enter Name";
+						currentScreen = CurrentStartScreen.NewProfile;
+					}
+					else
+					{
+						firstTime = false;
+						currentScreen = CurrentStartScreen.ProfileSelect;
+					}
+					PlayButtonPress();
+				}
+				if (creditsButtonAB.Render())
+				{
+					PlayButtonPress();
+					Application.LoadLevel("Credits");
+				}
+				if (optionsButtonAB.Render())
 				{
 					/*
 					//So it can pass to the loading screen where to go next
@@ -345,40 +459,12 @@ public class StartMenu extends GUIControl
 					players = saveSystem.LoadNames();
 					PlayButtonPress();
 				}
-				
-				setButtonTexture(loginButton, loginButtonPressed);
-				if (GUI.Button(loginButtonRect, ""))
-				{
-					players = saveSystem.LoadNames();
-					if(players.Count <=0 || players[0] == "")
-					{
-						firstTime = true;
-						newUsername = "Enter Name";
-						currentScreen = CurrentStartScreen.NewProfile;
-					}
-					else
-					{
-						firstTime = false;
-						currentScreen = CurrentStartScreen.ProfileSelect;
-					}
-					PlayButtonPress();
-				}
-				/*
-				setButtonTexture(facebookButton, facebookButtonPressed);
-				if (GUI.Button(facebookButtonRect, ""))
-				{
-					currentResponse.type = EventTypes.FACEBOOK;
-					PlayButtonPress();
-				}
-				*/
-				setButtonTexture(exitButton, exitButtonPressed);
-				if (GUI.Button(quitButton, ""))
+				if (quitButtonAB.Render())
 				{
 					Utils.QuitGame();
 					//Application.Quit();
 				}
 				
-				resetButtonTexture();
 
 				
 			}// end of first screen
@@ -398,13 +484,13 @@ public class StartMenu extends GUIControl
 					
 					GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
 					GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
-					setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);
-					if (GUI.Button(upperRightButtonRect, ""))
+					//setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);
+					if (mainMenuButtonAB.Render())
 					{
 						currentScreen = CurrentStartScreen.FirstScreen;
 						PlayButtonPress();
 					}
-					resetButtonTexture();
+					//resetButtonTexture();
 					
 					// ANDROID BACK BUTTON
 					if(Input.GetKeyUp(KeyCode.Escape))
@@ -466,7 +552,7 @@ public class StartMenu extends GUIControl
 							GUI.skin = startMenuSkin;
 							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage *.8f) / 2;
 							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
-							setButtonTexture(approveButtonText, approveButtonTextPressed);
+							setButtonTexture(approveButtonText, approveButtonText);
 							if(GUI.Button(deleteButton, ""))
 							{
 								if(newUsername != "Enter Name" && newUsername != "")
@@ -604,12 +690,12 @@ public class StartMenu extends GUIControl
 			{
 				GUI.skin = startMenuSkin;
 				
-				setButtonTexture(deleteProfileButton, deleteProfileButtonPressed);
-				if(GUI.Button(deleteProfileButtonRect, ""))
+				//setButtonTexture(deleteProfileButton, deleteProfileButtonPressed);
+				if(deleteProfileButtonAB.Render())
 				{
 					showConfirmation = true;
 				}
-				resetButtonTexture();
+				//resetButtonTexture();
 				
 				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
 
@@ -634,8 +720,8 @@ public class StartMenu extends GUIControl
 					saveSystem.currentPlayer.musicLevel = musicSliderVal;
 				}
 				
-				setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);				
-				if (GUI.Button(upperRightButtonRect, ""))
+				//setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);				
+				if (mainMenuButtonAB.Render())
 				{
 					if(saveSystem.currentPlayer != null)
 						saveSystem.SaveCurrentPlayer();
@@ -643,7 +729,7 @@ public class StartMenu extends GUIControl
 					currentScreen = CurrentStartScreen.FirstScreen;
 					PlayButtonPress();
 				}
-				resetButtonTexture();
+				//resetButtonTexture();
 				
 				//	ANDROID BACK BUTTON
 				if(Input.GetKeyUp(KeyCode.Escape))
@@ -675,7 +761,7 @@ public class StartMenu extends GUIControl
 				{
 					setButtonTexture(infoBox, infoBox, style);
 					GUI.Box(confirmationRect, "Are you sure you want to delete player data?", style);
-					setButtonTexture(infoButton, infoButtonPressed, style);
+					setButtonTexture(infoButton, infoButton, style);
 					if (GUI.Button(confirmCancelRect, "Cancel", style))
 						showConfirmation = false;
 					if (GUI.Button(confirmContinueRect, "Continue", style))

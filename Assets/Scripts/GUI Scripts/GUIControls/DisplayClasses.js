@@ -219,3 +219,136 @@ public class ShadowedText
 	}	
 	
 }//ShadowedText
+
+
+public class AnimatedButton
+{
+	public var color : Color;
+	public var image : Texture;
+	public var rect : Rect;
+	private var buttonPressed: boolean = false;
+	
+	public function AnimatedButton(c:Color, img:Texture, r:Rect)
+	{
+		color = c;
+		rect = r;
+		image = img;
+		buttonPressed = false;
+	}
+	
+	public function Render():boolean
+	{
+		buttonPressed = false;
+		if (DetectHover())
+		{
+			GUI.color = color;
+			rect.x += rect.width * 0.03;
+			rect.y += rect.height * 0.03;
+			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
+			// having the second if statement sometimes not triggered.
+			
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			GUI.DrawTexture(rect, image);
+			if(GUI.Button(rect, ""))
+			{
+				buttonPressed = true;
+			}
+			
+			GUI.color = Color.white;
+			rect.x -= rect.width * 0.03;
+			rect.y -= rect.height * 0.03;
+		}
+		else
+		{
+			GUI.DrawTexture(rect, image);
+		}
+		
+		return buttonPressed;
+	}
+	
+	public function Render(text:Texture):boolean
+	{
+		image = text;
+		buttonPressed = false;
+		if (DetectHover())
+		{
+			GUI.color = color;
+			rect.x += rect.width * 0.03;
+			rect.y += rect.height * 0.03;
+			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
+			// having the second if statement sometimes not triggered.
+			
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			GUI.DrawTexture(rect, image);
+			if(GUI.Button(rect, ""))
+			{
+				buttonPressed = true;
+			}
+			
+			GUI.color = Color.white;
+			rect.x -= rect.width * 0.03;
+			rect.y -= rect.height * 0.03;
+		}
+		else
+		{
+			GUI.DrawTexture(rect, image);
+		}
+		
+		return buttonPressed;
+	}
+	
+	public function Render(r:Rect,text:Texture):boolean
+	{
+		image = text;
+		rect = r;
+		buttonPressed = false;
+		if (DetectHover())
+		{
+			GUI.color = color;
+			rect.x += rect.width * 0.03;
+			rect.y += rect.height * 0.03;
+			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
+			// having the second if statement sometimes not triggered.
+			
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			GUI.DrawTexture(rect, image);
+			if(GUI.Button(rect, ""))
+			{
+				buttonPressed = true;
+			}
+			
+			GUI.color = Color.white;
+			rect.x -= rect.width * 0.03;
+			rect.y -= rect.height * 0.03;
+		}
+		else
+		{
+			GUI.DrawTexture(rect, image);
+		}
+		
+		return buttonPressed;
+	}
+	
+	private function DetectHover():boolean
+	{
+		var inputLocation : Vector2;
+		
+		if(Input.touchCount > 0)
+			return rect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
+		else
+			return rect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
+	}
+	
+} // AnimatedButton
+
+
+
+
+
+
+
+
+
+
+
+

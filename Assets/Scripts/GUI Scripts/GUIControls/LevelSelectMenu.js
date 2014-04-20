@@ -151,14 +151,14 @@ public class LevelSelectMenu extends GUIControl
 	
 	
 	public var codexIconText: Texture;
-	public var codexIconTextPressed: Texture;
+	//public var codexIconTextPressed: Texture;
 			private var codexIconRect: Rect;
 			private var codexX: float=35;
 			private var codexY: float=603;
 	public var archiveIconText: Texture;
 	public var newMessageText:Texture;
-	public var archiveIconTextPressed: Texture;
-	public var newMessageTextPressed:Texture;
+	//public var archiveIconTextPressed: Texture;
+	//public var newMessageTextPressed:Texture;
 			private var archiveIconRect: Rect;
 			private var archiveX: float=35;
 			private var archiveY: float=206;
@@ -185,7 +185,7 @@ public class LevelSelectMenu extends GUIControl
 	//public var lineOverlayText: Texture;
 			//private var lineOverlayRect: Rect;
 	public var mainMenuIconText: Texture;
-	public var mainMenuIconTextPressed: Texture;
+	//public var mainMenuIconTextPressed: Texture;
 			private var mainMenuIconRect: Rect;
 			private var mainMenuX: float=1563;
 			private var mainMenuY: float=24;
@@ -204,7 +204,7 @@ public class LevelSelectMenu extends GUIControl
 	private var designWidth : float = 1920;
 	private var designHeight : float = 1080;
 	public var startLevelButtonTexture: Texture;
-	public var startLevelButtonTexturePressed: Texture;
+	//public var startLevelButtonTexturePressed: Texture;
 	private var missionScrollArea: Rect;
 		private var missionScrollX:float =41;
 		private var missionScrollY:float = 50;
@@ -223,7 +223,7 @@ public class LevelSelectMenu extends GUIControl
 		private var rank2Y:float=31;
 	private var scrollThumbWidth:float=0.03;
 	public var backButtonText: Texture;
-	public var backButtonTextPressed: Texture;
+	//public var backButtonTextPressed: Texture;
 	private var rank1Style:GUIStyle;
 	private var rank2Style:GUIStyle;
 	private var playerNameStyle:GUIStyle;
@@ -337,6 +337,12 @@ public class LevelSelectMenu extends GUIControl
 	private var confirmHolding:boolean;
 	
 	private var topRect:Rect;
+	
+	// Buttons
+	private var codexButtonAB:AnimatedButton;
+	private var archiveButtonAB:AnimatedButton;
+	private var mainMenuButtonAB:AnimatedButton;
+	private var startLevelButtonAB:AnimatedButton;
 	
 	public function Start () 
 	{
@@ -629,6 +635,12 @@ public class LevelSelectMenu extends GUIControl
 					tooltipDisplay.Activate(dashboardTooltips[i], null);
 			}
 		}
+		
+		codexButtonAB =  new AnimatedButton(Color.blue, codexIconText, codexIconRect);
+		archiveButtonAB =  new AnimatedButton(Color.blue, archiveIconText, archiveIconRect);
+		mainMenuButtonAB =  new AnimatedButton(Color.blue, mainMenuIconText, mainMenuIconRect);
+		startLevelButtonAB =  new AnimatedButton(Color.yellow, startLevelButtonTexture, startLevelButton);
+		
 	}
 	
 	private function RenderLevels(levelsToRender : List.<LevelNode>, displayDifficulty : boolean)
@@ -840,8 +852,8 @@ public class LevelSelectMenu extends GUIControl
 								PlayerPrefs.SetString("LevelToComplete", levelsToRender[i].sceneName);
 								break;
 							}
-							showSplash = true;
 							activeLevelIndex = i;							
+							showSplash = true;
 						}
 
 					}
@@ -924,15 +936,15 @@ public class LevelSelectMenu extends GUIControl
 			*/
 			
 			//GUI.DrawTexture(codexIconRect, codexIconText,ScaleMode.StretchToFill);			
-			setButtonTexture(codexIconText, codexIconTextPressed);
-			if(GUI.Button(codexIconRect, ""))
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			if(codexButtonAB.Render())
 			{
 				currentResponse.type = EventTypes.CODEXMENU;
 			}			
 			
 			//GUI.DrawTexture(archiveIconRect, inboxTab ? archiveIconText : newMessageText,ScaleMode.StretchToFill);
-			setButtonTexture(inboxTab ? archiveIconText : newMessageText, inboxTab ? archiveIconTextPressed : newMessageTextPressed);
-			if(GUI.Button(archiveIconRect, ""))
+			//setButtonTexture(inboxTab ? archiveIconText : newMessageText, inboxTab ? archiveIconTextPressed : newMessageTextPressed);
+			if(archiveButtonAB.Render(inboxTab ? archiveIconText : newMessageText))
 			{
 				//currentResponse.type = EventTypes.archiveMENU;
 				inboxTab = !inboxTab;
@@ -943,12 +955,12 @@ public class LevelSelectMenu extends GUIControl
 			}
 			
 			//GUI.DrawTexture(mainMenuIconRect, mainMenuIconText, ScaleMode.StretchToFill);
-			setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
-			if(GUI.Button(mainMenuIconRect, ""))
+			//setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
+			if(mainMenuButtonAB.Render())
 			{
 				currentResponse.type = EventTypes.STARTMENU;
 			}
-			resetButtonTexture();
+			//resetButtonTexture();
 			
 			//	ANDROID BACK BUTTON
 			if(!returnedFromMessage && Input.GetKeyUp(KeyCode.Escape))
@@ -959,12 +971,12 @@ public class LevelSelectMenu extends GUIControl
 		}				
 		else	//Renders the Splash Screen
 		{
-			setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
-			if(GUI.Button(mainMenuIconRect, ""))
+			//setButtonTexture(mainMenuIconText, mainMenuIconTextPressed);
+			if(mainMenuButtonAB.Render())
 			{
 				currentResponse.type = EventTypes.STARTMENU;
 			}
-			resetButtonTexture();
+			//resetButtonTexture();
 			GUI.BeginGroup(missionBackgroundRect);
 				
 				GUI.DrawTexture(emailMessageBackgroundRect, emailMessageBackground,ScaleMode.StretchToFill);
@@ -1023,10 +1035,20 @@ public class LevelSelectMenu extends GUIControl
 					if(!completedLevels[activeLevelIndex].wasRead)
 						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
-					subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
-					message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
-					objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+					if(inboxTab)
+					{
+						sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
+						subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
+						message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
+						objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+					}
+					else
+					{
+						sender = "<b>" + completedLevels[activeLevelIndex].senderName + "</b>";
+						subject = "<b>" + completedLevels[activeLevelIndex].subjectText + "</b>";
+						message = "<b>" + completedLevels[activeLevelIndex].messageText + "</b>";
+						objective = "<size=18><color=yellow><b>" + completedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+					}
 										
 					GUI.Label(senderRect_desc, sender);						
 					GUI.Label(subjectRect, subject);						
@@ -1039,38 +1061,38 @@ public class LevelSelectMenu extends GUIControl
 
 				if(inboxTab)
 				{
-					setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
+					//setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
 					//GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
-					if(GUI.Button(startLevelButton, ""))
+					if(startLevelButtonAB.Render())
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
 						PlayerPrefs.SetString(Strings.CurrentLevel, unlockedLevels[activeLevelIndex].subjectText);
 						Application.LoadLevel("LoadingScreen");
 					}
-					resetButtonTexture();
+					//resetButtonTexture();
 				}
 				else
 				{
-					setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
+					//setButtonTexture(startLevelButtonTexture, startLevelButtonTexturePressed);
 					//GUI.DrawTexture(startLevelButton, startLevelButtonTexture, ScaleMode.StretchToFill);
-					if(GUI.Button(startLevelButton, ""))
+					if(startLevelButtonAB.Render())
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, completedLevels[activeLevelIndex].sceneName);
 						PlayerPrefs.SetString(Strings.CurrentLevel, completedLevels[activeLevelIndex].subjectText);
 						Application.LoadLevel("LoadingScreen");
 					}
-					resetButtonTexture();
+					//resetButtonTexture();
 				}
 
 			GUI.EndGroup();
 			
-			setButtonTexture(backButtonText, backButtonTextPressed);
+			//setButtonTexture(backButtonText, backButtonTextPressed);
 			// only display back button if past the initial tutorials
-			if(lastUnlockedIndex >= levelsFromXML.numInitialTutorials && GUI.Button(archiveIconRect, ""))
+			if(lastUnlockedIndex >= levelsFromXML.numInitialTutorials && archiveButtonAB.Render(backButtonText))
 			{
 				showSplash = false;
 			}
-			resetButtonTexture();
+			//resetButtonTexture();
 			
 			//	ANDROID BACK BUTTON
 			if(Input.GetKeyUp(KeyCode.Escape) && lastUnlockedIndex >= levelsFromXML.numInitialTutorials)

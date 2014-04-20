@@ -119,7 +119,6 @@ public class InGameAnimation
 	private var iconIsGrowingTransparent:boolean;
 	private var ringIsGrowingTransparent:boolean;
 	private var stopColorChange:boolean = false;
-	private var tol:float = 0;
 	private var twiceScale:Vector3;
 	private var newScale:float;
 	
@@ -154,10 +153,8 @@ public class InGameAnimation
 			firstLoop = false;
 		}
 		
-		tol = Mathf.Abs(1 - (ringColor.a / ringColorEnd.a)) + Mathf.Abs(1 - (iconColor.grayscale / ringColorEnd.grayscale));
 		ringColor = Color.Lerp(ringColor, ringColorEnd, 0.05);
 		iconColor = Color.Lerp(iconColor, iconColorEnd, 0.05);
-		Debug.Log(tol);
 		
 		if(!switchScale)
 		{
