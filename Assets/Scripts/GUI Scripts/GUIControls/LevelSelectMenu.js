@@ -434,7 +434,9 @@ public class LevelSelectMenu extends GUIControl
 		missionScrollArea = createRect(Vector2(missionScrollWidth, missionScrollHeight), missionScrollX / designWidth, missionScrollY / designHeight, missionScrollAreaPercent, true, missionBackgroundRect);
 
 		
-		startLevelButton = createRect(startLevelButtonTexture, startLevelButtonX, startLevelButtonY, startLevelButtonPercent, true, missionBackgroundRect);
+		//startLevelButton = createRect(startLevelButtonTexture, startLevelButtonX, startLevelButtonY, startLevelButtonPercent, true, missionBackgroundRect);
+		
+		startLevelButton = createRect(startLevelButtonTexture, 0.674, 0.414, 0.536, false, missionBackgroundRect);
 		
 		
 
