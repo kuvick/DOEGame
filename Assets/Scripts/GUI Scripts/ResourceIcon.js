@@ -2,9 +2,16 @@
 
 private var isAllocated : boolean = false;
 private var building : BuildingOnGrid;
-public var unallocatedTex : Texture2D;
-public var allocatedTex : Texture2D;
+//public var unallocatedTex : Texture2D;
+//public var allocatedTex : Texture2D;
 public var brokenTex : Texture2D;
+
+public var IconTex : Texture2D;
+public var TopBGTex : Texture2D;
+public var BottomBGTex : Texture2D;
+
+public var resourceColor: Color;
+
 public var type : ResourceType;
 private var currentTex : Texture2D;
 public var ioType : IOType;
@@ -76,14 +83,33 @@ public function Initialize(building : BuildingOnGrid)
 	
 	this.building = building;
 	
-	currentTex = unallocatedTex;
-	gameObject.renderer.material.mainTexture = currentTex;
+	resourceColor.a = 1.0f;
+	
+	//currentTex = unallocatedTex;
+	
+	//gameObject.renderer.material.mainTexture = currentTex;
+	
+	gameObject.renderer.material.SetTexture("_IconTex", IconTex);
+	gameObject.renderer.material.SetTexture("_TopBGTex", TopBGTex);
+	gameObject.renderer.material.SetTexture("_BottomBGTex", BottomBGTex);	
 	
 	currentScale = smallScale;
 	gameObject.transform.localScale = currentScale;
 	
-	gameObject.renderer.material.mainTextureScale = Vector2(-1,-1);
-	gameObject.renderer.material.mainTextureOffset = Vector2(1,1);
+	//gameObject.renderer.material.mainTextureScale = Vector2(-1,-1);
+	//gameObject.renderer.material.mainTextureOffset = Vector2(1,1);
+	
+	gameObject.renderer.material.SetTextureScale("_IconTex", Vector2(-1,-1));
+	gameObject.renderer.material.SetTextureScale("_TopBGTex", Vector2(-1,-1));
+	gameObject.renderer.material.SetTextureScale("_BottomBGTex", Vector2(-1,-1));
+	
+	gameObject.renderer.material.SetTextureOffset("_IconTex", Vector2(1,1));
+	gameObject.renderer.material.SetTextureOffset("_TopBGTex", Vector2(1,1));
+	gameObject.renderer.material.SetTextureOffset("_BottomBGTex", Vector2(1,1));
+	
+	gameObject.renderer.material.SetColor("_Color2", resourceColor);
+	gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+	gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 	
 	// slant icon slightly forward towards the camera
 	gameObject.transform.rotation = Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0);
@@ -132,16 +158,25 @@ public function SetAllocated (allo : boolean)
 	if (isAllocated)
 	{
 		//Disabling texture change to see if this makes the game more readible GPC 3/8/14
-		currentTex = allocatedTex;
+		//currentTex = allocatedTex;
+		
+		//ALLOCATED SET
 		
 		//gameObject.renderer.material.color = allColor;
 	}
 	else
 	{
-		currentTex = unallocatedTex;
+		//currentTex = unallocatedTex;
+		
+		//UNALLOCATED SET
+		
 		//gameObject.renderer.material.color = unallColor;
 	}
-	gameObject.renderer.material.mainTexture = currentTex;
+	//gameObject.renderer.material.mainTexture = currentTex;
+	
+	
+	//var tempColor = resourceColor + resourceColor;					// SET ALLOCATED
+	//gameObject.renderer.material.SetColor("_Color1", resourceColor);
 }
 
 public function SetFlashActive(active : boolean)
@@ -163,7 +198,10 @@ public function SetFixed(fix : boolean)
 	if (ioType == IOType.OptOut)
 	{
 		if (fix)
-			currentTex = unallocatedTex;
+		{
+			//currentTex = unallocatedTex;
+			//UNALLOCATED SET
+		}
 		else
 		{
 			currentTex = brokenTex;
