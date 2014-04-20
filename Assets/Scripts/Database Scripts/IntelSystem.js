@@ -632,11 +632,13 @@ function Update()
 public function triggerLoss()
 {
 	victory = false;
-	var event : GUIEvent = new GUIEvent();
-	event.type = EventTypes.CLEAR;//FAILUREMENU;
+	/*var event : GUIEvent = new GUIEvent();
+	event.type = EventTypes.CLEAR;//FAILUREMENU;*/
 	//GUIManager.Instance().RecieveEvent(event);
 	
 	SoundManager.Instance().PlayPrimaryObjectiveExpired();
+	var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	mainMenu.enableHUD = false;
 	var cameraContr : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
 	cameraContr.SetFailureTrace(failurePath);
 	//GUIManager.Instance().RecieveEvent(event);

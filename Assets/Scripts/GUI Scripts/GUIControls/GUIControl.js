@@ -40,6 +40,8 @@ public class GUIControl extends MonoBehaviour
 	
 	protected var backgroundMusic : SoundType = null; 
 	
+	protected var isActive : boolean;
+	
 	/*
 		Starts the GUIControl's update cycle.
 		Should be overridden in child classes.
@@ -66,6 +68,14 @@ public class GUIControl extends MonoBehaviour
 		currentResponse = new GUIEvent();
 		
 		isInitialized = true;
+		isActive = false;
+		//StartCoroutine(DelayFix());
+	}
+	
+	public function DelayFix()
+	{
+		yield WaitForSeconds(.01f);
+		isActive = true;
 	}
 	
 	/*

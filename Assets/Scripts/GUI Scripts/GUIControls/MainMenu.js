@@ -364,7 +364,7 @@ public class MainMenu extends GUIControl
 	}
 	
 	public function Render(){
-		if (!enableHUD) return; 
+		if (!enableHUD || !isActive) return; 
 		if(intelSystem.victory) 
 		{
 			DrawVictorySplash();
@@ -421,7 +421,7 @@ public class MainMenu extends GUIControl
 		if(GUI.Button(pauseButton, ""))
 		{
 			SoundManager.Instance().playButtonClick();
-			
+			isActive = false;
 			currentResponse.type = EventTypes.PAUSE;
 		}
 		
@@ -439,6 +439,7 @@ public class MainMenu extends GUIControl
 			if(levelSkipAndroid){
 				intelSystem.victory = true;
 			}else{	
+				isActive = false;
 				currentResponse.type = EventTypes.PAUSE;
 			}
 		}

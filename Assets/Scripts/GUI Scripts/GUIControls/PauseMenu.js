@@ -122,6 +122,8 @@ public class PauseMenu extends GUIControl
 	public function Render()
 	{
 		intelSystem.isPaused = true;
+		if (!isActive)
+			return;
 		GUI.depth = 0;
 			// Drawing background textures:
 		GUI.skin = pauseScreenSkin;
@@ -146,6 +148,7 @@ public class PauseMenu extends GUIControl
 		if(GUI.Button(backButtonRect, ""))
 		{
 			intelSystem.isPaused = false;
+			isActive = false;
 			currentResponse.type = EventTypes.MAIN;
 			PlayButtonPress();
 		}
@@ -154,6 +157,7 @@ public class PauseMenu extends GUIControl
 		if(Input.GetKeyUp(KeyCode.Escape))
 		{
 			currentResponse.type = EventTypes.MAIN;
+			isActive = false;
 			intelSystem.isPaused = false;
 			PlayButtonPress();
 		}

@@ -531,6 +531,7 @@ public function AddGUIToControls(guiControlToAdd : GUIControl){
 		guiControlToAdd.Initialize();
 	}
 	guiControlToAdd.OnOpen();
+	guiControlToAdd.DelayFix();
 	activeControls.Add(guiControlToAdd);
 }
 
