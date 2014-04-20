@@ -157,10 +157,10 @@ function Start()
 	// Determines wheter buildings can be activated at the start of the game
 	for (var i : int = 0; i < buildingsOnGrid.Count; i++)
 	{
-		isOrigin = activateBuilding(i, false);
+		isOrigin = (activateBuilding(i, false) && buildingsOnGrid[i].buildingPointer.name != "BuildingSite");
 		
-		if(isOrigin && cameraControl.originBuilding == null)
-			cameraControl.originBuilding = getBuildingAtIndex(i);
+		if(isOrigin)// && cameraControl.originBuilding == null)
+			cameraControl.originBuilding.Add(buildingsOnGrid[i].buildingPointer);
 		
 	}
 

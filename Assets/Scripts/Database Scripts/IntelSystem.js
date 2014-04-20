@@ -239,7 +239,7 @@ function Start ()
 		if(events[j].event.type == BuildingEventType.Primary)
 		{
 			var cameraContr : CameraControl = GameObject.Find("Main Camera").GetComponent(CameraControl);
-			cameraContr.finalBuilding = events[j].event.buildingReference;
+			cameraContr.finalBuilding.Add(events[j].event.buildingReference);
 		}
 	}
 }

@@ -114,6 +114,13 @@ function CreateTraceDraw(b1 : int, b2 : int)
 		return;
 		
 	AddParticleSystem(b1, b2, ResourceType.Power, false, true);
+	StartCoroutine(TraceRemove(b1, b2));
+}
+
+function TraceRemove(b1 : int, b2 : int)
+{
+	yield WaitForSeconds(1f);
+	removeLink(b1, b2);
 }
 
 // Creates the particle system for link visual

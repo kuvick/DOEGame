@@ -754,7 +754,8 @@ public class MainMenu extends GUIControl
 	{		
 		if(!startPath)
 		{
-			cameraControl.FindPath();
+			//cameraControl.FindPath();
+			cameraControl.StartTrace();
 			startPath = true;
 		}
 		else if(startMissionComplete)
@@ -773,9 +774,9 @@ public class MainMenu extends GUIControl
 			//triggers count down until it goes to score screen
 			else
 			{
-				/*if(victorySplashStartTime == 0)
-					victorySplashStartTime = Time.time;*/
-				if(GUI.Button(Rect(0,0, screenWidth, screenHeight), String.Empty))//Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
+				if(victorySplashStartTime == 0)
+					victorySplashStartTime = Time.time;
+				if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
 				{
 					victorySplashStartTime = 0;
 					intelSystem.triggerWin();

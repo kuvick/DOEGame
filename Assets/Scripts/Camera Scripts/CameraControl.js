@@ -575,14 +575,42 @@ private function FollowTrace()
 	}
 }
 
+public function StartTrace()
+{
+	var highestPath : int = 0;
+	for (var i : int = 0; i < finalBuilding.Count; i++)
+	{
+		for (var j : int = 0; j < originBuilding.Count; j++)
+		{
+			var foundPath = FindPath(originBuilding[j], finalBuilding[i]);
+			if (foundPath.Count > 0)
+			{
+				TraceEndPath(foundPath);
+				if (foundPath.Count > highestPath)
+					highestPath = foundPath.Count;
+			}
+		}
+	}
+	yield WaitForSeconds(highestPath);
+	var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	mainMenu.startMissionComplete = true;
+}
 
+private function TraceEndPath(path : List.<BuildingOnGrid>)
+{
+	for (var i : int = 0; i < path.Count - 1; i++)
+	{
+		(gameObject.GetComponent(DrawLinks) as DrawLinks).CreateTraceDraw(Database.getBuildingIndex(path[i + 1].buildingPointer), Database.getBuildingIndex(path[i].buildingPointer));
+		yield WaitForSeconds(1f);
+	}
+}
 
 // *******************************************************************************************************
 // ALL OF THE FOLLOWING CODE TAKEN AND MODIFIED FROM UNIT.JS
 // *******************************************************************************************************
 // Modified function from the Unit.js script
-public var originBuilding:GameObject;
-public var finalBuilding: GameObject;
+public var originBuilding:List.<GameObject> = new List.<GameObject>();
+public var finalBuilding:List.<GameObject> = new List.<GameObject>();
 private var tracePath:List.<BuildingOnGrid> = new List.<BuildingOnGrid>();
 
 private var open = new List.<BuildingOnGrid>();
@@ -590,10 +618,10 @@ private var nextOpen = new List.<BuildingOnGrid>();
 private var closed = new List.<BuildingOnGrid>();
 private var animateCamera:boolean = false;
 
-function FindPath ()
+function FindPath (startBuilding : GameObject, targetBuilding : GameObject)
 {
 
-	var buildingCoord : Vector3 = finalBuilding.transform.position;
+	var buildingCoord : Vector3 = targetBuilding.transform.position;
 	buildingCoord.y = 0;
 
 
@@ -607,7 +635,7 @@ function FindPath ()
 	tracePath.Clear();
 	
 	var activeLinkedNeighbors;
- 	buildingCoord = originBuilding.transform.position;
+ 	buildingCoord = startBuilding.transform.position;
 	buildingCoord.y = 0;
 	var current : BuildingOnGrid = Database.getBuildingOnGrid (buildingCoord);
 	open.Add(current);
@@ -640,11 +668,12 @@ function FindPath ()
 	}
 	
 	ClearAllPathVars();
-	//return found;
-	tracePath = foundPath;
+	return foundPath;
+	//tracePath = foundPath;
 	/*nextPoint = originBuilding.transform.position;
 	centerCameraOnPointInWorld(nextPoint);*/
-	animateCamera = true;
+	/*if (tracePath.Count > 0)
+		StartCoroutine(TraceEndPath(tracePath));//animateCamera = true;*/
 }
 
 // from Unit.js script
