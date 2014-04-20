@@ -72,30 +72,37 @@ function Start ()
 	dispWidth = dispHeight * dispWidthScale;
 	dispRightOffset = dispRightOffsetScale * Screen.width;
 	dispTopOffset = dispTopOffsetScale * Screen.height;
-	dispRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2,dispTopOffset,dispWidth - padding * 5,dispHeight);
-	dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
-	dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
-	nextRect = Rect(dispRect.x, dispBotRect.y + (dispBotRect.height / 2f), dispRect.width, dispBotRect.height / 2f);
+	//FIX THIS!!! GPC 4/19/14
+	var templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
+	dispRect = templateRect;
+	dispRect.y += 100;
+	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
+	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
+	dispBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f) + padding, templateRect.width - padding * 2, templateRect.height / 2f);
+	nextRect = Rect(templateRect.x, dispBotRect.y + (dispBotRect.height / 2f), templateRect.width, dispBotRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
 	
 	dispPicSize = Screen.width * dispPicSizeScale * 2;
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
-	skin.label.fontSize = fontScale * Screen.height * 1.3;
-	skin.box.fontSize = fontScale * Screen.height * 1.3;
+	//skin.label.fontSize = fontScale * Screen.height * 1.3;
+	//skin.box.fontSize = fontScale * Screen.height * 1.3;
 	
 	
 	//Apply Scaling
 	
 
-	skin.label.fontStyle = FontStyle.Bold;
-	skin.button.normal.background = null;
-	skin.button.active.background = null;
-	skin.button.hover.background = null;
-	skin.button.wordWrap = true;
-	skin.box.normal.background = null;
-	skin.box.active.background = null;
-	skin.box.hover.background = null;
+	//skin.label.fontStyle = FontStyle.Bold;
+	
+	//Do these do anything? GPC 4/19/14
+//	skin.button.normal.background = null;
+//	skin.button.active.background = null;
+//	skin.button.hover.background = null;
+//	skin.button.wordWrap = true;
+//	skin.box.normal.background = null;
+//	skin.box.active.background = null;
+//	skin.box.hover.background = null;
+	
 	//Added GPC 9/3/13
 	if(GameObject.Find("Database") != null){
 		intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
@@ -199,7 +206,8 @@ public function Activate(disp : String)
 {
 	componentSelected = true;
 	intelSys.toolTipOnScreen = true;
-	dispText = disp;
+	//Added bold effect GPC 4/19/14
+	dispText = "<b>" + disp + "</b>";
 	FormatDisplay();
 }
 
@@ -240,6 +248,7 @@ private function FormatDisplay()
 	{
 		renderDouble = false;
 		dispContent = GUIContent(currentTooltip.text);
+		//GUI.Label(currentTooltip.text);
 	}
 	/*dispHeight = skin.label.CalcHeight(GUIContent(dispText), dispWidth);
 	dispRect.height = dispHeight;
