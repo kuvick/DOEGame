@@ -33,6 +33,8 @@ public class ObjectiveIcon extends InspectionComponent
 	
 	private var eventID:int;
 	
+	private var objAnimation: InGameAnimation = new InGameAnimation();
+	
 	public function setID(num:int)
 	{
 		eventID = num;
@@ -193,6 +195,7 @@ public class ObjectiveIcon extends InspectionComponent
 			resolvedObj = true;
 			firstLoop = true;
 			mainMenu.triggerObjIconChange(eventID, resolvedTexture);
+			objAnimation.setVariablesForAnimation(this.gameObject.renderer.material, this.gameObject, unresolvedTexture, resolvedTexture, 0.05);
 		}
 		else
 		{
@@ -202,13 +205,14 @@ public class ObjectiveIcon extends InspectionComponent
 			
 			if(resolvedObj)
 			{
-				color1.a = 1.0f;
+				//color1.a = 1.0f;
 				resolvedObj = false;
-				firstLoop = true;
-				switchScale = false;
-				this.gameObject.renderer.material = originalMaterial;
-				renderer.material.mainTexture = unresolvedTexture;
-				transform.localScale = originalScale;
+				objAnimation.ResetTexture();
+				//firstLoop = true;
+				//switchScale = false;
+				//this.gameObject.renderer.material = originalMaterial;
+				//renderer.material.mainTexture = unresolvedTexture;
+				//transform.localScale = originalScale;
 			}
 			mainMenu.triggerObjIconChange(eventID, unresolvedTexture);
 		}
@@ -236,8 +240,6 @@ public class ObjectiveIcon extends InspectionComponent
 	private var originalScale:Vector3;
 	
 	private var switchScale:boolean;
-	
-	
 	private var pickedUpData:boolean = false;
 	
 	public function isAnimating():boolean
@@ -249,6 +251,11 @@ public class ObjectiveIcon extends InspectionComponent
 	{
 		if(resolvedObj)
 		{
+		
+			if(!objAnimation.Animate())
+				resolvedObj = false;
+		
+		/*
 			pickedUpData = false;
 			if(firstLoop)
 			{			
@@ -308,10 +315,18 @@ public class ObjectiveIcon extends InspectionComponent
 			}
 			blueMaterial.SetColor("_Color1", color1);
 			blueMaterial.SetColor("_Color2", color2);
+			
+			*/
 		}
 	
 		if(!resolvedObj && pickedUpData)
 		{
+		
+			if(!objAnimation.Animate())
+				pickedUpData = false;
+				
+				
+			/*		
 			if(firstLoop)
 			{
 				originalScale = transform.localScale;
@@ -376,30 +391,32 @@ public class ObjectiveIcon extends InspectionComponent
 			}
 			blueMaterial.SetColor("_Color1", color1);
 			blueMaterial.SetColor("_Color2", color2);
+			*/
 		}
 	}
 	
 	public function pickedUpDataSetTrue()
 	{
+		objAnimation.setVariablesForAnimation(this.gameObject.renderer.material, this.gameObject, unresolvedTexture, dataPickedUpTexture, 0.05);
 		pickedUpData = true;
 		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		mainMenu.triggerObjIconChange(eventID, dataPickedUpTexture);
 	}
 	public function resetTexture()
 	{
+		Debug.Log("called"); // I don't think this function is being used??
+		/*
 		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		mainMenu.triggerObjIconChange(eventID, unresolvedTexture);
 		pickedUpData = false;
-		
 		color1.a = 1.0f;
 		pickedUpData = false;
-		firstLoop = true;
-		switchScale = false;
+
 		this.gameObject.renderer.material = originalMaterial;
 		renderer.material.mainTexture = unresolvedTexture;
 		transform.localScale = originalScale;
 		blueMaterial.SetColor("_Color1", color1);
-		
+		*/
 	}
 	
 }

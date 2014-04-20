@@ -175,7 +175,9 @@ public class LevelSelectMenu extends GUIControl
 	private var useNum1BlinkTexture : boolean;	
 			private var emailItemBackgroundRect: Rect;
 			private var dispEmailItemBackground : Texture; // background to display
+	private var messageLineText:ShadowedText;
 	public var emailMessageBackground: Texture;
+	private var messageText:ShadowedText;
 			private var emailMessageBackgroundRect: Rect;
 			private var emailMessageX:float = 66;
 			private var emailMessageY:float = 66;
@@ -212,6 +214,7 @@ public class LevelSelectMenu extends GUIControl
 	private var barDisplay:float;
 	private var agentName:String;
 	private var agentRank:String;
+	private var agentRankText:ShadowedText;
 		private var agentRankRect1:Rect;
 		private var rank1X:float=79;
 		private var rank1Y:float=27;
@@ -224,6 +227,7 @@ public class LevelSelectMenu extends GUIControl
 	private var rank1Style:GUIStyle;
 	private var rank2Style:GUIStyle;
 	private var playerNameStyle:GUIStyle;
+	private var playerNameText:ShadowedText;
 	private var playerName:String;
 		private var playerRect:Rect;
 		private var playerPaddingPercent:float = 0.01;
@@ -342,6 +346,9 @@ public class LevelSelectMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		messageText = new ShadowedText("", Rect(0,0,0,0), false);
+		messageLineText = new ShadowedText("", Rect(0,0,0,0), false);
 		
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
@@ -479,6 +486,9 @@ public class LevelSelectMenu extends GUIControl
 								  screenHeight * rank1Y / designHeight,
 								  playerName.Length * levelSelectSkin.customStyles[0].fontSize,
 								  levelSelectSkin.customStyles[0].fontSize * 10);
+								  
+								  
+
 			
 			
 			var rankNameCalcSize : Vector2 = rank2Style.CalcSize(GUIContent(agentRank));
@@ -532,8 +542,13 @@ public class LevelSelectMenu extends GUIControl
 			agentRankRect1.x -= gap;
 			agentRankRect2.x -= gap;
 			playerRect.x -= gap;
+			
+			playerNameText = new ShadowedText(playerName, playerRect, playerNameStyle, false);
+			//agentRankText = new ShadowedText(agentRank, rank1Style.normal.textColor, rank2Style.normal.textColor, 1f, agentRankRect1, rank1Style);
+			//agentRankText  = new ShadowedText(agentRank, agentRankRect1, playerNameStyle, false);
+			agentRankText = new ShadowedText(agentRank, rank1Style.normal.textColor, rank2Style.normal.textColor, 1f, agentRankRect1, rank1Style);
 						
-		}	
+		}
 		else
 			Debug.Log("player not logged in!");
 			
@@ -746,14 +761,16 @@ public class LevelSelectMenu extends GUIControl
 						
 						if (i == 0 && displayDifficulty)
 						{
-							
 							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), highlightedItemBackground1);
 							GUI.color.a = fade;
 							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), highlightedItemBackground2);
 							GUI.color.a = 1.0f;
 						}
 						else
+						{
 							GUI.Label(new Rect(levelsToRender[i].bounds.x, levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4), levelsToRender[i].bounds.width, levelsToRender[i].bounds.height), emailItemBackground);
+						}
+						
 						
 						/*
 						if (i == 0 && displayDifficulty)
@@ -773,7 +790,6 @@ public class LevelSelectMenu extends GUIControl
 						//If there is a sender picture, display that, else don't
 						if (i == 0 && displayDifficulty)
 						{							
-							
 							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, true),ScaleMode.StretchToFill);
 							GUI.color.a = fade;
 							GUI.DrawTexture(senderRect, getBlinkTexture(levelsToRender[i].senderTexture, false),ScaleMode.StretchToFill);
@@ -867,9 +883,12 @@ public class LevelSelectMenu extends GUIControl
 		if(saveSystem.currentPlayer != null)
 		{
 			GUI.BeginGroup(topRect);
-				GUI.Label(agentRankRect2, agentRank, rank2Style);
-				GUI.Label(agentRankRect1, agentRank, rank1Style);
-				GUI.Label(playerRect, playerName, playerNameStyle);
+				//GUI.Label(agentRankRect2, agentRank, rank2Style);
+				//GUI.Label(agentRankRect1, agentRank, rank1Style);
+				agentRankText.Display();
+				//GUI.Label(playerRect, playerName, playerNameStyle);
+				playerNameText.Display();
+				
 				GUI.DrawTexture(rankRect, rankTextures[rankTextureNum]);
 			GUI.EndGroup();
 		}
@@ -980,16 +999,19 @@ public class LevelSelectMenu extends GUIControl
 					
 					//GPC 4/17 Dropshadows added. Move this to a separate function.					
 					var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
-					GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
-					GUI.Label(senderRect_desc, sender);	
+					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
+					//GUI.Label(senderRect_desc, sender);	
+					messageLineText.Display(sender, senderRect_desc);
 					
 					var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
-					GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
-					GUI.Label(subjectRect, subject);	
+					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
+					//GUI.Label(subjectRect, subject);	
+					messageLineText.Display(subject, subjectRect);
 					
 					var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
-					GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
-					GUI.Label(messageRect, message);	
+					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
+					//GUI.Label(messageRect, message);	
+					messageLineText.Display(message, messageRect);
 					
 					var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
 					GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	

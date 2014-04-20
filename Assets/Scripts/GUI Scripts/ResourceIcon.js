@@ -11,6 +11,7 @@ public var TopBGTex : Texture2D;
 public var BottomBGTex : Texture2D;
 
 public var resourceColor: Color;
+private var resourceColorTransparent: Color;
 
 public var type : ResourceType;
 private var currentTex : Texture2D;
@@ -38,6 +39,10 @@ private var allColor : Color = Color(1.0,1.0,1.0,1.0);
 private var flashActive : boolean = false;
 private var inactive : boolean = false;
 
+private var iconAnimation : InGameAnimation = new InGameAnimation();
+private var in2active : boolean = false;
+private var active2in : boolean = false;
+
 enum IOType
 {
 	In,
@@ -63,6 +68,18 @@ function Update () {
 		if (LinkUI.fadeTimer >= 0)
 			renderer.material.color = Color.Lerp(Color.gray, Color.white, LinkUI.fadeTimer);
 	}
+	
+	if(in2active)
+	{
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor))
+			in2active = false;
+	}
+	else if(active2in)
+	{
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColor, resourceColor, Color.white))
+			active2in = false;
+	}
+	
 }
 
 public function OnSelected()
@@ -84,6 +101,8 @@ public function Initialize(building : BuildingOnGrid)
 	this.building = building;
 	
 	resourceColor.a = 1.0f;
+	resourceColorTransparent = resourceColor;
+	resourceColorTransparent.a = 0.5f;
 	
 	//currentTex = unallocatedTex;
 	
@@ -127,7 +146,7 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.layer = 10;
 	flashIcon.name = "ResourceFlash";
 	
-	SetAllocated(false);
+	SetAllocated(false, false);
 	if (ioType == IOType.OptOut)
 	{
 		index = -1;
@@ -152,7 +171,7 @@ public function SetActive(active : boolean)
 	inactive = !active;
 }
 
-public function SetAllocated (allo : boolean)
+public function SetAllocated (allo : boolean, animate:boolean)
 {
 	isAllocated = allo;
 	if (isAllocated)
@@ -161,22 +180,38 @@ public function SetAllocated (allo : boolean)
 		//currentTex = allocatedTex;
 		
 		//ALLOCATED SET
-		
-		//gameObject.renderer.material.color = allColor;
+		if(!animate)
+		{
+			resourceColor.a = 0.5f;
+			gameObject.renderer.material.SetColor("_Color2", resourceColor);
+			gameObject.renderer.material.SetColor("_Color3", resourceColor);
+			resourceColor.a = 1.0f;	
+			gameObject.renderer.material.SetColor("_Color1", resourceColor); 	//ALLOCATED SET
+		}
+		else
+		{
+			in2active = true;
+			active2in = false;
+		}
 	}
 	else
 	{
 		//currentTex = unallocatedTex;
-		
-		//UNALLOCATED SET
-		
+		if(!animate)
+		{
+			resourceColor.a = 1.0f;
+			gameObject.renderer.material.SetColor("_Color2", resourceColor);
+			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
+		}
+		else
+		{
+			in2active = false;
+			active2in = true;
+		}
 		//gameObject.renderer.material.color = unallColor;
 	}
-	//gameObject.renderer.material.mainTexture = currentTex;
-	
-	
-	//var tempColor = resourceColor + resourceColor;					// SET ALLOCATED
-	//gameObject.renderer.material.SetColor("_Color1", resourceColor);
+	//gameObject.renderer.material.mainTexture = currentTex;	
 }
 
 public function SetFlashActive(active : boolean)
@@ -200,7 +235,10 @@ public function SetFixed(fix : boolean)
 		if (fix)
 		{
 			//currentTex = unallocatedTex;
-			//UNALLOCATED SET
+			resourceColor.a = 1.0f;
+			gameObject.renderer.material.SetColor("_Color2", resourceColor);
+			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 		}
 		else
 		{

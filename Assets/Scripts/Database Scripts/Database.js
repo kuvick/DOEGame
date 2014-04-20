@@ -2099,7 +2099,7 @@ class IOPut
 	function Allocate(buildingIndex : int)
 	{
 		linkedTo = buildingIndex;
-		icon.SetAllocated(true);
+		icon.SetAllocated(true, true);
 		if (type != IOType.In)
 		{
 			icon.SetFlashActive(false);
@@ -2109,7 +2109,7 @@ class IOPut
 	function Deallocate()
 	{
 		linkedTo = -1;
-		icon.SetAllocated(false);
+		icon.SetAllocated(false, true);
 		if (type != IOType.In)
 		{
 			icon.SetFlashActive(true);
