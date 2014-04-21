@@ -252,8 +252,15 @@ public class ObjectiveIcon extends InspectionComponent
 		return resolvedObj;
 	}
 	
+	private var failBlink:boolean = false;
 	function Update()
 	{
+		if (failBlink)
+		{
+			if (LinkUI.fadeTimer >= 0)
+				this.gameObject.renderer.material.color = Color.Lerp(Color(1,1,1,0), Color(1,1,1,1), LinkUI.fadeTimer);
+		}
+		
 		if(resolvedObj)
 		{
 		
@@ -434,6 +441,11 @@ public class ObjectiveIcon extends InspectionComponent
 		transform.localScale = originalScale;
 		blueMaterial.SetColor("_Color1", color1);
 		*/
+	}
+	
+	public function TriggerLoss()
+	{
+		failBlink = true;
 	}
 	
 }

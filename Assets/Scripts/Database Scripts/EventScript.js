@@ -179,3 +179,8 @@ public function getResolved():boolean
 {
 	return resolved;
 }
+
+public function TriggerLossFlash()
+{
+	icon.TriggerLoss();
+}
