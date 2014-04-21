@@ -101,9 +101,10 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
 	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
 	
+	//Seeing if we can phase this out. GPC 4/21/14
 	// camera drag if building is not active or, if a tutorial pointer is active it is not the correct building
-	if (!buildingOnGrid.isActive || (pointer != null && buildingOnGrid.buildingPointer != pointer.buildingOne))
-		return DragMode.Cam;
+	//if (!buildingOnGrid.isActive || (pointer != null && buildingOnGrid.buildingPointer != pointer.buildingOne))
+	//	return DragMode.Cam;
 	
 	if (obj.name.Contains(" "))
 	{
@@ -250,16 +251,18 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 static function HandleReleaseAtPoint(obj : Collider)
 {
 	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
-	if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
-		ModeController.setSelectedBuilding(null);
-	else
-	{
+	
+	//Seeing if we can phase this out. GPC 4/21/14
+	//if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
+	//	ModeController.setSelectedBuilding(null);
+	//else
+	//{
 		if (obj.name == "ResourceRing")
 		{
 			var building : GameObject = obj.transform.parent.gameObject;
 			if (building.name != "BuildingSite")
 				ModeController.setSelectedInputBuilding(building);
 		}
-	}
+	//}
 	linkUIRef.HighlightTiles();
 }

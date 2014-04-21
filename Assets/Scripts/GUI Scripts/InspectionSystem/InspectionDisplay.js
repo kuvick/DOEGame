@@ -75,7 +75,8 @@ function Start ()
 	//FIX THIS!!! GPC 4/19/14
 	var templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
 	dispRect = templateRect;
-	dispRect.y += 100;
+	//dispRect.y += 100;
+	
 	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
 	dispBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f) + padding, templateRect.width - padding * 2, templateRect.height / 2f);
@@ -295,13 +296,16 @@ private function NextTooltip()
 			intelSys.toolTipOnScreen = false;
 		currentTooltip = null;
 		yield WaitForSeconds(0.5);
-		if (inputController)
-			inputController.SetEnabled(true);
+		
+		//Testing GPC 4/21/14
+		//if (inputController)
+			//inputController.SetEnabled(true);
 	}
 	else
 	{
-		if (inputController)
-			inputController.SetEnabled(true);
+		//Testing GPC 4/21/14
+		//if (inputController)
+			//inputController.SetEnabled(true);
 		SetTooltip();
 	}
 }
@@ -314,7 +318,8 @@ private function SetTooltip()
 	if (currentTooltip.type == TooltipType.Notification)
 		notificationTimer = Time.time + notificationLength;
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
-		inputController.SetEnabled(false);
+		//Disabled for testing GPC 4/21/14
+		//inputController.SetEnabled(false);
 	FormatDisplay();
 	
 	
