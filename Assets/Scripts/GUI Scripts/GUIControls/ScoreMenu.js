@@ -28,6 +28,8 @@ public class ScoreMenu extends GUIControl
 	public var infoBox : TransparentGradientTexture;
 	private var infoBoxRect:Rect;
 	
+	private var rankChangeAnimation:AnimatedText = new AnimatedText();
+	
 	// Honors Textures
 	public var honorsTextures : List.<HonorIcon> = new List.<HonorIcon>();
 	public var noHonorTexture:Texture;
@@ -458,7 +460,19 @@ public class ScoreMenu extends GUIControl
 			
 			
 			GUI.Label(agentNameRect, agentName);
-			GUI.Label(agentRankRect, agentRank);
+			if(!animateRankUp)
+				GUI.Label(agentRankRect, agentRank);
+			else
+			{
+				if(!rankChangeAnimation.Render(agentRankRect, agentRank, saveSystem.rankSystem.getRankName(startRank), true))
+				{
+					agentRank = saveSystem.rankSystem.getRankName(startRank);
+					animateRankUp = false;
+					rankChangeAnimation = new AnimatedText();
+				}
+				
+			}
+				
 			//GUI.Label(missionScoreRect, missionScore + " XP");
 			GUI.BeginGroup(missionScoreRect);
 				for(var j:int = 0; j < numOfStarsCould; j++)
@@ -506,7 +520,6 @@ public class ScoreMenu extends GUIControl
 						{
 							if(!starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true))
 							{
-								Debug.Log("Triggered " + numOfStarsAnimatedHonors);
 								numOfStarsAnimatedHonors++;
 								
 								if(honorsTextures[i].type == HonorType.Resourceful)
@@ -529,7 +542,6 @@ public class ScoreMenu extends GUIControl
 							
 							if(honorsTextures[i].hasEarned && renderLastHonorsStar)
 							{
-								Debug.Log("Triggered222 " + numOfStarsAnimatedHonors);
 								if(renderLastHonorsStar && !starExtraHonorsAnimation.Render(tempRect, starUnfilledTexture, starFillTexture, true))
 									numOfStarsAnimatedHonors++;
 								
@@ -736,7 +748,7 @@ public class ScoreMenu extends GUIControl
 	
 		
 		
-		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, tempScore);
+		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, tempScore + 3000); // ******************424242
 		saveSystem.currentPlayer.exp += expEarned;
 		//Debug.Log("EXP EARNED: " + expEarned);
 		
@@ -812,6 +824,7 @@ public class ScoreMenu extends GUIControl
 	}
 	
 	
+	private var animateRankUp: boolean = false;
 	function Update()
 	{
 		if(!waitForNarrativeUI)
@@ -831,7 +844,8 @@ public class ScoreMenu extends GUIControl
 				timesFilled++;
 				startRank++;
 				
-				agentRank = saveSystem.rankSystem.getRankName(startRank);
+				animateRankUp =  true;
+				
 				expEarned = (expEarned + expWithinRank) - currentMinExpGoal;		
 				currentMinExpGoal = saveSystem.rankSystem.expGoal(startRank) -
 									saveSystem.rankSystem.expGoal(startRank - 1);
@@ -848,8 +862,7 @@ public class ScoreMenu extends GUIControl
 				//Debug.Log("******earned exp bar" + expEarned);
 				//Debug.Log("******current min exp goal" + currentMinExpGoal);
 				//Debug.Log("******exp earn fill" + expEarnedFill);
-			}
-		
+			}		
 		}
 	}
 	

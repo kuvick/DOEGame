@@ -503,17 +503,175 @@ public class AnimatedImage
 
 public class AnimatedText
 {
-	public var startText:String;
+	public var otherText:Rect;
+
+	public var currentText:String;
 	public var endText:String;
-	public var rect:Rect;
+	public var currentRect:Rect;
+	public var originalRect:Rect;
+	private var recIncrement:float;
+	private var animate:boolean;
+	private var color:Color; // growing
+	private var fadeColor:Color; //fading
+	
 	
 	public var isShadowed:boolean;
 	public var startShadowedText:ShadowedText;
 	public var endShadowedText:ShadowedText;
 	
 	
+	private var totalSizeIncrease:float = 15f;
+	private var incrementRate:float = 1f;
+	
+	private var speedColor:float = 0.03;
+	private var firstLoop:boolean = true;
+	
+	public function AdjustAnimationIncrease(speed:float, totalSizeIncrease:float, byPercentage:boolean)
+	{
+		if(!byPercentage)
+		{
+			totalSizeIncrease = totalSizeIncrease;
+			incrementRate = speed;
+		}
+		else
+		{
+			totalSizeIncrease = totalSizeIncrease * originalRect.height;
+			incrementRate = speed * originalRect.height;
+		}
+	}
+	
+	public function AnimatedText()
+	{
+		fadeColor = Color.white;
+		color = Color.white;
+		firstLoop = true;
+		currentRect = Rect(0,0,0,0);
+	}
+	
+	public function Render(baseRect:Rect, textS:String, textE:String, shouldAnimate:boolean):boolean // returns true if animated
+	{
+		currentText = textS;
+		endText = textE;
+		
+		if(currentRect.Equals(Rect(0,0,0,0)))
+		{
+			currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+			otherText = new Rect(baseRect.x + baseRect.width, baseRect.y, baseRect.width, baseRect.height);
+		}
+			
+		if(firstLoop && shouldAnimate)
+			animate = true;
+		
+		
+		if(animate && !firstLoop)
+		{
+			
+			currentRect = Rect(	currentRect.x - recIncrement, 
+								currentRect.y,
+								currentRect.width,
+								currentRect.height);
+								
+			otherText = Rect(	otherText.x - recIncrement, 
+								otherText.y,
+								otherText.width,
+								otherText.height);
+
+
+			recIncrement++;
+			
+			if(otherText.x <= baseRect.x)
+			{
+				color.a = 1.0f;
+				animate = false;
+				firstLoop = true;
+				currentText = endText;
+			}
+
+	
+		}
+		GUI.color = fadeColor;
+		GUI.Label(currentRect, currentText);
+		GUI.color = Color.white;
+		
+		if(animate)
+		{
+			if(firstLoop)
+			{
+				color.a = 0f;
+				fadeColor = Color.white;
+				recIncrement = 0;
+				currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+				firstLoop = false;
+			}
+			
+			color.a += speedColor;
+			fadeColor.a = 1f - color.a;
+			
+			
+			GUI.color = color;
+			
+			GUI.Label(otherText, endText);
+			
+			GUI.color = Color.white;
+		}
+	
+		return animate;
+	}
+
+	
 
 } //AnimatedImage
+
+
+public class RectAnimations
+{
+	private var recIncrement:float = 0;
+	private var animate:boolean;	
+	private var incrementRate:float = 1f;
+	private var firstLoop:boolean = true;
+	
+
+	public function Render(currentRect:Rect, nextRect:Rect):boolean
+	{
+			
+
+		animate = true;
+		
+		
+		if(animate && !firstLoop)
+		{
+			
+			currentRect = Rect(	currentRect.x - recIncrement, 
+								currentRect.y,
+								currentRect.width,
+								currentRect.height);
+								
+			nextRect = Rect(	nextRect.x - recIncrement, 
+								nextRect.y,
+								nextRect.width,
+								nextRect.height);
+
+
+			recIncrement++;
+			
+			if(nextRect.x <= 0)
+			{
+				animate = false;
+				firstLoop = true;
+			}
+
+	
+		}
+		
+		if(firstLoop)
+		{
+			recIncrement = 0;
+			firstLoop = false;
+		}
+	
+		return animate;
+	}
+}
 
 
 
