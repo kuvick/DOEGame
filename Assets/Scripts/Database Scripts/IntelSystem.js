@@ -665,6 +665,7 @@ public function decreaseTurns()
 			//Added condition to prevent loss if you win on last turn (GPC 9/25/13)
 			if(!script.decrementTime() && (victory == false))
 			{
+				script.TriggerLossFlash();
 				triggerLoss();
 			}
 		}

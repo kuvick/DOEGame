@@ -574,6 +574,8 @@ private function FollowTrace()
 		 	animateCamera = false;
 		 	/*var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		 	mainMenu.startMissionComplete = true;*/
+		 	
+		 	yield WaitForSeconds(0.5f);
 		 	var event : GUIEvent = new GUIEvent();
 			event.type = EventTypes.RESTART;//FAILUREMENU;
 			yield WaitForSeconds(1f);
