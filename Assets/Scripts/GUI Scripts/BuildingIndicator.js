@@ -141,11 +141,12 @@ function SetState (state : IndicatorState)
 			//StartCoroutine(RotateActive());
 			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setActiveRingMaterial(true, resourceRing);*/
-			if(currImage != null)
+			if(currImage != null && previousTexture != activeImage)
 			{
 				ringAnimation.setVariablesForAnimation(resourceRing.renderer.material, resourceRing, inactiveImage, activeImage, 0.05, Vector3(15,15,15));
 				isAnimated = true;
 			}
+			
 			currImage = activeImage;
 			break;
 		/*
@@ -159,6 +160,7 @@ function SetState (state : IndicatorState)
 		case IndicatorState.Valid:
 			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setValidTargetRingMaterial(resourceRing);*/
+			previousTexture = currImage;
 			currImage = validImage;
 			StartCoroutine(AnimateValid());
 			break;
