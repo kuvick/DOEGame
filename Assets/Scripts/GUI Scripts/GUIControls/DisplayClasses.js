@@ -53,6 +53,23 @@ public class ShadowedText
 		updateShadowRect();
 	}
 	
+	// DEFAULT, SET DISTANCE, unique color but black shadow
+	public function ShadowedText(txt:String, disRect:Rect, transparentShadow:boolean, cr:Color)
+	{
+		text = txt;
+		textColor = cr;
+		shadowColor = Color.black;
+		if(transparentShadow)
+			shadowColor.a = 0.5f;
+		else
+			shadowColor.a = 1.0f;
+		displayRect = disRect;
+		useStyle = false;
+		useSetDistance = true;
+		staticDistance = Screen.height * 0.005;
+		updateShadowRect();
+	}
+	
 	//Used to fill out all the attributes of the item, includes a GUIStyle
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, guiStl:GUIStyle)
 	{

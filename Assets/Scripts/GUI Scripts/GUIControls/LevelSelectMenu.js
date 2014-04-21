@@ -344,6 +344,9 @@ public class LevelSelectMenu extends GUIControl
 	private var mainMenuButtonAB:AnimatedButton;
 	private var startLevelButtonAB:AnimatedButton;
 	
+	//ShadowedText
+	private var objTextST:ShadowedText;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -355,6 +358,7 @@ public class LevelSelectMenu extends GUIControl
 		
 		messageText = new ShadowedText("", Rect(0,0,0,0), false);
 		messageLineText = new ShadowedText("", Rect(0,0,0,0), false);
+		objTextST = new ShadowedText("", Rect(0,0,0,0), false, new Color(247f/255f, 216f/255f, 39f/255f, 1f));
 		
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
@@ -1028,9 +1032,11 @@ public class LevelSelectMenu extends GUIControl
 					messageLineText.Display(message, messageRect);
 					
 					var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
-					GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
-					objective = "<color=cyan>" + objective + "</color>";																														
-					GUI.Label(objectiveRect, objective);						
+					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
+					//objective = "<color=cyan>" + objective + "</color>";																														
+					//GUI.Label(objectiveRect, objective);
+					
+					objTextST.Display(objective, objectiveRect);
 				}
 				else
 				{
