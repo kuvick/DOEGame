@@ -146,6 +146,13 @@ public class StartMenu extends GUIControl
 	private var deleteProfileButtonAB:AnimatedButton;
 	
 	
+	
+	//New Profile
+	
+	private var enterNameST: ShadowedText;
+	private var acceptST: ShadowedText;
+	private var cancelST: ShadowedText;
+	
 	public enum CurrentStartScreen
 	{
 		FirstScreen,
@@ -309,7 +316,25 @@ public class StartMenu extends GUIControl
 		mainMenuButtonAB = new AnimatedButton(Color.blue, mainMenuButtonText, upperRightButtonRect);
 		deleteProfileButtonAB = new AnimatedButton(Color.blue, deleteProfileButton, deleteProfileButtonRect);
 		
+		
+		var enterNameSTRect:Rect = createRect(Vector2(1350, 145), 65f / 1920f, 200f / 1080f, 145f / 1080f, false);
+		var acceptSTRect:Rect = createRect(Vector2(440, 120), 0f, 826f / 1080f, 120f / 1080f, false);
+		var cancelSTRect:Rect = createRect(Vector2(440, 120), 0f, 826f / 1080f, 120f / 1080f, false);
+		
+		acceptSTRect.x = padding + (acceptSTRect.width / 2);
+		cancelSTRect.x = Screen.width - (padding + cancelSTRect.width + (acceptSTRect.width / 2));
+		acceptSTRect.y = Screen.height * 0.6 + padding;
+		cancelSTRect.y = Screen.height * 0.6 + padding;
+		
+		profileStyle = profileSelectSkin.customStyles[0];
+		profileStyle.fontSize = 0.06 * screenWidth;
+		enterNameST = new ShadowedText("Enter your name:", enterNameSTRect, profileStyle, true);
+		acceptST  = new ShadowedText("Accept", acceptSTRect, profileStyle, true);
+		cancelST  = new ShadowedText("Cancel", cancelSTRect, profileStyle, true);
+		
 	}
+	
+	private var profileStyle:GUIStyle;
 	
 	public function Render()
 	{
@@ -417,7 +442,7 @@ public class StartMenu extends GUIControl
 					if(players.Count <=0 || players[0] == "")
 					{
 						firstTime = true;
-						newUsername = "Enter Name";
+						newUsername = "";
 						currentScreen = CurrentStartScreen.NewProfile;
 					}
 					else
@@ -482,10 +507,10 @@ public class StartMenu extends GUIControl
 					players = saveSystem.LoadNames();
 					GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
 					
-					GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
-					GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
+					//GUI.DrawTexture(titleBGRect, titleBGText, ScaleMode.StretchToFill);
+					//GUI.DrawTexture(titleTextRect, agentLoginText, ScaleMode.ScaleToFit);
 					//setButtonTexture(mainMenuButtonText, mainMenuButtonTextPressed);
-					if (mainMenuButtonAB.Render())
+					if (currentScreen != CurrentStartScreen.NewProfile && mainMenuButtonAB.Render())
 					{
 						currentScreen = CurrentStartScreen.FirstScreen;
 						PlayButtonPress();
@@ -503,7 +528,7 @@ public class StartMenu extends GUIControl
 					
 					
 					GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
-				
+				/*
 					levelSelectScrollPos = GUI.BeginScrollView
 					(
 						profileScrollArea,				
@@ -513,7 +538,7 @@ public class StartMenu extends GUIControl
 						false
 					);				
 
-
+*/
 						var profileButton : Rect = Rect(0, 0, profileSelectWidth, profileSelectHeight);
 						var midPoint : float = profileSelectHeight / 2 - (deleteButtonText.height * percentage) / 2;
 						var deleteButton : Rect = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint,deleteButtonText.width * percentage, deleteButtonText.height * percentage);								
@@ -547,13 +572,26 @@ public class StartMenu extends GUIControl
 						if(currentScreen == CurrentStartScreen.NewProfile)
 						{
 							GUI.skin.textField.fontSize = profileFontSizePercent * screenHeight;
+							
+							profileButton = Rect(0, Screen.height * 0.3, Screen.width, Screen.height * 0.3);
+							
 							newUsername = GUI.TextField(profileButton, newUsername, 10);
 							
-							GUI.skin = startMenuSkin;
-							midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage *.8f) / 2;
-							deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
-							setButtonTexture(approveButtonText, approveButtonText);
-							if(GUI.Button(deleteButton, ""))
+							
+							//midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage *.8f) / 2;
+							//deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
+							//setButtonTexture(approveButtonText, approveButtonText);
+							enterNameST.Display();
+							acceptST.Display();
+							cancelST.Display();
+							
+							if(GUI.Button(cancelST.displayRect, ""))
+							{
+								currentScreen = CurrentStartScreen.FirstScreen;
+								PlayButtonPress();
+							}
+						
+							if(GUI.Button(acceptST.displayRect, ""))
 							{
 								if(newUsername != "Enter Name" && newUsername != "")
 								{
@@ -580,7 +618,7 @@ public class StartMenu extends GUIControl
 									PlayButtonPress();
 								}
 							}
-							resetButtonTexture();
+							GUI.skin = startMenuSkin;
 						}
 						else
 						{
@@ -620,7 +658,7 @@ public class StartMenu extends GUIControl
 						}
 						*/
 		
-					GUI.EndScrollView();  //End Scroll bar
+					//GUI.EndScrollView();  //End Scroll bar
 				}
 
 			}// end of profile select
