@@ -14,6 +14,10 @@ public class InGameAnimation
 	private var startTexture : Texture;
 	private var endTexture : Texture;
 	
+	public function getEndTexture():Texture
+	{
+		return endTexture;
+	}
 	
 	public function setVariablesForAnimation(origMat:Material, gameObj:GameObject, oldTexture:Texture, newTexture:Texture, spd: float)
 	{
@@ -25,6 +29,20 @@ public class InGameAnimation
 		startTexture = oldTexture;
 		endTexture = newTexture;
 		originalScale = gameObj.transform.localScale;
+		color1 = Color.white;
+		color2 = Color.white;
+	}
+	
+	public function setVariablesForAnimation(origMat:Material, gameObj:GameObject, oldTexture:Texture, newTexture:Texture, spd: float, oScale:Vector3)
+	{
+		firstLoop = true;
+		switchScale = false;
+		originalMaterial = origMat;
+		speed = spd;
+		animatedObject = gameObj;
+		startTexture = oldTexture;
+		endTexture = newTexture;
+		originalScale = oScale;
 		color1 = Color.white;
 		color2 = Color.white;
 	}
@@ -99,10 +117,74 @@ public class InGameAnimation
 			animatedObject.transform.localScale = originalScale;
 			return false;
 		}
+
+		
 		newMaterial.SetColor("_Color1", color1);
 		newMaterial.SetColor("_Color2", color2);
 		return true;
 	}//end of animate
+	
+	public function AnimateRing():boolean // returns true if animating, false if not
+	{
+		if(firstLoop)
+		{			
+			switchScale = false;
+			
+			newMaterial = Resources.Load("SwapTextures") as Material;
+			
+			animatedObject.renderer.material = newMaterial;
+			
+			newMaterial.SetTexture("_MainTex", endTexture);
+			newMaterial.SetTexture("_SubTex", startTexture);
+			
+			newMaterial.mainTextureScale = Vector2(-1,-1);
+			newMaterial.mainTextureOffset = Vector2(1,1);
+			
+			
+			newMaterial.SetTextureOffset("_SubTex", Vector2(1,1));
+			newMaterial.SetTextureScale("_SubTex", Vector2(-1,-1));
+			
+			color1.a = 0f;
+			color2.a = 1f;
+			
+			newMaterial.SetColor("_Color1", color1);
+			newMaterial.SetColor("_Color2", color2);
+			
+			firstLoop = false;
+		}
+		
+		color1.a += speed;
+		color2.a = 1.0 - color1.a;
+		
+		if(!switchScale)
+		{
+			animatedObject.transform.localScale += Vector3((originalScale.x * 1.5) *  speed, (originalScale.x * 1.5) *  speed, (originalScale.x * 1.5) *  speed);
+			
+			if(color1.a >= 0.5)
+				switchScale = true;
+		}
+		else
+		{
+			animatedObject.transform.localScale -= Vector3((originalScale.x * 1.5) *  speed, (originalScale.x * 1.5) *  speed, (originalScale.x * 1.5) *  speed);
+		}
+		
+		if(color1.a >= 1.0)
+		{
+			color1.a = 1.0f;
+			//resolvedObj = false;
+			firstLoop = true;
+			switchScale = false;
+			animatedObject.renderer.material = originalMaterial;
+			animatedObject.renderer.material.mainTexture = endTexture;
+			animatedObject.transform.localScale = originalScale;
+			return false;
+		}
+
+		
+		newMaterial.SetColor("_Color1", color1);
+		newMaterial.SetColor("_Color2", color2);
+		return true;
+	}//end of animate	
 	
 	public function ResetTexture()
 	{

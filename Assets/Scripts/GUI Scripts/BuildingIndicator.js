@@ -19,6 +19,8 @@ private var parentName:String;
 private var thisTransform : Transform;
 private var thisMaterial : Material;
 
+private var ringAnimation : InGameAnimation = new InGameAnimation();
+
 enum IndicatorState
 {
 	Neutral,
@@ -68,8 +70,16 @@ public function SetImages(active : Texture2D, inactive : Texture2D, valid : Text
 	validImage = valid;
 }
 
-function Update () {
-	
+function Update()
+{
+	if(isAnimated)
+	{
+		if(!ringAnimation.AnimateRing())
+		{
+			isAnimated = false;
+			currImage = ringAnimation.getEndTexture();
+		}
+	}	
 }
 
 private function RotateActive()
@@ -111,6 +121,9 @@ private function AnimateValid()
 	
 }
 
+
+private var isAnimated:boolean = false;
+
 function SetState (state : IndicatorState)
 {
 	if (currState == state || parentName == "BuildingSite")
@@ -127,6 +140,11 @@ function SetState (state : IndicatorState)
 			//StartCoroutine(RotateActive());
 			/*if(linkUI!= null && resourceRing != null && parentName != "BuildingSite")
 				linkUI.setActiveRingMaterial(true, resourceRing);*/
+			if(currImage != null)
+			{
+				ringAnimation.setVariablesForAnimation(resourceRing.renderer.material, resourceRing, inactiveImage, activeImage, 0.05, Vector3(15,15,15));
+				isAnimated = true;
+			}
 			currImage = activeImage;
 			break;
 		/*
