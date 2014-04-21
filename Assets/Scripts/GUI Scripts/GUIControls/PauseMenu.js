@@ -26,25 +26,25 @@ public class PauseMenu extends GUIControl
 	
 	// Back Button
 	public var backButton : Texture;
-	public var backButtonPressed : Texture;
+	//public var backButtonPressed : Texture;
 	private var backButtonRect : Rect;
-	private var backButtonPercent:float = 0.11;
+	private var backButtonPercent:float = 0.12;
 	private var backButtonX : float = .8;//0.03;
-	private var backButtonY : float = 0.05;
+	private var backButtonY : float = 0.02;
 	
 	// Restart Button
 	public var restartButton : Texture;
-	public var restartButtonPressed : Texture;
+	//public var restartButtonPressed : Texture;
 	private var restartButtonRect : Rect;
 
 	// Dashboard Button
 	public var dashboardButton : Texture;
-	public var dashboardButtonPressed : Texture;
+	//public var dashboardButtonPressed : Texture;
 	private var dashboardButtonRect : Rect;
 	
 	// Main Menu Button
 	public var mainMenuButton : Texture;
-	public var mainMenuButtonPressed : Texture;
+	//public var mainMenuButtonPressed : Texture;
 	private var mainMenuButtonRect : Rect;
 	
 	//Button Vars
@@ -67,6 +67,15 @@ public class PauseMenu extends GUIControl
 	private var levelXPercent : float = .2f;
 	private var levelYPercent : float = .05f;
 	private var levelHeightPercent : float = .11f;
+	
+	
+		// Buttons
+	private var restartAB:AnimatedButton;
+	private var mainMenuAB:AnimatedButton;
+	private var dashboardAB:AnimatedButton;
+	private var backAB:AnimatedButton;
+	
+	private var titleST:ShadowedText;
 
 	//Buttons/Text Group - to help maintain a buffer on the far right side of the screen
 	private var groupRect:Rect;
@@ -98,7 +107,7 @@ public class PauseMenu extends GUIControl
 											  
 											  
 			// Back Button
-		backButtonRect = createRect(backButton, backButtonX, backButtonY, backButtonPercent, false);
+		backButtonRect = createRect(backButton, backButtonX, backButtonY, backButtonPercent, false);							  
 											  
 			// Restart Button
 		restartButtonRect = createRect(restartButton, buttonXPercent, buttonInitialYPercent, buttonPercent, true, groupRect);
@@ -117,6 +126,13 @@ public class PauseMenu extends GUIControl
 		
 		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 		intelSystem.isPaused = true;
+		
+		restartAB = new AnimatedButton(Color.blue, restartButton, restartButtonRect, Vector2(groupRect.x, groupRect.y));
+		mainMenuAB  = new AnimatedButton(Color.blue, dashboardButton, dashboardButtonRect, Vector2(groupRect.x, groupRect.y));
+		dashboardAB  = new AnimatedButton(Color.blue, mainMenuButton, mainMenuButtonRect, Vector2(groupRect.x, groupRect.y));
+		backAB  = new AnimatedButton(Color.blue, backButton, backButtonRect, Vector2(groupRect.x, groupRect.y));
+
+		titleST = new ShadowedText("Paused", pauseScreenSkin.customStyles[0]);
 	}
 	
 	public function Render()
@@ -137,15 +153,18 @@ public class PauseMenu extends GUIControl
 		
 		GUI.BeginGroup(groupRect);
 		
-		GUI.DrawTexture(pauseTextRect, pauseText, ScaleMode.StretchToFill);
+		//GUI.DrawTexture(pauseTextRect, pauseText, ScaleMode.StretchToFill);
+		
+		titleST.Display();
+		
 		var oldAnchor : TextAnchor = GUI.skin.label.alignment;
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 		//GUI.Label(levelRect, levelName);
 		GUI.skin.label.alignment = oldAnchor;
 		
 		// Buttons are rendered:
-		setButtonTexture(backButton, backButtonPressed);
-		if(GUI.Button(backButtonRect, ""))
+		//setButtonTexture(backButton, backButtonPressed);
+		if(backAB.Render())
 		{
 			intelSystem.isPaused = false;
 			isActive = false;
@@ -162,27 +181,27 @@ public class PauseMenu extends GUIControl
 			PlayButtonPress();
 		}
 		
-		setButtonTexture(restartButton, restartButtonPressed);
-		if(GUI.Button(restartButtonRect, ""))
+		//setButtonTexture(restartButton, restartButtonPressed);
+		if(restartAB.Render())
 		{
 			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.RESTART;
 		}
-		setButtonTexture(dashboardButton, dashboardButtonPressed);
-		if(GUI.Button(dashboardButtonRect, ""))
+		//setButtonTexture(dashboardButton, dashboardButtonPressed);
+		if(dashboardAB.Render())
 		{
 			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
-		setButtonTexture(mainMenuButton, mainMenuButtonPressed);
-		if(GUI.Button(mainMenuButtonRect, ""))
+		//setButtonTexture(mainMenuButton, mainMenuButtonPressed);
+		if(mainMenuAB.Render())
 		{
 			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
-		resetButtonTexture();
+		//resetButtonTexture();
 		GUI.EndGroup();
 
 	}

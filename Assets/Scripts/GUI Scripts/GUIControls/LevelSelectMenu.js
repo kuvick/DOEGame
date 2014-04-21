@@ -410,7 +410,6 @@ public class LevelSelectMenu extends GUIControl
 		levelSelectSkin.customStyles[1].fontSize = levelNodeFontHeight * 2;
 		levelSelectSkin.customStyles[2].fontSize = levelNodeFontHeight * 2;
 		
-		
 		//hexButtonSkin.button.fontSize = backButtonFontHeight;
 		/******************************************/
 		

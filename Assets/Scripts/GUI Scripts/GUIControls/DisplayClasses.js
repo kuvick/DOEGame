@@ -17,6 +17,27 @@ public class ShadowedText
 	
 	
 	//CONSTRUCTORS//
+	// USE FOR TITLES
+	public function ShadowedText(txt:String, guiStl:GUIStyle)
+	{
+		text = txt;
+		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
+		shadowColor = Color.black;
+		shadowColor.a = 0.5f;
+		
+		style = guiStl;
+		style.fontSize = Screen.width * 0.1;
+		var textRext:Vector2 = style.CalcSize(GUIContent(txt));
+		
+		displayRect = new Rect(37f / 1920f * Screen.width, 63f / 1080f * Screen.height, textRext.x, textRext.y);
+		
+		useStyle = true;
+		useSetDistance = true;
+		staticDistance = Screen.height * 0.005;
+		updateShadowRect();
+	}
+	
+	
 	
 	// DEFAULT, SET DISTANCE, WITH GUISTYLE
 	public function ShadowedText(txt:String, disRect:Rect, guiStl:GUIStyle, transparentShadow:boolean)
