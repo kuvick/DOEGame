@@ -334,7 +334,15 @@ public class ScoreMenu extends GUIControl
 			*/								  
 			var rectScore : Rect = new Rect();								  
 			rectScore = createRect(starFillTexture, (width + honorScoreOffsetX) / designWidth,(honorsLeftY + honorScoreOffsetY) / designHeight, starFillTexture.height / designHeight, false, screenRect);
-					  	
+			
+			
+			if(honorsTextures[i].type == HonorType.Resourceful)
+				rectScore.x = (rect.x + (rect.width / 2)) - (rectScore.width);
+			else
+				rectScore.x = (rect.x + (rect.width / 2)) - (rectScore.width / 2);
+			
+			
+			
 			honorsRect.Add(rect);
 			honorStarRect.Add(rectScore);
 		}
