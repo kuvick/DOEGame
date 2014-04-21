@@ -183,6 +183,7 @@ public function ReturnUpgrade(building : GameObject, id : UpgradeID)
 	{
 		temp.SetActive(true);
 		counterSet[id - 1].DecrementObtained();
+		counterSet[id - 1].getEvent().getObjIcon().pickedUpDataSetFalse();
 		counterSet[id - 1].getEvent().getObjIcon().resetTexture();
 	}
 }
