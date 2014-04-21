@@ -99,6 +99,12 @@ public class ScoreMenu extends GUIControl
 	private var honorsLeftY : float = 530;
 	private var honorsRect : List.<Rect> = new List.<Rect>();
 	private var honorStarRect : List.<Rect> = new List.<Rect>();
+	private var numOfStarsAnimatedHonors:int = 0;
+	private var numOfStarsAnimated:int = 0;
+	private var starAnimation : AnimatedImage = new AnimatedImage();
+	private var starHonorsAnimation : AnimatedImage = new AnimatedImage();
+	private var starExtraHonorsAnimation : AnimatedImage = new AnimatedImage();
+	private var renderLastHonorsStar:boolean = false;
 	public var honorsExplanations : List.<String> = new List.<String>();
 	private var displayExplanation : boolean = false;
 	private var explanationRenderSpace : Rect;
@@ -449,10 +455,16 @@ public class ScoreMenu extends GUIControl
 			GUI.BeginGroup(missionScoreRect);
 				for(var j:int = 0; j < numOfStarsCould; j++)
 				{
-					if(numOfStars >= (j+1))
+					if(numOfStarsAnimated > j && numOfStars >= (j+1))
 						GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
 					else
 						GUI.DrawTexture(starRect[j], starUnfilledTexture, ScaleMode.StretchToFill);
+						
+					if(j == numOfStarsAnimated && numOfStarsAnimated < numOfStars)
+					{
+						if(!starAnimation.Render(starRect[j], starUnfilledTexture, starFillTexture, true))
+							numOfStarsAnimated++;
+					}
 				}
 			
 			GUI.EndGroup();
@@ -476,10 +488,24 @@ public class ScoreMenu extends GUIControl
 				
 				if(honorsTextures[i].couldBeEarned)
 				{
-					if(honorsTextures[i].hasEarned)
+					if(numOfStarsAnimatedHonors > i && honorsTextures[i].hasEarned)
 						GUI.DrawTexture(honorStarRect[i], starFillTexture);
 					else
+					{
 						GUI.DrawTexture(honorStarRect[i], starUnfilledTexture);
+						
+						if(honorsTextures[i].hasEarned && i == numOfStarsAnimatedHonors && numOfStarsAnimatedHonors < (numOfStars - 1))
+						{
+							if(!starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true))
+							{
+								Debug.Log("Triggered " + numOfStarsAnimatedHonors);
+								numOfStarsAnimatedHonors++;
+								
+								if(honorsTextures[i].type == HonorType.Resourceful)
+									renderLastHonorsStar = true;
+							}
+						}
+					}
 						
 					if(honorsTextures[i].type == HonorType.Resourceful)
 					{
@@ -487,13 +513,25 @@ public class ScoreMenu extends GUIControl
 						
 						tempRect.x += honorStarRect[i].width;
 					
-						if(honorsTextures[i].hasEarned)
+						if(numOfStarsAnimatedHonors < numOfStars && renderLastHonorsStar && honorsTextures[i].hasEarned)
 							GUI.DrawTexture(tempRect, starFillTexture);
 						else
+						{
 							GUI.DrawTexture(tempRect, starUnfilledTexture);
 							
+							if(honorsTextures[i].hasEarned && renderLastHonorsStar)
+							{
+								Debug.Log("Triggered222 " + numOfStarsAnimatedHonors);
+								if(renderLastHonorsStar && !starExtraHonorsAnimation.Render(tempRect, starUnfilledTexture, starFillTexture, true))
+									numOfStarsAnimatedHonors++;
+								
+							}
+						}
+							
 						//honorStarRect[i].x -= honorStarRect[i].width;
-					}
+						
+					}//endofresourceful
+					
 				}	
 				
 				

@@ -638,10 +638,10 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		
-		codexButtonAB =  new AnimatedButton(Color.blue, codexIconText, codexIconRect);
-		archiveButtonAB =  new AnimatedButton(Color.blue, archiveIconText, archiveIconRect);
-		mainMenuButtonAB =  new AnimatedButton(Color.blue, mainMenuIconText, mainMenuIconRect);
-		startLevelButtonAB =  new AnimatedButton(Color.yellow, startLevelButtonTexture, startLevelButton);
+		codexButtonAB =  new AnimatedButton(Color.blue, codexIconText, codexIconRect, Vector2(screenRect.x + sideButtonArea.x, screenRect.y + sideButtonArea.y));
+		archiveButtonAB =  new AnimatedButton(Color.blue, archiveIconText, archiveIconRect, Vector2(screenRect.x + sideButtonArea.x, screenRect.y + sideButtonArea.y));
+		mainMenuButtonAB =  new AnimatedButton(Color.blue, mainMenuIconText, mainMenuIconRect, Vector2(screenRect.x, screenRect.y));
+		startLevelButtonAB =  new AnimatedButton(Color.yellow, startLevelButtonTexture, startLevelButton, Vector2(screenRect.x + missionBackgroundRect.x, screenRect.y + missionBackgroundRect.y));
 		
 	}
 	

@@ -146,6 +146,9 @@ public class MainMenu extends GUIControl
 	private var recIncrement:float;
 	private var switchScale:boolean;
 	
+	private var objIconAnimatedImage:AnimatedImage = new AnimatedImage();
+	
+	
 	private var sparkRect:Rect;
 	public var sparkTextures:List.<Texture> = new List.<Texture>();
 	private var currentSparkTexture:int = 0;
@@ -570,68 +573,17 @@ public class MainMenu extends GUIControl
 										0,
 										objIconSize.x,
 										objIconSize.y);
-				//DISPLAYING OBJECTIVE ICON						
-				if(resolvedObj && eventID == i && !firstLoop)
+				// Animation:
+				if(eventID == i && resolvedObj)
 				{
-					
-					objIconRect = Rect(	centerPos.x - ((objIconSize.x + recIncrement) / 2), 
-										centerPos.y - ((objIconSize.y + recIncrement) / 2),
-										objIconSize.x + recIncrement,
-										objIconSize.y + recIncrement);
-
-
-					if(!switchScale)
+					if(!objIconAnimatedImage.Render(objIconRect, intelSystem.events[i].getIcon(), setNewObjTexture, resolvedObj))
 					{
-						recIncrement+= 1;
-						if(recIncrement > 15)
-							switchScale = true;
-					}
-					else
-					{
-						recIncrement-= 1;
-						if(recIncrement <= 0)
-						{
-							color.a = 1.0f;
-							resolvedObj = false;
-							firstLoop = true;
-							intelSystem.events[i].setIcon(setNewObjTexture);
-						}
-					}
-			
-				}
-				
-				GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon());
-						
-				
-				// ANIMATION
-				if(resolvedObj && eventID == i)
-				{
-					if(firstLoop)
-					{
-						color.a = 0f;
-						firstLoop = false;
-						recIncrement = 0;
-						switchScale = false;
-						centerPos = Vector2(objIconRect.x + objIconRect.width / 2, objIconRect.y + objIconRect.height / 2);
-					}
-					
-					color.a += speedColor;
-					
-					/*
-					if(color.a >= 1.0)
-					{
-						color.a = 1.0f;
 						resolvedObj = false;
-						firstLoop = true;
 						intelSystem.events[i].setIcon(setNewObjTexture);
-					}*/
-					GUI.color = color;
-					
-					GUI.DrawTexture(objIconRect, setNewObjTexture);
-					
-					GUI.color = Color.white;
+					}
 				}
-
+				else
+					GUI.DrawTexture(objIconRect, intelSystem.events[i].getIcon()); //DISPLAYING OBJECTIVE ICON
 				
 				
 				//If clicks on objective icon, centers on building

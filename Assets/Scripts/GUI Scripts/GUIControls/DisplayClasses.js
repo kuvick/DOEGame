@@ -227,6 +227,8 @@ public class AnimatedButton
 	public var image : Texture;
 	public var rect : Rect;
 	private var buttonPressed: boolean = false;
+	public var detectRect : Rect;
+	private var hoverDetected:boolean = false;
 	
 	public function AnimatedButton(c:Color, img:Texture, r:Rect)
 	{
@@ -234,7 +236,29 @@ public class AnimatedButton
 		rect = r;
 		image = img;
 		buttonPressed = false;
+		detectRect = r;
 	}
+	
+	// for when an object is within a GUI Group
+	public function AnimatedButton(c:Color, img:Texture, r:Rect, dr: Rect)
+	{
+		color = c;
+		rect = r;
+		image = img;
+		buttonPressed = false;
+		detectRect = dr;
+	}
+	
+	// for when an object is within a GUI Group
+	public function AnimatedButton(c:Color, img:Texture, r:Rect, dr: Vector2)
+	{
+		color = c;
+		rect = r;
+		image = img;
+		buttonPressed = false;
+		detectRect = new Rect(r.x + dr.x, r.y + dr.y, r.width, r.height);
+	}
+	
 	
 	public function Render():boolean
 	{
@@ -275,23 +299,21 @@ public class AnimatedButton
 			GUI.color = color;
 			rect.x += rect.width * 0.03;
 			rect.y += rect.height * 0.03;
-			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
-			// having the second if statement sometimes not triggered.
+			hoverDetected = true;
+		}	
+		//setButtonTexture(codexIconText, codexIconTextPressed);
+		GUI.DrawTexture(rect, image);
+		if(GUI.Button(rect, ""))
+		{
+			buttonPressed = true;
+		}
 			
-			//setButtonTexture(codexIconText, codexIconTextPressed);
-			GUI.DrawTexture(rect, image);
-			if(GUI.Button(rect, ""))
-			{
-				buttonPressed = true;
-			}
-			
+		if(hoverDetected)
+		{
 			GUI.color = Color.white;
 			rect.x -= rect.width * 0.03;
 			rect.y -= rect.height * 0.03;
-		}
-		else
-		{
-			GUI.DrawTexture(rect, image);
+			hoverDetected = false;
 		}
 		
 		return buttonPressed;
@@ -331,21 +353,167 @@ public class AnimatedButton
 	
 	private function DetectHover():boolean
 	{
-		var inputLocation : Vector2;
-		
 		if(Input.touchCount > 0)
-			return rect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
+			return detectRect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
 		else
-			return rect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
+			return detectRect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
 	}
 	
 } // AnimatedButton
 
 
 
+public class AnimatedImage
+{
+	public var startImage:Texture;
+	public var endImage:Texture;
+	private var currentImage:Texture;
+	public var currentRect:Rect;
+	public var originalRect:Rect;
+	private var recIncrement:float;
+	private var animate:boolean;
+	private var color:Color;
+	
+	private var totalSizeIncrease:float = 15f;
+	private var incrementRate:float = 1f;
+	
+	private var speedColor:float = 0.03;
+	private var firstLoop:boolean = true;
+	private var centerPos:Vector2;
+	private var switchScale:boolean;
+	
+	public function AdjustAnimationIncrease(speed:float, totalSizeIncrease:float, byPercentage:boolean)
+	{
+		if(!byPercentage)
+		{
+			totalSizeIncrease = totalSizeIncrease;
+			incrementRate = speed;
+		}
+		else
+		{
+			totalSizeIncrease = totalSizeIncrease * originalRect.height;
+			incrementRate = speed * originalRect.height;
+		}
+	
+	}
+	
+	public function AnimatedImage()
+	{
+		color = Color.white;
+		firstLoop = true;
+		switchScale = false;
+		currentRect = Rect(0,0,0,0);
+	}
+	
+	public function AnimatedImage(rect:Rect, imageS:Texture, imageE:Texture)
+	{
+		color = Color.white;
+		endImage = imageE;
+		currentImage = imageS;
+		currentRect = rect;
+		originalRect = rect;
+		firstLoop = true;
+		switchScale = false;
+	}
+	
+	public function Render(baseRect:Rect, imageS:Texture, imageE:Texture, shouldAnimate:boolean):boolean // returns true if animated
+	{
+		//originalRect = new Rect(r.x, r.y, r.width, r.height);
+		currentImage = imageS;
+		endImage = imageE;
+		
+		if(currentRect.Equals(Rect(0,0,0,0)))
+			currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+		
+		//objIconRecobjIconSize = originalRect
+		//objIconRect = currentRect
+		/*
+		var objIconRect: Rect = Rect(	padding + (originalRect.x + padding) * (i*2), 
+								0,
+								originalRect.x,
+								originalRect.y);
+								*/
+		//DISPLAYING OBJECTIVE ICON						
+		//if(resolvedObj && eventID == i && !firstLoop)
+		
+		if(firstLoop && shouldAnimate)
+			animate = true;
+		
+		
+		if(animate && !firstLoop)
+		{
+			
+			currentRect = Rect(	centerPos.x - ((baseRect.width + recIncrement) / 2), 
+								centerPos.y - ((baseRect.height + recIncrement) / 2),
+								baseRect.width + recIncrement,
+								baseRect.height + recIncrement);
+			
+
+			if(!switchScale)
+			{
+				recIncrement+= 1;
+				if(recIncrement > totalSizeIncrease)
+					switchScale = true;
+			}
+			else
+			{
+				recIncrement-= 1;
+				if(recIncrement <= 0)
+				{
+					color.a = 1.0f;
+					animate = false;
+					firstLoop = true;
+					//intelSystem.events[i].setIcon(setNewObjTexture);
+					currentImage = endImage;
+				}
+			}
+	
+		}
+		//GUI.DrawTexture(currentRect, intelSystem.events[i].getIcon()); 
+		GUI.DrawTexture(currentRect, currentImage);
+				
+		
+		if(animate)
+		{
+			if(firstLoop)
+			{
+				color.a = 0f;
+				recIncrement = 0;
+				switchScale = false;
+				currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+				centerPos = Vector2(currentRect.x + currentRect.width / 2, currentRect.y + currentRect.height / 2);
+				firstLoop = false;
+			}
+			
+			color.a += speedColor;
+			
+			GUI.color = color;
+			
+			GUI.DrawTexture(currentRect, endImage);
+			
+			GUI.color = Color.white;
+		}
+	
+		return animate;
+	}
+
+} //AnimatedImage
 
 
 
+public class AnimatedText
+{
+	public var startText:String;
+	public var endText:String;
+	public var rect:Rect;
+	
+	public var isShadowed:boolean;
+	public var startShadowedText:ShadowedText;
+	public var endShadowedText:ShadowedText;
+	
+	
+
+} //AnimatedImage
 
 
 
