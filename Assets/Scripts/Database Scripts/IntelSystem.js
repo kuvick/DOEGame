@@ -197,6 +197,9 @@ function Start ()
 					tempEventClass.showIcon = true;
 					tempEventClass.SetIconActive(true);
 					tempEventClass.getObjIcon().setID(i);
+					
+					Debug.Log("Obj ICON" + tempEventClass.event.type + "..." + i);
+					
 					events.Add(tempEventClass);
 					//events[i]
 					

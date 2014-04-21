@@ -574,7 +574,7 @@ public class MainMenu extends GUIControl
 										objIconSize.x,
 										objIconSize.y);
 				// Animation:
-				if(eventID == i && resolvedObj)
+				if(resolvedObj && eventID == intelSystem.events[i].getObjIcon().getID())
 				{
 					if(!objIconAnimatedImage.Render(objIconRect, intelSystem.events[i].getIcon(), setNewObjTexture, resolvedObj))
 					{

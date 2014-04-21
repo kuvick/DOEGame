@@ -40,6 +40,11 @@ public class ObjectiveIcon extends InspectionComponent
 		eventID = num;
 	}
 	
+	public function getID():int
+	{
+		return eventID;
+	}
+	
 	public function getIsPrimary():boolean
 	{
 		return isPrimary;
@@ -240,7 +245,7 @@ public class ObjectiveIcon extends InspectionComponent
 	private var originalScale:Vector3;
 	
 	private var switchScale:boolean;
-	private var pickedUpData:boolean = false;
+	public var pickedUpData:boolean = false;
 	
 	public function isAnimating():boolean
 	{
@@ -395,13 +400,25 @@ public class ObjectiveIcon extends InspectionComponent
 		}
 	}
 	
+	public var animatePickup:boolean = false;
 	public function pickedUpDataSetTrue()
 	{
 		objAnimation.setVariablesForAnimation(this.gameObject.renderer.material, this.gameObject, unresolvedTexture, dataPickedUpTexture, 0.05);
 		pickedUpData = true;
 		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		mainMenu.triggerObjIconChange(eventID, dataPickedUpTexture);
+		Debug.Log("ID IS " + eventID);
 	}
+	
+	public function pickedUpDataSetFalse()
+	{
+		objAnimation.setVariablesForAnimation(this.gameObject.renderer.material, this.gameObject, dataPickedUpTexture, unresolvedTexture, 0.05);
+		pickedUpData = true;
+		var mainMenu : MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		mainMenu.triggerObjIconChange(eventID, unresolvedTexture);
+		Debug.Log("ID IS " + eventID);
+	}
+	
 	public function resetTexture()
 	{
 		Debug.Log("called"); // I don't think this function is being used??
