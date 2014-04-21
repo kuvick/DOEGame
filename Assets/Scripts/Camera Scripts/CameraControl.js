@@ -545,27 +545,32 @@ public function centerCameraOnPointInWorld(centerPoint : Vector3)
 		
 	cameraPosForCentering = thisCamera.transform.position + difference;
 	isCentering = true;
+	atPoint = true;
 }
 
-public function SetFailureTrace(path : List.<GameObject>)
+public function SetFailureTrace(path : List.<EventScript>)
 {
 	tracePath = path;
 	animateCamera = true;
 }
 
 private var nextPoint:Vector3;
+private var atPoint:boolean = false;
+private var currentEvent:EventScript;
+
 private function FollowTrace()
 {
-	if(!isCentering)
+	if(!isCentering && !atPoint)
 	{
 		if(tracePath.Count > 0 )
 		{
 			/*var obj: GameObject = tracePath[0].buildingPointer;
 			if (tracePath.Count > 1)
 				(gameObject.GetComponent(DrawLinks) as DrawLinks).CreateTraceDraw(Database.getBuildingIndex(tracePath[1].buildingPointer), Database.getBuildingIndex(tracePath[0].buildingPointer));*/
-			nextPoint = tracePath[0].transform.position;
+			nextPoint = tracePath[0].event.buildingReference.transform.position;
+			currentEvent = tracePath[0];
 			tracePath.RemoveAt(0);
-			
+			atPoint = false;
 			
 			centerCameraOnPointInWorld(nextPoint);
 		}
@@ -575,7 +580,7 @@ private function FollowTrace()
 		 	/*var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		 	mainMenu.startMissionComplete = true;*/
 		 	
-		 	yield WaitForSeconds(0.5f);
+		 	yield WaitForSeconds(1f);
 		 	var event : GUIEvent = new GUIEvent();
 			event.type = EventTypes.RESTART;//FAILUREMENU;
 			yield WaitForSeconds(1f);
@@ -583,6 +588,14 @@ private function FollowTrace()
 		 	// trigger game end
 		}
 	}
+	
+	if(atPoint && currentEvent != null)
+	{
+		if(!currentEvent.RenderFocus())
+			atPoint = false;
+	}
+		
+	
 }
 
 public function StartTrace()
@@ -621,7 +634,7 @@ private function TraceEndPath(path : List.<BuildingOnGrid>)
 // Modified function from the Unit.js script
 public var originBuilding:List.<GameObject> = new List.<GameObject>();
 public var finalBuilding:List.<GameObject> = new List.<GameObject>();
-private var tracePath:List.<GameObject> = new List.<GameObject>();//<BuildingOnGrid> = new List.<BuildingOnGrid>();
+private var tracePath:List.<EventScript> = new List.<EventScript>();//<BuildingOnGrid> = new List.<BuildingOnGrid>();
 
 private var open = new List.<BuildingOnGrid>();
 private var nextOpen = new List.<BuildingOnGrid>();

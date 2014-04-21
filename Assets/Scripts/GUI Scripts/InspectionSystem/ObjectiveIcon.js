@@ -253,6 +253,7 @@ public class ObjectiveIcon extends InspectionComponent
 	}
 	
 	private var failBlink:boolean = false;
+	public var failView: boolean = false;
 	
 	function Update()
 	{
@@ -261,6 +262,12 @@ public class ObjectiveIcon extends InspectionComponent
 			if (LinkUI.fadeTimer >= 0)
 				this.gameObject.renderer.material.color = Color.Lerp(Color(0,0,0,0), Color.red, LinkUI.fadeTimer);
 
+		}
+		
+		if(failView)
+		{
+			if(!objAnimation.Animate())
+				failView = false;
 		}
 		
 		if(resolvedObj)
@@ -448,6 +455,19 @@ public class ObjectiveIcon extends InspectionComponent
 	public function TriggerLoss()
 	{
 		failBlink = true;
+	}
+	
+	private var lossFocusFirstTime:boolean = true;;
+	
+	public function LossFocus():boolean
+	{
+		if(lossFocusFirstTime)
+		{
+			objAnimation.setVariablesForAnimation(this.gameObject.renderer.material, this.gameObject, unresolvedTexture, unresolvedTexture, 0.05);
+			failView = true;
+			lossFocusFirstTime = false;
+		}
+		return failView;
 	}
 	
 }

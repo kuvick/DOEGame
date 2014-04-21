@@ -184,3 +184,8 @@ public function TriggerLossFlash()
 {
 	icon.TriggerLoss();
 }
+
+public function RenderFocus():boolean
+{
+	return icon.LossFocus();
+}

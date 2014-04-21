@@ -59,7 +59,7 @@ private var dOS:DisplayOnceSystem;
 
 private var usedUndoOrWait:boolean;
 
-private var failurePath : List.<GameObject> = new List.<GameObject>();
+private var failurePath : List.<EventScript> = new List.<EventScript>();
 
 public function pressedUndoOrWait()
 {
@@ -178,7 +178,7 @@ function Start ()
 					tempEventClass.event.icon = primaryIcons[iconIndex];
 					tempEventClass.event.inspIcon = primaryIcons[iconIndex + 1];
 					tempEventClass.event.resolvedIcon = primaryIcons[4];
-					failurePath.Add(tempEventClass.event.buildingReference);
+					failurePath.Add(tempEventClass);
 				}
 				else
 				{
