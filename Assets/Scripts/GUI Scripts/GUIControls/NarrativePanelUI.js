@@ -463,7 +463,7 @@ public class NarrativePanelUI extends GUIControl
 					else
 					{
 						endRender = true;
-						scoreMenu.waitForNarrativeUI = false;
+						scoreMenu.SwitchFromNarrative();
 					}
 				}
 				

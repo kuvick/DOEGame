@@ -11,6 +11,7 @@
 
 public class ScoreMenu extends GUIControl
 {
+	
 	private var saveSystem : SaveSystem;
 	private var intelSystem : IntelSystem;
 	
@@ -24,8 +25,8 @@ public class ScoreMenu extends GUIControl
 	public var scoreScreenSkin : GUISkin;
 	public var background : Texture;
 	//public var lineOverlay : Texture;
-	//public var infoBox : Texture;
-	public var infoBox : TransparentGradientTexture;
+	public var infoBox : Texture;
+	//public var infoBox : TransparentGradientTexture;
 	private var infoBoxRect:Rect;
 	
 	private var rankChangeAnimation:AnimatedText = new AnimatedText();
@@ -142,11 +143,13 @@ public class ScoreMenu extends GUIControl
 	
 	private var levelSelectRef : LevelSelectMenu;
 	
-	var screenRect : Rect;
+	private var screenRect : Rect;
+	private var codexRect:Rect;
 	
 	private var boldStyle:GUIStyle;
 	private var yellowStyle:GUIStyle;
 	private var redStyle:GUIStyle;
+	private var codexTitleStyle:GUIStyle;
 	
 	//Additional Text:
 	private var agentNameTitleRect:Rect;
@@ -177,6 +180,42 @@ public class ScoreMenu extends GUIControl
 	private var numOfStarsCould : int;
 	
 	private var techAlreadyUnlocked:boolean = false;
+	
+	private var currentScreen:CurrentScoreScreen = CurrentScoreScreen.CodexScreen;
+	
+	private var switchScreens : RectAnimations = new RectAnimations();
+	private var continueButtonAB : AnimatedButton;
+	private var viewEntryButtonAB : AnimatedButton;
+	private var retryButtonAB:AnimatedButton;
+	private var newCodexUnlockedST : ShadowedText;
+	private var codexTextST : ShadowedText;
+	private var techBGRectCodexScreen : Rect;
+	private var techImageRectCodexScreen : Rect;
+	public var viewEntry:Texture;
+	public var codexInfoBox:Texture;
+	private var codexInfoBoxRect:Rect;
+	
+	
+	private var titleST : ShadowedText;
+	private var agentNameST : ShadowedText;
+	private var agentRankST : ShadowedText;
+	private var missionScoreST : ShadowedText;
+	private var statusST : ShadowedText;
+	private var honorST : ShadowedText;
+	
+	public enum CurrentScoreScreen
+	{
+		Narrative,
+		CodexScreen,
+		Transitioning,
+		MainScreen
+	}
+	
+	public function SwitchFromNarrative()
+	{
+		currentScreen = CurrentScoreScreen.CodexScreen;
+		waitForNarrativeUI = false;
+	}
 
 	public function Initialize()
 	{
@@ -186,7 +225,12 @@ public class ScoreMenu extends GUIControl
 		numOfStars = 0;
 		
 		if(narrUI != null)
+		{
 			narrUI.setEndRender(false);
+			currentScreen = CurrentScoreScreen.Narrative;
+		}
+		else
+			currentScreen = CurrentScoreScreen.CodexScreen;
 		
 		
 		counter = 0;
@@ -227,6 +271,8 @@ public class ScoreMenu extends GUIControl
 		yellowStyle = scoreScreenSkin.customStyles[2];
 		redStyle = scoreScreenSkin.customStyles[3];
 		
+		codexTitleStyle = scoreScreenSkin.customStyles[4];
+		codexTitleStyle.fontSize = 0.045 * screenWidth;
 		
 		var designWidth : float = 1920;
 		var designHeight : float = 1080;
@@ -401,6 +447,45 @@ public class ScoreMenu extends GUIControl
 			//var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 			inspectionDispRef.FromScoreScreen();
 		}			
+		
+		codexRect = new Rect( screenRect.x, screenRect.y, screenRect.width, screenRect.height);
+		screenRect = new Rect( screenRect.width, screenRect.y, screenRect.width, screenRect.height);
+		
+		//mainMenuButtonAB
+		
+		codexInfoBoxRect = createRect(codexInfoBox, 500f / 1920f, 236f /1080f, 618f / 1080f, false,  codexRect);
+		techBGRectCodexScreen = createRect(techBG, 82f / 1920f, 177f /1080f, 748f / 1080f, false,  codexRect);
+		techImageRectCodexScreen = createRect(techImage, 147f / 1920f, 269f /1080f, 565f / 1080f, false,  codexRect);
+		
+		var viewEntryRect:Rect  = createRect(viewEntry, 333f / 1290f, 421f /618f, 122f / 618f, false,  codexInfoBoxRect);	
+		
+		continueButtonAB = new AnimatedButton(Color.blue, contButton, contButtonRect, Vector2(codexRect.x, codexRect.y));
+		viewEntryButtonAB = new AnimatedButton(Color.green, viewEntry, viewEntryRect, Vector2(codexRect.x + codexInfoBoxRect.x, codexRect.y + codexInfoBoxRect.y));
+		
+		var codexTextRect : Rect = createRect(Vector2(930, 78), 495f / 1920f, 63f /1080f, 78f / 1080f, false,  codexRect);
+		codexTextRect.x = Screen.width / 2 - codexTextRect.width / 2;
+	
+		newCodexUnlockedST = new ShadowedText("New Codex Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
+		
+		codexTextRect = createRect(Vector2(861, 322), 357f / 1290f, 54f /618f, 322f / 618f, false,  codexInfoBoxRect);	
+		
+		var codexText:String = saveSystem.codexData.GetCodexEntry(technologyName).name + "\n\n" + saveSystem.codexData.GetCodexEntry(technologyName).description;
+		
+		codexTextST = new ShadowedText(codexText, codexTextRect, boldStyle, true);
+		
+		
+		retryButtonAB = new AnimatedButton(Color.blue, retryButton, retryButtonRect, Vector2(codexRect.x, codexRect.y));
+		
+		
+		
+		titleST  = new ShadowedText("Agent Performance Evaluation", titleRect, boldStyle, true);
+		agentNameST   = new ShadowedText("Agent Name", agentNameTitleRect  , boldStyle, true);
+		agentRankST   = new ShadowedText("Agent Rank", agentRankTitleRect  , boldStyle, true);
+		missionScoreST   = new ShadowedText("Mission Score", missionScoreTitleRect  , boldStyle, true);
+		statusST   = new ShadowedText("Promotion Status", promotionStatusRect  , boldStyle, true);
+		honorST   = new ShadowedText("Honors", honorTitleRect  , boldStyle, true);
+		
+		
 	}
 	
 	public function Render()
@@ -412,215 +497,273 @@ public class ScoreMenu extends GUIControl
 			// Drawing background textures:
 			GUI.skin = scoreScreenSkin;
 			GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		
 			
-			GUI.BeginGroup(screenRect);
-			//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
-			//GUI.DrawTexture(infoBoxRect, infoBox);
-			infoBox.Display(infoBoxRect);
-			
-			
-			scoreScreenSkin.customStyles[1].fontSize = largerFontSize;
-			GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
-			scoreScreenSkin.customStyles[1].fontSize = standardFontSize;
-			
-			
-			// Buttons are rendered:
-			
-			/*
-			setButtonTexture(shareButton, shareButtonPressed);
-			if(GUI.Button(shareButtonRect, ""))
+			if(currentScreen == CurrentScoreScreen.Transitioning)
 			{
-				currentResponse.type = EventTypes.FACEBOOK;
-				PlayButtonPress();
-			}
-			*/
-			setButtonTexture(retryButton, retryButtonPressed);
-			if(GUI.Button(retryButtonRect, ""))
-			{
-				currentResponse.type = EventTypes.RESTART;
-				PlayButtonPress();
-			}
-			setButtonTexture(contButton, contButtonPressed);
-			if(GUI.Button(contButtonRect, ""))
-			{
-				levelSelectRef.SetFromScoreScreen(false);
-				currentResponse.type = EventTypes.LEVELSELECT;
-				PlayButtonPress();
-			}
-			resetButtonTexture();
-
-			
-			// Text is rendered:
-			GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
-			GUI.Label(agentRankTitleRect, "Agent Rank", boldStyle);
-			GUI.Label(missionScoreTitleRect, "Mission Score", boldStyle);
-			GUI.Label(promotionStatusRect, "Promotion Status", boldStyle);
-			GUI.Label(honorTitleRect, "Honors", boldStyle);
-			
-			
-			
-			GUI.Label(agentNameRect, agentName);
-			if(!animateRankUp)
-				GUI.Label(agentRankRect, agentRank);
-			else
-			{
-				if(!rankChangeAnimation.Render(agentRankRect, agentRank, saveSystem.rankSystem.getRankName(startRank), true))
-				{
-					agentRank = saveSystem.rankSystem.getRankName(startRank);
-					animateRankUp = false;
-					rankChangeAnimation = new AnimatedText();
-				}
-				
-			}
-				
-			//GUI.Label(missionScoreRect, missionScore + " XP");
-			GUI.BeginGroup(missionScoreRect);
-				for(var j:int = 0; j < numOfStarsCould; j++)
-				{
-					if(numOfStarsAnimated > j && numOfStars >= (j+1))
-						GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
-					else
-						GUI.DrawTexture(starRect[j], starUnfilledTexture, ScaleMode.StretchToFill);
-						
-					if(j == numOfStarsAnimated && numOfStarsAnimated < numOfStars)
-					{
-						if(!starAnimation.Render(starRect[j], starUnfilledTexture, starFillTexture, true))
-							numOfStarsAnimated++;
-					}
-				}
-			
-			GUI.EndGroup();
-			
-			//GUI.Label(totalScoreRect, totalScore);
-			
-			// Honors/bonus icons and scores are rendered:
-			GUI.skin.label.alignment = TextAnchor.UpperLeft;
-			for(var i: int = 0; i < honorsTextures.Count; i++)
-			{
-				if(honorsTextures[i].couldBeEarned)
-				{
-					if(honorsTextures[i].hasEarned)
-						GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
-					else
-						GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
-				}
+				if(!switchScreens.Render(codexRect, screenRect))
+					currentScreen = CurrentScoreScreen.MainScreen;
 				else
-					GUI.DrawTexture(honorsRect[i], noHonorTexture);
-				
-				
-				if(honorsTextures[i].couldBeEarned)
 				{
-					if(numOfStarsAnimatedHonors > i && honorsTextures[i].hasEarned)
-						GUI.DrawTexture(honorStarRect[i], starFillTexture);
-					else
-					{
-						GUI.DrawTexture(honorStarRect[i], starUnfilledTexture);
-						
-						if(honorsTextures[i].hasEarned && i == numOfStarsAnimatedHonors && numOfStarsAnimatedHonors < (numOfStars - 1))
+					codexRect = switchScreens.currentRect;
+					screenRect = switchScreens.nextRect;
+				}
+			}
+				
+		
+			//CODEX PART:
+			
+			if(currentScreen == CurrentScoreScreen.CodexScreen || currentScreen == CurrentScoreScreen.Transitioning)
+			{
+				GUI.BeginGroup(codexRect);
+				
+					GUI.DrawTexture(codexInfoBoxRect, codexInfoBox, ScaleMode.StretchToFill);
+					
+					GUI.DrawTexture(techBGRectCodexScreen, techBG, ScaleMode.StretchToFill);
+					GUI.DrawTexture(techImageRectCodexScreen, techImage, ScaleMode.StretchToFill);
+					
+					GUI.BeginGroup(codexInfoBoxRect);
+						boldStyle.wordWrap = true;
+						codexTextST.Display();
+						boldStyle.wordWrap = false;
+						if(viewEntryButtonAB.Render())
 						{
-							if(!starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true))
-							{
-								numOfStarsAnimatedHonors++;
-								
-								if(honorsTextures[i].type == HonorType.Resourceful)
-									renderLastHonorsStar = true;
-							}
+							currentResponse.type = EventTypes.CODEXMENU;
+							var codexMenu:CodexMenu = GameObject.Find("GUI System").GetComponent(CodexMenu);
+							codexMenu.takeToCodexEntry(techEntry);
+						}
+					GUI.EndGroup();
+					
+					if(continueButtonAB.Render())
+					{
+						currentScreen = CurrentScoreScreen.Transitioning;
+					}
+					
+					newCodexUnlockedST.Display();
+				
+				GUI.EndGroup();
+			}
+			
+			//MAIN PART:
+			
+			if(currentScreen == CurrentScoreScreen.MainScreen || currentScreen == CurrentScoreScreen.Transitioning)
+			{
+				GUI.BeginGroup(screenRect);
+				//GUI.DrawTexture(new Rect(0,0,lineOverlay.width, lineOverlay.height), lineOverlay);
+				GUI.DrawTexture(infoBoxRect, infoBox);
+				//infoBox.Display(infoBoxRect);
+				
+				
+				boldStyle.fontSize = largerFontSize;
+				//GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
+				titleST.Display();
+				boldStyle.fontSize = standardFontSize;
+				
+				
+				// Buttons are rendered:
+				
+				/*
+				setButtonTexture(shareButton, shareButtonPressed);
+				if(GUI.Button(shareButtonRect, ""))
+				{
+					currentResponse.type = EventTypes.FACEBOOK;
+					PlayButtonPress();
+				}
+				*/
+				//setButtonTexture(retryButtonRect, retryButton, retryButtonPressed);
+				if(retryButtonAB.Render())
+				{
+					currentResponse.type = EventTypes.RESTART;
+					PlayButtonPress();
+				}
+				//setButtonTexture(contButton, contButtonPressed);
+				if(continueButtonAB.Render())
+				{
+					levelSelectRef.SetFromScoreScreen(false);
+					currentResponse.type = EventTypes.LEVELSELECT;
+					PlayButtonPress();
+				}
+				//resetButtonTexture();
+
+				
+				// Text is rendered:
+				//GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
+				agentNameST.Display();
+				//GUI.Label(agentRankTitleRect, "Agent Rank", boldStyle);
+				agentRankST.Display();
+				//GUI.Label(missionScoreTitleRect, "Mission Score", boldStyle);
+				missionScoreST.Display();
+				//GUI.Label(promotionStatusRect, "Promotion Status", boldStyle);
+				statusST.Display();
+				//GUI.Label(honorTitleRect, "Honors", boldStyle);
+				honorST.Display();
+				
+				
+				
+				GUI.Label(agentNameRect, agentName);
+				if(!animateRankUp)
+					GUI.Label(agentRankRect, agentRank);
+				else
+				{
+					if(!rankChangeAnimation.Render(agentRankRect, agentRank, saveSystem.rankSystem.getRankName(startRank), true))
+					{
+						agentRank = saveSystem.rankSystem.getRankName(startRank);
+						animateRankUp = false;
+						rankChangeAnimation = new AnimatedText();
+					}
+					
+				}
+
+				//GUI.Label(missionScoreRect, missionScore + " XP");
+				GUI.BeginGroup(missionScoreRect);
+					for(var j:int = 0; j < numOfStarsCould; j++)
+					{
+						if(numOfStarsAnimated > j && numOfStars >= (j+1))
+							GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
+						else
+							GUI.DrawTexture(starRect[j], starUnfilledTexture, ScaleMode.StretchToFill);
+							
+						if((currentScreen != CurrentScoreScreen.Transitioning) && j == numOfStarsAnimated && numOfStarsAnimated < numOfStars)
+						{
+							if(!starAnimation.Render(starRect[j], starUnfilledTexture, starFillTexture, true))
+								numOfStarsAnimated++;
 						}
 					}
-						
-					if(honorsTextures[i].type == HonorType.Resourceful)
+				
+				GUI.EndGroup();
+				
+				//GUI.Label(totalScoreRect, totalScore);
+				
+				// Honors/bonus icons and scores are rendered:
+				GUI.skin.label.alignment = TextAnchor.UpperLeft;
+				for(var i: int = 0; i < honorsTextures.Count; i++)
+				{
+					if(honorsTextures[i].couldBeEarned)
 					{
-						var tempRect = honorStarRect[i];
-						
-						tempRect.x += honorStarRect[i].width;
+						if(honorsTextures[i].hasEarned)
+							GUI.DrawTexture(honorsRect[i], honorsTextures[i].earned);
+						else
+							GUI.DrawTexture(honorsRect[i], honorsTextures[i].notEarned);
+					}
+					else
+						GUI.DrawTexture(honorsRect[i], noHonorTexture);
 					
-						if(numOfStarsAnimatedHonors < numOfStars && renderLastHonorsStar && honorsTextures[i].hasEarned)
-							GUI.DrawTexture(tempRect, starFillTexture);
+					
+					if(honorsTextures[i].couldBeEarned)
+					{
+						if(numOfStarsAnimatedHonors > i && honorsTextures[i].hasEarned)
+							GUI.DrawTexture(honorStarRect[i], starFillTexture);
 						else
 						{
-							GUI.DrawTexture(tempRect, starUnfilledTexture);
+							GUI.DrawTexture(honorStarRect[i], starUnfilledTexture);
 							
-							if(honorsTextures[i].hasEarned && renderLastHonorsStar)
+							if((currentScreen != CurrentScoreScreen.Transitioning) && honorsTextures[i].hasEarned && i == numOfStarsAnimatedHonors && numOfStarsAnimatedHonors < (numOfStars - 1))
 							{
-								if(renderLastHonorsStar && !starExtraHonorsAnimation.Render(tempRect, starUnfilledTexture, starFillTexture, true))
+								if(!starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true))
+								{
 									numOfStarsAnimatedHonors++;
-								
+									
+									if(honorsTextures[i].type == HonorType.Resourceful)
+										renderLastHonorsStar = true;
+								}
 							}
 						}
 							
-						//honorStarRect[i].x -= honorStarRect[i].width;
+						if(honorsTextures[i].type == HonorType.Resourceful)
+						{
+							var tempRect = honorStarRect[i];
+							
+							tempRect.x += honorStarRect[i].width;
 						
-					}//endofresourceful
+							if(numOfStarsAnimatedHonors < numOfStars && renderLastHonorsStar && honorsTextures[i].hasEarned)
+								GUI.DrawTexture(tempRect, starFillTexture);
+							else
+							{
+								GUI.DrawTexture(tempRect, starUnfilledTexture);
+								
+								if((currentScreen != CurrentScoreScreen.Transitioning) && honorsTextures[i].hasEarned && renderLastHonorsStar)
+								{
+									if(renderLastHonorsStar && !starExtraHonorsAnimation.Render(tempRect, starUnfilledTexture, starFillTexture, true))
+										numOfStarsAnimatedHonors++;
+									
+								}
+							}
+								
+							//honorStarRect[i].x -= honorStarRect[i].width;
+							
+						}//endofresourceful
+						
+					}	
 					
-				}	
-				
-				
-				
-				
-				if(GUI.Button(honorsRect[i],""))
-				{
-					displayExp(honorsRect[i], honorsExplanations[i]);
+					
+					
+					
+					if(GUI.Button(honorsRect[i],""))
+					{
+						displayExp(honorsRect[i], honorsExplanations[i]);
+					}
 				}
-			}
-			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-			
-			// Exp Bar:
-			
-			GUI.BeginGroup (expBarRect);
-				GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarBG);
+				GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 				
-				// SCORE FILL:
-				GUI.BeginGroup (new Rect (0, 0, expBarRect.width * barDisplay, expBarRect.height));
-					GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expEarnedBar);
-				GUI.EndGroup ();
-				 
-				// EXP FILL:
-				if(!filledUp)
-				{
-					GUI.BeginGroup (new Rect (0, 0, expBarRect.width * expFill, expBarRect.height));
-						GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarExp);
+				// Exp Bar:
+				
+				GUI.BeginGroup (expBarRect);
+					GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarBG);
+					
+					// SCORE FILL:
+					GUI.BeginGroup (new Rect (0, 0, expBarRect.width * barDisplay, expBarRect.height));
+						GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expEarnedBar);
 					GUI.EndGroup ();
-				}
-				 
-			GUI.EndGroup ();
-			
-			GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);
-			GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
-			
-			if(techEntry != null)
-			{
-				if(GUI.Button(techImageRect, ""))
+					 
+					// EXP FILL:
+					if(!filledUp)
+					{
+						GUI.BeginGroup (new Rect (0, 0, expBarRect.width * expFill, expBarRect.height));
+							GUI.Box (Rect (0,0, expBarRect.width, expBarRect.height), expBarExp);
+						GUI.EndGroup ();
+					}
+					 
+				GUI.EndGroup ();
+				
+				GUI.DrawTexture(techBGRect, techBG, ScaleMode.StretchToFill);
+				GUI.DrawTexture(techImageRect, techImage, ScaleMode.StretchToFill);
+				
+				if(techEntry != null)
 				{
-					currentResponse.type = EventTypes.CODEXMENU;
-					var codexMenu:CodexMenu = GameObject.Find("GUI System").GetComponent(CodexMenu);
-					codexMenu.takeToCodexEntry(techEntry);
+					if(GUI.Button(techImageRect, ""))
+					{
+						currentResponse.type = EventTypes.CODEXMENU;
+						var codexMenu2:CodexMenu = GameObject.Find("GUI System").GetComponent(CodexMenu);
+						codexMenu2.takeToCodexEntry(techEntry);
+					}
 				}
-			}
-		
-		
-			GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
-			if(technologyName != null && technologyName != "")
-			{
-				var dispText : String = " added to the Codex";
-				if (techAlreadyUnlocked)
-					dispText = " is already in the Codex";
-				GUI.Label(technologyNameRect, technologyName, redStyle);
-				GUI.Label(addedToCodexRect, dispText, yellowStyle);
-			}
-			else	
-				GUI.Label(technologyNameRect, "No new technology added.", redStyle);
 			
-			GUI.EndGroup();
 			
-			if(displayExplanation)
-			{
-				scoreScreenSkin.label.wordWrap = true;
-				GUI.DrawTexture(explanationRenderSpace, explanationBG);
-				GUI.Label(explanationRenderSpace, explanationText);
-				scoreScreenSkin.label.wordWrap = false;
-			}
-		}	
-	}
+				GUI.DrawTexture(codexIconRect, codexIcon, ScaleMode.StretchToFill);
+				if(technologyName != null && technologyName != "")
+				{
+					var dispText : String = " added to the Codex";
+					if (techAlreadyUnlocked)
+						dispText = " is already in the Codex";
+					GUI.Label(technologyNameRect, technologyName, redStyle);
+					GUI.Label(addedToCodexRect, dispText, yellowStyle);
+				}
+				else	
+					GUI.Label(technologyNameRect, "No new technology added.", redStyle);
+				
+				GUI.EndGroup();
+				
+				if(displayExplanation)
+				{
+					scoreScreenSkin.label.wordWrap = true;
+					GUI.DrawTexture(explanationRenderSpace, explanationBG);
+					GUI.Label(explanationRenderSpace, explanationText);
+					scoreScreenSkin.label.wordWrap = false;
+				}
+			}//endofmainscreen
+			
+		}//endofwaitfornarrativeUI
+	}//endofrender
 	
 	
 	// Used to find out the actual values for all the text that will be displayed,
@@ -748,7 +891,7 @@ public class ScoreMenu extends GUIControl
 	
 		
 		
-		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, tempScore + 3000); // ******************424242
+		expEarned = saveSystem.currentPlayer.updateScore(intelSystem.levelName, tempScore);
 		saveSystem.currentPlayer.exp += expEarned;
 		//Debug.Log("EXP EARNED: " + expEarned);
 		
@@ -827,7 +970,7 @@ public class ScoreMenu extends GUIControl
 	private var animateRankUp: boolean = false;
 	function Update()
 	{
-		if(!waitForNarrativeUI)
+		if(!waitForNarrativeUI && currentScreen == CurrentScoreScreen.MainScreen)
 		{
 			var currentWidth : float = expBarRect.width * barDisplay;
 			

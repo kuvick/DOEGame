@@ -384,7 +384,8 @@ public class NarrativeUI extends GUIControl
 					else
 					{
 						endRender = true;
-						scoreMenu.waitForNarrativeUI = false;
+						scoreMenu.SwitchFromNarrative();
+						
 					}
 				}
 				

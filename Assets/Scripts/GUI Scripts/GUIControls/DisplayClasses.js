@@ -630,10 +630,22 @@ public class RectAnimations
 	private var incrementRate:float = 1f;
 	private var firstLoop:boolean = true;
 	
-
-	public function Render(currentRect:Rect, nextRect:Rect):boolean
+	public var currentRect:Rect;
+	public var nextRect:Rect;
+	
+	public function RectAnimations()
 	{
-			
+		recIncrement = 0;
+		animate = false;
+		incrementRate = 1f;
+		firstLoop = true;
+	}
+	
+
+	public function Render(cRect:Rect, nRect:Rect):boolean
+	{
+		currentRect = cRect;
+		nextRect = nRect;
 
 		animate = true;
 		
