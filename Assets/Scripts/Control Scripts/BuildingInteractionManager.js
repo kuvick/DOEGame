@@ -254,15 +254,16 @@ static function HandleReleaseAtPoint(obj : Collider)
 	
 	//Seeing if we can phase this out. GPC 4/21/14
 	//if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
-	//	ModeController.setSelectedBuilding(null);
-	//else
-	//{
+	if (!obj)
+		ModeController.setSelectedBuilding(null);
+	else
+	{
 		if (obj.name == "ResourceRing")
 		{
 			var building : GameObject = obj.transform.parent.gameObject;
 			if (building.name != "BuildingSite")
 				ModeController.setSelectedInputBuilding(building);
 		}
-	//}
+	}
 	linkUIRef.HighlightTiles();
 }
