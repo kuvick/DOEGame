@@ -569,6 +569,15 @@ public class MainMenu extends GUIControl
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
 			{
+				var reset:boolean = false;
+
+				if(!(intelSystem.events[i].getResolved()) && (intelSystem.events[i].event.type == BuildingEventType.Primary) && (intelSystem.events[i].event.time <= 3))
+				{
+					GUI.color = Color.Lerp(Color(1,1,1,0), Color(1,1,1,1), LinkUI.fadeTimer);
+				
+					reset = true;
+				}
+			
 				var objIconRect: Rect = Rect(	padding + (objIconSize.x + padding) * (i*2), 
 										0,
 										objIconSize.x,
@@ -611,6 +620,10 @@ public class MainMenu extends GUIControl
 								objIconSize.y),
 								intelSystem.events[i].event.time.ToString());
 				}
+				
+				if(reset)
+					GUI.color = Color.white;
+
 
 			}
 		GUI.EndGroup();
@@ -702,17 +715,13 @@ public class MainMenu extends GUIControl
 	private var speed:float = 2f;
 	private var startPath:boolean = false;
 	public var startMissionComplete: boolean = false;
-	public var doVictoryTrace : boolean;
 	
 	private function DrawVictorySplash()
 	{		
 		if(!startPath)
 		{
 			//cameraControl.FindPath();
-			if (doVictoryTrace)
-				cameraControl.StartTrace();
-			else
-				startMissionComplete = true;
+			cameraControl.StartTrace();
 			startPath = true;
 		}
 		else if(startMissionComplete)

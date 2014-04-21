@@ -123,6 +123,7 @@ private function AnimateValid()
 
 
 private var isAnimated:boolean = false;
+private var previousTexture:Texture;
 
 function SetState (state : IndicatorState)
 {
