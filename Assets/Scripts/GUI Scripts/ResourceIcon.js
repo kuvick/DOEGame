@@ -37,6 +37,7 @@ private var unallColor : Color = Color(1.0,1.0,1.0,.5);
 private var allColor : Color = Color(1.0,1.0,1.0,1.0);
 
 private var flashActive : boolean = false;
+
 private var inactive : boolean = false;
 
 private var iconAnimation : InGameAnimation = new InGameAnimation();
@@ -242,7 +243,13 @@ public function SetFixed(fix : boolean)
 		}
 		else
 		{
-			currentTex = brokenTex;
+			//currentTex = brokenTex;
+			resourceColor.a = 0.5f;
+			var transparentWhite:Color = Color.white;
+			transparentWhite.a = 0.5f;
+			gameObject.renderer.material.SetColor("_Color2", resourceColor);
+			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+			gameObject.renderer.material.SetColor("_Color1", transparentWhite);
 			SetFlashSolidColor(Color.red);
 		}
 		renderer.material.mainTexture = currentTex;
