@@ -119,6 +119,12 @@ public class CodexMenu extends GUIControl
 	private var backButtonAB:AnimatedButton;
 	private var zoomButtonAB:AnimatedButton;
 	private var learnButtonAB:AnimatedButton;
+	public var codexIcon:Texture;
+	
+	private var earnedST:ShadowedText;
+	private var lockedST:ShadowedText;
+	private var viewST:ShadowedText;
+	
 	
 	public var showIcon:Texture;
 	public var hideIcon:Texture;
@@ -162,8 +168,8 @@ public class CodexMenu extends GUIControl
 		checkDelta = 0;
 		zooming = false;
 		
-		currentLockedTexture = showLockedButton;
-		currentUnlockedTexture = showUnlockedButton;
+		currentLockedTexture = showIcon;
+		currentUnlockedTexture = showIcon;
 		
 		if (playerData == null){
 			Debug.LogWarning("IntelSystem does not have a reference to the SaveSystem. Attempting to find");
@@ -215,15 +221,52 @@ public class CodexMenu extends GUIControl
     	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
     	
     	
-    	//Update
-    	codexTitleST = new ShadowedText("Codex", codexStyle);
+    	//UpdateST
+    	codexTitleST = new ShadowedText("Codex", codexStyle, codexIcon);
     	
     	
     	backButtonAB  = new AnimatedButton(Color.blue, backButtonTexture, backButtonRect);
     	zoomButtonAB  = new AnimatedButton(Color.blue, zoomButton, zoomButtonRect);
-    	learnButtonAB  = new AnimatedButton(Color.blue, learnMoreButton , learnMoreRect);
+    	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));
+    	
+    	var viewRect:Rect;
+    	var labelRect:Vector2;
+    	
+    	labelRect = style.CalcSize(GUIContent("View:"));
+    	viewRect = Rect(padding, codexTitleST.displayRect.height + codexTitleST.displayRect.y + padding, labelRect.x, labelRect.y);
+    	
+    	viewStyle.fontSize = 0.03 * screenWidth;
+    	
+    	viewST = new ShadowedText("View:", viewRect, viewStyle, false);
+    	
+    	earnedIconRect = createRect(showIcon, 0,0, 0.085, false);
+    	earnedIconRect.x = padding;
+    	earnedIconRect.y = viewST.displayRect.y + viewST.displayRect.height + padding * 2;
+    	
+    	lockedIconRect = Rect(earnedIconRect.x, earnedIconRect.y + earnedIconRect.height + padding, earnedIconRect.width, earnedIconRect.height);
+    
+    	
+    	
+    	labelRect = style.CalcSize(GUIContent("Earned"));
+    	viewRect = new Rect(viewRect.x + earnedIconRect.width, earnedIconRect.y + (labelRect.y/2), labelRect.x, labelRect.y);
+    	
+    	earnedST = new ShadowedText("Earned", viewRect, viewStyle, false);
+    	
+    	labelRect = style.CalcSize(GUIContent("Locked"));
+    	viewRect = new Rect(viewRect.x, lockedIconRect.y + (labelRect.y/2), labelRect.x, labelRect.y);
+    	
+    	lockedST = new ShadowedText("Locked", viewRect, viewStyle, false);
+       	
+		wholeEarned = Rect(earnedIconRect.x, earnedIconRect.y, earnedIconRect.width + earnedST.displayRect.width, earnedIconRect.height + earnedST.displayRect.height);
+		wholeLocked = Rect(lockedIconRect.x, lockedIconRect.y, lockedIconRect.width + lockedST.displayRect.width, lockedIconRect.height + lockedST.displayRect.height);
     	
 	}
+	
+	private var earnedIconRect:Rect;
+	private var lockedIconRect:Rect;
+	private var wholeEarned:Rect;
+	private var wholeLocked:Rect;
+	
 	
 	public function OnOpen(){
 		super.OnOpen();
@@ -715,19 +758,26 @@ public class CodexMenu extends GUIControl
 			}			
 		GUI.EndGroup();
 		
-		GUI.BeginGroup(displayBox);
-			GUI.skin.label.alignment = TextAnchor.UpperCenter;
-			GUI.Label(displayLabel, "SHOW:");
-			GUI.skin.label.alignment = TextAnchor.UpperLeft;
-			GUI.DrawTexture(displayUnlockedRect, currentUnlockedTexture, ScaleMode.StretchToFill);
-			GUI.DrawTexture(displayLockedRect, currentLockedTexture, ScaleMode.StretchToFill);
+		viewST.Display();
+    	earnedST.Display();
+    	lockedST.Display();
+    	GUI.DrawTexture(earnedIconRect, currentUnlockedTexture);
+    	GUI.DrawTexture(lockedIconRect, currentLockedTexture);
+		
+		//GUI.BeginGroup(displayBox);
+			//GUI.skin.label.alignment = TextAnchor.UpperCenter;
+			//GUI.Label(displayLabel, "SHOW:");
+			//GUI.skin.label.alignment = TextAnchor.UpperLeft;
+			//GUI.DrawTexture(displayUnlockedRect, currentUnlockedTexture, ScaleMode.StretchToFill);
+			//GUI.DrawTexture(displayLockedRect, currentLockedTexture, ScaleMode.StretchToFill);
 			
-			if(GUI.Button(displayUnlockedRect,""))
+							
+			if(GUI.Button(wholeEarned,""))
 			{
 				doNotRender = false;
 				if(displayUnlocked)
 				{
-					currentUnlockedTexture = notShowUnlockedButton;					
+					currentUnlockedTexture = hideIcon;					
 					if(displayLocked)
 						fullCodex = notEarnedCodex;
 					else
@@ -735,7 +785,7 @@ public class CodexMenu extends GUIControl
 				}
 				else
 				{
-					currentUnlockedTexture = showUnlockedButton;					
+					currentUnlockedTexture = showIcon;					
 					if(displayLocked)
 						fullCodex = totalCodex;
 					else
@@ -747,12 +797,12 @@ public class CodexMenu extends GUIControl
 				reArrangeHexTiles(1.0);
 			}
 			
-			if(GUI.Button(displayLockedRect,""))
+			if(GUI.Button(wholeLocked,""))
 			{
 				doNotRender = false;
 				if(displayLocked)
 				{
-					currentLockedTexture = notShowLockedButton;					
+					currentLockedTexture = hideIcon;					
 					if(displayUnlocked)
 						fullCodex = earnedCodex;
 					else
@@ -761,7 +811,7 @@ public class CodexMenu extends GUIControl
 				}
 				else
 				{
-					currentLockedTexture = showLockedButton;
+					currentLockedTexture = showIcon;
 					if(displayUnlocked)
 						fullCodex = totalCodex;
 					else
@@ -773,7 +823,7 @@ public class CodexMenu extends GUIControl
 				reArrangeHexTiles(1.0);
 			}
 			
-		GUI.EndGroup();
+		//GUI.EndGroup();
 		
 		GUI.skin.label.alignment = TextAnchor.LowerLeft;
 		GUI.Label(instructionRect,"Pinch to zoom.", descriptStyle);
@@ -797,6 +847,8 @@ public class CodexMenu extends GUIControl
 	public var descriptStyle:GUIStyle;
 	private var totalRows:int;
 	
+	public var viewStyle:GUIStyle;
+	
 	public var codexStyle:GUIStyle;
 	
 	private function RenderEntry()
@@ -817,7 +869,8 @@ public class CodexMenu extends GUIControl
 				GUI.enabled = false;
 			
 			//setButtonTexture(learnMoreButton, learnMoreButtonPressed);
-			if(GUI.Button(learnMoreRect, ""))
+			//if(GUI.Button(learnMoreRect, ""))
+			if(learnButtonAB.Render())
 			{
 				//Application.OpenURL(currentEntry.urlLink);
 				showConfirmation = true;
@@ -851,7 +904,7 @@ public class CodexMenu extends GUIControl
 		infoBoxRect = createRect(infoBoxTexture,(73.0 - 73.0)/1845.0, (338.0 - 264.0)/746.0, 672.0/746.0, false, techEntryGroup);
 		learnMoreRect = createRect(learnMoreButton,(144.0 - 73.0)/1845.0, (834.0 - 264.0)/746.0, 107.0/746.0, false, techEntryGroup);
 		
-		titleRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (369.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
+		titleRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (369.0 - 280.0)/746.0, 598.0/746.0, false, techEntryGroup);
 		descriptionRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (509.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
 	
 	

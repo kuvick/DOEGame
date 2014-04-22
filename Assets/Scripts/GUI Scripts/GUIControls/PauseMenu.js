@@ -188,14 +188,14 @@ public class PauseMenu extends GUIControl
 			currentResponse.type = EventTypes.RESTART;
 		}
 		//setButtonTexture(dashboardButton, dashboardButtonPressed);
-		if(dashboardAB.Render())
+		if(mainMenuAB.Render())
 		{
 			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		//setButtonTexture(mainMenuButton, mainMenuButtonPressed);
-		if(mainMenuAB.Render())
+		if(dashboardAB.Render())
 		{
 			intelSystem.isPaused = false;
 			currentResponse.type = EventTypes.STARTMENU;

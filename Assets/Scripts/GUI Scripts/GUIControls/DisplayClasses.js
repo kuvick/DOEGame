@@ -14,7 +14,9 @@ public class ShadowedText
 	private var useStyle:boolean;
 	private var staticDistance:float;
 	private var useSetDistance:boolean;
-	
+	private var icon :Texture = null;
+	private var iconRect:Rect;
+	private var iconShadowRect:Rect;
 	
 	//CONSTRUCTORS//
 	// USE FOR TITLES
@@ -37,6 +39,29 @@ public class ShadowedText
 		updateShadowRect();
 	}
 	
+	// USE FOR TITLES w/ ICON
+	public function ShadowedText(txt:String, guiStl:GUIStyle, i:Texture)
+	{
+		text = txt;
+		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
+		shadowColor = Color.black;
+		shadowColor.a = 0.5f;
+		icon = i;
+		style = guiStl;
+		style.fontSize = Screen.width * 0.1;
+		var textRext:Vector2 = style.CalcSize(GUIContent(txt));
+		
+		displayRect = new Rect(37f / 1920f * Screen.width, 63f / 1080f * Screen.height, textRext.x, textRext.y);
+		
+		useStyle = true;
+		useSetDistance = true;
+		staticDistance = Screen.height * 0.005;
+		
+		iconRect = new Rect(displayRect.x + displayRect.width + Screen.width * 0.03, displayRect.y, icon.width * (displayRect.height/ icon.height), displayRect.height);
+		
+		
+		updateShadowRect();
+	}
 	
 	
 	// DEFAULT, SET DISTANCE, WITH GUISTYLE
@@ -200,9 +225,20 @@ public class ShadowedText
 	public function updateShadowRect()
 	{
 		if(!staticDistance)
+		{
 			shadowRect = new Rect(displayRect.x + (displayRect.height * shadowPercentDistance), displayRect.y + (displayRect.height * shadowPercentDistance), displayRect.width, displayRect.height);
+			
+			if(icon != null)
+				iconShadowRect = new Rect(iconRect.x + (iconRect.height * shadowPercentDistance), iconRect.y + (iconRect.height * shadowPercentDistance), iconRect.width, iconRect.height);
+			
+		}
 		else
+		{
 			shadowRect = new Rect(displayRect.x + staticDistance, displayRect.y + staticDistance, displayRect.width, displayRect.height);
+			
+			if(icon != null)
+				iconShadowRect = new Rect(iconRect.x + staticDistance, iconRect.y + staticDistance, iconRect.width, iconRect.height);
+		}
 			
 	}
 	
@@ -214,8 +250,17 @@ public class ShadowedText
 			previousColor = style.normal.textColor;
 			style.normal.textColor = shadowColor;
 			GUI.Label(shadowRect, text, style);
+			if(icon != null)
+			{
+				var prevColor1:Color = GUI.color;
+				GUI.color = shadowColor;
+				GUI.DrawTexture(iconShadowRect, icon, ScaleMode.StretchToFill);
+				GUI.color = prevColor1;
+			}
 			style.normal.textColor = textColor;
-			GUI.Label(displayRect, text, style);		
+			GUI.Label(displayRect, text, style);
+			if(icon != null)
+				GUI.DrawTexture(iconRect, icon, ScaleMode.StretchToFill);	
 			style.normal.textColor = previousColor;
 		}
 		else
@@ -223,10 +268,21 @@ public class ShadowedText
 			previousColor = GUI.color;
 			GUI.color = shadowColor;
 			GUI.Label(shadowRect, text);
+			if(icon != null)
+			{
+				var prevColor2:Color = GUI.color;
+				GUI.color = shadowColor;
+				GUI.DrawTexture(iconShadowRect, icon, ScaleMode.StretchToFill);
+				GUI.color = prevColor2;
+			}
 			GUI.color = textColor;
 			GUI.Label(displayRect, text);
+			if(icon != null)
+				GUI.DrawTexture(iconRect, icon, ScaleMode.StretchToFill);
 			GUI.color = previousColor;
 		}
+		
+		
 	}
 	
 	
@@ -241,8 +297,17 @@ public class ShadowedText
 			previousColor = style.normal.textColor;
 			style.normal.textColor = shadowColor;
 			GUI.Label(shadowRect, text, style);
+			if(icon != null)
+			{
+				var prevColor1:Color = GUI.color;
+				GUI.color = shadowColor;
+				GUI.DrawTexture(iconShadowRect, icon, ScaleMode.StretchToFill);
+				GUI.color = prevColor1;
+			}
 			style.normal.textColor = textColor;
-			GUI.Label(displayRect, text, style);		
+			GUI.Label(displayRect, text, style);
+			if(icon != null)
+				GUI.DrawTexture(iconRect, icon, ScaleMode.StretchToFill);	
 			style.normal.textColor = previousColor;
 		}
 		else
@@ -250,8 +315,17 @@ public class ShadowedText
 			previousColor = GUI.color;
 			GUI.color = shadowColor;
 			GUI.Label(shadowRect, text);
+			if(icon != null)
+			{
+				var prevColor2:Color = GUI.color;
+				GUI.color = shadowColor;
+				GUI.DrawTexture(iconShadowRect, icon, ScaleMode.StretchToFill);
+				GUI.color = prevColor2;
+			}
 			GUI.color = textColor;
 			GUI.Label(displayRect, text);
+			if(icon != null)
+				GUI.DrawTexture(iconRect, icon, ScaleMode.StretchToFill);
 			GUI.color = previousColor;
 		}
 	}	
