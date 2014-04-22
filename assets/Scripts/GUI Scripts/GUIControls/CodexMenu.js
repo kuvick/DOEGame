@@ -20,9 +20,9 @@ public class CodexMenu extends GUIControl
 	
 	public var codexButtonDarkStyle : GUIStyle;
 	public var codexButtonLightStyle : GUIStyle;
-	public var codexLabelTexture : Texture2D;
+	//public var codexLabelTexture : Texture2D;
 	public var backButtonTexture : Texture2D;
-	public var backButtonTexturePressed : Texture2D;
+	//public var backButtonTexturePressed : Texture2D;
 	//public var previousEntriesTexture : Texture2D;
 	public var backgroundTexture : Texture2D;
 	public var scrollViewbackgroundTexture : Texture2D;
@@ -102,7 +102,7 @@ public class CodexMenu extends GUIControl
 	
 	public var infoBox:Texture;
 	public var infoButton:Texture;
-	public var infoButtonPressed:Texture;
+	//public var infoButtonPressed:Texture;
 	
 	public var zoomButton:Texture;
 	private var zoomButtonRect:Rect;
@@ -114,6 +114,14 @@ public class CodexMenu extends GUIControl
 	private var style:GUIStyle = GUIStyle();
 	
 	private var fromScoreScreen:boolean = false;
+	
+	private var codexTitleST:ShadowedText;
+	private var backButtonAB:AnimatedButton;
+	private var zoomButtonAB:AnimatedButton;
+	private var learnButtonAB:AnimatedButton;
+	
+	public var showIcon:Texture;
+	public var hideIcon:Texture;
 	
 	
 	public function Initialize(){
@@ -205,6 +213,16 @@ public class CodexMenu extends GUIControl
 		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
     	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
     	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
+    	
+    	
+    	//Update
+    	codexTitleST = new ShadowedText("Codex", codexStyle);
+    	
+    	
+    	backButtonAB  = new AnimatedButton(Color.blue, backButtonTexture, backButtonRect);
+    	zoomButtonAB  = new AnimatedButton(Color.blue, zoomButton, zoomButtonRect);
+    	learnButtonAB  = new AnimatedButton(Color.blue, learnMoreButton , learnMoreRect);
+    	
 	}
 	
 	public function OnOpen(){
@@ -490,13 +508,15 @@ public class CodexMenu extends GUIControl
 		
 		
 		// Header:
-		GUI.DrawTexture(codexLabelRect, codexLabelTexture);
-		setButtonTexture(backButtonTexture, backButtonTexturePressed);
+		//GUI.DrawTexture(codexLabelRect, codexLabelTexture);
+		codexTitleST.Display();
+		//setButtonTexture(backButtonTexture, backButtonTexturePressed);
 		
 		if(showConfirmation)
 				GUI.enabled = false;
 
-		if(GUI.Button(backButtonRect, ""))
+		//if(GUI.Button(backButtonRect, ""))
+		if(backButtonAB.Render())
 		{
 			if(!isHolding)
 			{
@@ -514,7 +534,8 @@ public class CodexMenu extends GUIControl
 			}
 		}
 		
-		if(GUI.Button(zoomButtonRect, zoomButton))
+		//if(GUI.Button(zoomButtonRect, zoomButton))
+		if(zoomButtonAB.Render())
 		{
 			zoomFromButton = true;
 			lastButtonZoom = !lastButtonZoom;
@@ -524,7 +545,7 @@ public class CodexMenu extends GUIControl
 		if(showConfirmation)
 				GUI.enabled = true;
 		
-		resetButtonTexture();
+		//resetButtonTexture();
 		
 		
 		//	ANDROID BACK BUTTON
@@ -551,7 +572,7 @@ public class CodexMenu extends GUIControl
 			RenderConfirmationWindow();
 		}
 
-	}
+	}//end of render
 	
 	private function recalculateRectForHexes(percentage:float)
 	{
@@ -767,7 +788,7 @@ public class CodexMenu extends GUIControl
 	public var infoBoxTexture:Texture;
 	private var infoBoxRect:Rect;
 	public var learnMoreButton:Texture;
-	public var learnMoreButtonPressed:Texture;
+	//public var learnMoreButtonPressed:Texture;
 	private var learnMoreRect:Rect;
 	private var titleRect:Rect;
 	private var descriptionRect:Rect;
@@ -775,6 +796,8 @@ public class CodexMenu extends GUIControl
 	public var titleStyle:GUIStyle;
 	public var descriptStyle:GUIStyle;
 	private var totalRows:int;
+	
+	public var codexStyle:GUIStyle;
 	
 	private function RenderEntry()
 	{
@@ -793,13 +816,13 @@ public class CodexMenu extends GUIControl
 			if(showConfirmation)
 				GUI.enabled = false;
 			
-			setButtonTexture(learnMoreButton, learnMoreButtonPressed);
+			//setButtonTexture(learnMoreButton, learnMoreButtonPressed);
 			if(GUI.Button(learnMoreRect, ""))
 			{
 				//Application.OpenURL(currentEntry.urlLink);
 				showConfirmation = true;
 			}
-			resetButtonTexture(style);
+			//resetButtonTexture(style);
 			
 			if(showConfirmation)
 				GUI.enabled = true;
@@ -836,10 +859,8 @@ public class CodexMenu extends GUIControl
 		descriptStyle.fontSize = 0.022 * screenWidth;
 	
 		backgroundRect = RectFactory.NewRect(0,0,1,1);
-		codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);
+		//codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);
 		backButtonRect = createRect(backButtonTexture,0.81,0.022, 0.12, true);
-		
-		
 		
 	
 		startHex = createRect(fullCodex[0].icon,0,0, 0.4102, false);
@@ -904,7 +925,7 @@ public class CodexMenu extends GUIControl
 	
 		
 		
-		var codexLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(codexLabelTexture, codexLabelHeight);
+		//var codexLabelSize : Vector2 = Utils.CalcTextureDimensionsWithDesiredHeight(codexLabelTexture, codexLabelHeight);
 		//codexLabelRect = RectFactory.NewRect(.01,.01,codexLabelSize.x,codexLabelSize.y);
 		
 		
@@ -949,7 +970,7 @@ public class CodexMenu extends GUIControl
 	{		
 		setButtonTexture(infoBox, infoBox, style);
 		GUI.Box(confirmationRect, "Continue to technology website?", style);
-		setButtonTexture(infoButton, infoButtonPressed, style);
+		//setButtonTexture(infoButton, infoButtonPressed, style);
 		if (GUI.Button(confirmCancelRect, "Cancel", style))
 		{
 			showConfirmation = false;
@@ -960,6 +981,6 @@ public class CodexMenu extends GUIControl
 			Application.OpenURL(currentEntry.urlLink);
 			showConfirmation = false;
 		}
-		resetButtonTexture(style);
+		//resetButtonTexture(style);
 	}
 }

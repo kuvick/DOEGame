@@ -75,12 +75,13 @@ function Update () {
 		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor))
 			in2active = false;
 	}
+	/*
 	else if(active2in)
 	{
 		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColor, resourceColor, Color.white))
 			active2in = false;
 	}
-	
+	*/
 }
 
 public function OnSelected()
@@ -198,18 +199,18 @@ public function SetAllocated (allo : boolean, animate:boolean)
 	else
 	{
 		//currentTex = unallocatedTex;
-		if(!animate)
-		{
+		//if(!animate)
+		//{
 			resourceColor.a = 1.0f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
 			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
-		}
-		else
-		{
+		//}
+		//else
+		//{
 			in2active = false;
 			active2in = true;
-		}
+		//}
 		//gameObject.renderer.material.color = unallColor;
 	}
 	//gameObject.renderer.material.mainTexture = currentTex;	

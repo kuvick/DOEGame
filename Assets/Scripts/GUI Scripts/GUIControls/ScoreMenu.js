@@ -469,7 +469,7 @@ public class ScoreMenu extends GUIControl
 		codexTextRect = createRect(Vector2(861, 322), 357f / 1290f, 54f /618f, 322f / 618f, false,  codexInfoBoxRect);	
 		
 		var codexText:String;
-		if(technologyName != "")
+		if(technologyName != "" || techAlreadyUnlocked)
 		{
 			codexText = saveSystem.codexData.GetCodexEntry(technologyName).name + "\n\n" + saveSystem.codexData.GetCodexEntry(technologyName).description;
 			screenRect = new Rect( screenRect.width, screenRect.y, screenRect.width, screenRect.height);
