@@ -36,6 +36,8 @@ public class StartMenu extends GUIControl
 		private var creditsButtonRect:Rect;
 	
 	// Options Screen:
+	private var optionsTitleST:ShadowedText;
+	public var optionsIcon:Texture;
 	public var optionsBannerTexture:Texture;
 		private var optionsBannerRect:Rect;
 		private var sfxSliderVal:float;
@@ -80,6 +82,7 @@ public class StartMenu extends GUIControl
 
 	// Skins for Start Screen
 	public var startMenuSkin:GUISkin;
+	public var optionsSkin:GUISkin;
 	
 	// Start Screen rectangles
 	private var background:Rect;
@@ -274,7 +277,6 @@ public class StartMenu extends GUIControl
 		// New Profile Screen:
 		agentNameRect = Rect(buttonSideBuffer * screenHeight, buttonSideBuffer * screenHeight, titleTextRect.width, titleTextRect.height);
 		
-		
 		//Options Screen:
 		optionsBannerRect = createRect(optionsBannerTexture,0,0, 0.246, false);
 		sfxRect = createRect(new Vector2(500, 100),0,0, 0.09, false);
@@ -331,6 +333,8 @@ public class StartMenu extends GUIControl
 		enterNameST = new ShadowedText("Enter your name:", enterNameSTRect, profileStyle, true);
 		acceptST  = new ShadowedText("Accept", acceptSTRect, profileStyle, true);
 		cancelST  = new ShadowedText("Cancel", cancelSTRect, profileStyle, true);
+		
+		optionsTitleST = new ShadowedText("Options", optionsSkin.customStyles[0], optionsIcon);
 		
 	}
 	
@@ -735,7 +739,9 @@ public class StartMenu extends GUIControl
 				}
 				//resetButtonTexture();
 				
-				GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
+				//GUI.DrawTexture(optionsBannerRect, optionsBannerTexture,ScaleMode.StretchToFill);
+				
+				optionsTitleST.Display();
 
 				
 				if(saveSystem.currentPlayer != null)

@@ -402,6 +402,36 @@ public class AnimatedButton
 		return buttonPressed;
 	}
 	
+	public function Render(style:GUIStyle):boolean
+	{
+		buttonPressed = false;
+		if (DetectHover())
+		{
+			GUI.color = color;
+			rect.x += rect.width * 0.03;
+			rect.y += rect.height * 0.03;
+			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
+			// having the second if statement sometimes not triggered.
+			
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			GUI.DrawTexture(rect, image);
+			if(GUI.Button(rect, "", style))
+			{
+				buttonPressed = true;
+			}
+			
+			GUI.color = Color.white;
+			rect.x -= rect.width * 0.03;
+			rect.y -= rect.height * 0.03;
+		}
+		else
+		{
+			GUI.DrawTexture(rect, image);
+		}
+		
+		return buttonPressed;
+	}
+	
 	public function Render(text:Texture):boolean
 	{
 		image = text;

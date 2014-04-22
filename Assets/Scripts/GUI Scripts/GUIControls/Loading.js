@@ -140,6 +140,9 @@ public class Loading extends GUIControl
 	public var websiteButtonPressed:Texture;
 	
 	
+	private var exploreCareersAB:AnimatedButton;
+	private var beginMissionAB:AnimatedButton;
+	
 	public function Initialize()
 	{
 		super.Initialize();
@@ -239,7 +242,7 @@ public class Loading extends GUIControl
 		
 		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);
 		
-		jobWebsiteButtonRect = createRect( Vector2(626, 145), 0.48, 0.58, 0.13, false, screenRect);
+		jobWebsiteButtonRect = createRect( websiteButton, 0.44, 0.58, 0.11, false, screenRect);
 		
 		//jobTextRect.y = panelRect.y;
 		
@@ -295,6 +298,11 @@ public class Loading extends GUIControl
 		style.padding = RectOffset (0, 0, 0, 0);
 		
 		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
+		
+		
+		exploreCareersAB = new AnimatedButton(Color.green, websiteButton, jobWebsiteButtonRect, Vector2(screenRect.x, screenRect.y));
+		beginMissionAB = new AnimatedButton(Color.yellow, missionBeginButton, loadingStatusBoxRect, Vector2(screenRect.x, screenRect.y));
+
 	}
 	
 	public function Render() 
@@ -302,12 +310,12 @@ public class Loading extends GUIControl
 		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
 		
 		GUI.depth = 0;
-		GUI.BeginGroup(screenRect);	
+		GUI.BeginGroup(screenRect);
 			
 				// New Loading Textures
 		
 		GUI.DrawTexture(loadingBGRect, loadingBackground, ScaleMode.StretchToFill);		
-		GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
+		//GUI.DrawTexture(loadingStatusBoxRect, loadingStatusBox);
 		
 		
 		if(displayComicPanels)
@@ -403,17 +411,17 @@ public class Loading extends GUIControl
 			resetButtonTexture(style);
 			*/
 			
-			setButtonTexture(websiteButton, websiteButtonPressed, style);
+			//setButtonTexture(websiteButton, websiteButtonPressed, style);
 			
 			if(showConfirmation)
 				GUI.enabled = false;
 			
-			if (GUI.Button(jobWebsiteButtonRect,"", style))
+			if(exploreCareersAB.Render(style))
 			{
 				//Application.OpenURL("http://energy.gov/jobs");
 				showConfirmation = true;
 			}
-			resetButtonTexture(style);
+			//resetButtonTexture(style);
 			
 			if(showConfirmation)
 				GUI.enabled = true;
@@ -433,9 +441,9 @@ public class Loading extends GUIControl
 		{
 			if (hasFinishedDelay)
 			{
-				setButtonTexture(missionBeginButton, missionBeginButtonPressed, style);	
+				//setButtonTexture(missionBeginButton, missionBeginButtonPressed, style);	
 						
-				if (GUI.Button(loadingStatusBoxRect, "", style))
+				if(beginMissionAB.Render(style))
 				{
 					if(!showConfirmation)
 					{
@@ -449,7 +457,7 @@ public class Loading extends GUIControl
 						currentResponse.type = EventTypes.DONELOADING;
 					}
 				}
-				resetButtonTexture(style);
+				//resetButtonTexture(style);
 			}
 			/*
 			if (GUI.Button(toggleDescriptionRect, toggleText, style))
@@ -480,9 +488,14 @@ public class Loading extends GUIControl
 		style.fontSize = descFontSize * .9;
 		style.alignment = TextAnchor.MiddleCenter;
 		
-		setButtonTexture(infoBox, infoBox, style);
+		//setButtonTexture(infoBox, infoBox, style);
+		GUI.DrawTexture(confirmationRect,infoBox);
 		GUI.Box(confirmationRect, "Continue to DOE website?", style);
-		setButtonTexture(infoButton, infoButtonPressed, style);
+		//setButtonTexture(infoButton, infoButtonPressed, style);
+		GUI.DrawTexture(confirmCancelRect,infoButton);
+		GUI.DrawTexture(confirmContinueRect,infoButton);
+		
+		
 		if (GUI.Button(confirmCancelRect, "Cancel", style))
 		{
 			showConfirmation = false;
@@ -493,7 +506,7 @@ public class Loading extends GUIControl
 			Application.OpenURL("http://energy.gov/jobs/jobs");
 			showConfirmation = false;
 		}
-		resetButtonTexture(style);
+		//resetButtonTexture(style);
 		
 		style.font = boldFont;
 		style.fontSize = loadingStatusFontSize;

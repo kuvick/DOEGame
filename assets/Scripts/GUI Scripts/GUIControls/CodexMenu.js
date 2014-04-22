@@ -1023,7 +1023,7 @@ public class CodexMenu extends GUIControl
 	{		
 		setButtonTexture(infoBox, infoBox, style);
 		GUI.Box(confirmationRect, "Continue to technology website?", style);
-		//setButtonTexture(infoButton, infoButtonPressed, style);
+		setButtonTexture(infoButton, infoButton, style);
 		if (GUI.Button(confirmCancelRect, "Cancel", style))
 		{
 			showConfirmation = false;
