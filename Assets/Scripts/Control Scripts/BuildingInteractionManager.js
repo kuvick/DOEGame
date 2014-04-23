@@ -80,7 +80,7 @@ static function HandleFirstClick(position : Vector2)
 	if (tempCollider)
 	{
 		Debug.Log("collided" + tempCollider.name);
-		if (tempCollider.name.Equals("ResourceRing"))
+		if (tempCollider.name.Equals("ClickCollider"))//ResourceRing"))
 		{
 			ModeController.setSelectedBuilding(tempCollider.transform.parent.gameObject);
 			linkUIRef.HighlightTiles();
@@ -259,7 +259,7 @@ static function HandleReleaseAtPoint(obj : Collider)
 		ModeController.setSelectedBuilding(null);
 	else
 	{
-		if (obj.name == "ResourceRing")
+		if (obj.name == "ClickCollider")//ResourceRing")
 		{
 			var building : GameObject = obj.transform.parent.gameObject;
 			if (building.name != "BuildingSite")

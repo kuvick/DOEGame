@@ -99,7 +99,7 @@ function InitialClickEvent()
 	currObject = CheckObjSelected(firstClickPosition);
 	if (!currObject)
 		currDragMode = DragMode.Cam;
-	else if (currObject.name.Equals("ResourceRing") || currObject.name.Contains(" "))
+	else if (currObject.name.Equals("ClickCollider") || currObject.name.Contains(" "))
 	{
 		//Debug.Log("collided " + currObject.name);
 		/*if (BuildingInteractionManager.HandleFirstClick(currObject))//firstClickPosition);
