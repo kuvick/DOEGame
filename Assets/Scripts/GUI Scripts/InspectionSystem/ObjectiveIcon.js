@@ -87,6 +87,10 @@ public class ObjectiveIcon extends InspectionComponent
 		temp.layer = 10;
 		
 		turnMesh = temp.GetComponent(TextMesh);
+		
+		//GPC 4/23/14 making turn mesh look bigger
+		turnMesh.characterSize *= 2;
+		
 		if (type == BuildingEventType.Secondary)
 		{
 			turnMesh.active = false;

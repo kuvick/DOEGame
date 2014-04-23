@@ -42,7 +42,9 @@ public class MainMenu extends GUIControl
 	
 	// Main Menu Scaling
 	private var hexButtonHeightPercent:float = 0.2;		// Height of the hex button font as a percentage of screen height
-	private var scoreFontHeightPercent:float = 0.04;	// Height of the score font as a percentage of screen height
+	//private var scoreFontHeightPercent:float = 0.04;	// Height of the score font as a percentage of screen height
+	//Making turn number bigger GPC 4/23/14
+	private var scoreFontHeightPercent:float = 0.08;	// Height of the score font as a percentage of screen height
 	//private var pauseFontHeightPercent:float = 0.03;	// Height of the pausefont as a percentage of screen height
 	private var pauseButtonHeightPercent:float = 0.14;
 				
@@ -287,7 +289,8 @@ public class MainMenu extends GUIControl
 		
 		//scoreRect = Rect(verticalBarWidth + padding, horizontalBarHeight + padding, 0, 0);
 		//comboRect = Rect(verticalBarWidth + padding, horizontalBarHeight + (2 * padding) + (1.3 * scoreFontHeight), 0, 0);
-		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (4 * padding) + (3.9 * scoreFontHeight), 0, 0);
+		//var turnHorizontalPadding = -0.2 * screenHeight;
+		turnRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (4 * padding) + (3.9 * scoreFontHeight) +100, 0, 0);
 		//timeRect =  Rect(verticalBarWidth + padding, horizontalBarHeight + (3 * padding) + (2.6 * scoreFontHeight), 0, 0);
 		
 		

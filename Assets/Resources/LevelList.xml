@@ -8,7 +8,7 @@
 	<!--Briefing1 -->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing1</sceneName>
+      <sceneName>Tutorial_Briefing1_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>***************************************************************PLAYER WILL NEVER SEE THIS</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -168,7 +168,7 @@
 	
 	<Level> <!--Briefing2-->
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing2</sceneName>
+      <sceneName>Tutorial_Briefing2_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>If You Build It...</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -291,7 +291,7 @@
 	<!--Briefing3-->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing3</sceneName>
+      <sceneName>Tutorial_Briefing3_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -420,7 +420,7 @@
 	<!--Briefing4-->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing4</sceneName>
+      <sceneName>Tutorial_Briefing4_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Super Spy</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -536,7 +536,7 @@
 	<!--Briefing5 -->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing5</sceneName>
+      <sceneName>Tutorial_Briefing5_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Security Breach</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -753,7 +753,7 @@
 	<!--Briefing6 -->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing6</sceneName>
+      <sceneName>Tutorial_Briefing6_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Shutting Down the System</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
@@ -949,7 +949,7 @@
 	<!--Briefing3-->
 	<Level>
       <displayName>0</displayName>
-      <sceneName>Tutorial_Briefing7</sceneName>
+      <sceneName>Tutorial_Briefing7_v2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Official Commendation</subjectText>
       <messageText>***************************************************************PLAYER WILL NEVER SEE THIS</messageText>
