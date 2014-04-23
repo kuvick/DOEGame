@@ -196,6 +196,15 @@ public function GenerateBuildingResourceIcons(building : BuildingOnGrid)
 	tempRing.name = "ResourceRing";
 	tempRing.transform.localScale = Vector3(15,15,15);
 	tempRing.layer = 10;
+	tempRing.collider.enabled = false;
+	
+	// generate click area
+	var tempCollider : GameObject = Instantiate(Resources.Load("IconPlane") as GameObject, startPos, Quaternion.EulerRotation(-Mathf.PI / 6, Mathf.PI / 4, 0));
+	tempCollider.transform.parent = building.buildingPointer.transform;
+	tempCollider.transform.localPosition.y = 25;
+	tempCollider.name = "ClickCollider";
+	tempCollider.transform.localScale = Vector3(15,15,15);
+	tempCollider.layer = 10;
 	
 	if (building.buildingName.Contains("Site"))
 	{

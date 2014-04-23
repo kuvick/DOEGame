@@ -88,7 +88,7 @@ static function HandleReleaseAtPoint(obj : Collider)
 {
 	if (!obj)
 		ModeController.setSelectedBuilding(null);
-	else if (obj.name == "ResourceRing")
+	else if (obj.name == "ClickCollider")
 		ModeController.setSelectedBuilding(obj.transform.parent.gameObject);
 	DeselectUnits();
 }
