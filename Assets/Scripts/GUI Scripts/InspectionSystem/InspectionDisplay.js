@@ -61,6 +61,8 @@ private var tutorialPointers:TutorialPointers;
 private var dOS:DisplayOnceSystem;
 public var currentToolTipIndex:int = 0;
 
+//public var designerHeightTweak:float = 0;
+
 function Start () 
 {
 	dOS = new DisplayOnceSystem();
@@ -75,7 +77,7 @@ function Start ()
 	//FIX THIS!!! GPC 4/19/14
 	var templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
 	dispRect = templateRect;
-	//dispRect.y += 100;
+	dispRect.y += 100;
 	
 	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
@@ -207,8 +209,6 @@ public function Activate(disp : String)
 {
 	componentSelected = true;
 	intelSys.toolTipOnScreen = true;
-	//Added bold effect GPC 4/19/14
-	dispText = "<b>" + disp + "</b>";
 	FormatDisplay();
 }
 
@@ -249,8 +249,14 @@ private function FormatDisplay()
 	{
 		renderDouble = false;
 		dispContent = GUIContent(currentTooltip.text);
+		
+		//Added to allow designer to manually adjust y coordinate for longer descriptions (GPC 4/22/14)
+		dispRect.y += currentTooltip.designerHeightTweak;
 		//GUI.Label(currentTooltip.text);
 	}
+	
+
+	
 	/*dispHeight = skin.label.CalcHeight(GUIContent(dispText), dispWidth);
 	dispRect.height = dispHeight;
 	borderRect.height = dispHeight + borderOffset * 2;*/
@@ -341,6 +347,7 @@ private function RenderSingle()
 		else
 			dOS.HasDisplayed(currentToolTipIndex, false, false);
 		
+		
 		currentToolTipIndex++;
 		NextTooltip();
 	}
@@ -396,6 +403,8 @@ public class Tooltip
 	
 	public var toggleUndoButton : boolean = false;
 	public var toggleWaitButton : boolean = false;
+	
+	public var designerHeightTweak:float = 0;
 	
 	public function SetComponent(comp : InspectionComponent)
 	{

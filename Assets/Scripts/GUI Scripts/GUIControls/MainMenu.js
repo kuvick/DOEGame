@@ -715,13 +715,17 @@ public class MainMenu extends GUIControl
 	private var speed:float = 2f;
 	private var startPath:boolean = false;
 	public var startMissionComplete: boolean = false;
+	public var doVictoryTrace: boolean = false;
 	
 	private function DrawVictorySplash()
 	{		
 		if(!startPath)
 		{
 			//cameraControl.FindPath();
-			cameraControl.StartTrace();
+			if(doVictoryTrace)
+				cameraControl.StartTrace();
+			else
+				startMissionComplete = true;
 			startPath = true;
 		}
 		else if(startMissionComplete)

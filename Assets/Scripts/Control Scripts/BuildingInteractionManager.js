@@ -101,10 +101,11 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	var buildingOnGrid : BuildingOnGrid = Database.getBuildingOnGrid(buildingObject.transform.position);
 	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
 	
-	//Seeing if we can phase this out. GPC 4/21/14
 	// camera drag if building is not active or, if a tutorial pointer is active it is not the correct building
 	//if (!buildingOnGrid.isActive || (pointer != null && buildingOnGrid.buildingPointer != pointer.buildingOne))
-	//	return DragMode.Cam;
+	//Modified to allow more freedom of player choice in tutorials (GPC 4/22/14)
+	if (!buildingOnGrid.isActive)
+		return DragMode.Cam;
 	
 	if (obj.name.Contains(" "))
 	{
