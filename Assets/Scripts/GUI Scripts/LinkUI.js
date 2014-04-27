@@ -133,6 +133,8 @@ function Start () {
 	inputOffset *= offsetScale * screenHeight;
 	outputOffset *= offsetScale * screenHeight;
 	activeButtonRects.Clear();
+	fadeTimer = 0.5f;
+	fadeScaler = 1.0f;
 }
 
 function AddPremadeLink(inputBuilding : GameObject, outputBuilding : GameObject)
