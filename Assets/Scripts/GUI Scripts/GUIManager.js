@@ -280,7 +280,7 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.LEVELSELECT:
 			Application.LoadLevel("LevelSelectScreen");
-			
+			yield WaitForSeconds(.5f);
 			ClearControls();
 			// DH: Commented out 3-13, was causing level select to be double loaded and having issues with end game
 			//AddGUIToControls(levelSelectMenu);
@@ -383,10 +383,12 @@ private function RespondTo(response:GUIEvent)
 			break;
 		case EventTypes.STARTMENU:
 			Application.LoadLevel("StartScreen");
-			ClearControls();
-			AddGUIToControls(startMenu);
 			var nextLevelScript : NextLevelScript = GameObject.Find("NextLevel").GetComponent(NextLevelScript);
 			nextLevelScript.playSplash = false;
+			yield WaitForSeconds(.5f);
+			ClearControls();
+			AddGUIToControls(startMenu);
+			
 			//startMenu.SetSplash(false); - keeps turning a null error
 			break;
 		case EventTypes.SAVEQUIT:
