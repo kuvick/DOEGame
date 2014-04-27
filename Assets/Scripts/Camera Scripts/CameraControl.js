@@ -267,7 +267,10 @@ public function Update()
 {
 	if(animateCamera)
 	{
-		FollowTrace();
+		if (doCompletePan)
+			FollowCompleteTrace();
+		else
+			FollowFailTrace();
 	}
 
 
@@ -548,9 +551,40 @@ public function centerCameraOnPointInWorld(centerPoint : Vector3)
 	atPoint = true;
 }
 
+private var completePanEnd = false;
+private var doCompletePan = true;
+private function FollowCompleteTrace()
+{
+	if (!isCentering && !atPoint)
+	{
+		if (!completePanEnd)
+		{
+			atPoint = false;
+			speed = 1f;
+			
+			
+			nextPoint = currentEvent.event.buildingReference.transform.position;
+			
+			centerCameraOnPointInWorld(nextPoint);
+			
+			completePanEnd = true;
+		}
+		else
+			animateCamera = false;
+	}
+	
+	if(atPoint && currentEvent != null)
+	{
+		if(!currentEvent.RenderFocus())
+			atPoint = false;
+	}
+}
+
 public function SetFailureTrace(path : List.<EventScript>)
 {
 	tracePath = path;
+	doCompletePan = false;
+	speed = 5f;
 	animateCamera = true;
 }
 
@@ -558,7 +592,7 @@ private var nextPoint:Vector3;
 private var atPoint:boolean = false;
 private var currentEvent:EventScript;
 
-private function FollowTrace()
+private function FollowFailTrace()
 {
 	if(!isCentering && !atPoint)
 	{
@@ -596,6 +630,16 @@ private function FollowTrace()
 	}
 		
 	
+}
+
+public function StartCompleteSequence(event : EventScript)
+{
+	centerCameraOnPointInWorld(originBuilding[0].transform.position);
+	doCompletePan = true;
+	completePanEnd = false;
+	StartTrace();
+	animateCamera = true;
+	currentEvent = event;
 }
 
 public function StartTrace()

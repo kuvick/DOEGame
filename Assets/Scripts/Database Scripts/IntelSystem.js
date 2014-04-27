@@ -648,6 +648,11 @@ public function triggerLoss()
 	GUIManager.Instance().RecieveEvent(event);*/
 }
 
+public function GetLastPrimary() : EventScript
+{
+	return failurePath[failurePath.Count - 1];
+}
+
 // Goes through the events and decreases the
 // the turn amount both on the GUI and in the system. Also does a check
 // to see if any of the primary events have reached zero and then triggers

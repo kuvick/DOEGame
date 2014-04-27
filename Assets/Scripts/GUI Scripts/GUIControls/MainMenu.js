@@ -735,7 +735,7 @@ public class MainMenu extends GUIControl
 		{
 			//cameraControl.FindPath();
 			if(doVictoryTrace)
-				cameraControl.StartTrace();
+				cameraControl.StartCompleteSequence(intelSystem.GetLastPrimary());//StartTrace();
 			else
 				startMissionComplete = true;
 			startPath = true;

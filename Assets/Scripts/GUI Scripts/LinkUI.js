@@ -872,9 +872,9 @@ function Update()
 		HighlightTiles();
 	}
 	
+	fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	if (fadeTimer >= 1 || fadeTimer <= 0)
 		fadeScaler *= -1;
-	fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	Mathf.Clamp(fadeTimer, 0, 1);
 }
 
