@@ -370,13 +370,22 @@ public class MainMenu extends GUIControl
 	}
 	
 	public function Render(){
+		GUI.skin = mainMenuSkin;
+		
+		// skip straight to restart on tap after failure
+		if (!enableHUD && GUI.Button(Rect(0,0, screenWidth, screenHeight), String.Empty))
+		{
+			var event : GUIEvent = new GUIEvent();
+			event.type = EventTypes.RESTART;//FAILUREMENU;
+			GUIManager.Instance().RecieveEvent(event);
+		}
+
 		if (!enableHUD || !isActive) return; 
 		if(intelSystem.victory) 
 		{
 			DrawVictorySplash();
 		}
 		
-		GUI.skin = mainMenuSkin;
 		GUI.enabled = !inspectionDispRef.IsActive();
 		//Disabling top HUD frame (GPC 2/13/14)
 //		GUI.DrawTexture(scoreAndComboBG/Rect, scoreAndComboBG, ScaleMode.StretchToFill);

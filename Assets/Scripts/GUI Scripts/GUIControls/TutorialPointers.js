@@ -36,6 +36,8 @@ private var circleSizeStart:float = 2.0;
 
 private var dOS:DisplayOnceSystem;
 
+private var inspDispRef : InspectionDisplay;
+
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
 private var OnScoreScreen:boolean = false;
@@ -57,6 +59,7 @@ function Start()
 			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 			database = GameObject.Find("Database").GetComponent(Database);
 			mainCamera = GameObject.Find("Main Camera").GetComponent(Camera);
+			inspDispRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 		}
 		
 		currentArrow = null;
@@ -169,6 +172,11 @@ public function Render()
 		
 	}//end of hasPointers
 }// end of Render
+
+public function AddPointerToStart(pointer : TutorialArrow)
+{
+	pointers.Insert(0, pointer);
+}
 
 public function TriggerIsActive() : boolean
 {
@@ -361,6 +369,7 @@ public function checkTrigger()
 				currentArrow = pointers[0];
 				currentArrow = CalculateDisplay(currentArrow);
 				pointers.Remove(pointers[0]);
+				//inspDispRef.NextTooltip();
 				
 				displayCircle = true;
 				currentCircleSize = circleSizeStart;

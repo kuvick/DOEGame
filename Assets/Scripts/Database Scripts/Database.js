@@ -412,6 +412,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 				//Altered GPC 2/20/14
 				//pointerScript1.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 				pointerScript1.checkForLink();
+				display.checkForLink();
 			}
 			
 			return true;
@@ -429,6 +430,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 				//Altered GPC 2/20/14
 				//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 				pointerScript2.checkForLink();
+				display.checkForLink();
 			}
 			
 			return true;
@@ -559,6 +561,7 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			//Altered GPC 2/20/14
 			//pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 			pointerScript3.checkForLink();
+			display.checkForLink();
 		}
     }
     /*else
@@ -875,6 +878,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			//Altered GPC 2/20/14
 			//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
 			pointerScript2.checkForLink();
+			display.checkForLink();
 		}
 			
 		return oldInputBuildingIndex;//hasResource;

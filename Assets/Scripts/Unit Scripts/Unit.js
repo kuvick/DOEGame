@@ -61,6 +61,8 @@ private var moveCommand:boolean = false;
 
 private var inputController: InputController;
 
+private var display : InspectionDisplay;
+
 enum UnitState
 {
 	Inactive,
@@ -106,6 +108,7 @@ function Initiate() {
 	linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);
 	CheckActive(false);
 	inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
+	display = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 	//MoveToTarget(false);
 }
 
@@ -338,7 +341,7 @@ function DoAction () : boolean
 	//Added GPC 2/20/14
 	var pointerScript1 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	pointerScript1.checkForLink();
-	
+	display.checkForLink();
 	return true;
 }
 

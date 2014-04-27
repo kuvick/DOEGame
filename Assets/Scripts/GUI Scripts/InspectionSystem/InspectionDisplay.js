@@ -61,6 +61,8 @@ private var tutorialPointers:TutorialPointers;
 private var dOS:DisplayOnceSystem;
 public var currentToolTipIndex:int = 0;
 
+private var mainMenu:MainMenu;
+
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -90,7 +92,7 @@ function Start ()
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
 	//skin.label.fontSize = fontScale * Screen.height * 1.3;
 	//skin.box.fontSize = fontScale * Screen.height * 1.3;
-	
+	linkMade = false;
 	
 	//Apply Scaling
 	
@@ -115,9 +117,15 @@ function Start ()
 	if(hexagonGrid != null)
 		inputController = hexagonGrid.GetComponent(InputController);
 
+	if(!notInGame)
+	{
+		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+	}
+	
+	tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	if(notInGame)
 	{
-		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+		
 		CheckTriggerToDisplay();
 	}
 
@@ -133,7 +141,10 @@ function Update ()
 		selectedComponent = null;
 		doDispPic = false;
 	}*/
-	if (currentTooltip && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer)
+	if(currentTapWait > 0)
+		currentTapWait--;
+			
+	if (currentTooltip && ((currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || CheckForInteraction()))
 		NextTooltip();
 }
 
@@ -161,6 +172,8 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 		intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
+	if (disp.arrow.icon)
+		tutorialPointers.AddPointerToStart(disp.arrow);
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
 		tooltipList.Insert(0, disp);
@@ -289,8 +302,10 @@ private function Render()
 		RenderSingle();
 }
 
-private function NextTooltip()
+public function NextTooltip()
 {
+	if (tooltipList.Count <= 0)
+		return;
 	if (currentTooltip.GetComponent())
 		currentTooltip.GetComponent().SetSelected(false);
 	tooltipList.RemoveAt(0);
@@ -384,6 +399,98 @@ public function IsActive() : boolean
 	return componentSelected;
 }
 
+private var tapWait:int = 25;
+private var currentTapWait:int = 0;
+private var linkMade:boolean;
+private function CheckForInteraction() : boolean
+{
+	if (!currentTooltip)
+		return false;
+	if(currentTapWait <= 0 && currentTooltip.interaction == Interaction.Tap)
+	{
+		if(Input.GetKey(KeyCode.Mouse0) || Input.touches.Length > 0)
+		{
+			currentTapWait = tapWait;
+			return true;
+		}
+		else
+			return false;		
+	}
+	else if(currentTooltip.interaction == Interaction.SingleBuilding)
+	{
+		if(ModeController.selectedBuilding == currentTooltip.arrow.buildingOne)
+			return true;
+		else
+			return false;
+	}
+	else if(currentTooltip.interaction == Interaction.Linking)
+	{
+		/*
+		if(inputController.GetDragMode() == DragMode.Link)
+		{
+			waitingForRelease = true;
+			return false;
+		}
+		else if(waitingForRelease)
+		{
+			if(inputController.getState() != ControlState.Dragging )
+				return true;
+			else
+				return false;
+		}
+		*/
+		if(linkMade)
+		{
+			var db : Database = GameObject.Find("Database").GetComponent(Database);
+			db.isWaitingForLink = false;
+			linkMade = false;
+			return true;
+		}
+		else
+			return false;
+	}
+	else if(currentTooltip.interaction == Interaction.Undo)
+	{
+		if(mainMenu.GiveResponse().type == EventTypes.UNDO)
+			return true;
+		else
+			return false;
+	}
+	else if(currentTooltip.interaction == Interaction.Wait)
+	{
+		if(mainMenu.GiveResponse().type == EventTypes.WAIT)
+			return true;
+		else
+			return false;
+	}
+	else if(currentTooltip.interaction == Interaction.Pause)
+	{
+		if(mainMenu.GiveResponse().type == EventTypes.PAUSE)
+			return true;
+		else
+			return false;
+	}
+	
+	return false;
+}
+
+public function checkForLink()
+{
+//	if(currentArrow == null)
+//		return;
+//		
+//	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
+//	{
+//		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
+//			linkMade = true;
+//	}
+	//If code has reached here, then a link has been made
+	//Altered GPC 2/20/14
+
+	linkMade = true;
+	
+}
+
 // class to define a tooltip turn trigger
 public class TurnTrigger
 {
@@ -405,6 +512,9 @@ public class Tooltip
 	public var toggleWaitButton : boolean = false;
 	
 	public var designerHeightTweak:float = 0;
+	
+	public var interaction : Interaction;
+	public var arrow : TutorialArrow;
 	
 	public function SetComponent(comp : InspectionComponent)
 	{
