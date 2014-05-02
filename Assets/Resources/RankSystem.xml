@@ -32,7 +32,7 @@
 			<MinExp>2000</MinExp>
 		</Rank>
 		<Rank>
-			<Name>Assistent Energy Agent</Name>
+			<Name>Assistant Energy Agent</Name>
 			<Level>5</Level>
 			<MinExp>2500</MinExp>
 		</Rank>
@@ -77,7 +77,7 @@
 			<MinExp>6500</MinExp>
 		</Rank>
 		<Rank>
-			<Name>007 Material</Name>
+			<Name>Bond Material</Name>
 			<Level>14</Level>
 			<MinExp>7000</MinExp>
 		</Rank>

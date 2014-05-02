@@ -503,7 +503,7 @@ public class Loading extends GUIControl
 		if (GUI.Button(confirmContinueRect, "Continue", style))
 		{
 			//MetricContainer.IncrementSessionSiteClicks(); -- this line is causing an error
-			Application.OpenURL("http://energy.gov/jobs/jobs");
+			Application.OpenURL("http://energy.gov/jobs/search");
 			showConfirmation = false;
 		}
 		//resetButtonTexture(style);

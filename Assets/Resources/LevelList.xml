@@ -240,7 +240,7 @@
       <displayName>18</displayName>
       <sceneName>RV01</sceneName>
       <difficulty>0</difficulty>
-      <subjectText>Beat the Heat</subjectText>
+      <subjectText>Fun in the Sun</subjectText>
       <messageText>Brenton’s got it rough this year. Record heat is stalling their car production factory, on top of AC costs. Not for long with this baby!</messageText>
 	  <objectiveText>Oversee implementation of Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
 	  <isPrimary>true</isPrimary>
