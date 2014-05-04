@@ -24,6 +24,9 @@ public class NarrativePanelUI extends GUIControl
 	private var currentCharacterRect:Rect;
 	private var popUpRect:Rect;
 	
+	private var startButtonAB:AnimatedButton;
+	private var backButtonAB:AnimatedButton;
+	private var homeButtonAB:AnimatedButton;
 	
 	public var backButton : Texture;
 	public var startButton : Texture;
@@ -318,6 +321,14 @@ public class NarrativePanelUI extends GUIControl
 			
 			metrics = new MetricContainer();
 			m_display = new MetricDisplay();
+			
+			
+		startButtonAB = new AnimatedButton(Color.green, startButton, start, Vector2(screenRect.x, screenRect.y));
+		backButtonAB = new AnimatedButton(Color.blue, backButton, back, Vector2(screenRect.x, screenRect.y));
+		homeButtonAB = new AnimatedButton(Color.blue, homeButton, home, Vector2(screenRect.x, screenRect.y));
+		
+			
+			
 		
 		StartCoroutine(UpdateText());
 	}
@@ -424,7 +435,8 @@ public class NarrativePanelUI extends GUIControl
 					}		
 				}*/
 				
-				if (GUI.Button(back, backButton))
+				//if (GUI.Button(back, backButton))
+				if(backButtonAB.Render())
 				{	
 					if(currentSlide > 0)
 					{
@@ -443,7 +455,8 @@ public class NarrativePanelUI extends GUIControl
 			}
 			else
 			{
-				if (GUI.Button(start, startButton))
+				//if (GUI.Button(start, startButton))
+				if(startButtonAB.Render())
 				{	
 					if(!inScoreScreen)
 					{
@@ -467,7 +480,8 @@ public class NarrativePanelUI extends GUIControl
 					}
 				}
 				
-				if (GUI.Button(back, backButton))
+				//if (GUI.Button(back, backButton))
+				if(backButtonAB.Render())
 				{	
 					if(currentSlide > 0)
 					{
@@ -485,7 +499,8 @@ public class NarrativePanelUI extends GUIControl
 				
 			}
 			
-			if(GUI.Button(home, homeButton))
+			//if(GUI.Button(home, homeButton))
+			if(homeButtonAB.Render())
 			{	
 				Application.LoadLevel("StartScreen");
 			}
