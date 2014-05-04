@@ -529,6 +529,7 @@ public class Tooltip
 	public var interaction : Interaction;
 	public var arrow : TutorialArrow;
 	
+	@System.NonSerializedAttribute
 	public var hasDisplayed : boolean = false;
 	
 	public function SetComponent(comp : InspectionComponent)
