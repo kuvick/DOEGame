@@ -531,6 +531,42 @@ public function Zoom(amount : float, zoomIn : boolean)
  		destinationSize = Mathf.Clamp(destinationSize + amount, maxZoom, minZoom);*/
 }
 
+// public move function accessed by other classes
+public function MoveCameraToPoint(destination : Vector3)
+{
+	centerOnPoint = destination;
+	currentCenter = thisCamera.ScreenToWorldPoint(Vector3(Screen.width / 2, Screen.height /2, thisCamera.transform.position.y + 100));
+	centerOnPoint.y = currentCenter.y;
+	
+	var difference:Vector3 = Vector3(0,0,0);
+	difference.x = Mathf.Abs(currentCenter.x - destination.x);
+	difference.z = Mathf.Abs(currentCenter.z - destination.z);
+	
+	if(currentCenter.x > destination.x)
+		difference.x = difference.x * -1f;
+	
+	if(currentCenter.z > destination.z)
+		difference.z = difference.z * -1f;
+		
+	cameraPosForCentering = thisCamera.transform.position + difference;
+	
+	StartCoroutine(CenterCameraOnPoint(thisCamera.transform.position, cameraPosForCentering, 1f));
+}
+
+// private function that runs as a co-routine to move the camera
+private function CenterCameraOnPoint(start : Vector3, end : Vector3, time : float)
+{
+	var increment : float = 1.0f / (time * 100);
+	Debug.Log(increment);
+	var timer : float = 0f;
+	while (timer < 1f)
+	{
+		yield WaitForSeconds(increment);
+		timer += increment;
+		thisCamera.transform.position = Vector3.Lerp(thisCamera.transform.position, end, timer);
+	}
+}
+
 public function centerCameraOnPointInWorld(centerPoint : Vector3)
 {
 	centerOnPoint = centerPoint;

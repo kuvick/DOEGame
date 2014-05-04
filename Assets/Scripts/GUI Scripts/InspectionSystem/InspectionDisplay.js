@@ -63,6 +63,8 @@ public var currentToolTipIndex:int = 0;
 
 private var mainMenu:MainMenu;
 
+private var cameraControlRef : CameraControl;
+
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -120,6 +122,7 @@ function Start ()
 	if(!notInGame)
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
 	}
 	
 	tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
@@ -339,6 +342,8 @@ private function SetTooltip()
 	if (currentTooltip.type == TooltipType.Notification)
 		notificationTimer = Time.time + notificationLength;
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
+	if (currentTooltip.cameraTarget)
+		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
 		//Disabled for testing GPC 4/21/14
 		//inputController.SetEnabled(false);
 	FormatDisplay();
@@ -512,6 +517,8 @@ public class Tooltip
 	public var toggleWaitButton : boolean = false;
 	
 	public var designerHeightTweak:float = 0;
+	
+	public var cameraTarget : GameObject;
 	
 	public var interaction : Interaction;
 	public var arrow : TutorialArrow;
