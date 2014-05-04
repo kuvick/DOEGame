@@ -65,6 +65,8 @@ private var mainMenu:MainMenu;
 
 private var cameraControlRef : CameraControl;
 
+private var shadowText : ShadowedText;
+
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -81,7 +83,7 @@ function Start ()
 	//FIX THIS!!! GPC 4/19/14
 	var templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
 	dispRect = templateRect;
-	dispRect.y += 100;
+	//dispRect.y += 100;
 	
 	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
@@ -95,6 +97,8 @@ function Start ()
 	//skin.label.fontSize = fontScale * Screen.height * 1.3;
 	//skin.box.fontSize = fontScale * Screen.height * 1.3;
 	linkMade = false;
+	
+	shadowText = new ShadowedText("", Rect(0,0,0,0), false);
 	
 	//Apply Scaling
 	
@@ -365,7 +369,8 @@ private function SetTooltip()
 
 private function RenderSingle()
 {
-	GUI.Box(dispRect, dispContent);
+	//GUI.Box(dispRect, dispContent);
+	shadowText.Display(currentTooltip.text, dispRect);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		if(notInGame)
