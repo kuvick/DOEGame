@@ -337,6 +337,11 @@ public function NextTooltip()
 private function SetTooltip()
 {
 	currentTooltip = tooltipList[0];
+	if (!notInGame && currentTooltip.hasDisplayed)
+	{
+		NextTooltip();
+		return;
+	}
 	if (currentTooltip.GetComponent())
 		currentTooltip.GetComponent().SetSelected(true);
 	if (currentTooltip.type == TooltipType.Notification)
@@ -344,6 +349,7 @@ private function SetTooltip()
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 	if (currentTooltip.cameraTarget)
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
+	currentTooltip.hasDisplayed = true;
 		//Disabled for testing GPC 4/21/14
 		//inputController.SetEnabled(false);
 	FormatDisplay();
@@ -522,6 +528,8 @@ public class Tooltip
 	
 	public var interaction : Interaction;
 	public var arrow : TutorialArrow;
+	
+	public var hasDisplayed : boolean = false;
 	
 	public function SetComponent(comp : InspectionComponent)
 	{
