@@ -341,6 +341,7 @@ public class AnimatedButton
 	private var buttonPressed: boolean = false;
 	public var detectRect : Rect;
 	private var hoverDetected:boolean = false;
+	private var onTouchDevice:boolean = false;
 	
 	public function AnimatedButton(c:Color, img:Texture, r:Rect)
 	{
@@ -496,9 +497,14 @@ public class AnimatedButton
 	private function DetectHover():boolean
 	{
 		if(Input.touchCount > 0)
+		{
+			onTouchDevice = true;
 			return detectRect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
-		else
+		}
+		else if(!onTouchDevice)
+		{
 			return detectRect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
+		}	
 	}
 	
 } // AnimatedButton
