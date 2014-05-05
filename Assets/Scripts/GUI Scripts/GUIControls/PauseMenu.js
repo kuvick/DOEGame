@@ -64,8 +64,8 @@ public class PauseMenu extends GUIControl
 	private var levelName : String;
 	private var levelRect : Rect;
 	private var levelSize : Vector2 = Vector2(5, 1);
-	private var levelXPercent : float = .2f;
-	private var levelYPercent : float = .05f;
+	private var levelXPercent : float = .04f;
+	private var levelYPercent : float = .26f;
 	private var levelHeightPercent : float = .11f;
 	
 	
@@ -149,7 +149,7 @@ public class PauseMenu extends GUIControl
 		GUI.color = defaultColor;
 		GUI.DrawTexture(hexTextRect, hexText, ScaleMode.StretchToFill);
 		
-		
+		GUI.Label(levelRect, levelName);
 		
 		GUI.BeginGroup(groupRect);
 		
@@ -159,7 +159,7 @@ public class PauseMenu extends GUIControl
 		
 		var oldAnchor : TextAnchor = GUI.skin.label.alignment;
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
-		//GUI.Label(levelRect, levelName);
+		
 		GUI.skin.label.alignment = oldAnchor;
 		
 		// Buttons are rendered:
