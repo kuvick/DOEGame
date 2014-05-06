@@ -10,6 +10,7 @@ public class MenuSounds {
 	public var buildingMenuOpen : SoundType;
 	public var inspectionOpen : SoundType;
 	public var inspectionClose : SoundType;
+	public var narrativeTyping : SoundType;
 	
 	public function CacheSounds(){
 		menuButtonClicked.CacheSoundClip();

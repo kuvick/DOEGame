@@ -350,6 +350,7 @@ public class NarrativePanelUI extends GUIControl
 		while (lastLetter <= narrativeSlides[currentSlide].dialogue.length)
 		{
 			currentDisplayText = narrativeSlides[currentSlide].dialogue.Substring(0, lastLetter);
+			SoundManager.Instance().playNarrativeTyping();
 			yield WaitForSeconds(narrativeSlides[currentSlide].textSpeed);
 			lastLetter += 1;
 		}

@@ -323,6 +323,11 @@ public class SoundManager extends MonoBehaviour {
 		playMenuSound(menuSounds.inspectionClose);
 	}
 	
+	public function playNarrativeTyping()
+	{
+		playMenuSound(menuSounds.narrativeTyping);
+	}
+	
 	public function playMusic(musicClip : SoundType){
 		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
