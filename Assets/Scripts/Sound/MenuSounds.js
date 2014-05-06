@@ -21,5 +21,6 @@ public class MenuSounds {
 		buildingMenuOpen.CacheSoundClip();
 		inspectionOpen.CacheSoundClip();
 		inspectionClose.CacheSoundClip();
+		narrativeTyping.CacheSoundClip();
 	}	
 }

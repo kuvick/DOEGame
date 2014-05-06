@@ -252,7 +252,7 @@ public class StartMenu extends GUIControl
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		
 		//RiffSplashScreens();
-		SetSplash(nextLevel.playSplash);
+		SetSplash(showSplash);//nextLevel.playSplash);
 		
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.startMenuMusic;
