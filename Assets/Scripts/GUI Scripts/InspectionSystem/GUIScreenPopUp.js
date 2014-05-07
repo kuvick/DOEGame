@@ -1,4 +1,4 @@
-#pragma strict
+﻿#pragma strict
 
 public var skin : GUISkin;
 public var border : Texture2D;
@@ -47,13 +47,8 @@ private var currentTooltip : Tooltip;
 public var notificationLength : float = 3f;
 private var notificationTimer : float;
 
-//Added GPC 9/3/13
-private var intelSys:IntelSystem;
-
 private var inputController : InputController;
 
-//THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
-public var notInGame:boolean = false;
 private var currentTriggerIndex:int = 0;
 public var turnTriggers : TurnTrigger[];
 private var tutorialPointers:TutorialPointers;
@@ -94,60 +89,19 @@ function Start ()
 	
 	dispPicSize = Screen.width * dispPicSizeScale * 2;
 	dispPicRect = Rect(dispRect.x - dispPicSize, dispTopOffset, dispPicSize, dispPicSize);
-	//skin.label.fontSize = fontScale * Screen.height * 1.3;
-	//skin.box.fontSize = fontScale * Screen.height * 1.3;
-	linkMade = false;
 	
 	shadowText = new ShadowedText("", Rect(0,0,0,0), false);
-	
-	//Apply Scaling
-	
-
-	//skin.label.fontStyle = FontStyle.Bold;
-	
-	//Do these do anything? GPC 4/19/14
-//	skin.button.normal.background = null;
-//	skin.button.active.background = null;
-//	skin.button.hover.background = null;
-//	skin.button.wordWrap = true;
-//	skin.box.normal.background = null;
-//	skin.box.active.background = null;
-//	skin.box.hover.background = null;
-	
-	//Added GPC 9/3/13
-	if(GameObject.Find("Database") != null){
-		intelSys = GameObject.Find("Database").GetComponent(IntelSystem);
-	}
 	
 	var hexagonGrid:GameObject = GameObject.Find("HexagonGrid");
 	if(hexagonGrid != null)
 		inputController = hexagonGrid.GetComponent(InputController);
 
-	if(!notInGame && GameObject.Find("GUI System") != null)
-	{
-		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-		cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
-	}
-	
-	if(notInGame)
-	{
-		CheckTriggerToDisplay();
-	}
-	
-	Debug.Log("startedddd");
+	CheckTriggerToDisplay();
 
 }
 
 function Update () 
 {
-	/*if (componentSelected && Input.GetMouseButtonDown(0))
-	{
-		componentSelected = false;
-		if (selectedComponent)
-			selectedComponent.SetSelected(false);
-		selectedComponent = null;
-		doDispPic = false;
-	}*/
 	if(currentTapWait > 0)
 		currentTapWait--;
 			
@@ -157,7 +111,7 @@ function Update ()
 
 function OnGUI()
 {
-	if(notInGame && componentSelected)
+	if(componentSelected)
 	{
 		GUI.depth = -1;
 		Render();
@@ -168,17 +122,13 @@ function OnGUI()
 		Render();
 	}
 	
-	if(notInGame && tutorialPointers != null)
+	if(tutorialPointers != null)
 		tutorialPointers.Render();
-	else if(notInGame)
-		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 }
 
 public function Activate (disp : Tooltip, comp : InspectionComponent)
 {
 	componentSelected = true;
-	if (intelSys)
-		intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.arrow.icon)
@@ -211,8 +161,6 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 public function ActivateAndDeactivate(disp : Tooltip)
 {
 	componentSelected = true;
-	if (intelSys)
-		intelSys.toolTipOnScreen = true;
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
@@ -230,7 +178,6 @@ public function ActivateAndDeactivate(disp : Tooltip)
 public function Activate(disp : String)
 {
 	componentSelected = true;
-	intelSys.toolTipOnScreen = true;
 	FormatDisplay();
 }
 
@@ -290,21 +237,7 @@ private function Render()
 	GUI.skin = skin;
 	
 	GUI.DrawTexture(borderRect, border);
-	
-	//When the inspection window is pressed while the component is selected (GPC 9/3/13)
-	/*if(componentSelected && GUI.Button(dispRect, dispText))
-	{
-		if(!intelSys.checkTriggers()){
-			componentSelected = false;
-			if (selectedComponent)
-				selectedComponent.SetSelected(false);
-			selectedComponent = null;
-			doDispPic = false;
-		}
-	}*/
-	
-	/*if (doDispPic)
-		GUI.DrawTexture(dispPicRect, dispPic);*/
+
 	if (renderDouble)
 		RenderBoth();
 	else
@@ -322,20 +255,12 @@ public function NextTooltip()
 	{
 		SoundManager.Instance().playInspectionClose();
 		componentSelected = false;
-		if(intelSys)
-			intelSys.toolTipOnScreen = false;
 		currentTooltip = null;
 		yield WaitForSeconds(0.5);
-		
-		//Testing GPC 4/21/14
-		//if (inputController)
-			//inputController.SetEnabled(true);
+	
 	}
 	else
 	{
-		//Testing GPC 4/21/14
-		//if (inputController)
-			//inputController.SetEnabled(true);
 		SetTooltip();
 	}
 }
@@ -343,11 +268,6 @@ public function NextTooltip()
 private function SetTooltip()
 {
 	currentTooltip = tooltipList[0];
-	if (!notInGame && currentTooltip.hasDisplayed)
-	{
-		NextTooltip();
-		return;
-	}
 	if (currentTooltip.GetComponent())
 		currentTooltip.GetComponent().SetSelected(true);
 	if (currentTooltip.type == TooltipType.Notification)
@@ -375,10 +295,7 @@ private function RenderSingle()
 	shadowText.Display(currentTooltip.text, dispRect);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
-		if(notInGame)
-			dOS.HasDisplayed(currentToolTipIndex, false, true);
-		else
-			dOS.HasDisplayed(currentToolTipIndex, false, false);
+		dOS.HasDisplayed(currentToolTipIndex, false, true);
 		
 		
 		currentToolTipIndex++;
@@ -392,10 +309,7 @@ private function RenderBoth()
 	GUI.Label(dispBotRect, currentTooltip.text);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
-		if(notInGame)
-			dOS.HasDisplayed(currentToolTipIndex, false, true);
-		else
-			dOS.HasDisplayed(currentToolTipIndex, false, false);
+		dOS.HasDisplayed(currentToolTipIndex, false, true);
 			
 		currentToolTipIndex++;
 		NextTooltip();
@@ -419,7 +333,6 @@ public function IsActive() : boolean
 
 private var tapWait:int = 25;
 private var currentTapWait:int = 0;
-private var linkMade:boolean;
 private function CheckForInteraction() : boolean
 {
 	if (!currentTooltip)
@@ -434,126 +347,8 @@ private function CheckForInteraction() : boolean
 		else
 			return false;		
 	}
-	else if(currentTooltip.interaction == Interaction.SingleBuilding)
-	{
-		if(ModeController.selectedBuilding == currentTooltip.arrow.buildingOne)
-			return true;
-		else
-			return false;
-	}
-	else if(currentTooltip.interaction == Interaction.Linking)
-	{
-		/*
-		if(inputController.GetDragMode() == DragMode.Link)
-		{
-			waitingForRelease = true;
-			return false;
-		}
-		else if(waitingForRelease)
-		{
-			if(inputController.getState() != ControlState.Dragging )
-				return true;
-			else
-				return false;
-		}
-		*/
-		if(linkMade)
-		{
-			var db : Database = GameObject.Find("Database").GetComponent(Database);
-			db.isWaitingForLink = false;
-			linkMade = false;
-			return true;
-		}
-		else
-			return false;
-	}
-	else if(currentTooltip.interaction == Interaction.Undo)
-	{
-		if(mainMenu.GiveResponse().type == EventTypes.UNDO)
-			return true;
-		else
-			return false;
-	}
-	else if(currentTooltip.interaction == Interaction.Wait)
-	{
-		if(mainMenu.GiveResponse().type == EventTypes.WAIT)
-			return true;
-		else
-			return false;
-	}
-	else if(currentTooltip.interaction == Interaction.Pause)
-	{
-		if(mainMenu.GiveResponse().type == EventTypes.PAUSE)
-			return true;
-		else
-			return false;
-	}
 	
 	return false;
-}
-
-public function checkForLink()
-{
-//	if(currentArrow == null)
-//		return;
-//		
-//	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
-//	{
-//		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
-//			linkMade = true;
-//	}
-	//If code has reached here, then a link has been made
-	//Altered GPC 2/20/14
-
-	linkMade = true;
-	
-}
-
-// class to define a tooltip turn trigger
-public class TurnTrigger
-{
-	public var turn : int;
-	public var tooltip : Tooltip;
-	/*public var dispText : String;
-	public var dispPic : Texture2D;*/
-}
-
-public class Tooltip
-{
-	public var type : TooltipType;
-	public var text : String;
-	public var pic : Texture;
-	public var hasPriority : boolean;
-	private var inspectedComponent : InspectionComponent;
-	
-	public var toggleUndoButton : boolean = false;
-	public var toggleWaitButton : boolean = false;
-	
-	public var designerHeightTweak:float = 0;
-	
-	public var cameraTarget : GameObject;
-	
-	public var interaction : Interaction;
-	public var arrow : TutorialArrow;
-	
-	@System.NonSerializedAttribute
-	public var hasDisplayed : boolean = false;
-	
-	public function SetComponent(comp : InspectionComponent)
-	{
-		inspectedComponent = comp;
-	}
-	
-	public function GetComponent() : InspectionComponent
-	{
-		return inspectedComponent;
-	}
-}
-
-public enum TooltipType
-{
-	Alert, // dismissed after click
-	Notification // dismissed automatically after x seconds
 }
 
 
@@ -565,9 +360,7 @@ private function CheckTriggerToDisplay()
 		return;
 	for(currentTriggerIndex = 0;currentTriggerIndex < turnTriggers.length; currentTriggerIndex++)
 	{
-		if(!notInGame && dOS.WasAlreadyDisplayed(currentToolTipIndex, false, false))
-			currentToolTipIndex++;
-		else if(notInGame && dOS.WasAlreadyDisplayed(currentToolTipIndex, false, true))
+		if(dOS.WasAlreadyDisplayed(currentToolTipIndex, false, true))
 			currentToolTipIndex++;
 		else
 			Activate(turnTriggers[currentTriggerIndex].tooltip, null);
@@ -576,7 +369,6 @@ private function CheckTriggerToDisplay()
 
 public function FromScoreScreen()
 {
-	notInGame = true;
 	tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 	tutorialPointers.FromScoreScreen(true);
 	CheckTriggerToDisplay();

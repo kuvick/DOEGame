@@ -496,15 +496,19 @@ public class AnimatedButton
 	
 	private function DetectHover():boolean
 	{
-		if(Input.touchCount > 0)
+		if(GUI.enabled)
 		{
-			onTouchDevice = true;
-			return detectRect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
+			if(Input.touchCount > 0)
+			{
+				onTouchDevice = true;
+				return detectRect.Contains(Vector2(Input.touches[0].position.x, Screen.height - Input.touches[0].position.y));
+			}
+			else if(!onTouchDevice)
+			{
+				return detectRect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
+			}
 		}
-		else if(!onTouchDevice)
-		{
-			return detectRect.Contains(Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y));
-		}	
+		return false;
 	}
 	
 } // AnimatedButton

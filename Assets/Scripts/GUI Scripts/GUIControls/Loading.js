@@ -106,7 +106,7 @@ public class Loading extends GUIControl
 	public static var hasFinishedDelay : boolean  = false;
 	
 	public var panels:List.<Texture> = new List.<Texture>();
-	private var numOfNarrFolders = 14;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
+	private var numOfNarrFolders = 15;		// THIS should be the number of folders there are in Resources/NarrativePanels folder
 	private static var lastNarrShown : int = -1;
 	public var currentPanel:int = 0;
 	public var nextPanel:int = 0;

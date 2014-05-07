@@ -170,7 +170,8 @@ public class ScoreMenu extends GUIControl
 	public var dashboardButton:Texture;
 	private var dashboardButtonRect:Rect;
 
-	public var displayToolTips:boolean = false;
+	public var displayToolTipsOnEntry:boolean = false;
+	public var displayToolTipsOnScore:boolean = false;
 	private var inspectionDispRef : InspectionDisplay;
 	
 	public var starFillTexture:Texture;
@@ -202,6 +203,8 @@ public class ScoreMenu extends GUIControl
 	private var missionScoreST : ShadowedText;
 	private var statusST : ShadowedText;
 	private var honorST : ShadowedText;
+	
+	private var inspectionActivated:boolean = false;
 	
 	public enum CurrentScoreScreen
 	{
@@ -442,11 +445,21 @@ public class ScoreMenu extends GUIControl
 		GUI.Label(addedToCodexRect, " added to the Codex", yellowStyle);
 		
 		inspectionDispRef = gameObject.GetComponent(InspectionDisplay);
-		if(displayToolTips)
+		
+		var displayTips:boolean = true;
+		if(displayToolTipsOnEntry && PlayerPrefs.HasKey("displayToolTipsOnEntry"))
+		{
+			if(PlayerPrefs.GetInt("displayToolTipsOnEntry") == 0);
+				displayTips = false;
+		}
+		
+		if(displayToolTipsOnEntry && displayTips)
 		{
 			//var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
 			inspectionDispRef.FromScoreScreen();
-		}			
+			PlayerPrefs.SetInt("displayToolTipsOnEntry", 0);
+			
+		}
 		
 		codexRect = new Rect( screenRect.x, screenRect.y, screenRect.width, screenRect.height);
 		
@@ -553,6 +566,28 @@ public class ScoreMenu extends GUIControl
 			}
 			
 			//MAIN PART:
+			
+			if(!inspectionActivated && currentScreen == CurrentScoreScreen.MainScreen)
+			{
+				var displayTips:boolean = true;
+				if(displayToolTipsOnScore && PlayerPrefs.HasKey("displayToolTipsOnScore"))
+				{
+					if(PlayerPrefs.GetInt("displayToolTipsOnScore") == 0);
+						//displayTips = false;
+				}
+				
+				if(displayToolTipsOnScore && displayTips)
+				{
+					//var inspectionDisplay:InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+					inspectionDispRef.FromScoreScreen();
+					PlayerPrefs.SetInt("displayToolTipsOnScore", 1);
+					
+				
+				}
+				
+				inspectionActivated = true;
+				
+			}
 			
 			if(currentScreen == CurrentScoreScreen.MainScreen || currentScreen == CurrentScoreScreen.Transitioning)
 			{

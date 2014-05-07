@@ -623,6 +623,16 @@ public class LevelSelectMenu extends GUIControl
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 		}
 		// check whether to go directly to level instead of loading dashboard
+		
+		Debug.Log(lastUnlockedIndex + " is the last index and num of tutorials is" + levelsFromXML.numInitialTutorials + "..." + (tooltipDisplay != null) + "..." + tooltipDisplay);
+		
+		var displayTips:boolean = true;
+		if(PlayerPrefs.HasKey("MissionSelectScoreScreen"))
+		{
+			if(PlayerPrefs.GetInt("MissionSelectScoreScreen") == 0);
+				displayTips = false;
+		}
+		
 		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials || (unlockedLevels.Count > 0 && unlockedLevels[0] == levels[0]))
 		{
 			showSplash = true;
@@ -631,14 +641,16 @@ public class LevelSelectMenu extends GUIControl
 			var pointers : TutorialPointers = gameObject.GetComponent(TutorialPointers);
 			pointers.Disable();
 		}
-		else if (tooltipDisplay && lastUnlockedIndex - 2 == levelsFromXML.numInitialTutorials)
-		{
+		else if (displayTips && tooltipDisplay != null && ((lastUnlockedIndex - 2) == levelsFromXML.numInitialTutorials))
+		{				
 			var dOS : DisplayOnceSystem = new DisplayOnceSystem(false);
 			for (i = 0; i < dashboardTooltips.Length; i++)
 			{
 				if(!dOS.WasAlreadyDisplayed(i, false, true))
 					tooltipDisplay.Activate(dashboardTooltips[i], null);
 			}
+			PlayerPrefs.SetInt("MissionSelectScoreScreen", 0);
+			
 		}
 		
 		codexButtonAB =  new AnimatedButton(Color.blue, codexIconText, codexIconRect, Vector2(screenRect.x + sideButtonArea.x, screenRect.y + sideButtonArea.y));
