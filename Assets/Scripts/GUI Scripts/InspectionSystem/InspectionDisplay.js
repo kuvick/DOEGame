@@ -135,6 +135,7 @@ function Start ()
 	if(notInGame)
 	{
 		CheckTriggerToDisplay();
+		isEnabled = true;
 	}
 
 }
