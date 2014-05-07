@@ -80,9 +80,20 @@ private var outputCount:int;
 private var inputCount:int;
 private var cancelRect:Rect = Rect(Screen.width/2 - cancelBtnWidth, Screen.height - 50, cancelBtnWidth, cancelBtnHeight);
 
-public var unallocatedInputTex : Texture2D[];
+
+public var inputTopRing:Texture2D;
+public var inputBottomRing:Texture2D;
+public var outputTopRing:Texture2D;
+public var outputBottomRing:Texture2D;
+public var resourceIcons : ResourceImage[];
+
+//public var unallocatedInputTex : Texture2D[];
 public var allocatedInputTex : Texture2D[];
-public var unallocatedOutputTex : Texture2D[];
+
+public var unallocatedInputTex : FullResourceImage[];
+public var unallocatedOutputTex : FullResourceImage[];
+
+//public var unallocatedOutputTex : Texture2D[];
 public var allocatedOutputTex : Texture2D[];
 public var inputIcons : GameObject[];
 public var outputIcons : GameObject[];
@@ -113,7 +124,50 @@ private var linkCaseOverride : boolean = false;
 public static var fadeTimer : float = 0.5;
 private static var fadeScaler : float = 1.0;
 
+class ResourceImage
+{
+	public var icon:Texture2D;
+	public var color:Color;
+}
+
+class FullResourceImage
+{
+	public var icon:Texture2D;
+	public var topLayer:Texture2D;
+	public var bottomLayer:Texture2D;
+	public var color:Color;
+	private var oldColor:Color;
+	
+	public function Draw(rect:Rect)
+	{
+		oldColor = GUI.color;
+		GUI.color = color;
+		GUI.DrawTexture(rect, bottomLayer, ScaleMode.StretchToFill);
+		GUI.DrawTexture(rect, topLayer, ScaleMode.StretchToFill);
+		GUI.color = oldColor;
+		GUI.DrawTexture(rect, icon, ScaleMode.StretchToFill);
+	}
+}
+
 function Start () {
+
+	unallocatedInputTex = new FullResourceImage[resourceIcons.length];
+	unallocatedOutputTex = new FullResourceImage[resourceIcons.length];
+	for(var m:int = 0; m < resourceIcons.length; m++)
+	{
+		unallocatedInputTex[m] = new FullResourceImage();
+		unallocatedInputTex[m].icon = resourceIcons[m].icon;
+		unallocatedInputTex[m].color = resourceIcons[m].color;
+		unallocatedInputTex[m].topLayer = inputTopRing;
+		unallocatedInputTex[m].bottomLayer = inputBottomRing;
+
+		unallocatedOutputTex[m] = new FullResourceImage();
+		unallocatedOutputTex[m].icon = resourceIcons[m].icon;
+		unallocatedOutputTex[m].color = resourceIcons[m].color;
+		unallocatedOutputTex[m].topLayer = outputTopRing;
+		unallocatedOutputTex[m].bottomLayer = outputBottomRing;
+	}
+
 	menu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	buildings = gameObject.FindGameObjectsWithTag("Building");
 	numBuildings = buildings.length;

@@ -7,8 +7,8 @@ private var resourceTypeArray : ResourceType[] = [ ResourceType.Coal, ResourceTy
 private var inputs : int[] = new int[MAX_TYPES]; // keeps track of number of each type of input
 private var outputs : int[] = new int[MAX_TYPES]; // keeps track of number of each type of output
 
-private var inputTex : Texture2D[]; // input textures
-private var outputTex : Texture2D[]; // output textures
+private var inputTex : FullResourceImage[]; // input textures
+private var outputTex : FullResourceImage[]; // output textures
 private var skin : GUISkin;
 
 private var screenPos : Vector3; // building position on screen
@@ -77,20 +77,23 @@ function OnGUI()
 	}
 }
 
-private function DrawButton (index : int, texArray : Texture2D[], ioCount : int[], drawRect : Rect)
+private function DrawButton (index : int, texArray : FullResourceImage[], ioCount : int[], drawRect : Rect)
 {
-	SetGUITex (texArray[index]);
+	//SetGUITex (texArray[index]);
+	
+	texArray[index].Draw(drawRect);
+	
 	if (GUI.Button(drawRect, String.Empty + ioCount[index]))
 		ioCount[index]++;
 }
-
+/*
 private function SetGUITex(tex : Texture2D)
 {
 	skin.button.active.background = tex;
 	skin.button.hover.background = tex;
 	skin.button.normal.background = tex;
 }
-
+*/
 // check if mouse/tap is over any of the GUI buttons
 public function MouseOnGUI(pos : Vector2) : boolean
 {

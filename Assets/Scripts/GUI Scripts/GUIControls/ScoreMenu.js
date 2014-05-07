@@ -671,6 +671,12 @@ public class ScoreMenu extends GUIControl
 							if(!starAnimation.Render(starRect[j], starUnfilledTexture, starFillTexture, true))
 								numOfStarsAnimated++;
 						}
+						
+						if(numOfStarsAnimated == 5)
+						{
+							Debug.Log("Happy Dance!");
+							numOfStarsAnimated++;
+						}
 					}
 				
 				GUI.EndGroup();

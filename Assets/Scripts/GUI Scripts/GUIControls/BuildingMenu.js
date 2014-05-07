@@ -67,8 +67,8 @@ public class BuildingMenu extends GUIControl
 	private var leftScrollVisible:boolean = false;
 	private var rightScrollVisible:boolean = false;
 	
-	private var unallocatedInputTex : Texture2D[];
-	private var unallocatedOutputTex : Texture2D[];
+	private var unallocatedInputTex : FullResourceImage[];
+	private var unallocatedOutputTex : FullResourceImage[];
 	private var resourceIconList:List.<Rect>;
 	private var resourceIconHeight:float;
 	private var resourceIconHeightPercent:float = 0.08;
@@ -147,8 +147,8 @@ public class BuildingMenu extends GUIControl
 		
 		var cameraObj : GameObject = GameObject.Find("Main Camera");
 		var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
-		unallocatedInputTex = linkUI.allocatedInputTex;
-		unallocatedOutputTex = linkUI.allocatedOutputTex;
+		unallocatedInputTex = linkUI.unallocatedInputTex;
+		unallocatedOutputTex = linkUI.unallocatedOutputTex;
 		
 		databaseRef = GameObject.Find("Database").GetComponent(Database);
 	}
@@ -340,7 +340,16 @@ public class BuildingMenu extends GUIControl
 					{
 						if(buildingChoices[i].data.unallocatedOutputs[k] != ResourceType.None)//output != ResourceType.None)
 						{
-							GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[buildingChoices[i].data.unallocatedOutputs[k] - 1]);//output - 1]);
+							//GUI.DrawTexture(resourceIconList[j], unallocatedOutputTex[buildingChoices[i].data.unallocatedOutputs[k] - 1]);//output - 1]);							
+							if(unallocatedInputTex.length <= 0)
+							{
+								var cameraObj : GameObject = GameObject.Find("Main Camera");
+								var linkUI : LinkUI = cameraObj.GetComponent(LinkUI);
+								unallocatedInputTex = linkUI.unallocatedInputTex;
+								unallocatedOutputTex = linkUI.unallocatedOutputTex;
+							}
+							
+							unallocatedOutputTex[buildingChoices[i].data.unallocatedOutputs[k] - 1].Draw(resourceIconList[j]);
 							
 						}
 						else
@@ -355,7 +364,8 @@ public class BuildingMenu extends GUIControl
 					{
 						if(buildingChoices[i].data.unallocatedInputs[k] != ResourceType.None)//input != ResourceType.None)
 						{							
-							GUI.DrawTexture(resourceIconList[j], unallocatedInputTex[buildingChoices[i].data.unallocatedInputs[k] - 1]);//input - 1]);
+							//GUI.DrawTexture(resourceIconList[j], unallocatedInputTex[buildingChoices[i].data.unallocatedInputs[k] - 1]);//input - 1]);
+							unallocatedInputTex[buildingChoices[i].data.unallocatedInputs[k] - 1].Draw(resourceIconList[j]);
 						}
 						else
 						{

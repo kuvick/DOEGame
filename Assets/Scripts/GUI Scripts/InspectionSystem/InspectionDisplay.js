@@ -133,8 +133,6 @@ function Start ()
 	{
 		CheckTriggerToDisplay();
 	}
-	
-	Debug.Log("startedddd");
 
 }
 
