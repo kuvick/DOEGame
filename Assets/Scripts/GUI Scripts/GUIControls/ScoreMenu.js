@@ -104,7 +104,7 @@ public class ScoreMenu extends GUIControl
 	private var honorStarRect : List.<Rect> = new List.<Rect>();
 	private var numOfStarsAnimatedHonors:int = 0;
 	private var numOfStarsAnimated:int = 0;
-	private var starAnimation : AnimatedImage = new AnimatedImage();
+	private var starAnimation : AnimatedImage[] = new AnimatedImage[5];
 	private var starHonorsAnimation : AnimatedImage = new AnimatedImage();
 	private var starExtraHonorsAnimation : AnimatedImage = new AnimatedImage();
 	private var renderLastHonorsStar:boolean = false;
@@ -223,6 +223,9 @@ public class ScoreMenu extends GUIControl
 	public function Initialize()
 	{
 		super.Initialize();
+		
+		for(var t:int = 0; t < starAnimation.length; t++)
+			starAnimation[t] = new AnimatedImage();
 
 		var narrUI:NarrativeUI = gameObject.GetComponent(NarrativeUI);
 		numOfStars = 0;
@@ -668,14 +671,24 @@ public class ScoreMenu extends GUIControl
 							
 						if((currentScreen != CurrentScoreScreen.Transitioning) && j == numOfStarsAnimated && numOfStarsAnimated < numOfStars)
 						{
-							if(!starAnimation.Render(starRect[j], starUnfilledTexture, starFillTexture, true))
+							if(!starAnimation[0].Render(starRect[j], starUnfilledTexture, starFillTexture, true))
 								numOfStarsAnimated++;
 						}
 						
+						/*
 						if(numOfStarsAnimated == 5)
 						{
-							Debug.Log("Happy Dance!");
-							numOfStarsAnimated++;
+							starAnimation = new AnimatedImage();
+						}
+						*/
+					}
+					
+					if(numOfStarsAnimated == 5)
+					{
+						for(var m:int = 0; m < numOfStarsCould; m++)
+						{
+							if(!starAnimation[m].Render(starRect[m], starFillTexture, starFillTexture, true))
+									numOfStarsAnimated++;
 						}
 					}
 				

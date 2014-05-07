@@ -18,11 +18,17 @@ public class ShadowedText
 	private var iconRect:Rect;
 	private var iconShadowRect:Rect;
 	
+	public function ParseForHTML()
+	{
+		//text = Regex.Replace(text, "<[^]*>", "");
+	}
+	
 	//CONSTRUCTORS//
 	// USE FOR TITLES
 	public function ShadowedText(txt:String, guiStl:GUIStyle)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -43,6 +49,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, guiStl:GUIStyle, i:Texture)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -68,6 +75,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, disRect:Rect, guiStl:GUIStyle, transparentShadow:boolean)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = Color.white;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -86,6 +94,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, disRect:Rect, transparentShadow:boolean)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = Color.white;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -103,6 +112,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, disRect:Rect, transparentShadow:boolean, cr:Color)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = cr;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -120,6 +130,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, guiStl:GUIStyle)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -135,6 +146,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -149,6 +161,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, guiStl:GUIStyle, setDistance:float)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -164,6 +177,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, disRect:Rect, guiStl:GUIStyle)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -179,6 +193,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, setDistance:float)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -193,6 +208,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, disRect:Rect, setDistance:float)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = Color.white;
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -208,6 +224,7 @@ public class ShadowedText
 	public function ShadowedText(txt:String, disRect:Rect, guiStl:GUIStyle, setDistance:float)
 	{
 		text = txt;
+		ParseForHTML();
 		textColor = Color.white;
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
