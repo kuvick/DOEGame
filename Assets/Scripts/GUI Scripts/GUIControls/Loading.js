@@ -454,6 +454,11 @@ public class Loading extends GUIControl
 							intelSystem.resetTimer();
 						}
 						
+						var inspectionRef : InspectionDisplay = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+						
+						if (inspectionRef)
+							inspectionRef.SetEnabled(true);
+						
 						currentResponse.type = EventTypes.DONELOADING;
 					}
 				}

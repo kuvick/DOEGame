@@ -67,6 +67,8 @@ private var cameraControlRef : CameraControl;
 
 private var shadowText : ShadowedText;
 
+private var isEnabled : boolean;
+
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -127,6 +129,7 @@ function Start ()
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
+		isEnabled = false;
 	}
 	
 	if(notInGame)
@@ -420,7 +423,7 @@ private var currentTapWait:int = 0;
 private var linkMade:boolean;
 private function CheckForInteraction() : boolean
 {
-	if (!currentTooltip)
+	if (!isEnabled || !currentTooltip)
 		return false;
 	if(currentTapWait <= 0 && currentTooltip.interaction == Interaction.Tap)
 	{
@@ -505,6 +508,11 @@ public function checkForLink()
 
 	linkMade = true;
 	
+}
+
+public function SetEnabled (enabled : boolean)
+{
+	isEnabled = enabled;
 }
 
 // class to define a tooltip turn trigger
