@@ -1024,25 +1024,25 @@ public class LevelSelectMenu extends GUIControl
 					subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
 					message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
 					//objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
-					objective = "<size=22><b><i>" + unlockedLevels[activeLevelIndex].objectiveText + "</i></b></size>";
+					objective = "<b><i>" + unlockedLevels[activeLevelIndex].objectiveText + "</i></b>";
 					
 					//GPC 4/17 Dropshadows added. Move this to a separate function.					
-					var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
+					//var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
 					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
 					//GUI.Label(senderRect_desc, sender);	
 					messageLineText.Display(sender, senderRect_desc);
 					
-					var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
+					//var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
 					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
 					//GUI.Label(subjectRect, subject);	
 					messageLineText.Display(subject, subjectRect);
 					
-					var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
+					//var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
 					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
 					//GUI.Label(messageRect, message);	
 					messageLineText.Display(message, messageRect);
 					
-					var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
+					//var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
 					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
 					//objective = "<color=cyan>" + objective + "</color>";																														
 					//GUI.Label(objectiveRect, objective);
@@ -1059,20 +1059,26 @@ public class LevelSelectMenu extends GUIControl
 						sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
 						subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
 						message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
-						objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+						objective = "<b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b>";
 					}
 					else
 					{
 						sender = "<b>" + completedLevels[activeLevelIndex].senderName + "</b>";
 						subject = "<b>" + completedLevels[activeLevelIndex].subjectText + "</b>";
 						message = "<b>" + completedLevels[activeLevelIndex].messageText + "</b>";
-						objective = "<size=18><color=yellow><b>" + completedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
+						objective = "<b>" + completedLevels[activeLevelIndex].objectiveText + "</b>";
 					}
 										
+					/*
 					GUI.Label(senderRect_desc, sender);						
 					GUI.Label(subjectRect, subject);						
 					GUI.Label(messageRect, message);											
 					GUI.Label(objectiveRect, objective);
+					*/
+					messageLineText.Display(sender, senderRect_desc);
+					messageLineText.Display(subject, subjectRect);
+					messageLineText.Display(message, messageRect);				
+					objTextST.Display(objective, objectiveRect);
 
 				}
 					

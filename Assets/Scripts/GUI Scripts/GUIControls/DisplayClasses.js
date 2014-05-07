@@ -20,7 +20,9 @@ public class ShadowedText
 	
 	public function ParseForHTML()
 	{
-		//text = Regex.Replace(text, "<[^]*>", "");
+		//text = Regex.Replace(text, /\<[^\>]*\>/g, "");
+		//text = Regex.Replace(text, "<", "");
+		
 	}
 	
 	//CONSTRUCTORS//
