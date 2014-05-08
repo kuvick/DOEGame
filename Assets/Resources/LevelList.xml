@@ -432,7 +432,9 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level><!--Tutorial_GPC08-->
+	<!--Tutorial_GPC08-->
+	<!--Multiple start locations -->
+	<Level>
       <displayName>22</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
