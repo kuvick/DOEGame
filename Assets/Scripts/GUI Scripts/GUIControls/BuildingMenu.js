@@ -607,12 +607,14 @@ public class BuildingMenu extends GUIControl
 		}
 	}
 	
+	public var tintEnvironmentLocation:GameObject;
 	
 	// Used to place the building at the specified location,
 	// using the building in the current index of buildingChoices.
 	// It also deletes the building site where it is to place the building.
 	public function Place(index : int)
 	{
+		var buildingColor:Color = Color.white;
 		var position : Vector3 = selectedBuildingSite.transform.position;
 		
 		//Database.deleteBuildingSite(buildingData.GetLocation());
@@ -622,13 +624,27 @@ public class BuildingMenu extends GUIControl
 		
 		build = Instantiate(buildingChoices[index].building, position, buildingChoices[index].building.transform.rotation);
 		
+		if(tintEnvironmentLocation != null)
+		{
+			var tintEnvironment:TintEnvironment = tintEnvironmentLocation.GetComponent(TintEnvironment);
+		
+			var imageName : String = build.name.Replace(" (Clone)", "");
+			imageName = build.name.Replace("(Clone)", "");
+			
+			var childImage : GameObject = build.transform.Find(imageName + "Image").gameObject;
+			childImage.renderer.material.color = tintEnvironment.buildingTint;
+			buildingColor = tintEnvironment.buildingTint;
+		}
+		
 		//FOR THE VISUAL SCRIPT
 		var replaceName : String = build.name.Replace("(Clone)", "");
 		
 		if(replaceName == "CornFieldFarm")
 			replaceName = "CornfieldFarm";
 		
-		build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
+		var appearScript :BuildingAppearScript =  build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
+		
+		appearScript.setColor(buildingColor);
 		
 		ReplaceBuildingData (build, buildingChoices[index].data);
 		

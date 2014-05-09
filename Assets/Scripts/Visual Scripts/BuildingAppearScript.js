@@ -9,6 +9,14 @@ private var color1:Color;
 private var color2:Color;
 private var phaseTwo:boolean;
 private var speed:float = 0.05;
+private var useOtherColor:boolean = false;
+
+public function setColor(color:Color)
+{
+	useOtherColor = true;
+	color1 = color;
+}
+
 
 function Start ()
 {
@@ -30,8 +38,9 @@ function Start ()
 	blueMaterial.SetTextureOffset("_SubTex", Vector2(0,0));
 	blueMaterial.SetTextureScale("_SubTex", Vector2(1,1));
 	
-	color1 = Color.white;
 	color2 = Color.white;
+	if(!useOtherColor)
+		color1 = Color.white;
 	color1.a = 0f;
 	color2.a = 0f;
 	
