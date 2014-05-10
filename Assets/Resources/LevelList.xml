@@ -499,7 +499,7 @@
 	
 	<!--                                                                                           Secondary Objective -->
 	<!-- MEDIUM        AGENT -->	
-	<!-- Long queue, similtaneous action -->
+	<!-- Long queue, similtaneous action, three outputs -->
 	<Level><!--KU01 -->
       <displayName>23</displayName>
       <sceneName>KU01</sceneName>
@@ -550,9 +550,11 @@
       <contactRequirement></contactRequirement>
     </Level>	
     
-    <Level><!--GPC07 medium, requires long queue              ENGINEER-->
+	<!--GPC07 medium, requires long queue              ENGINEER-->
+	<!--Engineer, long queue, multiple start locations -->
+    <Level>
       <displayName>9</displayName>
-      <sceneName>GPC07</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <sceneName>GPC07_v2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Runner Gal</subjectText>
       <messageText>Aw man, this is going to be a bit of a haul. Gotta get way the heck across town to get that Hydro plant running. Oh well, that refinery isn’t going to fix itself.</messageText>
@@ -678,7 +680,7 @@
     </Level>
 	
 	                                                                                              <!--2/21 TWEAK CAMERA BOUNDS-->
-	<Level><!--GPC02 medium, requires "upstream" and reallocation  BUILD SITE-->
+	<Level><!--GPC02 medium, requires "upstream" and reallocation, multiple start locations  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
@@ -878,7 +880,9 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<Level> <!-- GPC05 AGENT -->
+	 <!-- GPC05 AGENT -->
+	  <!-- Engineer, Agnet, Multiple start locations, smart timing, reallocation, mutual linking-->
+	<Level>
       <displayName>1</displayName>
       <sceneName>GPC05</sceneName>
       <difficulty>2</difficulty>
