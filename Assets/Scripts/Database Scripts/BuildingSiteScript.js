@@ -22,6 +22,17 @@ function Start ()
 	var guiObj : GameObject = GameObject.Find("GUI System");
 	mainMenu = guiObj.GetComponent(MainMenu);
 	buildingMenu = guiObj.GetComponent(BuildingMenu);
+	//Debug.Log("boop!");
+
+	var buildingMenu:BuildingMenu = GameObject.Find("GUI System").GetComponent(BuildingMenu);
+	
+	
+	if(buildingMenu.tintEnvironmentLocation != null)
+	{
+		var tintEnvironment:TintEnvironment = buildingMenu.tintEnvironmentLocation.GetComponent(TintEnvironment);			
+		var childImage : GameObject = gameObject.transform.Find("BuildingSiteImage").gameObject;
+		childImage.renderer.material.color = tintEnvironment.buildingTint;
+	}
 }
 
 // Returns the location/coordinates of the building site

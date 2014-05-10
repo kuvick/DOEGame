@@ -755,7 +755,6 @@ public class BuildingMenu extends GUIControl
 	
 		buildingChoices[buildingsChosen[buildingsChosen.Count - 1]].setWasUsed(false);
 		buildingsChosen.RemoveAt(buildingsChosen.Count - 1);
-
 	}
 	
 	// Recalculates all of the resource icons to their proper positions
