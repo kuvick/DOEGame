@@ -359,7 +359,9 @@ private function SetTooltip()
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 	if (currentTooltip.cameraTarget)
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
-	currentTooltip.hasDisplayed = true;
+	var componentType = currentTooltip.GetComponent().GetType();
+	if (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator))
+		currentTooltip.hasDisplayed = true;
 		//Disabled for testing GPC 4/21/14
 		//inputController.SetEnabled(false);
 	FormatDisplay();
