@@ -411,8 +411,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 				var pointerScript1 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 				//Altered GPC 2/20/14
 				//pointerScript1.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
-				pointerScript1.checkForLink();
-				display.checkForLink();
+				pointerScript1.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
+				display.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
 			}
 			
 			return true;
@@ -429,8 +429,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 				var pointerScript2 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 				//Altered GPC 2/20/14
 				//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
-				pointerScript2.checkForLink();
-				display.checkForLink();
+				pointerScript2.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
+				display.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
 			}
 			
 			return true;
@@ -560,8 +560,8 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 			var pointerScript3 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 			//Altered GPC 2/20/14
 			//pointerScript3.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
-			pointerScript3.checkForLink();
-			display.checkForLink();
+			pointerScript3.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
+			display.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
 		}
     }
     /*else
@@ -877,8 +877,8 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			var pointerScript2 : TutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 			//Altered GPC 2/20/14
 			//pointerScript2.checkForLink(getBuildingAtIndex(outputBuildingIndex), getBuildingAtIndex(inputBuildingIndex));
-			pointerScript2.checkForLink();
-			display.checkForLink();
+			pointerScript2.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
+			display.checkForLink(inputBuilding.buildingPointer, outputBuilding.buildingPointer);
 		}
 			
 		return oldInputBuildingIndex;//hasResource;

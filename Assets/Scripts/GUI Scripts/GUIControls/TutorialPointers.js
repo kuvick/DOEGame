@@ -461,24 +461,33 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 
 
 //Altered GPC 2/20/14
-//public function checkForLink(b1 : GameObject, b2 : GameObject)
+public function checkForLink(b1 : GameObject, b2 : GameObject)
+//public function checkForLink()
+{
+	if(currentArrow == null)
+		return;
+		
+	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
+	{
+		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
+			linkMade = true;
+	}
+	//If code has reached here, then a link has been made
+	//Altered GPC 2/20/14
+
+	//linkMade = true;
+	
+}
+
+// for units
 public function checkForLink()
 {
-//	if(currentArrow == null)
-//		return;
-//		
-//	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
-//	{
-//		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
-//			linkMade = true;
-//	}
 	//If code has reached here, then a link has been made
 	//Altered GPC 2/20/14
 
 	linkMade = true;
 	
 }
-
 
 public enum Interaction
 {

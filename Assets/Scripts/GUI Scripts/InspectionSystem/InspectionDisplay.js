@@ -365,6 +365,11 @@ private function SetTooltip()
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
 	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator)))
 		currentTooltip.hasDisplayed = true;
+	if (currentTooltip.interaction == Interaction.Linking)
+	{
+		var db : Database = GameObject.Find("Database").GetComponent(Database);
+		db.isWaitingForLink = true;
+	}
 		//Disabled for testing GPC 4/21/14
 		//inputController.SetEnabled(false);
 	FormatDisplay();
@@ -501,7 +506,7 @@ private function CheckForInteraction() : boolean
 	return false;
 }
 
-public function checkForLink()
+public function checkForLink(buildingA : GameObject, buildingB : GameObject)
 {
 //	if(currentArrow == null)
 //		return;
@@ -513,9 +518,18 @@ public function checkForLink()
 //	}
 	//If code has reached here, then a link has been made
 	//Altered GPC 2/20/14
+	if (!currentTooltip)
+		return;
+	var buildingAFound : boolean = (buildingA == currentTooltip.linkBuildingA) || (buildingA == currentTooltip.linkBuildingB);
+	var buildingBFound : boolean = (buildingB == currentTooltip.linkBuildingA) || (buildingB == currentTooltip.linkBuildingB);
 
+	linkMade = buildingAFound && buildingBFound;
+}
+
+// for units
+public function checkForLink()
+{
 	linkMade = true;
-	
 }
 
 public function SetEnabled (enabled : boolean)
@@ -548,6 +562,8 @@ public class Tooltip
 	public var cameraTarget : GameObject;
 	
 	public var interaction : Interaction;
+	public var linkBuildingA : GameObject;
+	public var linkBuildingB : GameObject;
 	public var arrow : TutorialArrow;
 	
 	@System.NonSerializedAttribute
