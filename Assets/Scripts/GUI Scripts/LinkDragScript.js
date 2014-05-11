@@ -119,6 +119,7 @@ public class LinkDragScript extends GUIControl
 				lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
 				//lineRenderer.material.mainTexture = drawLinks.linkTextures[resourceType - 1];
 				lineRenderer.material.mainTexture = line;
+				//lineRenderer.material.mainTextureScale = Vector2(1, 1);
 				
 				// line renderer settings, defaulting for links
 				var lineColor : Color = Color.white;
