@@ -344,6 +344,8 @@ public class LevelSelectMenu extends GUIControl
 	private var mainMenuButtonAB:AnimatedButton;
 	private var startLevelButtonAB:AnimatedButton;
 	
+	private var messageLineST:ShadowedText;
+	
 	//ShadowedText
 	private var objTextST:ShadowedText;
 	
@@ -359,6 +361,8 @@ public class LevelSelectMenu extends GUIControl
 		messageText = new ShadowedText("", Rect(0,0,0,0), false);
 		messageLineText = new ShadowedText("", Rect(0,0,0,0), false);
 		objTextST = new ShadowedText("", Rect(0,0,0,0), false, new Color(247f/255f, 216f/255f, 39f/255f, 1f));
+		messageLineST = new ShadowedText("", Rect(0,0,0,0), levelSelectSkin.button, false);
+
 		
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
@@ -401,8 +405,11 @@ public class LevelSelectMenu extends GUIControl
 		
 		
 		levelGroupY = 0;//screenHeight * levelGroupYPercent;
-		levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
-		levelNodeFontHeight = levelNodeFontHeightPercent * screenHeight;
+		//levelTitleFontHeight = levelTitleFontHeightPercent * screenHeight;
+		//levelNodeFontHeight = levelNodeFontHeightPercent * screenHeight;
+		
+		levelTitleFontHeight = 0.8 * screenWidth;
+		levelNodeFontHeight = 0.015 * screenWidth;
 		
 		levelSelectSkin.button.fontSize = levelNodeFontHeight;
 		levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
@@ -586,7 +593,7 @@ public class LevelSelectMenu extends GUIControl
 		
 		//messageBuffer = new Vector2(.07 * splashBounds.width, .001 * splashBounds.height);
 		//var objectiveRightBuffer = 0.05 * splashBounds.width;
-		var objectiveRightBuffer = 0.2 * splashBounds.width;
+		var objectiveRightBuffer = 0.25 * splashBounds.width;
 		objectiveRect = new Rect(messageBuffer.x, messageBuffer.y+(boxHeight*5.5), emailMessageBackgroundRect.width - objectiveRightBuffer, boxHeight * 3);
 		
 		
@@ -624,8 +631,6 @@ public class LevelSelectMenu extends GUIControl
 		}
 		// check whether to go directly to level instead of loading dashboard
 		
-		Debug.Log(lastUnlockedIndex + " is the last index and num of tutorials is" + levelsFromXML.numInitialTutorials + "..." + (tooltipDisplay != null) + "..." + tooltipDisplay);
-		
 		var displayTips:boolean = true;
 		if(PlayerPrefs.HasKey("MissionSelectScoreScreen"))
 		{
@@ -657,6 +662,14 @@ public class LevelSelectMenu extends GUIControl
 		archiveButtonAB =  new AnimatedButton(Color.blue, archiveIconText, archiveIconRect, Vector2(screenRect.x + sideButtonArea.x, screenRect.y + sideButtonArea.y));
 		mainMenuButtonAB =  new AnimatedButton(Color.blue, mainMenuIconText, mainMenuIconRect, Vector2(screenRect.x, screenRect.y));
 		startLevelButtonAB =  new AnimatedButton(Color.yellow, startLevelButtonTexture, startLevelButton, Vector2(screenRect.x + missionBackgroundRect.x, screenRect.y + missionBackgroundRect.y));
+		
+		
+		subjectRect = createRect(Vector2(1062,55), 25f /1301f , 6f / 669f, 55f /669f, false, emailMessageBackgroundRect);
+		senderRect_desc = createRect(Vector2(1062,55), 25f /1301f , 80f / 669f, 55f /669f, false, emailMessageBackgroundRect);
+		messageRect = createRect(Vector2(1062,295), 25f /1301f , 164f / 669f, 295f /669f, false, emailMessageBackgroundRect);
+		objectiveRect = createRect(Vector2(1062,295), 25f /1301f , 416f / 669f, 295f /669f, false, emailMessageBackgroundRect);
+		
+		objectiveRect.width -= objectiveRightBuffer;
 		
 	}
 	
@@ -861,7 +874,8 @@ public class LevelSelectMenu extends GUIControl
 						//if(unlockedLevels[i].senderName != "")		
 							//subjectString += "Sender: " + unlockedLevels[i].senderName;						
 						//If a message has been selected, show the splash screen
-						if(GUI.Button(levelsToRender[i].bounds, subjectString))
+						
+						if(GUI.Button(levelsToRender[i].bounds, ""))
 						{
 							if (levelsToRender[i].sceneName.Contains("riefing"))
 							{
@@ -872,6 +886,7 @@ public class LevelSelectMenu extends GUIControl
 							activeLevelIndex = i;							
 							showSplash = true;
 						}
+						messageLineST.Display(subjectString, levelsToRender[i].bounds);
 
 					}
 				GUI.EndGroup();   // End of Message Group
@@ -1040,7 +1055,7 @@ public class LevelSelectMenu extends GUIControl
 					//var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
 					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
 					//GUI.Label(messageRect, message);	
-					messageLineText.Display(message, messageRect);
+					messageText.Display(message, messageRect);
 					
 					//var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
 					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
@@ -1077,7 +1092,7 @@ public class LevelSelectMenu extends GUIControl
 					*/
 					messageLineText.Display(sender, senderRect_desc);
 					messageLineText.Display(subject, subjectRect);
-					messageLineText.Display(message, messageRect);				
+					messageText.Display(message, messageRect);				
 					objTextST.Display(objective, objectiveRect);
 
 				}

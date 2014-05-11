@@ -129,6 +129,9 @@ public class CodexMenu extends GUIControl
 	public var showIcon:Texture;
 	public var hideIcon:Texture;
 	
+	private var titleST:ShadowedText;
+	private var descriptST:ShadowedText;
+	
 	
 	public function Initialize(){
 		super.Initialize();
@@ -259,6 +262,10 @@ public class CodexMenu extends GUIControl
        	
 		wholeEarned = Rect(earnedIconRect.x, earnedIconRect.y, earnedIconRect.width + earnedST.displayRect.width, earnedIconRect.height + earnedST.displayRect.height);
 		wholeLocked = Rect(lockedIconRect.x, lockedIconRect.y, lockedIconRect.width + lockedST.displayRect.width, lockedIconRect.height + lockedST.displayRect.height);
+		
+		
+		titleST = new ShadowedText("", Rect(0,0,0,0), titleStyle, false);
+		descriptST = new ShadowedText("", Rect(0,0,0,0), descriptStyle, false);
     	
 	}
 	
@@ -578,7 +585,7 @@ public class CodexMenu extends GUIControl
 		}
 		
 		//if(GUI.Button(zoomButtonRect, zoomButton))
-		if(zoomButtonAB.Render())
+		if(mainView && zoomButtonAB.Render())
 		{
 			zoomFromButton = true;
 			lastButtonZoom = !lastButtonZoom;
@@ -857,8 +864,11 @@ public class CodexMenu extends GUIControl
 		
 		
 			GUI.DrawTexture(infoBoxRect, infoBoxTexture, ScaleMode.StretchToFill);
-			GUI.Label(titleRect, currentEntry.name, titleStyle);
-			GUI.Label(descriptionRect, currentEntry.description, descriptStyle);
+			//GUI.Label(titleRect, currentEntry.name, titleStyle);
+			titleST.Display(currentEntry.name, titleRect);
+			
+			//GUI.Label(descriptionRect, currentEntry.description, descriptStyle);
+			descriptST.Display(currentEntry.description, descriptionRect);
 			
 		
 			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);

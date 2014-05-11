@@ -22,15 +22,32 @@ public class ShadowedText
 	{
 		//text = Regex.Replace(text, /\<[^\>]*\>/g, "");
 		//text = Regex.Replace(text, "<", "");
+		text = Regex.Replace(text, "<([^>]*)>", "");
 		
+		//if((useStyle && style.richText) || (!useStyle && GUI.skin.label.richText))
+			//text = "<b>" + text + "</b>";
+		
+	}
+	
+	public function ParseForHTML(txt:String):String
+	{
+		if(txt != null && txt != "")
+			txt = Regex.Replace(txt, "<([^>]*)>", "");
+
+		/*
+		if((useStyle && style.richText) || (!useStyle && GUI.skin.label.richText))
+			return "<b>" + txt + "</b>";
+		else
+			return txt;
+		*/
+		return txt;
 	}
 	
 	//CONSTRUCTORS//
 	// USE FOR TITLES
 	public function ShadowedText(txt:String, guiStl:GUIStyle)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -50,8 +67,7 @@ public class ShadowedText
 	// USE FOR TITLES w/ ICON
 	public function ShadowedText(txt:String, guiStl:GUIStyle, i:Texture)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = new Color(197f / 255f, 211f / 255f, 233f / 255f);
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -76,8 +92,7 @@ public class ShadowedText
 	// DEFAULT, SET DISTANCE, WITH GUISTYLE
 	public function ShadowedText(txt:String, disRect:Rect, guiStl:GUIStyle, transparentShadow:boolean)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = Color.white;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -95,8 +110,7 @@ public class ShadowedText
 	// DEFAULT, SET DISTANCE
 	public function ShadowedText(txt:String, disRect:Rect, transparentShadow:boolean)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = Color.white;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -113,8 +127,7 @@ public class ShadowedText
 	// DEFAULT, SET DISTANCE, unique color but black shadow
 	public function ShadowedText(txt:String, disRect:Rect, transparentShadow:boolean, cr:Color)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = cr;
 		shadowColor = Color.black;
 		if(transparentShadow)
@@ -131,8 +144,7 @@ public class ShadowedText
 	//Used to fill out all the attributes of the item, includes a GUIStyle
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, guiStl:GUIStyle)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -147,8 +159,7 @@ public class ShadowedText
 	//Used to fill out all the attributes of the item, no GUIStyle
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -162,8 +173,7 @@ public class ShadowedText
 	//Used to fill out all the attributes of the item, includes a GUIStyle, set distance
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, guiStl:GUIStyle, setDistance:float)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -178,8 +188,7 @@ public class ShadowedText
 	//Used to fill out all the attributes of the item, includes a GUIStyle, use default distance
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, disRect:Rect, guiStl:GUIStyle)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -194,8 +203,7 @@ public class ShadowedText
 	//Used to fill out all the attributes of the item, no GUIStyle, set distance
 	public function ShadowedText(txt:String, txtColor:Color, shdColor:Color, shdTransparency:float, shdPerDist:float, disRect:Rect, setDistance:float)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = txtColor;
 		shadowColor = shdColor;
 		shadowColor.a = shdTransparency;
@@ -209,8 +217,7 @@ public class ShadowedText
 	// If you want to use the default settings, no GUIStyle, but want to use a static distance for the text
 	public function ShadowedText(txt:String, disRect:Rect, setDistance:float)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = Color.white;
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -225,8 +232,7 @@ public class ShadowedText
 	// If you want to use the default settings, no GUIStyle, but want to use a static distance for the text
 	public function ShadowedText(txt:String, disRect:Rect, guiStl:GUIStyle, setDistance:float)
 	{
-		text = txt;
-		ParseForHTML();
+		text = ParseForHTML(txt);
 		textColor = Color.white;
 		shadowColor = Color.black;
 		shadowColor.a = 0.5f;
@@ -257,8 +263,7 @@ public class ShadowedText
 			
 			if(icon != null)
 				iconShadowRect = new Rect(iconRect.x + staticDistance, iconRect.y + staticDistance, iconRect.width, iconRect.height);
-		}
-			
+		}			
 	}
 	
 	private var previousColor:Color;
@@ -307,7 +312,7 @@ public class ShadowedText
 	
 	public function Display(txt:String, disRect:Rect)
 	{
-		text = txt;
+		text = ParseForHTML(txt);
 		displayRect = disRect;
 		updateShadowRect();
 	
@@ -513,6 +518,56 @@ public class AnimatedButton
 		return buttonPressed;
 	}
 	
+	public function Render(blink:boolean):boolean
+	{
+		buttonPressed = false;
+		if (DetectHover())
+		{
+			GUI.color = color;
+			rect.x += rect.width * 0.03;
+			rect.y += rect.height * 0.03;
+			//add boolean perhaps that changes to true that signifies that the settings need to be reset, to avoid
+			// having the second if statement sometimes not triggered.
+			
+			//setButtonTexture(codexIconText, codexIconTextPressed);
+			GUI.DrawTexture(rect, image);
+			if(GUI.Button(rect, ""))
+			{
+				buttonPressed = true;
+			}
+			
+			GUI.color = Color.white;
+			rect.x -= rect.width * 0.03;
+			rect.y -= rect.height * 0.03;
+		}
+		else
+		{
+			if(blink)
+			{
+				Blink();
+				GUI.color = currentColor;
+			}
+			
+			GUI.DrawTexture(rect, image);
+			GUI.color = Color.white;
+		}
+		
+		return buttonPressed;
+	}
+	
+	private var currentColor:Color = Color.white;
+	private var fadeTimer : float = 0.5;
+	private var fadeScaler : float = 1.0;
+	public function Blink()
+	{
+		fadeTimer += Time.smoothDeltaTime * fadeScaler;
+		if (fadeTimer >= 1 || fadeTimer <= 0)
+			fadeScaler *= -1;
+		Mathf.Clamp(fadeTimer, 0, 1);
+		
+		currentColor = Color.Lerp(color, Color.white, fadeTimer);
+	}
+	
 	private function DetectHover():boolean
 	{
 		if(GUI.enabled)
@@ -666,6 +721,15 @@ public class AnimatedImage
 		}
 	
 		return animate;
+	}
+	
+	
+	public function Blink()
+	{
+		var prevColor:Color = GUI.color;
+		GUI.color = Color.Lerp(Color(1,1,1,0.5), Color.white, LinkUI.fadeTimer);
+		GUI.DrawTexture(originalRect, currentImage);
+		GUI.color = prevColor;
 	}
 
 } //AnimatedImage

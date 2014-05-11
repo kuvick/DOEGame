@@ -457,7 +457,7 @@ public class NarrativePanelUI extends GUIControl
 			else
 			{
 				//if (GUI.Button(start, startButton))
-				if(startButtonAB.Render())
+				if(startButtonAB.Render(true))
 				{	
 					if(!inScoreScreen)
 					{
