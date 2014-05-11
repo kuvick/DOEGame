@@ -69,6 +69,8 @@ private var shadowText : ShadowedText;
 
 private var isEnabled : boolean;
 
+public static var activateOnStart : boolean = false;
+
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -131,7 +133,8 @@ function Start ()
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
-		isEnabled = false;
+		isEnabled = activateOnStart;
+		activateOnStart = false;
 	}
 	
 	if(notInGame)

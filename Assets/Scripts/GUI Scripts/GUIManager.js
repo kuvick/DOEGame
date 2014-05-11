@@ -367,6 +367,7 @@ private function RespondTo(response:GUIEvent)
 			
 		// Pause Menu responses
 		case EventTypes.RESTART:
+			InspectionDisplay.activateOnStart = true;
 			if(intelSystem != null && intelSystem.currentLevelName != "")
 			{
 				//Debug.Log(intelSystem.currentLevelName + " will be loaded.");
