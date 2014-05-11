@@ -346,6 +346,7 @@ public function NextTooltip()
 
 private function SetTooltip()
 {
+	var componentType;
 	currentTooltip = tooltipList[0];
 	if (!notInGame && currentTooltip.hasDisplayed)
 	{
@@ -353,14 +354,16 @@ private function SetTooltip()
 		return;
 	}
 	if (currentTooltip.GetComponent())
+	{
 		currentTooltip.GetComponent().SetSelected(true);
+		componentType = currentTooltip.GetComponent().GetType();
+	}
 	if (currentTooltip.type == TooltipType.Notification)
 		notificationTimer = Time.time + notificationLength;
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 	if (currentTooltip.cameraTarget)
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
-	var componentType = currentTooltip.GetComponent().GetType();
-	if (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator))
+	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator)))
 		currentTooltip.hasDisplayed = true;
 		//Disabled for testing GPC 4/21/14
 		//inputController.SetEnabled(false);
