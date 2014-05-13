@@ -176,6 +176,7 @@ public function Render()
 public function AddPointerToStart(pointer : TutorialArrow)
 {
 	pointers.Insert(0, pointer);
+	checkTrigger();
 }
 
 public function TriggerIsActive() : boolean
