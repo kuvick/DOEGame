@@ -69,7 +69,7 @@ private var shadowText : ShadowedText;
 
 private var isEnabled : boolean;
 
-public static var activateOnStart : boolean = false;
+public static var fromLoading : boolean = false;
 
 //public var designerHeightTweak:float = 0;
 
@@ -133,8 +133,8 @@ function Start ()
 	{
 		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 		cameraControlRef = GameObject.Find("Main Camera").GetComponent(CameraControl);
-		isEnabled = activateOnStart;
-		activateOnStart = false;
+		isEnabled = !fromLoading;
+		fromLoading = false;
 	}
 	
 	if(notInGame)
@@ -390,7 +390,7 @@ private function RenderSingle()
 {
 	//GUI.Box(dispRect, dispContent);
 	shadowText.Display(currentTooltip.text, dispRect);
-	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
+	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		if(notInGame)
 			dOS.HasDisplayed(currentToolTipIndex, false, true);
@@ -400,14 +400,14 @@ private function RenderSingle()
 		
 		currentToolTipIndex++;
 		NextTooltip();
-	}
+	}*/
 }
 
 private function RenderBoth()
 {
 	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
 	GUI.Label(dispBotRect, currentTooltip.text);
-	if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
+	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
 		if(notInGame)
 			dOS.HasDisplayed(currentToolTipIndex, false, true);
@@ -416,7 +416,7 @@ private function RenderBoth()
 			
 		currentToolTipIndex++;
 		NextTooltip();
-	}
+	}*/
 }
 
 public function MouseOnDisplay() : boolean

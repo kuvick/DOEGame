@@ -302,7 +302,8 @@ public class Loading extends GUIControl
 		
 		exploreCareersAB = new AnimatedButton(Color.green, websiteButton, jobWebsiteButtonRect, Vector2(screenRect.x, screenRect.y));
 		beginMissionAB = new AnimatedButton(Color.yellow, missionBeginButton, loadingStatusBoxRect, Vector2(screenRect.x, screenRect.y));
-
+		
+		InspectionDisplay.fromLoading = true;
 	}
 	
 	public function Render() 
