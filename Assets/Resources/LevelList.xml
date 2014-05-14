@@ -56,8 +56,8 @@
     </Level>
 	
 	<!-- TUTORIAL -->
-    <!-- Matching Outputs to Inputs -->
-	<Level><!--Tutorial3-->
+    <!-- Matching Outputs to Inputs
+	<Level>
       <displayName>0</displayName>
       <sceneName>Tutorial3</sceneName>
       <difficulty>0</difficulty>
@@ -71,6 +71,7 @@
       <missionRequirementIndex>0</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
+	-->
 	
 	<!-- TUTORIAL -->
                                    <!--**************** UNDO BUTTON *****************-->
