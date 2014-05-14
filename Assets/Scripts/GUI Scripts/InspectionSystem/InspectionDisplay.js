@@ -377,7 +377,7 @@ private function SetTooltip()
 		//inputController.SetEnabled(false);
 	FormatDisplay();
 	
-	
+	currentTapWait = tapWait;
 	/*if(currentTooltip.toggleUndoButton || currentTooltip.toggleWaitButton)
 		var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
 	if(currentTooltip.toggleUndoButton)
@@ -434,7 +434,7 @@ public function IsActive() : boolean
 	return componentSelected;
 }
 
-private var tapWait:int = 25;
+private var tapWait:int = 5;
 private var currentTapWait:int = 0;
 private var linkMade:boolean;
 private function CheckForInteraction() : boolean
