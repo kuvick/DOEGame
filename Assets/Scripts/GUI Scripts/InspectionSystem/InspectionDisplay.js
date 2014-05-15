@@ -44,7 +44,7 @@ private var selectedComponent : InspectionComponent;
 private var tooltipList : List.<Tooltip> = new List.<Tooltip>();
 private var currentTooltip : Tooltip;
 
-public var notificationLength : float = 3f;
+public var notificationLength : float = 5f;
 private var notificationTimer : float;
 
 //Added GPC 9/3/13
