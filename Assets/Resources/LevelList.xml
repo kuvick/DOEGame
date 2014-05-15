@@ -199,7 +199,6 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!-- DISABLED -->
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
 	<!--RV03-remix easy, minor false complexity -->
 	<Level>
@@ -611,6 +610,24 @@
 	  <objectiveText>Modernize the failing electrical system of the Canis Towers apartment complex.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>3</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<!--RV07-->
+	<!--MEDIUM               ENGINEER-->
+	<!--Reallocation-->
+	<Level>
+      <displayName>4</displayName>
+      <sceneName>RV07</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>1</difficulty>
+      <subjectText>Falling Sky</subjectText> <!-- PLACEHOLDER TEXT-->
+      <messageText>Billy City is expecting a big oil shipment. Or vats of Swiss Chocolate... can't remember, exactly. As long as we don't get the barrels mixed up its all good. </messageText>
+	  <objectiveText>Help Billy City Airport trade organic produce for Petroleum.</objectiveText>
+      <isPrimary>true</isPrimary>
+      <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>3</missionRequirementIndex>
