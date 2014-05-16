@@ -140,6 +140,7 @@ public class LevelNode
 
 public class LevelSelectMenu extends GUIControl
 {
+	public var displayTutorialToolTips:boolean = false;
 	public var levelsFromXML : LevelList;
 	
 	public var dashboardTooltips : Tooltip[];
@@ -646,7 +647,7 @@ public class LevelSelectMenu extends GUIControl
 			var pointers : TutorialPointers = gameObject.GetComponent(TutorialPointers);
 			pointers.Disable();
 		}
-		else if (displayTips && tooltipDisplay != null && ((lastUnlockedIndex - 2) == levelsFromXML.numInitialTutorials))
+		else if (displayTutorialToolTips || (displayTips && tooltipDisplay != null && ((lastUnlockedIndex - 1) == levelsFromXML.numInitialTutorials)))
 		{				
 			var dOS : DisplayOnceSystem = new DisplayOnceSystem(false);
 			for (i = 0; i < dashboardTooltips.Length; i++)
