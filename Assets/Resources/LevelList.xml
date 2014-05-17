@@ -93,14 +93,16 @@
 		
 	<!--                                                                                2/10 Secondary Objective Added -->
 	<!-- EASY -->
-    <!-- Secondary Objectives and Multiple Start Points -->
+    <!-- Multiple Originators. Mutual Links Possible -->
 	<Level><!--Tutorial_RV21 RENAMED-->
       <displayName>3</displayName>
-      <sceneName>Tutorial_RV21</sceneName>
+      <!--<sceneName>Tutorial_RV21</sceneName>-->
+	  <sceneName>Tutorial_RV14</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Many Beginnings</subjectText>
       <messageText>Now you're getting it... but we're just getting started. Lets see how clever you really are...</messageText>
-      <objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>
+      <!--<objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>-->
+	  <objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -129,14 +131,16 @@
 	
 	<!--                                                                                2/10 Secondary Objective Added -->
 	<!-- EASY -->
-    <!-- Multiple Originators. Mutual Links Possible -->
+	 <!-- Secondary Objectives and Multiple Start Points -->
 	<Level><!--RV14-->
       <displayName>3</displayName>
-      <sceneName>RV14</sceneName>
+      <!--<sceneName>RV14</sceneName>-->
+	  <sceneName>Tutorial_RV21</sceneName>
       <difficulty>0</difficulty>
       <subjectText>The Light of Invention</subjectText>
       <messageText>Congratulations! Edison spoke very highly of you. In her own way. The subtext was clearly there. Anyway, onward and upward!</messageText>
-      <objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>
+	  <objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>
+      <!--<objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>-->
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
