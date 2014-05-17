@@ -10,7 +10,7 @@ public var IconTex : Texture2D;
 public var TopBGTex : Texture2D;
 public var BottomBGTex : Texture2D;
 
-public var resourceColor: Color;
+private var resourceColor: Color;
 private var resourceColorTransparent: Color;
 
 public var type : ResourceType;
@@ -27,6 +27,7 @@ private var flashIcon : GameObject;
 
 private var transparentColor : Color = Color(1,1,1,0);
 private var solidColor : Color = Color(1,1,1,1);
+private var transparentRedColor : Color;
 
 private var selectedBuilding:GameObject;
 
@@ -51,7 +52,8 @@ enum IOType
 	OptOut
 }
 
-function Update () {
+function Update ()
+{
 	selectedBuilding = ModeController.getSelectedBuilding();
 	//transform.rotation = Quaternion.LookRotation(look) * Quaternion.Euler(90, 0, 0);
 	/*if (selectedBuilding == building.buildingPointer && ioType == IOType.Out && building.isActive)
@@ -72,7 +74,7 @@ function Update () {
 	
 	if(in2active)
 	{
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType))
 			in2active = false;
 	}
 	/*
@@ -99,6 +101,9 @@ public function OnSelected()
 public function Initialize(building : BuildingOnGrid)
 {
 	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
+	resourceColor = Color.white;
+	transparentRedColor = Color.red;
+	transparentRedColor.a = 0.5f;
 	
 	this.building = building;
 	
@@ -248,9 +253,9 @@ public function SetFixed(fix : boolean)
 			resourceColor.a = 0.5f;
 			var transparentWhite:Color = Color.white;
 			transparentWhite.a = 0.5f;
-			gameObject.renderer.material.SetColor("_Color2", resourceColor);
-			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
-			gameObject.renderer.material.SetColor("_Color1", transparentWhite);
+			gameObject.renderer.material.SetColor("_Color2", transparentRedColor);
+			gameObject.renderer.material.SetColor("_Color3", transparentRedColor);	
+			gameObject.renderer.material.SetColor("_Color1", Color.white);
 			SetFlashSolidColor(Color.red);
 		}
 		renderer.material.mainTexture = currentTex;

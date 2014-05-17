@@ -203,11 +203,17 @@ public class InGameAnimation
 	private var stopColorChange:boolean = false;
 	private var twiceScale:Vector3;
 	private var newScale:float;
+	private var hasCompletedRingAnimation:boolean;
+	private var ringImages:Object[];
+	private var currentIndex:int;
+	private var savedTexture:Texture;
 	
-	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color):boolean // returns true if animating, false if not
+	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType):boolean // returns true if animating, false if not
 	{
 		if(firstLoop)
 		{			
+			currentIndex = 0;
+			hasCompletedRingAnimation = false;
 			switchScale = false;
 			speed = 0.05;
 			stopColorChange = false;
@@ -233,6 +239,22 @@ public class InGameAnimation
 			newScale = 1.0f;
 			
 			firstLoop = false;
+			
+			var path : String;
+			if (type == IOType.In)
+			{
+				savedTexture = animatedObject.renderer.material.GetTexture("_TopBGTex");
+				path = "ResourceIcons/Input";
+			}
+			else
+			{
+				savedTexture = animatedObject.renderer.material.GetTexture("_BottomBGTex");
+				path = "ResourceIcons/Output";
+			}
+				
+			ringImages = Resources.LoadAll(path, Texture);
+			
+			selectCurrentFrame(type, ringImages.Length, 0.6);
 		}
 		
 		ringColor = Color.Lerp(ringColor, ringColorEnd, 0.05);
@@ -241,7 +263,6 @@ public class InGameAnimation
 		if(!switchScale)
 		{
 			animatedObject.transform.localScale += Vector3((defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed);
-			
 			
 			newScale -= speed;
 			animatedObject.renderer.material.SetTextureScale("_IconTex", Vector2(-newScale,-newScale));
@@ -254,6 +275,7 @@ public class InGameAnimation
 				
 			if(animatedObject.transform.localScale.x >= twiceScale.x)
 				switchScale = true;
+				
 		}
 		else
 		{
@@ -278,12 +300,45 @@ public class InGameAnimation
 			animatedObject.renderer.material.SetColor("_Color2", ringColorEnd);
 			animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
 			animatedObject.renderer.material.SetColor("_Color1", iconColorEnd); 	//UNALLOCATED SET
+			
+			if (type == IOType.In)
+				animatedObject.renderer.material.SetTexture("_TopBGTex", savedTexture);
+			else
+				animatedObject.renderer.material.SetTexture("_BottomBGTex", savedTexture);
+			
 			return false;
 		}
+		else if(currentIndex < ringImages.Length)
+		{
+			selectCurrentFrame(type, ringImages.Length, 0.6);
+		}
+		
 		animatedObject.renderer.material.SetColor("_Color2", ringColor);
 		animatedObject.renderer.material.SetColor("_Color3", ringColor);	
 		animatedObject.renderer.material.SetColor("_Color1", iconColor); 	//UNALLOCATED SET
 		return true;
 	}//end of animate
+	
+
+	private var previousTime:float = 0;
+	
+	public function selectCurrentFrame(type: IOType, numOfSlides:int, lengthOfAnimation:float)
+	{
+		if(previousTime <=0)
+			previousTime = Time.deltaTime;
+		else if(previousTime > (lengthOfAnimation / numOfSlides))
+		{
+			var newTexture:Texture = ringImages[currentIndex];
+			if (type == IOType.In)
+				animatedObject.renderer.material.SetTexture("_TopBGTex", newTexture);
+			else
+				animatedObject.renderer.material.SetTexture("_BottomBGTex", newTexture);
+				
+			currentIndex++;
+		}	
+		else
+			previousTime += Time.deltaTime;
+			
 		
+	}
 }

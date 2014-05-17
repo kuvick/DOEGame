@@ -127,7 +127,7 @@ function Start ()
 	if(hexagonGrid != null)
 		inputController = hexagonGrid.GetComponent(InputController);
 		
-	tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
+	tutorialPointers = gameObject.GetComponent(TutorialPointers);
 
 	if(!notInGame && GameObject.Find("GUI System") != null)
 	{
