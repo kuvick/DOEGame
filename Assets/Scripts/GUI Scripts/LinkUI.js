@@ -141,7 +141,7 @@ class FullResourceImage
 	public function Draw(rect:Rect)
 	{
 		oldColor = GUI.color;
-		GUI.color = color;
+		GUI.color = Color.white;
 		GUI.DrawTexture(rect, bottomLayer, ScaleMode.StretchToFill);
 		GUI.DrawTexture(rect, topLayer, ScaleMode.StretchToFill);
 		GUI.color = oldColor;
