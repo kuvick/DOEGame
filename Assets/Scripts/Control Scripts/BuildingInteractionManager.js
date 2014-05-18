@@ -118,7 +118,14 @@ static function HandleFirstClick(obj : Collider) : DragMode
 			var outputIndex : int = buildingOnGrid.FindLinkIndex(parseInt(obj.name.Split(" "[0])[1]), buildingOnGrid.allOutputs);
 			linkUIRef.SetSelectedOutIndex(outputIndex);
 		}
-		linkUIRef.SetLinkCaseOverride(true);
+		linkUIRef.SetLinkCaseOverride(true); // LINK REALLOCATION
+		var pSystem: LinkParticleSystem = obj.GetComponent(LinkParticleSystem);
+		pSystem.SelectLink(true);
+		blinkingReallocatedLink = obj.gameObject;
+		
+		var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
+		outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
+		
 	}
 	else
 	{
@@ -133,6 +140,8 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	else
 		return DragMode.Unit;
 }
+
+private static var blinkingReallocatedLink:GameObject = null;
 
 // will determine what to do with the tap at the given point
 static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
@@ -244,7 +253,9 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 		}
 	}
 	else
+	{
 		ModeController.setSelectedBuilding(null);
+	}
 	//linkUIRef.ResetLinkVariables();
 	linkUIRef.HighlightTiles();
 }
@@ -255,8 +266,10 @@ static function HandleReleaseAtPoint(obj : Collider)
 	
 	//Seeing if we can phase this out. GPC 4/21/14
 	//if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
-	if (!obj)
+	if (!obj) //LINK REALLOCATION FOR WHEN NO NEW LINK RESULTS
+	{
 		ModeController.setSelectedBuilding(null);
+	}
 	else
 	{
 		if (obj.name == "ClickCollider")//ResourceRing")
@@ -265,6 +278,13 @@ static function HandleReleaseAtPoint(obj : Collider)
 			if (building.name != "BuildingSite")
 				ModeController.setSelectedInputBuilding(building);
 		}
+	}
+	
+	if(blinkingReallocatedLink != null)
+	{
+		var pSystem: LinkParticleSystem = blinkingReallocatedLink.GetComponent(LinkParticleSystem);
+		pSystem.SelectLink(false);
+		blinkingReallocatedLink = null;
 	}
 	linkUIRef.HighlightTiles();
 }

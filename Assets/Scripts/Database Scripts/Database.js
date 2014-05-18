@@ -249,6 +249,11 @@ static public function getBuildingsOnGrid() : List.<BuildingOnGrid>{
 	return (buildingsOnGrid);
 }
 
+static public function getBuildingOnGridFromGO(obj:GameObject):BuildingOnGrid
+{
+	return getBuildingOnGridAtIndex(getBuildingIndex(obj));
+}
+
 static public function getBuildingOnGrid(coordinate:Vector3):BuildingOnGrid
 {
 	// If z is not zero, must have recieved its world position rather than coordinate
@@ -504,9 +509,9 @@ public function linkBuildings(outputBuildingIndex:int, inputBuildingIndex:int, r
 		inputBuilding.allocatedInputIcons.Add(tempIcon);
 		tempIcon.SetIndex(inputBuilding.allocatedInputIcons.Count - 1);*/
 		if (usedOptionalOutput)
-			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks);
+			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks, false);
 		else
-			outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks);
+			outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks, false);
 
 		inputBuilding.AllocateInput(resourceName, outputBuildingIndex);
 	    
@@ -625,7 +630,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		    outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
 		    outputBuilding.optionalOutputIcon.SetAllocated(true);
 		    outputBuilding.optionalOutputIcon.SetFlashActive(false);*/
-		    outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks);
+		    outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks, false);
     	}
     	// move the resource from the output building's unallocated list to allocated
     	else if (!allocatedOutSelected)
@@ -640,7 +645,7 @@ public function OverloadLink (outputBuildingIndex:int, inputBuildingIndex:int, s
 		    tempIcon.SetAllocated(true);
 		    outputBuilding.allocatedOutputIcons.Add(tempIcon);
 		    tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);*/
-		    outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks);
+		    outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks, false);
 	    }
 	    
 	    // swap the resource from the allocated list back into the unallocated list of the old output building
@@ -815,7 +820,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 		{
 			//outputBuilding.optionalOutputLinkedTo = inputBuildingIndex;
 			outputBuilding.DeallocateOptOutput(resourceName, drawLinks);
-			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks);
+			outputBuilding.AllocateOptOutput(resourceName, inputBuildingIndex, drawLinks, true);
 		}
 		else
 		{
@@ -824,7 +829,7 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			outputBuilding.outputLinkedTo.RemoveAt(selectedOutIndex);
 			outputBuilding.outputLinkedTo.Add(inputBuildingIndex);*/
 			outputBuilding.DeallocateOutput(oldInputBuildingIndex, resourceName, drawLinks);
-			outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks);
+			outputBuilding.AllocateOutput(resourceName, inputBuildingIndex, drawLinks, true);
 		}
 		
 		buildingsOnGrid[outputBuildingIndex] = outputBuilding;
@@ -987,7 +992,7 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 		/*outputBuilding.optionalOutputAllocated = true;
 		outputBuilding.optionalOutputLinkedTo = findBuildingIndex(inputBuilding);
 		outputBuilding.optionalOutputIcon.SetAllocated(true);	*/
-		outputBuilding.AllocateOptOutput(linkList[lastIndex].type, findBuildingIndex(inputBuilding), drawLinks);
+		outputBuilding.AllocateOptOutput(linkList[lastIndex].type, findBuildingIndex(inputBuilding), drawLinks, true);
 		optionalUsed = true;
 	}
 	else
@@ -1002,7 +1007,7 @@ function AddLink(inputBuilding : BuildingOnGrid, outputBuilding : BuildingOnGrid
 		tempIcon.SetAllocated(true);
 		outputBuilding.allocatedOutputIcons.Add(tempIcon);
 		tempIcon.SetIndex(outputBuilding.allocatedOutputIcons.Count - 1);*/
-		outputBuilding.AllocateOutput(linkList[lastIndex].type, findBuildingIndex(inputBuilding), drawLinks);
+		outputBuilding.AllocateOutput(linkList[lastIndex].type, findBuildingIndex(inputBuilding), drawLinks, true);
 	}
 	
 	//tempFoundIndex = inputBuilding.unallocatedInputs.IndexOf(linkList[lastIndex].type);
@@ -1963,13 +1968,13 @@ class BuildingOnGrid
 		return -1; // return not found
 	}
 	
-	public function AllocateOptOutput(resource : ResourceType, inputBuilding : int, drawLinks : DrawLinks) : boolean
+	public function AllocateOptOutput(resource : ResourceType, inputBuilding : int, drawLinks : DrawLinks, skipAnimation:boolean) : boolean
 	{
 		if (optOutput.resource != resource)
 			return false;
 		Debug.Log("how");
 		optOutput.Allocate(inputBuilding);
-		drawLinks.CreateLinkDraw(inputBuilding, index, resource, true);
+		drawLinks.CreateLinkDraw(inputBuilding, index, resource, true, skipAnimation);
 		return true;
 	}
 	
@@ -1983,7 +1988,7 @@ class BuildingOnGrid
 		return true;
 	}
 	
-	public function AllocateOutput(resource : ResourceType, inputBuilding : int, drawLinks : DrawLinks) : boolean
+	public function AllocateOutput(resource : ResourceType, inputBuilding : int, drawLinks : DrawLinks, skipAnimation:boolean) : boolean
 	{
 		var resourceIndex : int = FindResourceIndex(resource, unallOutputs);
 		if (resourceIndex < 0)
@@ -1993,7 +1998,7 @@ class BuildingOnGrid
 		ioPut.Allocate(inputBuilding);
 		unallOutputs.RemoveAt(resourceIndex);
 		allOutputs.Add(ioPut);
-		drawLinks.CreateLinkDraw(inputBuilding, index, resource, false);
+		drawLinks.CreateLinkDraw(inputBuilding, index, resource, false, skipAnimation);
 		return true;
 	}
 

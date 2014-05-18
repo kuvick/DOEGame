@@ -87,8 +87,9 @@ function SetLinkTexture (b1 : int, b2 : int, reset : boolean)
 
 // b2 = output building
 // b1 = input building
-function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUsed : boolean)
+function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUsed : boolean, skipAnimation:boolean)
 {
+	//Debug.Log("LINKDRAW");
 	// make sure buildings are valid
 	if (buildings[b1] == null || buildings[b2] == null)
 		return;
@@ -104,7 +105,7 @@ function CreateLinkDraw(b1 : int, b2 : int, resource : ResourceType, optionalUse
 	// set the link color based on resource type
 	linkColors[b1, b2] = linkColors[b2,b1] = resourceColors[resource - 1];
 	
-	AddParticleSystem(b1, b2, resource, optionalUsed, false);
+	AddParticleSystem(b1, b2, resource, optionalUsed, false, skipAnimation);
 }
 
 function CreateTraceDraw(b1 : int, b2 : int)
@@ -113,7 +114,7 @@ function CreateTraceDraw(b1 : int, b2 : int)
 	if (buildings[b1] == null || buildings[b2] == null)
 		return;
 		
-	AddParticleSystem(b1, b2, ResourceType.Power, false, true);
+	AddParticleSystem(b1, b2, ResourceType.Power, false, true, false);
 	StartCoroutine(TraceRemove(b1, b2));
 }
 
@@ -124,7 +125,7 @@ function TraceRemove(b1 : int, b2 : int)
 }
 
 // Creates the particle system for link visual
-function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean, isTrace : boolean)
+function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource : ResourceType, optionalUsed : boolean, isTrace : boolean, skipAnimation:boolean)
 {
 	var temp : ParticleSystem = Instantiate(linkParticleSystem, buildings[outputBuilding].transform.position, Quaternion.identity);
 	temp.gameObject.transform.position.y = 10;
@@ -177,30 +178,63 @@ function AddParticleSystem (inputBuilding : int, outputBuilding : int, resource 
 		temp.maxParticles = 30;
 	}
 	
-	StartCoroutine(LinkCreateAnimation(temp));
+	StartCoroutine(LinkCreateAnimation(temp, skipAnimation));
 }
 
 // When links are first made, animates quickly then gradually slows down
-function LinkCreateAnimation(link : ParticleSystem)
+
+function LinkCreateAnimation(link : ParticleSystem, skipAnimation:boolean)
 {
-	//Debug.Log("Link Start" + link);
-	var initialPlaybackSpeed : float = link.playbackSpeed;
-	link.playbackSpeed = link.startLifetime;
-	yield WaitForSeconds(1f);
-	if(link == null) // in case undo function is used
-		return;	
-	var slowdownStep : float = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
-	var tempSpeed : float = link.playbackSpeed - slowdownStep;
-	while (tempSpeed > initialPlaybackSpeed)
+	var initialPlaybackSpeed : float;
+	var slowdownStep : float;
+	var tempSpeed : float;
+	if(!skipAnimation)
 	{
-		link.playbackSpeed = tempSpeed;
-		yield WaitForSeconds(.25f);
+		//Debug.Log("Link Start" + link);
+		initialPlaybackSpeed = link.playbackSpeed;
+		link.playbackSpeed = link.startLifetime;
+		yield WaitForSeconds(1f);
 		if(link == null) // in case undo function is used
-		return;
-		tempSpeed -= slowdownStep;
+			return;	
+		slowdownStep = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
+		tempSpeed = link.playbackSpeed - slowdownStep;
+		while (tempSpeed > initialPlaybackSpeed)
+		{
+			link.playbackSpeed = tempSpeed;
+			yield WaitForSeconds(.25f);
+			if(link == null) // in case undo function is used
+			return;
+			tempSpeed -= slowdownStep;
+		}
+		link.playbackSpeed = initialPlaybackSpeed;
+		//Debug.Log("Link End" + link);
 	}
-	link.playbackSpeed = initialPlaybackSpeed;
-	//Debug.Log("Link End" + link);
+	else
+	{
+		var simulatedWaitTime:float = 0;
+		
+		//Debug.Log("Link Start" + link);
+		initialPlaybackSpeed = link.playbackSpeed;
+		link.playbackSpeed = link.startLifetime;
+		simulatedWaitTime += 1f;
+		if(link == null) // in case undo function is used
+			return;	
+		slowdownStep = (link.playbackSpeed - initialPlaybackSpeed) / 4f;
+		tempSpeed = link.playbackSpeed - slowdownStep;
+		while (tempSpeed > initialPlaybackSpeed)
+		{
+			link.playbackSpeed = tempSpeed;
+			simulatedWaitTime += .25f;
+			if(link == null) // in case undo function is used
+			return;
+			tempSpeed -= slowdownStep;
+		}
+		link.playbackSpeed = initialPlaybackSpeed;
+		link.playbackSpeed = link.startLifetime;
+		link.Simulate(simulatedWaitTime, true, false);
+		link.playbackSpeed = initialPlaybackSpeed;
+		link.Play();
+	}
 }
 
 function SetLinkActive(active : boolean, inputBuilding : int, outputBuilding : int)

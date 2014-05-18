@@ -45,6 +45,8 @@ private var iconAnimation : InGameAnimation = new InGameAnimation();
 private var in2active : boolean = false;
 private var active2in : boolean = false;
 
+private var highlightIcon:boolean = false;
+
 enum IOType
 {
 	In,
@@ -74,8 +76,16 @@ function Update ()
 	
 	if(in2active)
 	{
+		if(isAllocated && highlightIcon)
+			highlightIcon = false;
+		
 		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType))
 			in2active = false;
+	}
+	else if(highlightIcon)
+	{
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType))
+			highlightIcon = false;
 	}
 	/*
 	else if(active2in)
@@ -84,6 +94,11 @@ function Update ()
 			active2in = false;
 	}
 	*/
+}
+
+public function SelectForReallocation()
+{
+	highlightIcon = true;
 }
 
 public function OnSelected()

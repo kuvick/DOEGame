@@ -453,7 +453,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 {
 	// case if player directly selected a link to reallocate
-	if (linkCaseOverride)
+	if (linkCaseOverride) // LINK REALLOCATION
 	{
 		if (optionalOutputUsed && CheckForInput(b1, b2.optOutput.resource))//ionalOutput))
 		{
