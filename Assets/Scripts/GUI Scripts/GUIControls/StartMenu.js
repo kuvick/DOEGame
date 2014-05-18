@@ -218,7 +218,7 @@ public class StartMenu extends GUIControl
 		fontHeight = fontHeightPercent * screenHeight;
 		startMenuSkin.button.fontSize = fontHeight;
 
-		
+		SetUpForAnimatedBackground(backgroundText);
 		background = Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight);
 		creditsButtonRect = Rect((buttonSideBuffer * screenHeight), (buttonSideBuffer * screenHeight), generalButtonWidth, generalButtonHeight);
 		
@@ -343,9 +343,9 @@ public class StartMenu extends GUIControl
 	public function Render()
 	{
 		//GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
-		GUI.DrawTexture(background, currentTexture, ScaleMode.StretchToFill);
 		if (showSplash)
 		{
+			GUI.DrawTexture(background, currentTexture, ScaleMode.StretchToFill);
 			var newWidth : float = currentIcon.width * percentage;
 			var newHeight: float = currentIcon.height * percentage;
 			var iconRect : Rect = new Rect(screenWidth / 2 - newWidth / 2, screenHeight / 2 - newHeight / 2, newWidth, newHeight );
@@ -354,6 +354,8 @@ public class StartMenu extends GUIControl
 		}
 		else
 		{
+			AnimatedBackground(currentTexture);
+		
 			//GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
 			GUI.skin = startMenuSkin;
 			

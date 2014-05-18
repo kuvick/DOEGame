@@ -61,7 +61,8 @@ public class GameComplete extends GUIControl
 	
 	public function Render()
 	{   
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		//GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), background);
+		AnimatedBackground(background);
 		RenderCoins();
 		GUI.DrawTexture(ecrbLogoRect, ecrbLogo);
 		GUI.DrawTexture(congratsAgentRect, congratsAgent);

@@ -409,4 +409,54 @@ public class GUIControl extends MonoBehaviour
 	{
 		return Mathf.Min(Screen.width, Screen.height) / ratio;
 	}
+	
+	
+	private static var bgRect1:Rect = Rect(0,0,0,0);
+	private static var bgRect2:Rect = Rect(0,0,0,0);
+	private static var bgRectsHaveBeenSet:boolean = false;
+	private var bgSpeed:float = -1f;
+	public function AnimatedBackground(bg:Texture)
+	{
+		if(!bgRectsHaveBeenSet)
+			SetUpForAnimatedBackground(bg);
+		
+		GUI.DrawTexture(bgRect1, bg, ScaleMode.StretchToFill);
+		GUI.DrawTexture(bgRect2, bg, ScaleMode.StretchToFill);
+		
+		bgRect1.x += bgSpeed;
+		bgRect2.x += bgSpeed;
+		
+		if(bgRect2.xMin < 0 && bgRect1.xMax < 0)
+			bgRect1.x = bgRect2.xMax;
+
+		if(bgRect1.xMin < 0 && bgRect2.xMax < 0)
+			bgRect2.x = bgRect1.xMax;
+		
+	}
+	
+
+	public function SetUpForAnimatedBackground(bg:Texture)
+	{
+		if(bgRect1.Equals(Rect(0,0,0,0)))
+		{
+			bgRect1 = createRect(bg, 0,0,1f,false);
+			bgRect2 = createRect(bg, 0,0,1f,false);
+			bgRect2.x = bgRect1.xMax;
+			bgRectsHaveBeenSet = true;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

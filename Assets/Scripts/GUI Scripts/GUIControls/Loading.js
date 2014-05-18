@@ -308,8 +308,8 @@ public class Loading extends GUIControl
 	
 	public function Render() 
 	{
-		GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
-		
+		//GUI.DrawTexture(Rect(verticalBarWidth, horizontalBarHeight, screenWidth, screenHeight), backgroundText, ScaleMode.StretchToFill);
+		AnimatedBackground(backgroundText);
 		GUI.depth = 0;
 		GUI.BeginGroup(screenRect);
 			

@@ -922,7 +922,8 @@ public class LevelSelectMenu extends GUIControl
 		GUI.skin = levelSelectSkin;
 	
 		// Drawing background textures:
-		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText, ScaleMode.StretchToFill);
+		//GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText, ScaleMode.StretchToFill);
+		AnimatedBackground(backgroundText);
 		//GUI.DrawTexture(new Rect(0,0,lineOverlayText.width, lineOverlayText.height), lineOverlayText);
 		
 		if(saveSystem.currentPlayer != null)

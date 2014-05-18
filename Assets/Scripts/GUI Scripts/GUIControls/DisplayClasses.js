@@ -623,6 +623,11 @@ public class AnimatedImage
 	
 	}
 	
+	public function AdjustAnimationIncrease(speed:float)
+	{
+		incrementRate = speed;
+	}
+	
 	public function AnimatedImage()
 	{
 		color = Color.white;
@@ -723,6 +728,86 @@ public class AnimatedImage
 		return animate;
 	}
 	
+	public function Render(baseRect:Rect, imageS:Texture, imageE:Texture, shouldAnimate:boolean, incRate:float):boolean // returns true if animated
+	{
+		//originalRect = new Rect(r.x, r.y, r.width, r.height);
+		currentImage = imageS;
+		endImage = imageE;
+		
+		if(currentRect.Equals(Rect(0,0,0,0)))
+			currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+		
+		//objIconRecobjIconSize = originalRect
+		//objIconRect = currentRect
+		/*
+		var objIconRect: Rect = Rect(	padding + (originalRect.x + padding) * (i*2), 
+								0,
+								originalRect.x,
+								originalRect.y);
+								*/
+		//DISPLAYING OBJECTIVE ICON						
+		//if(resolvedObj && eventID == i && !firstLoop)
+		
+		if(firstLoop && shouldAnimate)
+			animate = true;
+		
+		
+		if(animate && !firstLoop)
+		{
+			
+			currentRect = Rect(	centerPos.x - ((baseRect.width + recIncrement) / 2), 
+								centerPos.y - ((baseRect.height + recIncrement) / 2),
+								baseRect.width + recIncrement,
+								baseRect.height + recIncrement);
+			
+
+			if(!switchScale)
+			{
+				recIncrement+= incRate;
+				if(recIncrement > totalSizeIncrease)
+					switchScale = true;
+			}
+			else
+			{
+				recIncrement-= incRate;
+				if(recIncrement <= 0)
+				{
+					color.a = 1.0f;
+					animate = false;
+					firstLoop = true;
+					//intelSystem.events[i].setIcon(setNewObjTexture);
+					currentImage = endImage;
+				}
+			}
+	
+		}
+		//GUI.DrawTexture(currentRect, intelSystem.events[i].getIcon()); 
+		GUI.DrawTexture(currentRect, currentImage);
+				
+		
+		if(animate)
+		{
+			if(firstLoop)
+			{
+				color.a = 0f;
+				recIncrement = 0;
+				switchScale = false;
+				currentRect = new Rect(baseRect.x, baseRect.y, baseRect.width, baseRect.height);
+				centerPos = Vector2(currentRect.x + currentRect.width / 2, currentRect.y + currentRect.height / 2);
+				firstLoop = false;
+			}
+			
+			color.a += speedColor;
+			
+			GUI.color = color;
+			
+			GUI.DrawTexture(currentRect, endImage);
+			
+			GUI.color = Color.white;
+		}
+	
+		return animate;
+	}
 	
 	public function Blink()
 	{

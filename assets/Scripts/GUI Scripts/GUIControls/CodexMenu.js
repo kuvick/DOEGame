@@ -545,7 +545,8 @@ public class CodexMenu extends GUIControl
 			}
 		}
 	
-		GUI.DrawTexture(backgroundRect, backgroundTexture);
+		//GUI.DrawTexture(backgroundRect, backgroundTexture);
+		AnimatedBackground(backgroundTexture);
 		
 		if(mainView)
 		{
