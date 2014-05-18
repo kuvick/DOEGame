@@ -622,6 +622,15 @@ public function SetFailureTrace(path : List.<EventScript>)
 	doCompletePan = false;
 	speed = 5f;
 	animateCamera = true;
+	
+	for (var i : int = 0; i < path.Count; i++)
+	{
+		if (path[i].event.time > 0)
+		{
+			path.RemoveAt(i);
+			i--;
+		}
+	}
 }
 
 private var nextPoint:Vector3;
