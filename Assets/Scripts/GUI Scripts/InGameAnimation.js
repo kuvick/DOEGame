@@ -68,7 +68,7 @@ public class InGameAnimation
 		{			
 			switchScale = false;
 			
-			newMaterial = Resources.Load("BuildingSite/BuildingAppear") as Material;
+			newMaterial = Resources.Load("InGameAnimation") as Material;
 			
 			animatedObject.renderer.material = newMaterial;
 			
