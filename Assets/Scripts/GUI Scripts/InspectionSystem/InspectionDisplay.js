@@ -366,7 +366,7 @@ private function SetTooltip()
 	else if (inputController && currentTooltip.type == TooltipType.Alert)
 	if (currentTooltip.cameraTarget)
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
-	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator)))
+	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator) && componentType != typeof(UpgradeIcon)))
 		currentTooltip.hasDisplayed = true;
 	if (currentTooltip.interaction == Interaction.Linking)
 	{
