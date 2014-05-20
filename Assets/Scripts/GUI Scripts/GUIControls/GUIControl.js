@@ -413,25 +413,38 @@ public class GUIControl extends MonoBehaviour
 	
 	private static var bgRect1:Rect = Rect(0,0,0,0);
 	private static var bgRect2:Rect = Rect(0,0,0,0);
+	private static var bgRect3:Rect = Rect(0,0,0,0);
 	private static var bgRectsHaveBeenSet:boolean = false;
 	private var bgSpeed:float = -1f;
 	public function AnimatedBackground(bg:Texture)
 	{
 		if(!bgRectsHaveBeenSet)
 			SetUpForAnimatedBackground(bg);
-		
 		GUI.DrawTexture(bgRect1, bg, ScaleMode.StretchToFill);
 		GUI.DrawTexture(bgRect2, bg, ScaleMode.StretchToFill);
+		GUI.DrawTexture(bgRect3, bg, ScaleMode.StretchToFill);
 		
 		bgRect1.x += bgSpeed;
 		bgRect2.x += bgSpeed;
+		bgRect3.x += bgSpeed;
 		
+		
+		/*
 		if(bgRect2.xMin < 0 && bgRect1.xMax < 0)
 			bgRect1.x = bgRect2.xMax;
 
 		if(bgRect1.xMin < 0 && bgRect2.xMax < 0)
 			bgRect2.x = bgRect1.xMax;
+		*/
 		
+		// 1 - 2 - 3
+		
+		if(bgRect1.xMax < 0)
+			bgRect1.x = bgRect3.xMax;
+		if(bgRect2.xMax < 0)
+			bgRect2.x = bgRect1.xMax;
+		if(bgRect3.xMax < 0)
+			bgRect3.x = bgRect2.xMax;
 	}
 	
 
@@ -441,7 +454,9 @@ public class GUIControl extends MonoBehaviour
 		{
 			bgRect1 = createRect(bg, 0,0,1f,false);
 			bgRect2 = createRect(bg, 0,0,1f,false);
+			bgRect3 = createRect(bg, 0,0,1f,false);
 			bgRect2.x = bgRect1.xMax;
+			bgRect3.x = bgRect2.xMax;
 			bgRectsHaveBeenSet = true;
 		}
 	}
