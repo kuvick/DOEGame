@@ -172,7 +172,7 @@ public function Initialize(building : BuildingOnGrid)
 	if (ioType == IOType.OptOut)
 	{
 		index = -1;
-		SetFlashActive(true);
+		//SetFlashActive(true);
 		SetFixed(false);
 		/*solidColor = Color.red;
 		renderer.material.mainTexture = brokenTex;*/
@@ -271,7 +271,7 @@ public function SetFixed(fix : boolean)
 			gameObject.renderer.material.SetColor("_Color2", transparentRedColor);
 			gameObject.renderer.material.SetColor("_Color3", transparentRedColor);	
 			gameObject.renderer.material.SetColor("_Color1", Color.white);
-			SetFlashSolidColor(Color.red);
+			//SetFlashSolidColor(Color.red);
 		}
 		renderer.material.mainTexture = currentTex;
 	}
