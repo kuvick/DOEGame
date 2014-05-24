@@ -93,7 +93,7 @@ function Update ()
 		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColor, resourceColor, Color.white))
 			active2in = false;
 	}
-	*/
+	*/	
 }
 
 public function SelectForReallocation()
@@ -261,6 +261,7 @@ public function SetFixed(fix : boolean)
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
 			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
+			SetFlashActive(true);
 		}
 		else
 		{
@@ -272,6 +273,7 @@ public function SetFixed(fix : boolean)
 			gameObject.renderer.material.SetColor("_Color3", transparentRedColor);	
 			gameObject.renderer.material.SetColor("_Color1", Color.white);
 			//SetFlashSolidColor(Color.red);
+			SetFlashActive(false);
 		}
 		renderer.material.mainTexture = currentTex;
 	}

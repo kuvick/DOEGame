@@ -12,6 +12,8 @@ public class StartMenu extends GUIControl
 {
 	// Textures
 		//Start Menu:
+		
+	private static var playStartScreen = true;	
 	public var splashRedAxonBG:Texture;
 	public var splashRedAxonIcon:Texture;
 	public var splashDOEBG:Texture;
@@ -252,8 +254,9 @@ public class StartMenu extends GUIControl
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		
 		//RiffSplashScreens();
-		SetSplash(showSplash);//nextLevel.playSplash);
+		//SetSplash(showSplash);//nextLevel.playSplash);
 		
+		SetSplash(playStartScreen);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.startMenuMusic;
 		
@@ -343,7 +346,8 @@ public class StartMenu extends GUIControl
 	public function Render()
 	{
 		//GUI.DrawTexture(background, currentTexture, ScaleMode.ScaleAndCrop);
-		if (showSplash)
+		//if (showSplash)
+		if (playStartScreen)
 		{
 			GUI.DrawTexture(background, currentTexture, ScaleMode.StretchToFill);
 			var newWidth : float = currentIcon.width * percentage;
@@ -838,7 +842,8 @@ public class StartMenu extends GUIControl
 	
 	public function SetSplash(show:boolean)
 	{
-		showSplash = show;
+		showSplash = playStartScreen;
+		//showSplash = show;
 		if (show)
 		{
 			RiffSplashScreens();
@@ -853,7 +858,8 @@ public class StartMenu extends GUIControl
 	private function RiffSplashScreens():IEnumerator
 	{
 		//showSplash = true;
-		if (showSplash)
+		//if (showSplash)
+		if (playStartScreen)
 		{
 			#if (!UNITY_WEBPLAYER)
 			MetricContainer.StartSession();
@@ -867,6 +873,7 @@ public class StartMenu extends GUIControl
 			currentIcon = splashRedAxonIcon;
 			yield WaitForSeconds(2);
 			showSplash = false;
+			playStartScreen = false;
 		}
 		currentTexture = backgroundText;
 		currentScreen = CurrentStartScreen.FirstScreen;
