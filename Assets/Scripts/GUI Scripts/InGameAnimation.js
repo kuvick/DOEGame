@@ -241,18 +241,30 @@ public class InGameAnimation
 			firstLoop = false;
 			
 			var path : String;
+			
+			savedTexture = animatedObject.renderer.material.GetTexture("_TopBGTex");
+			
 			if (type == IOType.In)
 			{
-				savedTexture = animatedObject.renderer.material.GetTexture("_TopBGTex");
+				//savedTexture = animatedObject.renderer.material.GetTexture("_BottomBGTex");
 				path = "ResourceIcons/Input";
+				
+				var tempArray:Object[] = Resources.LoadAll(path, Texture);
+				ringImages = new Object[tempArray.Length * 2];
+				
+				for(var g:int = 0; g < tempArray.Length; g++)
+				{
+					ringImages[g] = tempArray[g];
+					ringImages[g + tempArray.length] = tempArray[g];					
+				}				
 			}
 			else
 			{
-				savedTexture = animatedObject.renderer.material.GetTexture("_BottomBGTex");
+				//savedTexture = animatedObject.renderer.material.GetTexture("_TopBGTex");
 				path = "ResourceIcons/Output";
+				ringImages = Resources.LoadAll(path, Texture);
 			}
 				
-			ringImages = Resources.LoadAll(path, Texture);
 			
 			selectCurrentFrame(type, ringImages.Length, 0.6);
 		}
@@ -301,11 +313,11 @@ public class InGameAnimation
 			animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
 			animatedObject.renderer.material.SetColor("_Color1", iconColorEnd); 	//UNALLOCATED SET
 			
-			if (type == IOType.In)
-				animatedObject.renderer.material.SetTexture("_TopBGTex", savedTexture);
-			else
-				animatedObject.renderer.material.SetTexture("_BottomBGTex", savedTexture);
-			
+			//if (type == IOType.In)
+				//animatedObject.renderer.material.SetTexture("_BottomBGTex", savedTexture);
+			//else
+			animatedObject.renderer.material.SetTexture("_TopBGTex", savedTexture);
+						
 			return false;
 		}
 		else if(currentIndex < ringImages.Length)
@@ -329,10 +341,11 @@ public class InGameAnimation
 		else if(previousTime > (lengthOfAnimation / numOfSlides))
 		{
 			var newTexture:Texture = ringImages[currentIndex];
-			if (type == IOType.In)
-				animatedObject.renderer.material.SetTexture("_TopBGTex", newTexture);
-			else
-				animatedObject.renderer.material.SetTexture("_BottomBGTex", newTexture);
+			//if (type == IOType.In)
+			//	animatedObject.renderer.material.SetTexture("_BottomBGTex", newTexture);
+			//else
+			animatedObject.renderer.material.SetTexture("_TopBGTex", newTexture);
+				
 				
 			currentIndex++;
 		}	
