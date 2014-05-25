@@ -213,7 +213,8 @@ public class CodexMenu extends GUIControl
 		
 		fullCodex = playerData.codexData.codices;
 		
-		SetupRectangles();
+		//UpdateST
+    	codexTitleST = new ShadowedText("Codex", codexStyle, codexIcon);
 		
 		instructionRect = createRect(Vector2(500, 60), 0,0, 60/1080, false);
 		instructionRect.x = padding * 2;
@@ -222,10 +223,6 @@ public class CodexMenu extends GUIControl
 		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
     	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
     	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
-    	
-    	
-    	//UpdateST
-    	codexTitleST = new ShadowedText("Codex", codexStyle, codexIcon);
     	
     	
     	backButtonAB  = new AnimatedButton(Color.blue, backButtonTexture, backButtonRect);
@@ -245,7 +242,6 @@ public class CodexMenu extends GUIControl
     	earnedIconRect = createRect(showIcon, 0,0, 0.085, false);
     	earnedIconRect.x = padding;
     	earnedIconRect.y = viewST.displayRect.y + viewST.displayRect.height + padding * 2;
-    	
     	lockedIconRect = Rect(earnedIconRect.x, earnedIconRect.y + earnedIconRect.height + padding, earnedIconRect.width, earnedIconRect.height);
     
     	
@@ -254,6 +250,7 @@ public class CodexMenu extends GUIControl
     	viewRect = new Rect(viewRect.x + earnedIconRect.width, earnedIconRect.y + (labelRect.y/2), labelRect.x, labelRect.y);
     	
     	earnedST = new ShadowedText("Earned", viewRect, viewStyle, false);
+    	SetupRectangles();
     	
     	labelRect = style.CalcSize(GUIContent("Locked"));
     	viewRect = new Rect(viewRect.x, lockedIconRect.y + (labelRect.y/2), labelRect.x, labelRect.y);
@@ -311,6 +308,7 @@ public class CodexMenu extends GUIControl
 	private var lastMousePos: Vector2;
 	private var useMouse:boolean;
 	private var originalYHexGroup:float;
+	private var originalXHexGroup:float;
 	private var startMousePosition:Vector2;
 	private var startTapPosition:Vector2;
 	private var checkDelta : int;
@@ -408,9 +406,9 @@ public class CodexMenu extends GUIControl
 					{
 						hexGroup.x = Screen.width - hexGroup.width;
 					}
-					else if(hexGroup.xMin > 0)
+					else if(hexGroup.xMin > originalXHexGroup)
 					{
-						hexGroup.x = 0;
+						hexGroup.x = originalXHexGroup;
 					}
 					
 					if(	hexGroup.yMax < Screen.height)
@@ -933,7 +931,8 @@ public class CodexMenu extends GUIControl
 		startHex.x = startHexBG.width / 2 - startHex.width / 2;
 		startHex.y = startHexBG.height / 2 - startHex.height / 2;
 		
-		currentNumOfCol = (screenWidth / startHex.width) + 2;
+		//currentNumOfCol = (screenWidth / startHex.width) + 2;
+		currentNumOfCol = fullCodex.Count / 2;
 		
 		var row:int = -1;
 		
@@ -978,14 +977,22 @@ public class CodexMenu extends GUIControl
 		//i % 5 for width
 		// if i % 5 = 0 , start of new row
 		
+		/*
 		hexGroup = new Rect(0,codexLabelRect.height * 1.3,
 				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol+1),
 				(row + 2) * tempHexBG.height);
-				
+		*/		
+		
+		hexGroup = new Rect(earnedST.displayRect.x + earnedST.displayRect.width,
+				viewST.displayRect.y,
+				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol+1),
+				(row + 2) * tempHexBG.height);
+		
 		totalRows = row;
 	
 	
 		originalYHexGroup = hexGroup.y;
+		originalXHexGroup = hexGroup.x;
 	
 		
 		
