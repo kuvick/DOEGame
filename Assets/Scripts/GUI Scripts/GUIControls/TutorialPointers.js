@@ -8,6 +8,7 @@ Description: See comments below for use.
 #pragma strict
 
 public var pointers:List.<TutorialArrow> = new List.<TutorialArrow>();
+private var renderList : List.<ArrowRender> = new List.<ArrowRender>();
 private var mainMenu:MainMenu;
 private var intelSystem:IntelSystem;
 //private var inputController:InputController;
@@ -52,17 +53,18 @@ function Start()
 	dOS = new DisplayOnceSystem(!notInGame);
 	
 	linkMade = false;
+	
+	if(!notInGame)
+	{
+		mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
+		database = GameObject.Find("Database").GetComponent(Database);
+		mainCamera = GameObject.Find("Main Camera").GetComponent(Camera);
+		inspDispRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+	}
+		
 	if(pointers.Count > 0)
 	{
-		if(!notInGame)
-		{
-			mainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-			intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
-			database = GameObject.Find("Database").GetComponent(Database);
-			mainCamera = GameObject.Find("Main Camera").GetComponent(Camera);
-			inspDispRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
-		}
-		
 		currentArrow = null;
 		checkTrigger();
 		hasPointers = true;
@@ -178,6 +180,84 @@ public function Render()
 		
 	}//end of hasPointers
 }// end of Render
+
+private function RenderArrow(toRender : ArrowRender) : boolean
+{
+	if(toRender.arrow.interaction == Interaction.Linking)
+	{
+		var newCurrentPoint:Vector3 = toRender.arrow.getCurrentPoint();
+		
+		if(toRender.arrow.isGoingStartToEnd())
+		{
+			newCurrentPoint = Vector3.MoveTowards(toRender.arrow.getCurrentPoint(), toRender.arrow.getEndPoint(), pointerSpeed * Time.deltaTime);
+			if(Vector3.Distance(toRender.arrow.getCurrentPoint(), toRender.arrow.getEndPoint()) < toRender.arrow.getTolerance())
+				toRender.arrow.setGoingStartToEnd(false);
+		}
+		else
+		{
+			newCurrentPoint = Vector3.MoveTowards(toRender.arrow.getCurrentPoint(), toRender.arrow.getStartPoint(), pointerSpeed * Time.deltaTime);
+			if(Vector3.Distance(toRender.arrow.getCurrentPoint(), toRender.arrow.getStartPoint()) < toRender.arrow.getTolerance())
+				toRender.arrow.setGoingStartToEnd(true);
+		}
+		
+		toRender.arrow.setCurrentPoint(newCurrentPoint);
+	}
+	else
+	{
+		if(toRender.transitionToClear)
+			currentColor.a = currentColor.a - flashSpeed;
+		else
+			currentColor.a = currentColor.a + flashSpeed;
+			
+		if(currentColor.a <= 0.5)
+			toRender.transitionToClear = false;
+		else if(currentColor.a >= 1)
+			toRender.transitionToClear = true;
+			
+		GUI.color = currentColor;
+	}
+	
+	
+	if(toRender.arrow.interaction == Interaction.SingleBuilding ||
+	toRender.arrow.interaction == Interaction.Linking)
+	{
+		var newLoc:Rect = convertToScreenRect(toRender.arrow.getCurrentPoint(), toRender.arrow.getDisplayRect());
+		newLoc.x = newLoc.x - (newLoc.width/2) + (toRender.arrow.distanceFromBuilding.x * Screen.width);
+		newLoc.y = newLoc.y + (newLoc.height/2) + (toRender.arrow.distanceFromBuilding.y * Screen.height * -1);
+		toRender.arrow.setDisplayRect(newLoc);
+	}
+	
+	GUI.DrawTexture(toRender.arrow.getDisplayRect(), toRender.arrow.icon);
+	GUI.color = Color.white;
+	GUI.Label(textDisplayRect, toRender.arrow.displayText, style);
+	
+	if(toRender.displayCircle)
+	{
+		GUI.color.a = 0.5f;
+		GUI.DrawTexture(toRender.circleRect, tutorialCircle);
+		GUI.color.a = 1.0f;
+		toRender.circleSize = toRender.circleSize - decreaseAmount;
+		
+		if(toRender.circleSize < decreaseAmount * 2)
+			toRender.displayCircle = false;
+		else
+		{
+			toRender.circleRect = createRect(tutorialCircle, 0,0,toRender.circleSize);
+			toRender.circleRect.x = (toRender.arrow.getDisplayRect().x + toRender.arrow.getDisplayRect().width / 2) - toRender.circleRect.width / 2;
+			toRender.circleRect.y = (toRender.arrow.getDisplayRect().y + toRender.arrow.getDisplayRect().height / 2) - toRender.circleRect.height / 2;
+		}
+	}
+	
+	if(checkForInteraction(toRender.arrow))
+	{
+		waitingForRelease = false;
+		dOS.HasDisplayed(arrowNumOrder, true);
+		arrowNumOrder++;
+		
+		return true;
+	}
+	return false;
+}
 
 public function AddPointerToStart(pointer : TutorialArrow)
 {
@@ -322,6 +402,29 @@ public function convertToScreenRect(pos:Vector3, displayRect:Rect):Rect
 	displayRect.x = point.x - (displayRect.width / 2);
 	displayRect.y = (Screen.height - point.y) - displayRect.height;
 	return displayRect;
+}
+
+private function PopulateRenderList()
+{
+	if(pointers.Count > 0 && dOS.WasAlreadyDisplayed(arrowNumOrder, true))
+	{
+		currentArrow = null;
+		pointers.Remove(pointers[0]);
+		arrowNumOrder++;
+	}
+	else
+	{
+		for (var i : int = 0; i < pointers.Count; i++)
+		{
+			if (!CheckTrigger(pointers[i]))
+				break;
+		}
+	}
+}
+
+private function CheckTrigger(toCheck : TutorialArrow) : boolean
+{
+	return false;
 }
 
 public function checkTrigger()
@@ -494,6 +597,21 @@ public function checkForLink()
 
 	linkMade = true;
 	
+}
+
+public class ArrowRender
+{
+	var arrow : TutorialArrow;
+	var circleRect : Rect;
+	var circleSize : float;
+	var displayCircle : boolean;
+	var transitionToClear : boolean;
+	
+	public function ArrowRender(setArrow : TutorialArrow, cSize : float)
+	{
+		arrow = setArrow;
+		circleSize = cSize;
+	}
 }
 
 public enum Interaction
