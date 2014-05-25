@@ -45,7 +45,6 @@ private var onMissionSelect:boolean = false;
 
 function Start()
 {
-	Debug.Log("***" + pointers.Count);
 	currentColor = Color.white;
 	
 	tutorialCircle = Resources.Load("tutorialCircle") as Texture;
@@ -65,9 +64,7 @@ function Start()
 		}
 		
 		currentArrow = null;
-		Debug.Log("^^^" + pointers.Count);
 		checkTrigger();
-		Debug.Log("$$$" + pointers.Count);
 		hasPointers = true;
 		waitingForRelease = false;
 		
@@ -80,9 +77,6 @@ function Start()
 	}
 	else
 		hasPointers = false;
-		
-		
-	Debug.Log("..." + pointers.Count);
 }
 
 public function Disable()

@@ -561,7 +561,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	if (!linkClear(b1.transform.position, b2.transform.position)){
 		Debug.Log("Link was not clear");
 		return;
-	} 
+	} 	
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
@@ -579,7 +579,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	if(!dragLinkCases(b1OnGrid, b2OnGrid))
 		return;
 	// if an allocated input was selected, perform an overload link reallocation
-	if (allocatedInSelected)
+	if (linkCaseOverride && allocatedInSelected)
 	{
 		oldOutputBuildingIndex = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
 		if (oldOutputBuildingIndex > -1)
@@ -600,7 +600,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	}
 	
 	// if an allocated output was selected, perform a chain break link reallocation
-	if (allocatedOutSelected && oldOutputBuildingIndex > -1)
+	if (linkCaseOverride && allocatedOutSelected && oldOutputBuildingIndex > -1)
 	{
 		oldInputBuildingIndex = GameObject.Find("Database").GetComponent(Database).ChainBreakLink(building2Index, building1Index, selectedOutIndex, selectedResource, optionalOutputUsed, allocatedInSelected);
 		if (oldInputBuildingIndex > -1)
