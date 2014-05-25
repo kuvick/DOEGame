@@ -224,7 +224,7 @@ public class CodexMenu extends GUIControl
     	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
     	zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
     	
-    	
+    	backButtonRect = createRect(backButtonTexture,0.81,0.022, 0.12, true);
     	backButtonAB  = new AnimatedButton(Color.blue, backButtonTexture, backButtonRect);
     	zoomButtonAB  = new AnimatedButton(Color.blue, zoomButton, zoomButtonRect);
     	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));
@@ -643,10 +643,17 @@ public class CodexMenu extends GUIControl
 		
 		//currentNumOfCol = (screenWidth / hexRect[0].width) + 2;
 		//reArrangeHexTiles(percentage);
+		/*
 		hexGroup = new Rect(hexGroup.x + addedWidth,
 				hexGroup.y + addedHeight,
 				(hexBGRect[0].width - (hexBGRect[0].width * hexDistancePercent)) * (currentNumOfCol + 1),
 				(totalRows + 2) * hexBGRect[0].height);
+		*/		
+		hexGroup = new Rect(earnedST.displayRect.x + earnedST.displayRect.width,
+				viewST.displayRect.y,
+				(hexBGRect[0].width - (hexBGRect[0].width * hexDistancePercent)) * (currentNumOfCol + 1),
+				(totalRows + 2) * hexBGRect[0].height);
+				
 	}
 	
 	private var currentNumOfCol:int = 7; // originally 5
@@ -922,7 +929,6 @@ public class CodexMenu extends GUIControl
 	
 		backgroundRect = RectFactory.NewRect(0,0,1,1);
 		//codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);
-		backButtonRect = createRect(backButtonTexture,0.81,0.022, 0.12, true);
 		
 	
 		startHex = createRect(fullCodex[0].icon,0,0, 0.4102, false);
