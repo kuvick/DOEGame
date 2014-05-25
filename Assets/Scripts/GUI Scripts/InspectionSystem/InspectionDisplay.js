@@ -7,6 +7,7 @@ public var inspectionBorder: Texture2D;
 private var componentSelected : boolean = false;
 
 private var dispText : String = String.Empty;
+private var templateRect : Rect;
 private var dispRect : Rect;
 private var dispTopRect : Rect;
 private var dispBotRect : Rect;
@@ -87,7 +88,7 @@ function Start ()
 	dispRightOffset = dispRightOffsetScale * Screen.width;
 	dispTopOffset = dispTopOffsetScale * Screen.height;
 	//FIX THIS!!! GPC 4/19/14
-	var templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
+	templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
 	dispRect = templateRect;
 	//dispRect.y += 100;
 	
@@ -281,7 +282,7 @@ private function FormatDisplay()
 		dispContent = GUIContent(currentTooltip.text);
 		
 		//Added to allow designer to manually adjust y coordinate for longer descriptions (GPC 4/22/14)
-		dispRect.y += currentTooltip.designerHeightTweak;
+		dispRect.y = templateRect.y + currentTooltip.designerHeightTweak;
 		//GUI.Label(currentTooltip.text);
 	}
 	
