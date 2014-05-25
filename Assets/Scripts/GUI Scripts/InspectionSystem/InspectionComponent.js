@@ -107,7 +107,7 @@ public class InspectionComponent extends MonoBehaviour
 	// See ActivateAndDeactivate(disp : Tooltip) in InspectionDisplay
 	protected function SendToDisplayFromHUD()
 	{
-		display.ActivateAndDeactivate(tooltip);
+		display.ActivateAndDeactivate(tooltip, this);
 	}
 	
 	protected function BlankButtonStyle()

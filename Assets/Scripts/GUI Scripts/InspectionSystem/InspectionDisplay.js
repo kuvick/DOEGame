@@ -2,6 +2,7 @@
 
 public var skin : GUISkin;
 public var border : Texture2D;
+public var inspectionBorder: Texture2D;
 
 private var componentSelected : boolean = false;
 
@@ -71,6 +72,7 @@ private var isEnabled : boolean;
 
 public static var fromLoading : boolean = false;
 
+private var currentWindowType : WindowType;
 //public var designerHeightTweak:float = 0;
 
 function Start () 
@@ -157,7 +159,7 @@ function Update ()
 	if(currentTapWait > 0)
 		currentTapWait--;
 			
-	if (currentTooltip && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || CheckForInteraction()))
+	if (currentTooltip && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || (currentWindowType == WindowType.Tutorial && CheckForInteraction())))
 		NextTooltip();
 }
 
@@ -214,11 +216,12 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 // and OnSelectedFromHUD() in ObjectiveIcon
 // and this line objIconScript.OnSelectedFromHUD(); in MainMenu (at the
 // time of writing, it is line 331).
-public function ActivateAndDeactivate(disp : Tooltip)
+public function ActivateAndDeactivate(disp : Tooltip, comp : InspectionComponent)
 {
 	componentSelected = true;
 	if (intelSys)
 		intelSys.toolTipOnScreen = true;
+	disp.SetComponent(comp);
 	SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
@@ -294,7 +297,9 @@ private function Render()
 {
 	GUI.skin = skin;
 	
-	GUI.DrawTexture(borderRect, border);
+	if (currentTooltip.text != String.Empty)
+	{
+	//GUI.DrawTexture(borderRect, border);
 	
 	//When the inspection window is pressed while the component is selected (GPC 9/3/13)
 	/*if(componentSelected && GUI.Button(dispRect, dispText))
@@ -310,10 +315,11 @@ private function Render()
 	
 	/*if (doDispPic)
 		GUI.DrawTexture(dispPicRect, dispPic);*/
-	if (renderDouble)
-		RenderBoth();
-	else
-		RenderSingle();
+		if (currentWindowType == WindowType.Tutorial)
+			RenderTutorial();
+		else
+			RenderInspection();
+	}
 }
 
 public function NextTooltip()
@@ -366,6 +372,12 @@ private function SetTooltip()
 		cameraControlRef.MoveCameraToPoint(currentTooltip.cameraTarget.transform.position);
 	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator) && componentType != typeof(UpgradeIcon)))
 		currentTooltip.hasDisplayed = true;
+		
+	if (componentType == typeof(ObjectiveIcon) || componentType == typeof(ObjectiveIndicator) || componentType == typeof(UpgradeIcon))
+		currentWindowType = WindowType.Inspection;
+	else
+		currentWindowType = WindowType.Tutorial;
+		
 	if (currentTooltip.interaction == Interaction.Linking)
 	{
 		var db : Database = GameObject.Find("Database").GetComponent(Database);
@@ -415,6 +427,31 @@ private function RenderBoth()
 		currentToolTipIndex++;
 		NextTooltip();
 	}*/
+}
+
+private function RenderInspection()
+{
+	GUI.DrawTexture(borderRect, inspectionBorder);
+	
+	GUI.Box(dispRect, dispContent);
+
+	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
+	{	
+		if(notInGame)
+			dOS.HasDisplayed(currentToolTipIndex, false, true);
+		else
+			dOS.HasDisplayed(currentToolTipIndex, false, false);
+		
+		
+		currentToolTipIndex++;
+		NextTooltip();
+	}
+}
+
+private function RenderTutorial()
+{
+	GUI.DrawTexture(borderRect, border);
+	shadowText.Display(currentTooltip.text, dispRect);
 }
 
 public function MouseOnDisplay() : boolean
@@ -589,6 +626,11 @@ public enum TooltipType
 	Notification // dismissed automatically after x seconds
 }
 
+public enum WindowType
+{
+	Inspection,
+	Tutorial
+}
 
 //CODE TO ALLOW TOOLTIPS TO APPEAR OTHER PLACES THAT AREN'T IN-GAME
 // Taken from IntelSystem.js and modified
