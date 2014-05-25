@@ -142,7 +142,6 @@ function Start ()
 		CheckTriggerToDisplay();
 		isEnabled = true;
 	}
-
 }
 
 function Update () 
@@ -158,7 +157,7 @@ function Update ()
 	if(currentTapWait > 0)
 		currentTapWait--;
 			
-	if (currentTooltip && ((currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || CheckForInteraction()))
+	if (currentTooltip && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || CheckForInteraction()))
 		NextTooltip();
 }
 
@@ -537,6 +536,8 @@ public function checkForLink()
 public function SetEnabled (enabled : boolean)
 {
 	isEnabled = enabled;
+	if (isEnabled)
+		notificationTimer = Time.time + notificationLength;
 }
 
 // class to define a tooltip turn trigger
