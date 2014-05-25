@@ -41,9 +41,11 @@ private var inspDispRef : InspectionDisplay;
 //THESE VARIABLES ARE ONLY FOR IF IT IS NOT IN GAME:
 public var notInGame:boolean = false;
 private var OnScoreScreen:boolean = false;
+private var onMissionSelect:boolean = false;
 
 function Start()
 {
+	Debug.Log("***" + pointers.Count);
 	currentColor = Color.white;
 	
 	tutorialCircle = Resources.Load("tutorialCircle") as Texture;
@@ -63,7 +65,9 @@ function Start()
 		}
 		
 		currentArrow = null;
+		Debug.Log("^^^" + pointers.Count);
 		checkTrigger();
+		Debug.Log("$$$" + pointers.Count);
 		hasPointers = true;
 		waitingForRelease = false;
 		
@@ -76,12 +80,20 @@ function Start()
 	}
 	else
 		hasPointers = false;
+		
+		
+	Debug.Log("..." + pointers.Count);
 }
 
 public function Disable()
 {
 	hasPointers = false;
 	pointers.Clear();
+}
+public function Enable(OnMS:boolean)
+{
+	hasPointers = true;
+	onMissionSelect = OnMS;
 }
 
 public function Render()
@@ -322,7 +334,7 @@ public function checkTrigger()
 {
 	var makeChange:boolean = false;
 	
-	if(pointers.Count > 0 && dOS.WasAlreadyDisplayed(arrowNumOrder, true))
+	if(!onMissionSelect && pointers.Count > 0 && dOS.WasAlreadyDisplayed(arrowNumOrder, true))
 	{
 		currentArrow = null;
 		pointers.Remove(pointers[0]);

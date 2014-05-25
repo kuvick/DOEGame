@@ -350,6 +350,8 @@ public class LevelSelectMenu extends GUIControl
 	//ShadowedText
 	private var objTextST:ShadowedText;
 	
+	private var pointers : TutorialPointers;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -639,17 +641,19 @@ public class LevelSelectMenu extends GUIControl
 				displayTips = false;
 		}
 		
+		pointers = gameObject.GetComponent(TutorialPointers);
+		
 		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials || (unlockedLevels.Count > 0 && unlockedLevels[0] == levels[0]))
 		{
 			showSplash = true;
 			checkRender = true;
 			activeLevelIndex = 0;//levels.Length - 1 - lastUnlockedIndex;
-			var pointers : TutorialPointers = gameObject.GetComponent(TutorialPointers);
 			pointers.Disable();
 		}
 		else if (displayTutorialToolTips || (displayTips && tooltipDisplay != null && ((lastUnlockedIndex - 1) == levelsFromXML.numInitialTutorials)))
 		{				
 			var dOS : DisplayOnceSystem = new DisplayOnceSystem(false);
+			pointers.Enable(true);
 			for (i = 0; i < dashboardTooltips.Length; i++)
 			{
 				if(!dOS.WasAlreadyDisplayed(i, false, true))
@@ -1144,6 +1148,8 @@ public class LevelSelectMenu extends GUIControl
 			}
 		}
 		GUI.EndGroup();
+		
+		pointers.Render();
 	}
 	
 	private function HoldWait()

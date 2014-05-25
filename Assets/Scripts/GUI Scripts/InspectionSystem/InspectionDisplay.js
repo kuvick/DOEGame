@@ -233,7 +233,6 @@ public function ActivateAndDeactivate(disp : Tooltip)
 	}
 }
 
-
 public function Activate(disp : String)
 {
 	componentSelected = true;
