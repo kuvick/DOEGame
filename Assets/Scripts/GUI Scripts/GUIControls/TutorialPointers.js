@@ -44,7 +44,15 @@ public var notInGame:boolean = false;
 private var OnScoreScreen:boolean = false;
 private var onMissionSelect:boolean = false;
 
+private var isInitialized : boolean = false;
+
 function Start()
+{
+	if (!isInitialized)
+		Initialize();
+}
+
+function Initialize()
 {
 	currentColor = Color.white;
 	
@@ -78,6 +86,7 @@ function Start()
 		
 		//inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 	}
+	isInitialized = true;
 }
 
 public function Disable()
@@ -260,6 +269,8 @@ private function RenderArrow(toRender : ArrowRender) : boolean
 
 public function AddPointerToStart(pointer : TutorialArrow)
 {
+	if (!isInitialized)
+		Initialize();
 	pointers.Insert(0, pointer);
 	checkTrigger();
 }
