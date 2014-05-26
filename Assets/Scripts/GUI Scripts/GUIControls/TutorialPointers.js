@@ -457,11 +457,11 @@ public function checkTrigger()
 			{
 				makeChange = true;
 			}
-			else if(pointers[0].trigger == StartTrigger.ReachBuilding)
+			/*else if(pointers[0].trigger == StartTrigger.ReachBuilding)
 			{
 				if(database.buildingsOnGrid != null && database.buildingsOnGrid.Count > 0)
 					makeChange = database.isActive(pointers[0].buildingOne);
-			}
+			}*/
 			else if(pointers[0].trigger == StartTrigger.Turn)
 			{
 				if(intelSystem.currentTurn == pointers[0].turn)
@@ -637,7 +637,7 @@ public enum Interaction
 public enum StartTrigger
 {
 	StartOfLevel,
-	ReachBuilding,
+	//ReachBuilding,
 	Turn,
 	AfterPreviousArrow,
 	OnScoreScreen,
