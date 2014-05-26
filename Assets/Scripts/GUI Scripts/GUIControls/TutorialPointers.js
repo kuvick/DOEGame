@@ -61,6 +61,7 @@ function Start()
 		database = GameObject.Find("Database").GetComponent(Database);
 		mainCamera = GameObject.Find("Main Camera").GetComponent(Camera);
 		inspDispRef = GameObject.Find("GUI System").GetComponent(InspectionDisplay);
+		hasPointers = true;
 	}
 		
 	if(pointers.Count > 0)
@@ -77,8 +78,6 @@ function Start()
 		
 		//inputController = GameObject.Find("HexagonGrid").GetComponent("InputController");
 	}
-	else
-		hasPointers = false;
 }
 
 public function Disable()
