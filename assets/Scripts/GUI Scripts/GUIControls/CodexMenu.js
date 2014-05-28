@@ -938,7 +938,7 @@ public class CodexMenu extends GUIControl
 		startHex.y = startHexBG.height / 2 - startHex.height / 2;
 		
 		//currentNumOfCol = (screenWidth / startHex.width) + 2;
-		currentNumOfCol = fullCodex.Count / 2;
+		//currentNumOfCol = fullCodex.Count / 2;
 		
 		var row:int = -1;
 		
