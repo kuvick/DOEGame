@@ -1973,7 +1973,7 @@ class BuildingOnGrid
 		if (optOutput.resource != resource)
 			return false;
 		Debug.Log("how");
-		optOutput.Allocate(inputBuilding);
+		optOutput.Allocate(inputBuilding, skipAnimation);
 		drawLinks.CreateLinkDraw(inputBuilding, index, resource, true, skipAnimation);
 		return true;
 	}
@@ -1995,7 +1995,7 @@ class BuildingOnGrid
 			return false;
 
 		var ioPut : IOPut = unallOutputs[resourceIndex];
-		ioPut.Allocate(inputBuilding);
+		ioPut.Allocate(inputBuilding, skipAnimation);
 		unallOutputs.RemoveAt(resourceIndex);
 		allOutputs.Add(ioPut);
 		drawLinks.CreateLinkDraw(inputBuilding, index, resource, false, skipAnimation);
@@ -2035,7 +2035,7 @@ class BuildingOnGrid
 			return false;
 		
 		var ioPut : IOPut = unallInputs[resourceIndex];
-		ioPut.Allocate(outputBuilding);
+		ioPut.Allocate(outputBuilding, false);
 		unallInputs.RemoveAt(resourceIndex);
 		allInputs.Add(ioPut);
 		/*if (!Database.getBuildingOnGridAtIndex(outputBuilding).isActive)
@@ -2105,10 +2105,10 @@ class IOPut
 		icon = i;
 	}
 	
-	function Allocate(buildingIndex : int)
+	function Allocate(buildingIndex : int, skipAnimation:boolean)
 	{
 		linkedTo = buildingIndex;
-		icon.SetAllocated(true, true);
+		icon.SetAllocated(true, !skipAnimation);
 		if (type != IOType.In)
 		{
 			icon.SetFlashActive(false);

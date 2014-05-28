@@ -6,6 +6,8 @@ private var mat : Material;
 private var transColor : Color = Color(1,1,1,0);
 private var isSelected:boolean = false;
 
+private var resourceIcon:ResourceIcon;
+
 function Start () {
 
 }
@@ -38,10 +40,20 @@ private function Blink()
 	while(paused || isSelected)
 	{
 		mat.color = Color.Lerp(transColor, Color.white, LinkUI.fadeTimer);
+		if(resourceIcon != null)
+		{
+			resourceIcon.isHolding = true;
+		}
 		yield;
 	}
 	// reset to full color when pause is over
+	resourceIcon.isHolding = false;
 	mat.color = Color.white;
+}
+
+public function setResourceIcon(icon:ResourceIcon)
+{
+	resourceIcon = icon;
 }
 
 public function SelectLink(isThisLineCurrentlySelected:boolean)

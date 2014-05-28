@@ -10,6 +10,9 @@ public var IconTex : Texture2D;
 public var TopBGTex : Texture2D;
 public var BottomBGTex : Texture2D;
 
+private var allocatedTopBGTex : Texture2D;
+private var allocatedBottomBGTex : Texture2D;
+
 private var resourceColor: Color;
 private var resourceColorTransparent: Color;
 
@@ -19,7 +22,7 @@ public var ioType : IOType;
 private var index : int;
 
 private var currentScale : Vector3;
-private var smallScale : Vector3 = Vector3(5,5,5);
+private var smallScale : Vector3 = Vector3(5.5,5.5,5.5);
 private var flashScale : Vector3 = Vector3(6,6,6);
 //private var bigScale : Vector3 = Vector3(8,8,8);
 
@@ -33,7 +36,7 @@ private var selectedBuilding:GameObject;
 
 private var linkUIRef : LinkUI;
 
-private var unallColor : Color = Color(1.0,1.0,1.0,.5);
+private var unallColor : Color = Color(1.0,1.0,1.0,1.0);
 //private var unallColor : Color = Color(1.0,1.0,1.0,1);
 private var allColor : Color = Color(1.0,1.0,1.0,1.0);
 
@@ -46,6 +49,8 @@ private var in2active : boolean = false;
 private var active2in : boolean = false;
 
 private var highlightIcon:boolean = false;
+
+public var isHolding: boolean = false;
 
 enum IOType
 {
@@ -79,12 +84,16 @@ function Update ()
 		if(isAllocated && highlightIcon)
 			highlightIcon = false;
 		
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType, true, false))
+		{
 			in2active = false;
+			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
+			gameObject.renderer.material.SetTexture("_BottomBGTex", allocatedBottomBGTex);
+		}
 	}
 	else if(highlightIcon)
 	{
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType, false, isHolding))
 			highlightIcon = false;
 	}
 	/*
@@ -118,13 +127,13 @@ public function Initialize(building : BuildingOnGrid)
 	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
 	resourceColor = Color.white;
 	transparentRedColor = Color.red;
-	transparentRedColor.a = 0.5f;
+	//transparentRedColor.a = 0.5f;
 	
 	this.building = building;
 	
 	resourceColor.a = 1.0f;
 	resourceColorTransparent = resourceColor;
-	resourceColorTransparent.a = 0.5f;
+	//resourceColorTransparent.a = 0.5f;
 	
 	//currentTex = unallocatedTex;
 	
@@ -164,6 +173,19 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.transform.position.y = 74;
 	flashIcon.transform.parent = gameObject.transform;
 	flashIcon.renderer.material.mainTexture = Resources.Load("flash_icon") as Texture2D;
+	
+	if(ioType != IOType.In)
+	{
+		 allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_out") as Texture2D;
+		 allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_out") as Texture2D;
+	 }
+	 else
+	 {
+	 	allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_in") as Texture2D;
+	 	allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_in") as Texture2D;
+	 }
+	 
+	
 	flashIcon.collider.enabled = false;
 	flashIcon.layer = 10;
 	flashIcon.name = "ResourceFlash";
@@ -204,17 +226,20 @@ public function SetAllocated (allo : boolean, animate:boolean)
 		//ALLOCATED SET
 		if(!animate)
 		{
-			resourceColor.a = 0.5f;
+			//resourceColor.a = 0.5f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
 			gameObject.renderer.material.SetColor("_Color3", resourceColor);
 			resourceColor.a = 1.0f;	
 			gameObject.renderer.material.SetColor("_Color1", resourceColor); 	//ALLOCATED SET
+			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
+			gameObject.renderer.material.SetTexture("_BottomBGTex", allocatedBottomBGTex);
 		}
 		else
 		{
 			in2active = true;
 			active2in = false;
 		}
+		
 	}
 	else
 	{
@@ -230,6 +255,9 @@ public function SetAllocated (allo : boolean, animate:boolean)
 		//{
 			in2active = false;
 			active2in = true;
+			
+			gameObject.renderer.material.SetTexture("_TopBGTex", TopBGTex);
+			gameObject.renderer.material.SetTexture("_BottomBGTex", BottomBGTex);
 		//}
 		//gameObject.renderer.material.color = unallColor;
 	}

@@ -121,10 +121,12 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		linkUIRef.SetLinkCaseOverride(true); // LINK REALLOCATION
 		var pSystem: LinkParticleSystem = obj.GetComponent(LinkParticleSystem);
 		pSystem.SelectLink(true);
+		
 		blinkingReallocatedLink = obj.gameObject;
 		
 		var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
 		outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
+		pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
 		
 	}
 	else
