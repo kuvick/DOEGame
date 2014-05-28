@@ -107,6 +107,9 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	if (!buildingOnGrid.isActive)
 		return DragMode.Cam;
 	
+	var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
+	var realloaction:boolean = false;
+	
 	if (obj.name.Contains(" "))
 	{
 		UnitManager.DeselectUnits();
@@ -123,10 +126,9 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		pSystem.SelectLink(true);
 		
 		blinkingReallocatedLink = obj.gameObject;
-		
-		var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
 		outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
 		pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
+		realloaction = true;
 		
 	}
 	else
@@ -136,8 +138,13 @@ static function HandleFirstClick(obj : Collider) : DragMode
 
 	if (!buildingOnGrid.unitSelected)
 	{
-		linkUIRef.HighlightTiles();
-		return DragMode.Link;
+		if(outputBuilding.unallOutputs.Count <= 0 && !realloaction)
+			return DragMode.Cam;
+		else
+		{
+			linkUIRef.HighlightTiles();
+			return DragMode.Link;
+		}
 	}
 	else
 		return DragMode.Unit;
