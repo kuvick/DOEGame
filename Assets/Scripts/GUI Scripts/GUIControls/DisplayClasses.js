@@ -24,8 +24,9 @@ public class ShadowedText
 		//text = Regex.Replace(text, "<", "");
 		text = Regex.Replace(text, "<([^>]*)>", "");
 		
+		
 		//if((useStyle && style.richText) || (!useStyle && GUI.skin.label.richText))
-			//text = "<b>" + text + "</b>";
+			text = "<b>" + text + "</b>";
 		
 	}
 	
@@ -34,12 +35,10 @@ public class ShadowedText
 		if(txt != null && txt != "")
 			txt = Regex.Replace(txt, "<([^>]*)>", "");
 
-		/*
-		if((useStyle && style.richText) || (!useStyle && GUI.skin.label.richText))
+		
+		//if((useStyle && style.richText) || (!useStyle && GUI.skin.label.richText))
 			return "<b>" + txt + "</b>";
-		else
-			return txt;
-		*/
+		
 		return txt;
 	}
 	
