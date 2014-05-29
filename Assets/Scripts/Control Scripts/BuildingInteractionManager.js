@@ -79,7 +79,6 @@ static function HandleFirstClick(position : Vector2)
 	
 	if (tempCollider)
 	{
-		Debug.Log("collided" + tempCollider.name);
 		if (tempCollider.name.Equals("ClickCollider"))//ResourceRing"))
 		{
 			ModeController.setSelectedBuilding(tempCollider.transform.parent.gameObject);
@@ -137,8 +136,8 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	}
 
 	if (!buildingOnGrid.unitSelected)
-	{
-		if(outputBuilding.unallOutputs.Count <= 0 && !realloaction)
+	{	
+		if(outputBuilding.unallOutputs.Count <= 0 && outputBuilding.optOutput != null && !realloaction)
 			return DragMode.Cam;
 		else
 		{
@@ -284,6 +283,7 @@ static function HandleReleaseAtPoint(obj : Collider)
 		if (obj.name == "ClickCollider")//ResourceRing")
 		{
 			var building : GameObject = obj.transform.parent.gameObject;
+			
 			if (building.name != "BuildingSite")
 				ModeController.setSelectedInputBuilding(building);
 		}

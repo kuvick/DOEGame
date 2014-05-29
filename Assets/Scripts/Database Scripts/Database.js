@@ -290,7 +290,8 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 		}
 	}
 	
-	/*for(var j : int = 0; j < building.allInputs.Count; j++)//ocatedInputs.Count; j++)
+	//removed comments around this section of code added 5/29/2014
+	for(var j : int = 0; j < building.allInputs.Count; j++)//ocatedInputs.Count; j++)
 	{
 		if(building.allInputs[j].resource == rt)//ocatedInputs[j] == rt)
 		{	
@@ -298,7 +299,7 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 			//building.highlighter.renderer.material.color = new Color(0,1,1,.5);
 			return true;
 		}
-	}*/
+	}
 	
 	return false;
 }

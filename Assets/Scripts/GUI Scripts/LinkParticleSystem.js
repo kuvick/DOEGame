@@ -47,7 +47,8 @@ private function Blink()
 		yield;
 	}
 	// reset to full color when pause is over
-	resourceIcon.isHolding = false;
+	if(resourceIcon!=null)
+		resourceIcon.isHolding = false;
 	mat.color = Color.white;
 }
 
