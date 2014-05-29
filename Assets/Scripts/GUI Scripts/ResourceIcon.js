@@ -13,7 +13,7 @@ public var BottomBGTex : Texture2D;
 private var allocatedTopBGTex : Texture2D;
 private var allocatedBottomBGTex : Texture2D;
 
-private var resourceColor: Color;
+public var resourceColor: Color;
 private var resourceColorTransparent: Color;
 
 public var type : ResourceType;
@@ -125,15 +125,12 @@ public function OnSelected()
 public function Initialize(building : BuildingOnGrid)
 {
 	linkUIRef = GameObject.FindWithTag("MainCamera").GetComponent(LinkUI);
-	resourceColor = Color.white;
+
 	transparentRedColor = Color.red;
 	//transparentRedColor.a = 0.5f;
 	
 	this.building = building;
 	
-	resourceColor.a = 1.0f;
-	resourceColorTransparent = resourceColor;
-	//resourceColorTransparent.a = 0.5f;
 	
 	//currentTex = unallocatedTex;
 	
@@ -178,11 +175,16 @@ public function Initialize(building : BuildingOnGrid)
 	{
 		 allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_out") as Texture2D;
 		 allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_out") as Texture2D;
+		 resourceColor = Color.white;
+		resourceColor.a = 1.0f;
+		resourceColorTransparent = resourceColor;
 	 }
 	 else
 	 {
-	 	allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_in") as Texture2D;
-	 	allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_in") as Texture2D;
+	 	allocatedTopBGTex = TopBGTex; //Resources.Load("ResourceIcons/allocatedtop_in") as Texture2D;
+	 	allocatedBottomBGTex = BottomBGTex; //Resources.Load("ResourceIcons/allocatedbottom_in") as Texture2D;
+	 	resourceColorTransparent = resourceColor;
+	 	resourceColor = Color(.25,.25,.25,1f);
 	 }
 	 
 	
@@ -230,7 +232,7 @@ public function SetAllocated (allo : boolean, animate:boolean)
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
 			gameObject.renderer.material.SetColor("_Color3", resourceColor);
 			resourceColor.a = 1.0f;	
-			gameObject.renderer.material.SetColor("_Color1", resourceColor); 	//ALLOCATED SET
+			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//ALLOCATED SET
 			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
 			gameObject.renderer.material.SetTexture("_BottomBGTex", allocatedBottomBGTex);
 		}
