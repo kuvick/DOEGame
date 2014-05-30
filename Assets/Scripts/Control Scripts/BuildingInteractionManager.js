@@ -151,8 +151,30 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	{	
 		//Debug.Log(outputBuilding.unit + " " + outputBuilding.optOutput + " " + outputBuilding.buildingName);
 	
-		if( !realloaction && ((outputBuilding.unallOutputs.Count <= 0) && (outputBuilding.unit == UnitType.Worker && outputBuilding.optOutput.resource != ResourceType.None && outputBuilding.optOutput.linkedTo != -1)))
-			return DragMode.Cam;
+		// If all outputs are allocated and there is no optional output, and the link wasn't selected, go to camera drag:
+		if( !realloaction && (outputBuilding.unallOutputs.Count <= 0))
+		{
+			// if there is no optional output:
+			if(outputBuilding.optOutput.resource == ResourceType.None)
+				return DragMode.Cam;
+			// if there is optional output:
+			else
+			{	
+				//When it is fixed and allocated
+				if((outputBuilding.unit == UnitType.Worker && outputBuilding.optOutput.linkedTo != -1))
+					return DragMode.Cam;
+				//when it is not fixed 
+				else if(outputBuilding.unit != UnitType.Worker)
+					return DragMode.Cam;
+				// it is fixed and unallocated:
+				else
+				{
+					linkUIRef.HighlightTiles();
+					return DragMode.Link;
+				}
+			}//inner if
+		}//outer if
+		// when all output has not been allocated and/or the link was selected:
 		else
 		{
 			linkUIRef.HighlightTiles();
