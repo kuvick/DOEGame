@@ -434,7 +434,8 @@ private function RenderInspection()
 {
 	GUI.DrawTexture(borderRect, inspectionBorder);
 	
-	GUI.Box(dispRect, dispContent);
+	//GUI.Box(dispRect, dispContent);
+	shadowText.Display(dispContent.text, dispRect);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
