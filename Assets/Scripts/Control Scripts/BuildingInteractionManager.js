@@ -112,8 +112,12 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	if (obj.name.Contains(" "))
 	{
 		UnitManager.DeselectUnits();
+		var useOpt:boolean = false;
 		if (obj.tag == ("OptionalLink"))
+		{
 			linkUIRef.SetSelectedOutIndex(-1);
+			useOpt = true;
+		}
 		else
 		{
 			//var outputIndex : int = buildingOnGrid.outputLinkedTo.IndexOf(parseInt(obj.name.Split(" "[0])[1]));
@@ -123,10 +127,18 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		linkUIRef.SetLinkCaseOverride(true); // LINK REALLOCATION
 		var pSystem: LinkParticleSystem = obj.GetComponent(LinkParticleSystem);
 		pSystem.SelectLink(true);
-		
 		blinkingReallocatedLink = obj.gameObject;
-		outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
-		pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
+		if(!useOpt)
+		{
+			outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
+			pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
+		}
+		else
+		{
+			outputBuilding.optOutput.icon.SelectForReallocation();
+			pSystem.setResourceIcon(outputBuilding.optOutput.icon);
+		}
+		
 		realloaction = true;
 		
 	}
@@ -137,7 +149,9 @@ static function HandleFirstClick(obj : Collider) : DragMode
 
 	if (!buildingOnGrid.unitSelected)
 	{	
-		if(outputBuilding.unallOutputs.Count <= 0 && outputBuilding.optOutput != null && !realloaction)
+		//Debug.Log(outputBuilding.unit + " " + outputBuilding.optOutput + " " + outputBuilding.buildingName);
+	
+		if( !realloaction && ((outputBuilding.unallOutputs.Count <= 0) && (outputBuilding.unit == UnitType.Worker && outputBuilding.optOutput.resource != ResourceType.None && outputBuilding.optOutput.linkedTo != -1)))
 			return DragMode.Cam;
 		else
 		{

@@ -1973,7 +1973,6 @@ class BuildingOnGrid
 	{
 		if (optOutput.resource != resource)
 			return false;
-		Debug.Log("how");
 		optOutput.Allocate(inputBuilding, skipAnimation);
 		drawLinks.CreateLinkDraw(inputBuilding, index, resource, true, skipAnimation);
 		return true;
