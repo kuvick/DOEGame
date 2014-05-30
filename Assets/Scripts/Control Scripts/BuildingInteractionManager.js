@@ -284,7 +284,7 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 
 static function HandleReleaseAtPoint(obj : Collider)
 {
-	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
+	//var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
 	
 	//Seeing if we can phase this out. GPC 4/21/14
 	//if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))

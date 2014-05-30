@@ -433,7 +433,7 @@ function Update () {
 
 private function CheckObjSelected(position : Vector2) : Collider
 {
-	if (inspectionDisplayRef.MouseOnDisplay())
+	if (currDragMode != DragMode.Link && inspectionDisplayRef.MouseOnDisplay())
 		return null;
 		
 	var hit : RaycastHit;

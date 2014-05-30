@@ -461,7 +461,7 @@ public function MouseOnDisplay() : boolean
 	var mousePos:Vector2;
 	mousePos.x = Input.mousePosition.x;
 	mousePos.y = Screen.height - Input.mousePosition.y;
-	if (componentSelected && dispRect.Contains(mousePos))
+	if (currentWindowType != WindowType.Tutorial && componentSelected && dispRect.Contains(mousePos))
 		return true;
 	return false;
 }
