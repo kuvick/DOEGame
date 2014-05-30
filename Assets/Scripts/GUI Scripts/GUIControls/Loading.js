@@ -549,7 +549,9 @@ public class Loading extends GUIControl
 		if (guiCamera == null) {
 			guiCamera = Camera.main;
 		}
-		guiCamera.gameObject.SetActiveRecursively(true);
+		//Removing warnings GPC 5/29/14
+		//guiCamera.gameObject.SetActiveRecursively(true);
+		guiCamera.gameObject.SetActive(true);
 		
 		//Testing to see what this works GPC 2/13/14 
 		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version

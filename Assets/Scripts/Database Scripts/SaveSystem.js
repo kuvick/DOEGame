@@ -467,7 +467,7 @@ public class Player
 	public function completeLevel(levelName : String)
 	{
 		var levelDataExists : boolean = false;
-		Debug.Log("completing " + levelName);
+		//Debug.Log("completing " + levelName);
 		for(var i : int = 0; i < levelDataList.Count; i++)
 		{
 			if(levelDataList[i].levelName == levelName){

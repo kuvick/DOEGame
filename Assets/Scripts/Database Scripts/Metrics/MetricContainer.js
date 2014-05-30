@@ -200,7 +200,7 @@ public class MetricContainer
 		//Remove all characters except numbers
 		Now = Regex.Replace(Now, pattern, String.Empty);
 		
-		Debug.Log("Now : " + Now);
+		//Debug.Log("Now : " + Now);
 		
 		path = Path.Combine(path, Now + "_END.xml");
 	

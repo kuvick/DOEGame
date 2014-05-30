@@ -611,7 +611,8 @@ public class AnimatedImage
 	{
 		if(!byPercentage)
 		{
-			totalSizeIncrease = totalSizeIncrease;
+			//Removing warnings GPC 5/29/14
+			//totalSizeIncrease = totalSizeIncrease;
 			incrementRate = speed;
 		}
 		else
@@ -849,7 +850,8 @@ public class AnimatedText
 	{
 		if(!byPercentage)
 		{
-			totalSizeIncrease = totalSizeIncrease;
+			//Removing warnings GPC 5/29/14
+			//totalSizeIncrease = totalSizeIncrease;
 			incrementRate = speed;
 		}
 		else
