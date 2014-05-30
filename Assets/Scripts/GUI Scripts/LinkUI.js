@@ -479,13 +479,14 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 		linkCaseOverride = true;
 		
 		//Case: Output is Unallocated
-		for(var w = 0; w < b1.allOutputs.Count; w++)//ocatedOutputs.Count; i++)
+		for(var w = 0; w < b2.unallOutputs.Count; w++)//ocatedOutputs.Count; i++)
 		{
 			if (CheckForInput(b1, b2.unallOutputs[w].resource))//ocatedOutputs[i]))
 			{
 				selectedResource = b2.unallOutputs[w].resource;//ocatedOutputs[i];
 			}					
 		}
+		
 		
 		var outputIndex : int = b2.FindResourceIndex(selectedResource, b2.unallOutputs);
 		selectedOutIndex = outputIndex;
