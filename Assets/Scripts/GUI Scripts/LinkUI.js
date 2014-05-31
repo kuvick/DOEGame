@@ -222,6 +222,21 @@ function isLinked(b1:GameObject, b2:GameObject){
 	return ((linkReference[b1Index, b2Index]) || (linkReference[b2Index, b1Index]));
 }
 
+function getOutputLinked(b1:GameObject, b2:GameObject):int
+{
+	var b1Index:int;
+	var b2Index:int;
+	
+	for(var b:int; b < buildings.length; b++){
+		if(buildings[b] == b1)
+			b1Index = b;
+		else if(buildings[b] == b2)
+			b2Index = b;
+	}
+	return b2Index;
+}
+
+
 
 public function setValidTargetRingMaterial(obj: GameObject)
 {
@@ -405,7 +420,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 	// if an allocated input was selected, perform an overload link reallocation
 	if (allocatedInSelected)
 	{
-		Debug.Log("testa");
+		Debug.Log("selected");
 		oldOutputBuildingIndex = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
 		if (oldOutputBuildingIndex > -1)
 		{
@@ -415,6 +430,7 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 			//gameObject.GetComponent(DrawLinks).CreateLinkDraw(building1Index, building2Index, selectedResource, optionalOutputUsed);			
 		}		
 	}
+	
 	
 	// if an allocated output was selected, perform a chain break link reallocation
 	if (allocatedOutSelected && oldOutputBuildingIndex > -1)
@@ -453,6 +469,30 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 {
 	// case if player directly selected a link to reallocate
+	
+	// ... mutual linking...
+	var mutualLink:boolean = false;
+	if(isLinked(b1.buildingPointer, b2.buildingPointer))
+	{
+		//remember b2 is out and b1 is in
+		// but already b1 has provided output to b2's input
+		linkCaseOverride = true;
+		
+		//Case: Output is Unallocated
+		for(var w = 0; w < b2.unallOutputs.Count; w++)//ocatedOutputs.Count; i++)
+		{
+			if (CheckForInput(b1, b2.unallOutputs[w].resource))//ocatedOutputs[i]))
+			{
+				selectedResource = b2.unallOutputs[w].resource;//ocatedOutputs[i];
+			}					
+		}
+		
+		
+		var outputIndex : int = b2.FindResourceIndex(selectedResource, b2.unallOutputs);
+		selectedOutIndex = outputIndex;
+		mutualLink = true;
+	}
+	
 	if (linkCaseOverride) // LINK REALLOCATION
 	{
 		if (optionalOutputUsed && CheckForInput(b1, b2.optOutput.resource))//ionalOutput))
@@ -461,14 +501,14 @@ function dragLinkCases(b1 : BuildingOnGrid, b2 : BuildingOnGrid)
 			allocatedOutSelected = true;
 			return true;
 		}
-		else if (!optionalOutputUsed && CheckForInput(b1, b2.allOutputs[selectedOutIndex].resource))//ocatedOutputs[selectedOutIndex]))
+		else if (!mutualLink && !optionalOutputUsed && CheckForInput(b1, b2.allOutputs[selectedOutIndex].resource))//ocatedOutputs[selectedOutIndex]))
 		{
 			selectedResource = b2.allOutputs[selectedOutIndex].resource;//ocatedOutputs[selectedOutIndex];
 			allocatedOutSelected = true;
 			return true;
 		}
 		// cancel link if no resource match found
-		else
+		else if(!mutualLink)
 		{
 			//menu.missingResource();
 			return false;
@@ -558,6 +598,7 @@ private function CheckForInput(building : BuildingOnGrid, resource : ResourceTyp
 }
 
 function DragLinkBuildings(b1:GameObject, b2:GameObject){
+
 	if (!linkClear(b1.transform.position, b2.transform.position)){
 		Debug.Log("Link was not clear");
 		return;

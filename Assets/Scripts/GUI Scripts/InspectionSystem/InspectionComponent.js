@@ -29,6 +29,7 @@ public class InspectionComponent extends MonoBehaviour
 		//skin = GUISkin();
 		skin = ScriptableObject.CreateInstance(GUISkin);
 		skin.font = Resources.Load("Orbitron-Bold") as Font;
+		skin.label.richText = true;
 		textSize = Screen.width * textSizeScale;
 		skin.button.fontSize = textSize;
 		skin.button.normal.textColor = Color.white;

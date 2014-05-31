@@ -79,7 +79,6 @@ static function HandleFirstClick(position : Vector2)
 	
 	if (tempCollider)
 	{
-		Debug.Log("collided" + tempCollider.name);
 		if (tempCollider.name.Equals("ClickCollider"))//ResourceRing"))
 		{
 			ModeController.setSelectedBuilding(tempCollider.transform.parent.gameObject);
@@ -107,11 +106,18 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	if (!buildingOnGrid.isActive)
 		return DragMode.Cam;
 	
+	var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
+	var realloaction:boolean = false;
+	
 	if (obj.name.Contains(" "))
 	{
 		UnitManager.DeselectUnits();
+		var useOpt:boolean = false;
 		if (obj.tag == ("OptionalLink"))
+		{
 			linkUIRef.SetSelectedOutIndex(-1);
+			useOpt = true;
+		}
 		else
 		{
 			//var outputIndex : int = buildingOnGrid.outputLinkedTo.IndexOf(parseInt(obj.name.Split(" "[0])[1]));
@@ -122,9 +128,18 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		var pSystem: LinkParticleSystem = obj.GetComponent(LinkParticleSystem);
 		pSystem.SelectLink(true);
 		blinkingReallocatedLink = obj.gameObject;
+		if(!useOpt)
+		{
+			outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
+			pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
+		}
+		else
+		{
+			outputBuilding.optOutput.icon.SelectForReallocation();
+			pSystem.setResourceIcon(outputBuilding.optOutput.icon);
+		}
 		
-		var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
-		outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
+		realloaction = true;
 		
 	}
 	else
@@ -133,9 +148,38 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	}
 
 	if (!buildingOnGrid.unitSelected)
-	{
-		linkUIRef.HighlightTiles();
-		return DragMode.Link;
+	{	
+		//Debug.Log(outputBuilding.unit + " " + outputBuilding.optOutput + " " + outputBuilding.buildingName);
+	
+		// If all outputs are allocated and there is no optional output, and the link wasn't selected, go to camera drag:
+		if( !realloaction && (outputBuilding.unallOutputs.Count <= 0))
+		{
+			// if there is no optional output:
+			if(outputBuilding.optOutput.resource == ResourceType.None)
+				return DragMode.Cam;
+			// if there is optional output:
+			else
+			{	
+				//When it is fixed and allocated
+				if((outputBuilding.unit == UnitType.Worker && outputBuilding.optOutput.linkedTo != -1))
+					return DragMode.Cam;
+				//when it is not fixed 
+				else if(outputBuilding.unit != UnitType.Worker)
+					return DragMode.Cam;
+				// it is fixed and unallocated:
+				else
+				{
+					linkUIRef.HighlightTiles();
+					return DragMode.Link;
+				}
+			}//inner if
+		}//outer if
+		// when all output has not been allocated and/or the link was selected:
+		else
+		{
+			linkUIRef.HighlightTiles();
+			return DragMode.Link;
+		}
 	}
 	else
 		return DragMode.Unit;
@@ -262,7 +306,7 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 
 static function HandleReleaseAtPoint(obj : Collider)
 {
-	var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
+	//var pointer : TutorialArrow = tutorialPointers.GetCurrentArrow();
 	
 	//Seeing if we can phase this out. GPC 4/21/14
 	//if (!obj || (pointer != null && obj.transform.parent.gameObject != pointer.buildingTwo))
@@ -275,6 +319,7 @@ static function HandleReleaseAtPoint(obj : Collider)
 		if (obj.name == "ClickCollider")//ResourceRing")
 		{
 			var building : GameObject = obj.transform.parent.gameObject;
+			
 			if (building.name != "BuildingSite")
 				ModeController.setSelectedInputBuilding(building);
 		}

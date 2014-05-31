@@ -436,7 +436,8 @@ private function RenderInspection()
 {
 	GUI.DrawTexture(borderRect, inspectionBorder);
 	
-	GUI.Box(dispRect, dispContent);
+	//GUI.Box(dispRect, dispContent);
+	shadowText.Display(dispContent.text, dispRect);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
@@ -462,7 +463,7 @@ public function MouseOnDisplay() : boolean
 	var mousePos:Vector2;
 	mousePos.x = Input.mousePosition.x;
 	mousePos.y = Screen.height - Input.mousePosition.y;
-	if (componentSelected && dispRect.Contains(mousePos))
+	if (currentWindowType != WindowType.Tutorial && componentSelected && dispRect.Contains(mousePos))
 		return true;
 	return false;
 }

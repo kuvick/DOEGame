@@ -143,6 +143,10 @@ public class Loading extends GUIControl
 	private var exploreCareersAB:AnimatedButton;
 	private var beginMissionAB:AnimatedButton;
 	
+	private var jobTextST:ShadowedText;
+	private var panelST:ShadowedText;
+	private var panelST2:ShadowedText;
+	
 	public function Initialize()
 	{
 		super.Initialize();
@@ -233,14 +237,14 @@ public class Loading extends GUIControl
 		panelRect = createRect(placeholderPanel,0,0, 0.6, true, screenRect);
 		panelRect.x = screenRect.width / 2 - panelRect.width / 2;
 		panelRect.y = screenRect.height / 2 - panelRect.height / 2 - padding;
-		
+	
 		
 		jobWebsiteButtonRect.y = panelRect.y + panelRect.height - jobWebsiteButtonRect.height;
 		jobWebsiteButtonRect.x = screenRect.width - jobWebsiteButtonRect.width - panelRect.x;
 		
 		
 		
-		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);
+		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);		
 		
 		jobWebsiteButtonRect = createRect( websiteButton, 0.44, 0.58, 0.11, false, screenRect);
 		
@@ -288,6 +292,9 @@ public class Loading extends GUIControl
 		panelLabel.x = panelRect.x + panelRect.width + padding;
 		panelLabel.y = panelRect.y;
 		
+		panelST = new ShadowedText("", panelLabel, style, false);
+		panelST2 = new ShadowedText("", panelLabel, style, false);
+		
 		jobBoxRect = createRect(jobBox, 0,0,0.63, false, screenRect);
 		jobBoxRect.x = screenRect.width / 2 - jobBoxRect.width / 2;
 		jobBoxRect.y = screenRect.height / 2 - jobBoxRect.height / 2 - padding * 2;
@@ -328,7 +335,10 @@ public class Loading extends GUIControl
 				style.font = regularFont;
 				style.fontSize = descFontSize;
 				style.alignment = TextAnchor.UpperLeft;
-				GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				//GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				
+				panelST.Display(((currentPanel+1) + "/" + panels.Count), panelLabel);
+				
 				style.font = boldFont;
 				style.fontSize = loadingStatusFontSize;
 				style.alignment = TextAnchor.MiddleCenter;
@@ -355,12 +365,17 @@ public class Loading extends GUIControl
 				style.fontSize = descFontSize;
 				//style.alignment = TextAnchor.MiddleRight;
 				style.alignment = TextAnchor.UpperLeft;
-				GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				//GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				
+				panelST.Display(((nextPanel+1) + "/" + panels.Count), panelLabel);
 				
 				GUI.DrawTexture(panelRect, panels[nextPanel]);
 				GUI.color.a = 1.0 - fade;
 				
-				GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				//GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
+				panelST2.Display(((currentPanel+1) + "/" + panels.Count), panelLabel);
+				
+				
 				style.font = boldFont;
 				style.fontSize = loadingStatusFontSize;
 				style.alignment = TextAnchor.MiddleCenter;
@@ -376,7 +391,8 @@ public class Loading extends GUIControl
 				style.font = regularFont;
 				style.fontSize = descFontSize;
 				style.alignment = TextAnchor.UpperLeft;
-				GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				//GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
+				panelST2.Display(((nextPanel+1) + "/" + panels.Count), panelLabel);
 				style.font = boldFont;
 				style.fontSize = loadingStatusFontSize;
 				style.alignment = TextAnchor.MiddleCenter;
@@ -431,7 +447,8 @@ public class Loading extends GUIControl
 			style.font = regularFont;
 			style.fontSize = jobFontSize;
 			style.alignment = TextAnchor.UpperLeft;
-			GUI.Label(jobTextRect, currentJobInformation, style);
+			//GUI.Label(jobTextRect, currentJobInformation, style);
+			jobTextST.Display();
 			
 			style.font = boldFont;
 			style.fontSize = loadingStatusFontSize;
@@ -532,7 +549,9 @@ public class Loading extends GUIControl
 		if (guiCamera == null) {
 			guiCamera = Camera.main;
 		}
-		guiCamera.gameObject.SetActiveRecursively(true);
+		//Removing warnings GPC 5/29/14
+		//guiCamera.gameObject.SetActiveRecursively(true);
+		guiCamera.gameObject.SetActive(true);
 		
 		//Testing to see what this works GPC 2/13/14 
 		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version
@@ -578,6 +597,9 @@ public class Loading extends GUIControl
 		descFontSize = Mathf.Min(Screen.width, Screen.height) * 0.035;
 		currentJobInformation = currentJobDesc;
 		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
+		
+		jobTextST = new ShadowedText(currentJobInformation, jobTextRect, style, false);
+		
 	}
 	
 	// calculates and sets font size to fit text within a given rect, starting from a given initial size

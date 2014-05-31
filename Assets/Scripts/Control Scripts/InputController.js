@@ -133,7 +133,7 @@ function DragEvent(inputChangeSinceLastTick: Vector2){
 // called when a drag is released
 function ReleaseEvent()
 {
-	if (!(GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI()))
+	if (currDragMode != DragMode.Link && !(GUIManager.Instance().NotOnGUI(clickPosition) && linkUI.CheckMouseNotOverGUI()))
 		return;
 	switch (currDragMode)
 	{
@@ -433,7 +433,7 @@ function Update () {
 
 private function CheckObjSelected(position : Vector2) : Collider
 {
-	if (inspectionDisplayRef.MouseOnDisplay())
+	if (currDragMode != DragMode.Link && inspectionDisplayRef.MouseOnDisplay())
 		return null;
 		
 	var hit : RaycastHit;

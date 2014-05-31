@@ -290,7 +290,8 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 		}
 	}
 	
-	/*for(var j : int = 0; j < building.allInputs.Count; j++)//ocatedInputs.Count; j++)
+	//removed comments around this section of code added 5/29/2014
+	for(var j : int = 0; j < building.allInputs.Count; j++)//ocatedInputs.Count; j++)
 	{
 		if(building.allInputs[j].resource == rt)//ocatedInputs[j] == rt)
 		{	
@@ -298,7 +299,7 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 			//building.highlighter.renderer.material.color = new Color(0,1,1,.5);
 			return true;
 		}
-	}*/
+	}
 	
 	return false;
 }
@@ -1972,8 +1973,7 @@ class BuildingOnGrid
 	{
 		if (optOutput.resource != resource)
 			return false;
-		Debug.Log("how");
-		optOutput.Allocate(inputBuilding);
+		optOutput.Allocate(inputBuilding, skipAnimation);
 		drawLinks.CreateLinkDraw(inputBuilding, index, resource, true, skipAnimation);
 		return true;
 	}
@@ -1995,7 +1995,7 @@ class BuildingOnGrid
 			return false;
 
 		var ioPut : IOPut = unallOutputs[resourceIndex];
-		ioPut.Allocate(inputBuilding);
+		ioPut.Allocate(inputBuilding, skipAnimation);
 		unallOutputs.RemoveAt(resourceIndex);
 		allOutputs.Add(ioPut);
 		drawLinks.CreateLinkDraw(inputBuilding, index, resource, false, skipAnimation);
@@ -2035,7 +2035,7 @@ class BuildingOnGrid
 			return false;
 		
 		var ioPut : IOPut = unallInputs[resourceIndex];
-		ioPut.Allocate(outputBuilding);
+		ioPut.Allocate(outputBuilding, false);
 		unallInputs.RemoveAt(resourceIndex);
 		allInputs.Add(ioPut);
 		/*if (!Database.getBuildingOnGridAtIndex(outputBuilding).isActive)
@@ -2105,10 +2105,10 @@ class IOPut
 		icon = i;
 	}
 	
-	function Allocate(buildingIndex : int)
+	function Allocate(buildingIndex : int, skipAnimation:boolean)
 	{
 		linkedTo = buildingIndex;
-		icon.SetAllocated(true, true);
+		icon.SetAllocated(true, !skipAnimation);
 		if (type != IOType.In)
 		{
 			icon.SetFlashActive(false);

@@ -205,10 +205,10 @@ public class InGameAnimation
 	private var newScale:float;
 	private var hasCompletedRingAnimation:boolean;
 	private var ringImages:Object[];
-	private var currentIndex:int;
+	private var currentIndex:int = 0;
 	private var savedTexture:Texture;
 	
-	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType):boolean // returns true if animating, false if not
+	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType, changeImage:boolean, hold:boolean):boolean // returns true if animating, false if not
 	{
 		if(firstLoop)
 		{			
@@ -231,7 +231,7 @@ public class InGameAnimation
 			
 			animatedObject.renderer.material.SetColor("_Color2", ringColorStart);
 			animatedObject.renderer.material.SetColor("_Color3", ringColorStart);	
-			animatedObject.renderer.material.SetColor("_Color1", iconColorStart); 	//UNALLOCATED SET
+			animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			
 			ringColor = ringColorStart;			
 			iconColor = iconColorStart;
@@ -250,12 +250,13 @@ public class InGameAnimation
 				path = "ResourceIcons/Input";
 				
 				var tempArray:Object[] = Resources.LoadAll(path, Texture);
-				ringImages = new Object[tempArray.Length * 2];
+				ringImages = new Object[tempArray.Length * 3];
 				
 				for(var g:int = 0; g < tempArray.Length; g++)
 				{
 					ringImages[g] = tempArray[g];
-					ringImages[g + tempArray.length] = tempArray[g];					
+					ringImages[g + tempArray.length] = tempArray[g];
+					ringImages[g + tempArray.length + tempArray.length] = tempArray[g];
 				}				
 			}
 			else
@@ -265,8 +266,8 @@ public class InGameAnimation
 				ringImages = Resources.LoadAll(path, Texture);
 			}
 				
-			
-			selectCurrentFrame(type, ringImages.Length, 0.6);
+			if(changeImage)
+				selectCurrentFrame(type, ringImages.Length, 0.6);
 		}
 		
 		ringColor = Color.Lerp(ringColor, ringColorEnd, 0.05);
@@ -289,7 +290,7 @@ public class InGameAnimation
 				switchScale = true;
 				
 		}
-		else
+		else if(!hold)
 		{
 			animatedObject.transform.localScale -= Vector3((defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed);
 			
@@ -311,46 +312,49 @@ public class InGameAnimation
 			animatedObject.transform.localScale = defaultScale;
 			animatedObject.renderer.material.SetColor("_Color2", ringColorEnd);
 			animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
-			animatedObject.renderer.material.SetColor("_Color1", iconColorEnd); 	//UNALLOCATED SET
+			animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			
-			//if (type == IOType.In)
+			
 				//animatedObject.renderer.material.SetTexture("_BottomBGTex", savedTexture);
-			//else
-			animatedObject.renderer.material.SetTexture("_TopBGTex", savedTexture);
+			if (type == IOType.In)
+				animatedObject.renderer.material.SetTexture("_TopBGTex", savedTexture);
 						
 			return false;
 		}
-		else if(currentIndex < ringImages.Length)
+		else if(currentIndex < ringImages.Length && changeImage)
 		{
 			selectCurrentFrame(type, ringImages.Length, 0.6);
 		}
 		
 		animatedObject.renderer.material.SetColor("_Color2", ringColor);
 		animatedObject.renderer.material.SetColor("_Color3", ringColor);	
-		animatedObject.renderer.material.SetColor("_Color1", iconColor); 	//UNALLOCATED SET
+		animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 		return true;
 	}//end of animate
 	
 
-	private var previousTime:float = 0;
+	private var previousTime:int = 0;
 	
 	public function selectCurrentFrame(type: IOType, numOfSlides:int, lengthOfAnimation:float)
 	{
-		if(previousTime <=0)
-			previousTime = Time.deltaTime;
-		else if(previousTime > (lengthOfAnimation / numOfSlides))
+		//if(previousTime < 2)
+			//previousTime ++;
+		//else if(previousTime > (lengthOfAnimation / numOfSlides))
+		//else if(currentIndex < ringImages.Length)
+		if(currentIndex < ringImages.Length)
 		{
 			var newTexture:Texture = ringImages[currentIndex];
-			//if (type == IOType.In)
+			//
 			//	animatedObject.renderer.material.SetTexture("_BottomBGTex", newTexture);
 			//else
 			animatedObject.renderer.material.SetTexture("_TopBGTex", newTexture);
 				
 				
 			currentIndex++;
+			
+			//previousTime = 0;
 		}	
-		else
-			previousTime += Time.deltaTime;
+			
 			
 		
 	}
