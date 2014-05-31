@@ -374,7 +374,9 @@ private function SetTooltip()
 	if (!currentTooltip.GetComponent() || (componentType != typeof(ObjectiveIcon) && componentType != typeof(ObjectiveIndicator) && componentType != typeof(UpgradeIcon)))
 		currentTooltip.hasDisplayed = true;
 		
-	if (componentType == typeof(ObjectiveIcon) || componentType == typeof(ObjectiveIndicator) || componentType == typeof(UpgradeIcon))
+	if (currentTooltip.window != WindowType.Auto)
+		currentWindowType = currentTooltip.window;
+	else if (componentType == typeof(ObjectiveIcon) || componentType == typeof(ObjectiveIndicator) || componentType == typeof(UpgradeIcon))
 		currentWindowType = WindowType.Inspection;
 	else
 		currentWindowType = WindowType.Tutorial;
@@ -590,6 +592,7 @@ public class TurnTrigger
 public class Tooltip
 {
 	public var type : TooltipType;
+	public var window : WindowType;
 	public var text : String;
 	public var pic : Texture;
 	public var hasPriority : boolean;
@@ -629,6 +632,7 @@ public enum TooltipType
 
 public enum WindowType
 {
+	Auto,
 	Inspection,
 	Tutorial
 }
