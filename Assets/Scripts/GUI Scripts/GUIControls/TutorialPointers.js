@@ -636,7 +636,8 @@ public enum Interaction
 	Wait,
 	Pause,
 	SingleBuilding,
-	Linking
+	Linking,
+	None
 }
 
 public enum StartTrigger
