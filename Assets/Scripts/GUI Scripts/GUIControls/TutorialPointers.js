@@ -592,9 +592,9 @@ public function checkForLink(b1 : GameObject, b2 : GameObject)
 	if(currentArrow == null)
 		return;
 		
-	if(currentArrow.buildingOne == b1 || currentArrow.buildingTwo == b1)
+	if(currentArrow.buildingOne == b1 && currentArrow.buildingTwo == b2)// || currentArrow.buildingTwo == b1)
 	{
-		if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
+		//if(currentArrow.buildingOne == b2 || currentArrow.buildingTwo == b2)
 			linkMade = true;
 	}
 	//If code has reached here, then a link has been made

@@ -562,8 +562,8 @@ public function checkForLink(buildingA : GameObject, buildingB : GameObject)
 	//Altered GPC 2/20/14
 	if (!currentTooltip)
 		return;
-	var buildingAFound : boolean = (buildingA == currentTooltip.linkBuildingA) || (buildingA == currentTooltip.linkBuildingB);
-	var buildingBFound : boolean = (buildingB == currentTooltip.linkBuildingA) || (buildingB == currentTooltip.linkBuildingB);
+	var buildingAFound : boolean = (buildingA == currentTooltip.linkBuildingA);// || (buildingA == currentTooltip.linkBuildingB);
+	var buildingBFound : boolean = (buildingB == currentTooltip.linkBuildingB);//(buildingB == currentTooltip.linkBuildingA) || (buildingB == currentTooltip.linkBuildingB);
 
 	linkMade = buildingAFound && buildingBFound;
 }
