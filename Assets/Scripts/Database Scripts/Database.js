@@ -304,6 +304,18 @@ static public function checkForResource(building : BuildingOnGrid, rt : Resource
 	return false;
 }
 
+// checks if the given 2 buildings are linked
+static function AreBuildingsLinked(bA : GameObject, bB : GameObject) : boolean
+{
+	var buildingAIndex : int = getBuildingIndex(bA);
+	var buildingBIndex : int = getBuildingIndex(bB);
+	
+	var buildingA : BuildingOnGrid = getBuildingOnGridAtIndex(buildingAIndex);
+	var buildingB : BuildingOnGrid = getBuildingOnGridAtIndex(buildingBIndex);
+	
+	return (buildingA.FindLinkIndex(buildingBIndex, buildingA.allInputs) >= 0) || (buildingA.FindLinkIndex(buildingBIndex, buildingA.allOutputs) >= 0);
+}
+
 static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
 {
 	copyTo.buildingName = copyFrom.buildingName;

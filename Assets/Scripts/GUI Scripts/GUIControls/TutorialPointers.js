@@ -486,6 +486,11 @@ public function checkTrigger()
 			}
 			if(makeChange)
 			{
+				if (pointers[0].interaction == Interaction.Linking && Database.AreBuildingsLinked(pointers[0].buildingOne, pointers[0].buildingTwo))
+				{
+					pointers.Remove(pointers[0]);
+					return;
+				}
 				currentArrow = pointers[0];
 				currentArrow = CalculateDisplay(currentArrow);
 				pointers.Remove(pointers[0]);
