@@ -746,18 +746,10 @@ function HighlightTiles()
 					
 				}
 			}		
-			for(j = 0; j < tempBuilding.allOutputs.Count; j++)//ocatedOutputs.Count; j++)
-			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.allOutputs[j].resource))//ocatedOutputs[j]))
-				{
-					buildingHighlightColor = targetHighlightColor;
-					buildingState = IndicatorState.Valid;
-				}
-			}	
 			//if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
 			if(tempBuilding.optOutput.resource != ResourceType.None && tempBuilding.optionalOutputFixed)
 			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
+				if(tempBuilding.optOutput.linkedTo >= 0 && Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
