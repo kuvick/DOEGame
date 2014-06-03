@@ -84,7 +84,7 @@ function Update ()
 		if(isAllocated && highlightIcon)
 			highlightIcon = false;
 		
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType, true, false))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType, true, false, 2))
 		{
 			in2active = false;
 			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
@@ -93,7 +93,7 @@ function Update ()
 	}
 	else if(highlightIcon)
 	{
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType, false, isHolding))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType, false, isHolding, 1.5f))
 			highlightIcon = false;
 	}
 	/*

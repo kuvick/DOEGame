@@ -208,7 +208,7 @@ public class InGameAnimation
 	private var currentIndex:int = 0;
 	private var savedTexture:Texture;
 	
-	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType, changeImage:boolean, hold:boolean):boolean // returns true if animating, false if not
+	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType, changeImage:boolean, hold:boolean, sizeDiff:float):boolean // returns true if animating, false if not
 	{
 		if(firstLoop)
 		{			
@@ -219,7 +219,7 @@ public class InGameAnimation
 			stopColorChange = false;
 			animatedObject = obj;
 			animatedObject.transform.localScale = defaultScale;
-			twiceScale = new Vector3(defaultScale.x * 2, defaultScale.y * 2, defaultScale.z * 2);
+			twiceScale = new Vector3(defaultScale.x * sizeDiff, defaultScale.y * sizeDiff, defaultScale.z * sizeDiff);
 		
 			animatedObject.renderer.material.SetTextureScale("_IconTex", Vector2(-1,-1));
 			animatedObject.renderer.material.SetTextureScale("_TopBGTex", Vector2(-1,-1));
@@ -275,7 +275,7 @@ public class InGameAnimation
 		
 		if(!switchScale)
 		{
-			animatedObject.transform.localScale += Vector3((defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed);
+			animatedObject.transform.localScale += Vector3((defaultScale.x * sizeDiff) *  speed, (defaultScale.x * sizeDiff) *  speed, (defaultScale.x * sizeDiff) *  speed);
 			
 			newScale -= speed;
 			animatedObject.renderer.material.SetTextureScale("_IconTex", Vector2(-newScale,-newScale));
@@ -292,7 +292,7 @@ public class InGameAnimation
 		}
 		else if(!hold)
 		{
-			animatedObject.transform.localScale -= Vector3((defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed, (defaultScale.x * 2) *  speed);
+			animatedObject.transform.localScale -= Vector3((defaultScale.x * sizeDiff) *  speed, (defaultScale.x * sizeDiff) *  speed, (defaultScale.x * sizeDiff) *  speed);
 			
 			newScale += speed;
 			animatedObject.renderer.material.SetTextureScale("_IconTex", Vector2(-newScale,-newScale));
