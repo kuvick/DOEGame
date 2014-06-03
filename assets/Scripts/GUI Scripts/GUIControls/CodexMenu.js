@@ -227,7 +227,6 @@ public class CodexMenu extends GUIControl
     	backButtonRect = createRect(backButtonTexture,0.81,0.022, 0.12, true);
     	backButtonAB  = new AnimatedButton(Color.blue, backButtonTexture, backButtonRect);
     	zoomButtonAB  = new AnimatedButton(Color.blue, zoomButton, zoomButtonRect);
-    	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));
     	
     	var viewRect:Rect;
     	var labelRect:Vector2;
@@ -918,8 +917,8 @@ public class CodexMenu extends GUIControl
 		awardBGRect = createRect(awardBGTexture,(1201.0 - 73.0)/1845.0, (264.0 - 264.0)/746.0, 637.0/746.0, false, techEntryGroup);
 		techIconRect = createRect(fullCodex[0].icon,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
 		infoBoxRect = createRect(infoBoxTexture,(73.0 - 73.0)/1845.0, (338.0 - 264.0)/746.0, 672.0/746.0, false, techEntryGroup);
-		learnMoreRect = createRect(learnMoreButton,(144.0 - 73.0)/1845.0, (834.0 - 264.0)/746.0, 107.0/746.0, false, techEntryGroup);
-		
+		learnMoreRect = createRect(learnMoreButton,(144.0 - 73.0)/1845.0, (834.0 - 264.0)/746.0, 107.0/746.0, false, techEntryGroup);    	
+    	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));
 		titleRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (369.0 - 280.0)/746.0, 598.0/746.0, false, techEntryGroup);
 		descriptionRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (509.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
 	
