@@ -21,8 +21,12 @@ function Start ()
 	var buildings: GameObject[] = GameObject.FindGameObjectsWithTag("Building");
 	var terrainObj: GameObject[] = GameObject.FindGameObjectsWithTag("TerrainObj");
 	
+	Debug.Log("buildings: " + buildings.length);
+	Debug.Log("terrainobj: " + terrainObj.length);
+	
 	for(i = 0; i < buildings.length; i++)
 	{
+		Debug.Log("terrainobj[" + i + "]: "  + buildings[i].name);
 		childImage = buildings[i].transform.Find(buildings[i].name + "Image").gameObject;
 		childImage.renderer.material.color = buildingTint;
 	}
