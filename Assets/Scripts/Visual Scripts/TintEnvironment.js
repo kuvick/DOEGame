@@ -21,6 +21,7 @@ function Start ()
 	var buildings: GameObject[] = GameObject.FindGameObjectsWithTag("Building");
 	var terrainObj: GameObject[] = GameObject.FindGameObjectsWithTag("TerrainObj");
 	
+
 	for(i = 0; i < buildings.length; i++)
 	{
 		childImage = buildings[i].transform.Find(buildings[i].name + "Image").gameObject;
