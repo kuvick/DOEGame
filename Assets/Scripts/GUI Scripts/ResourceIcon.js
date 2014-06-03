@@ -173,11 +173,12 @@ public function Initialize(building : BuildingOnGrid)
 	
 	if(ioType != IOType.In)
 	{
-		 allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_out") as Texture2D;
-		 allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_out") as Texture2D;
-		 resourceColor = Color.white;
-		resourceColor.a = 1.0f;
+		allocatedTopBGTex = Resources.Load("ResourceIcons/allocatedtop_out") as Texture2D;
+		allocatedBottomBGTex = Resources.Load("ResourceIcons/allocatedbottom_out") as Texture2D;
 		resourceColorTransparent = resourceColor;
+		resourceColorTransparent.a = 1.0f;
+		resourceColor = Color.white;
+		resourceColor.a = 1.0f;		
 	 }
 	 else
 	 {
