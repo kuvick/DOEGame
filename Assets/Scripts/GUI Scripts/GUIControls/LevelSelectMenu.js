@@ -28,7 +28,6 @@ public class LevelList
   	
 	public function Load(): LevelList
  	{
-	 	
 		var textAsset:TextAsset = Resources.Load("LevelList") as TextAsset;
 	 	
 	 	var serializer : XmlSerializer = new XmlSerializer(LevelList);
