@@ -620,7 +620,7 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 	if(!dragLinkCases(b1OnGrid, b2OnGrid))
 		return;
 	// if an allocated input was selected, perform an overload link reallocation
-	if (linkCaseOverride && allocatedInSelected)
+	if (allocatedInSelected)// && linkCaseOverride)
 	{
 		oldOutputBuildingIndex = GameObject.Find("Database").GetComponent(Database).OverloadLink(building2Index, building1Index, selectedInIndex, selectedResource, optionalOutputUsed, allocatedOutSelected);
 		if (oldOutputBuildingIndex > -1)
