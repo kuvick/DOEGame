@@ -313,7 +313,7 @@ static function AreBuildingsLinked(bA : GameObject, bB : GameObject) : boolean
 	var buildingA : BuildingOnGrid = getBuildingOnGridAtIndex(buildingAIndex);
 	var buildingB : BuildingOnGrid = getBuildingOnGridAtIndex(buildingBIndex);
 	
-	return (buildingA.FindLinkIndex(buildingBIndex, buildingA.allInputs) >= 0) || (buildingA.FindLinkIndex(buildingBIndex, buildingA.allOutputs) >= 0);
+	return buildingA.FindLinkIndex(buildingBIndex, buildingA.allOutputs) >= 0;
 }
 
 static function copyBuildingOnGrid( copyFrom:BuildingOnGrid, copyTo:BuildingOnGrid )
