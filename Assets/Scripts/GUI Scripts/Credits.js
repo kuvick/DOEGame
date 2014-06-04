@@ -156,6 +156,8 @@ function Start ()
 	credits.Add("Katharine Uvick");
 	credits.Add("\n\nProducer\n");
 	credits.Add("Glen Cooney");
+	credits.Add("\n\nProject Manager\n");
+	credits.Add("Christopher Morrison");
 	credits.Add("\n\nGame Design\n");
 	credits.Add("Dustin Dano\n Katharine Uvick\n Ryan Vachon");
 	credits.Add("\n\nProgramming Team Manager\n");
@@ -166,6 +168,8 @@ function Start ()
 	credits.Add("Noelle Hébert\n Craig Landen\n Danny Tran");
 	credits.Add("\n\nAudio Team\n");
 	credits.Add("Luke Roberts\n Heather Plunkard");
+	credits.Add("\n\nQuality Assurance\n");
+	credits.Add("Sarah Patterson");
 	credits.Add("\n\n\n\nPAST MEMBERS\n\n\nSenior Designer\n");
 	credits.Add("Craig Ellsworth");
 	credits.Add("\n\nDesigners\n");
