@@ -197,6 +197,7 @@ public class InGameAnimation
 	
 	
 	private var ringColor:Color;
+	private var backColor:Color;
 	private var iconColor:Color;
 	private var iconIsGrowingTransparent:boolean;
 	private var ringIsGrowingTransparent:boolean;
@@ -220,6 +221,10 @@ public class InGameAnimation
 			animatedObject = obj;
 			animatedObject.transform.localScale = defaultScale;
 			twiceScale = new Vector3(defaultScale.x * sizeDiff, defaultScale.y * sizeDiff, defaultScale.z * sizeDiff);
+			
+			var allocatedBottomBGTex : Texture2D = Resources.Load("ResourceIcons/allocatedbottom_out") as Texture2D;
+			animatedObject.renderer.material.SetTexture("_BottomBGTex", allocatedBottomBGTex);
+		
 		
 			animatedObject.renderer.material.SetTextureScale("_IconTex", Vector2(-1,-1));
 			animatedObject.renderer.material.SetTextureScale("_TopBGTex", Vector2(-1,-1));
@@ -233,7 +238,8 @@ public class InGameAnimation
 			animatedObject.renderer.material.SetColor("_Color3", ringColorStart);	
 			animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			
-			ringColor = ringColorStart;			
+			ringColor = ringColorStart;
+			backColor = Color(132f / 255f, 149f / 255f, 159f / 255f);		
 			iconColor = iconColorStart;
 			
 			newScale = 1.0f;
@@ -272,6 +278,7 @@ public class InGameAnimation
 		
 		ringColor = Color.Lerp(ringColor, ringColorEnd, 0.05);
 		iconColor = Color.Lerp(iconColor, iconColorEnd, 0.05);
+		backColor = Color.Lerp(backColor, Color.white, 0.05);
 		
 		if(!switchScale)
 		{
@@ -311,7 +318,11 @@ public class InGameAnimation
 			switchScale = false;
 			animatedObject.transform.localScale = defaultScale;
 			animatedObject.renderer.material.SetColor("_Color2", ringColorEnd);
-			animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
+			if (type == IOType.In)
+				animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
+			else
+				animatedObject.renderer.material.SetColor("_Color3", Color.white);
+				
 			animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			
 			
@@ -327,7 +338,13 @@ public class InGameAnimation
 		}
 		
 		animatedObject.renderer.material.SetColor("_Color2", ringColor);
-		animatedObject.renderer.material.SetColor("_Color3", ringColor);	
+		//animatedObject.renderer.material.SetColor("_Color3", ringColor);
+		if (type == IOType.In)
+			animatedObject.renderer.material.SetColor("_Color3", ringColor);	
+		else
+			animatedObject.renderer.material.SetColor("_Color3", backColor);
+			
+			
 		animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 		return true;
 	}//end of animate

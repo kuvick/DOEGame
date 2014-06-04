@@ -231,7 +231,12 @@ public function SetAllocated (allo : boolean, animate:boolean)
 		{
 			//resourceColor.a = 0.5f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
-			gameObject.renderer.material.SetColor("_Color3", resourceColor);
+			if(ioType != IOType.In)
+				gameObject.renderer.material.SetColor("_Color3", resourceColor);
+			else
+				gameObject.renderer.material.SetColor("_Color3", Color.white);
+			
+			
 			resourceColor.a = 1.0f;	
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//ALLOCATED SET
 			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
@@ -251,7 +256,12 @@ public function SetAllocated (allo : boolean, animate:boolean)
 		//{
 			resourceColor.a = 1.0f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
-			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+			
+			if(ioType != IOType.In)
+				gameObject.renderer.material.SetColor("_Color3", resourceColor);
+			else
+				gameObject.renderer.material.SetColor("_Color3", Color.white);
+					
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 		//}
 		//else
@@ -290,7 +300,10 @@ public function SetFixed(fix : boolean)
 			//currentTex = unallocatedTex;
 			resourceColor.a = 1.0f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
-			gameObject.renderer.material.SetColor("_Color3", resourceColor);	
+			if(ioType != IOType.In)
+				gameObject.renderer.material.SetColor("_Color3", resourceColor);
+			else
+				gameObject.renderer.material.SetColor("_Color3", Color.white);
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			SetFlashActive(true);
 		}
