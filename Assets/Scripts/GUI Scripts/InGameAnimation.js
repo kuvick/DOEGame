@@ -281,8 +281,8 @@ public class InGameAnimation
 		
 		if (type == IOType.In)
 			backColor = Color.Lerp(backColor, Color.black, 0.05);
-		else
-			backColor = Color.Lerp(backColor, Color.white, 0.05);
+		//else
+			//backColor = Color.Lerp(backColor, Color.white, 0.05);
 		
 		
 		if(!switchScale)
@@ -325,8 +325,8 @@ public class InGameAnimation
 			animatedObject.renderer.material.SetColor("_Color2", ringColorEnd);
 			if (type == IOType.In)
 				animatedObject.renderer.material.SetColor("_Color3", Color.black);	
-			else
-				animatedObject.renderer.material.SetColor("_Color3", Color.white);
+			//else
+				//animatedObject.renderer.material.SetColor("_Color3", Color.white);
 				
 			animatedObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			
@@ -344,9 +344,9 @@ public class InGameAnimation
 		
 		animatedObject.renderer.material.SetColor("_Color2", ringColor);
 		//animatedObject.renderer.material.SetColor("_Color3", ringColor);
-		//if (type == IOType.In)
-			//animatedObject.renderer.material.SetColor("_Color3", ringColor);	
-		//else
+		if (type != IOType.In)
+			animatedObject.renderer.material.SetColor("_Color3", ringColor);	
+		else
 			animatedObject.renderer.material.SetColor("_Color3", backColor);
 			
 			
