@@ -278,7 +278,12 @@ public class InGameAnimation
 		
 		ringColor = Color.Lerp(ringColor, ringColorEnd, 0.05);
 		iconColor = Color.Lerp(iconColor, iconColorEnd, 0.05);
-		backColor = Color.Lerp(backColor, Color.white, 0.05);
+		
+		if (type == IOType.In)
+			backColor = Color.Lerp(backColor, Color.black, 0.05);
+		else
+			backColor = Color.Lerp(backColor, Color.white, 0.05);
+		
 		
 		if(!switchScale)
 		{
@@ -319,7 +324,7 @@ public class InGameAnimation
 			animatedObject.transform.localScale = defaultScale;
 			animatedObject.renderer.material.SetColor("_Color2", ringColorEnd);
 			if (type == IOType.In)
-				animatedObject.renderer.material.SetColor("_Color3", ringColorEnd);	
+				animatedObject.renderer.material.SetColor("_Color3", Color.black);	
 			else
 				animatedObject.renderer.material.SetColor("_Color3", Color.white);
 				
@@ -339,9 +344,9 @@ public class InGameAnimation
 		
 		animatedObject.renderer.material.SetColor("_Color2", ringColor);
 		//animatedObject.renderer.material.SetColor("_Color3", ringColor);
-		if (type == IOType.In)
-			animatedObject.renderer.material.SetColor("_Color3", ringColor);	
-		else
+		//if (type == IOType.In)
+			//animatedObject.renderer.material.SetColor("_Color3", ringColor);	
+		//else
 			animatedObject.renderer.material.SetColor("_Color3", backColor);
 			
 			
