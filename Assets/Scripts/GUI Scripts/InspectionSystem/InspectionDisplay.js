@@ -94,7 +94,8 @@ function Start ()
 	
 	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
-	dispBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f) + padding, templateRect.width - padding * 2, templateRect.height / 2f);
+	dispTopRect = Rect(templateRect.x + padding, templateRect.y, templateRect.width - padding * 2, templateRect.height / 2f);
+	dispBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f), templateRect.width - padding * 2, templateRect.height / 2f);
 	nextRect = Rect(templateRect.x, dispBotRect.y + (dispBotRect.height / 2f), templateRect.width, dispBotRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
@@ -270,6 +271,8 @@ private function FormatDisplay()
 	if (currentTooltip.pic && currentTooltip.text != String.Empty)
 	{
 		renderDouble = true;
+		dispRect.y -= templateRect.height / 2f;
+		dispRect.height *= 2f;
 	}
 	else if (currentTooltip.pic)
 	{
@@ -282,6 +285,7 @@ private function FormatDisplay()
 		dispContent = GUIContent(currentTooltip.text);
 		
 		//Added to allow designer to manually adjust y coordinate for longer descriptions (GPC 4/22/14)
+		dispRect.height = templateRect.height;
 		dispRect.y = templateRect.y + currentTooltip.designerHeightTweak;
 		//GUI.Label(currentTooltip.text);
 	}
@@ -418,8 +422,10 @@ private function RenderSingle()
 
 private function RenderBoth()
 {
+	GUI.DrawTexture(borderRect, border);
 	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
-	GUI.Label(dispBotRect, currentTooltip.text);
+	shadowText.Display(currentTooltip.text, dispBotRect);
+	//GUI.Label(dispBotRect, currentTooltip.text);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
 		if(notInGame)
@@ -437,7 +443,13 @@ private function RenderInspection()
 	GUI.DrawTexture(borderRect, inspectionBorder);
 	
 	//GUI.Box(dispRect, dispContent);
-	shadowText.Display(dispContent.text, dispRect);
+	if (renderDouble)
+	{
+		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
+		shadowText.Display(currentTooltip.text, dispBotRect);
+	}
+	else
+		shadowText.Display(dispContent.text, dispRect);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
@@ -454,8 +466,18 @@ private function RenderInspection()
 
 private function RenderTutorial()
 {
-	GUI.DrawTexture(borderRect, border);
-	shadowText.Display(currentTooltip.text, dispRect);
+	if (renderDouble)
+	{
+		GUI.DrawTexture(dispRect, border);
+		//GUI.DrawTexture(dispBotRect, border);
+		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
+		shadowText.Display(currentTooltip.text, dispBotRect);
+	}
+	else
+	{
+		GUI.DrawTexture(borderRect, border);
+		shadowText.Display(currentTooltip.text, dispRect);
+	}
 }
 
 public function MouseOnDisplay() : boolean
