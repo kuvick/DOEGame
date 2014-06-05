@@ -639,9 +639,6 @@ public class BuildingMenu extends GUIControl
 		//FOR THE VISUAL SCRIPT
 		var replaceName : String = build.name.Replace("(Clone)", "");
 		
-		if(replaceName == "CornFieldFarm")
-			replaceName = "CornfieldFarm";
-		
 		var appearScript :BuildingAppearScript =  build.transform.FindChild(replaceName + "Image").gameObject.AddComponent("BuildingAppearScript");
 		
 		appearScript.setColor(buildingColor);
