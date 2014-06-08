@@ -220,6 +220,8 @@ public class MainMenu extends GUIControl
     		LoadLevelReferences();
     	} 
     	
+		currentWaitTexture = waitTexture;
+		currentUndoTexture = undoTexture;
     	
     	sparkRect = createRect(sparkTextures[0],0,0, 0.1, false);
     	sparkRect.x = Screen.width / 2 - sparkRect.width / 2;
@@ -459,8 +461,9 @@ public class MainMenu extends GUIControl
 			}
 		}
 		
-		if(!disableSkipButton && GUI.Button(waitButton, waitTexture))
+		if(!disableSkipButton && GUI.Button(waitButton, currentWaitTexture))
 		{
+			cycleWaitButtonTexture();
 			intelSystem.pressedUndoOrWait();
 			SoundManager.Instance().playWait();
 			intelSystem.comboSystem.resetComboCount();
@@ -469,8 +472,9 @@ public class MainMenu extends GUIControl
 		
 		if (intelSystem.currentTurn <= 0)
 			GUI.enabled = false;
-		if(!disableUndoButton && GUI.Button(undoButton, undoTexture))
+		if(!disableUndoButton && GUI.Button(undoButton, currentUndoTexture))
 		{
+			cycleUndoButtonTexture();
 			intelSystem.pressedUndoOrWait();
 			intelSystem.decrementScore(true, intelSystem.comboSystem.comboScoreBasePoints);
 			intelSystem.comboSystem.resetComboCount();
@@ -797,6 +801,30 @@ public class MainMenu extends GUIControl
 		displayErrorText = true;
 		yield WaitForSeconds(3.0);
 		displayErrorText = false;
+	}
+	
+	public var waitButtonAnimationTextures:Texture[];
+	private var currentWaitTexture:Texture;
+	private function cycleWaitButtonTexture()
+	{
+		for(var i:int = 0; i < waitButtonAnimationTextures.length; i++)
+		{
+			currentWaitTexture = waitButtonAnimationTextures[i];
+			yield WaitForSeconds(0.001);
+		}
+		currentWaitTexture = waitTexture;
+	}
+	
+	public var undoButtonAnimationTextures:Texture[];
+	private var currentUndoTexture:Texture;
+	private function cycleUndoButtonTexture()
+	{
+		for(var i:int = 0; i < undoButtonAnimationTextures.length; i++)
+		{
+			currentUndoTexture = undoButtonAnimationTextures[i];
+			yield WaitForSeconds(0.001);
+		}
+		currentUndoTexture = undoTexture;
 	}
 	
 }// end of main menu
