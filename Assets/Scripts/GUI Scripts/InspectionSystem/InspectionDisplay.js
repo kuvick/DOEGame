@@ -190,7 +190,8 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 	if (intelSys)
 		intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
-	SoundManager.Instance().playInspectionOpen();
+	if (disp.text != String.Empty)
+		SoundManager.Instance().playInspectionOpen();
 	if (disp.arrow.icon)
 		tutorialPointers.AddPointerToStart(disp.arrow);
 	if (disp.hasPriority || tooltipList.Count < 1)
@@ -224,7 +225,8 @@ public function ActivateAndDeactivate(disp : Tooltip, comp : InspectionComponent
 	if (intelSys)
 		intelSys.toolTipOnScreen = true;
 	disp.SetComponent(comp);
-	SoundManager.Instance().playInspectionOpen();
+	if (disp.text != String.Empty)
+		SoundManager.Instance().playInspectionOpen();
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
 		tooltipList.Insert(0, disp);
@@ -336,7 +338,7 @@ public function NextTooltip()
 	tooltipList.RemoveAt(0);
 	if (tooltipList.Count == 0)
 	{
-		SoundManager.Instance().playInspectionClose();
+		//SoundManager.Instance().playInspectionClose();
 		componentSelected = false;
 		if(intelSys)
 			intelSys.toolTipOnScreen = false;
