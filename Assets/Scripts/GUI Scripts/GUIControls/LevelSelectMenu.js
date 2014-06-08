@@ -627,7 +627,7 @@ public class LevelSelectMenu extends GUIControl
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
 		if(unlockedLevels.Count > 0)
 		{
-			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y - (difficultyIcons[0].height * 0.05), unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 		}
@@ -828,7 +828,7 @@ public class LevelSelectMenu extends GUIControl
 						//}
 						
 												
-						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 2);
+						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 2) - (difficultyIcons[0].height * 0.0543);
 						senderRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - senderRectangle.height) / 2);
 						senderRect.y = statusRectangle.y;
 						
@@ -847,6 +847,9 @@ public class LevelSelectMenu extends GUIControl
 							GUI.DrawTexture(senderRect, characterEmailIcons[0].senderIcon,ScaleMode.StretchToFill);
 						
 						//Display proper difficulty icon
+						
+						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4);
+						
 						if(displayDifficulty)
 						{
 							if(levelsToRender[i].sceneName.Contains("Tutorial_"))
