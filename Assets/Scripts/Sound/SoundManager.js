@@ -365,7 +365,7 @@ public class SoundManager extends MonoBehaviour {
 			Debug.LogError("Trying to play clip: " + clipToPlay.ToString() + " and it was not set");
 			return;
 		}
-		if (!GUIManager.Instance().gameObject.GetComponent(Loading).hasFinishedDelay) return;
+		if (Application.loadedLevelName == "LoadingScreen" && !GUIManager.Instance().gameObject.GetComponent(Loading).hasFinishedDelay) return;
 		//Debug.Log("test after load");
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(clipToPlay);
 		if (sourcePlayingClip == null){
