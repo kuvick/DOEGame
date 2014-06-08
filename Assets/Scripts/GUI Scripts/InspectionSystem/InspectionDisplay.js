@@ -408,7 +408,7 @@ private function SetTooltip()
 private function RenderSingle()
 {
 	//GUI.Box(dispRect, dispContent);
-	shadowText.Display(currentTooltip.text, dispRect);
+	shadowText.Display(currentTooltip.text, dispRect, true);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		if(notInGame)
@@ -426,7 +426,7 @@ private function RenderBoth()
 {
 	GUI.DrawTexture(borderRect, border);
 	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
-	shadowText.Display(currentTooltip.text, dispBotRect);
+	shadowText.Display(currentTooltip.text, dispBotRect, true);
 	//GUI.Label(dispBotRect, currentTooltip.text);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
@@ -448,10 +448,10 @@ private function RenderInspection()
 	if (renderDouble)
 	{
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect);
+		shadowText.Display(currentTooltip.text, dispBotRect, true);
 	}
 	else
-		shadowText.Display(dispContent.text, dispRect);
+		shadowText.Display(dispContent.text, dispRect, true);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
@@ -473,12 +473,12 @@ private function RenderTutorial()
 		GUI.DrawTexture(dispRect, border);
 		//GUI.DrawTexture(dispBotRect, border);
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect);
+		shadowText.Display(currentTooltip.text, dispBotRect, true);
 	}
 	else
 	{
 		GUI.DrawTexture(borderRect, border);
-		shadowText.Display(currentTooltip.text, dispRect);
+		shadowText.Display(currentTooltip.text, dispRect, true);
 	}
 }
 

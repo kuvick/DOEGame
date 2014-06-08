@@ -337,7 +337,7 @@ public class Loading extends GUIControl
 				style.alignment = TextAnchor.UpperLeft;
 				//GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
 				
-				panelST.Display(((currentPanel+1) + "/" + panels.Count), panelLabel);
+				panelST.Display(((currentPanel+1) + "/" + panels.Count), panelLabel, false);
 				
 				style.font = boldFont;
 				style.fontSize = loadingStatusFontSize;
@@ -367,13 +367,13 @@ public class Loading extends GUIControl
 				style.alignment = TextAnchor.UpperLeft;
 				//GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
 				
-				panelST.Display(((nextPanel+1) + "/" + panels.Count), panelLabel);
+				panelST.Display(((nextPanel+1) + "/" + panels.Count), panelLabel, false);
 				
 				GUI.DrawTexture(panelRect, panels[nextPanel]);
 				GUI.color.a = 1.0 - fade;
 				
 				//GUI.Label(panelLabel, ((currentPanel+1) + "/" + panels.Count), style);
-				panelST2.Display(((currentPanel+1) + "/" + panels.Count), panelLabel);
+				panelST2.Display(((currentPanel+1) + "/" + panels.Count), panelLabel, false);
 				
 				
 				style.font = boldFont;
@@ -392,7 +392,7 @@ public class Loading extends GUIControl
 				style.fontSize = descFontSize;
 				style.alignment = TextAnchor.UpperLeft;
 				//GUI.Label(panelLabel, ((nextPanel+1) + "/" + panels.Count), style);
-				panelST2.Display(((nextPanel+1) + "/" + panels.Count), panelLabel);
+				panelST2.Display(((nextPanel+1) + "/" + panels.Count), panelLabel, false);
 				style.font = boldFont;
 				style.fontSize = loadingStatusFontSize;
 				style.alignment = TextAnchor.MiddleCenter;

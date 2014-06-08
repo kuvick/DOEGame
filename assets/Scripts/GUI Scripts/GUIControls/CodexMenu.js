@@ -870,10 +870,10 @@ public class CodexMenu extends GUIControl
 		
 			GUI.DrawTexture(infoBoxRect, infoBoxTexture, ScaleMode.StretchToFill);
 			//GUI.Label(titleRect, currentEntry.name, titleStyle);
-			titleST.Display(currentEntry.name, titleRect);
+			titleST.Display(currentEntry.name, titleRect, false);
 			
 			//GUI.Label(descriptionRect, currentEntry.description, descriptStyle);
-			descriptST.Display(currentEntry.description, descriptionRect);
+			descriptST.Display(currentEntry.description, descriptionRect, false);
 			
 		
 			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);

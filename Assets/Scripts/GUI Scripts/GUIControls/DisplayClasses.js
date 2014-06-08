@@ -17,6 +17,7 @@ public class ShadowedText
 	private var icon :Texture = null;
 	private var iconRect:Rect;
 	private var iconShadowRect:Rect;
+	private var prevFontSize : float;
 	
 	public function ParseForHTML()
 	{
@@ -309,7 +310,7 @@ public class ShadowedText
 	}
 	
 	
-	public function Display(txt:String, disRect:Rect)
+	public function Display(txt:String, disRect:Rect, scaleTextForTooltip : boolean)
 	{
 		text = ParseForHTML(txt);
 		displayRect = disRect;
@@ -337,6 +338,9 @@ public class ShadowedText
 		{
 			previousColor = GUI.color;
 			GUI.color = shadowColor;
+			prevFontSize = GUI.skin.label.fontSize;
+			if (scaleTextForTooltip)
+				ScaleText(txt, disRect);
 			GUI.Label(shadowRect, text);
 			if(icon != null)
 			{
@@ -350,7 +354,14 @@ public class ShadowedText
 			if(icon != null)
 				GUI.DrawTexture(iconRect, icon, ScaleMode.StretchToFill);
 			GUI.color = previousColor;
+			GUI.skin.label.fontSize = prevFontSize;
 		}
+	}
+	
+	private function ScaleText(txt : String, dispRect : Rect)
+	{
+		while (GUI.skin.label.CalcHeight(GUIContent(txt), dispRect.width) > dispRect.height * .5f)
+			GUI.skin.label.fontSize *= .9f;
 	}	
 	
 }//ShadowedText

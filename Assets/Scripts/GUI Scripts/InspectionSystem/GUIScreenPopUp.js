@@ -292,7 +292,7 @@ private function SetTooltip()
 private function RenderSingle()
 {
 	//GUI.Box(dispRect, dispContent);
-	shadowText.Display(currentTooltip.text, dispRect);
+	shadowText.Display(currentTooltip.text, dispRect, true);
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		dOS.HasDisplayed(currentToolTipIndex, false, true);
