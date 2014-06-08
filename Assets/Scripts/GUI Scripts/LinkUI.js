@@ -405,6 +405,10 @@ function linkBuildings(b1:GameObject, b2:GameObject){
 		return;
 	} 
 
+	// prevent buildings from linking to itself
+	if (b1 == b2)
+		return;
+		
 	var linkBuilding : BuildingOnGrid = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
@@ -603,6 +607,10 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 		Debug.Log("Link was not clear");
 		return;
 	} 	
+	// prevent buildings from linking to itself
+	if (b1 == b2)
+		return;
+
 	var linkBuilding = Database.getBuildingOnGrid(b2.transform.position);
 	var building1TileCoord = HexagonGrid.worldToTileCoordinates(b1.transform.position.x, b1.transform.position.z);
 	var building2TileCoord = HexagonGrid.worldToTileCoordinates(b2.transform.position.x, b2.transform.position.z);
@@ -916,7 +924,6 @@ function Update()
 {
 	//get current mouse position & adjust y-value for screen space
 	mousePos = Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-
 	//mouseOverGUI = false;
 	selectedBuilding = ModeController.getSelectedBuilding();
 	if (selectedBuilding == null)
@@ -959,6 +966,7 @@ function Update()
 		HighlightTiles();
 	}
 	
+	//Debug.Log(fadeTimer);
 	fadeTimer += Time.smoothDeltaTime * fadeScaler;
 	if (fadeTimer >= 1 || fadeTimer <= 0)
 		fadeScaler *= -1;
