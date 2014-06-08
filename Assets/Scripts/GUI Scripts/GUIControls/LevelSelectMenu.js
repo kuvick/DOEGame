@@ -893,7 +893,7 @@ public class LevelSelectMenu extends GUIControl
 							activeLevelIndex = i;							
 							showSplash = true;
 						}
-						messageLineST.Display(subjectString, levelsToRender[i].bounds);
+						messageLineST.Display(subjectString, levelsToRender[i].bounds, false);
 
 					}
 				GUI.EndGroup();   // End of Message Group
@@ -1053,24 +1053,24 @@ public class LevelSelectMenu extends GUIControl
 					//var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
 					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
 					//GUI.Label(senderRect_desc, sender);	
-					messageLineText.Display(sender, senderRect_desc);
+					messageLineText.Display(sender, senderRect_desc, false);
 					
 					//var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
 					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
 					//GUI.Label(subjectRect, subject);	
-					messageLineText.Display(subject, subjectRect);
+					messageLineText.Display(subject, subjectRect, false);
 					
 					//var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
 					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
 					//GUI.Label(messageRect, message);	
-					messageText.Display(message, messageRect);
+					messageText.Display(message, messageRect, false);
 					
 					//var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
 					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
 					//objective = "<color=cyan>" + objective + "</color>";																														
 					//GUI.Label(objectiveRect, objective);
 					
-					objTextST.Display(objective, objectiveRect);
+					objTextST.Display(objective, objectiveRect, false);
 				}
 				else
 				{
@@ -1098,10 +1098,10 @@ public class LevelSelectMenu extends GUIControl
 					GUI.Label(messageRect, message);											
 					GUI.Label(objectiveRect, objective);
 					*/
-					messageLineText.Display(sender, senderRect_desc);
-					messageLineText.Display(subject, subjectRect);
-					messageText.Display(message, messageRect);				
-					objTextST.Display(objective, objectiveRect);
+					messageLineText.Display(sender, senderRect_desc, false);
+					messageLineText.Display(subject, subjectRect, false);
+					messageText.Display(message, messageRect, false);				
+					objTextST.Display(objective, objectiveRect, false);
 
 				}
 					
