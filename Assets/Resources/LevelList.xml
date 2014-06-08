@@ -210,7 +210,7 @@
       <difficulty>0</difficulty>
       <subjectText>Gases to Gas</subjectText>
       <messageText>Good, Hyperfab didn’t overheat this time. Not like it does... most of the time. Anway! What do you say we help some folks with their drill?</messageText>
-	  <objectiveText>Optimize oil production by reusing Carbon Emissions from oil drilling.</objectiveText>
+	  <objectiveText>Optimize oil production by reusing carbon emissions from oil drilling.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -645,7 +645,7 @@
       <difficulty>1</difficulty>
       <subjectText>Sun Tower 20,000</subjectText>
       <messageText>This Organic Flash Cycle system recycles waste heat to make solar and geothermal systems way more efficient. Dude... 3D printers powered by lava!</messageText>
-	  <objectiveText>Install an Organic Flash Cycle system into Derptech Tower to optimize their building-mounted solar array.</objectiveText>
+	  <objectiveText>Install an Organic Flash Cycle system into Derpronics Tower to optimize their building-mounted solar array.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -661,7 +661,7 @@
       <difficulty>1</difficulty>
       <subjectText>Regal and Energetic</subjectText>
       <messageText>Did I ever mention I had a twin? She’s from a different department, but she can help out in a pinch. Gonna need her for this next one for sure.</messageText>
-	  <objectiveText>Convert the Sanspoof textile mill into an Alternative Energy Lab.</objectiveText>
+	  <objectiveText>Convert the old Sanspoof textile mill into an Alternative Energy Lab.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
