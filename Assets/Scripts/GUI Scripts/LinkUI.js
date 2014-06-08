@@ -749,7 +749,7 @@ function HighlightTiles()
 			//if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
 			if(tempBuilding.optOutput.resource != ResourceType.None && tempBuilding.optionalOutputFixed)
 			{
-				if(tempBuilding.optOutput.linkedTo >= 0 && Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
+				if(tempBuilding.optOutput.linkedTo < 0 && Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
