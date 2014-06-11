@@ -119,7 +119,7 @@
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Director's Orders</subjectText>
-      <messageText>Helena Edison, ECRB Executive Director. Dr. Fernandez has assured me you can handle sensative missions. We'll see about that.</messageText>
+      <messageText>Helena Edison, ECRB Executive Director. Dr. Fernandez has assured me you can handle sensitive missions. We'll see about that.</messageText>
       <objectiveText>Bring the Pygram Nuclear plant online.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Director Helena Edison</senderName>
@@ -209,7 +209,7 @@
       <sceneName>RV03-remix</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Gases to Gas</subjectText>
-      <messageText>Good, Hyperfab didn’t overheat this time. Not like it does... most of the time. Anway! What do you say we help some folks with their drill?</messageText>
+      <messageText>Good, Hyperfab didn’t overheat this time. Not like it does... most of the time. Anyway! What do you say we help some folks with their drill?</messageText>
 	  <objectiveText>Optimize oil production by reusing carbon emissions from oil drilling.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
