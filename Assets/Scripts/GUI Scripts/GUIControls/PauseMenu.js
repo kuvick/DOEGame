@@ -149,7 +149,10 @@ public class PauseMenu extends GUIControl
 		GUI.color = defaultColor;
 		GUI.DrawTexture(hexTextRect, hexText, ScaleMode.StretchToFill);
 		
+		var prevFontSize = GUI.skin.label.fontSize;
+		GUI.skin.label.fontSize = Utils.ScaleFontSize(levelName, GUI.skin.label, levelRect.width, levelRect.height * .8);
 		GUI.Label(levelRect, levelName);
+		GUI.skin.label.fontSize = prevFontSize;
 		
 		GUI.BeginGroup(groupRect);
 		

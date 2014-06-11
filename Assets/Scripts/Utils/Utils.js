@@ -45,3 +45,22 @@ public static function ConvertToRotated(toConvert : Vector3) : Vector3
 	return Vector3(toConvert.x * Mathf.Sin(Mathf.PI * .75) + toConvert.z * Mathf.Cos(Mathf.PI * .75), 
 				toConvert.y, toConvert.x * Mathf.Cos(Mathf.PI * .75) - toConvert.z * Mathf.Sin(Mathf.PI * .75));
 }
+
+// Scales down the font size to fit within the given Rectangle
+public static function ScaleFontSize(txt : String, style : GUIStyle, width : float, height : float) : float
+{
+	var fontSize : float = style.fontSize;
+	var content : GUIContent = GUIContent(txt);
+	if (style.CalcHeight(content, width) > height)
+	{
+		while (style.CalcHeight(content, width) > height)
+			style.fontSize *= .9f;
+	}
+	else
+	{
+		while (style.CalcHeight(content, width) < height)
+			style.fontSize *= 1.1f;
+		style.fontSize *= .9f;
+	}
+	return style.fontSize;
+}

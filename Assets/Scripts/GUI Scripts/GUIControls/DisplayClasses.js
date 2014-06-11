@@ -340,7 +340,8 @@ public class ShadowedText
 			GUI.color = shadowColor;
 			prevFontSize = GUI.skin.label.fontSize;
 			if (scaleTextForTooltip)
-				ScaleText(txt, disRect);
+				GUI.skin.label.fontSize = Utils.ScaleFontSize(txt, GUI.skin.label, disRect.width, disRect.height * .3f);//
+				//ScaleText(txt, disRect);
 			GUI.Label(shadowRect, text);
 			if(icon != null)
 			{
@@ -360,7 +361,7 @@ public class ShadowedText
 	
 	private function ScaleText(txt : String, dispRect : Rect)
 	{
-		while (GUI.skin.label.CalcHeight(GUIContent(txt), dispRect.width) > dispRect.height * .5f)
+		while (GUI.skin.label.CalcHeight(GUIContent(txt), dispRect.width) > dispRect.height * .35f)
 			GUI.skin.label.fontSize *= .9f;
 	}	
 	
