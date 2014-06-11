@@ -18,6 +18,9 @@ public class NarrativePanelUI extends GUIControl
 	public var narrativeSlides : NarrPanel[];
 	public var narrativeOverlay : Texture;
 	
+	public var narrativeMusic:SoundType;
+	
+	
 	private var currentBackground:Texture;
 	private var currentBackgroundRect:Rect;
 	private var currentCharacter:Texture;
@@ -150,6 +153,10 @@ public class NarrativePanelUI extends GUIControl
 	{
 			//super.Start();
 			super.Initialize();
+			narrativeMusic.CacheSoundClip();
+			
+			var soundM: SoundManager = SoundManager.Instance();
+			soundM.playMusic(narrativeMusic);
 			
 			// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 			screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);

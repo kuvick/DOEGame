@@ -32,6 +32,7 @@ public class Loading extends GUIControl
 	//public var onlineTexture : Texture2D;
 	
 	private var style : GUIStyle = GUIStyle();
+	private var titleStyle : GUIStyle = GUIStyle();
 	public var boldFont : Font;
 	public var regularFont : Font;
 	
@@ -144,6 +145,8 @@ public class Loading extends GUIControl
 	private var beginMissionAB:AnimatedButton;
 	
 	private var jobTextST:ShadowedText;
+	private var jobTitleTextST:ShadowedText;
+	private var jobTitleUnderlineTextST:ShadowedText;
 	private var panelST:ShadowedText;
 	private var panelST2:ShadowedText;
 	
@@ -192,6 +195,12 @@ public class Loading extends GUIControl
 		style.hover.textColor = Color.white;
 		style.font = regularFont;
 		style.wordWrap = true;
+		
+		titleStyle.normal.textColor = Color.white;
+		titleStyle.active.textColor = Color.white;
+		titleStyle.hover.textColor = Color.white;
+		titleStyle.font = regularFont;
+		titleStyle.wordWrap = true;
 		
 		jobFontSize = calcFontSize(18);
 		
@@ -244,7 +253,7 @@ public class Loading extends GUIControl
 		
 		
 		
-		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);		
+		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);
 		
 		jobWebsiteButtonRect = createRect( websiteButton, 0.44, 0.58, 0.11, false, screenRect);
 		
@@ -303,6 +312,14 @@ public class Loading extends GUIControl
 		style.stretchHeight = true;
 		style.margin = RectOffset (0, 0, 0, 0);
 		style.padding = RectOffset (0, 0, 0, 0);
+		
+		titleStyle.stretchWidth = true;
+		titleStyle.stretchHeight = true;
+		titleStyle.margin = RectOffset (0, 0, 0, 0);
+		titleStyle.padding = RectOffset (0, 0, 0, 0);
+		
+		titleStyle.alignment = TextAnchor.UpperLeft;
+		
 		
 		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
 		
@@ -447,8 +464,10 @@ public class Loading extends GUIControl
 			style.font = regularFont;
 			style.fontSize = jobFontSize;
 			style.alignment = TextAnchor.UpperLeft;
-			//GUI.Label(jobTextRect, currentJobInformation, style);
+			//GUI.Label(jobTextRect, currentJobInformation, style);			
 			jobTextST.Display();
+			//jobTitleUnderlineTextST.Display();
+			jobTitleTextST.Display();
 			
 			style.font = boldFont;
 			style.fontSize = loadingStatusFontSize;
@@ -580,7 +599,7 @@ public class Loading extends GUIControl
 		currentJob = JobDatabase.GetRandomJob();
 		//currentJobDesc = "Latest Job:\n\n";
 		//currentJobDesc += currentJob.title + "\n\n";
-		currentJobDesc = currentJob.title + "\n\n";
+		//currentJobDesc = currentJob.title + "\n\n";
 		currentJobDesc += currentJob.description + "\n\n";
 		//currentJobDesc += "Sub Agency: " + currentJob.agency;
 		//currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
@@ -596,9 +615,40 @@ public class Loading extends GUIControl
 		
 		descFontSize = Mathf.Min(Screen.width, Screen.height) * 0.035;
 		currentJobInformation = currentJobDesc;
+		
+		titleStyle.fontSize = jobFontSize;
+		jobTextRect.height -= titleStyle.CalcHeight(GUIContent(currentJob.title), jobTextRect.width);
+		
 		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
 		
+		titleStyle.fontSize = jobFontSize * 1.5;
+		
+		
+		
+		
+		
+		var titleRect : Rect = Rect(jobTextRect.x, jobTextRect.y,
+		jobTextRect.width,
+		titleStyle.CalcHeight(GUIContent(currentJob.title), jobTextRect.width));
+		
+		jobTitleTextST = new ShadowedText(currentJob.title, titleRect, titleStyle, false);
+		
+		jobTextRect.y += titleRect.height + padding;
+		
 		jobTextST = new ShadowedText(currentJobInformation, jobTextRect, style, false);
+		
+		/*
+		var underlineText:String = "";
+		
+		for(var j:int = 0; j < currentJob.title.length; j++)
+		{
+			underlineText += "_";
+		}
+		
+		jobTitleUnderlineTextST = new ShadowedText(underlineText, titleRect, titleStyle, false);
+		*/
+		
+		
 		
 	}
 	
