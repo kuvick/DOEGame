@@ -115,6 +115,8 @@ public class NarrativePanelUI extends GUIControl
 	
 	private var screenRect : Rect;
 	
+	public var disableTypingSound : boolean;
+	
 	//private var nextLevel : NextLevelScript;
 
 	public function Start () 
@@ -350,7 +352,8 @@ public class NarrativePanelUI extends GUIControl
 		while (lastLetter <= narrativeSlides[currentSlide].dialogue.length)
 		{
 			currentDisplayText = narrativeSlides[currentSlide].dialogue.Substring(0, lastLetter);
-			SoundManager.Instance().playNarrativeTyping();
+			if (!disableTypingSound)
+				SoundManager.Instance().playNarrativeTyping();
 			yield WaitForSeconds(narrativeSlides[currentSlide].textSpeed);
 			lastLetter += 1;
 		}
