@@ -336,6 +336,7 @@ public function NextTooltip()
 	if (currentTooltip.GetComponent())
 		currentTooltip.GetComponent().SetSelected(false);
 	tooltipList.RemoveAt(0);
+	tutorialPointers.DismissCurrentFromParent();
 	if (tooltipList.Count == 0)
 	{
 		//SoundManager.Instance().playInspectionClose();

@@ -968,9 +968,9 @@ function Update()
 	
 	//Debug.Log(fadeTimer);
 	fadeTimer += Time.smoothDeltaTime * fadeScaler;
+	Mathf.Clamp(fadeTimer, 0, 1);
 	if (fadeTimer >= 1 || fadeTimer <= 0)
 		fadeScaler *= -1;
-	Mathf.Clamp(fadeTimer, 0, 1);
 }
 
 private function RectInsideGUI(rectangle : Rect){

@@ -46,6 +46,8 @@ private var onMissionSelect:boolean = false;
 
 private var isInitialized : boolean = false;
 
+private var parentDismissed : boolean = false;
+
 function Start()
 {
 	if (!isInitialized)
@@ -513,6 +515,12 @@ public function checkTrigger()
 	}
 }
 
+public function DismissCurrentFromParent()
+{
+	if (currentArrow && currentArrow.interaction == Interaction.FromParentTooltip)
+		parentDismissed = true;
+}
+
 private var waitingForRelease:boolean;
 public function checkForInteraction(arrow:TutorialArrow):boolean
 {
@@ -580,6 +588,14 @@ public function checkForInteraction(arrow:TutorialArrow):boolean
 		else
 			return false;
 	}
+	else if(arrow.interaction == Interaction.FromParentTooltip)
+	{
+		if (parentDismissed)
+		{
+			parentDismissed = false;
+			return true;
+		}
+	}
 	
 	return false;
 }
@@ -637,7 +653,8 @@ public enum Interaction
 	Pause,
 	SingleBuilding,
 	Linking,
-	None
+	None,
+	FromParentTooltip
 }
 
 public enum StartTrigger
