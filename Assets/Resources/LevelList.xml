@@ -28,7 +28,7 @@
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
-      <messageText>Here I introduced you to the dynamics of tracing resource paths to guide the Terrachanics uplink system. Ah, the good old days!</messageText>
+      <messageText>Here I introduced you to the dynamics of tracing resource paths to guide the Terrachanics linking system. Ah, the good old days!</messageText>
 	  <objectiveText>Help NukeTech expand their workforce to provide power to more areas.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -140,7 +140,6 @@
       <subjectText>The Light of Invention</subjectText>
       <messageText>Congratulations! Edison spoke very highly of you. In her own way. The subtext was clearly there. Anyway, onward and upward!</messageText>
 	  <objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>
-      <!--<objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>-->
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -245,7 +244,7 @@
       <difficulty>0</difficulty>
       <subjectText>Fun in the Sun</subjectText>
       <messageText>Brenton’s got it rough this year. Record heat is stalling their car production factory, on top of AC costs. Not for long with this baby!</messageText>
-	  <objectiveText>Oversee implementation of Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
+	  <objectiveText>Oversee implementation of a Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -406,7 +405,7 @@
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Power in Your Hands</subjectText>
-      <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Prototech has gone and made it first! Ugh, always beating me to the punch.</messageText>
+      <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Hilbert has gone and made it first! Ugh, always beating me to the punch!</messageText>
       <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
@@ -473,7 +472,7 @@
       <difficulty>0</difficulty>
       <subjectText>The Power of Heat</subjectText>
       <messageText>Way to be my eyes in the skies there, buddy! Not a fan of multi-tasking myself, but I hear CHP is going to be huge in heating and powering factories.</messageText>
-	  <objectiveText>Implement a Combined Heat and Power System into the aeronautics factory.</objectiveText>
+	  <objectiveText>Implement a Combined Heat and Power System into the new Davincraft eronautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -508,7 +507,8 @@
       <sceneName>KU01</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Fresh Air for Cheap</subjectText>
-      <messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>
+      <!--<messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>-->
+	  <messageText>Never been a fan of science. Don't trust it. But I do share a scientists passion for breathing. Maybe we aren't so different after all?</messageText>
 	  <objectiveText>Help Derptronics install a new Voltatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -661,7 +661,7 @@
       <difficulty>1</difficulty>
       <subjectText>Regal and Energetic</subjectText>
       <messageText>Did I ever mention I had a twin? She’s from a different department, but she can help out in a pinch. Gonna need her for this next one for sure.</messageText>
-	  <objectiveText>Convert the old Sanspoof textile mill into an Alternative Energy Lab.</objectiveText>
+	  <objectiveText>Convert the old Sanspoof textile mill into an alternative energy Lab.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -726,7 +726,7 @@
       <difficulty>1</difficulty>
       <subjectText>Somewhere in Nowhere</subjectText> <!-- PLACEHOLDER TEXT-->
       <messageText>I always wanted a cabin in the middle of nowhere. A nice break away from my adoring fans. Don’t give me that look, they are coming. Just you wait!</messageText>
-	  <objectiveText>Provide resources to Bzzt Pow! Electrical to expand their power line coverage.</objectiveText>
+	  <objectiveText>Provide resources to Pygram to expand their power line coverage.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
