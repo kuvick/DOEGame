@@ -8,6 +8,8 @@ private var componentSelected : boolean = false;
 
 private var dispText : String = String.Empty;
 private var templateRect : Rect;
+private var templateTopRect : Rect;
+private var templateBotRect : Rect;
 private var dispRect : Rect;
 private var dispTopRect : Rect;
 private var dispBotRect : Rect;
@@ -20,7 +22,7 @@ private var dispWidth : float;
 private var dispWidthScale : float = 1.0; // width based on box height
 private var dispHeight : float;
 //private var dispHeightScale : float = .5;
-private var dispHeightScale : float = .6;
+private var dispHeightScale : float = .4;
 
 private var dispRightOffset : float;
 //private var dispRightOffsetScale : float = .025;
@@ -84,9 +86,9 @@ function Start ()
 	
 	screenMiddle = Vector2(Screen.width, Screen.height) / 2.0;
 	dispHeight = Screen.height * dispHeightScale;
-	dispWidth = dispHeight * dispWidthScale;
+	dispWidth = Screen.height * .6f * dispWidthScale;
 	dispRightOffset = dispRightOffsetScale * Screen.width;
-	dispTopOffset = dispTopOffsetScale * Screen.height;
+	dispTopOffset = Screen.height / 2f - dispHeight / 2f;//dispTopOffsetScale * Screen.height;
 	//FIX THIS!!! GPC 4/19/14
 	templateRect = Rect(Screen.width - dispWidth - dispRightOffset + padding * 2, dispTopOffset, dispWidth - padding * 5, dispHeight);
 	dispRect = templateRect;
@@ -94,8 +96,10 @@ function Start ()
 	
 	//dispTopRect = Rect(dispRect.x, dispRect.y, dispRect.width, dispRect.height / 2f);
 	//dispBotRect = Rect(dispRect.x + padding, dispRect.y + (dispRect.height / 2f) + padding, dispRect.width - padding * 2, dispRect.height / 2f);
-	dispTopRect = Rect(templateRect.x + padding, templateRect.y, templateRect.width - padding * 2, templateRect.height / 2f);
-	dispBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f), templateRect.width - padding * 2, templateRect.height / 2f);
+	templateTopRect = Rect(templateRect.x + padding, templateRect.y, templateRect.width - padding * 2, templateRect.height / 2f);
+	dispTopRect = templateTopRect;
+	templateBotRect = Rect(templateRect.x + padding, templateRect.y + (templateRect.height / 2f), templateRect.width - padding * 2, templateRect.height / 2f);
+	dispBotRect = templateBotRect;
 	nextRect = Rect(templateRect.x, dispBotRect.y + (dispBotRect.height / 2f), templateRect.width, dispBotRect.height / 2f);
 	borderOffset = Screen.height * borderOffsetScale;
 	borderRect = Rect(Screen.width - dispWidth - dispRightOffset,dispTopOffset - borderOffset,dispWidth,dispHeight + borderOffset * 2);
@@ -270,11 +274,29 @@ public function Activate(pic : Texture2D, disp : String, selected : InspectionCo
 // calculates and sets the proper rectangle height and centers it on the screen
 private function FormatDisplay()
 {
+	if (currentWindowType == WindowType.Tutorial)
+		dispRect.height = templateRect.height * (1f + currentTooltip.designerYScale);
+	else
+		dispRect.height = Screen.height * .6f;
+		
+	dispRect.y = Screen.height / 2f - dispRect.height / 2f;
+	dispRect.x = templateRect.x;
+	dispRect.width = templateRect.width;
 	if (currentTooltip.pic && currentTooltip.text != String.Empty)
 	{
 		renderDouble = true;
-		dispRect.y -= templateRect.height / 2f;
-		dispRect.height *= 2f;
+		dispTopRect.y = dispRect.y;// = templateTopRect;
+		dispTopRect.height = dispRect.height / 2f * (1f + currentTooltip.designerImageScale);
+		dispBotRect.y = dispTopRect.bottom + currentTooltip.designerHeightTweak; //templateBotRect;
+		dispBotRect.height = dispRect.height - dispTopRect.height;
+		dispRect.height = dispBotRect.y - dispTopRect.y + dispBotRect.height;
+		var yAdjustment : float = Screen.height / 2f - dispRect.height / 2f - dispTopRect.y;
+		dispRect.y += yAdjustment;
+		dispTopRect.y += yAdjustment;
+		dispBotRect.y += yAdjustment;
+		//dispBotRect.y = templateBotRect.y + currentTooltip.designerHeightTweak;
+		/*dispRect.y -= templateRect.height / 2f;
+		dispRect.height *= 2f;*/
 	}
 	else if (currentTooltip.pic)
 	{
@@ -287,13 +309,13 @@ private function FormatDisplay()
 		dispContent = GUIContent(currentTooltip.text);
 		
 		//Added to allow designer to manually adjust y coordinate for longer descriptions (GPC 4/22/14)
-		dispRect.height = templateRect.height;
-		dispRect.y = templateRect.y + currentTooltip.designerHeightTweak;
+		//dispRect.height = templateRect.height;
+		dispRect.y += currentTooltip.designerHeightTweak;
 		//GUI.Label(currentTooltip.text);
 	}
 	
-
-	
+	nextRect.height = dispRect.height * .1f;
+	nextRect.y = dispRect.bottom - nextRect.height;
 	/*dispHeight = skin.label.CalcHeight(GUIContent(dispText), dispWidth);
 	dispRect.height = dispHeight;
 	borderRect.height = dispHeight + borderOffset * 2;*/
@@ -443,8 +465,11 @@ private function RenderBoth()
 
 private function RenderInspection()
 {
-	GUI.DrawTexture(borderRect, inspectionBorder);
-	
+	dispRect.x = templateRect.x;
+	dispRect.width = templateRect.width;
+	GUI.DrawTexture(dispRect, inspectionBorder);
+	dispRect.width = templateRect.width * .8f;
+	dispRect.x += dispRect.width * .1f;
 	//GUI.Box(dispRect, dispContent);
 	if (renderDouble)
 	{
@@ -478,7 +503,7 @@ private function RenderTutorial()
 	}
 	else
 	{
-		GUI.DrawTexture(borderRect, border);
+		GUI.DrawTexture(dispRect, border);
 		shadowText.Display(currentTooltip.text, dispRect, true);
 	}
 }
@@ -628,6 +653,8 @@ public class Tooltip
 	public var toggleWaitButton : boolean = false;
 	
 	public var designerHeightTweak:float = 0;
+	public var designerYScale : float = 0;
+	public var designerImageScale : float = 0;
 	
 	public var cameraTarget : GameObject;
 	
