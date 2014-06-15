@@ -32,7 +32,7 @@
 			<MinExp>2000</MinExp>
 		</Rank>
 		<Rank>
-			<Name>Assistant Energy Agent</Name>
+			<Name>Aspiring Agent</Name>
 			<Level>5</Level>
 			<MinExp>2500</MinExp>
 		</Rank>
@@ -67,12 +67,12 @@
 			<MinExp>5500</MinExp>
 		</Rank>
 		<Rank>
-			<Name>Class A Agent</Name>
+			<Name>Top Agent</Name>
 			<Level>12</Level>
 			<MinExp>6000</MinExp>
 		</Rank>
 		<Rank>
-			<Name>Ridiculously Good Agent</Name>
+			<Name>Exemplary Agent</Name>
 			<Level>13</Level>
 			<MinExp>6500</MinExp>
 		</Rank>
