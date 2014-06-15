@@ -45,7 +45,7 @@
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Divergent Convergence</subjectText>
-      <messageText>Wonderful, you are a natural! The world is rarely so linear, though, so lets see if you can handle some advanced lessons.</messageText>
+      <messageText>Wonderful, you are a natural! The world is rarely so linear, though, so let's see if you can handle some advanced lessons.</messageText>
 	  <objectiveText>Help Alma City solve their gas shortage problem.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -81,7 +81,7 @@
       <sceneName>Tutorial_KU04</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Follow the Signs</subjectText>
-      <messageText>How does it feel to be a part of history? Lets make things more interesting this time...</messageText>
+      <messageText>How does it feel to be a part of history? Let's make things more interesting this time...</messageText>
 	  <objectiveText>Mobilize area professionals to help repair the Hydrolyss Dam.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
@@ -100,7 +100,7 @@
 	  <sceneName>Tutorial_RV14</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Many Beginnings</subjectText>
-      <messageText>Now you're getting it... but we're just getting started. Lets see how clever you really are...</messageText>
+      <messageText>Now you're getting it... but we're just getting started. Let's see how clever you really are...</messageText>
       <!--<objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>-->
 	  <objectiveText>Help Derptronics complete their research in Liquid Metal Battery technology before their funding is cut.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -359,7 +359,7 @@
       <sceneName>RV09</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Soak Up the Sun</subjectText>
-      <messageText>Oh boy. Derptronics sure picked a great place to make a solar factory. They got the tech, but their neighbors could use some straightening out. Lets get to it.</messageText>
+      <messageText>Oh boy. Derptronics sure picked a great place to make a solar factory. They got the tech, but their neighbors could use some straightening out. Let's get to it.</messageText>
 	  <objectiveText>Help Derptronics develop efficient polymer solar cell technology to optimize their solar panels.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
@@ -397,21 +397,6 @@
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>9</missionRequirementIndex>
-      <contactRequirement></contactRequirement>
-    </Level>
-	
-	 <Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
-      <displayName>19</displayName>
-      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
-      <subjectText>Power in Your Hands</subjectText>
-      <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Hilbert has gone and made it first! Ugh, always beating me to the punch!</messageText>
-      <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
-	  <isPrimary>true</isPrimary>
-      <senderName>Engineer Nancy Sanders</senderName>
-      <howToUnlock>MISSION</howToUnlock>
-      <rankRequirement>0</rankRequirement>
-      <missionRequirementIndex>18</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
@@ -456,7 +441,7 @@
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Garbage Run</subjectText>
-      <messageText>I hear the tech on this one involves using garbage to run your car. Not in my Hummer! But hey, I guess someone's gotta to offset my pollution.</messageText>
+      <messageText>I hear the tech on this one involves using garbage to run your car. Just keep that stuff away from my Hummer and we'll all be better off.</messageText>
 	  <objectiveText>Escort scientist to help implement a Biodiesel fueling station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -509,7 +494,7 @@
       <subjectText>Fresh Air for Cheap</subjectText>
       <!--<messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>-->
 	  <messageText>Never been a fan of science. Don't trust it. But I do share a scientists passion for breathing. Maybe we aren't so different after all?</messageText>
-	  <objectiveText>Help Derptronics install a new Voltatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
+	  <objectiveText>Help Derptronics install a new Volatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -523,7 +508,7 @@
       <sceneName>DD10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Powered Up</subjectText>
-      <messageText>Just one more job and we’ll be getting you a sweet suit like mine. Lets see you earn those stars!</messageText>
+      <messageText>Just one more job and we’ll be getting you a sweet suit like mine. Let's see you earn those stars!</messageText>
 	  <objectiveText>Mobilize local scientists to assist in bringing the latest high-volume power plant online.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -582,6 +567,21 @@
       <howToUnlock>MISSION</howToUnlock>
       <rankRequirement>0</rankRequirement>
       <missionRequirementIndex>10</missionRequirementIndex>
+      <contactRequirement></contactRequirement>
+    </Level>
+	
+	<Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
+      <displayName>19</displayName>
+      <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
+      <difficulty>0</difficulty>
+      <subjectText>Power in Your Hands</subjectText>
+      <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Hilbert has gone and made it first! Ugh, always beating me to the punch!</messageText>
+      <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
+	  <isPrimary>true</isPrimary>
+      <senderName>Engineer Nancy Sanders</senderName>
+      <howToUnlock>MISSION</howToUnlock>
+      <rankRequirement>0</rankRequirement>
+      <missionRequirementIndex>18</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
 	
