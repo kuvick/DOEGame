@@ -178,33 +178,33 @@ public class SoundManager extends MonoBehaviour {
 		playLinkingSound(linkSounds.linkDenied);
 	}
 	
-	private var linkDraringStartPlayed = false;
+	private var linkDraggingStartPlayed = false;
 	public function PlayLinkDraging(){
 		if (linkSounds.linkDragStart == null || linkSounds.linkDrag == null){
 			Debug.LogError("A link draging sound was not set");
 			return;
 		}
-		if (!linkDraringStartPlayed){
-			linkDraringStartPlayed = true;
+		if (!linkDraggingStartPlayed){
+			linkDraggingStartPlayed = true;
 			var source : AudioSource = AddAudioSource();
 			var linkDragStart : AudioClip = linkSounds.linkDragStart.GetClip();
 			playClip(linkDragStart, source, linkSounds.priority);
-			yield WaitForSeconds (linkDragStart.length);
-			if (!linkDraringStartPlayed) return; // if we stopped dragging before the starting sound finished
-			playClipLooped(linkSounds.linkDrag.GetClip(), source, linkSounds.priority);
+			/*yield WaitForSeconds (linkDragStart.length);
+			if (!linkDraggingStartPlayed) return; // if we stopped dragging before the starting sound finished
+			playClipLooped(linkSounds.linkDrag.GetClip(), source, linkSounds.priority);*/
 		}
 	}
 	
 	public function StopLinkDraging(){
-		var sourcePlayingDragClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag.GetClip());
+		//var sourcePlayingDragClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDrag.GetClip());
 		var sourcePlayingDragStartClip : AudioSource = getSoundSourcePlayingClip(linkSounds.linkDragStart.GetClip());
-		if (sourcePlayingDragClip != null){
+		/*if (sourcePlayingDragClip != null){
 			RemoveAudioSource(sourcePlayingDragClip);
-		}
+		}*/
 		if (sourcePlayingDragStartClip != null){
 			RemoveAudioSource(sourcePlayingDragStartClip);
 		}
-		linkDraringStartPlayed = false;
+		linkDraggingStartPlayed = false;
 	}
 	
 	/// Unit sounds
