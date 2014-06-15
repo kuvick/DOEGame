@@ -719,7 +719,7 @@ function ReplaceBuilding (replacement : BuildingReplacement)
 	buildings[replacement.buildingIndex] = replacement.buildingObject;
 }
 
-function HighlightTiles()
+function HighlightTiles(res : ResourceType)
 {
 	selectedBuilding = ModeController.getSelectedBuilding();
 	buildingIsSelected = (selectedBuilding != null);
@@ -743,26 +743,36 @@ function HighlightTiles()
 		}
 		if(ModeController.selectedBuilding != null && ModeController.selectedBuilding != building && isInRange(building, ModeController.selectedBuilding))
 		{
-			var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
-			
-			for(var j = 0; j < tempBuilding.unallOutputs.Count; j++)//ocatedOutputs.Count; j++)
+			if (res == ResourceType.None)
 			{
-				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallOutputs[j].resource))//ocatedOutputs[j]))
+				var tempBuilding = Database.getBuildingOnGrid(ModeController.selectedBuilding.transform.position);
+				
+				for(var j = 0; j < tempBuilding.unallOutputs.Count; j++)//ocatedOutputs.Count; j++)
+				{
+					if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.unallOutputs[j].resource))//ocatedOutputs[j]))
+					{
+						buildingHighlightColor = targetHighlightColor;
+						buildingState = IndicatorState.Valid;
+					}
+				}		
+				//if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
+				if(tempBuilding.optOutput.resource != ResourceType.None && tempBuilding.optionalOutputFixed)
+				{
+					if(tempBuilding.optOutput.linkedTo < 0 && Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
+					{
+						buildingHighlightColor = targetHighlightColor;
+						buildingState = IndicatorState.Valid;
+					}
+				}
+			}
+			else
+			{
+				if(Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), res))//ocatedOutputs[j]))
 				{
 					buildingHighlightColor = targetHighlightColor;
 					buildingState = IndicatorState.Valid;
-					
 				}
-			}		
-			//if(tempBuilding.optionalOutput != ResourceType.None && tempBuilding.optionalOutputFixed)
-			if(tempBuilding.optOutput.resource != ResourceType.None && tempBuilding.optionalOutputFixed)
-			{
-				if(tempBuilding.optOutput.linkedTo < 0 && Database.checkForResource(Database.getBuildingOnGrid(buildings[i].transform.position), tempBuilding.optOutput.resource))//ionalOutput))
-				{
-					buildingHighlightColor = targetHighlightColor;
-					buildingState = IndicatorState.Valid;
-				}
-			}	
+			}
 		}
 		//(gridBuilding.highlighter.GetComponentInChildren(Renderer) as Renderer).material.SetColor("_Color", buildingHighlightColor);
 		
@@ -963,7 +973,7 @@ function Update()
 		ModeController.setSelectedBuilding(null);
 		ModeController.setSelectedInputBuilding(null);
 		ResetLinkVariables();//inputBuilding = null; outputBuilding = null; //resets either way
-		HighlightTiles();
+		HighlightTiles(ResourceType.None);
 	}
 	
 	//Debug.Log(fadeTimer);

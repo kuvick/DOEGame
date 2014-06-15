@@ -82,7 +82,7 @@ static function HandleFirstClick(position : Vector2)
 		if (tempCollider.name.Equals("ClickCollider"))//ResourceRing"))
 		{
 			ModeController.setSelectedBuilding(tempCollider.transform.parent.gameObject);
-			linkUIRef.HighlightTiles();
+			linkUIRef.HighlightTiles(ResourceType.None);
 		}
 		else
 			tempCollider.SendMessage("OnSelected", null, SendMessageOptions.DontRequireReceiver);
@@ -108,6 +108,7 @@ static function HandleFirstClick(obj : Collider) : DragMode
 	
 	var outputBuilding:BuildingOnGrid = Database.getBuildingOnGridFromGO(buildingObject);
 	var realloaction:boolean = false;
+	var resourceSelected : ResourceType = ResourceType.None;
 	
 	if (obj.name.Contains(" "))
 	{
@@ -132,10 +133,12 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		{
 			outputBuilding.allOutputs[outputIndex].icon.SelectForReallocation();
 			pSystem.setResourceIcon(outputBuilding.allOutputs[outputIndex].icon);
+			resourceSelected = outputBuilding.allOutputs[outputIndex].resource;
 		}
 		else
 		{
 			outputBuilding.optOutput.icon.SelectForReallocation();
+			resourceSelected = outputBuilding.optOutput.resource;
 			pSystem.setResourceIcon(outputBuilding.optOutput.icon);
 		}
 		
@@ -169,7 +172,7 @@ static function HandleFirstClick(obj : Collider) : DragMode
 				// it is fixed and unallocated:
 				else
 				{
-					linkUIRef.HighlightTiles();
+					linkUIRef.HighlightTiles(ResourceType.None);
 					return DragMode.Link;
 				}
 			}//inner if
@@ -177,7 +180,7 @@ static function HandleFirstClick(obj : Collider) : DragMode
 		// when all output has not been allocated and/or the link was selected:
 		else
 		{
-			linkUIRef.HighlightTiles();
+			linkUIRef.HighlightTiles(resourceSelected);
 			return DragMode.Link;
 		}
 	}
@@ -195,7 +198,7 @@ static function HandleTapAtPoint(obj : Collider) {//position: Vector2){
 		ModeController.setSelectedBuilding(null);
 		//return;
 	if (!obj || obj.tag != "Unit")
-		linkUIRef.HighlightTiles();
+		linkUIRef.HighlightTiles(ResourceType.None);
 	else if (obj.tag == "Unit")
 		unitSelected = true;
 	var selBuilding : GameObject = ModeController.getSelectedBuilding();
@@ -301,7 +304,7 @@ static function HandleReleaseAtPoint(position: Vector2)//, relType : DragType)
 		ModeController.setSelectedBuilding(null);
 	}
 	//linkUIRef.ResetLinkVariables();
-	linkUIRef.HighlightTiles();
+	linkUIRef.HighlightTiles(ResourceType.None);
 }
 
 static function HandleReleaseAtPoint(obj : Collider)
@@ -331,5 +334,5 @@ static function HandleReleaseAtPoint(obj : Collider)
 		pSystem.SelectLink(false);
 		blinkingReallocatedLink = null;
 	}
-	linkUIRef.HighlightTiles();
+	linkUIRef.HighlightTiles(ResourceType.None);
 }

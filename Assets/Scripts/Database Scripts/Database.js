@@ -169,7 +169,7 @@ function Start()
 	WriteLevel();*/
 	
 	// sets highlight tiles
-	linkUIRef.HighlightTiles();
+	linkUIRef.HighlightTiles(ResourceType.None);
 }
 
 //*******************************************

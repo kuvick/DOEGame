@@ -570,7 +570,7 @@ public function OnDeselect()
 	ModeController.setSelectedBuilding(null);
 	isSelected = false;
 	inputController.selectUnit(false);
-	linkUIRef.HighlightTiles();
+	linkUIRef.HighlightTiles(ResourceType.None);
 }
 
 protected function OnActivate(){
