@@ -167,7 +167,7 @@ static function HandleFirstClick(obj : Collider) : DragMode
 				if((outputBuilding.unit == UnitType.Worker && outputBuilding.optOutput.linkedTo != -1))
 					return DragMode.Cam;
 				//when it is not fixed 
-				else if(outputBuilding.unit != UnitType.Worker)
+				else if(!outputBuilding.optionalOutputFixed)
 					return DragMode.Cam;
 				// it is fixed and unallocated:
 				else
