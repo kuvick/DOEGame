@@ -20,7 +20,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/researchers-borrow-fir-tree-create-biodiesel</urlLink>
 	  <iconName>techImage_biodiesel</iconName>
-	  <description>Biodiesel fuel has similar properties to Road Diesel but is instead made of renewable organic matter. Often times, this matter is vegetable oil recycled from restaurants and cafeterias. Recently, researchers have found alternatives such as Bisabolane which perform more efficiently than vegitable oil and offer something closer to Road Diesel.</description>
+	  <description>Developed from Fir Trees, biodiesel is an alternative to conventional D2 diesel (road diesel) used in commercial trucking. It holds the promise of greater energy independence for the country.</description>
+		<!--Biodiesel fuel has similar properties to Road Diesel but is instead made of renewable organic matter. Often times, this matter is vegetable oil recycled from restaurants and cafeterias. Recently, researchers have found alternatives such as Bisabolane which perform more efficiently than vegitable oil and offer something closer to Road Diesel.-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Silicon Carbide Thyristors</name>
