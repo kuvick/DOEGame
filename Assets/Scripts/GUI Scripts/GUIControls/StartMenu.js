@@ -150,7 +150,7 @@ public class StartMenu extends GUIControl
 	private var mainMenuButtonAB:AnimatedButton;
 	private var deleteProfileButtonAB:AnimatedButton;
 	
-	
+	private var welcomeText:ShadowedText;
 	
 	//New Profile
 	
@@ -163,7 +163,8 @@ public class StartMenu extends GUIControl
 		FirstScreen,
 		ProfileSelect,
 		NewProfile,
-		Options
+		Options, 
+		WelcomePlayer
 	}
 		
 	
@@ -320,8 +321,6 @@ public class StartMenu extends GUIControl
 		
 		mainMenuButtonAB = new AnimatedButton(Color.blue, mainMenuButtonText, upperRightButtonRect);
 		deleteProfileButtonAB = new AnimatedButton(Color.blue, deleteProfileButton, deleteProfileButtonRect);
-		
-		
 		var enterNameSTRect:Rect = createRect(Vector2(1350, 145), 65f / 1920f, 200f / 1080f, 145f / 1080f, false);
 		var acceptSTRect:Rect = createRect(Vector2(440, 120), 0f, 826f / 1080f, 120f / 1080f, false);
 		var cancelSTRect:Rect = createRect(Vector2(440, 120), 0f, 826f / 1080f, 120f / 1080f, false);
@@ -336,6 +335,7 @@ public class StartMenu extends GUIControl
 		enterNameST = new ShadowedText("Enter your name:", enterNameSTRect, profileStyle, true);
 		acceptST  = new ShadowedText("Accept", acceptSTRect, profileStyle, true);
 		cancelST  = new ShadowedText("Cancel", cancelSTRect, profileStyle, true);
+		welcomeText = new ShadowedText("", Rect(0,0,0,0), profileStyle, true);
 		
 		optionsTitleST = new ShadowedText("Options", optionsSkin.customStyles[0], optionsIcon);
 		
@@ -457,8 +457,8 @@ public class StartMenu extends GUIControl
 					}
 					else
 					{
-						firstTime = false;
-						currentScreen = CurrentStartScreen.ProfileSelect;
+						saveSystem.LoadPlayer(players[0]);
+						currentResponse.type = EventTypes.LEVELSELECT;
 					}
 					PlayButtonPress();
 				}
@@ -507,12 +507,7 @@ public class StartMenu extends GUIControl
 			{
 				// loads the first player on the list, essentially making only one player
 				// while leaving in the functionality in case we want to go back.
-				if(!firstTime)
-				{
-					saveSystem.LoadPlayer(players[0]);
-					currentResponse.type = EventTypes.LEVELSELECT;
-				}
-				else
+				if(firstTime)
 				{
 					players = saveSystem.LoadNames();
 					GUI.skin.verticalScrollbarThumb.fixedWidth = screenWidth * scrollThumbWidth;
@@ -555,6 +550,7 @@ public class StartMenu extends GUIControl
 						
 						var distanceFromTop : float = 0;
 						
+						/*
 						for(var i : int = 0; i < players.Count; i++)
 						{
 							GUI.skin = profileSelectSkin;
@@ -575,7 +571,7 @@ public class StartMenu extends GUIControl
 							distanceFromTop +=  profileSelectHeight + (buttonSideBuffer * screenHeight);
 							profileButton.y = distanceFromTop;
 						}
-						
+						*/
 						
 						GUI.skin = profileSelectSkin;
 
@@ -608,28 +604,27 @@ public class StartMenu extends GUIControl
 									saveSystem.createPlayer(newUsername, sfxSliderVal, musicSliderVal);
 									saveSystem.LoadPlayer(newUsername);
 									
-									
+									currentScreen = CurrentStartScreen.WelcomePlayer;
 									// If it is the first time a player is loading the game
 									//(aka no profile has been created until this one)
 									// Then it either loads the dashboard next or the specified
 									// level under the variable firstTimeLevelToLoad.
-									if(firstTime)
-									{
-										if(firstTimeLevelToLoad == "")
-											currentResponse.type = EventTypes.LEVELSELECT;
-										else
-										{
-											PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
-											Application.LoadLevel("LoadingScreen");
-										}
-									}
+
+									/*
+									if(firstTimeLevelToLoad == "")
+										currentResponse.type = EventTypes.LEVELSELECT;
 									else
-										currentScreen = CurrentStartScreen.ProfileSelect;
+									{
+										PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+										Application.LoadLevel("LoadingScreen");
+									}
+									*/	
 									PlayButtonPress();
 								}
 							}
 							GUI.skin = startMenuSkin;
 						}
+						/*
 						else
 						{
 							GUI.skin = profileSelectSkin;
@@ -640,7 +635,7 @@ public class StartMenu extends GUIControl
 								PlayButtonPress();
 							}
 						}
-						
+						*/
 						GUI.skin = startMenuSkin;
 						
 						
@@ -672,6 +667,12 @@ public class StartMenu extends GUIControl
 				}
 
 			}// end of profile select
+			else if(currentScreen == CurrentStartScreen.WelcomePlayer)
+			{
+				profileButton = Rect(0, Screen.height * 0.3, Screen.width, Screen.height * 0.3);
+				welcomeText.Display("\nWelcome to the ECRB,\n Agent " + newUsername + "!", profileButton, false);
+				SendToLevelSelect();
+			}
 			/*
 			else if(currentScreen == CurrentStartScreen.NewProfile)
 			{
@@ -838,6 +839,22 @@ public class StartMenu extends GUIControl
 		}
 	}
 	
+	private var waiting:boolean = false;
+	private function SendToLevelSelect()
+	{
+		if(!waiting)
+		{
+			waiting = true;
+			yield WaitForSeconds(1);
+			if(firstTimeLevelToLoad == "")
+				currentResponse.type = EventTypes.LEVELSELECT;
+			else
+			{
+				PlayerPrefs.SetString(Strings.NextLevel, firstTimeLevelToLoad);
+				Application.LoadLevel("LoadingScreen");
+			}
+		}
+	}
 	
 	
 	public function SetSplash(show:boolean)

@@ -121,12 +121,11 @@ public class NarrativePanelUI extends GUIControl
 	public var disableTypingSound : boolean;
 	
 	//private var nextLevel : NextLevelScript;
+	private var startCoroutine:boolean = false;
 
 	public function Start () 
-	
-	
-	
 	{
+		Debug.Log("NarPanelUI");
 		if(!inScoreScreen)
 		{
 			startNarrative();
@@ -430,7 +429,7 @@ public class NarrativePanelUI extends GUIControl
 					{
 						lastLetter = 0;
 						currentSlide++;
-						StartCoroutine(UpdateText());
+						startCoroutine = true;
 					}
 				}
 				GUI.enabled = false;
@@ -457,7 +456,7 @@ public class NarrativePanelUI extends GUIControl
 					{
 						lastLetter = 0;
 						currentSlide--;
-						StartCoroutine(UpdateText());
+						startCoroutine = true;
 					}			
 				}
 				
@@ -502,7 +501,7 @@ public class NarrativePanelUI extends GUIControl
 					{
 						lastLetter = 0;
 						currentSlide--;
-						StartCoroutine(UpdateText());
+						startCoroutine = true;
 					}			
 				}
 				
@@ -528,6 +527,15 @@ public class NarrativePanelUI extends GUIControl
 		//}	
 	
 		GUI.EndGroup();
+		
+		//If called within begin/end group will cause this error:
+		// "you are pushing more guiclips than you are popping"
+		// Edit: Still getting this error despite being moved outside...not sure what to do about it.
+		if(startCoroutine)					
+		{
+			startCoroutine = false;
+			StartCoroutine(UpdateText());
+		}
 	}// end of OnGUI
 	
 	//Would eventually set this to the loading screen, but for now since there are errors...

@@ -953,7 +953,7 @@ public class AnimatedText
 
 	
 
-} //AnimatedImage
+} //AnimatedText
 
 
 public class RectAnimations
