@@ -688,13 +688,12 @@ public class ScoreMenu extends GUIControl
 						{
 							if(!isDelaying && !starAnimation[0].Render(starRect[j], starUnfilledTexture, starFillTexture, true, starAnimationSpeed))
 							{
-								//numOfStarsAnimated++;
-								if(numOfStarsAnimated < 1)
-									numOfStarsAnimated++;
+								numOfStarsAnimated++;
+								//if(numOfStarsAnimated < 1)
+									//numOfStarsAnimated++;
 							}
 							else if(isDelaying)
-							{
-								
+							{	
 								GUI.DrawTexture(starRect[j], starFillTexture, ScaleMode.StretchToFill);
 							}
 						}
@@ -735,7 +734,7 @@ public class ScoreMenu extends GUIControl
 							if(!honorsAnimation[i].Render(honorsRect[i], honorsTextures[i].notEarned, honorsTextures[i].earned, true, starAnimationSpeed))
 							{
 								honorsTextures[i].hasAnimated = true;
-								currentHonorToAnimate++;
+								//currentHonorToAnimate++;
 							}
 						}
 						else
@@ -771,14 +770,20 @@ public class ScoreMenu extends GUIControl
 							
 							if((numOfStarsAnimated >= 1) && (currentScreen != CurrentScoreScreen.Transitioning) && (honorsTextures[i].hasEarned) && (honorsTextures[i].animationOrder == numOfStarsAnimatedHonors) && (numOfStarsAnimatedHonors < (numOfStars - 1)))
 							{
-								if(!isDelaying && !starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true, starAnimationSpeed))
+								//if(!isDelaying && !starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true, starAnimationSpeed))
+								if(!starHonorsAnimation.Render(honorStarRect[i], starUnfilledTexture, starFillTexture, true, starAnimationSpeed))
 								{
-									Delay(i);
+									//Delay(i);
+									numOfStarsAnimatedHonors++;
+									
+									if(honorsTextures[i].type == HonorType.Resourceful)
+										renderLastHonorsStar = true;
 								}
+								/*
 								else if(isDelaying)
 								{
 									GUI.DrawTexture(honorStarRect[i], starFillTexture);
-								}
+								}*/
 							}
 						}
 							
@@ -799,7 +804,7 @@ public class ScoreMenu extends GUIControl
 									if(renderLastHonorsStar && !starExtraHonorsAnimation.Render(tempRect, starUnfilledTexture, starFillTexture, true, starAnimationSpeed))
 									{
 										numOfStarsAnimatedHonors++;
-										numOfStarsAnimated++;
+										//numOfStarsAnimated++;
 									}
 									
 								}
@@ -879,6 +884,8 @@ public class ScoreMenu extends GUIControl
 			}//endofmainscreen
 			
 		}//endofwaitfornarrativeUI
+		
+		//Debug.Log("Animated: " + numOfStarsAnimated + " Honors: " + numOfStarsAnimatedHonors + " Delay?? " + isDelaying);
 	}//endofrender
 	
 	
@@ -889,36 +896,13 @@ public class ScoreMenu extends GUIControl
 		numOfStars = 1;
 		numOfStarsCould = 1;
 		
+		var animationOrder = 0;
+		
 		// Honors Icons
 		for(var i:int = 0; i < honorsTextures.Count; i++)
 		{
 			//honorsTextures[i].earned
-			if(honorsTextures[i].type == HonorType.Efficient)
-			{
-				var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
-			
-				honorsTextures[i].couldBeEarned = (!mainMenu.disableUndoButton || !mainMenu.disableSkipButton);
-				
-				if(honorsTextures[i].couldBeEarned)
-					numOfStarsCould++;
-			
-				if(honorsTextures[i].couldBeEarned && !intelSystem.getUsedUndoOrWait())
-				{
-					honorsTextures[i].score = 10;
-					honorsTextures[i].hasEarned = true;
-					honorsTextures[i].animationOrder = numOfStars - 1;
-					//Debug.Log(honorsTextures[i].animationOrder + "...efficient");
-					numOfStars++;
-				}
-				
-				if(!honorsTextures[i].couldBeEarned)
-				{
-					honorsTextures[i].score = 10;
-					numOfStars++;
-				}
-				
-			}
-			else if(honorsTextures[i].type == HonorType.Agile)
+			if(honorsTextures[i].type == HonorType.Agile)
 			{
 				//Debug.Log(intelSystem.GetTimeLeft() + " ... time");
 				
@@ -931,8 +915,9 @@ public class ScoreMenu extends GUIControl
 				{
 					honorsTextures[i].score = 10;
 					honorsTextures[i].hasEarned = true;
-					honorsTextures[i].animationOrder = numOfStars - 1;
-					//Debug.Log(honorsTextures[i].animationOrder + "...agile");
+					honorsTextures[i].animationOrder = animationOrder;
+					animationOrder++;
+					Debug.Log(honorsTextures[i].animationOrder + "...agile");
 					numOfStars++;
 				}
 				
@@ -941,6 +926,32 @@ public class ScoreMenu extends GUIControl
 					honorsTextures[i].score = 10;
 					numOfStars++;
 				}
+			}
+			else if(honorsTextures[i].type == HonorType.Efficient)
+			{
+				var mainMenu:MainMenu = GameObject.Find("GUI System").GetComponent(MainMenu);
+			
+				honorsTextures[i].couldBeEarned = (!mainMenu.disableUndoButton || !mainMenu.disableSkipButton);
+				
+				if(honorsTextures[i].couldBeEarned)
+					numOfStarsCould++;
+			
+				if(honorsTextures[i].couldBeEarned && !intelSystem.getUsedUndoOrWait())
+				{
+					honorsTextures[i].score = 10;
+					honorsTextures[i].hasEarned = true;
+					honorsTextures[i].animationOrder = animationOrder;
+					animationOrder++;
+					Debug.Log(honorsTextures[i].animationOrder + "...efficient");
+					numOfStars++;
+				}
+				
+				if(!honorsTextures[i].couldBeEarned)
+				{
+					honorsTextures[i].score = 10;
+					numOfStars++;
+				}
+				
 			}
 			else if(honorsTextures[i].type == HonorType.Resourceful)
 			{
@@ -954,9 +965,10 @@ public class ScoreMenu extends GUIControl
 					//honorsTextures[i].score = 1000;
 					honorsTextures[i].score = 20; // +2 stars for optional objective; 25 points each
 					honorsTextures[i].hasEarned = true;
-					honorsTextures[i].animationOrder = numOfStars - 1;
+					honorsTextures[i].animationOrder = animationOrder;
+					animationOrder++;
 					numOfStars += 2;
-					//Debug.Log(honorsTextures[i].animationOrder + "...resourceful");
+					Debug.Log(honorsTextures[i].animationOrder + "...resourceful");
 				}
 				if(!honorsTextures[i].couldBeEarned)
 				{
@@ -1093,6 +1105,7 @@ public class ScoreMenu extends GUIControl
 	private var isDelaying:boolean = false;
 	private function Delay(i :int)
 	{
+	/*
 		if(!isDelaying)
 		{
 			isDelaying = true;
@@ -1105,6 +1118,7 @@ public class ScoreMenu extends GUIControl
 				
 			isDelaying = false;
 		}
+		*/
 	}
 	
 	private var animateRankUp: boolean = false;
