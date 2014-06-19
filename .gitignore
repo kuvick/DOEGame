@@ -5,4 +5,6 @@
 /*.pidb
 /Library
 /Temp
+/Assets/Plugins/
+/Assets/Editor/
 /Assets/Prefabs/NewPrefabs/BUILDING TYPES/EnergyStorage/Keyboard.meta
