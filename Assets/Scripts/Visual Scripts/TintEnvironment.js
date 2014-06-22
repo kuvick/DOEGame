@@ -24,7 +24,29 @@ function Start ()
 
 	for(i = 0; i < buildings.length; i++)
 	{
-		childImage = buildings[i].transform.Find(buildings[i].name + "Image").gameObject;
+		if(buildings[i].name == "CornFieldFarm" || buildings[i].name == "CornfieldFarm")
+		{
+			var image1:Transform;
+			var image2:Transform;
+			var image3:Transform;
+			image1 = buildings[i].transform.Find(buildings[i].name + "Image");
+			image2 = buildings[i].transform.Find("CornfieldFarmImage");
+			image3 = buildings[i].transform.Find("CornFieldFarmImage");
+			
+			
+			if(image1 != null)
+				childImage = image1.gameObject;
+			else if(image2 != null)
+				childImage = image2.gameObject;
+			else if(image3 != null)
+				childImage = image3.gameObject;
+			else
+				Debug.Log("Trouble with tinting the cornfield farm!");
+			
+		}
+		else
+			childImage = buildings[i].transform.Find(buildings[i].name + "Image").gameObject;
+		
 		childImage.renderer.material.color = buildingTint;
 	}
 	
