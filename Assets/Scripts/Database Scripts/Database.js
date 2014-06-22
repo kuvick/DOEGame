@@ -72,6 +72,10 @@ public static var isWaitingForLink : boolean = false;
 
 private var mainMenu:MainMenu;
 
+// variables used to fix specific case issue for RV18
+private var mutualA : BuildingOnGrid;
+private var mutualB : BuildingOnGrid;
+
 //*********************************************************************************************************************
 // [Functions] ********************************************************************************************************
 
@@ -809,6 +813,18 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 			inputBuilding.AllocateInput(resourceName, outputBuildingIndex);
 		}
 	    
+	    // specific case fix for RV18 issue, if building is involved in a mutual link, save the used buildings
+	    for (var i : int; i < outputBuilding.allOutputs.Count; i++)
+	    {
+	    	var temp : BuildingOnGrid = buildingsOnGrid[outputBuilding.allOutputs[i].linkedTo];
+	    	if (temp.FindLinkIndex(outputBuildingIndex, temp.allInputs) >= 0)
+	    	{
+	    		mutualA = outputBuilding;
+	    		mutualB = temp;
+	    		break;
+	    	}
+	    }
+	    
 	    // swap the resource from the allocated list back into the unallocated list of the old input building
 	    // and remove the link.  Deactivate the chain of all output linked buildings
 	    /*var oldInIndex : int = oldInputBuilding.inputLinkedTo.IndexOf(outputBuildingIndex);
@@ -903,6 +919,19 @@ public function ChainBreakLink (outputBuildingIndex:int, inputBuildingIndex:int,
 	}
 	Debug.Log("Chain break failedB");
 	return -1;
+}
+
+// specific case solution for mutual link issue in RV18, clears deactivated input lists and reactivates the buildings
+public function RevertMutual()
+{
+	mutualA.deactivatedInputs.Clear();
+	mutualB.deactivatedInputs.Clear();
+	var mutualAIndex : int = findBuildingIndex(mutualA);
+	var mutualBIndex : int = findBuildingIndex(mutualB);
+	activateBuilding(mutualAIndex, false);
+	activateBuilding(mutualBIndex, false);
+	drawLinks.SetLinkActive(true, mutualAIndex, mutualBIndex);
+	drawLinks.SetLinkActive(true, mutualBIndex, mutualAIndex);
 }
 
 /*public function DeactivateLink(buildingIndex : int, linkedToIndex : int)

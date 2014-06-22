@@ -669,6 +669,8 @@ function DragLinkBuildings(b1:GameObject, b2:GameObject){
 			intelSystem.comboSystem.resetComboCount();
 			SoundManager.Instance().playUndo();
 			menu.RecieveEvent(EventTypes.UNDO);
+			var datab : Database = GameObject.Find("Database").GetComponent(Database);
+			datab.RevertMutual();
 		}
 		
 	}

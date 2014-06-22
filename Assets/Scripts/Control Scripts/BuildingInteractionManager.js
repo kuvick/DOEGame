@@ -48,7 +48,8 @@ function Start () {
 		linkUIRef = GameObject.Find("Main Camera").GetComponent(LinkUI);//GameObject.Find("Main Camera").GetComponent(LinkUI);
 		tutorialPointers = GameObject.Find("GUI System").GetComponent(TutorialPointers);
 		var terrain : Terrain = Terrain.activeTerrain;
-		terrain.collider.enabled = false;
+		if (terrain)
+			terrain.collider.enabled = false;
 	}
 }
 
