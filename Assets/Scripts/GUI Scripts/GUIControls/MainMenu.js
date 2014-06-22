@@ -743,6 +743,7 @@ public class MainMenu extends GUIControl
 			else
 				startMissionComplete = true;
 			startPath = true;
+			inspectionDispRef.ClearTooltips();
 		}
 		else if(startMissionComplete)
 		{

@@ -78,7 +78,10 @@ public static var fromLoading : boolean = false;
 private var currentWindowType : WindowType;
 //public var designerHeightTweak:float = 0;
 
+// fade out variables
 private var tooltipAlpha : float = 1f;
+public var fadeTimer : float = 0;
+private var fadeStep : float = .05f;
 
 function Start () 
 {
@@ -113,6 +116,9 @@ function Start ()
 	linkMade = false;
 	
 	shadowText = new ShadowedText("", Rect(0,0,0,0), false);
+	
+	if (fadeTimer > 0f)
+		fadeStep = fadeTimer / 10f;
 	
 	//Apply Scaling
 	
@@ -167,7 +173,7 @@ function Update ()
 	if(currentTapWait > 0)
 		currentTapWait--;
 			
-	if (currentTooltip && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || (currentWindowType == WindowType.Tutorial && CheckForInteraction())))
+	if (currentTooltip && tooltipAlpha == 1f && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || (currentWindowType == WindowType.Tutorial && CheckForInteraction())))
 		//NextTooltip();
 		StartCoroutine(FadeTooltip());
 }
@@ -361,7 +367,7 @@ private function FadeTooltip()
 	while (tooltipAlpha > 0)
 	{
 		tooltipAlpha -= .1f;
-		yield WaitForSeconds(.05f);
+		yield WaitForSeconds(fadeStep);
 	}
 	tooltipAlpha = 1f;
 	NextTooltip();
@@ -442,6 +448,14 @@ private function SetTooltip()
 		mainMenu.disableUndoButton = !mainMenu.disableUndoButton;
 	if(currentTooltip.toggleWaitButton)
 		mainMenu.disableSkipButton = !mainMenu.disableSkipButton;*/
+}
+
+// for when level is finished, make sure all tooltips are cleared
+public function ClearTooltips()
+{
+	componentSelected = false;
+	tooltipList.Clear();
+	tutorialPointers.Disable();	
 }
 
 private function RenderSingle()
