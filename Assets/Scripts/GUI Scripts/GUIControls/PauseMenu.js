@@ -82,6 +82,8 @@ public class PauseMenu extends GUIControl
 	
 	private var intelSystem:IntelSystem;
 	
+	private var restoreVolume : float;
+	
 	public function Start()
 	{
 		super.Start();
@@ -122,7 +124,7 @@ public class PauseMenu extends GUIControl
 		levelRect = createRect(levelSize, levelXPercent, levelYPercent, levelHeightPercent, false);
 		levelName = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
 		
-		backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
+		//backgroundMusic = SoundManager.Instance().backgroundSounds.pauseMenuMusic;
 		
 		intelSystem = GameObject.Find("Database").GetComponent(IntelSystem);
 		intelSystem.isPaused = true;
@@ -171,6 +173,7 @@ public class PauseMenu extends GUIControl
 		{
 			intelSystem.isPaused = false;
 			isActive = false;
+			SoundManager.Instance().UpdateMusicVol(restoreVolume);
 			currentResponse.type = EventTypes.MAIN;
 			PlayButtonPress();
 		}
@@ -180,6 +183,7 @@ public class PauseMenu extends GUIControl
 		{
 			currentResponse.type = EventTypes.MAIN;
 			isActive = false;
+			SoundManager.Instance().UpdateMusicVol(restoreVolume);
 			intelSystem.isPaused = false;
 			PlayButtonPress();
 		}
@@ -188,12 +192,14 @@ public class PauseMenu extends GUIControl
 		if(restartAB.Render())
 		{
 			intelSystem.isPaused = false;
+			SoundManager.Instance().UpdateMusicVol(restoreVolume);
 			currentResponse.type = EventTypes.RESTART;
 		}
 		//setButtonTexture(dashboardButton, dashboardButtonPressed);
 		if(mainMenuAB.Render())
 		{
 			intelSystem.isPaused = false;
+			SoundManager.Instance().UpdateMusicVol(restoreVolume);
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
@@ -201,11 +207,19 @@ public class PauseMenu extends GUIControl
 		if(dashboardAB.Render())
 		{
 			intelSystem.isPaused = false;
+			SoundManager.Instance().UpdateMusicVol(restoreVolume);
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();
 		}
 		//resetButtonTexture();
 		GUI.EndGroup();
 
+	}
+	
+	public function OnOpen()
+	{
+		super.OnOpen();
+		restoreVolume = SoundManager.Instance().GetMusicVol();
+		SoundManager.Instance().UpdateMusicVol(restoreVolume / 2f);
 	}
 }

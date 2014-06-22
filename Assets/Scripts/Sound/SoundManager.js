@@ -113,6 +113,11 @@ public class SoundManager extends MonoBehaviour {
 		musicSource.volume = val;
 	}
 	
+	public function GetMusicVol() : float
+	{
+		return musicSource.volume;
+	}
+	
 	public function OnLevelWasLoaded(){
 		CacheAllSounds();
 	}
