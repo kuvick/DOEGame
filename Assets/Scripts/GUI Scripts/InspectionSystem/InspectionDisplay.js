@@ -78,6 +78,8 @@ public static var fromLoading : boolean = false;
 private var currentWindowType : WindowType;
 //public var designerHeightTweak:float = 0;
 
+private var tooltipAlpha : float = 1f;
+
 function Start () 
 {
 	dOS = new DisplayOnceSystem();
@@ -166,7 +168,8 @@ function Update ()
 		currentTapWait--;
 			
 	if (currentTooltip && ((isEnabled && currentTooltip.type == TooltipType.Notification && Time.time > notificationTimer) || (currentWindowType == WindowType.Tutorial && CheckForInteraction())))
-		NextTooltip();
+		//NextTooltip();
+		StartCoroutine(FadeTooltip());
 }
 
 function OnGUI()
@@ -344,11 +347,24 @@ private function Render()
 	
 	/*if (doDispPic)
 		GUI.DrawTexture(dispPicRect, dispPic);*/
+		GUI.color.a = tooltipAlpha;
 		if (currentWindowType == WindowType.Tutorial)
 			RenderTutorial();
 		else
 			RenderInspection();
+		GUI.color.a = 1f;
 	}
+}
+
+private function FadeTooltip()
+{
+	while (tooltipAlpha > 0)
+	{
+		tooltipAlpha -= .1f;
+		yield WaitForSeconds(.05f);
+	}
+	tooltipAlpha = 1f;
+	NextTooltip();
 }
 
 public function NextTooltip()
@@ -431,7 +447,7 @@ private function SetTooltip()
 private function RenderSingle()
 {
 	//GUI.Box(dispRect, dispContent);
-	shadowText.Display(currentTooltip.text, dispRect, true);
+	shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		if(notInGame)
@@ -449,7 +465,7 @@ private function RenderBoth()
 {
 	GUI.DrawTexture(borderRect, border);
 	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
-	shadowText.Display(currentTooltip.text, dispBotRect, true);
+	shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
 	//GUI.Label(dispBotRect, currentTooltip.text);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
@@ -474,10 +490,10 @@ private function RenderInspection()
 	if (renderDouble)
 	{
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect, true);
+		shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
 	}
 	else
-		shadowText.Display(dispContent.text, dispRect, true);
+		shadowText.Display(dispContent.text, dispRect, true, tooltipAlpha);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
@@ -488,7 +504,8 @@ private function RenderInspection()
 		
 		
 		currentToolTipIndex++;
-		NextTooltip();
+		//NextTooltip();
+		StartCoroutine(FadeTooltip());
 	}
 }
 
@@ -499,12 +516,12 @@ private function RenderTutorial()
 		GUI.DrawTexture(dispRect, border);
 		//GUI.DrawTexture(dispBotRect, border);
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect, true);
+		shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
 	}
 	else
 	{
 		GUI.DrawTexture(dispRect, border);
-		shadowText.Display(currentTooltip.text, dispRect, true);
+		shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
 	}
 }
 
