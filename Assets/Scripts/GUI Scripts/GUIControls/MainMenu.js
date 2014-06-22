@@ -483,7 +483,8 @@ public class MainMenu extends GUIControl
 			
 			currentResponse.type = EventTypes.UNDO;
 		}
-		GUI.enabled = !inspectionDispRef.IsActive();//GUI.enabled = true;
+		//GUI.enabled = !inspectionDispRef.IsActive();
+		GUI.enabled = true;
 		
 		if(Input.GetKeyDown(KeyCode.H))
 		{
