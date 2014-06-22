@@ -351,6 +351,8 @@ public class LevelSelectMenu extends GUIControl
 	
 	private var pointers : TutorialPointers;
 	
+	public var isDebugMode : boolean;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -1311,7 +1313,7 @@ public class LevelSelectMenu extends GUIControl
 		}
 		
 		var actualLevelIndex : int = numLevels - 1;
-		for (var i:int = numLevels - 1; i >= 0 && countUnlocked < 3; i--)
+		for (var i:int = numLevels - 1; i >= 0 && (isDebugMode || countUnlocked < 3); i--)
 		{
 			if(levels[i].unlocked || saveSystem.currentPlayer.levelHasBeenUnlocked(levels[i].sceneName))
 			{	
@@ -1353,7 +1355,7 @@ public class LevelSelectMenu extends GUIControl
 					}
 					
 					// display no more levels past a tutorial
-					if (levels[i].sceneName.Contains("utorial"))
+					if (levels[i].sceneName.Contains("utorial") && !isDebugMode)
 					{
 						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - tutorialUnlockedModifier - i;
 						break;
@@ -1411,7 +1413,7 @@ public class LevelSelectMenu extends GUIControl
 					levels[i].unlocked = true;
 					break;
 			}*/
-			if (i > levels.Length - 1 - lastUnlockedIndex - 1)// - 3)
+			if (i > levels.Length - 1 - lastUnlockedIndex - 1 || isDebugMode)// - 3)
 				levels[i].unlocked = true;
 		}
 	}
