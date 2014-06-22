@@ -441,7 +441,8 @@ public class MainMenu extends GUIControl
 			isActive = false;
 			currentResponse.type = EventTypes.PAUSE;
 		}
-		GUI.enabled = !inspectionDispRef.IsActive();
+		//GUI.enabled = !inspectionDispRef.IsActive();
+		
 		//Help menu disabled for now GPC 3/10/14
 		
 //		GUI.DrawTexture(helpButton, zoomButton, ScaleMode.StretchToFill);
