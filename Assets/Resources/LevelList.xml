@@ -45,7 +45,7 @@
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Divergent Convergence</subjectText>
-      <messageText>Wonderful, you are a natural! The world is rarely so linear, though, so let's see if you can handle some advanced lessons.</messageText>
+      <messageText>Wonderful! You are a natural! The world is rarely so linear, though, so let's see if you can handle some advanced lessons.</messageText>
 	  <objectiveText>Help Alma City solve their gas shortage problem.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
