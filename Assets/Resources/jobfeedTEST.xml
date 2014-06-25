@@ -2,58 +2,67 @@
 <Jobs>
 	<Job>
 		<Title>Accounting and Budget</Title>	
-		<Description>Develop new financial policies, principles, and procedures.</Description>	
+		<Description>Use your financial expertise to help fund the next generation of advanced energy technologies.</Description>
+			<!--Develop new financial policies, principles, and procedures.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Computer Engineer</Title>	
-		<Description>Develop test plans to test computer software functions and computer devices.</Description>	
+		<Description>Code software to help modernize the DOE's energy infrastructure to keep up with the fast-paced world of energy technology.</Description>
+		<!--<Description>Develop test plans to test computer software functions and computer devices.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Electrical Engineer</Title>	
-		<Description>Manage special projects and keep the grid running smoothly.</Description>	
+		<Description>Work hands-on with innovative energy technologies and power grids to keep the nation's energy supply running smoothly.</Description>
+		<!--<Description>Manage special projects and keep the grid running smoothly.</Description>	-->
 	</Job>
 	<Job>
 		<Title>General Engineer</Title>	
-		<Description>Help develop oxy-combustion, solid oxide fuel cells, and chemical looping technologies.</Description>
+		<Description>Work with DOE's labs to create exciting new technologies like solid oxide fuels and oxy-combustion.</Description>
+		<!--<Description>Help develop oxy-combustion, solid oxide fuel cells, and chemical looping technologies.</Description>-->
 	</Job>
 	<Job>
 		<Title>Nuclear Engineer</Title>	
-		<Description>Help assess the operations and procedures of nuclear processing facilities.</Description>	
+		<Description>Use the power of the atom to meet our modern energy needs and expand our understanding of atomic technologies.</Description>	
+		<!--<Description>Help assess the operations and procedures of nuclear processing facilities.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Information Technology</Title>	
-		<Description>Support, implement, and program software systems and applications.</Description>	
+		<Description>Work with high-tech computer systems to optimize the efficiency of the DOE and its associated labs around the country.</Description>	
+		<!--<Description>Support, implement, and program software systems and applications.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Operations Research Analyst</Title>	
-		<Description>Design and conduct tests that reflect real-world issues, problems, and environments.</Description>	
+		<Description>Be the first to writeup the blueprints of the nation's energy future and find clever solutions to modern energy and environmental challenges.</Description>	
+		<!--<Description>Design and conduct tests that reflect real-world issues, problems, and environments.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Industry Economist</Title>	
-		<Description>Explore and analyze the trends and issues facing the world's energy economies and markets.</Description>	
+		<Description>Identify and analyze practical ways to make new energy technology economically viable in today's global market.</Description>	
+		<!--<Description>Explore and analyze the trends and issues facing the world's energy economies and markets.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Physicist</Title>	
-		<Description>Be a part of research programs and projects in the area of instrumentation in Nuclear Physics.</Description>	
+		<Description>Use your talent and passion for science to develop cutting edge energy solutions in the DOE's research labs.</Description>	
+		<!--<Description>Be a part of research programs and projects in the area of instrumentation in Nuclear Physics.</Description>	-->
 	</Job>
 	<Job>
 		<Title>High Voltage Electrician</Title>	
-		<Description>Interface with high voltage equipment and install transformers, circuit breakers, and capacitors.</Description>	
+		<Description>Help to keep our high-capacity transformers running for millions across the country.</Description>	
+		<!--<Description>Interface with high voltage equipment and install transformers, circuit breakers, and capacitors.</Description>	-->
 	</Job>
+	<!---- 
 	<Job>
 		<Title>Electronics Engineer</Title>	
 		<Description>Provide electronic engineering associated with communications systems and ensure the systems operate correctly.</Description>	
-	</Job>
-	<Job>
-		<Title>Economist</Title>	
-		<Description>Conduct economic analyses and prepare forecasts for different energy markets.  Be on top of the latest trends in the world's energy economies.</Description>	
-	</Job>
+	</Job> -->
 	<Job>
 		<Title>Public Utilities Specialist</Title>	
-		<Description>Complete energy settlement transactions and manage a variety of projects. Develop contracts to sell power to wholesale customers.</Description>	
+		<Description>Help facilitate deals between private and public energy providers and the public to ensure the maximum access to electrical power.</Description>	
+		<!--<Description>Complete energy settlement transactions and manage a variety of projects. Develop contracts to sell power to wholesale customers.</Description>	-->
 	</Job>
 	<Job>
 		<Title>Statistical Mathematician</Title>	
-		<Description>Use statistical computing software to research, analyze, and process energy pricing, production, supply, and distribution data.</Description>	
+		<Description>Help analyze data on energy usage, production, and supply to optimize power grids and guide the evolution of the nation's power grids.</Description>	
+		<!--<Description>Use statistical computing software to research, analyze, and process energy pricing, production, supply, and distribution data.</Description>	-->
 	</Job>
 </Jobs>
