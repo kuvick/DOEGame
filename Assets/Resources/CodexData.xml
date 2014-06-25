@@ -258,9 +258,9 @@
 	<CodexEntry>
 	  <name>Ethanol Fuel</name>
 	  <isUnlocked>false</isUnlocked>
-	  <urlLink>LINK</urlLink>
+	  <urlLink>http://energy.gov/eere/vehicles/vehicle-technologies-office-intermediate-ethanol-blends-0</urlLink>
 	  <iconName>ethanol_for_cars</iconName>
-	  <description>Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon of Ethanol Fuel.</description>
+	  <description>Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Geothermal Power</name>
