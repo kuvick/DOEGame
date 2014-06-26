@@ -91,7 +91,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
-	<!--                                                                                2/10 Secondary Objective Added -->
+	<!--                                                                                                                                                                                 Liquid Metal Batteries-->	
 	<!-- EASY -->
     <!-- Multiple Originators. Mutual Links Possible -->
 	<Level><!--Tutorial_RV21 RENAMED-->
@@ -148,6 +148,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Silver Printing -->	
 	<!-- MEDIUM -->
 	<!-- Straightforward -->
 	<Level><!--RV17-->
@@ -155,8 +156,9 @@
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Steam Powered</subjectText>
-      <messageText>So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>
-      <objectiveText>Davincraft Aeronautics needs an Organic Flash Cycle system to keep up with demand for airplane parts.</objectiveText>
+      <messageText>Silver is more that beautiful - it is a tool to bend electricity to our will! Within a conductors intricate patterns is the true beauty of science!</messageText>
+		  <!--So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>-->
+      <objectiveText>Davincraft Aeronautics needs advanced silver printing technology for their low-weight prototype aircraft.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -183,7 +185,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--                                                                                           UPDATE TERRAIN (v2) -->
+	<!--                                                                                                                                                                                 Ethanol Fuel -->	
 	<!-- TUTORIAL -->
 	<!-- Building Sites -->
 	<Level><!--Tutorial4-->
@@ -201,6 +203,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 CCUS Oil Extraction -->	
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
 	<!--RV03-remix easy, minor false complexity -->
 	<Level>
@@ -217,7 +220,8 @@
       <missionRequirementIndex>14</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-		
+	
+	<!--                                                                                                                                                                                 Fish Friendly Turbine -->	
 	<!--                                                                                           Secondary Objective -->
 	<!-- MEDIUM -->
 	<!-- Building Sites -->
@@ -237,6 +241,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Building Integrated... -->	
 	<!--RV01 moderate, figure out piece location-->
 	<Level>
       <displayName>18</displayName>
@@ -253,6 +258,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Geothermal Power -->	
 	<!-- MEDIUM      BUILD SITE-->
 	<!-- Building placement -->
 	<Level><!--RV23 -->
@@ -305,6 +311,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Hydrogen Storage -->	
 	<!--                                                                                2/10 Secondary Objective Added -->
 	<!--                                                                                                UPDATE TERRAIN -->
 	<!-- TUTORIAL -->
@@ -315,7 +322,7 @@
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
       <messageText>The time we got ourselves acquainted. Didn't think much of you at the time, to be honest.</messageText>
-	  <objectiveText>Help recruit scientists to develop cutting edge energy storage technology.</objectiveText>
+	  <objectiveText>Help recruit scientists to develop cutting edge hydrogen storage technology.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -354,6 +361,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Efficient Polymer Solar Cells-->	
 	<Level><!-- RV09 easy, order of attack challenge, multiple solutions-->
       <displayName>11</displayName>
       <sceneName>RV09</sceneName>
@@ -369,6 +377,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Tidal Power-->	
 	<!-- Funds and broken output, boring use of Engineer                     REVISE-->
 	<Level><!--RV13 moderate/easy-->
       <displayName>18</displayName>
@@ -437,6 +446,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Biodiesel -->	
 	<Level><!--KU-02 easy, building site placement, reallocation-->
       <displayName>26</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -452,13 +462,14 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Combined Heat and Power -->	
 	<Level><!--DD08-3 mid/easy, precise order of action, reallocation, long queue-->
       <displayName>23</displayName>
       <sceneName>DD08-3</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Power of Heat</subjectText>
       <messageText>Way to be my eyes in the skies there, buddy! Not a fan of multi-tasking myself, but I hear CHP is going to be huge in heating and powering factories.</messageText>
-	  <objectiveText>Implement a Combined Heat and Power System into the new Davincraft eronautics factory.</objectiveText>
+	  <objectiveText>Implement a Combined Heat and Power System into the new Davincraft aeronautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -467,7 +478,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	<!--                                                                                                     FIX TERRAIN -->
+	<!--                                                                                                                                                                                 Transition Metal Switchable Mirrors-->	
 	<!-- MEDIUM/EASY        AGENT -->	
 	<!-- multiple reallocation -->
 	<Level><!--KU-03-->
@@ -485,6 +496,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 VOC Removal System-->	
 	<!--                                                                                           Secondary Objective -->
 	<!-- MEDIUM        AGENT -->	
 	<!-- Long queue, similtaneous action, three outputs -->
@@ -556,6 +568,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 
+	<!--                                                                                                                                                                                 Silicon Carbide Thyristors-->	
 	<Level><!--RV06 false complexity, moderate              ENGINEER-->
       <displayName>11</displayName>
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -571,6 +584,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Microsolar Cells -->	
 	<Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
       <displayName>19</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -638,7 +652,8 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-  	<!--                                                                                            PRONE TO CORRUPTION-->
+  	<!--                                                                                                                                                                                 Organic Flash Cycle -->	
+	<!--                                                                                            PRONE TO CORRUPTION-->
 	<!--DD05 moderate, double primary objective     BUILD SITE-->
      <Level>
       <displayName>18</displayName>
@@ -671,6 +686,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Algae Bio-reactor -->	
 	<Level><!--GPC01 moderate, upstream, reallocation,        AGENT-->
       <displayName>27</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -686,6 +702,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 
+	<!--                                                                                                                                                                                 Integrated Ventalation Controller -->	
 	<Level><!--KU05 medium, requires long queue and analysis, big map  BUILD SITE-->
       <displayName>8</displayName>
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -736,6 +753,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 			
+	<!--                                                                                                                                                                                 Smart Grid -->	
 	<!-- MEDIUM/HARD    LINKING-->
 	<!-- Reallocation -->
 	<Level><!--RV16-->
@@ -753,7 +771,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-  <!--                                                                                           UPDATE TERRAIN (v2) -->
+  <!--                                                                                                                                                                                 Nuclear Power -->	
 	<!-- MEDIUM/HARD      BUILD SITE-->
 	<!-- Reallocation, complex link paths -->
 	<Level><!--RV10-->
@@ -791,6 +809,7 @@
       <contactRequirement></contactRequirement>
     </Level>
   
+	<!--                                                                                                                                                                                 Electrofuels-->	
 	<Level> <!--KU02 med-high perception challenge, large map, distant originators, false complexity  AGENT-->
       <displayName>12</displayName>
       <sceneName>KU02</sceneName>
@@ -806,6 +825,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Forecasting Grid-->	
 	<!--RV12 difficult, building placement  BUILDING SITE-->
 	<Level>
       <displayName>18</displayName>
@@ -822,6 +842,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 		
+	<!--                                                                                                                                                                                 Solar Powered Planes -->	
 	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation  BUILD SITE-->
       <displayName>20</displayName>
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -837,6 +858,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Efficient Labroatory Fume Hood-->	
 	<!--Too many environmental assets                                        UPDATE -->
 	<!--RV22 hard, reallocation, large map  BUILD SITE-->
 	<Level>
@@ -872,6 +894,7 @@
     </Level>
 	
 	
+	<!--                                                                                                                                                                                 Super Saver Heat Pump-->	
 	<Level><!--KU03 hard, long queue, reallocation  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
@@ -902,7 +925,8 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
-	 <!-- GPC05 AGENT -->
+	<!--                                                                                                                                                                                 Heat Transfer Interface for Thermo-Solar Energy -->	 
+	<!-- GPC05 AGENT -->
 	  <!-- Engineer, Agnet, Multiple start locations, smart timing, reallocation, mutual linking-->
 	<Level>
       <displayName>1</displayName>

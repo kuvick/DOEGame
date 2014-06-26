@@ -30,7 +30,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
 	  <iconName>techImage_siliconCarbideThyristors</iconName>
-	  <description> An optimized thyristor technology to convert power voltages to accomidate a broad range of devices and utilities. Operates at much higher teperatures and with 100x faster speed than traditional silicon-based thyristors./n -GeneSiC Semiconductor and Sandia National Laboratory</description>
+	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures dramatically faster than traditional thyristor designs./n -GeneSiC Semiconductor and Sandia National Laboratory</description>
 	  <!-- <description>This fundemental componant of electrical devices manages the flow of electricity to ensure smooth operation. The use of Silicon Carbide increases the operating capability of the thyristor, enabling it to function in high heat and high voltage situations.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -41,7 +41,7 @@
 	  <description>This cutting edge turbine design reduces the risk of injury and mortality amongst fish populations traversing dammed rivers. /n -EPRI, Alden Laboratories </description>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Organic Flash Cycle (OFC)</name>
+	  <name>Organic Flash Cycle</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
 	  <iconName>OrganicFlashCycle</iconName>
@@ -73,21 +73,24 @@
 		  <!--ESG allows us to grow large quantities of high quality Gallium Nitride Crystals which are used in high efficiency LEDs and high-power transistors.</description>-->
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Volatile Organic Compounds (VOCs) Removal System</name>
+	  <name>Volatile Organic Compounds Removal System</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=836</urlLink>
 	  <iconName>techImage_removeVOCs</iconName>
-	  <description>A manganese oxide catalyst that oxidizes volatile organic compounds such as formaldehyde and acetaldehyde into harmless carbon dioxide and water. It is a much lower energy cost alternative to air supply flushing.  /n -Lawrence Berkeley National Laboratory</description>
+	  <description>Converts harmful gases into harmless carbon dioxide and water. Reduces power needs for lab air filtration systems./n -Lawrence Berkeley National Laboratory</description>
 	  <!--<description>This new system maximizes the air quality within a building while reducing the energy consumtion.</description>-->
 	</CodexEntry>
-  	<CodexEntry>
+	<!--NOT IN USE-->
+  	<!--
+	<CodexEntry>
 	  <name>Efficient Solar Cell Fabrication</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
 	  <iconName>techImage_ProcessforFabricationofEfficientSolarCells</iconName>
 	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost. /n - Ames Laboratory</description>
-	  <!--<description>With improved processes for the fabrication of solar cells, we can now increase the efficiency of solar panels by upping the light absorption capabilities of individual cells.</description>-->
+	  <!--<description>With improved processes for the fabrication of solar cells, we can now increase the efficiency of solar panels by upping the light absorption capabilities of individual cells.</description>
 	</CodexEntry>
+	-->
   	<CodexEntry>
 	  <name>Building-integrated Photovoltaic-Thermal Collector</name>
 	  <isUnlocked>false</isUnlocked>
@@ -120,13 +123,18 @@
 	  <description> An optimized form of organic substrates used to create cheaper, more efficient solar cells.   /n - Ames Laboratory</description>
 	  <!--<description>Scientists have increased the efficiency of solar cells by using a thin light absorbing material layered on a textured substrate. </description>-->
 	</CodexEntry>
-  	<CodexEntry>
+	
+	<!--NOT IN USE-->
+  	<!--
+	<CodexEntry>
 	  <name>Energy Saving Absorption Heat Pump Water Heater</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=297</urlLink>
 	  <iconName>techImage_HeatPumpWaterHeater</iconName>
 	  <description>Using heat from the ambient environment, this heat pump helps create more efficient water heaters that do not rely on toxic chemicals or fossil fuels. /n -Oak Ridge National Laboratory</description>
 	</CodexEntry>
+	-->
+	
   	<CodexEntry>
 	  <name>Super Energy Saver Heat Pump</name>
 	  <isUnlocked>false</isUnlocked>
@@ -158,6 +166,8 @@
 	  <description>This new system enables engineers to tap into the power of the tides to produce energy from coastal oceanic currents.</description>
 	  <!--<description>In recent years, engineers have developed a powerful system which harnesses the coming and going motion of tidal waters, converting that motion to useable energy.</description>-->
 	</CodexEntry>
+	
+	
   	<CodexEntry>
 	  <name>Waste to Energy</name>
 	  <isUnlocked>false</isUnlocked>
@@ -167,6 +177,7 @@
 	  <description>Using anaerobic microbes to digest consumer waste, this system is able to produce methane gas to be used as a potent energy source.</description>
 	  <!--Using consumer waste materials as fuel, this technology provides both a disposal method for garbage and a source of electricity.</description>-->
 	</CodexEntry>
+	
   	<CodexEntry>
 	  <name>Combined Heat and Power</name>
 	  <isUnlocked>false</isUnlocked>
@@ -229,6 +240,7 @@
   	<!--**********************************************************************************************************************-->
 	<!--*************************************************NOT IN USE********************************************************-->
 	<!--**********************************************************************************************************************-->
+	<!--
 	<CodexEntry>
 	  <name>Energy Storage With Plastic Bags</name>
 	  <isUnlocked>false</isUnlocked>
@@ -236,9 +248,11 @@
 	  <iconName>elastic_bag_for_energy_storage</iconName>
 	  <description>By recycling waste plastic bags, we can create carbon nanotubes, a light super strong material which can be found in a variety of electronics and consumer products.</description>
 	</CodexEntry>
+	-->
   	<!--**********************************************************************************************************************-->
 	<!--*************************************************NOT IN USE********************************************************-->
 	<!--**********************************************************************************************************************-->
+	<!--
 	<CodexEntry>
 	  <name>Air Powered Cars</name>
 	  <isUnlocked>false</isUnlocked>
@@ -246,6 +260,7 @@
 	  <iconName>AirPoweredCar_01</iconName>
 	  <description>Description goes here...</description>
 	</CodexEntry>
+	-->
 	
   	<CodexEntry>
 	  <name>Nuclear Power</name>
@@ -260,43 +275,55 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/eere/vehicles/vehicle-technologies-office-intermediate-ethanol-blends-0</urlLink>
 	  <iconName>ethanol_for_cars</iconName>
-	  <description>Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon.</description>
+	  <description>By using corn instead of fossil fuels, it allows for far greater energy independence. In small levels, it can be easily added to conventional petroleum fuel.</description>
+	  <!--Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Geothermal Power</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
 	  <iconName>geothermal_power</iconName>
-	  <description>Like the blacksmith Vulcan of ancient Rome, we can now harness the Geothermal Energy of our home planet to provide renewable energy.</description>
+	  <description>New innovations in drilling techniques now allow us to create artificial geothermal resevoirs to harness the power of subterrainian lava flow.</description>
+	  <!--Like the blacksmith Vulcan of ancient Rome, we can now harness the Geothermal Energy of our home planet to provide renewable energy.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Modular Nuclear Reactors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
 	  <iconName>small_nuclear_reactor</iconName>
-	  <description>This technology provides a small, efficient nuclear power plant at a significantly lower cost than that of a standard sized nuclear power plant.</description>
+	  <description>Smaller nuclear reactors promise to be cheaper, safer, and easier to upgrade and maintain than conventional reactors.</description>
+	   <!--This technology provides a small, efficient nuclear power plant at a significantly lower cost than that of a standard sized nuclear power plant.</description>-->
 	</CodexEntry>
-  	<CodexEntry>
+  	
+	<CodexEntry>
 	  <name>Silver Printing Method</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
 	  <iconName>techImage_Silverprintingmethod</iconName>
-	  <description>Description goes here...</description>
+	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible.-Sandia National Laboratories </description>
+		  <!--This new technique allows for silver to be printed at low temperatures to allow conductors to be printed onto a broader range of materials. -Sandia National Laboratories </description>-->
 	</CodexEntry>
+	
   	<CodexEntry>
 	  <name>Microsolar Cells</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=78</urlLink>
 	  <iconName>Photovoltaic_glitter</iconName>
-	  <description>Microsolar cells require almost 100 times less silicon to produce than tradition cells and significantly lower manufacturing costs.</description>
+	  <description>Microsolar cells require almost 100 times less silicon to produce than tradition cells and significantly lower manufacturing costs. -Sandia National Laboratories</description>
 	</CodexEntry>
-  	<CodexEntry>
+  	
+	<!-- Cut from game-->
+	<!--
+	<CodexEntry>
 	  <name>Nuclear Waste Disposal</name>
 	  <isUnlocked>false</isUnlocked>
-	  <urlLink>LINK</urlLink>
+	  <urlLink>http://www.world-nuclear.org/info/Nuclear-Fuel-Cycle/Nuclear-Wastes/Radioactive-Waste-Management/</urlLink>
 	  <iconName>nuclear_power_and_waste_disposal</iconName>
-	  <description>Disposal of Nuclear Waste is an incredibly difficult task as the material is very dangerous. Currently, nuclear waste is stored at individual reactor sites and in geologically stable repositories carved deep into the earth.</description>
+	  <description>Nuclear power produces significantly less waste than fossil fuels, and there are advanced techniques to store such waste safely and effectively.</description>
+	  
+	   <!--Disposal of Nuclear Waste is an incredibly difficult task as the material is very dangerous. Currently, nuclear waste is stored at individual reactor sites and in geologically stable repositories carved deep into the earth.</description>
 	</CodexEntry>  
+	-->
   
   </codices>
 </CodexData>
