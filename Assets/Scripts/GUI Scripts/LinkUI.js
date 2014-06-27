@@ -135,14 +135,14 @@ class FullResourceImage
 	public var icon:Texture2D;
 	public var topLayer:Texture2D;
 	public var bottomLayer:Texture2D;
-	public var color:Color;
+	public var color:Color = Color.white;
 	private var oldColor:Color;
 	
 	public function Draw(rect:Rect)
 	{
-		oldColor = GUI.color;
-		GUI.color = Color.white;
 		GUI.DrawTexture(rect, bottomLayer, ScaleMode.StretchToFill);
+		oldColor = GUI.color;
+		GUI.color = color;
 		GUI.DrawTexture(rect, topLayer, ScaleMode.StretchToFill);
 		GUI.color = oldColor;
 		GUI.DrawTexture(rect, icon, ScaleMode.StretchToFill);
@@ -157,13 +157,13 @@ function Start () {
 	{
 		unallocatedInputTex[m] = new FullResourceImage();
 		unallocatedInputTex[m].icon = resourceIcons[m].icon;
-		unallocatedInputTex[m].color = resourceIcons[m].color;
+		unallocatedInputTex[m].color = Color(.25,.25,.25,1f);
 		unallocatedInputTex[m].topLayer = inputTopRing;
 		unallocatedInputTex[m].bottomLayer = inputBottomRing;
 
 		unallocatedOutputTex[m] = new FullResourceImage();
 		unallocatedOutputTex[m].icon = resourceIcons[m].icon;
-		unallocatedOutputTex[m].color = resourceIcons[m].color;
+		unallocatedOutputTex[m].color = Color.white;
 		unallocatedOutputTex[m].topLayer = outputTopRing;
 		unallocatedOutputTex[m].bottomLayer = outputBottomRing;
 	}
