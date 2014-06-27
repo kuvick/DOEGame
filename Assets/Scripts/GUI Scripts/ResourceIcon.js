@@ -52,6 +52,13 @@ private var highlightIcon:boolean = false;
 
 public var isHolding: boolean = false;
 
+private var brokenBackTexture:Texture2D;
+private var brokenFrontTexture:Texture2D;
+private var broken2fix:boolean = false;
+
+private var unallocatedOutTop:Texture2D;
+private var unallocatedOutBot:Texture2D;
+
 enum IOType
 {
 	In,
@@ -84,17 +91,29 @@ function Update ()
 		if(isAllocated && highlightIcon)
 			highlightIcon = false;
 		
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType, true, false, 2))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColor, resourceColorTransparent, Color.white, resourceColor, ioType, true, false, 2, isFixed))
 		{
 			in2active = false;
 			gameObject.renderer.material.SetTexture("_TopBGTex", allocatedTopBGTex);
 			gameObject.renderer.material.SetTexture("_BottomBGTex", allocatedBottomBGTex);
 		}
-	}
+	} 
 	else if(highlightIcon)
 	{
-		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType, false, isHolding, 1.5f))
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, resourceColorTransparent, resourceColorTransparent, Color.white, resourceColor, ioType, false, isHolding, 1.5f, false))
 			highlightIcon = false;
+	}
+	else if(broken2fix)
+	{
+		if(!iconAnimation.AnimateResource(this.gameObject, currentScale, transparentRedColor, Color.white, Color.white, Color.white, ioType, true, false, 2, false))
+		{
+			broken2fix = false;
+			gameObject.renderer.material.SetColor("_Color3", Color.white);
+			gameObject.renderer.material.SetColor("_Color1", Color.white);
+			gameObject.renderer.material.SetColor("_Color2", Color.white);
+			gameObject.renderer.material.SetTexture("_BottomBGTex", unallocatedOutBot);
+		}
+			
 	}
 	/*
 	else if(active2in)
@@ -130,7 +149,6 @@ public function Initialize(building : BuildingOnGrid)
 	//transparentRedColor.a = 0.5f;
 	
 	this.building = building;
-	
 	
 	//currentTex = unallocatedTex;
 	
@@ -194,6 +212,16 @@ public function Initialize(building : BuildingOnGrid)
 	flashIcon.name = "ResourceFlash";
 	
 	SetAllocated(false, false);
+	
+	if (ioType == IOType.OptOut)
+	{
+		brokenBackTexture = gameObject.renderer.material.GetTexture("_BottomBGTex");
+		brokenFrontTexture = gameObject.renderer.material.GetTexture("_TopBGTex");
+		unallocatedOutBot = Resources.Load("ResourceIcons/unallocatedbottom_out") as Texture2D;
+		unallocatedOutTop = Resources.Load("ResourceIcons/unallocatedtop_out") as Texture2D;
+		
+	}
+		
 	if (ioType == IOType.OptOut)
 	{
 		index = -1;
@@ -269,8 +297,16 @@ public function SetAllocated (allo : boolean, animate:boolean)
 			in2active = false;
 			active2in = true;
 			
-			gameObject.renderer.material.SetTexture("_TopBGTex", TopBGTex);
-			gameObject.renderer.material.SetTexture("_BottomBGTex", BottomBGTex);
+			if(!isFixed || ioType != IOType.OptOut)
+			{
+				gameObject.renderer.material.SetTexture("_TopBGTex", TopBGTex);
+				gameObject.renderer.material.SetTexture("_BottomBGTex", BottomBGTex);
+			}
+			else if(isFixed)
+			{
+				gameObject.renderer.material.SetTexture("_TopBGTex", unallocatedOutTop);
+				gameObject.renderer.material.SetTexture("_BottomBGTex", unallocatedOutBot);
+			}
 		//}
 		//gameObject.renderer.material.color = unallColor;
 	}
@@ -291,24 +327,28 @@ public function SetIndex (index : int)
 	this.index = index;
 }
 
+var isFixed:boolean = false;
 public function SetFixed(fix : boolean)
 {
+	isFixed = fix;
 	if (ioType == IOType.OptOut)
 	{
 		if (fix)
 		{
-			//currentTex = unallocatedTex;
+			//currentTex = unallocatedTex;			
+			//gameObject.renderer.material.SetTexture("_TopBGTex", unallocatedOutTop);
+			
 			resourceColor.a = 1.0f;
 			gameObject.renderer.material.SetColor("_Color2", resourceColor);
-			if(ioType != IOType.In)
-				gameObject.renderer.material.SetColor("_Color3", resourceColor);
-			else
-				gameObject.renderer.material.SetColor("_Color3", Color.white);
+			gameObject.renderer.material.SetColor("_Color3", Color.white);
 			gameObject.renderer.material.SetColor("_Color1", Color.white); 	//UNALLOCATED SET
 			SetFlashActive(true);
+			broken2fix = true;
 		}
 		else
 		{
+			gameObject.renderer.material.SetTexture("_BottomBGTex", brokenBackTexture);
+			gameObject.renderer.material.SetTexture("_TopBGTex", brokenFrontTexture);
 			//currentTex = brokenTex;
 			resourceColor.a = 0.5f;
 			var transparentWhite:Color = Color.white;

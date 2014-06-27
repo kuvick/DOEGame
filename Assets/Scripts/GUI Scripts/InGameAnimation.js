@@ -209,10 +209,12 @@ public class InGameAnimation
 	private var currentIndex:int = 0;
 	private var savedTexture:Texture;
 	
-	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType, changeImage:boolean, hold:boolean, sizeDiff:float):boolean // returns true if animating, false if not
+	public function AnimateResource(obj:GameObject, defaultScale:Vector3, ringColorStart:Color, ringColorEnd:Color, iconColorStart:Color, iconColorEnd:Color, type: IOType, changeImage:boolean, hold:boolean, sizeDiff:float, isFixed:boolean):boolean // returns true if animating, false if not
 	{
+		if(isFixed)
+			type = IOType.Out;
 		if(firstLoop)
-		{			
+		{
 			currentIndex = 0;
 			hasCompletedRingAnimation = false;
 			switchScale = false;
@@ -264,6 +266,11 @@ public class InGameAnimation
 					ringImages[g + tempArray.length] = tempArray[g];
 					ringImages[g + tempArray.length + tempArray.length] = tempArray[g];
 				}				
+			}
+			else if(type == IOType.OptOut) // *****
+			{
+				path = "ResourceIcons/OptOutput";
+				ringImages = Resources.LoadAll(path, Texture);
 			}
 			else
 			{
