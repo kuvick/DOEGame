@@ -492,7 +492,7 @@ public class ScoreMenu extends GUIControl
 		var codexTextRect : Rect = createRect(Vector2(930, 78), 495f / 1920f, 63f /1080f, 78f / 1080f, false,  codexRect);
 		codexTextRect.x = Screen.width / 2 - codexTextRect.width / 2;
 	
-		newCodexUnlockedST = new ShadowedText("New Codex Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
+		newCodexUnlockedST = new ShadowedText("New Entry Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
 		
 		codexTextRect = createRect(Vector2(861, 322), 357f / 1290f, 54f /618f, 322f / 618f, false,  codexInfoBoxRect);	
 		
