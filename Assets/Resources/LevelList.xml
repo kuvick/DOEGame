@@ -276,13 +276,14 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Air Powered Cars -->	
 	<Level><!--GPC09 medium, particular about building placement, secondary objective  ENGINEER-->
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Truckstop Trouble</subjectText>
-      <messageText>Oh yes! You are rocking it with the Hyperfabricator! I bet we can get the Windfarm and Ethanol depot up in one shot this time, don’t you?</messageText>
-      <objectiveText>The Midland Truck Depot needs to start supplying ethanol fuel to provide to new green trucking industry.</objectiveText>
+      <subjectText>Rise from the Trashes</subjectText>
+      <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a complement.</messageText>
+      <objectiveText>Help Derptronics bring their Air-Powered Cars to market.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -331,13 +332,14 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Power Plug Meter -->	
 	<Level><!--Tutorial6-->
       <displayName>8</displayName>
       <sceneName>Tutorial_6</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Multithreaded Marathon</subjectText>
-      <messageText>Looks like the Hillbrad nuclear plant is out of commission. Sure puts the nearby city folks in a tough spot. Nothing that we can’t handle, though.</messageText>
-	  <objectiveText>Help restore power to Hillbrad city.</objectiveText>
+      <subjectText>Just in Time</subjectText>
+      <messageText>Gil Gas ain't lookin' so good. I'll handle that while you hand off those plug thingies to the businessy folks in Hillbrad Tower.</messageText>
+	  <objectiveText>Provide energy monitoring plugs to Hilbrad Tower to help cut their energy costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -394,6 +396,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 Waste to Energy-->	
 	<Level><!--RV08-remix easy, similtaneous action-->
 	  <displayName>10</displayName>
       <!--<sceneName>RV08-remix</sceneName>-->
@@ -616,6 +619,7 @@
       <contactRequirement></contactRequirement>
     </Level>
    
+	<!--                                                                                                                                                                                Non-Invasive energy meter -->	
      <!--                                                                                                UPDATE TERRAIN -->
 	<!-- MEDIUM      LINKING-->
 	<!-- Limited time window -->
@@ -623,9 +627,9 @@
       <displayName>4</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Infrastructure is Serious Business</subjectText> <!-- PLACEHOLDER TEXT-->
-      <messageText>There is no excuse for a poor electrical grid in the 21st century! Let us bring these fine people into the future!</messageText>
-	  <objectiveText>Modernize the failing electrical system of the Canis Towers apartment complex.</objectiveText>
+      <subjectText>Solar Sugery</subjectText> <!-- PLACEHOLDER TEXT-->
+      <messageText>Back in the old days it took days to tear apart a solar panel system to install upgrades, but now we can do it without even a scratch!</messageText>
+	  <objectiveText>Direct the installation of Non-Invasive Energy Meters to monitor Southtown's solar array efficiency.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -718,14 +722,15 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--                                                                                                                                                                                 ***Electric Car Charging Station*** -->	
 	                                                                                              <!--2/21 TWEAK CAMERA BOUNDS-->
 	<Level><!--GPC02 medium, requires "upstream" and reallocation, multiple start locations  BUILD SITE-->
       <displayName>10</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Bright Ideas</subjectText>
-      <messageText>These guys may be coming into the modern lighting business late, but I think we can give them the edge to stay in the game.</messageText>
-	  <objectiveText>Help modernize Brightbulbus’s operations to use efficient flourescent lighting.</objectiveText>
+      <subjectText>Sleek and Silent</subjectText>
+      <messageText>Man... every time I see an electric car, I get super jealous! Those things are like spaceships... with wheels. Next paycheck, my friend... ramen for a few months will be totally worth it!</messageText>
+	  <objectiveText>Direct the installation of an Electric Car Charging Station for Gaseus Clay Station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -943,6 +948,7 @@
       <contactRequirement></contactRequirement>
     </Level>
 
+	<!--                                                                                                                                                                                 Modular Nuclear Reactors -->	
 	<!--                                                                                           Secondary Objective -->
 	<!--                                                                                               UPDATE TERRAIN? -->
 	<!-- HARD             AGENT-->
@@ -952,8 +958,8 @@
       <sceneName>DD09</sceneName>
       <difficulty>2</difficulty>
       <subjectText>The Dream Team</subjectText>
-      <messageText>Me and Nancy got a job, eh? Move on over for the dream team! We got some special schematics ready for the Fizzle Fusion folks.</messageText>
-	  <objectiveText>Provide blueprints for Fizzle Fusion’s Tesla-inspired wireless power converter research.</objectiveText>
+      <messageText>Me and Nancy got a job, eh? Move on over for the dream team! We got some special schematics ready for those Hilbert eggheads.</messageText>
+	  <objectiveText>Provide blueprints for installing a Modular Nuclear Reactor.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -962,6 +968,8 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	
+	<!--                                                                                                                                                                                Gallium Nitride Crystal Growth -->	
 	<!-- HARD             ENGINEER-->
 	<!-- mutual link, advanced queue, reallocation, tight deadline -->
 	<Level><!--GPC03.1 mutual link, advanced queue, reallocation, tight deadline ENGINEER-->
@@ -978,7 +986,7 @@
       <missionRequirementIndex>12</missionRequirementIndex>
       <contactRequirement></contactRequirement>
     </Level>
-		
+
 	<!--                                                                                  Verify solvable after bugfix -->
 	<!-- HARD             AGENT-->
 	<!-- complex reallocation, link pathing, timing -->
