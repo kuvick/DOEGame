@@ -5,7 +5,7 @@
 	these numbers are used in the calculations).
 
 */
-
+import Prime31;
 
 #pragma strict
 
@@ -209,6 +209,20 @@ public class ScoreMenu extends GUIControl
 	
 	private var inspectionActivated:boolean = false;
 	
+	// Social media buttons
+	private var facebookButtonAB:AnimatedButton;
+		public var facebookIconText: Texture;
+		private var facebookIconRect: Rect;
+		private var facebookX: float=1563;
+		private var facebookY: float=10;
+		private var facebookPercent:float=0.12;
+	private var twitterButtonAB:AnimatedButton;
+		public var twitterIconText: Texture;
+		private var twitterIconRect: Rect;
+		/*private var twitterX: float=1563;
+		private var twitterY: float=24;
+		private var twitterPercent:float=0.12;*/
+	
 	public enum CurrentScoreScreen
 	{
 		Narrative,
@@ -267,7 +281,6 @@ public class ScoreMenu extends GUIControl
 			test();
 			Debug.Log("Testing...");
 		}
-	
 		
 		// To help maintain a 16:9 ratio for the screen, and for the screen to be in the center
 		screenRect = createRect(new Vector2(1920, 1080),0,0, 1, true);
@@ -492,7 +505,7 @@ public class ScoreMenu extends GUIControl
 		var codexTextRect : Rect = createRect(Vector2(930, 78), 495f / 1920f, 63f /1080f, 78f / 1080f, false,  codexRect);
 		codexTextRect.x = Screen.width / 2 - codexTextRect.width / 2;
 	
-		newCodexUnlockedST = new ShadowedText("New Codex Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
+		newCodexUnlockedST = new ShadowedText("New Entry Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
 		
 		codexTextRect = createRect(Vector2(861, 322), 357f / 1290f, 54f /618f, 322f / 618f, false,  codexInfoBoxRect);	
 		
@@ -513,7 +526,6 @@ public class ScoreMenu extends GUIControl
 		retryButtonAB = new AnimatedButton(Color.blue, retryButton, retryButtonRect, Vector2(codexRect.x, codexRect.y));
 		
 		
-		
 		titleST  = new ShadowedText("Agent Performance Evaluation", titleRect, boldStyle, true);
 		agentNameST   = new ShadowedText("Agent Name", agentNameTitleRect  , boldStyle, true);
 		agentRankST   = new ShadowedText("Agent Rank", agentRankTitleRect  , boldStyle, true);
@@ -521,7 +533,19 @@ public class ScoreMenu extends GUIControl
 		statusST   = new ShadowedText("Promotion Status", promotionStatusRect  , boldStyle, true);
 		honorST   = new ShadowedText("Honors", honorTitleRect  , boldStyle, true);
 		
-		
+		facebookIconRect = createRect(facebookIconText, facebookX / designWidth, facebookY / designHeight, facebookPercent, false, screenRect);
+		facebookButtonAB =  new AnimatedButton(Color.blue, facebookIconText, facebookIconRect, Vector2(screenRect.x, screenRect.y));
+		twitterIconRect = Rect(facebookIconRect.x - (1.25 * facebookIconRect.width), facebookIconRect.y, facebookIconRect.width, facebookIconRect.height);
+		twitterButtonAB = new AnimatedButton(Color.blue, twitterIconText, twitterIconRect, Vector2(screenRect.x, screenRect.y));
+				
+		#if UNITY_ANDROID
+		FacebookAndroid.init(false);
+		TwitterAndroid.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
+		#endif
+		#if UNITY_IPHONE
+		FacebookBinding.init();
+		TwitterBinding.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
+		#endif
 	}
 	
 	private var waitingOnHonor:boolean = false;
@@ -646,6 +670,47 @@ public class ScoreMenu extends GUIControl
 				}
 				//resetButtonTexture();
 
+				if (facebookButtonAB.Render())
+				{
+					#if UNITY_ANDROID
+					FacebookAndroid.loginWithReadPermissions( ["email", "user_birthday"] );
+					FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
+					Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
+					#endif
+					#if UNITY_IPHONE
+					
+					#endif
+					PlayButtonPress();
+				}
+				
+				if (twitterButtonAB.Render())
+				{
+					#if UNITY_ANDROID
+					if (!TwitterAndroid.isLoggedIn())
+					{
+						TwitterAndroid.showLoginDialog();
+						PlayButtonPress();
+					}
+					else
+					{
+						Application.CaptureScreenshot( FacebookUIManager.screenshotFilename );
+						var pathToImage = Application.persistentDataPath + "/" + FacebookUIManager.screenshotFilename;
+						var bytes = System.IO.File.ReadAllBytes( pathToImage );
+						TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
+					}
+					#endif
+					#if UNITY_IPHONE
+					if (!TwitterBinding.isLoggedIn())
+						TwitterBinding.showLoginDialog();
+					else
+					{
+						Application.CaptureScreenshot( FacebookUIManager.screenshotFilename );
+						var pathToImage = Application.persistentDataPath + "/" + FacebookUIManager.screenshotFilename;
+						TwitterBinding.postStatusUpdate( "I score in #Terrachanics!", pathToImage );
+					}
+					#endif
+					//PlayButtonPress();
+				}
 				
 				// Text is rendered:
 				//GUI.Label(agentNameTitleRect, "Agent Name", boldStyle);
@@ -887,6 +952,15 @@ public class ScoreMenu extends GUIControl
 		
 		//Debug.Log("Animated: " + numOfStarsAnimated + " Honors: " + numOfStarsAnimatedHonors + " Delay?? " + isDelaying);
 	}//endofrender
+	
+	// common event handler used for all Facebook graph requests that logs the data to the console
+	private function completionHandler( error : String,  result : Object )
+	{
+		if( error != null )
+			Debug.LogError( error );
+		else
+			Prime31.Utils.logObject( result );
+	}
 	
 	
 	// Used to find out the actual values for all the text that will be displayed,
