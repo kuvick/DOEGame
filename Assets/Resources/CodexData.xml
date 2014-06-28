@@ -7,7 +7,6 @@
 	  <urlLink>http://www.smartgrid.gov/the_smart_grid#smart_grid</urlLink>
 	  <iconName>techImage_smartGrid</iconName>
 	  <description> A powerful system of computer controls that predict and optimize power usage. It both minimizes costs and is more resilient against outages than conventional grids.</description>
-	<!--	  Smart Grids monitors information on energy usage to predict demand and adapt to provide efficient and reliable electricity.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electrofuels</name>
@@ -15,7 +14,6 @@
 	  <urlLink>http://energy.gov/articles/electrofuels-tiny-organisms-making-big-impact</urlLink>
 	  <iconName>Electrofuels_01</iconName>
 	  <description>Uses non-photosynthetic microorganisms to convert carbon dioxide into energy. Has the potential to be 10x more efficient than petroleum or biofuels./n -Colombia University</description>
-	  <!--<description>This emerging technology stores electrical energy in the chemical bonds of a renewable fuel source such as Biodiesel, Butanol or Hydrogen.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Biodiesel</name>
@@ -23,7 +21,6 @@
 	  <urlLink>energy.gov/articles/researchers-borrow-fir-tree-create-biodiesel</urlLink>
 	  <iconName>techImage_biodiesel</iconName>
 	  <description>Developed from Fir Trees, biodiesel is an alternative to conventional D2 diesel (road diesel) used in commercial trucking. It holds the promise of greater energy independence for the country. /n -Joint BioEnergy Institute</description>
-		<!--Biodiesel fuel has similar properties to Road Diesel but is instead made of renewable organic matter. Often times, this matter is vegetable oil recycled from restaurants and cafeterias. Recently, researchers have found alternatives such as Bisabolane which perform more efficiently than vegitable oil and offer something closer to Road Diesel.-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Silicon Carbide Thyristors</name>
@@ -31,7 +28,6 @@
 	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
 	  <iconName>techImage_siliconCarbideThyristors</iconName>
 	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures dramatically faster than traditional thyristor designs./n -GeneSiC Semiconductor and Sandia National Laboratory</description>
-	  <!-- <description>This fundemental componant of electrical devices manages the flow of electricity to ensure smooth operation. The use of Silicon Carbide increases the operating capability of the thyristor, enabling it to function in high heat and high voltage situations.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Fish-Friendly Turbine</name>
@@ -46,7 +42,6 @@
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
 	  <iconName>OrganicFlashCycle</iconName>
 	  <description>Reclaims waste heat given off by machinery and converts it into usable energy. /n -Lawrence Berkeley National Laboratory</description>
-	<!--Using this newly developed approach, it is possible to reclaim waste heat from machinery and convert it back into usable energy.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Integrated Ventilation Controller</name>
@@ -54,7 +49,6 @@
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
 	  <iconName>RIVEC</iconName>
 	  <description>Optimizes ventalation and air flow for air conditioning systems, reducing power usage by 18 to 44% /n -Lawrence Berkeley National Laboratory</description>
-	<!--This new system maximizes the air quality within a residential home while reducing the energy consumed by 18 to 44%.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Transition Metal Switchable Mirrors</name>
@@ -62,7 +56,6 @@
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=145</urlLink>
 	  <iconName>techImage_TMSM</iconName>
 	  <description>Thin film of magnesium alloy that can switch from reflective and transparent states. Designed to dramatically reduce air conditioning costs in large office buildings. /n -Lawrence Berkeley National Laboratory</description>
-	  <!--enable the capability to change the reflectivity of a glass surface. this technology can be used to actively control natural light levels in a building or </description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electrochemical Solution Growth</name>
@@ -70,7 +63,6 @@
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=602</urlLink>
 	  <iconName>techImage_galliumNitrideCrystalGrowth</iconName>
 	  <description>A new technique enabling the rapid creation of large amounts of Gallium Nitride Crystals, used for high-efficiency LEDs and high-power transistors. /n -Sandia National Laboratories</description>
-		  <!--ESG allows us to grow large quantities of high quality Gallium Nitride Crystals which are used in high efficiency LEDs and high-power transistors.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Volatile Organic Compounds Removal System</name>
@@ -80,24 +72,20 @@
 	  <description>Converts harmful gases into harmless carbon dioxide and water. Reduces power needs for lab air filtration systems./n -Lawrence Berkeley National Laboratory</description>
 	  <!--<description>This new system maximizes the air quality within a building while reducing the energy consumtion.</description>-->
 	</CodexEntry>
-	<!--NOT IN USE-->
-  	<!--
 	<CodexEntry>
 	  <name>Efficient Solar Cell Fabrication</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
 	  <iconName>techImage_ProcessforFabricationofEfficientSolarCells</iconName>
 	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost. /n - Ames Laboratory</description>
-	  <!--<description>With improved processes for the fabrication of solar cells, we can now increase the efficiency of solar panels by upping the light absorption capabilities of individual cells.</description>
 	</CodexEntry>
-	-->
+	
   	<CodexEntry>
 	  <name>Building-integrated Photovoltaic-Thermal Collector</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
 	  <iconName>PhotovoltaicThermalCollector</iconName>
 	  <description>A hybrid solar thermal/electric collection module mounted to buildings to collect ambient heat and convert it to electrical power.  /n -University of Colorado</description>
-	  <!--<description>This method of capturing solar energy combines solar panels and thermal collectors. The resulting technology is then used as siding and roofing material for a building, turning each surface into an energy source.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Hydrogen Storage</name>
@@ -105,7 +93,6 @@
 	  <urlLink>energy.gov/articles/basic-and-slightly-acidic-solution-hydrogen-storage</urlLink>
 	  <iconName>hydrogenStorage</iconName>
 	  <description>An advanced catalyst that binds hydrogen to carbon dioxide in a basic solution for easy and viable hydrogen storage. /n -Brookhaven Lab </description>
-	  <!--<description>Using acidic solutions, it is now possible to store Hydrogen in liquid form under mild conditions safely and without the need for mittens and scarves.</description>-->
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
@@ -167,7 +154,6 @@
 	  <!--<description>In recent years, engineers have developed a powerful system which harnesses the coming and going motion of tidal waters, converting that motion to useable energy.</description>-->
 	</CodexEntry>
 	
-	
   	<CodexEntry>
 	  <name>Waste to Energy</name>
 	  <isUnlocked>false</isUnlocked>
@@ -199,7 +185,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57604962-54/nissan-leaf-buyers-in-texas-charge-up-for-free</urlLink>
 	  <iconName>electric_car_charging_station</iconName>
-	  <description>A network of free charging stations for electric cars, dramatically cutting down on refueling costs and fossil fuel usage.</description>
+	  <description>A network of free charging stations for electric cars, dramatically cutting down on refueling costs and fossil fuel dependency.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Solar-Powered Airplanes</name>
@@ -220,7 +206,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57559830-54/phantom-fighter-meterplug-reports-electric-use-in-dollars/</urlLink>
 	  <iconName>meter_plug</iconName>
-	  <description>A handy device for pricely monitoring power usage and calculating its cost in dollars to help consumers and businesses more intelligently manage their power use.</description>
+	  <description>A handy device for precisely monitoring power usage and calculating its cost in dollars to help consumers and businesses more intelligently manage their power use.</description>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Non-Invasive Energy Meter</name>
@@ -249,18 +235,14 @@
 	  <description>By recycling waste plastic bags, we can create carbon nanotubes, a light super strong material which can be found in a variety of electronics and consumer products.</description>
 	</CodexEntry>
 	-->
-  	<!--**********************************************************************************************************************-->
-	<!--*************************************************NOT IN USE********************************************************-->
-	<!--**********************************************************************************************************************-->
-	<!--
+  	
 	<CodexEntry>
 	  <name>Air Powered Cars</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
 	  <iconName>AirPoweredCar_01</iconName>
-	  <description>Description goes here...</description>
+	  <description>Fast, light, and environmentally friendly, these cars run entirely off of compressed air. Soon they'll be the cheapeast cars in the world!</description>
 	</CodexEntry>
-	-->
 	
   	<CodexEntry>
 	  <name>Nuclear Power</name>
@@ -291,7 +273,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
 	  <iconName>small_nuclear_reactor</iconName>
-	  <description>Smaller nuclear reactors promise to be cheaper, safer, and easier to upgrade and maintain than conventional reactors.</description>
+	  <description>Smaller nuclear reactors promise to be cheaper, safer, and easier to upgrade, install, and maintain than conventional reactors.</description>
 	   <!--This technology provides a small, efficient nuclear power plant at a significantly lower cost than that of a standard sized nuclear power plant.</description>-->
 	</CodexEntry>
   	
@@ -321,7 +303,7 @@
 	  <iconName>nuclear_power_and_waste_disposal</iconName>
 	  <description>Nuclear power produces significantly less waste than fossil fuels, and there are advanced techniques to store such waste safely and effectively.</description>
 	  
-	   <!--Disposal of Nuclear Waste is an incredibly difficult task as the material is very dangerous. Currently, nuclear waste is stored at individual reactor sites and in geologically stable repositories carved deep into the earth.</description>
+	   Disposal of Nuclear Waste is an incredibly difficult task as the material is very dangerous. Currently, nuclear waste is stored at individual reactor sites and in geologically stable repositories carved deep into the earth.</description>
 	</CodexEntry>  
 	-->
   
