@@ -83,7 +83,15 @@ private var tooltipAlpha : float = 1f;
 public var fadeTimer : float = 0;
 private var fadeStep : float = .05f;
 
+private var isInitialized : boolean = false;
+
 function Start () 
+{
+	if (!isInitialized)
+		Initialize();
+}
+
+private function Initialize()
 {
 	dOS = new DisplayOnceSystem();
 	
@@ -158,6 +166,8 @@ function Start ()
 		CheckTriggerToDisplay();
 		isEnabled = true;
 	}
+	Debug.Log("start");
+	isInitialized = true;
 }
 
 function Update () 
@@ -199,6 +209,8 @@ function OnGUI()
 
 public function Activate (disp : Tooltip, comp : InspectionComponent)
 {
+	if (!isInitialized)
+		Initialize();
 	componentSelected = true;
 	if (intelSys)
 		intelSys.toolTipOnScreen = true;
@@ -329,6 +341,7 @@ private function FormatDisplay()
 	dispRect.height = dispHeight;
 	borderRect.height = dispHeight + borderOffset * 2;*/
 	//dispRect.y = screenMiddle.y - (dispHeight / 2.0);
+	Debug.Log("format");
 }
 
 private function Render()
