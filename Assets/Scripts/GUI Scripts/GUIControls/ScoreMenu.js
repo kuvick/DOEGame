@@ -104,7 +104,7 @@ public class ScoreMenu extends GUIControl
 	private var honorStarRect : List.<Rect> = new List.<Rect>();
 	private var numOfStarsAnimatedHonors:int = 0;
 	private var numOfStarsAnimated:int = 0;
-	public var starAnimationSpeed:float = 1f;
+	private var starAnimationSpeed:float = 0.7f;
 	private var honorsAnimation : AnimatedImage[] = new AnimatedImage[3];
 	private var currentHonorToAnimate : int = 0;
 	private var starAnimation : AnimatedImage[] = new AnimatedImage[5];

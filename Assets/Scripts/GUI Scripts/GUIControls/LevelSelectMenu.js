@@ -416,7 +416,7 @@ public class LevelSelectMenu extends GUIControl
 		levelNodeFontHeight = 0.015 * screenWidth;
 		
 		levelSelectSkin.button.fontSize = levelNodeFontHeight;
-		levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.85;
+		levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
 		levelSelectSkin.customStyles[0].fontSize = levelNodeFontHeight * 2;
 		levelSelectSkin.customStyles[1].fontSize = levelNodeFontHeight * 2;
 		levelSelectSkin.customStyles[2].fontSize = levelNodeFontHeight * 2;
@@ -673,7 +673,7 @@ public class LevelSelectMenu extends GUIControl
 		subjectRect = createRect(Vector2(1062,55), 25f /1301f , 6f / 669f, 55f /669f, false, emailMessageBackgroundRect);
 		senderRect_desc = createRect(Vector2(1062,55), 25f /1301f , 80f / 669f, 55f /669f, false, emailMessageBackgroundRect);
 		messageRect = createRect(Vector2(1062,295), 25f /1301f , 164f / 669f, 295f /669f, false, emailMessageBackgroundRect);
-		objectiveRect = createRect(Vector2(1062,295), 25f /1301f , 416f / 669f, 295f /669f, false, emailMessageBackgroundRect);
+		objectiveRect = createRect(Vector2(1062,295), 25f /1301f , 390f / 669f, 295f /669f, false, emailMessageBackgroundRect);
 		
 		objectiveRect.width -= objectiveRightBuffer;
 		
@@ -1071,8 +1071,9 @@ public class LevelSelectMenu extends GUIControl
 					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
 					//objective = "<color=cyan>" + objective + "</color>";																														
 					//GUI.Label(objectiveRect, objective);
-					
+					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75;
 					objTextST.Display(objective, objectiveRect, false);
+					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
 				}
 				else
 				{
@@ -1103,7 +1104,9 @@ public class LevelSelectMenu extends GUIControl
 					messageLineText.Display(sender, senderRect_desc, false);
 					messageLineText.Display(subject, subjectRect, false);
 					messageText.Display(message, messageRect, false);				
+					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75;
 					objTextST.Display(objective, objectiveRect, false);
+					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
 
 				}
 					
