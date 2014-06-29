@@ -488,17 +488,19 @@ public class CodexMenu extends GUIControl
 					//if(zoomIn && hexGroup.width < Screen.width * 2)
 					//if(zoomIn && (currentNumOfCol > 3))
 					
-					if (zoomFromButton && (hexGroup.width >= 2000 || hexGroup.width <= 900))
+					if (zoomFromButton && (hexGroup.width >= 2000 || hexGroup.width <= 700))
 					{
+						Debug.Log("this1");
 						enactZoom = false;
 						zoomFromButton = false;
 						if (hexGroup.width >= 2000)
-							recalculateRectForHexes(.99);
+							recalculateRectForHexes(.90);
 						else
-							recalculateRectForHexes(1.01);
+							recalculateRectForHexes(1.10);
 					}
 					else if(zoomIn && (hexGroup.width < 2000))
 					{
+						Debug.Log("this2");
 						//if(currentNumOfCol > 3)
 							//currentNumOfCol--;
 						/*if(touchZoom)
@@ -511,15 +513,16 @@ public class CodexMenu extends GUIControl
 							recalculateRectForHexes(change1);
 						}
 						*/	
-						recalculateRectForHexes(1.01);
+						recalculateRectForHexes(1.10);
 						
 						//hexGroup.width = hexGroup.width * 1.1;
 						//hexGroup.height = hexGroup.height * 1.1;
 					}
 					//else if(!zoomIn && hexGroup.width > Screen.width * 0.9)
 					//else if(!zoomIn && (currentNumOfCol < 11))
-					else if(!zoomIn && (hexGroup.width > 900))
+					else if(!zoomIn && (hexGroup.width > 700))
 					{
+						Debug.Log("this3");
 						/*
 						if(touchZoom)
 							recalculateRectForHexes(1f / tapDistance);
@@ -534,7 +537,7 @@ public class CodexMenu extends GUIControl
 					
 						//if(currentNumOfCol < 11)
 							//currentNumOfCol++;
-						recalculateRectForHexes(0.99);
+						recalculateRectForHexes(0.90);
 						//hexGroup.width = hexGroup.width * 0.9;
 						//hexGroup.height = hexGroup.height * 0.9;
 					}
@@ -647,12 +650,26 @@ public class CodexMenu extends GUIControl
 				hexGroup.y + addedHeight,
 				(hexBGRect[0].width - (hexBGRect[0].width * hexDistancePercent)) * (currentNumOfCol + 1),
 				(totalRows + 2) * hexBGRect[0].height);
-		*/		
+		*/
+		
+		var oldHexGroup:Rect = Rect(hexGroup.x, hexGroup.y, hexGroup.width, hexGroup.height);
+		
 		hexGroup = new Rect(earnedST.displayRect.x + earnedST.displayRect.width,
 				viewST.displayRect.y,
 				(hexBGRect[0].width - (hexBGRect[0].width * hexDistancePercent)) * (currentNumOfCol + 1),
 				(totalRows + 2) * hexBGRect[0].height);
 				
+				
+		if(percentage > 1)
+		{
+			hexGroup.x -= (hexGroup.width - oldHexGroup.width);
+			hexGroup.y -= (hexGroup.height - oldHexGroup.height);
+		}
+		else
+		{
+			hexGroup.x += (hexGroup.width - oldHexGroup.width);
+			hexGroup.y += (hexGroup.height - oldHexGroup.height);
+		}		
 	}
 	
 	private var currentNumOfCol:int = 7; // originally 5
@@ -719,6 +736,7 @@ public class CodexMenu extends GUIControl
 		hexGroup = new Rect(0,codexLabelRect.height * 1.3,
 				(startHexBG.width - (startHexBG.width * hexDistancePercent)) * (currentNumOfCol + 1),
 				(row + 2) * tempHexBG.height);
+
 	}
 	
 	
