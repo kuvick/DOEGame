@@ -628,17 +628,17 @@ public class AnimatedImage
 	private var centerPos:Vector2;
 	private var switchScale:boolean;
 	
-	public function AdjustAnimationIncrease(speed:float, totalSizeIncrease:float, byPercentage:boolean)
+	public function AdjustAnimationIncrease(speed:float, totSizeIncrease:float, byPercentage:boolean)
 	{
 		if(!byPercentage)
 		{
 			//Removing warnings GPC 5/29/14
-			//totalSizeIncrease = totalSizeIncrease;
+			totalSizeIncrease = totSizeIncrease;
 			incrementRate = speed;
 		}
 		else
 		{
-			totalSizeIncrease = totalSizeIncrease * originalRect.height;
+			totalSizeIncrease = totSizeIncrease * originalRect.height;
 			incrementRate = speed * originalRect.height;
 		}
 	
