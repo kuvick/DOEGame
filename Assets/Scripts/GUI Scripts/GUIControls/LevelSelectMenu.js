@@ -644,7 +644,7 @@ public class LevelSelectMenu extends GUIControl
 		
 		pointers = gameObject.GetComponent(TutorialPointers);
 		
-		if (lastUnlockedIndex < levelsFromXML.numInitialTutorials || (unlockedLevels.Count > 0 && unlockedLevels[0] == levels[0]))
+		if (!isDebugMode && (lastUnlockedIndex < levelsFromXML.numInitialTutorials || (unlockedLevels.Count > 0 && unlockedLevels[0] == levels[0])))
 		{
 			showSplash = true;
 			checkRender = true;
@@ -1333,6 +1333,8 @@ public class LevelSelectMenu extends GUIControl
 				} else {
 					if (countUnlocked < 1)
 						baseDifficulty = levels[i].difficulty;
+					if (isDebugMode && levels[i].sceneName.Contains("riefing"))
+						continue;
 					level = new Rect(0, countUnlocked * (messageHeightPercent * screenHeight), /*messageWidthPercent * screenWidth*/missionScrollArea.width * .95, messageHeightPercent * screenHeight);											
 					level.y += countUnlocked * (level.height * .05);
 					levels[i].bounds = level;
@@ -1351,7 +1353,7 @@ public class LevelSelectMenu extends GUIControl
 							PlayerPrefs.SetString(Strings.CurrentLevel, levels[i].subjectText);
 						}
 						// for final briefing
-						else
+						else if (!isDebugMode)
 							PlayerPrefs.SetString(Strings.NextLevel, "GameComplete");
 						
 						tutorialUnlockedModifier = 2;
