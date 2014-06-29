@@ -991,7 +991,7 @@ public class ScoreMenu extends GUIControl
 					honorsTextures[i].hasEarned = true;
 					honorsTextures[i].animationOrder = animationOrder;
 					animationOrder++;
-					Debug.Log(honorsTextures[i].animationOrder + "...agile");
+					//Debug.Log(honorsTextures[i].animationOrder + "...agile");
 					numOfStars++;
 				}
 				
@@ -1016,7 +1016,7 @@ public class ScoreMenu extends GUIControl
 					honorsTextures[i].hasEarned = true;
 					honorsTextures[i].animationOrder = animationOrder;
 					animationOrder++;
-					Debug.Log(honorsTextures[i].animationOrder + "...efficient");
+					//Debug.Log(honorsTextures[i].animationOrder + "...efficient");
 					numOfStars++;
 				}
 				
@@ -1042,7 +1042,7 @@ public class ScoreMenu extends GUIControl
 					honorsTextures[i].animationOrder = animationOrder;
 					animationOrder++;
 					numOfStars += 2;
-					Debug.Log(honorsTextures[i].animationOrder + "...resourceful");
+					//Debug.Log(honorsTextures[i].animationOrder + "...resourceful");
 				}
 				if(!honorsTextures[i].couldBeEarned)
 				{
