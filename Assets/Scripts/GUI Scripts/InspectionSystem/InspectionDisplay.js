@@ -166,7 +166,6 @@ private function Initialize()
 		CheckTriggerToDisplay();
 		isEnabled = true;
 	}
-	Debug.Log("start");
 	isInitialized = true;
 }
 
@@ -217,8 +216,7 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 	disp.SetComponent(comp);
 	if (disp.text != String.Empty)
 		SoundManager.Instance().playInspectionOpen();
-	if (disp.arrow.icon)
-		tutorialPointers.AddPointerToStart(disp.arrow);
+	
 	if (disp.hasPriority || tooltipList.Count < 1)
 	{
 		tooltipList.Insert(0, disp);
@@ -230,8 +228,11 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 		if (currentTooltip.type == TooltipType.Notification)
 			NextTooltip();
 	}
+	if (disp.arrow.icon)
+		tutorialPointers.AddPointerToStart(disp.arrow);
 	/*currentTooltip = tooltipList[0];
 	FormatDisplay();*/
+	Debug.Log("activate");
 }
 
 // This function is needed since with the if statement above,
@@ -341,7 +342,6 @@ private function FormatDisplay()
 	dispRect.height = dispHeight;
 	borderRect.height = dispHeight + borderOffset * 2;*/
 	//dispRect.y = screenMiddle.y - (dispHeight / 2.0);
-	Debug.Log("format");
 }
 
 private function Render()
@@ -384,6 +384,7 @@ private function FadeTooltip()
 	}
 	tooltipAlpha = 1f;
 	NextTooltip();
+	Debug.Log("fade");
 }
 
 public function NextTooltip()
