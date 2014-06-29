@@ -673,8 +673,10 @@ public class ScoreMenu extends GUIControl
 				if (facebookButtonAB.Render())
 				{
 					#if UNITY_ANDROID
-					FacebookAndroid.loginWithReadPermissions( ["email", "user_birthday"] );
-					FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
+					if (!FacebookAndroid.isSessionValid())
+					FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
+					//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
+					else
 					Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
 					#endif
 					#if UNITY_IPHONE

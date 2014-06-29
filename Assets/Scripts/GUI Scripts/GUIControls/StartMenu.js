@@ -94,6 +94,7 @@ public class StartMenu extends GUIControl
 	private var newGameButton:Rect;
 	private var levelSelectButton:Rect;
 	private var linkFacebookButton:Rect;
+	private var splashRect : Rect;
 
 	private var fontHeightPercent:float = 0.04;				// Height of the font of the buttons as a percentage of screen height	
 	private var fontHeight:float;
@@ -157,6 +158,9 @@ public class StartMenu extends GUIControl
 	private var enterNameST: ShadowedText;
 	private var acceptST: ShadowedText;
 	private var cancelST: ShadowedText;
+	
+	// adjust size of splash screen images
+	public var splashScale : float;
 	
 	public enum CurrentStartScreen
 	{
@@ -252,7 +256,7 @@ public class StartMenu extends GUIControl
 		
 		
 		//logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
-		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
+		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage);
 		
 		//RiffSplashScreens();
 		//SetSplash(showSplash);//nextLevel.playSplash);
@@ -350,8 +354,8 @@ public class StartMenu extends GUIControl
 		if (playStartScreen)
 		{
 			GUI.DrawTexture(background, currentTexture, ScaleMode.StretchToFill);
-			var newWidth : float = currentIcon.width * percentage;
-			var newHeight: float = currentIcon.height * percentage;
+			var newWidth : float = currentIcon.width * percentage * (1f + splashScale);
+			var newHeight: float = currentIcon.height * percentage * (1f + splashScale);
 			var iconRect : Rect = new Rect(screenWidth / 2 - newWidth / 2, screenHeight / 2 - newHeight / 2, newWidth, newHeight );
 		
 			GUI.DrawTexture(iconRect, currentIcon, ScaleMode.ScaleAndCrop);

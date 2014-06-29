@@ -232,7 +232,6 @@ public function Activate (disp : Tooltip, comp : InspectionComponent)
 		tutorialPointers.AddPointerToStart(disp.arrow);
 	/*currentTooltip = tooltipList[0];
 	FormatDisplay();*/
-	Debug.Log("activate");
 }
 
 // This function is needed since with the if statement above,
