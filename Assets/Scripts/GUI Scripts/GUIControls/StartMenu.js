@@ -845,7 +845,7 @@ public class StartMenu extends GUIControl
 		if(!waiting)
 		{
 			waiting = true;
-			yield WaitForSeconds(1);
+			yield WaitForSeconds(3);
 			if(firstTimeLevelToLoad == "")
 				currentResponse.type = EventTypes.LEVELSELECT;
 			else
