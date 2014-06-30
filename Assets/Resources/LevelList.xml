@@ -139,7 +139,7 @@
       <difficulty>0</difficulty>
       <subjectText>The Light of Invention</subjectText>
       <messageText>Congratulations! Edison spoke very highly of you. In her own way. The subtext was clearly there. Anyway, onward and upward!</messageText>
-	  <objectiveText>Direct gas and utility modernizations in Blackstone</objectiveText>
+	  <objectiveText>Direct gas and utility modernizations in Blackstone.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -156,7 +156,7 @@
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Steam Powered</subjectText>
-      <messageText>Silver is more that beautiful - it is a tool to bend electricity to our will! Within a conductors intricate patterns is the true beauty of science!</messageText>
+      <messageText>Silver is more that beautiful - it is a tool to bend electricity to our will! Within a conductor's intricate patterns is the true beauty of science!</messageText>
 		  <!--So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>-->
       <objectiveText>Davincraft Aeronautics needs advanced silver printing technology for their low-weight prototype aircraft.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -282,7 +282,7 @@
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Rise from the Trashes</subjectText>
-      <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a complement.</messageText>
+      <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a compliment.</messageText>
       <objectiveText>Help Derptronics bring their Air-Powered Cars to market.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>

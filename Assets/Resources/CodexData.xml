@@ -81,7 +81,7 @@
 	</CodexEntry>
 	
   	<CodexEntry>
-	  <name>Building-integrated Photovoltaic-Thermal Collector</name>
+	  <name>Mounted Photovoltaic Collector</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
 	  <iconName>PhotovoltaicThermalCollector</iconName>
@@ -241,7 +241,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
 	  <iconName>AirPoweredCar_01</iconName>
-	  <description>Fast, light, and environmentally friendly, these cars run entirely off of compressed air. Soon they'll be the cheapeast cars in the world!</description>
+	  <description>Fast, light, and environmentally friendly, these cars run entirely off of compressed air. Soon they'll be the cheapest cars in the world!</description>
 	</CodexEntry>
 	
   	<CodexEntry>
@@ -265,7 +265,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
 	  <iconName>geothermal_power</iconName>
-	  <description>New innovations in drilling techniques now allow us to create artificial geothermal resevoirs to harness the power of subterrainian lava flow.</description>
+	  <description>New innovations in drilling techniques now allow us to create artificial geothermal reservoirs to harness the power of subterranean lava flow.</description>
 	  <!--Like the blacksmith Vulcan of ancient Rome, we can now harness the Geothermal Energy of our home planet to provide renewable energy.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -282,7 +282,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
 	  <iconName>techImage_Silverprintingmethod</iconName>
-	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible.-Sandia National Laboratories </description>
+	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible. -Sandia National Laboratories </description>
 		  <!--This new technique allows for silver to be printed at low temperatures to allow conductors to be printed onto a broader range of materials. -Sandia National Laboratories </description>-->
 	</CodexEntry>
 	
