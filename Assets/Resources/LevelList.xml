@@ -281,7 +281,7 @@
       <displayName>16</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Rise from the Trashes</subjectText>
+      <subjectText>Airheaded Ideas</subjectText>
       <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a compliment.</messageText>
       <objectiveText>Help Derptronics bring their Air-Powered Cars to market.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -396,13 +396,14 @@
       <contactRequirement></contactRequirement>
     </Level>
 	
+	<!--REALLOCATION INTRODUCED-->
 	<!--                                                                                                                                                                                 Waste to Energy-->	
 	<Level><!--RV08-remix easy, similtaneous action-->
 	  <displayName>10</displayName>
       <!--<sceneName>RV08-remix</sceneName>-->
 	  <sceneName>Tutorial_RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
-      <subjectText>Trash Powered</subjectText>
+      <subjectText>Rise from the Trashes</subjectText>
       <messageText>Never throw things away. That was Aunt Irma’s motto. Sure, they called her a hoarder, but I say she was a scientific genius ahead of her time.</messageText>
       <objectiveText>Develop supply lines to bring the JunkCo waste conversion facility online.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -591,7 +592,7 @@
 	<Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
       <displayName>19</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
-      <difficulty>0</difficulty>
+      <difficulty>1</difficulty>
       <subjectText>Power in Your Hands</subjectText>
       <messageText>I’ve been kicking around this idea of spray-on solar panels for years… but now Hilbert has gone and made it first! Ugh, always beating me to the punch!</messageText>
       <objectiveText>Help the Hilbert microsolar lab complete their newest factory.</objectiveText>
@@ -679,7 +680,7 @@
       <displayName>25</displayName>
       <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Regal and Energetic</subjectText>
+      <subjectText>Regal and Majestic</subjectText>
       <messageText>Did I ever mention I had a twin? She’s from a different department, but she can help out in a pinch. Gonna need her for this next one for sure.</messageText>
 	  <objectiveText>Convert the old Sanspoof textile mill into an alternative energy Lab.</objectiveText>
       <isPrimary>true</isPrimary>
