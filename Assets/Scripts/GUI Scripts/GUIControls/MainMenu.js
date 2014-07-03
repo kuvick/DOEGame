@@ -150,6 +150,7 @@ public class MainMenu extends GUIControl
 	
 	private var objIconAnimatedImage:AnimatedImage = new AnimatedImage();
 	
+	private var objNumST:ShadowedText;
 	
 	private var sparkRect:Rect;
 	public var sparkTextures:List.<Texture> = new List.<Texture>();
@@ -369,6 +370,9 @@ public class MainMenu extends GUIControl
 		textDisplayRect = new Rect(0,Screen.height * 0.1,Screen.width * 0.40, Screen.height);
 		textDisplayRect.x = Screen.width / 2 - textDisplayRect.width / 2;
 		
+		
+		objNumST = new ShadowedText("", Rect(0,0,0,0), false);
+		
 	}
 	
 	public function Render(){
@@ -579,10 +583,7 @@ public class MainMenu extends GUIControl
 		}
 		GUI.EndGroup();
 		*/
-		GUI.DrawTexture(objBGRect, objectiveBanner, ScaleMode.StretchToFill);
-		
-		
-		
+		GUI.DrawTexture(objBGRect, objectiveBanner, ScaleMode.StretchToFill);		
 
 		GUI.BeginGroup(objIconGroupRect);
 			for(var i:int = 0; i < intelSystem.events.Count; i++)
@@ -631,12 +632,22 @@ public class MainMenu extends GUIControl
 										
 				//DISPLAYING NUMBER
 				if(intelSystem.events[i].event.type == BuildingEventType.Primary && !intelSystem.events[i].getResolved())
-				{		
+				{	
+				
+					objNumST.Display(intelSystem.events[i].event.time.ToString(),
+								Rect(padding + (objIconSize.x + padding) * (i*2) + (objIconSize.y / 2),
+											padding / 2, 
+											objIconSize.x,
+											objIconSize.y),
+											false);
+					
+					/*
 					GUI.Label(	Rect(padding + (objIconSize.x + padding) * (i*2) + (objIconSize.y / 2),
 								padding / 2, 
 								objIconSize.x,
 								objIconSize.y),
 								intelSystem.events[i].event.time.ToString());
+					*/
 				}
 				
 				if(reset)

@@ -18,6 +18,7 @@ public class ObjectiveIcon extends InspectionComponent
 	private var iconObject : GameObject;
 	
 	private var turnMesh : TextMesh;
+	private var shadowMesh : TextMesh;
 	
 	private var isPrimary : boolean = true;
 	
@@ -76,7 +77,7 @@ public class ObjectiveIcon extends InspectionComponent
 		
 		gameObject.transform.localScale = iconScale;
 		
-		gameObject.layer = 10;
+		gameObject.layer = 11;
 		
 		// set-up turn timer object
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
@@ -87,19 +88,23 @@ public class ObjectiveIcon extends InspectionComponent
 		temp.layer = 10;
 		
 		turnMesh = temp.GetComponent(TextMesh);
+		shadowMesh = temp.Find("Shadow").GetComponent(TextMesh);
 		
 		//GPC 4/23/14 making turn mesh look bigger
 		turnMesh.characterSize *= 2;
+		shadowMesh.characterSize *= 2;
 		
 		if (type == BuildingEventType.Secondary)
 		{
 			turnMesh.active = false;
+			shadowMesh.active = false;
 			isPrimary = false;
 			dataPickedUpTexture = Resources.Load("dataSecondaryUnInspectedDATA") as Texture2D;
 		}
 		else
 		{
 			turnMesh.text = String.Empty + turns;
+			shadowMesh.text = String.Empty + turns;
 			dataPickedUpTexture = Resources.Load("dataPrimaryUnInspectedDATA") as Texture2D;
 		}
 		
@@ -150,13 +155,19 @@ public class ObjectiveIcon extends InspectionComponent
 		temp.transform.localScale = Vector3(1.25,1.25,1.25);
 		
 		turnMesh = temp.GetComponent(TextMesh);
+		shadowMesh = temp.Find("Shadow").GetComponent(TextMesh);
+		
 		if (type == BuildingEventType.Secondary)
 		{
 			turnMesh.active = false;
+			shadowMesh.active = false;
 			isPrimary = false;
 		}
 		else
+		{
 			turnMesh.text = String.Empty + turns;
+			shadowMesh.text = String.Empty + turns;
+		}	
 		
 		
 		//Added by GPC 8/16/13
@@ -190,7 +201,10 @@ public class ObjectiveIcon extends InspectionComponent
 		super(active);
 		renderer.enabled = isActive;
 		if (isPrimary)
+		{
 			turnMesh.active = isActive;
+			shadowMesh.active = isActive;
+		}	
 	}
 	
 	public function SetResolved(res : boolean)
@@ -200,6 +214,7 @@ public class ObjectiveIcon extends InspectionComponent
 		if (isResolved)
 		{
 			turnMesh.active = false;
+			shadowMesh.active = false;
 			//normalTexture = resolvedTexture;
 			resolvedObj = true;
 			firstLoop = true;
@@ -209,7 +224,10 @@ public class ObjectiveIcon extends InspectionComponent
 		else
 		{
 			if(isPrimary)
+			{
 				turnMesh.active = true;
+				shadowMesh.active = true;
+			}
 			normalTexture = unresolvedTexture;
 			
 			if(resolvedObj)
@@ -237,6 +255,7 @@ public class ObjectiveIcon extends InspectionComponent
 	public function DrawTime(turnsLeft : String)
 	{
 		turnMesh.text = turnsLeft;
+		shadowMesh.text = turnsLeft;
 	}
 	
 	private var resolvedObj:boolean = false;
