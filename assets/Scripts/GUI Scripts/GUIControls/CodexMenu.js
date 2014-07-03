@@ -131,10 +131,13 @@ public class CodexMenu extends GUIControl
 	
 	private var titleST:ShadowedText;
 	private var descriptST:ShadowedText;
+	private var labTextST:ShadowedText;
 	
 	
 	public function Initialize(){
 		super.Initialize();
+		
+		labStyle = new GUIStyle(descriptStyle);
 		
 		// setup confirmation window
 		
@@ -262,6 +265,7 @@ public class CodexMenu extends GUIControl
 		
 		titleST = new ShadowedText("", Rect(0,0,0,0), titleStyle, false);
 		descriptST = new ShadowedText("", Rect(0,0,0,0), descriptStyle, false);
+		labTextST = new ShadowedText("", new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, Rect(0,0,0,0), labStyle);
     	
 	}
 	
@@ -872,9 +876,11 @@ public class CodexMenu extends GUIControl
 	private var learnMoreRect:Rect;
 	private var titleRect:Rect;
 	private var descriptionRect:Rect;
+	private var labRect:Rect;
 	
 	public var titleStyle:GUIStyle;
 	public var descriptStyle:GUIStyle;
+	private var labStyle:GUIStyle;
 	private var totalRows:int;
 	
 	public var viewStyle:GUIStyle;
@@ -892,6 +898,9 @@ public class CodexMenu extends GUIControl
 			
 			//GUI.Label(descriptionRect, currentEntry.description, descriptStyle);
 			descriptST.Display(currentEntry.description, descriptionRect, false);
+			
+			if(currentEntry.lab != "")
+				labTextST.Display(currentEntry.lab, labRect, false);
 			
 		
 			GUI.DrawTexture(awardBGRect, awardBGTexture, ScaleMode.StretchToFill);
@@ -939,10 +948,14 @@ public class CodexMenu extends GUIControl
     	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));
 		titleRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (369.0 - 280.0)/746.0, 598.0/746.0, false, techEntryGroup);
 		descriptionRect = createRect(new Vector2(1089,598), (104.0 - 73.0)/1845.0, (509.0 - 264.0)/746.0, 598.0/746.0, false, techEntryGroup);
+		
 	
 	
-		titleStyle.fontSize = 0.030 * screenWidth;
-		descriptStyle.fontSize = 0.022 * screenWidth;
+		titleStyle.fontSize = 0.030 * screenWidth;		// DERRICK LOOK HERE FOR SCALE
+		descriptStyle.fontSize = 0.022 * screenWidth;	// DERRICK LOOK HERE FOR SCALE
+		labStyle.fontSize = 0.028 * screenWidth;		// DERRICK LOOK HERE FOR SCALE
+		
+		labRect = Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
 	
 		backgroundRect = RectFactory.NewRect(0,0,1,1);
 		//codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);

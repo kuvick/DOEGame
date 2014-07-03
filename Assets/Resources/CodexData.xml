@@ -34,7 +34,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/fish-friendly-turbine-making-splash-water-power</urlLink>
 	  <iconName>techImage_friendlyTurbine</iconName>
-	  <description>This cutting edge turbine design reduces the risk of injury and mortality amongst fish populations traversing dammed rivers. /n -EPRI, Alden Laboratories </description>
+	  <description>This cutting edge turbine design reduces the risk of injury and mortality amongst fish populations traversing dammed rivers.</description>
+	  <lab>-EPRI, Alden Laboratories</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Organic Flash Cycle</name>
