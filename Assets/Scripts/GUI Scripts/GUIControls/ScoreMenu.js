@@ -193,6 +193,7 @@ public class ScoreMenu extends GUIControl
 	private var retryButtonAB:AnimatedButton;
 	private var newCodexUnlockedST : ShadowedText;
 	private var codexTextST : ShadowedText;
+	private var labTextST : ShadowedText;
 	private var techBGRectCodexScreen : Rect;
 	private var techImageRectCodexScreen : Rect;
 	public var viewEntry:Texture;
@@ -493,7 +494,7 @@ public class ScoreMenu extends GUIControl
 		
 		//mainMenuButtonAB
 		
-		codexInfoBoxRect = createRect(codexInfoBox, 500f / 1920f, 236f /1080f, 618f / 1080f, false,  codexRect);
+		codexInfoBoxRect = createRect(codexInfoBox, 347f / 1920f, 190f /1080f, 736f / 1080f, false,  codexRect);
 		techBGRectCodexScreen = createRect(techBG, 82f / 1920f, 177f /1080f, 748f / 1080f, false,  codexRect);
 		techImageRectCodexScreen = createRect(techImage, 147f / 1920f, 269f /1080f, 565f / 1080f, false,  codexRect);
 		
@@ -507,13 +508,17 @@ public class ScoreMenu extends GUIControl
 	
 		newCodexUnlockedST = new ShadowedText("New Entry Unlocked!", new Color(190f / 255f, 41f / 255f, 8f / 255f, 1f), Color.black, 0.5f, codexTextRect, codexTitleStyle);
 		
-		codexTextRect = createRect(Vector2(861, 322), 357f / 1290f, 54f /618f, 322f / 618f, false,  codexInfoBoxRect);	
+		codexTextRect = createRect(Vector2(950, 524), 526f / 1533f, 18f / 736f, 524f / 736f, false,  codexInfoBoxRect);	
 		
 		var codexText:String;
+		var lab:String = "";
 		if(technologyName != "" || techAlreadyUnlocked)
 		{
 			codexText = saveSystem.codexData.GetCodexEntry(technologyName).name + "\n\n" + saveSystem.codexData.GetCodexEntry(technologyName).description;
 			screenRect = new Rect( screenRect.width, screenRect.y, screenRect.width, screenRect.height);
+			
+			if(saveSystem.codexData.GetCodexEntry(technologyName).lab != "")
+				lab = saveSystem.codexData.GetCodexEntry(technologyName).lab;
 		}
 		else
 		{
@@ -521,7 +526,16 @@ public class ScoreMenu extends GUIControl
 		}
 		
 		codexTextST = new ShadowedText(codexText, codexTextRect, boldStyle, true);
-		
+		var labStyle:GUIStyle = new GUIStyle(boldStyle);
+		labStyle.fontSize *= 1.5f; // DERRICK LOOK HERE FOR SCALE
+		if(lab != "")
+		{
+			var labRect:Rect = Rect(codexTextRect.x, codexInfoBoxRect.y + codexTextRect.y + padding + boldStyle.CalcHeight(GUIContent(codexText), codexTextRect.width),codexTextRect.width,boldStyle.CalcHeight(GUIContent(lab), codexTextRect.width));
+			
+			labTextST = new ShadowedText(lab, new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, labRect, boldStyle);
+		}
+		else
+			labTextST = new ShadowedText("", Rect(0,0,0,0), false);
 		
 		retryButtonAB = new AnimatedButton(Color.blue, retryButton, retryButtonRect, Vector2(codexRect.x, codexRect.y));
 		
@@ -587,8 +601,11 @@ public class ScoreMenu extends GUIControl
 					
 					GUI.BeginGroup(codexInfoBoxRect);
 						boldStyle.wordWrap = true;
+						boldStyle.alignment = TextAnchor.UpperLeft;
 						codexTextST.Display();
+						labTextST.Display();
 						boldStyle.wordWrap = false;
+						boldStyle.alignment = TextAnchor.MiddleLeft;
 						if(viewEntryButtonAB.Render())
 						{
 							currentResponse.type = EventTypes.CODEXMENU;
