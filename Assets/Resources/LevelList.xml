@@ -768,7 +768,7 @@
       <difficulty>1</difficulty>
       <subjectText>Get Smart</subjectText>
       <messageText>The future is now, my friend! Soon you’ll see smart grids from coast to coast, but everything has to start somewhere.</messageText>
-	  <objectiveText>Help mobilize local scientists and engineers to help implement a large-scale smartgrid.</objectiveText>
+	  <objectiveText>Help mobilize local scientists and engineers to help implement a large-scale smart grid.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
       <howToUnlock>MISSION</howToUnlock>
