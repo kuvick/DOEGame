@@ -49,7 +49,7 @@
 
 <!-- META-DATA -->
 	<meta-data android:name="com.prime31.FacebookPlugin" android:value="UnityPlayerActivityProxy"/>
-
+    <meta-data android:name="com.prime31.TwitterPlugin" android:value="UnityPlayerActivityProxy"/>
 
     </application>
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />

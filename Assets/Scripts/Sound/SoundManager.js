@@ -330,7 +330,8 @@ public class SoundManager extends MonoBehaviour {
 	
 	public function playNarrativeTyping()
 	{
-		playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
+		playMenuSound(menuSounds.narrativeTyping);
+		//playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
 	}
 	
 	public function stopNarrativeTyping()
@@ -386,7 +387,8 @@ public class SoundManager extends MonoBehaviour {
 				playClip(clipToPlay, defaultClipSource, priority);
 			}
 		} else {
-			playClip(clipToPlay, sourcePlayingClip, priority); // restart the sound if it is already in progress
+			if (!sourcePlayingClip.isPlaying)
+				playClip(clipToPlay, sourcePlayingClip, priority); // restart the sound if it is already in progress
 		}
 	}
 	
