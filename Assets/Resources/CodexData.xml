@@ -7,27 +7,31 @@
 	  <urlLink>http://www.smartgrid.gov/the_smart_grid#smart_grid</urlLink>
 	  <iconName>techImage_smartGrid</iconName>
 	  <description> A powerful system of computer controls that predict and optimize power usage. It both minimizes costs and is more resilient against outages than conventional grids.</description>
+	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electrofuels</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/electrofuels-tiny-organisms-making-big-impact</urlLink>
 	  <iconName>Electrofuels_01</iconName>
-	  <description>Uses non-photosynthetic microorganisms to convert carbon dioxide into energy. Has the potential to be 10x more efficient than petroleum or biofuels./n -Colombia University</description>
+	  <description>Uses non-photosynthetic microorganisms to convert carbon dioxide into energy. Has the potential to be 10x more efficient than petroleum or biofuels.</description>
+	  <lab>Colombia University</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Biodiesel</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/researchers-borrow-fir-tree-create-biodiesel</urlLink>
 	  <iconName>techImage_biodiesel</iconName>
-	  <description>Developed from Fir Trees, biodiesel is an alternative to conventional D2 diesel (road diesel) used in commercial trucking. It holds the promise of greater energy independence for the country. /n -Joint BioEnergy Institute</description>
+	  <description>Developed from Fir Trees, biodiesel is an alternative to conventional D2 diesel (road diesel) used in commercial trucking. It holds the promise of greater energy independence for the country.</description>
+	  <lab>Joint BioEnergy Institute</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Silicon Carbide Thyristors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
 	  <iconName>techImage_siliconCarbideThyristors</iconName>
-	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures dramatically faster than traditional thyristor designs./n -GeneSiC Semiconductor and Sandia National Laboratory</description>
+	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures dramatically faster than traditional thyristor designs.</description>
+	  <lab>Sandia National Laboratories</lab>	 
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Fish-Friendly Turbine</name>
@@ -35,35 +39,39 @@
 	  <urlLink>http://energy.gov/articles/fish-friendly-turbine-making-splash-water-power</urlLink>
 	  <iconName>techImage_friendlyTurbine</iconName>
 	  <description>This cutting edge turbine design reduces the risk of injury and mortality amongst fish populations traversing dammed rivers.</description>
-	  <lab>-EPRI, Alden Laboratories</lab>
+	  <lab>Alden Laboratories</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Organic Flash Cycle</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1067</urlLink>
 	  <iconName>OrganicFlashCycle</iconName>
-	  <description>Reclaims waste heat given off by machinery and converts it into usable energy. /n -Lawrence Berkeley National Laboratory</description>
+	  <description>Reclaims waste heat given off by machinery and converts it into usable energy.</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Integrated Ventilation Controller</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
 	  <iconName>RIVEC</iconName>
-	  <description>Optimizes ventalation and air flow for air conditioning systems, reducing power usage by 18 to 44% /n -Lawrence Berkeley National Laboratory</description>
+	  <description>Optimizes ventalation and air flow for air conditioning systems, reducing power usage by 18 to 44%!</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Transition Metal Switchable Mirrors</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=145</urlLink>
 	  <iconName>techImage_TMSM</iconName>
-	  <description>Thin film of magnesium alloy that can switch from reflective and transparent states. Designed to dramatically reduce air conditioning costs in large office buildings. /n -Lawrence Berkeley National Laboratory</description>
+	  <description>Thin film of magnesium alloy that can switch from reflective and transparent states. Designed to dramatically reduce air conditioning costs in large office buildings.</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Electrochemical Solution Growth</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=602</urlLink>
 	  <iconName>techImage_galliumNitrideCrystalGrowth</iconName>
-	  <description>A new technique enabling the rapid creation of large amounts of Gallium Nitride Crystals, used for high-efficiency LEDs and high-power transistors. /n -Sandia National Laboratories</description>
+	  <description>A new technique enabling the rapid creation of large amounts of Gallium Nitride Crystals, used for high-efficiency LEDs and high-power transistors.</description>
+	  <lab>Sandia National Laboratories</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Volatile Organic Compounds Removal System</name>
@@ -71,6 +79,7 @@
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=836</urlLink>
 	  <iconName>techImage_removeVOCs</iconName>
 	  <description>Converts harmful gases into harmless carbon dioxide and water. Reduces power needs for lab air filtration systems./n -Lawrence Berkeley National Laboratory</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	  <!--<description>This new system maximizes the air quality within a building while reducing the energy consumtion.</description>-->
 	</CodexEntry>
 	<CodexEntry>
@@ -78,7 +87,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
 	  <iconName>techImage_ProcessforFabricationofEfficientSolarCells</iconName>
-	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost. /n - Ames Laboratory</description>
+	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost. </description>
+	  <lab>Ames Laboratory</lab>
 	</CodexEntry>
 	
   	<CodexEntry>
@@ -86,21 +96,24 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=227</urlLink>
 	  <iconName>PhotovoltaicThermalCollector</iconName>
-	  <description>A hybrid solar thermal/electric collection module mounted to buildings to collect ambient heat and convert it to electrical power.  /n -University of Colorado</description>
+	  <description>A hybrid solar thermal/electric collection module mounted to buildings to collect ambient heat and convert it to electrical power.</description>
+	  <lab>University of Colorado</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Hydrogen Storage</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>energy.gov/articles/basic-and-slightly-acidic-solution-hydrogen-storage</urlLink>
 	  <iconName>hydrogenStorage</iconName>
-	  <description>An advanced catalyst that binds hydrogen to carbon dioxide in a basic solution for easy and viable hydrogen storage. /n -Brookhaven Lab </description>
+	  <description>An advanced catalyst that binds hydrogen to carbon dioxide in a basic solution for easy and viable hydrogen storage.</description>
+	  <lab>Brookhaven Lab</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
 	  <iconName>ThermoSolarEnergy</iconName>
-	  <description> Uses "nanotube forrests" to both absorb solar energy and then convert it into elecrical power. /n -Lawrence Berkeley National Laboratory</description>
+	  <description> Uses "nanotube forrests" to both absorb solar energy and then convert it into elecrical power.</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	  <!--<description>By adding thermal collectors to solar panels, it is possible to capture lost heat and increase the efficiency of solar panels.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -109,6 +122,7 @@
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
 	  <iconName>solarcellscolored</iconName>
 	  <description> An optimized form of organic substrates used to create cheaper, more efficient solar cells.   /n - Ames Laboratory</description>
+	  <lab>Ames Laboratory</lab>
 	  <!--<description>Scientists have increased the efficiency of solar cells by using a thin light absorbing material layered on a textured substrate. </description>-->
 	</CodexEntry>
 	
@@ -128,7 +142,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=293</urlLink>
 	  <iconName>SuperEnergySaverHeatPump</iconName>
-	  <description>Using hydrid phase-change materials, this dramatically improves the efficiency and emissions of heating pumps. /n -Oak Ridge National Laboratory</description>
+	  <description>Using hydrid phase-change materials, this dramatically improves the efficiency and emissions of heating pumps.</description>
+	  <lab>Oak Ridge National Laboratory</lab>
 	  <!--<description>The Super Energy Saver Heat Pump technology is designed to improve the heating and cooling efficiency while decreasing energy consumption.</description>-->
 	</CodexEntry>
 	<CodexEntry>
@@ -136,7 +151,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=139</urlLink>
 	  <iconName>energy_efficent_lab_fume_hood</iconName>
-	  <description>This new technique for removing harmful vapors in laboratories uses a new low-flow circulation method to reduce power requirements by 75%. /n -Lawrence Berkeley National Laboratory</description>
+	  <description>This new technique for removing harmful vapors in laboratories uses a new low-flow circulation method to reduce power requirements by 75%.</description>
+	  <lab>Lawrence Berkeley National Laboratory</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>CCUS Oil Extraction</name>
@@ -144,7 +160,8 @@
 	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
 	  <iconName>CapturingCarbonEmissions</iconName>
 	  <!--<description>By pumping CO2 into the ground at oil extraction locations, output for crude oil at that location can be drastically increased. /n -Air Products and Chemicals</description>-->
-	  <description>This new method uses waste Carbon Dioxide from hydrogen production plants to dramatically improve the rate of oil extraction. /n -Air Products and Chemicals</description>
+	  <description>This new method uses waste Carbon Dioxide from hydrogen production plants to dramatically improve the rate of oil extraction.</description>
+	  <lab>Air Products and Chemicals</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Tidal Power</name>
@@ -152,6 +169,7 @@
 	  <urlLink>http://energy.gov/articles/tapping-wave-and-tidal-ocean-power-15-water-power-2030</urlLink>
 	  <iconName>tidalpower</iconName>
 	  <description>This new system enables engineers to tap into the power of the tides to produce energy from coastal oceanic currents.</description>
+	  <lab></lab>
 	  <!--<description>In recent years, engineers have developed a powerful system which harnesses the coming and going motion of tidal waters, converting that motion to useable energy.</description>-->
 	</CodexEntry>
 	
@@ -162,6 +180,7 @@
 	  <!--<urlLink>http://midmainewaste.com/about-us/</urlLink>-->
 	  <iconName>waste</iconName>
 	  <description>Using anaerobic microbes to digest consumer waste, this system is able to produce methane gas to be used as a potent energy source.</description>
+	  <lab></lab>
 	  <!--Using consumer waste materials as fuel, this technology provides both a disposal method for garbage and a source of electricity.</description>-->
 	</CodexEntry>
 	
@@ -171,6 +190,7 @@
 	  <urlLink>http://energy.gov/articles/energy-department-turns-heat-and-power-industrial-energy-efficiency</urlLink>
 	  <iconName>heatandpower</iconName>
 	  <description>By recycling waste heat generated during industrial processes, this new system helps save manufactures $100 billion in annual energy costs.</description>
+	  <lab></lab>
 	   <!--This method combines standard electricity production with technology that recaptures thermal exhaust, increasing the energy output we can capture from a single source significantly.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -179,6 +199,7 @@
 	  <urlLink>http://egain.se/en-gb/</urlLink>
 	  <iconName>eGainForecasting_01</iconName>
 	  <description>An advanced system for forecasting weather patterns to reactively adjust heating and cooling systems to optimize power usage.</description>
+	  <lab></lab>
 		 <!-- This system analyzes weather patterns and provides custom climate control for a building based op the weathers impact.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -187,6 +208,7 @@
 	  <urlLink>http://news.cnet.com/8301-11128_3-57604962-54/nissan-leaf-buyers-in-texas-charge-up-for-free</urlLink>
 	  <iconName>electric_car_charging_station</iconName>
 	  <description>A network of free charging stations for electric cars, dramatically cutting down on refueling costs and fossil fuel dependency.</description>
+	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Solar-Powered Airplanes</name>
@@ -194,6 +216,7 @@
 	  <urlLink>http://www.washingtonpost.com/news/morning-mix/wp/2014/06/02/meet-solar-impulse-2-the-solar-powered-plane-that-never-has-to-land//</urlLink>
 	  <iconName>solarairplane</iconName>
 	  <description> A new airplane prototype that not only utilizes solar power, but is capable of continuous flight for up to a month at a time!</description>
+	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Alge Bio-Reactor</name>
@@ -201,6 +224,7 @@
 	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
 	  <iconName>AlgaeBioreactor_01</iconName>
 	  <description>A system whereby algae is grown on building-monted louvres and harvested to produce biogas to enable self-powering buildings. </description>
+	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Power Plug Meter</name>
@@ -208,13 +232,15 @@
 	  <urlLink>http://news.cnet.com/8301-11128_3-57559830-54/phantom-fighter-meterplug-reports-electric-use-in-dollars/</urlLink>
 	  <iconName>meter_plug</iconName>
 	  <description>A handy device for precisely monitoring power usage and calculating its cost in dollars to help consumers and businesses more intelligently manage their power use.</description>
+	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Non-Invasive Energy Meter</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=392</urlLink>
 	  <iconName>non_invasive_energy_meter</iconName>
-	  <description>A cheap, new system for installing energy meters into solar panel liquid flow systems to determine power generation with greater precision. /n -Sandia National Laboratories</description>
+	  <description>A cheap, new system for installing energy meters into solar panel liquid flow systems to determine power generation with greater precision.</description>
+	  <lab>Sandia National Laboratories</lab>
 	</CodexEntry>
   	<CodexEntry>
 	  <name>Liquid Metal Battery</name>
@@ -222,6 +248,7 @@
 	  <urlLink>http://news.cnet.com/8301-11128_3-57441331-54/liquid-metal-battery-raises-$15m-in-series-b-financing/</urlLink>
 	  <iconName>LiquidMetalBattery_01</iconName>
 	  <description>Using molten metals, this system allows for energy to be stored for years while requiring 50 to 100 times fewer cells than conventional lithium-ion battery systems.</description>
+	  <lab></lab>
 	   <!--The Liquid Metal Battery is designed for low cost high capacity storage of electricity from Solar or Wind Power sources.</description>-->
 	</CodexEntry>
   	<!--**********************************************************************************************************************-->
@@ -243,6 +270,7 @@
 	  <urlLink>http://news.cnet.com/8301-11128_3-57436639-54/tata-commercializing-an-air-powered-car/</urlLink>
 	  <iconName>AirPoweredCar_01</iconName>
 	  <description>Fast, light, and environmentally friendly, these cars run entirely off of compressed air. Soon they'll be the cheapest cars in the world!</description>
+	  <lab></lab>
 	</CodexEntry>
 	
   	<CodexEntry>
@@ -251,6 +279,7 @@
 	  <urlLink>http://energy.gov/science-innovation/energy-sources/nuclear</urlLink>
 	  <iconName>nuclear_power</iconName>
 	  <description>Introduced to the public in 50's, Nuclear Power Plants demonstrated to the public that Atomic Power could be used as a tool for good rather than war.</description>
+	  <lab></lab>
 	</CodexEntry>
 	
 	<CodexEntry>
@@ -259,6 +288,7 @@
 	  <urlLink>http://energy.gov/eere/vehicles/vehicle-technologies-office-intermediate-ethanol-blends-0</urlLink>
 	  <iconName>ethanol_for_cars</iconName>
 	  <description>By using corn instead of fossil fuels, it allows for far greater energy independence. In small levels, it can be easily added to conventional petroleum fuel.</description>
+	  <lab></lab>
 	  <!--Ethanol is a grain alcohol that is found in both alcoholic beverages and Ethanol based Biofuels. Ethanol is a cheap renewable resource that produces roughly 66% of the energy as a gallon of Gasoline per gallon.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -267,6 +297,7 @@
 	  <urlLink>http://www.businessweek.com/articles/2013-01-25/a-quiet-breakthrough-in-geothermal-energy</urlLink>
 	  <iconName>geothermal_power</iconName>
 	  <description>New innovations in drilling techniques now allow us to create artificial geothermal reservoirs to harness the power of subterranean lava flow.</description>
+	  <lab></lab>
 	  <!--Like the blacksmith Vulcan of ancient Rome, we can now harness the Geothermal Energy of our home planet to provide renewable energy.</description>-->
 	</CodexEntry>
   	<CodexEntry>
@@ -275,6 +306,7 @@
 	  <urlLink>http://news.nationalgeographic.com/news/energy/2013/06/130605-small-modular-nuclear-reactors-tennessee/</urlLink>
 	  <iconName>small_nuclear_reactor</iconName>
 	  <description>Smaller nuclear reactors promise to be cheaper, safer, and easier to upgrade, install, and maintain than conventional reactors.</description>
+	  <lab></lab>
 	   <!--This technology provides a small, efficient nuclear power plant at a significantly lower cost than that of a standard sized nuclear power plant.</description>-->
 	</CodexEntry>
   	
@@ -283,7 +315,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
 	  <iconName>techImage_Silverprintingmethod</iconName>
-	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible. -Sandia National Laboratories </description>
+	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible.</description>
+	  <lab>Sandia National Laboratories</lab>
 		  <!--This new technique allows for silver to be printed at low temperatures to allow conductors to be printed onto a broader range of materials. -Sandia National Laboratories </description>-->
 	</CodexEntry>
 	
@@ -292,7 +325,8 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=78</urlLink>
 	  <iconName>Photovoltaic_glitter</iconName>
-	  <description>Microsolar cells require almost 100 times less silicon to produce than tradition cells and significantly lower manufacturing costs. -Sandia National Laboratories</description>
+	  <description>Microsolar cells require almost 100 times less silicon to produce than tradition cells and significantly lower manufacturing costs.</description>
+	  <lab>Sandia National Laboratories</lab>
 	</CodexEntry>
   	
 	<!-- Cut from game-->
