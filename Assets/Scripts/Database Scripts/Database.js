@@ -1133,8 +1133,8 @@ public function activateBuilding( buildingIndex:int, checkUnits : boolean ): boo
     	/*SetBuildingResourceFlashActive(building.allocatedInputIcons, false);
     	SetBuildingResourceFlashActive(building.allocatedOutputIcons, false);*/
     	//if (building.optionalOutputIcon && !building.optionalOutputAllocated)
-    	if (building.optOutput.icon && building.optOutput.linkedTo < 0)
-    		building.optOutput.icon.SetFlashActive(false);//ionalOutputIcon.SetFlashActive(true);	// SO BROKEN ICONS ARE NOT SET AS ACTIVE UPON STARTUP 5/23/14
+    	if (building.optOutput.icon && building.optOutput.linkedTo < 0 && building.optionalOutputFixed)
+    		building.optOutput.icon.SetFlashActive(true);//ionalOutputIcon.SetFlashActive(true);	// SO BROKEN ICONS ARE NOT SET AS ACTIVE UPON STARTUP 5/23/14
     	
     	if (building.indicator)
     		building.indicator.SetState(IndicatorState.Active);
