@@ -358,19 +358,19 @@ public class NarrativePanelUI extends GUIControl
 	private function UpdateText()
 	{
 		//isWaiting = true;
-		/*if (!disableTypingSound)
-			SoundManager.Instance().playNarrativeTyping();*/
+		if (!disableTypingSound)
+			SoundManager.Instance().playNarrativeTyping();
 		while (lastLetter <= narrativeSlides[currentSlide].dialogue.length)
 		{
 			currentDisplayText = narrativeSlides[currentSlide].dialogue.Substring(0, lastLetter);
-			if (!disableTypingSound)
-				SoundManager.Instance().playNarrativeTyping();
+			/*if (!disableTypingSound)
+				SoundManager.Instance().playNarrativeTyping();*/
 			yield WaitForSeconds(narrativeSlides[currentSlide].textSpeed);
 			lastLetter += 1;
 		}
 		//isWaiting = false;
-		/*if (!disableTypingSound)
-			SoundManager.Instance().stopNarrativeTyping();*/
+		if (!disableTypingSound)
+			SoundManager.Instance().stopNarrativeTyping();
 	}
 	
 	public function OnGUI()

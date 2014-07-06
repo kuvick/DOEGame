@@ -330,14 +330,14 @@ public class SoundManager extends MonoBehaviour {
 	
 	public function playNarrativeTyping()
 	{
-		playMenuSound(menuSounds.narrativeTyping);
-		//playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
+		//playMenuSound(menuSounds.narrativeTyping);
+		playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
 	}
 	
 	public function stopNarrativeTyping()
 	{
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(menuSounds.narrativeTyping.GetClip());
-		sourcePlayingClip.Stop();
+		sourcePlayingClip.loop = false;
 	}
 	
 	public function playMusic(musicClip : SoundType){
