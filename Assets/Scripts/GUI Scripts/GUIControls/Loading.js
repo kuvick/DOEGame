@@ -16,7 +16,8 @@ Author: Katherine Uvick, Francis Yuan
 
 public class LoadingScaling
 {
-
+	var job : float;
+	var title : float;
 }
 
 public class Loading extends GUIControl
@@ -625,9 +626,9 @@ public class Loading extends GUIControl
 		titleStyle.fontSize = jobFontSize;
 		jobTextRect.height -= titleStyle.CalcHeight(GUIContent(currentJob.title), jobTextRect.width);
 		
-		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize);
+		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize) * (1f + GUIManager.Instance().loadingScaling.job);
 		
-		titleStyle.fontSize = jobFontSize * 1.5;
+		titleStyle.fontSize = jobFontSize * 1.5 * (1f + GUIManager.Instance().loadingScaling.title);
 		
 		
 		
