@@ -709,7 +709,7 @@ public class ScoreMenu extends GUIControl
 					FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
 					//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
 					else
-					Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );*/
+					Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
 					
 					#endif
 					#if UNITY_IPHONE
