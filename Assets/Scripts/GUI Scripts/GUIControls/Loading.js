@@ -13,6 +13,12 @@ http://docs.unity3d.com/Documentation/ScriptReference/Application.LoadLevelAsync
 Author: Katherine Uvick, Francis Yuan
 **********************************************************/
 #pragma strict
+
+public class LoadingScaling
+{
+
+}
+
 public class Loading extends GUIControl
 {
 	// Loading Screen Rectangles

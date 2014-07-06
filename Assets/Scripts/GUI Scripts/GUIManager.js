@@ -72,6 +72,16 @@ private var UndoPressed : int = 0;
 public static var addLevel : boolean = false;
 public static var levelToAdd : String;
 
+public var codexMenuScaling : CodexMenuScaling;
+//public var failureMenuScaling : FailureMenuScaling;
+public var levelSelectMenuScaling : LevelSelectMenuScaling;
+public var loadingScaling : LoadingScaling;
+//public var mainMenuScaling : MainMenuScaling;
+public var narrativePanelScaling : NarrativePanelScaling;
+//public var pauseMenuScaling : PauseMenuScaling;
+public var scoreMenuScaling : ScoreMenuScaling;
+//public var startMenuScaling : StartMenuScaling;
+
 /*
 	GUIManager is a Singleton, all duplicate copies of it will be destroyed on Awake() 
 	and only the first initialization of it will remain.

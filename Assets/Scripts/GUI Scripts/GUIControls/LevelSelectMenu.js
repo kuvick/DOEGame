@@ -18,6 +18,17 @@ enum UnlockType
 	CONTACT
 }
 
+public class LevelSelectMenuScaling
+{
+	var agentRank : float;
+	var agentName : float;
+	var emailListSubject : float;
+	var messageSender : float;
+	var messageSubject : float;
+	var messageText : float;
+	var messageObj : float;
+}
+
 @XmlRoot("LevelList")
 public class LevelList
 {
@@ -415,11 +426,11 @@ public class LevelSelectMenu extends GUIControl
 		levelTitleFontHeight = 0.8 * screenWidth;
 		levelNodeFontHeight = 0.015 * screenWidth;
 		
-		levelSelectSkin.button.fontSize = levelNodeFontHeight;
+		levelSelectSkin.button.fontSize = levelNodeFontHeight * (1f + GUIManager.Instance().levelSelectMenuScaling.emailListSubject);
 		levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
-		levelSelectSkin.customStyles[0].fontSize = levelNodeFontHeight * 2;
-		levelSelectSkin.customStyles[1].fontSize = levelNodeFontHeight * 2;
-		levelSelectSkin.customStyles[2].fontSize = levelNodeFontHeight * 2;
+		levelSelectSkin.customStyles[0].fontSize = levelNodeFontHeight * 2 * (1f + GUIManager.Instance().levelSelectMenuScaling.agentRank);
+		levelSelectSkin.customStyles[1].fontSize = levelNodeFontHeight * 2 * (1f + GUIManager.Instance().levelSelectMenuScaling.agentRank);
+		levelSelectSkin.customStyles[2].fontSize = levelNodeFontHeight * 2 * (1f + GUIManager.Instance().levelSelectMenuScaling.agentName);
 		
 		//hexButtonSkin.button.fontSize = backButtonFontHeight;
 		/******************************************/
@@ -1055,17 +1066,26 @@ public class LevelSelectMenu extends GUIControl
 					//var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
 					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
 					//GUI.Label(senderRect_desc, sender);	
+					prevSize = GUI.skin.label.fontSize;
+					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageSender;
 					messageLineText.Display(sender, senderRect_desc, false);
+					GUI.skin.label.fontSize = prevSize;
 					
 					//var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
 					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
 					//GUI.Label(subjectRect, subject);	
+					prevSize = GUI.skin.label.fontSize;
+					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageSubject;
 					messageLineText.Display(subject, subjectRect, false);
+					GUI.skin.label.fontSize = prevSize;
 					
 					//var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
 					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
 					//GUI.Label(messageRect, message);	
+					prevSize = GUI.skin.label.fontSize;
+					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageText;
 					messageText.Display(message, messageRect, false);
+					GUI.skin.label.fontSize = prevSize;
 					
 					//var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
 					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
@@ -1103,10 +1123,11 @@ public class LevelSelectMenu extends GUIControl
 					*/
 					messageLineText.Display(sender, senderRect_desc, false);
 					messageLineText.Display(subject, subjectRect, false);
-					messageText.Display(message, messageRect, false);				
-					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75;
+					messageText.Display(message, messageRect, false);		
+					prevSize = levelSelectSkin.label.fontSize;
+					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75 * (1f + GUIManager.Instance().levelSelectMenuScaling.messageObj);
 					objTextST.Display(objective, objectiveRect, false);
-					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
+					levelSelectSkin.label.fontSize = prevSize;//levelNodeFontHeight * 1.5;
 
 				}
 					

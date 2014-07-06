@@ -1,5 +1,10 @@
 #pragma strict
 
+public class FailureMenuScaling
+{
+
+}
+
 public class FailureMenu extends GUIControl
 {	
 

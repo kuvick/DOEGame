@@ -42,6 +42,7 @@ public class GUIControl extends MonoBehaviour
 	
 	protected var isActive : boolean;
 	
+	protected var prevSize : float;
 	/*
 		Starts the GUIControl's update cycle.
 		Should be overridden in child classes.

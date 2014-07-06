@@ -7,6 +7,11 @@ Author: Francis Yuan
 **********************************************************/
 #pragma strict
 
+public class MainMenuScaling
+{
+
+}
+
 public class MainMenu extends GUIControl
 {
 	// ERROR TEXT

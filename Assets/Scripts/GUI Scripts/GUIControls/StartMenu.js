@@ -8,6 +8,11 @@ Author: Katharine Uvick, Francis Yuan
 
 #pragma strict
 
+public class StartMenuScaling
+{
+
+}
+
 public class StartMenu extends GUIControl
 {
 	// Textures

@@ -7,6 +7,11 @@ Author: by Francis Yuan
 **********************************************************/
 #pragma strict
 
+public class PauseMenuScaling
+{
+
+}
+
 public class PauseMenu extends GUIControl
 {
 	

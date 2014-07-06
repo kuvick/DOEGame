@@ -8,6 +8,13 @@ Author: Jared Mavis
 
 import System.Collections.Generic;
 
+public class CodexMenuScaling
+{
+	var entryTitle : float;
+	var entryDescription : float;
+	var entryLab : float;
+}
+
 public class CodexMenu extends GUIControl
 {
 	public var sidePadding : float = .05f;
@@ -951,9 +958,9 @@ public class CodexMenu extends GUIControl
 		
 	
 	
-		titleStyle.fontSize = 0.030 * screenWidth;		// DERRICK LOOK HERE FOR SCALE
-		descriptStyle.fontSize = 0.022 * screenWidth;	// DERRICK LOOK HERE FOR SCALE
-		labStyle.fontSize = 0.028 * screenWidth;		// DERRICK LOOK HERE FOR SCALE
+		titleStyle.fontSize = 0.030 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryTitle);		// DERRICK LOOK HERE FOR SCALE
+		descriptStyle.fontSize = 0.022 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryDescription);	// DERRICK LOOK HERE FOR SCALE
+		labStyle.fontSize = 0.028 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryLab);		// DERRICK LOOK HERE FOR SCALE
 		
 		labRect = Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
 	
