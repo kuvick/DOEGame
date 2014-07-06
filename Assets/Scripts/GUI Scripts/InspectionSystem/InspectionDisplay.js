@@ -383,7 +383,6 @@ private function FadeTooltip()
 	}
 	tooltipAlpha = 1f;
 	NextTooltip();
-	Debug.Log("fade");
 }
 
 public function NextTooltip()

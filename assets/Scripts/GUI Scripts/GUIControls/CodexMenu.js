@@ -788,6 +788,8 @@ public class CodexMenu extends GUIControl
 						if(released && !isHolding && GUI.Button(hexRect[i], ""))
 						{
 							currentEntry = fullCodex[i];
+							labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
+							labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
 							mainView = false;
 						}
 					}
@@ -962,7 +964,7 @@ public class CodexMenu extends GUIControl
 		descriptStyle.fontSize = 0.022 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryDescription);	// DERRICK LOOK HERE FOR SCALE
 		labStyle.fontSize = 0.028 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryLab);		// DERRICK LOOK HERE FOR SCALE
 		
-		labRect = Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
+		labRect = Rect(descriptionRect.x, descriptionRect.y + padding,descriptionRect.width,descriptionRect.height);
 	
 		backgroundRect = RectFactory.NewRect(0,0,1,1);
 		//codexLabelRect = createRect(codexLabelTexture,0,0, 0.246, false);
@@ -1075,7 +1077,11 @@ public class CodexMenu extends GUIControl
 	
 	public function takeToCodexEntry(entry:CodexEntry)
 	{
+		if (!isInitialized)
+			Initialize();
 		currentEntry = entry;
+		labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
+		labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
 		mainView = false;
 		fromScoreScreen = true;
 	}
