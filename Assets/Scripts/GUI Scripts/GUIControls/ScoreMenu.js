@@ -534,12 +534,18 @@ public class ScoreMenu extends GUIControl
 		
 		codexTextST = new ShadowedText(codexText, codexTextRect, boldStyle, true);
 		var labStyle:GUIStyle = new GUIStyle(boldStyle);
-		labStyle.fontSize *= 1.5f; // DERRICK LOOK HERE FOR SCALE
+		//labStyle.fontSize *= 1.5f; // DERRICK LOOK HERE FOR SCALE
+		//labStyle.fontSize *= 10f; // DERRICK LOOK HERE FOR SCALE
+		labStyle.fontSize *= (1f + GUIManager.Instance().codexMenuScaling.entryLab);
+		labStyle.wordWrap = true;
+		
+		//Made some adjustments to below lines to tweak codex description to lab padding, corrected GUI style for lab text GPC 7/9/14
 		if(lab != "")
 		{
-			var labRect:Rect = Rect(codexTextRect.x, codexInfoBoxRect.y + codexTextRect.y + padding + boldStyle.CalcHeight(GUIContent(codexText), codexTextRect.width),codexTextRect.width,boldStyle.CalcHeight(GUIContent(lab), codexTextRect.width));
+			var labRect:Rect = Rect(codexTextRect.x, codexInfoBoxRect.y + codexTextRect.y + (padding*2.25) + boldStyle.CalcHeight(GUIContent(codexText), codexTextRect.width),codexTextRect.width,boldStyle.CalcHeight(GUIContent(lab), codexTextRect.width));
 			
-			labTextST = new ShadowedText(lab, new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, labRect, boldStyle);
+			//labTextST = new ShadowedText(lab, new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, labRect, boldStyle);
+			labTextST = new ShadowedText(lab, new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, labRect, labStyle);
 		}
 		else
 			labTextST = new ShadowedText("", Rect(0,0,0,0), false);

@@ -607,8 +607,8 @@ public class LevelSelectMenu extends GUIControl
 		messageRect = new Rect(messageBuffer.x, messageBuffer.y + (boxHeight*2), emailMessageBackgroundRect.width - messageBuffer.x, boxHeight * 4);
 		
 		//messageBuffer = new Vector2(.07 * splashBounds.width, .001 * splashBounds.height);
-		//var objectiveRightBuffer = 0.05 * splashBounds.width;
-		var objectiveRightBuffer = 0.25 * splashBounds.width;
+		var objectiveRightBuffer = 0.04 * splashBounds.width;
+		//var objectiveRightBuffer = 0.25 * splashBounds.width;
 		objectiveRect = new Rect(messageBuffer.x, messageBuffer.y+(boxHeight*5.5), emailMessageBackgroundRect.width - objectiveRightBuffer, boxHeight * 3);
 		
 		
