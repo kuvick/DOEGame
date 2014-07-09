@@ -11,7 +11,7 @@ import Prime31;
 
 public class ScoreMenuScaling
 {
-
+	var technologyNameScale : float;
 }
 
 public class ScoreMenu extends GUIControl
@@ -519,6 +519,10 @@ public class ScoreMenu extends GUIControl
 		
 		var codexText:String;
 		var lab:String = "";
+		
+		var technologyNameStyle:GUIStyle = new GUIStyle(boldStyle);
+		technologyNameStyle.fontSize *= (1f + GUIManager.Instance().scoreMenuScaling.technologyNameScale);
+		
 		if(technologyName != "" || techAlreadyUnlocked)
 		{
 			codexText = saveSystem.codexData.GetCodexEntry(technologyName).name + "\n\n" + saveSystem.codexData.GetCodexEntry(technologyName).description;
