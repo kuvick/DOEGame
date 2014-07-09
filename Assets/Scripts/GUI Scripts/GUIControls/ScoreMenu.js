@@ -216,6 +216,8 @@ public class ScoreMenu extends GUIControl
 	private var inspectionActivated:boolean = false;
 	
 	// Social media buttons
+	//Boolean to control if these are viewable or not (GPC 7/9/14)
+	public var socialMediaButtonsEnabled:boolean = false;
 	private var facebookButtonAB:AnimatedButton;
 		public var facebookIconText: Texture;
 		private var facebookIconRect: Rect;
@@ -576,11 +578,13 @@ public class ScoreMenu extends GUIControl
 		}*/	
 		#if UNITY_ANDROID
 		FacebookAndroid.init(false);
-		TwitterAndroid.init( "jZVHZaGxJkOLenVPe23fnQ", "7nZQtvTjIXnKqYHbjAUKneUTp1QEWEkeD6nKVfPw" );
+		//TwitterAndroid.init( "jZVHZaGxJkOLenVPe23fnQ", "7nZQtvTjIXnKqYHbjAUKneUTp1QEWEkeD6nKVfPw" );
+		TwitterAndroid.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
 		
 		#endif
 		#if UNITY_IPHONE
-		FacebookBinding.init();
+		//FacebookBinding.init();
+		FacebookBinding.init("464696006966793");
 		TwitterBinding.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
 		#endif
 	}
@@ -710,54 +714,56 @@ public class ScoreMenu extends GUIControl
 				}
 				//resetButtonTexture();
 
-				if (facebookButtonAB.Render())
-				{
-					/*if (snHandler)
-						snHandler.HandleFacebook();*/
-					#if UNITY_ANDROID
-					if (!FacebookAndroid.isSessionValid())
-					FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
-					//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
-					else
-					Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
-					
-					#endif
-					#if UNITY_IPHONE
-					
-					#endif
-					PlayButtonPress();
-				}
-				
-				if (twitterButtonAB.Render())
-				{
-					/*if (snHandler)
-						snHandler.HandleTwitter();*/
-					#if UNITY_ANDROID
-					if (!TwitterAndroid.isLoggedIn())
+				if(socialMediaButtonsEnabled){
+					if (facebookButtonAB.Render())
 					{
-						Application.CaptureScreenshot( "score.png" );
-						TwitterAndroid.showLoginDialog();
+						/*if (snHandler)
+							snHandler.HandleFacebook();*/
+						#if UNITY_ANDROID
+						if (!FacebookAndroid.isSessionValid())
+						FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
+						//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
+						else
+						Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
+						
+						#endif
+						#if UNITY_IPHONE
+						
+						#endif
 						PlayButtonPress();
 					}
-					else
+					
+					if (twitterButtonAB.Render())
 					{
-						
-						var pathToImage = Application.persistentDataPath + "/" + "score.png";
-						var bytes = System.IO.File.ReadAllBytes( pathToImage );
-						TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
+						/*if (snHandler)
+							snHandler.HandleTwitter();*/
+						#if UNITY_ANDROID
+						if (!TwitterAndroid.isLoggedIn())
+						{
+							Application.CaptureScreenshot( "score.png" );
+							TwitterAndroid.showLoginDialog();
+							PlayButtonPress();
+						}
+						else
+						{
+							
+							var pathToImage = Application.persistentDataPath + "/" + "score.png";
+							var bytes = System.IO.File.ReadAllBytes( pathToImage );
+							TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
+						}
+						#endif
+						#if UNITY_IPHONE
+						if (!TwitterBinding.isLoggedIn())
+							TwitterBinding.showLoginDialog();
+						else
+						{
+							Application.CaptureScreenshot( FacebookUIManager.screenshotFilename );
+							var pathToImage = Application.persistentDataPath + "/" + FacebookUIManager.screenshotFilename;
+							TwitterBinding.postStatusUpdate( "I score in #Terrachanics!", pathToImage );
+						}
+						#endif
+						//PlayButtonPress();
 					}
-					#endif
-					#if UNITY_IPHONE
-					if (!TwitterBinding.isLoggedIn())
-						TwitterBinding.showLoginDialog();
-					else
-					{
-						Application.CaptureScreenshot( FacebookUIManager.screenshotFilename );
-						var pathToImage = Application.persistentDataPath + "/" + FacebookUIManager.screenshotFilename;
-						TwitterBinding.postStatusUpdate( "I score in #Terrachanics!", pathToImage );
-					}
-					#endif
-					//PlayButtonPress();
 				}
 				
 				// Text is rendered:
