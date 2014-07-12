@@ -1378,6 +1378,8 @@ public class LevelSelectMenu extends GUIControl
 							PlayerPrefs.SetString(Strings.NextLevel, "GameComplete");
 						
 						tutorialUnlockedModifier = 2;
+						saveSystem.currentPlayer.lastUnlockedIndex = lastUnlockedIndex = levels.Length - tutorialUnlockedModifier - i;
+						break;
 					}
 					
 					// display no more levels past a tutorial
