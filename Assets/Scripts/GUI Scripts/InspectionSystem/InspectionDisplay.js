@@ -376,6 +376,8 @@ private function Render()
 
 private function FadeTooltip()
 {
+	if (tooltipList.Count > 1 && tooltipList[1].text != String.Empty)
+		tooltipAlpha = 0;
 	while (tooltipAlpha > 0)
 	{
 		tooltipAlpha -= .1f;
@@ -400,7 +402,7 @@ public function NextTooltip()
 		if(intelSys)
 			intelSys.toolTipOnScreen = false;
 		currentTooltip = null;
-		yield WaitForSeconds(0.5);
+		//yield WaitForSeconds(0.5);
 		
 		//Testing GPC 4/21/14
 		//if (inputController)
