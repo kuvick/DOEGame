@@ -30,7 +30,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/improved-power-control-palm-your-hand</urlLink>
 	  <iconName>techImage_siliconCarbideThyristors</iconName>
-	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures dramatically faster than traditional thyristor designs.</description>
+	  <description>Optimized thyristor technology for high efficiency power conversion. Handles higher temperatures and is dramatically faster than traditional thyristor designs.</description>
 	  <lab>Sandia National Laboratories</lab>	 
 	</CodexEntry>
   	<CodexEntry>
@@ -54,7 +54,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1066</urlLink>
 	  <iconName>RIVEC</iconName>
-	  <description>Optimizes ventalation and air flow for air conditioning systems, reducing power usage by 18 to 44%!</description>
+	  <description>Optimizes ventilation and air flow for air conditioning systems, reducing power usage by 18 to 44%!</description>
 	  <lab>Lawrence Berkeley National Laboratory</lab>
 	</CodexEntry>
   	<CodexEntry>
@@ -121,7 +121,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
 	  <iconName>solarcellscolored</iconName>
-	  <description> An optimized form of organic substrates used to create cheaper, more efficient solar cells.   /n - Ames Laboratory</description>
+	  <description> An optimized form of organic substrates used to create cheaper, more efficient solar cells.</description>
 	  <lab>Ames Laboratory</lab>
 	  <!--<description>Scientists have increased the efficiency of solar cells by using a thin light absorbing material layered on a textured substrate. </description>-->
 	</CodexEntry>
@@ -189,7 +189,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/articles/energy-department-turns-heat-and-power-industrial-energy-efficiency</urlLink>
 	  <iconName>heatandpower</iconName>
-	  <description>By recycling waste heat generated during industrial processes, this new system helps save manufactures $100 billion in annual energy costs.</description>
+	  <description>By recycling waste heat generated during industrial processes, this new system helps save manufacturers $100 billion in annual energy costs.</description>
 	  <lab></lab>
 	   <!--This method combines standard electricity production with technology that recaptures thermal exhaust, increasing the energy output we can capture from a single source significantly.</description>-->
 	</CodexEntry>
@@ -223,7 +223,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
 	  <iconName>AlgaeBioreactor_01</iconName>
-	  <description>A system whereby algae is grown on building-monted louvres and harvested to produce biogas to enable self-powering buildings. </description>
+	  <description>A system whereby algae is grown on building-mounted panels and harvested to produce biogas, enabling self-powering buildings. </description>
 	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
@@ -278,7 +278,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://energy.gov/science-innovation/energy-sources/nuclear</urlLink>
 	  <iconName>nuclear_power</iconName>
-	  <description>Introduced to the public in 50's, Nuclear Power Plants demonstrated to the public that Atomic Power could be used as a tool for good rather than war.</description>
+	  <description>Harnessing the power of nuclear fusion, Nuclear Power plants are able to produce massive amounts of power with less waste than fossil fuels.</description>
 	  <lab></lab>
 	</CodexEntry>
 	
