@@ -637,6 +637,7 @@ public class Loading extends GUIControl
 		var titleRect : Rect = Rect(jobTextRect.x, jobTextRect.y,
 		jobTextRect.width,
 		titleStyle.CalcHeight(GUIContent(currentJob.title), jobTextRect.width));
+		titleRect.width *= 1.35f;
 		
 		jobTitleTextST = new ShadowedText(currentJob.title, titleRect, titleStyle, false);
 		
