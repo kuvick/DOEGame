@@ -24,7 +24,7 @@
     <!-- Basic Linking Introduced -->
 	<!-- Tutorial1-->
     <Level>
-      <displayName>0</displayName>
+      <displayName>1</displayName>
       <sceneName>Tutorial1</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Connections</subjectText>
@@ -41,7 +41,7 @@
 	<!-- TUTORIAL -->
     <!-- Multiple Inputs and Multiple Outputs -->
 	<Level><!--Tutorial2-->
-      <displayName>1</displayName>
+      <displayName>2</displayName>
       <sceneName>Tutorial2</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Divergent Convergence</subjectText>
@@ -77,7 +77,7 @@
 	
 								   
 	<Level><!--Tutorial_KU04-->
-      <displayName>2</displayName>
+      <displayName>3</displayName>
       <sceneName>Tutorial_KU04</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Follow the Signs</subjectText>
@@ -95,7 +95,7 @@
 	<!-- EASY -->
     <!-- Multiple Originators. Mutual Links Possible -->
 	<Level><!--Tutorial_RV21 RENAMED-->
-      <displayName>3</displayName>
+      <displayName>4</displayName>
       <!--<sceneName>Tutorial_RV21</sceneName>-->
 	  <sceneName>Tutorial_RV14</sceneName>
       <difficulty>0</difficulty>
@@ -115,7 +115,7 @@
 	<!-- TUTORIAL-->
 	<!-- Mutual Links -->
 	<Level><!--Tutorial_RV15-->
-      <displayName>4</displayName>
+      <displayName>5</displayName>
       <sceneName>Tutorial_RV15</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Director's Orders</subjectText>
@@ -133,7 +133,7 @@
 	<!-- EASY -->
 	 <!-- Secondary Objectives and Multiple Start Points -->
 	<Level><!--Tutorial_RV21-->
-      <displayName>3</displayName>
+      <displayName>6</displayName>
       <!--<sceneName>RV14</sceneName>-->
 	  <sceneName>Tutorial_RV21</sceneName>
       <difficulty>0</difficulty>
@@ -152,7 +152,7 @@
 	<!-- MEDIUM -->
 	<!-- Straightforward -->
 	<Level><!--RV17-->
-      <displayName>6</displayName>
+      <displayName>7</displayName>
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Steam Powered</subjectText>
@@ -189,7 +189,7 @@
 	<!-- TUTORIAL -->
 	<!-- Building Sites -->
 	<Level><!--Tutorial4-->
-      <displayName>14</displayName>
+      <displayName>8</displayName>
       <sceneName>Tutorial4</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>If You Build It...</subjectText>
@@ -207,7 +207,7 @@
 	<!-- Secondary objective too easy!!                                     REVISE-->                      
 	<!--RV03-remix easy, minor false complexity -->
 	<Level>
-      <displayName>15</displayName>
+      <displayName>9</displayName>
       <sceneName>RV03-remix</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Gases to Gas</subjectText>
@@ -227,7 +227,7 @@
 	<!-- Building Sites -->
 	<!--GPC06 multiple building sites, secondary objective, straightforward-->
 	<Level>
-      <displayName>15</displayName>
+      <displayName>10</displayName>
       <sceneName>GPC06</sceneName>
      <difficulty>0</difficulty>
       <subjectText>Our Fishy Friends</subjectText>
@@ -244,12 +244,12 @@
 	<!--                                                                                                                                                                                 Building Integrated... -->	
 	<!--RV01 moderate, figure out piece location-->
 	<Level>
-      <displayName>18</displayName>
+      <displayName>11</displayName>
       <sceneName>RV01</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Fun in the Sun</subjectText>
       <messageText>Brenton’s got it rough this year. Record heat is stalling their car production factory, on top of AC costs. Not for long with this baby!</messageText>
-	  <objectiveText>Oversee implementation of a Building-Integrated Photovoltaic-Thermal collection module.</objectiveText>
+	  <objectiveText>Oversee implementation of a Mounted Photovoltaic Collector module.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -262,7 +262,7 @@
 	<!-- MEDIUM      BUILD SITE-->
 	<!-- Building placement -->
 	<Level><!--RV23 -->
-      <displayName>21</displayName>
+      <displayName>12</displayName>
       <sceneName>RV23</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Fire in the Hole!</subjectText>
@@ -278,7 +278,7 @@
 	
 	<!--                                                                                                                                                                                 Air Powered Cars -->	
 	<Level><!--GPC09 medium, particular about building placement, secondary objective  ENGINEER-->
-      <displayName>16</displayName>
+      <displayName>13</displayName>
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Airheaded Ideas</subjectText>
@@ -318,7 +318,7 @@
 	<!-- TUTORIAL -->
 	<!-- Engineer -->
 	<Level> <!--Tutorial5 SKIP BUTTON INTRODUCED-->
-      <displayName>7</displayName>
+      <displayName>14</displayName>
       <sceneName>Tutorial5</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Fixer</subjectText>
@@ -334,7 +334,7 @@
 	
 	<!--                                                                                                                                                                                 Power Plug Meter -->	
 	<Level><!--Tutorial6-->
-      <displayName>8</displayName>
+      <displayName>15</displayName>
       <sceneName>Tutorial_6</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Just in Time</subjectText>
@@ -349,7 +349,7 @@
     </Level>
 	
 	<Level><!--DD12 Very easy, straightforward-->
-	  <displayName>8</displayName>
+	  <displayName>16</displayName>
       <sceneName>DD12</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Broken Path</subjectText>
@@ -365,7 +365,7 @@
 	
 	<!--                                                                                                                                                                                 Efficient Polymer Solar Cells-->	
 	<Level><!-- RV09 easy, order of attack challenge, multiple solutions-->
-      <displayName>11</displayName>
+      <displayName>17</displayName>
       <sceneName>RV09</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Soak Up the Sun</subjectText>
@@ -399,7 +399,7 @@
 	<!--REALLOCATION INTRODUCED-->
 	<!--                                                                                                                                                                                 Waste to Energy-->	
 	<Level><!--RV08-remix easy, similtaneous action-->
-	  <displayName>10</displayName>
+	  <displayName>19</displayName>
       <!--<sceneName>RV08-remix</sceneName>-->
 	  <sceneName>Tutorial_RV08-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
@@ -436,7 +436,7 @@
 	<!--Tutorial_GPC08-->
 	<!--Multiple start locations -->
 	<Level>
-      <displayName>22</displayName>
+      <displayName>20</displayName>
       <sceneName>Tutorial_GPC08</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Super Spy</subjectText>
@@ -452,12 +452,12 @@
 	
 	<!--                                                                                                                                                                                 Biodiesel -->	
 	<Level><!--KU-02 easy, building site placement, reallocation-->
-      <displayName>26</displayName>
+      <displayName>21</displayName>
       <sceneName>KU-02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Garbage Run</subjectText>
       <messageText>I hear the tech on this one involves using garbage to run your car. Just keep that stuff away from my Hummer and we'll all be better off.</messageText>
-	  <objectiveText>Escort scientist to help implement a Biodiesel fueling station.</objectiveText>
+	  <objectiveText>Escort scientists to help implement a Biodiesel fueling station.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -468,7 +468,7 @@
 	
 	<!--                                                                                                                                                                                 Combined Heat and Power -->	
 	<Level><!--DD08-3 mid/easy, precise order of action, reallocation, long queue-->
-      <displayName>23</displayName>
+      <displayName>22</displayName>
       <sceneName>DD08-3</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>The Power of Heat</subjectText>
@@ -486,7 +486,7 @@
 	<!-- MEDIUM/EASY        AGENT -->	
 	<!-- multiple reallocation -->
 	<Level><!--KU-03-->
-      <displayName>28</displayName>
+      <displayName>23</displayName>
       <sceneName>KU-03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Beat the Heat</subjectText>
@@ -505,12 +505,12 @@
 	<!-- MEDIUM        AGENT -->	
 	<!-- Long queue, similtaneous action, three outputs -->
 	<Level><!--KU01 -->
-      <displayName>23</displayName>
+      <displayName>24</displayName>
       <sceneName>KU01</sceneName>
       <difficulty>0</difficulty>
       <subjectText>Fresh Air for Cheap</subjectText>
       <!--<messageText>I could never be a scientist. Have you seen their labs? It’s like a deathtrap of chemicals and gadgets! But perhaps I might reconsider if this new filtration system takes off.</messageText>-->
-	  <messageText>Never been a fan of science. Don't trust it. But I do share a scientists passion for breathing. Maybe we aren't so different after all?</messageText>
+	  <messageText>Never been a fan of science. Don't trust it. But I do share a scientist's passion for breathing. Maybe we aren't so different after all?</messageText>
 	  <objectiveText>Help Derptronics install a new Volatile Organic Compound filtration system to cut air filtration costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -558,7 +558,7 @@
 	<!--GPC07 medium, requires long queue              ENGINEER-->
 	<!--Engineer, long queue, multiple start locations -->
     <Level>
-      <displayName>9</displayName>
+      <displayName>26</displayName>
       <sceneName>GPC07_v2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Runner Gal</subjectText>
@@ -574,7 +574,7 @@
 
 	<!--                                                                                                                                                                                 Silicon Carbide Thyristors-->	
 	<Level><!--RV06 false complexity, moderate              ENGINEER-->
-      <displayName>11</displayName>
+      <displayName>27</displayName>
       <sceneName>RV06</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Shifting Gears</subjectText>
@@ -590,7 +590,7 @@
 	
 	<!--                                                                                                                                                                                 Microsolar Cells -->	
 	<Level><!--RV04-remix moderate, tight time limit, false complexity      ENGINEER-->
-      <displayName>19</displayName>
+      <displayName>28</displayName>
       <sceneName>RV04-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Power in Your Hands</subjectText>
@@ -606,7 +606,7 @@
 	
 	<!-- Move to earlier??? -->
 	<Level><!--RV05-remix distant originators, simple upstream              ENGINEER-->
-      <displayName>10</displayName>
+      <displayName>29</displayName>
       <sceneName>RV05-remix</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Wireless Rewiring</subjectText>
@@ -625,7 +625,7 @@
 	<!-- MEDIUM      LINKING-->
 	<!-- Limited time window -->
 	<Level><!--RV19-->
-      <displayName>4</displayName>
+      <displayName>30</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Solar Sugery</subjectText> <!-- PLACEHOLDER TEXT-->
@@ -643,12 +643,12 @@
 	<!--MEDIUM               ENGINEER-->
 	<!--Reallocation-->
 	<Level>
-      <displayName>4</displayName>
+      <displayName>31</displayName>
       <sceneName>RV07</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Falling Sky</subjectText> <!-- PLACEHOLDER TEXT-->
-      <messageText>Billy City is expecting a big oil shipment. Or vats of Swiss Chocolate... can't remember, exactly. As long as we don't get the barrels mixed up its all good. </messageText>
-	  <objectiveText>Help Billy City Airport trade organic produce for Petroleum.</objectiveText>
+      <messageText>Billy City is expecting a big oil shipment. Or vats of Swiss Chocolate... can't remember, exactly. As long as we don't get the barrels mixed up it's all good. </messageText>
+	  <objectiveText>Help Billy City Airport trade organic produce for petroleum.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -661,12 +661,12 @@
 	<!--                                                                                            PRONE TO CORRUPTION-->
 	<!--DD05 moderate, double primary objective     BUILD SITE-->
      <Level>
-      <displayName>18</displayName>
+      <displayName>32</displayName>
       <sceneName>DD05</sceneName> 
       <difficulty>1</difficulty>
       <subjectText>Sun Tower 20,000</subjectText>
       <messageText>This Organic Flash Cycle system recycles waste heat to make solar and geothermal systems way more efficient. Dude... 3D printers powered by lava!</messageText>
-	  <objectiveText>Install an Organic Flash Cycle system into Derpronics Tower to optimize their building-mounted solar array.</objectiveText>
+	  <objectiveText>Install an Organic Flash Cycle system into Derptronics Tower to optimize their building-mounted solar array.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -677,7 +677,7 @@
   
 	<!-- Multiple Primary Objectives-->
 	<Level><!--RV26                       ENGINEER -->
-      <displayName>25</displayName>
+      <displayName>33</displayName>
       <sceneName>RV26</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Regal and Majestic</subjectText>
@@ -693,7 +693,7 @@
 	
 	<!--                                                                                                                                                                                 Algae Bio-reactor -->	
 	<Level><!--GPC01 moderate, upstream, reallocation,        AGENT-->
-      <displayName>27</displayName>
+      <displayName>34</displayName>
       <sceneName>GPC01</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Swamp Science</subjectText>
@@ -709,12 +709,12 @@
 
 	<!--                                                                                                                                                                                 Integrated Ventalation Controller -->	
 	<Level><!--KU05 medium, requires long queue and analysis, big map  BUILD SITE-->
-      <displayName>8</displayName>
+      <displayName>35</displayName>
       <sceneName>KU05</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Clearing the Air</subjectText>
       <messageText>Pollution out here does a number on the residents. Air filtration systems take a big cut out of Derptronics’ profits. With this RIVEC setup we can cut costs nearly in half!</messageText>
-	  <objectiveText>Upgrade Wild Tower’s ventalation to use a Residential Integrated Ventilation Controller.</objectiveText>
+	  <objectiveText>Upgrade Wild Tower’s ventilation to use a Residential Integrated Ventilation Controller.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -726,7 +726,7 @@
 	<!--                                                                                                                                                                                 ***Electric Car Charging Station*** -->	
 	                                                                                              <!--2/21 TWEAK CAMERA BOUNDS-->
 	<Level><!--GPC02 medium, requires "upstream" and reallocation, multiple start locations  BUILD SITE-->
-      <displayName>10</displayName>
+      <displayName>36</displayName>
       <sceneName>GPC02</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Sleek and Silent</subjectText>
@@ -745,7 +745,7 @@
 	<!-- MEDIUM/HARD             LINKING-->
 	<!-- Reallocation, complex link paths -->
 	<Level><!--RV18-->
-      <displayName>6</displayName>
+      <displayName>37</displayName>
       <sceneName>RV18</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Somewhere in Nowhere</subjectText> <!-- PLACEHOLDER TEXT-->
@@ -763,7 +763,7 @@
 	<!-- MEDIUM/HARD    LINKING-->
 	<!-- Reallocation -->
 	<Level><!--RV16-->
-      <displayName>5</displayName>
+      <displayName>38</displayName>
       <sceneName>RV16</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Get Smart</subjectText>
@@ -781,11 +781,11 @@
 	<!-- MEDIUM/HARD      BUILD SITE-->
 	<!-- Reallocation, complex link paths -->
 	<Level><!--RV10-->
-      <displayName>4</displayName>
+      <displayName>39</displayName>
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Wires Crossed</subjectText>
-      <messageText>Ah ha! I caught em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you should get on that.</messageText>
+      <messageText>Ah ha! I caught 'em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you should get on that.</messageText>
 	  <objectiveText>Gather resources to bring the Nuka Nuclear plant online.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -817,7 +817,7 @@
   
 	<!--                                                                                                                                                                                 Electrofuels-->	
 	<Level> <!--KU02 med-high perception challenge, large map, distant originators, false complexity  AGENT-->
-      <displayName>12</displayName>
+      <displayName>40</displayName>
       <sceneName>KU02</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Superfuel</subjectText>
