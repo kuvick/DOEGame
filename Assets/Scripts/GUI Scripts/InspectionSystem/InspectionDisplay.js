@@ -475,7 +475,8 @@ public function ClearTooltips()
 private function RenderSingle()
 {
 	//GUI.Box(dispRect, dispContent);
-	shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
+	//shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
+	shadowText.Display(currentTooltip.text, dispRect, false, tooltipAlpha);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
 		if(notInGame)
@@ -493,7 +494,8 @@ private function RenderBoth()
 {
 	GUI.DrawTexture(borderRect, border);
 	GUI.DrawTexture(dispTopRect, currentTooltip.pic);
-	shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+	//shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+	shadowText.Display(currentTooltip.text, dispBotRect, false, tooltipAlpha);
 	//GUI.Label(dispBotRect, currentTooltip.text);
 	/*if (componentSelected && GUI.Button(nextRect, String.Empty))//(GUI.Button(dispTopRect, currentTooltip.pic) || GUI.Button(dispBotRect, currentTooltip.text)))
 	{
@@ -518,10 +520,12 @@ private function RenderInspection()
 	if (renderDouble)
 	{
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+		//shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+		shadowText.Display(currentTooltip.text, dispBotRect, false, tooltipAlpha);
 	}
 	else
-		shadowText.Display(dispContent.text, dispRect, true, tooltipAlpha);
+		//shadowText.Display(dispContent.text, dispRect, true, tooltipAlpha);
+		shadowText.Display(dispContent.text, dispRect, false, tooltipAlpha);
 
 	if (componentSelected && GUI.Button(nextRect, String.Empty))//GUI.Button(dispRect, dispContent))
 	{	
@@ -544,12 +548,14 @@ private function RenderTutorial()
 		GUI.DrawTexture(dispRect, border);
 		//GUI.DrawTexture(dispBotRect, border);
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+		//shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+		shadowText.Display(currentTooltip.text, dispBotRect, false, tooltipAlpha);
 	}
 	else
 	{
 		GUI.DrawTexture(dispRect, border);
-		shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
+		//shadowText.Display(currentTooltip.text, dispRect, true, tooltipAlpha);
+		shadowText.Display(currentTooltip.text, dispRect, false, tooltipAlpha);
 	}
 }
 

@@ -12,7 +12,9 @@ public class ShadowedText
 	private var shadowRect:Rect;
 	public var style:GUIStyle;
 	private var useStyle:boolean;
-	private var staticDistance:float;
+	//private var staticDistance:float;
+	private var staticDistanceX:float;
+	private var staticDistanceY:float;
 	private var useSetDistance:boolean;
 	private var icon :Texture = null;
 	private var iconRect:Rect;
@@ -61,7 +63,9 @@ public class ShadowedText
 		
 		useStyle = true;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -81,7 +85,9 @@ public class ShadowedText
 		
 		useStyle = true;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+		//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		
 		iconRect = new Rect(displayRect.x + displayRect.width + Screen.width * 0.03, displayRect.y, icon.width * (displayRect.height/ icon.height), displayRect.height);
 		
@@ -104,7 +110,9 @@ public class ShadowedText
 		style = guiStl;
 		useStyle = true;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+		//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -121,7 +129,9 @@ public class ShadowedText
 		displayRect = disRect;
 		useStyle = false;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+		//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -138,7 +148,9 @@ public class ShadowedText
 		displayRect = disRect;
 		useStyle = false;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+		//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -182,7 +194,9 @@ public class ShadowedText
 		style = guiStl;
 		useStyle = true;
 		useSetDistance = true;
-		staticDistance = setDistance;
+	//	staticDistance = setDistance;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -197,7 +211,9 @@ public class ShadowedText
 		style = guiStl;
 		useStyle = true;
 		useSetDistance = true;
-		staticDistance = Screen.height * 0.005;
+		//		staticDistance = Screen.height * 0.005;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -211,7 +227,9 @@ public class ShadowedText
 		displayRect = disRect;
 		useStyle = false;
 		useSetDistance = true;
-		staticDistance = setDistance;
+		//staticDistance = setDistance;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -226,7 +244,9 @@ public class ShadowedText
 		displayRect = disRect;
 		useStyle = false;
 		useSetDistance = true;
-		staticDistance = setDistance;
+		//staticDistance = setDistance;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	
@@ -242,7 +262,9 @@ public class ShadowedText
 		useStyle = true;
 		style = guiStl;
 		useSetDistance = true;
-		staticDistance = setDistance;
+		//staticDistance = setDistance;
+		staticDistanceY = Screen.height * 0.005;
+		staticDistanceX = Screen.width * 0.003;
 		updateShadowRect();
 	}
 	//*********************************************************************************************************************
@@ -250,7 +272,7 @@ public class ShadowedText
 	//Calculates position of shadow's rect; if you change the display rect, use this function
 	public function updateShadowRect()
 	{
-		if(!staticDistance)
+		if(!staticDistanceX)
 		{
 			shadowRect = new Rect(displayRect.x + (displayRect.height * shadowPercentDistance), displayRect.y + (displayRect.height * shadowPercentDistance), displayRect.width, displayRect.height);
 			
@@ -260,10 +282,10 @@ public class ShadowedText
 		}
 		else
 		{
-			shadowRect = new Rect(displayRect.x + staticDistance, displayRect.y + staticDistance, displayRect.width, displayRect.height);
+			shadowRect = new Rect(displayRect.x + staticDistanceX, displayRect.y + staticDistanceY, displayRect.width, displayRect.height);
 			
 			if(icon != null)
-				iconShadowRect = new Rect(iconRect.x + staticDistance, iconRect.y + staticDistance, iconRect.width, iconRect.height);
+				iconShadowRect = new Rect(iconRect.x + staticDistanceX, iconRect.y + staticDistanceY, iconRect.width, iconRect.height);
 		}			
 	}
 	
