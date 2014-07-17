@@ -78,7 +78,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=836</urlLink>
 	  <iconName>techImage_removeVOCs</iconName>
-	  <description>Converts harmful gases into harmless carbon dioxide and water. Reduces power needs for lab air filtration systems./n -Lawrence Berkeley National Laboratory</description>
+	  <description>Converts harmful gases into harmless carbon dioxide and water. Reduces power needs for lab air filtration systems.</description>
 	  <lab>Lawrence Berkeley National Laboratory</lab>
 	  <!--<description>This new system maximizes the air quality within a building while reducing the energy consumtion.</description>-->
 	</CodexEntry>
