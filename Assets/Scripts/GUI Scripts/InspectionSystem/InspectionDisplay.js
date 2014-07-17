@@ -548,8 +548,8 @@ private function RenderTutorial()
 		GUI.DrawTexture(dispRect, border);
 		//GUI.DrawTexture(dispBotRect, border);
 		GUI.DrawTexture(dispTopRect, currentTooltip.pic, ScaleMode.ScaleToFit);
-		//shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
-		shadowText.Display(currentTooltip.text, dispBotRect, false, tooltipAlpha);
+		shadowText.Display(currentTooltip.text, dispBotRect, true, tooltipAlpha);
+		//shadowText.Display(currentTooltip.text, dispBotRect, false, tooltipAlpha);
 	}
 	else
 	{
