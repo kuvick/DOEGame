@@ -17,6 +17,7 @@ public class CodexMenuScaling
 
 public class CodexMenu extends GUIControl
 {
+	public var debugCodexEntries:boolean = false;
 	public var sidePadding : float = .05f;
 	public var codicesHeight : float = .4f;
 	public var entryLabelMaxWidthPercent : float = .4; // in percetage of screen
@@ -778,25 +779,43 @@ public class CodexMenu extends GUIControl
 		GUI.BeginGroup(hexGroup);
 			if(!doNotRender)
 			{
-				for(var i:int = 0; i < fullCodex.Count && i < hexBGRect.Count; i++)
+				if(!debugCodexEntries)
 				{
-					GUI.DrawTexture(hexBGRect[i], hexBGTexture, ScaleMode.StretchToFill);
-					GUI.DrawTexture(hexRect[i], fullCodex[i].icon, ScaleMode.StretchToFill);
-					
-					if(codices.Contains(fullCodex[i]))
+					for(var i:int = 0; i < fullCodex.Count && i < hexBGRect.Count; i++)
 					{
-						if(released && !isHolding && GUI.Button(hexRect[i], ""))
+						GUI.DrawTexture(hexBGRect[i], hexBGTexture, ScaleMode.StretchToFill);
+						GUI.DrawTexture(hexRect[i], fullCodex[i].icon, ScaleMode.StretchToFill);
+						
+						if(codices.Contains(fullCodex[i]))
 						{
-							currentEntry = fullCodex[i];
+							if(released && !isHolding && GUI.Button(hexRect[i], ""))
+							{
+								currentEntry = fullCodex[i];
+								labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
+								labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
+								mainView = false;
+							}
+						}
+					}
+					for(var j:int = 0; j < hexCoverRect.Count; j++)
+					{
+						GUI.DrawTexture(hexCoverRect[j], hexCoverTexture, ScaleMode.StretchToFill);
+					}
+				}
+				else
+				{
+					for(var y:int = 0; y < fullCodex.Count && y < hexBGRect.Count; y++)
+					{
+						GUI.DrawTexture(hexBGRect[y], hexBGTexture, ScaleMode.StretchToFill);
+						GUI.DrawTexture(hexRect[y], fullCodex[y].icon, ScaleMode.StretchToFill);
+						if(released && !isHolding && GUI.Button(hexRect[y], ""))
+						{
+							currentEntry = fullCodex[y];
 							labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
 							labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
 							mainView = false;
 						}
 					}
-				}
-				for(var j:int = 0; j < hexCoverRect.Count; j++)
-				{
-					GUI.DrawTexture(hexCoverRect[j], hexCoverTexture, ScaleMode.StretchToFill);
 				}
 			}			
 		GUI.EndGroup();
