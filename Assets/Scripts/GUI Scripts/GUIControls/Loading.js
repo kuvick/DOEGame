@@ -583,7 +583,7 @@ public class Loading extends GUIControl
 		Application.LoadLevelAdditive(levelName); // This will freeze the game without pro version
 		//Application.LoadLevel(levelName); // This will freeze the game without pro version
 		
-		yield WaitForSeconds(3);
+		yield WaitForSeconds(1);
 		hasLoaded = true;
 		
 		var totalLoadTime : float = Time.time - startTime;
