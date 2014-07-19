@@ -22,6 +22,9 @@ public class LoadingScaling
 
 public class Loading extends GUIControl
 {
+	public var debugCycleJobDescriptions:boolean = false;
+	private var currentJobNum:int = 0;
+	private var STARTjobTextRect:Rect;
 	// Loading Screen Rectangles
 	private var blackBackground : Rect;
 	private var background:Rect;
@@ -161,8 +164,9 @@ public class Loading extends GUIControl
 	{
 		super.Initialize();
 		
-		
-		if(PlayerPrefs.HasKey("displayComicPanels"))
+		if(debugCycleJobDescriptions)
+			displayComicPanels = false;
+		else if(PlayerPrefs.HasKey("displayComicPanels"))
 		{
 			if(PlayerPrefs.GetInt("displayComicPanels") == 1)
 			{
@@ -261,6 +265,7 @@ public class Loading extends GUIControl
 		
 		
 		jobTextRect = createRect( Vector2(861, 531), 877f/1920f, 243f/1080f, 388f/1080f, false, screenRect);
+		STARTjobTextRect = new Rect(jobTextRect.x, jobTextRect.y, jobTextRect.width, jobTextRect.height);
 		
 		jobWebsiteButtonRect = createRect( websiteButton, 0.44, 0.58, 0.11, false, screenRect);
 		
@@ -310,7 +315,7 @@ public class Loading extends GUIControl
 		
 		panelST = new ShadowedText("", panelLabel, style, false);
 		panelST2 = new ShadowedText("", panelLabel, style, false);
-		
+
 		jobBoxRect = createRect(jobBox, 0,0,0.63, false, screenRect);
 		jobBoxRect.x = screenRect.width / 2 - jobBoxRect.width / 2;
 		jobBoxRect.y = screenRect.height / 2 - jobBoxRect.height / 2 - padding * 2;
@@ -481,7 +486,20 @@ public class Loading extends GUIControl
 			style.alignment = TextAnchor.MiddleCenter;
 		
 		}
-		if (hasLoaded)
+		
+		if(debugCycleJobDescriptions)
+		{
+			if(beginMissionAB.Render(style))
+			{
+				if(!showConfirmation)
+				{
+					//Initialize();
+					//GetNewJob();
+					Application.LoadLevel(Application.loadedLevel);
+				}
+			}
+		}
+		else if (hasLoaded)
 		{
 			if (hasFinishedDelay)
 			{
@@ -603,29 +621,55 @@ public class Loading extends GUIControl
 	
 	public function GetNewJob()
 	{
-		currentJob = JobDatabase.GetRandomJob();
-		//currentJobDesc = "Latest Job:\n\n";
-		//currentJobDesc += currentJob.title + "\n\n";
-		//currentJobDesc = currentJob.title + "\n\n";
-		currentJobDesc += currentJob.description + "\n\n";
-		//currentJobDesc += "Sub Agency: " + currentJob.agency;
-		//currentJobDesc += "\nSalary Range: $" + currentJob.salaryMin + " - $" + currentJob.salaryMax;
-		//currentJobDesc += "\nOpen Period: " + currentJob.openPeriodStart + " to " + currentJob.openPeriodEnd;
-		//currentJobDesc += "\nPosition Information: " + currentJob.positionInformation;
-		//currentJobDesc += "\nLocation: " + currentJob.location;
-		//currentJobDesc += "\nWho May Be Considered:\n" + currentJob.whoConsidered;
+		//style.font = regularFont;
+		//style.fontSize = jobFontSize;
+		//style.alignment = TextAnchor.UpperLeft;
 		
-		style.font = regularFont;//boldFont;
-		//descFontSize = CalcFontByRect(currentJobDesc, descRect, initialDescFontSize);//titleFontSize;
+		if(debugCycleJobDescriptions)
+		{	
+
+			currentJobDesc = "";
+			
+			if(!PlayerPrefs.HasKey("currentJobNum"))
+			{
+				currentJobNum = 0;
+				
+			}
+			else
+				currentJobNum = PlayerPrefs.GetInt("currentJobNum");
+			
+			currentJob = JobDatabase.GetJobAtIndex(currentJobNum);
+			currentJobNum++;
+			PlayerPrefs.SetInt("currentJobNum", currentJobNum);
+		}
+		else
+		{
+			if(PlayerPrefs.HasKey("currentJobNum"))
+			{
+				PlayerPrefs.DeleteKey("currentJobNum");
+			}
+			
+			currentJobDesc = "";
+			currentJob = JobDatabase.GetRandomJob();
+		}
+	
+		currentJobDesc += currentJob.description + "\n\n";
 		var height : float = style.CalcHeight(GUIContent(currentJobDesc), descRect.width);
+
+		
 		descRect.y = (screenHeight - height) / 2;
 		
 		descFontSize = Mathf.Min(Screen.width, Screen.height) * 0.035;
 		currentJobInformation = currentJobDesc;
 		
 		titleStyle.fontSize = jobFontSize;
+		
+		//if(debugCycleJobDescriptions && currentJobNum > 0)
+		
+		jobTextRect = new Rect(STARTjobTextRect.x, STARTjobTextRect.y, STARTjobTextRect.width, STARTjobTextRect.height);
 		jobTextRect.height -= titleStyle.CalcHeight(GUIContent(currentJob.title), jobTextRect.width);
 		
+		jobFontSize = calcFontSize(18);
 		jobFontSize = CalcFontByRect(currentJobInformation, jobTextRect, jobFontSize) * (1f + GUIManager.Instance().loadingScaling.job);
 		
 		titleStyle.fontSize = jobFontSize * 1.5 * (1f + GUIManager.Instance().loadingScaling.title);
@@ -641,7 +685,7 @@ public class Loading extends GUIControl
 		
 		jobTitleTextST = new ShadowedText(currentJob.title, titleRect, titleStyle, false);
 		
-		jobTextRect.y += titleRect.height + padding;
+		jobTextRect.y = titleRect.y + titleRect.height + padding;
 		
 		jobTextST = new ShadowedText(currentJobInformation, jobTextRect, style, false);
 		
@@ -655,9 +699,7 @@ public class Loading extends GUIControl
 		
 		jobTitleUnderlineTextST = new ShadowedText(underlineText, titleRect, titleStyle, false);
 		*/
-		
-		
-		
+	
 	}
 	
 	// calculates and sets font size to fit text within a given rect, starting from a given initial size

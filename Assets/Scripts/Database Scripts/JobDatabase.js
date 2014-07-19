@@ -25,4 +25,22 @@ public static class JobDatabase
 			Initialize();
 		return jobList[Random.Range(0, jobList.Count)];
 	}
+	
+	public function GetJobAtIndex(index:int)
+	{
+		if (!initialized)
+			Initialize();
+		
+		//Debug.Log("Retrieving Job #" + (index % jobList.Count + 1) + " out of " + jobList.Count);	
+		if(index < jobList.Count)
+		{
+			return jobList[index];
+		}
+		else
+		{
+			return jobList[index % jobList.Count];
+		}
+			
+		
+	}
 }
