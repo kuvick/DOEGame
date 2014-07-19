@@ -525,7 +525,8 @@ public class ScoreMenu extends GUIControl
 		var technologyNameStyle:GUIStyle = new GUIStyle(boldStyle);
 		technologyNameStyle.fontSize *= (1f + GUIManager.Instance().scoreMenuScaling.technologyNameScale);
 		
-		if(technologyName != "" || techAlreadyUnlocked)
+		//Debug.Log(techAlreadyUnlocked);
+		if(technologyName != "" && !techAlreadyUnlocked)
 		{
 			codexText = saveSystem.codexData.GetCodexEntry(technologyName).name + "\n\n" + saveSystem.codexData.GetCodexEntry(technologyName).description;
 			screenRect = new Rect( screenRect.width, screenRect.y, screenRect.width, screenRect.height);
