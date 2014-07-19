@@ -164,6 +164,13 @@ public class StartMenu extends GUIControl
 	private var acceptST: ShadowedText;
 	private var cancelST: ShadowedText;
 	
+	public var acceptText:Texture;
+	private var acceptAB: AnimatedButton;
+	private var acceptRect:Rect;
+	public var cancelText:Texture;
+	private var cancelAB: AnimatedButton;
+	private var cancelRect:Rect;
+	
 	// adjust size of splash screen images
 	public var splashScale : float;
 	
@@ -259,7 +266,6 @@ public class StartMenu extends GUIControl
 		optionsButtonAB = new AnimatedButton(Color.blue, optionsButton, optionsButtonRect);
 		quitButtonAB = new AnimatedButton(Color.blue, exitButton, quitButton);
 		
-		
 		//logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage );
 		logoRect = Rect(screenWidth / 2 - (logo.width * percentage) / 2, screenHeight / 2 - (logo.height * percentage) / 2, logo.width * percentage, logo.height * percentage);
 		
@@ -338,6 +344,20 @@ public class StartMenu extends GUIControl
 		cancelSTRect.x = Screen.width - (padding + cancelSTRect.width + (acceptSTRect.width / 2));
 		acceptSTRect.y = Screen.height * 0.6 + padding;
 		cancelSTRect.y = Screen.height * 0.6 + padding;
+		
+		
+		acceptRect = new Rect(0,acceptSTRect.y,loginButtonRect.width, loginButtonRect.height);
+		cancelRect = new Rect(0,cancelSTRect.y,optionsButtonRect.width, optionsButtonRect.height);
+		
+		var widButtons: float = acceptRect.width + cancelRect.width + (padding * 3);
+		var midwayStart:float = Screen.width / 2 - widButtons / 2;
+		
+		acceptRect.x = midwayStart;
+		cancelRect.x = acceptRect.x + acceptRect.width + (padding * 3);
+		
+		acceptAB = new AnimatedButton(Color.green, acceptText, acceptRect);
+		cancelAB = new AnimatedButton(Color.blue, cancelText, cancelRect);
+		
 		
 		profileStyle = profileSelectSkin.customStyles[0];
 		profileStyle.fontSize = 0.06 * screenWidth;
@@ -597,16 +617,19 @@ public class StartMenu extends GUIControl
 							//deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
 							//setButtonTexture(approveButtonText, approveButtonText);
 							enterNameST.Display();
-							acceptST.Display();
-							cancelST.Display();
+							//acceptST.Display();
+							//cancelST.Display();
 							
-							if(GUI.Button(cancelST.displayRect, ""))
+							//if(GUI.Button(cancelST.displayRect, ""))
+							if(cancelAB.Render())
 							{
 								currentScreen = CurrentStartScreen.FirstScreen;
 								PlayButtonPress();
 							}
 						
-							if(GUI.Button(acceptST.displayRect, ""))
+							
+							//if(GUI.Button(acceptST.displayRect, ""))
+							if(acceptAB.Render())
 							{
 								if(newUsername != "Enter Name" && newUsername != "")
 								{
