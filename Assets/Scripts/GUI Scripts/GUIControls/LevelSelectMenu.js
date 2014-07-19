@@ -536,9 +536,11 @@ public class LevelSelectMenu extends GUIControl
 		
 			rankRect = createRect(rankTextures[rankTextureNum], 991.0 / 1920.0, 9.0 / 1080.0, 144/ 1080.0, false);
 			
+			rankRect.x = codexIconRect.x;
+			
 			//rankRect.x = playerRect.x + playerNameCalcSize.x + padding;
 			
-			rankRect.x = missionBackgroundRect.x + padding;
+			//rankRect.x = missionBackgroundRect.x + padding;
 			agentRankRect1.x += rankRect.x + rankRect.width + padding;
 			agentRankRect2.x += rankRect.x + rankRect.width + padding;
 			playerRect.x += rankRect.x + rankRect.width + padding;
