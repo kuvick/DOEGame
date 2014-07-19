@@ -504,6 +504,48 @@ public function OnDrawGizmos()
 	}
 }
 
+public function startCameraOut(zoomIn:boolean)
+{
+	if(!zoomIn)
+	{
+		destinationSize = maxZoomOut;
+		zoomingIn = zoomIn;
+		zooming = true;
+		
+		while(zooming)
+		{
+			if(zoomingIn)
+			{
+				thisCamera.orthographicSize -= 5f;
+				guiCamera.orthographicSize -= 5f;
+				buildingCamera.orthographicSize -= 5f;
+				
+				if(thisCamera.orthographicSize <= destinationSize)
+				{
+					thisCamera.orthographicSize = destinationSize;
+					guiCamera.orthographicSize = destinationSize;
+					buildingCamera.orthographicSize = destinationSize;
+					zooming = false;
+				}
+			}
+			else
+			{
+				thisCamera.orthographicSize += 5f;
+				guiCamera.orthographicSize += 5f;
+				buildingCamera.orthographicSize += 5f;
+				
+				if(thisCamera.orthographicSize >= destinationSize)
+				{
+					thisCamera.orthographicSize = destinationSize;
+					guiCamera.orthographicSize = destinationSize;
+					buildingCamera.orthographicSize = destinationSize;
+					zooming = false;
+				}
+			}
+		}
+	}
+}
+
 public function cameraZoom(zoomIn:boolean)
 {
 	if(zoomIn)

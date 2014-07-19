@@ -234,7 +234,19 @@ public class MainMenu extends GUIControl
     	sparkRect.y = Screen.height / 2 - sparkRect.height / 2;
     	
     	
-    	isZoomedOut = false;
+    	
+    	
+    	if(!PlayerPrefs.HasKey("isZoomedOut"))
+    	{
+    		isZoomedOut = false;
+    	}
+    	else
+    	{
+    		if(PlayerPrefs.GetInt("isZoomedOut") == 0)
+    			isZoomedOut = false;
+			else
+				isZoomedOut = true;
+    	}
     	
     	zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
     	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
@@ -338,6 +350,7 @@ public class MainMenu extends GUIControl
 			
 		cameraMain = GameObject.Find("Main Camera").GetComponent(CameraControl);
 		cameraControl = cameraMain.GetComponent(CameraControl);
+		cameraMain.startCameraOut(!isZoomedOut);
 		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.inGameMusic;
 		
@@ -677,11 +690,13 @@ public class MainMenu extends GUIControl
 				{
 					cameraMain.cameraZoom(false);
 					isZoomedOut = true;
+					PlayerPrefs.SetInt("isZoomedOut", 1);
 				}
 				else
 				{
 					cameraMain.cameraZoom(true);
 					isZoomedOut = false;
+					PlayerPrefs.SetInt("isZoomedOut", 0);
 				}
 			}
 		}
