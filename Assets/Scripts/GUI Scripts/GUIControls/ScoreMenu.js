@@ -231,7 +231,7 @@ public class ScoreMenu extends GUIControl
 		private var twitterY: float=24;
 		private var twitterPercent:float=0.12;*/
 		
-	//private var snHandler : SocialNetworkingHandler;
+	private var snHandler : SocialNetworkingHandler;
 	
 	public enum CurrentScoreScreen
 	{
@@ -572,20 +572,19 @@ public class ScoreMenu extends GUIControl
 		twitterIconRect = Rect(facebookIconRect.x - (1.25 * facebookIconRect.width), facebookIconRect.y, facebookIconRect.width, facebookIconRect.height);
 		twitterButtonAB = new AnimatedButton(Color.blue, twitterIconText, twitterIconRect, Vector2(screenRect.x, screenRect.y));
 			
-		//snHandler = gameObject.GetComponent(SocialNetworkingHandler);
-		/*if (snHandler)
+		snHandler = gameObject.GetComponent(SocialNetworkingHandler);
+		if (snHandler)
 		{
 			snHandler.Initialize();
-		}*/	
+		}
 		#if UNITY_ANDROID
-		FacebookAndroid.init(false);
+		/*FacebookAndroid.init(false);
 		//TwitterAndroid.init( "jZVHZaGxJkOLenVPe23fnQ", "7nZQtvTjIXnKqYHbjAUKneUTp1QEWEkeD6nKVfPw" );
 		TwitterAndroid.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
-		
+		*/
 		#endif
 		#if UNITY_IPHONE
-		//FacebookBinding.init();
-		FacebookBinding.init("464696006966793");
+		FacebookBinding.init();
 		TwitterBinding.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
 		#endif
 	}
@@ -718,15 +717,15 @@ public class ScoreMenu extends GUIControl
 				if(socialMediaButtonsEnabled){
 					if (facebookButtonAB.Render())
 					{
-						/*if (snHandler)
-							snHandler.HandleFacebook();*/
+						if (snHandler)
+							snHandler.HandleFacebook();
 						#if UNITY_ANDROID
-						if (!FacebookAndroid.isSessionValid())
+						/*if (!FacebookAndroid.isSessionValid())
 						FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
 						//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
 						else
 						Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
-						
+						*/
 						#endif
 						#if UNITY_IPHONE
 						
@@ -736,10 +735,10 @@ public class ScoreMenu extends GUIControl
 					
 					if (twitterButtonAB.Render())
 					{
-						/*if (snHandler)
-							snHandler.HandleTwitter();*/
+						if (snHandler)
+							snHandler.HandleTwitter();
 						#if UNITY_ANDROID
-						if (!TwitterAndroid.isLoggedIn())
+						/*if (!TwitterAndroid.isLoggedIn())
 						{
 							Application.CaptureScreenshot( "score.png" );
 							TwitterAndroid.showLoginDialog();
@@ -751,7 +750,7 @@ public class ScoreMenu extends GUIControl
 							var pathToImage = Application.persistentDataPath + "/" + "score.png";
 							var bytes = System.IO.File.ReadAllBytes( pathToImage );
 							TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
-						}
+						}*/
 						#endif
 						#if UNITY_IPHONE
 						if (!TwitterBinding.isLoggedIn())
@@ -763,7 +762,7 @@ public class ScoreMenu extends GUIControl
 							TwitterBinding.postStatusUpdate( "I score in #Terrachanics!", pathToImage );
 						}
 						#endif
-						//PlayButtonPress();
+						PlayButtonPress();
 					}
 				}
 				

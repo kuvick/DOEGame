@@ -5,6 +5,10 @@
 /*.pidb
 /Library
 /Temp
-/Assets/Plugins/
+/Assets/Plugins/Android
+/Assets/Plugins/SocialNetworkingAndroid*
+/Assets/Plugins/SocialNetworkingCommon*
+/Assets/Plugins/SocialNetworkingIOS*
+/Assets/Plugins/*.dll*
 /Assets/Editor/
 /Assets/Prefabs/NewPrefabs/BUILDING TYPES/EnergyStorage/Keyboard.meta
