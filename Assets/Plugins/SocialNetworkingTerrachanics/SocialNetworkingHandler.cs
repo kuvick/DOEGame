@@ -77,7 +77,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 				{ "link", "https://play.google.com/store/apps/details?id=gov.doe.Terrachanics" },
 				{ "name", "Terrachanics" },
 				{ "picture", "https://lh4.ggpht.com/0QYIvg5ePEu9OKFXydpp0jJVbywtq1fDwkZGFrAOA7hqBONRRQQFoTtvuTlwGy_8qZHP=w300-rw" },
-				{ "caption", "I score in Terrachanics!" },
+				{ "caption", "I scored in Terrachanics!" },
 			};
 			FacebookAndroid.showDialog( "stream.publish", parameters );
 		}
@@ -95,7 +95,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 				{ "link", "https://play.google.com/store/apps/details?id=gov.doe.Terrachanics" },
 				{ "name", "Terrachanics" },
 				{ "picture", "https://lh4.ggpht.com/0QYIvg5ePEu9OKFXydpp0jJVbywtq1fDwkZGFrAOA7hqBONRRQQFoTtvuTlwGy_8qZHP=w300-rw" },
-				{ "caption", "I score in Terrachanics!" },
+				{ "caption", "I scored in Terrachanics!" },
 			};
 			FacebookBinding.showDialog( "stream.publish", parameters );
 		}
@@ -144,9 +144,8 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		if (TwitterBinding.isLoggedIn())
 		{
 			var pathToImage = Application.persistentDataPath + "/" + "score.png";
-			var bytes = System.IO.File.ReadAllBytes( pathToImage );
 			
-			TwitterBinding.postStatusUpdate( "I scored in #Terrachanics!", bytes );
+			TwitterBinding.postStatusUpdate( "I scored in #Terrachanics!", pathToImage );
 		}
 		#endif
 	}
