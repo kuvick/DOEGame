@@ -55,7 +55,10 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		#endif
 		#if UNITY_IPHONE
 		if (!FacebookBinding.isSessionValid())
-			FacebookBinding.loginWithPublishPermissions( new string[] { "publish_actions" } );
+		{
+			var permissions = new string[] { "email" };
+			FacebookBinding.loginWithReadPermissions( permissions );
+		}
 		else
 			PostFacebook ();
 		#endif
@@ -82,6 +85,8 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		#if UNITY_IPHONE
 		if (FacebookBinding.isSessionValid())
 		{
+			var permissions = new string[] { "publish_actions", "publish_stream" };
+			FacebookBinding.reauthorizeWithPublishPermissions( permissions, FacebookSessionDefaultAudience.OnlyMe );
 			var pathToImage = Application.persistentDataPath + "/" + "score.png";
 			var bytes = System.IO.File.ReadAllBytes( pathToImage );
 			//Facebook.instance.postImage( bytes, "im an image posted from iOS", completionHandler );
