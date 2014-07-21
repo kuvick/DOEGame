@@ -719,17 +719,6 @@ public class ScoreMenu extends GUIControl
 					{
 						if (snHandler)
 							snHandler.HandleFacebook();
-						#if UNITY_ANDROID
-						/*if (!FacebookAndroid.isSessionValid())
-						FacebookAndroid.loginWithPublishPermissions( ["publish_actions", "manage_friendlists"] );
-						//FacebookAndroid.reauthorizeWithPublishPermissions(  ["publish_actions", "manage_friendlists"], FacebookSessionDefaultAudience.Everyone );
-						else
-						Facebook.instance.postMessage( "im posting this from Unity: " + Time.deltaTime, completionHandler );
-						*/
-						#endif
-						#if UNITY_IPHONE
-						
-						#endif
 						PlayButtonPress();
 					}
 					
@@ -737,31 +726,6 @@ public class ScoreMenu extends GUIControl
 					{
 						if (snHandler)
 							snHandler.HandleTwitter();
-						#if UNITY_ANDROID
-						/*if (!TwitterAndroid.isLoggedIn())
-						{
-							Application.CaptureScreenshot( "score.png" );
-							TwitterAndroid.showLoginDialog();
-							PlayButtonPress();
-						}
-						else
-						{
-							
-							var pathToImage = Application.persistentDataPath + "/" + "score.png";
-							var bytes = System.IO.File.ReadAllBytes( pathToImage );
-							TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
-						}*/
-						#endif
-						#if UNITY_IPHONE
-						if (!TwitterBinding.isLoggedIn())
-							TwitterBinding.showLoginDialog();
-						else
-						{
-							Application.CaptureScreenshot( FacebookUIManager.screenshotFilename );
-							var pathToImage = Application.persistentDataPath + "/" + FacebookUIManager.screenshotFilename;
-							TwitterBinding.postStatusUpdate( "I score in #Terrachanics!", pathToImage );
-						}
-						#endif
 						PlayButtonPress();
 					}
 				}
