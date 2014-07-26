@@ -613,6 +613,10 @@ public class StartMenu extends GUIControl
 							newUsername = GUI.TextField(profileButton, newUsername, 10);
 							
 							
+							if(newUsername.Length > 0)
+								newUsername = char.ToUpper(newUsername[0]) + newUsername.Substring(1);
+							
+							
 							//midPoint = profileButton.y + profileSelectHeight / 2 - (deleteButtonText.height * percentage *.8f) / 2;
 							//deleteButton = Rect(profileSelectWidth + (buttonSideBuffer * screenHeight), midPoint, (deleteButtonText.width * percentage *.8f), (deleteButtonText.height * percentage *.8f));
 							//setButtonTexture(approveButtonText, approveButtonText);
