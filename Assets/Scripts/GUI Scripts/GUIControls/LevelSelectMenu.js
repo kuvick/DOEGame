@@ -1147,7 +1147,8 @@ public class LevelSelectMenu extends GUIControl
 					if(startLevelButtonAB.Render())
 					{							
 						PlayerPrefs.SetString(Strings.NextLevel, unlockedLevels[activeLevelIndex].sceneName);
-						PlayerPrefs.SetString(Strings.CurrentLevel, unlockedLevels[activeLevelIndex].subjectText);
+						if (!unlockedLevels[activeLevelIndex].sceneName.Contains("riefing"))
+							PlayerPrefs.SetString(Strings.CurrentLevel, unlockedLevels[activeLevelIndex].subjectText);
 						Application.LoadLevel("LoadingScreen");
 					}
 					//resetButtonTexture();
@@ -1378,6 +1379,7 @@ public class LevelSelectMenu extends GUIControl
 							i--; // decrement i to prevent the paired level from displaying
 							// set loading playerpref variables to paired level
 							PlayerPrefs.SetString(Strings.NextLevel, levels[i].sceneName);
+							levels[i].subjectText = (levels.Length - actualLevelIndex) + ": " + levels[i].subjectText;
 							PlayerPrefs.SetString(Strings.CurrentLevel, levels[i].subjectText);
 						}
 						// for final briefing

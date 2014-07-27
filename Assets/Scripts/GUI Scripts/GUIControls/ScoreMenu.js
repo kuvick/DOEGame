@@ -99,6 +99,9 @@ public class ScoreMenu extends GUIControl
 	private var totalScore : String = "00000000";
 	private var totalScoreRect : Rect;
 	
+	private var displayLevelRect : Rect;
+	private var displayLevelText : String;
+	
 	// Honors
 	private var honorsBoxWidth : float = 1104;
 	private var honorScoreOffsetX : float = 168;
@@ -205,7 +208,7 @@ public class ScoreMenu extends GUIControl
 	public var codexInfoBox:Texture;
 	private var codexInfoBoxRect:Rect;
 	
-	
+	private var levelST : ShadowedText;
 	private var titleST : ShadowedText;
 	private var agentNameST : ShadowedText;
 	private var agentRankST : ShadowedText;
@@ -571,6 +574,10 @@ public class ScoreMenu extends GUIControl
 		facebookButtonAB =  new AnimatedButton(Color.blue, facebookIconText, facebookIconRect, Vector2(screenRect.x, screenRect.y));
 		twitterIconRect = Rect(facebookIconRect.x - (1.25 * facebookIconRect.width), facebookIconRect.y, facebookIconRect.width, facebookIconRect.height);
 		twitterButtonAB = new AnimatedButton(Color.blue, twitterIconText, twitterIconRect, Vector2(screenRect.x, screenRect.y));
+		
+		displayLevelText = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
+		displayLevelRect = Rect(titleRect.x, titleRect.y - titleRect.height, twitterIconRect.x - titleRect.x, titleRect.height);
+		levelST = new ShadowedText(displayLevelText, displayLevelRect, boldStyle, true);
 			
 		snHandler = gameObject.GetComponent(SocialNetworkingHandler);
 		if (snHandler)
@@ -685,6 +692,7 @@ public class ScoreMenu extends GUIControl
 				
 				boldStyle.fontSize = largerFontSize;
 				//GUI.Label(titleRect, "Agent Performance Evaluation", boldStyle);
+				levelST.Display();
 				titleST.Display();
 				boldStyle.fontSize = standardFontSize;
 				
