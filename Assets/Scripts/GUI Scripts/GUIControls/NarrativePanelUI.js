@@ -418,7 +418,7 @@ public class NarrativePanelUI extends GUIControl
 			
 			if(currentSlide < narrativeSlides.Length - 1 || lastLetter < narrativeSlides[currentSlide].dialogue.Length - 1)
 			{
-				if (GUI.Button(tapSpace, ""))
+				if (GUI.Button(tapSpace, GUIContent.none))
 				{
 					if(skipTimes.Count > 0)
 					{

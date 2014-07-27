@@ -452,7 +452,7 @@ public class AnimatedButton
 			
 			//setButtonTexture(codexIconText, codexIconTextPressed);
 			GUI.DrawTexture(rect, image);
-			if(GUI.Button(rect, ""))
+			if(GUI.Button(rect, GUIContent.none))
 			{
 				buttonPressed = true;
 			}
@@ -482,7 +482,7 @@ public class AnimatedButton
 			
 			//setButtonTexture(codexIconText, codexIconTextPressed);
 			GUI.DrawTexture(rect, image);
-			if(GUI.Button(rect, "", style))
+			if(GUI.Button(rect, GUIContent.none, style))
 			{
 				buttonPressed = true;
 			}
@@ -512,7 +512,7 @@ public class AnimatedButton
 		}	
 		//setButtonTexture(codexIconText, codexIconTextPressed);
 		GUI.DrawTexture(rect, image);
-		if(GUI.Button(rect, ""))
+		if(GUI.Button(rect, GUIContent.none))
 		{
 			buttonPressed = true;
 		}
@@ -543,7 +543,7 @@ public class AnimatedButton
 			
 			//setButtonTexture(codexIconText, codexIconTextPressed);
 			GUI.DrawTexture(rect, image);
-			if(GUI.Button(rect, ""))
+			if(GUI.Button(rect, GUIContent.none))
 			{
 				buttonPressed = true;
 			}
@@ -573,7 +573,7 @@ public class AnimatedButton
 			
 			//setButtonTexture(codexIconText, codexIconTextPressed);
 			GUI.DrawTexture(rect, image);
-			if(GUI.Button(rect, ""))
+			if(GUI.Button(rect, GUIContent.none))
 			{
 				buttonPressed = true;
 			}

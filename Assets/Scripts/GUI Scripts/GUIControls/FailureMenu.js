@@ -106,20 +106,20 @@ public class FailureMenu extends GUIControl
 		
 		// Buttons are rendered:
 		setButtonTexture(restartButton, restartButtonPressed);
-		if(GUI.Button(restartButtonRect, ""))
+		if(GUI.Button(restartButtonRect, GUIContent.none))
 		{
 			currentResponse.type = EventTypes.RESTART;
 		}
 		
 		setButtonTexture(dashboardButton, dashboardButtonPressed);
-		if(GUI.Button(dashboardButtonRect, ""))
+		if(GUI.Button(dashboardButtonRect, GUIContent.none))
 		{
 			currentResponse.type = EventTypes.LEVELSELECT;
 			PlayButtonPress();
 		}
 		
 		setButtonTexture(mainMenuButton, mainMenuButtonPressed);
-		if(GUI.Button(mainMenuButtonRect, ""))
+		if(GUI.Button(mainMenuButtonRect, GUIContent.none))
 		{
 			currentResponse.type = EventTypes.STARTMENU;
 			PlayButtonPress();

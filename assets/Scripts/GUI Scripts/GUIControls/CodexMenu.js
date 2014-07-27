@@ -788,7 +788,7 @@ public class CodexMenu extends GUIControl
 						
 						if(codices.Contains(fullCodex[i]))
 						{
-							if(released && !isHolding && GUI.Button(hexRect[i], ""))
+							if(released && !isHolding && GUI.Button(hexRect[i], GUIContent.none))
 							{
 								currentEntry = fullCodex[i];
 								labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
@@ -808,7 +808,7 @@ public class CodexMenu extends GUIControl
 					{
 						GUI.DrawTexture(hexBGRect[y], hexBGTexture, ScaleMode.StretchToFill);
 						GUI.DrawTexture(hexRect[y], fullCodex[y].icon, ScaleMode.StretchToFill);
-						if(released && !isHolding && GUI.Button(hexRect[y], ""))
+						if(released && !isHolding && GUI.Button(hexRect[y], GUIContent.none))
 						{
 							currentEntry = fullCodex[y];
 							labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));

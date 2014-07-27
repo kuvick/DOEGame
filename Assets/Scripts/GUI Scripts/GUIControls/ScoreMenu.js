@@ -934,7 +934,7 @@ public class ScoreMenu extends GUIControl
 				
 				if(techEntry != null)
 				{
-					if(GUI.Button(techImageRect, ""))
+					if(GUI.Button(techImageRect, GUIContent.none))
 					{
 						currentResponse.type = EventTypes.CODEXMENU;
 						var codexMenu2:CodexMenu = GameObject.Find("GUI System").GetComponent(CodexMenu);

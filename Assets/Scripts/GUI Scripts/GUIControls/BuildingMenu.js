@@ -257,7 +257,7 @@ public class BuildingMenu extends GUIControl
 	public function Render()
 	{
 		GUI.skin = buildingMenuSkin;
-		GUI.Box(background, "");
+		GUI.Box(background, GUIContent.none);
 		GUI.DrawTexture(RectFactory.NewRect(0,0,1,1), backgroundText);
 		
 		// Calculate the mouse position
@@ -283,7 +283,7 @@ public class BuildingMenu extends GUIControl
 		if (leftScrollVisible)
 		{
 			GUI.DrawTexture(scrollLeft, scrollLeftTexture_Current);
-			if (GUI.Button(scrollLeft, "") && !isScrolling)
+			if (GUI.Button(scrollLeft, GUIContent.none) && !isScrolling)
 			{
 				Scroll(-1);
 			}
@@ -311,7 +311,7 @@ public class BuildingMenu extends GUIControl
 					if(!buildingChoices[i].getWasUsed())
 					{
 						setButtonTexture(buildingChoices[i].icon, buildingChoices[i].selectedIcon);
-						if(GUI.Button(buildingIconList[i], "" ))
+						if(GUI.Button(buildingIconList[i], GUIContent.none ))
 						{
 							if (isEditor)
 							{
@@ -384,7 +384,7 @@ public class BuildingMenu extends GUIControl
 		GUI.EndGroup();
 		
 		setButtonTexture(cancelButtonTexture, cancelButtonTexturePressed);
-		if (GUI.Button(cancelButton, ""))
+		if (GUI.Button(cancelButton, GUIContent.none))
 		{
 			SoundManager.Instance().playCancel();
 			currentResponse.type = EventTypes.MAIN;

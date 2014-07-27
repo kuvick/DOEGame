@@ -397,7 +397,7 @@ public class MainMenu extends GUIControl
 		GUI.skin = mainMenuSkin;
 		
 		// skip straight to restart on tap after failure
-		if (!enableHUD && GUI.Button(Rect(0,0, screenWidth, screenHeight), String.Empty))
+		if (!enableHUD && GUI.Button(Rect(0,0, screenWidth, screenHeight), GUIContent.none))
 		{
 			var event : GUIEvent = new GUIEvent();
 			event.type = EventTypes.RESTART;//FAILUREMENU;
@@ -457,7 +457,7 @@ public class MainMenu extends GUIControl
 		
 		// Draw the buttons and respond to interaction
 		GUI.DrawTexture(pauseButton, pauseTexture, ScaleMode.StretchToFill);
-		if(GUI.Button(pauseButton, ""))
+		if(GUI.Button(pauseButton, GUIContent.none))
 		{
 			SoundManager.Instance().playButtonClick();
 			isActive = false;

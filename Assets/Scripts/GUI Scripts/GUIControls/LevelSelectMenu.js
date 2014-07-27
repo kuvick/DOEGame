@@ -897,7 +897,7 @@ public class LevelSelectMenu extends GUIControl
 							//subjectString += "Sender: " + unlockedLevels[i].senderName;						
 						//If a message has been selected, show the splash screen
 						
-						if(GUI.Button(levelsToRender[i].bounds, ""))
+						if(GUI.Button(levelsToRender[i].bounds, GUIContent.none))
 						{
 							if (levelsToRender[i].sceneName.Contains("riefing"))
 							{
