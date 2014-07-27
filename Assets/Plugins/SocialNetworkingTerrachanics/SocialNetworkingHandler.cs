@@ -13,12 +13,14 @@ public class SocialNetworkingHandler : MonoBehaviour {
 	void OnEnable()
 	{
 		FacebookManager.sessionOpenedEvent += FacebookLoginEvent;
+		FacebookManager.reauthorizationSucceededEvent += FacebookReathorizeEvent;
 		TwitterManager.loginSucceededEvent += TwitterLoginEvent;
 	}
 
 	void OnDisable()
 	{
 		FacebookManager.sessionOpenedEvent -= FacebookLoginEvent;
+		FacebookManager.reauthorizationSucceededEvent -= FacebookReathorizeEvent;
 		TwitterManager.loginSucceededEvent -= TwitterLoginEvent;
 	}
 	#endif
@@ -49,7 +51,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		Application.CaptureScreenshot( "score.png" );
 		#if UNITY_ANDROID
 		if (!FacebookAndroid.isSessionValid())
-			FacebookAndroid.loginWithPublishPermissions( new string[] { "publish_actions" } );
+			FacebookAndroid.login();//WithPublishPermissions( new string[] { "publish_actions" } );
 		else
 			PostFacebook ();
 		#endif
@@ -57,7 +59,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		if (!FacebookBinding.isSessionValid())
 		{
 			var permissions = new string[] { "email" };
-			FacebookBinding.loginWithReadPermissions( permissions );
+			FacebookBinding.login();//WithReadPermissions( permissions );
 		}
 		else
 			PostFacebook ();
@@ -69,8 +71,8 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		#if UNITY_ANDROID
 		if (FacebookAndroid.isSessionValid())
 		{
-			var pathToImage = Application.persistentDataPath + "/" + "score.png";
-			var bytes = System.IO.File.ReadAllBytes( pathToImage );
+			/*var pathToImage = Application.persistentDataPath + "/" + "score.png";
+			var bytes = System.IO.File.ReadAllBytes( pathToImage );*/
 			//Facebook.instance.postImage( bytes, "im an image posted from Android", completionHandler );
 			var parameters = new Dictionary<string,string>
 			{
@@ -85,10 +87,8 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		#if UNITY_IPHONE
 		if (FacebookBinding.isSessionValid())
 		{
-			var permissions = new string[] { "publish_actions", "publish_stream" };
-			FacebookBinding.reauthorizeWithPublishPermissions( permissions, FacebookSessionDefaultAudience.OnlyMe );
-			var pathToImage = Application.persistentDataPath + "/" + "score.png";
-			var bytes = System.IO.File.ReadAllBytes( pathToImage );
+			/*var pathToImage = Application.persistentDataPath + "/" + "score.png";
+			var bytes = System.IO.File.ReadAllBytes( pathToImage );*/
 			//Facebook.instance.postImage( bytes, "im an image posted from iOS", completionHandler );
 			var parameters = new Dictionary<string,string>
 			{
@@ -105,7 +105,25 @@ public class SocialNetworkingHandler : MonoBehaviour {
 	void FacebookLoginEvent()
 	{
 		PostFacebook();
+		#if UNITY_ANDROID
+
+		#endif
+		#if UNITY_IPHONE
+		/*if (!FacebookBinding.getSessionPermissions().Contains( "publish_actions" ))
+		{
+			var permissions = new string[] { "publish_actions" };
+			FacebookBinding.reauthorizeWithPublishPermissions( permissions, FacebookSessionDefaultAudience.Everyone );
+		}
+		else
+			PostFacebook();*/
+		#endif
 		Debug.Log( "Successfully logged in to Facebook" );
+	}
+
+	void FacebookReathorizeEvent()
+	{
+		PostFacebook();
+		Debug.Log( "Successfully reauthorized in Facebook" );
 	}
 
 	public void HandleTwitter()
