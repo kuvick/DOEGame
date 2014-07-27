@@ -786,6 +786,9 @@ public class LevelSelectMenu extends GUIControl
 				GUI.BeginGroup(levelGroup);
 					for (var i:int = 0; i < levelsToRender.Count; i++)
 					{
+						if (levelsToRender[i] == levels[0])
+							break;
+							
 						// if on level archive, do not show briefings
 						if (!inboxTab && levelsToRender[i].sceneName.Contains("riefing"))
 							continue;
@@ -921,6 +924,8 @@ public class LevelSelectMenu extends GUIControl
 		// checks when in initial tutorial levels, if latest level is a briefing go straight to it
 		if (checkRender && unlockedLevels[activeLevelIndex].sceneName.Contains("riefing"))
 		{
+			if (unlockedLevels[activeLevelIndex] == levels[0])
+				saveSystem.currentPlayer.completeLevel(unlockedLevels[activeLevelIndex].sceneName);
 			Application.LoadLevel(unlockedLevels[activeLevelIndex].sceneName);
 			PlayerPrefs.SetString("LevelToComplete", unlockedLevels[activeLevelIndex].sceneName);
 			return;
