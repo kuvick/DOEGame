@@ -160,11 +160,28 @@ public class Loading extends GUIControl
 	private var panelST:ShadowedText;
 	private var panelST2:ShadowedText;
 	
+	public var knowYourFirst:int = 18; // the first 'know your' set of panels to display
+	public var knowYourSecond:int = 19; // the second 'know your' set of panels to display
+	private var displayKnowYourFirst:boolean = false;
+	private var displayKnowYourSecond:boolean = false;
+	
 	public function Initialize()
 	{
 		super.Initialize();
 		
-		if(debugCycleJobDescriptions)
+		if(!debugCycleJobDescriptions && !PlayerPrefs.HasKey("knowYourFirst"))
+		{
+			displayKnowYourFirst = true;
+			displayComicPanels = true;
+			PlayerPrefs.SetInt("knowYourFirst", 1);
+		}
+		else if(!debugCycleJobDescriptions && !PlayerPrefs.HasKey("knowYourSecond"))
+		{
+			displayKnowYourSecond = true;
+			displayComicPanels = true;
+			PlayerPrefs.SetInt("knowYourSecond", 1);
+		}
+		else if(debugCycleJobDescriptions)
 			displayComicPanels = false;
 		else if(PlayerPrefs.HasKey("displayComicPanels"))
 		{
@@ -281,10 +298,22 @@ public class Loading extends GUIControl
 		loadingStatusFontSize = 0.10 * screenRect.height;
 		
 		var narrToDisplay : int;
-		do
+		
+		if(displayKnowYourFirst)
+			narrToDisplay = knowYourFirst;
+		else if(displayKnowYourSecond)
+			narrToDisplay = knowYourSecond;
+		else
 		{
-			narrToDisplay = Random.Range(1, numOfNarrFolders + 1);
-		} while (narrToDisplay == lastNarrShown);
+			do
+			{
+				narrToDisplay = Random.Range(1, numOfNarrFolders + 1);
+			} while (narrToDisplay == lastNarrShown);
+		}
+		
+		
+		
+		
 		lastNarrShown = narrToDisplay;
 		var path : String = "NarrativePanels/" + narrToDisplay;//Random.Range(1, numOfNarrFolders + 1);
 		var panelTextures: Object[] = Resources.LoadAll(path, Texture);

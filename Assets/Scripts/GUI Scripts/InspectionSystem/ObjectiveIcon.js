@@ -88,7 +88,7 @@ public class ObjectiveIcon extends InspectionComponent
 		temp.layer = 10;
 		
 		turnMesh = temp.GetComponent(TextMesh);
-		shadowMesh = temp.Find("Shadow").GetComponent(TextMesh);
+		shadowMesh = temp.transform.GetChild(0).GetComponent(TextMesh);
 		
 		//GPC 4/23/14 making turn mesh look bigger
 		turnMesh.characterSize *= 2;
