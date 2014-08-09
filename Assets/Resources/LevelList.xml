@@ -339,7 +339,7 @@
       <difficulty>0</difficulty>
       <subjectText>Just in Time</subjectText>
       <messageText>Gil Gas ain't lookin' so good. I'll handle that while you hand off those plug thingies to the businessy folks in Hillbrad Tower.</messageText>
-	  <objectiveText>Provide energy monitoring plugs to Hilbrad Tower to help cut their energy costs.</objectiveText>
+	  <objectiveText>Provide energy monitoring plugs to Hillbrad Tower to help cut their energy costs.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -561,7 +561,7 @@
       <displayName>26</displayName>
       <sceneName>GPC07_v2</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Runner Gal</subjectText>
+      <subjectText>Security Breach</subjectText>
       <messageText>Aw man, this is going to be a bit of a haul. Gotta get way the heck across town to get that Hydro plant running. Oh well, that refinery isn’t going to fix itself.</messageText>
       <objectiveText>Restore power to the Yormund Refinery.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -820,7 +820,7 @@
       <displayName>40</displayName>
       <sceneName>KU02</sceneName>
       <difficulty>2</difficulty>
-      <subjectText>Superfuel</subjectText>
+      <subjectText>Shutting Down the System</subjectText>
       <messageText>Hackers eh? Nothing we can't handle! Let's see if getting this electrofuel distribution up will bait them out of hiding.</messageText>
 	  <objectiveText>Upgrade the Gaseous Clay fuel depot to use electrofuels to cut fuel costs for truckers.</objectiveText>
       <isPrimary>true</isPrimary>

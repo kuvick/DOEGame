@@ -87,7 +87,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=409</urlLink>
 	  <iconName>techImage_ProcessforFabricationofEfficientSolarCells</iconName>
-	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost. </description>
+	  <description>This new technique for solar panel fabrication uses microtextured substrates to optimize optical absorbtion at minimal cost.</description>
 	  <lab>Ames Laboratory</lab>
 	</CodexEntry>
 	
@@ -121,7 +121,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=408</urlLink>
 	  <iconName>solarcellscolored</iconName>
-	  <description> An optimized form of organic substrates used to create cheaper, more efficient solar cells.</description>
+	  <description>An optimized form of organic substrates used to create cheaper, more efficient solar cells.</description>
 	  <lab>Ames Laboratory</lab>
 	  <!--<description>Scientists have increased the efficiency of solar cells by using a thin light absorbing material layered on a textured substrate. </description>-->
 	</CodexEntry>
@@ -315,7 +315,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=1087</urlLink>
 	  <iconName>techImage_Silverprintingmethod</iconName>
-	  <description>Thie new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible.</description>
+	  <description>This new technique allows conductors to be printed onto a broader range of materials, making new types of electronic devices possible.</description>
 	  <lab>Sandia National Laboratories</lab>
 		  <!--This new technique allows for silver to be printed at low temperatures to allow conductors to be printed onto a broader range of materials. -Sandia National Laboratories </description>-->
 	</CodexEntry>
