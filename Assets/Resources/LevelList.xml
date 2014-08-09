@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!-- Keep messageText as one line. Use &#10; for a new line/enter -->
-<numInitialTutorials>7</numInitialTutorials>
+<numInitialTutorials>0</numInitialTutorials>
   <Levels>
 	<!--************************LINKING********************************************************************************-->
 		
@@ -834,7 +834,7 @@
 	<!--                                                                                                                                                                                 Forecasting Grid-->	
 	<!--RV12 difficult, building placement  BUILDING SITE-->
 	<Level>
-      <displayName>18</displayName>
+      <displayName>41</displayName>
       <sceneName>RV12</sceneName>
       <difficulty>2</difficulty>
       <subjectText>Environmental Adaptation</subjectText>
@@ -850,7 +850,7 @@
 		
 	<!--                                                                                                                                                                                 Solar Powered Planes -->	
 	<Level><!--GPC04 hard, mutual linking, multiple choices, reallocation  BUILD SITE-->
-      <displayName>20</displayName>
+      <displayName>42</displayName>
       <sceneName>GPC04</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
       <subjectText>Project Icarus</subjectText>
@@ -868,7 +868,7 @@
 	<!--Too many environmental assets                                        UPDATE -->
 	<!--RV22 hard, reallocation, large map  BUILD SITE-->
 	<Level>
-	  <displayName>20</displayName>
+	  <displayName>43</displayName>
       <sceneName>RV22</sceneName> 
       <difficulty>2</difficulty>
       <subjectText>Assignment 3314 Class A-2 Priority Alpha</subjectText>
@@ -885,7 +885,7 @@
 	<!--Resources don't make sense                                       REVISE-->
 	<!--RV02 moderate difficulty, false complexity, short engineer queue ENGINEER-->
 	<Level>
-      <displayName>17</displayName>
+      <displayName>44</displayName>
       <sceneName>RV02</sceneName> 
       <difficulty>2</difficulty>
       <subjectText>Under Pressure</subjectText>
@@ -902,7 +902,7 @@
 	
 	<!--                                                                                                                                                                                 Super Saver Heat Pump-->	
 	<Level><!--KU03 hard, long queue, reallocation  BUILD SITE-->
-      <displayName>10</displayName>
+      <displayName>45</displayName>
       <sceneName>KU03</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>2</difficulty>
       <subjectText>Air Time</subjectText>
@@ -917,7 +917,7 @@
     </Level>
 	
 	<Level> <!--DD11 AGENT-->
-      <displayName>24</displayName>
+      <displayName>46</displayName>
       <sceneName>DD11</sceneName> 
       <difficulty>2</difficulty>
       <subjectText>Tactical Espionage Action</subjectText>
@@ -935,7 +935,7 @@
 	<!-- GPC05 AGENT -->
 	  <!-- Engineer, Agnet, Multiple start locations, smart timing, reallocation, mutual linking-->
 	<Level>
-      <displayName>1</displayName>
+      <displayName>47</displayName>
       <sceneName>GPC05</sceneName>
       <difficulty>2</difficulty>
       <subjectText>More for the Taking</subjectText>
@@ -949,13 +949,13 @@
       <contactRequirement></contactRequirement>
     </Level>
 
-	<!--                                                                                                                                                                                 Modular Nuclear Reactors -->	
+	<!--                                                                                                                                                                                 Modular (small) Nuclear Reactors -->	
 	<!--                                                                                           Secondary Objective -->
 	<!--                                                                                               UPDATE TERRAIN? -->
 	<!-- HARD             AGENT-->
 	<!-- Complex link path, agent and engineer, complex reallocation -->
 	<Level> <!-- DD09 AGENT -->
-      <displayName>1</displayName>
+      <displayName>48</displayName>
       <sceneName>DD09</sceneName>
       <difficulty>2</difficulty>
       <subjectText>The Dream Team</subjectText>
@@ -974,7 +974,7 @@
 	<!-- HARD             ENGINEER-->
 	<!-- mutual link, advanced queue, reallocation, tight deadline -->
 	<Level><!--GPC03.1 mutual link, advanced queue, reallocation, tight deadline ENGINEER-->
-      <displayName>13</displayName>
+      <displayName>49</displayName>
       <sceneName>GPC03.1</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
       <subjectText>Circuit Maker</subjectText>
@@ -993,7 +993,7 @@
 	<!-- complex reallocation, link pathing, timing -->
 	<!--RV25 HARD AGENT -->
 	<Level> 
-	  <displayName>24</displayName>
+	  <displayName>50</displayName>
       <sceneName>RV25</sceneName> 
       <difficulty>4</difficulty>
       <subjectText>The Endgame</subjectText>
