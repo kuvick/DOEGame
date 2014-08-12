@@ -83,7 +83,7 @@ public class ObjectiveIcon extends InspectionComponent
 		var temp : GameObject = Instantiate(Resources.Load("ObjectiveTurnText") as GameObject, transform.position, Quaternion.Euler(90, 0, 0));
 		
 		//Tweaking icon position and scale (GPC 8/16/13)
-		temp.transform.localPosition += Vector3(-25,5,-5);
+		temp.transform.localPosition += Vector3(25,5,-5);
 		temp.transform.localScale = Vector3(1.25,1.25,1.25);
 		temp.layer = 10;
 		
