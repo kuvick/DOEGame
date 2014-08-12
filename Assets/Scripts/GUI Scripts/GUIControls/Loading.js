@@ -121,7 +121,7 @@ public class Loading extends GUIControl
 	private static var lastNarrShown : int = -1;
 	public var currentPanel:int = 0;
 	public var nextPanel:int = 0;
-	private var framesPerSecond:int = 150;	// This is how long (frames) a panel is displayed before switching to the next
+	private var framesPerSecond:int = 315;	// This is how long (frames) a panel is displayed before switching to the next
 	private var currentFrame:int;
 	private var fading:boolean;
 	private var reset:boolean;
@@ -554,6 +554,10 @@ public class Loading extends GUIControl
 					}
 				}
 				//resetButtonTexture(style);
+			}
+			else
+			{
+				GUI.DrawTexture(loadingStatusBoxRect, missionLoadingButton);
 			}
 			/*
 			if (GUI.Button(toggleDescriptionRect, toggleText, style))
