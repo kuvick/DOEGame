@@ -148,7 +148,7 @@ public class MainMenu extends GUIControl
 	private var pickedUpData:boolean = false;
 	private var firstLoop:boolean = true;
 	private var setNewObjTexture:Texture;
-	private var eventID:int = 0;
+	private var eventID:List.<int> = new List.<int>();// = 0;
 	private var centerPos:Vector2;
 	private var recIncrement:float;
 	private var switchScale:boolean;
@@ -620,11 +620,13 @@ public class MainMenu extends GUIControl
 										objIconSize.x,
 										objIconSize.y);
 				// Animation:
-				if(resolvedObj && eventID == intelSystem.events[i].getObjIcon().getID())
+				if(resolvedObj && eventID.Contains(intelSystem.events[i].getObjIcon().getID()))
 				{
 					if(!objIconAnimatedImage.Render(objIconRect, intelSystem.events[i].getIcon(), setNewObjTexture, resolvedObj))
 					{
-						resolvedObj = false;
+						eventID.Remove(intelSystem.events[i].getObjIcon().getID());
+						if (eventID.Count <= 0)
+							resolvedObj = false;
 						intelSystem.events[i].setIcon(setNewObjTexture);
 					}
 				}
@@ -712,7 +714,7 @@ public class MainMenu extends GUIControl
 	
 	public function triggerObjIconChange(id: int, newText:Texture)
 	{		
-		eventID = id;
+		eventID.Add(id);// = id;
 		setNewObjTexture = newText;
 		resolvedObj = true;
 		firstLoop = true;
