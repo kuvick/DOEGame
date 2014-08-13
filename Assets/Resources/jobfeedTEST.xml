@@ -47,7 +47,7 @@
 	</Job>
 	<Job>
 		<Title>High Voltage Electrician</Title>	
-		<Description>Help to keep our high-capacity transformers running for millions across the country.</Description>	
+		<Description>Help keep our high-capacity transformers running for millions across the country.</Description>	
 		<!--<Description>Interface with high voltage equipment and install transformers, circuit breakers, and capacitors.</Description>	-->
 	</Job>
 	<!-- 
@@ -57,7 +57,7 @@
 	</Job> -->
 	<Job>
 		<Title>Public Utilities Specialist</Title>	
-		<Description>Help facilitate deals between private and public energy providers and the public to ensure the maximum access to electrical power.</Description>	
+		<Description>Help facilitate deals with private and public energy providers to ensure the maximum access to electrical power.</Description>	
 		<!--<Description>Complete energy settlement transactions and manage a variety of projects. Develop contracts to sell power to wholesale customers.</Description>	-->
 	</Job>
 	<Job>

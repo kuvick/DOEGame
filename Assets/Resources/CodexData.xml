@@ -6,7 +6,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.smartgrid.gov/the_smart_grid#smart_grid</urlLink>
 	  <iconName>techImage_smartGrid</iconName>
-	  <description> A powerful system of computer controls that predict and optimize power usage. It both minimizes costs and is more resilient against outages than conventional grids.</description>
+	  <descriptionA powerful system of computer controls that predict and optimize power usage. It both minimizes costs and is more resilient against outages than conventional grids.</description>
 	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
@@ -70,7 +70,7 @@
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://techportal.eere.energy.gov/technology.do/techID=602</urlLink>
 	  <iconName>techImage_galliumNitrideCrystalGrowth</iconName>
-	  <description>A new technique enabling the rapid creation of large amounts of Gallium Nitride Crystals, used for high-efficiency LEDs and high-power transistors.</description>
+	  <description>A new technique enabling the rapid creation of large amounts of Gallium Nitride Crystals, used for high-efficiency LED lights and high-voltage transistors.</description>
 	  <lab>Sandia National Laboratories</lab>
 	</CodexEntry>
   	<CodexEntry>
@@ -108,11 +108,11 @@
 	  <lab>Brookhaven Lab</lab>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Heat Transfer Interface for Thermo-Solar Energy</name>
+	  <name>Heat Transfer Interface</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>techportal.eere.energy.gov/technology.do/techID=29</urlLink>
 	  <iconName>ThermoSolarEnergy</iconName>
-	  <description> Uses "nanotube forrests" to both absorb solar energy and then convert it into elecrical power.</description>
+	  <descriptionUses "nanotube forrests" to both absorb solar energy and then convert it into elecrical power.</description>
 	  <lab>Lawrence Berkeley National Laboratory</lab>
 	  <!--<description>By adding thermal collectors to solar panels, it is possible to capture lost heat and increase the efficiency of solar panels.</description>-->
 	</CodexEntry>
@@ -211,11 +211,11 @@
 	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Solar-Powered Airplanes</name>
+	  <name>Solar Powered Planes</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://www.washingtonpost.com/news/morning-mix/wp/2014/06/02/meet-solar-impulse-2-the-solar-powered-plane-that-never-has-to-land//</urlLink>
 	  <iconName>solarairplane</iconName>
-	  <description> A new airplane prototype that not only utilizes solar power, but is capable of continuous flight for up to a month at a time!</description>
+	  <descriptionA new airplane prototype that not only utilizes solar power, but is capable of continuous flight for up to a month at a time!</description>
 	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <LevelList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!-- Keep messageText as one line. Use &#10; for a new line/enter -->
-<numInitialTutorials>0</numInitialTutorials>
+<numInitialTutorials>7</numInitialTutorials>
   <Levels>
 	<!--************************LINKING********************************************************************************-->
 		
@@ -156,7 +156,7 @@
       <sceneName>RV17</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Steam Powered</subjectText>
-      <messageText>Silver is more that beautiful - it is a tool to bend electricity to our will! Within a conductor's intricate patterns is the true beauty of science!</messageText>
+      <messageText>Silver is more than beautiful - it is a tool to bend electricity to our will! Within a conductor's intricate patterns is the true beauty of science!</messageText>
 		  <!--So much wasted power! If only you could harness the power of, say, waste heat to absorb more power. Dream no more, friend, for that day has come!</messageText>-->
       <objectiveText>Davincraft Aeronautics needs advanced silver printing technology for their low-weight prototype aircraft.</objectiveText>
 	  <isPrimary>true</isPrimary>
@@ -282,7 +282,7 @@
       <sceneName>GPC09</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>0</difficulty>
       <subjectText>Airheaded Ideas</subjectText>
-      <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a compliment.</messageText>
+      <messageText>Anyone ever tell you that you were full of hot air? Well after today, you should take it as a compliment!</messageText>
       <objectiveText>Help Derptronics bring their Air-Powered Cars to market.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
@@ -473,7 +473,7 @@
       <difficulty>0</difficulty>
       <subjectText>The Power of Heat</subjectText>
       <messageText>Way to be my eyes in the skies there, buddy! Not a fan of multi-tasking myself, but I hear CHP is going to be huge in heating and powering factories.</messageText>
-	  <objectiveText>Implement a Combined Heat and Power System into the new Davincraft aeronautics factory.</objectiveText>
+	  <objectiveText>Implement a Combined Heat and Power System into the new Davincraft Aeronautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -785,7 +785,7 @@
       <sceneName>RV10</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
       <subjectText>Wires Crossed</subjectText>
-      <messageText>Ah ha! I caught 'em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you should get on that.</messageText>
+      <messageText>Ah ha! I caught 'em this time! Our little saboteurs left some breadcrumbs for us. Though… I did forget to bring Nuka Nuclear online… you probably should get on that!</messageText>
 	  <objectiveText>Gather resources to bring the Nuka Nuclear plant online.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
@@ -939,7 +939,7 @@
       <sceneName>GPC05</sceneName>
       <difficulty>2</difficulty>
       <subjectText>More for the Taking</subjectText>
-      <messageText>It is important not just to look at the mountaintop, but the sludge in the river beneath it! With a few upgrades we can get the waste treatment plant working at peak efficiency.</messageText>
+      <messageText>It is important not just to look at the mountaintop, but the sludge in the river beneath it! With a few upgrades we can get the waste treatment plant working at peak efficiency!</messageText>
 	  <objectiveText>Install Heat Transfer Interfaces to help reduce costs at the waste treatment plant.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Dr. Raoul Fernandez</senderName>
