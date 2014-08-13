@@ -1074,7 +1074,7 @@ public class LevelSelectMenu extends GUIControl
 					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
 					//GUI.Label(senderRect_desc, sender);	
 					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageSender;
+					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSender;
 					messageLineText.Display(sender, senderRect_desc, false);
 					GUI.skin.label.fontSize = prevSize;
 					
@@ -1082,7 +1082,7 @@ public class LevelSelectMenu extends GUIControl
 					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
 					//GUI.Label(subjectRect, subject);	
 					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageSubject;
+					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSubject;
 					messageLineText.Display(subject, subjectRect, false);
 					GUI.skin.label.fontSize = prevSize;
 					
@@ -1090,7 +1090,7 @@ public class LevelSelectMenu extends GUIControl
 					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
 					//GUI.Label(messageRect, message);	
 					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= GUIManager.Instance().levelSelectMenuScaling.messageText;
+					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageText;
 					messageText.Display(message, messageRect, false);
 					GUI.skin.label.fontSize = prevSize;
 					
