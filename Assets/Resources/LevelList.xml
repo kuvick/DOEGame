@@ -871,7 +871,7 @@
 	  <displayName>43</displayName>
       <sceneName>RV22</sceneName> 
       <difficulty>2</difficulty>
-      <subjectText>Assignment 3314 Class A-2 Priority Alpha</subjectText>
+      <subjectText>Priority Alpha</subjectText>
       <messageText>We have reason to believe your Secondary Objectives may contain clues to the culprits behind the cyber attacks. Check them out.</messageText>
 	  <objectiveText>Help get Bill Bowes’ Lab equipment company funding for their energy efficient fume hoods.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -889,8 +889,8 @@
       <sceneName>RV02</sceneName> 
       <difficulty>2</difficulty>
       <subjectText>Under Pressure</subjectText>
-      <messageText>Not gonna lie, this ones a doozy. Hightown needs a lot of help to get their Hydrogen storage research completed, but I think you can handle it. Get it done!</messageText>
-	  <objectiveText>Reroute energy sources to ensure the Abco factory can complete its Hydrogen Storage research.</objectiveText>
+      <messageText>Not gonna lie, this ones a doozy. Hightown needs a lot of help to get their Davincraft Autonautics factory up and running.</messageText>
+	  <objectiveText>Help repair Hightown's infrastructure to enable them to reopen the Davincraft Autonautics factory.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Engineer Nancy Sanders</senderName>
       <howToUnlock>MISSION</howToUnlock>
@@ -997,7 +997,7 @@
       <sceneName>RV25</sceneName> 
       <difficulty>4</difficulty>
       <subjectText>The Endgame</subjectText>
-      <messageText>Last blast, kiddo. Just one more job and we’ll get to the bottom of this. We’re going to upgrade one of the ECRB’s own labs with enhanced cyber security to try to catch them in the act.</messageText>
+      <messageText>We're near the end, kiddo. Time to upgrade one of the ECRB’s own labs with enhanced cyber security to try to catch them in the act.</messageText>
       <objectiveText>Upgrade cyber security of the local smartgrid system as a countermeasure against cyber attacks.</objectiveText>
 	  <isPrimary>true</isPrimary>
       <senderName>Agent Roc Bridges</senderName>
