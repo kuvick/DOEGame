@@ -141,6 +141,7 @@ public class CodexMenu extends GUIControl
 	private var descriptST:ShadowedText;
 	private var labTextST:ShadowedText;
 	
+	private var pinchStyle:GUIStyle;
 	
 	public function Initialize(){
 		super.Initialize();
@@ -227,9 +228,10 @@ public class CodexMenu extends GUIControl
 		//UpdateST
     	codexTitleST = new ShadowedText("Codex", codexStyle, codexIcon);
 		
-		instructionRect = createRect(Vector2(500, 60), 0,0, 60/1080, false);
+		instructionRect = createRect(Vector2(500, 120), 0,0, 60/1080, false);
 		instructionRect.x = padding * 2;
 		instructionRect.y = screenHeight - (instructionRect.height + padding * 2);
+	
 		
 		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
     	zoomButtonRect.x = Screen.width - zoomButtonRect.width - padding;
@@ -274,7 +276,18 @@ public class CodexMenu extends GUIControl
 		titleST = new ShadowedText("", Rect(0,0,0,0), titleStyle, false);
 		descriptST = new ShadowedText("", Rect(0,0,0,0), descriptStyle, false);
 		labTextST = new ShadowedText("", new Color(247f/255f, 216f/255f, 39f/255f, 1f), Color.black, 0.5f, Rect(0,0,0,0), labStyle);
-    	
+		
+		pinchStyle = new GUIStyle(descriptStyle);
+		pinchStyle.fontSize = 0.042 * screenWidth * (1f + GUIManager.Instance().codexMenuScaling.entryDescription);	// DERRICK LOOK HERE FOR SCALE
+		
+		
+		GUI.Label(instructionRect,"Pinch to zoom.", pinchStyle);
+		
+		var pinchVector: Vector2 = pinchStyle.CalcSize(GUIContent("Pinch to zoom."));
+    	instructionRect.width = pinchVector.x;
+    	instructionRect.height = pinchVector.y;
+    	instructionRect.y = Screen.height - instructionRect.height - padding;
+    	instructionRect.x = padding;
 	}
 	
 	private var earnedIconRect:Rect;
@@ -790,10 +803,15 @@ public class CodexMenu extends GUIControl
 						{
 							if(released && !isHolding && GUI.Button(hexRect[i], GUIContent.none))
 							{
+								if(!backButtonAB.DetectHover())
+								{
 								currentEntry = fullCodex[i];
 								labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
 								labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
 								mainView = false;
+								}
+								else
+									currentResponse.type = EventTypes.LEVELSELECT;
 							}
 						}
 					}
@@ -810,10 +828,16 @@ public class CodexMenu extends GUIControl
 						GUI.DrawTexture(hexRect[y], fullCodex[y].icon, ScaleMode.StretchToFill);
 						if(released && !isHolding && GUI.Button(hexRect[y], GUIContent.none))
 						{
-							currentEntry = fullCodex[y];
-							labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
-							labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
-							mainView = false;
+							//IF THE POINTER IS NOT OVER THE BACK BUTTON
+							if(!backButtonAB.DetectHover())
+							{
+								currentEntry = fullCodex[y];
+								labRect.y = descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width);//Rect(descriptionRect.x, descriptionRect.y + padding + descriptStyle.CalcHeight(GUIContent(currentEntry.description), descriptionRect.width),descriptionRect.width,labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width));
+								labRect.height = labStyle.CalcHeight(GUIContent(currentEntry.lab), descriptionRect.width);
+								mainView = false;
+							}
+							else
+								currentResponse.type = EventTypes.LEVELSELECT;
 						}
 					}
 				}
@@ -888,7 +912,7 @@ public class CodexMenu extends GUIControl
 		//GUI.EndGroup();
 		
 		GUI.skin.label.alignment = TextAnchor.LowerLeft;
-		GUI.Label(instructionRect,"Pinch to zoom.", descriptStyle);
+		GUI.Label(instructionRect,"Pinch to zoom.", pinchStyle);
 		GUI.skin.label.alignment = TextAnchor.UpperLeft;
 		
 	}
@@ -970,7 +994,16 @@ public class CodexMenu extends GUIControl
 		
 		techEntryGroup = createRect(new Vector2(1845,746),73.0/1920.0, 264.0/1080.0, 746.0/1080.0, true);
 		awardBGRect = createRect(awardBGTexture,(1201.0 - 73.0)/1845.0, (264.0 - 264.0)/746.0, 637.0/746.0, false, techEntryGroup);
-		techIconRect = createRect(fullCodex[0].icon,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
+		
+		if(fullCodex.Count > 0)
+			techIconRect = createRect(infoBoxTexture,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
+		else
+		{
+			playerData.codexData.Load();
+			fullCodex = playerData.codexData.codices;
+			techIconRect = createRect(fullCodex[0].icon,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
+		}
+		
 		infoBoxRect = createRect(infoBoxTexture,(73.0 - 73.0)/1845.0, (338.0 - 264.0)/746.0, 672.0/746.0, false, techEntryGroup);
 		learnMoreRect = createRect(learnMoreButton,(144.0 - 73.0)/1845.0, (834.0 - 264.0)/746.0, 107.0/746.0, false, techEntryGroup);    	
     	learnButtonAB  = new AnimatedButton(Color.green, learnMoreButton , learnMoreRect, Vector2(techEntryGroup.x, techEntryGroup.y));

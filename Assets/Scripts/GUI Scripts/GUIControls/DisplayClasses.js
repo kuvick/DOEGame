@@ -610,7 +610,7 @@ public class AnimatedButton
 		currentColor = Color.Lerp(color, Color.white, fadeTimer);
 	}
 	
-	private function DetectHover():boolean
+	public function DetectHover():boolean
 	{
 		if(GUI.enabled)
 		{
