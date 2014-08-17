@@ -344,7 +344,10 @@ public class SoundManager extends MonoBehaviour {
 		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
 		}
-		playClipLooped(musicClip.GetClip(), musicSource, backgroundSounds.priority);
+		if (musicClip.loopClipName == String.Empty)
+			playClipLooped(musicClip.GetClip(), musicSource, backgroundSounds.priority);
+		else
+			playClipIntroToLooped(musicClip.GetClip(), musicClip.GetLoopClip(), musicSource, backgroundSounds.priority);
 	}
 	
 	public function stopMusic(){
@@ -353,6 +356,14 @@ public class SoundManager extends MonoBehaviour {
 	
 	private function playClipLooped(clipToPlay : AudioClip, source : AudioSource, priority : SoundPriority){
 		playClip(clipToPlay, source, priority, true);
+	}
+	
+	// if a music has an intro and separate loop section, plays the intro first before switching to the looping clip
+	private function playClipIntroToLooped(introClip : AudioClip, loopClip : AudioClip, source : AudioSource, priority : SoundPriority)
+	{
+		playClip(introClip, source, priority, false);
+		yield WaitForSeconds(introClip.length);
+		playClip(loopClip, source, priority, true);
 	}
 	
 	// will play a single clip without looping it
