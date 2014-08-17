@@ -103,6 +103,9 @@ private var tapToContinueRect:Rect;
 
 private var style:GUIStyle;
 
+// used to prevent accidental double-click to skip from win screen
+private var isActive : boolean = false;
+
 function Start ()
 {
 	//developerList = developerList.Load();
@@ -220,6 +223,14 @@ function Start ()
 	var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
 	tapToContinueRect = Rect(Screen.width - size.x - padding, Screen.height - size.y - padding, size.x, size.y);
 	
+	StartCoroutine(DelayFix());
+}
+
+// to prevent potential double click skip after win screen
+public function DelayFix()
+{
+	yield WaitForSeconds(.01f);
+	isActive = true;
 }
 
 function generateCreditString(devs: List.<Developer>):String
@@ -280,7 +291,7 @@ function OnGUI()
 	GUI.skin = skin;
 	
 	GUI.Label(tapToContinueRect, "Tap to continue.", style);
-	if(Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0)
+	if(isActive && (Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0))
 		Application.LoadLevel("StartScreen");
 	
 	GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
