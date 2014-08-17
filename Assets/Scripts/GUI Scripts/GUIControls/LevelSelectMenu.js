@@ -1059,84 +1059,40 @@ public class LevelSelectMenu extends GUIControl
 					if(!unlockedLevels[activeLevelIndex].wasRead)
 						unlockedLevels[activeLevelIndex].wasRead = true;														
 						
-						//Modified GPC 4/17/14
-//					var message:String = "Sender: " + unlockedLevels[activeLevelIndex].senderName + "\n\nSubject: " 
-//											+ unlockedLevels[activeLevelIndex].subjectText + "\n\n" + unlockedLevels[activeLevelIndex].messageText
-//											+ "\n\n<size=18><color=yellow><b>Objective: \n     " + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
 					sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
 					subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
 					message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
-					//objective = "<size=18><color=yellow><b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b></color></size>";
 					objective = "<b><i>" + unlockedLevels[activeLevelIndex].objectiveText + "</i></b>";
-					
-					//GPC 4/17 Dropshadows added. Move this to a separate function.					
-					//var senderShadow:Rect = new Rect(senderRect_desc.x + (splashBounds.width * 0.004), senderRect_desc.y + (splashBounds.height * 0.004), senderRect_desc.width, senderRect_desc.height);					
-					//GUI.Label(senderShadow, "<color=black>" + sender + "</color>");	
-					//GUI.Label(senderRect_desc, sender);	
-					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSender;
-					messageLineText.Display(sender, senderRect_desc, false);
-					GUI.skin.label.fontSize = prevSize;
-					
-					//var subjectShadow:Rect = new Rect(subjectRect.x + (splashBounds.width * 0.004), subjectRect.y + (splashBounds.height * 0.004), subjectRect.width, subjectRect.height);					
-					//GUI.Label(subjectShadow, "<color=black>" + subject + "</color>");	
-					//GUI.Label(subjectRect, subject);	
-					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSubject;
-					messageLineText.Display(subject, subjectRect, false);
-					GUI.skin.label.fontSize = prevSize;
-					
-					//var messageShadow:Rect = new Rect(messageRect.x + (splashBounds.width * 0.004), messageRect.y + (splashBounds.height * 0.004), messageRect.width, messageRect.height);					
-					//GUI.Label(messageShadow, "<color=black>" + message + "</color>");											
-					//GUI.Label(messageRect, message);	
-					prevSize = GUI.skin.label.fontSize;
-					GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageText;
-					messageText.Display(message, messageRect, false);
-					GUI.skin.label.fontSize = prevSize;
-					
-					//var objectiveShadow:Rect = new Rect(objectiveRect.x + (splashBounds.width * 0.006), objectiveRect.y + (splashBounds.height * 0.006), objectiveRect.width, objectiveRect.height);										
-					//GUI.Label(objectiveShadow, "<color=blue>" + objective + "</color>");	
-					//objective = "<color=cyan>" + objective + "</color>";																														
-					//GUI.Label(objectiveRect, objective);
-					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75;
-					objTextST.Display(objective, objectiveRect, false);
-					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
 				}
 				else
 				{
 					if(!completedLevels[activeLevelIndex].wasRead)
 						completedLevels[activeLevelIndex].wasRead = true;														
 					
-					if(inboxTab)
-					{
-						sender = "<b>" + unlockedLevels[activeLevelIndex].senderName + "</b>";
-						subject = "<b>" + unlockedLevels[activeLevelIndex].subjectText + "</b>";
-						message = "<b>" + unlockedLevels[activeLevelIndex].messageText + "</b>";
-						objective = "<b>" + unlockedLevels[activeLevelIndex].objectiveText + "</b>";
-					}
-					else
-					{
-						sender = "<b>" + completedLevels[activeLevelIndex].senderName + "</b>";
-						subject = "<b>" + completedLevels[activeLevelIndex].subjectText + "</b>";
-						message = "<b>" + completedLevels[activeLevelIndex].messageText + "</b>";
-						objective = "<b>" + completedLevels[activeLevelIndex].objectiveText + "</b>";
-					}
-										
-					/*
-					GUI.Label(senderRect_desc, sender);						
-					GUI.Label(subjectRect, subject);						
-					GUI.Label(messageRect, message);											
-					GUI.Label(objectiveRect, objective);
-					*/
-					messageLineText.Display(sender, senderRect_desc, false);
-					messageLineText.Display(subject, subjectRect, false);
-					messageText.Display(message, messageRect, false);		
-					prevSize = levelSelectSkin.label.fontSize;
-					levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75 * (1f + GUIManager.Instance().levelSelectMenuScaling.messageObj);
-					objTextST.Display(objective, objectiveRect, false);
-					levelSelectSkin.label.fontSize = prevSize;//levelNodeFontHeight * 1.5;
-
+					sender = "<b>" + completedLevels[activeLevelIndex].senderName + "</b>";
+					subject = "<b>" + completedLevels[activeLevelIndex].subjectText + "</b>";
+					message = "<b>" + completedLevels[activeLevelIndex].messageText + "</b>";
+					objective = "<b>" + completedLevels[activeLevelIndex].objectiveText + "</b>";
 				}
+				
+				prevSize = GUI.skin.label.fontSize;
+				GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSender;
+				messageLineText.Display(sender, senderRect_desc, false);
+				GUI.skin.label.fontSize = prevSize;
+				
+				prevSize = GUI.skin.label.fontSize;
+				GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageSubject;
+				messageLineText.Display(subject, subjectRect, false);
+				GUI.skin.label.fontSize = prevSize;
+				
+				prevSize = GUI.skin.label.fontSize;
+				GUI.skin.label.fontSize *= 1f + GUIManager.Instance().levelSelectMenuScaling.messageText;
+				messageText.Display(message, messageRect, false);
+				GUI.skin.label.fontSize = prevSize;
+				
+				levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.75;
+				objTextST.Display(objective, objectiveRect, false);
+				levelSelectSkin.label.fontSize = levelNodeFontHeight * 1.5;
 					
 				GUI.EndGroup();
 
