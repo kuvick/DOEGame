@@ -1,7 +1,7 @@
 #pragma strict
 
 class SoundType{
-	public var audioClip : AudioClip;
+	private var audioClip : AudioClip;
 	public var audioClipName : String;
 	public var loopClipName : String;
 	private final var pathToSounds : String = "sounds/";
