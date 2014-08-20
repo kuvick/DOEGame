@@ -640,11 +640,19 @@ public class LevelSelectMenu extends GUIControl
 		//scrollContent = Rect(0, 0, missionBackgroundRect.width, (levels.Length + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		scrollContent = Rect(0, 0, missionBackgroundRect.width, (unlockedLevels.Count + 1) * (messageHeightPercent * screenHeight) + ((levels.Length + 1) * .05));
 		backgroundMusic = SoundManager.Instance().backgroundSounds.levelSelectMusic;
+		// setup level rectangles
 		if(unlockedLevels.Count > 0)
 		{
 			statusRectangle = new Rect(unlockedLevels[0].bounds.x + (unlockedLevels[0].bounds.width) - (unlockedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y - (difficultyIcons[0].height * 0.05), unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
 			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + unlockedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, unlockedLevels[0].bounds.height * .75, unlockedLevels[0].bounds.height * .75);
+		}
+		// use dimensions from completed levels if all levels are complete
+		else
+		{
+			statusRectangle = new Rect(completedLevels[0].bounds.x + (completedLevels[0].bounds.width) - (completedLevels[0].bounds.height * .75 + messageBuffer.x), missionScrollArea.y + messageBuffer.y - (difficultyIcons[0].height * 0.05), completedLevels[0].bounds.height * .75, completedLevels[0].bounds.height * .75);
+			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + completedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
+			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, completedLevels[0].bounds.height * .75, completedLevels[0].bounds.height * .75);
 		}
 		// check whether to go directly to level instead of loading dashboard
 		
