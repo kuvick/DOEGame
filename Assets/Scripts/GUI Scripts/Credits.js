@@ -111,7 +111,6 @@ function Start ()
 	//developerList = developerList.Load();
 	triggeredReturn = false;
 	
-	
 	var logoHeight:float = logoPercent*Screen.height;
 	var logoWidth:float = ((logo.width + 0f)/(logo.height + 0f)) * logoHeight;
 	
@@ -223,13 +222,16 @@ function Start ()
 	var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
 	tapToContinueRect = Rect(Screen.width - size.x - padding, Screen.height - size.y - padding, size.x, size.y);
 	
-	StartCoroutine(DelayFix());
+	StartCoroutine(DoubleTapCheck());
 }
 
 // to prevent potential double click skip after win screen
-public function DelayFix()
+private function DoubleTapCheck()
 {
-	yield WaitForSeconds(.01f);
+	// empty loop to wait until player is no longer touching screen
+	while (Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0) 
+		yield;
+	// allow for touch skip after player has stopped touching the screen initially
 	isActive = true;
 }
 
