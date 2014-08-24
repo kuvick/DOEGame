@@ -628,7 +628,7 @@
       <displayName>30</displayName>
       <sceneName>RV19</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>1</difficulty>
-      <subjectText>Solar Sugery</subjectText> <!-- PLACEHOLDER TEXT-->
+      <subjectText>Solar Surgery</subjectText> <!-- PLACEHOLDER TEXT-->
       <messageText>Back in the old days it took days to tear apart a solar panel system to install upgrades, but now we can do it without even a scratch!</messageText>
 	  <objectiveText>Direct the installation of Non-Invasive Energy Meters to monitor Southtown's solar array efficiency.</objectiveText>
       <isPrimary>true</isPrimary>
@@ -978,8 +978,8 @@
       <sceneName>GPC03.1</sceneName> <!--- > FIX THIS LATER!!!</!-->
       <difficulty>8</difficulty>
       <subjectText>Circuit Maker</subjectText>
-      <messageText>ShockJock Fabrication is at it again! They got themselves as nice Gallium Nitride Crystal growth system for high-efficiency transistors. Nancy has all the fun!</messageText>
-	  <objectiveText>Help repair the power grid to allow ShockJock Frabrication to complete their Gallium Nitride Crystal Growth research.</objectiveText>
+      <messageText>ShockJock Fabrication is at it again! They got themselves a nice Gallium Nitride Crystal Growth system for high-efficiency transistors. Nancy has all the fun!</messageText>
+	  <objectiveText>Help repair the power grid so ShockJock Frabrication can complete their Gallium Nitride Crystal Growth research.</objectiveText>
       <isPrimary>true</isPrimary>
       <senderName>Researcher Jerome Zabel</senderName>
       <howToUnlock>MISSION</howToUnlock>

@@ -160,7 +160,7 @@
 	  <urlLink>http://energy.gov/articles/carbon-pollution-being-captured-stored-and-used-produce-more-domestic-oil</urlLink>
 	  <iconName>CapturingCarbonEmissions</iconName>
 	  <!--<description>By pumping CO2 into the ground at oil extraction locations, output for crude oil at that location can be drastically increased. /n -Air Products and Chemicals</description>-->
-	  <description>This new method uses waste Carbon Dioxide from hydrogen production plants to dramatically improve the rate of oil extraction.</description>
+	  <description>This new method uses waste carbon dioxide from hydrogen production plants to dramatically improve the rate of oil extraction.</description>
 	  <lab>Air Products and Chemicals</lab>
 	</CodexEntry>
   	<CodexEntry>
@@ -219,7 +219,7 @@
 	  <lab></lab>
 	</CodexEntry>
   	<CodexEntry>
-	  <name>Alge Bio-Reactor</name>
+	  <name>Algae Bio-Reactor</name>
 	  <isUnlocked>false</isUnlocked>
 	  <urlLink>http://news.cnet.com/8301-17938_105-57579355-1/biq-house-worlds-first-building-powered-by-algae/</urlLink>
 	  <iconName>AlgaeBioreactor_01</iconName>
