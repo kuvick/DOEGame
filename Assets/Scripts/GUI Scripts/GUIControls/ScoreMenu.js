@@ -576,7 +576,7 @@ public class ScoreMenu extends GUIControl
 		twitterButtonAB = new AnimatedButton(Color.blue, twitterIconText, twitterIconRect, Vector2(screenRect.x, screenRect.y));
 		
 		displayLevelText = PlayerPrefs.GetString(Strings.CurrentLevel, Application.loadedLevelName);
-		displayLevelRect = Rect(titleRect.x, titleRect.y - titleRect.height, twitterIconRect.x - titleRect.x, titleRect.height);
+		displayLevelRect = Rect(titleRect.x, titleRect.y - (titleRect.height * .85f), twitterIconRect.x - titleRect.x, titleRect.height);
 		levelST = new ShadowedText(displayLevelText, displayLevelRect, boldStyle, true);
 			
 		snHandler = gameObject.GetComponent(SocialNetworkingHandler);
@@ -584,16 +584,6 @@ public class ScoreMenu extends GUIControl
 		{
 			snHandler.Initialize();
 		}
-		#if UNITY_ANDROID
-		/*FacebookAndroid.init(false);
-		//TwitterAndroid.init( "jZVHZaGxJkOLenVPe23fnQ", "7nZQtvTjIXnKqYHbjAUKneUTp1QEWEkeD6nKVfPw" );
-		TwitterAndroid.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
-		*/
-		#endif
-		#if UNITY_IPHONE
-		FacebookBinding.init();
-		TwitterBinding.init( "atsVn98cE4BN2Od6Dqr8SaIGF", "HBXXCCOtXHUf0YPDZACy15X0jUERtgUAZBPr7edhKtoQTi3zmk" );
-		#endif
 	}
 	
 	private var waitingOnHonor:boolean = false;
