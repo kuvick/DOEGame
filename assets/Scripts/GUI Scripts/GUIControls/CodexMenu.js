@@ -996,7 +996,7 @@ public class CodexMenu extends GUIControl
 		awardBGRect = createRect(awardBGTexture,(1201.0 - 73.0)/1845.0, (264.0 - 264.0)/746.0, 637.0/746.0, false, techEntryGroup);
 		
 		if(fullCodex.Count > 0)
-			techIconRect = createRect(infoBoxTexture,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
+			techIconRect = createRect(fullCodex[0].icon,(1254.0 - 73.0)/1845.0, (342.0 - 264.0)/746.0, 481.0/746.0, false, techEntryGroup);
 		else
 		{
 			playerData.codexData.Load();
