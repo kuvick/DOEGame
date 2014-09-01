@@ -52,6 +52,7 @@ private var speed : float = 5f;
 private var zooming:boolean;
 private var destinationSize:float;
 private var zoomingIn:boolean;
+private var startZoomedOut:boolean = false;
 
 private enum AspectRatios
 {
@@ -150,6 +151,20 @@ function Start () {
 	if(!useDefaultAspectRatio)
 		if(aspectRatioWidth != 0 && aspectRatioHeight != 0)
 			thisCamera.aspect = (aspectRatioWidth / aspectRatioHeight);
+			
+			
+	if(!PlayerPrefs.HasKey("isZoomedOut"))
+	{
+		startZoomedOut = false;
+	}
+	else
+	{
+		if(PlayerPrefs.GetInt("isZoomedOut") == 0)
+			startZoomedOut = false;
+		else
+			startZoomedOut = true;
+	}
+	startCameraOut(!startZoomedOut);
 
 }
 // The function uses the difference in the mouse's position between frames
@@ -508,41 +523,21 @@ public function startCameraOut(zoomIn:boolean)
 {
 	if(!zoomIn)
 	{
-		destinationSize = maxZoomOut;
 		zoomingIn = zoomIn;
-		zooming = true;
-		
-		while(zooming)
-		{
-			if(zoomingIn)
-			{
-				thisCamera.orthographicSize -= 5f;
-				guiCamera.orthographicSize -= 5f;
-				buildingCamera.orthographicSize -= 5f;
-				
-				if(thisCamera.orthographicSize <= destinationSize)
-				{
-					thisCamera.orthographicSize = destinationSize;
-					guiCamera.orthographicSize = destinationSize;
-					buildingCamera.orthographicSize = destinationSize;
-					zooming = false;
-				}
-			}
-			else
-			{
-				thisCamera.orthographicSize += 5f;
-				guiCamera.orthographicSize += 5f;
-				buildingCamera.orthographicSize += 5f;
-				
-				if(thisCamera.orthographicSize >= destinationSize)
-				{
-					thisCamera.orthographicSize = destinationSize;
-					guiCamera.orthographicSize = destinationSize;
-					buildingCamera.orthographicSize = destinationSize;
-					zooming = false;
-				}
-			}
-		}
+	
+		if(thisCamera == null)
+			thisCamera = this.camera;
+			
+		if(guiCamera == null)
+			guiCamera = GameObject.Find("GUI Camera").GetComponent(Camera);
+
+		if(buildingCamera == null)
+			buildingCamera = GameObject.Find("Building Camera").GetComponent(Camera);
+	
+		destinationSize = maxZoomOut;
+		thisCamera.orthographicSize = destinationSize;
+		guiCamera.orthographicSize = destinationSize;
+		buildingCamera.orthographicSize = destinationSize;
 	}
 }
 
