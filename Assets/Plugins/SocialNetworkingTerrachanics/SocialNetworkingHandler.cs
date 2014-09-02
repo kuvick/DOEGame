@@ -5,6 +5,10 @@ using Prime31;
 
 public class SocialNetworkingHandler : MonoBehaviour {
 	#if UNITY_IPHONE || UNITY_ANDROID
+	private string levelName;
+	private string rankName;
+	private int starRating;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -46,8 +50,11 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		#endif
 	}
 
-	public void HandleFacebook()
+	public void HandleFacebook(string levelName, string rankName, int starRating)
 	{
+		this.levelName = levelName;
+		this.rankName = rankName;
+		this.starRating = starRating;
 		Application.CaptureScreenshot( "score.png" );
 		#if UNITY_ANDROID
 		if (!FacebookAndroid.isSessionValid())
@@ -79,7 +86,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 				{ "link", "https://play.google.com/store/apps/details?id=gov.doe.Terrachanics" },
 				{ "name", "Terrachanics" },
 				{ "picture", "https://lh4.ggpht.com/0QYIvg5ePEu9OKFXydpp0jJVbywtq1fDwkZGFrAOA7hqBONRRQQFoTtvuTlwGy_8qZHP=w300-rw" },
-				{ "caption", "I scored in Terrachanics!" },
+				{ "caption", "I just earned " + starRating + " stars on " + levelName + "! Rank: " + rankName },
 			};
 			FacebookAndroid.showDialog( "stream.publish", parameters );
 		}
@@ -95,7 +102,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 				{ "link", "https://play.google.com/store/apps/details?id=gov.doe.Terrachanics" },
 				{ "name", "Terrachanics" },
 				{ "picture", "https://lh4.ggpht.com/0QYIvg5ePEu9OKFXydpp0jJVbywtq1fDwkZGFrAOA7hqBONRRQQFoTtvuTlwGy_8qZHP=w300-rw" },
-				{ "caption", "I scored in Terrachanics!" },
+				{ "caption", "I just earned " + starRating + " stars on " + levelName + "! Rank: " + rankName },
 			};
 			FacebookBinding.showDialog( "stream.publish", parameters );
 		}
@@ -126,9 +133,12 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		Debug.Log( "Successfully reauthorized in Facebook" );
 	}
 
-	public void HandleTwitter()
+	public void HandleTwitter(string levelName, string rankName, int starRating)
 	{
 		Application.CaptureScreenshot( "score.png" );
+		this.levelName = levelName;
+		this.rankName = rankName;
+		this.starRating = starRating;
 		#if UNITY_ANDROID
 		if (!TwitterAndroid.isLoggedIn())
 		{
@@ -155,7 +165,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 			var pathToImage = Application.persistentDataPath + "/" + "score.png";
 			var bytes = System.IO.File.ReadAllBytes( pathToImage );
 			
-			TwitterAndroid.postStatusUpdate( "I scored in #Terrachanics!", bytes );
+			TwitterAndroid.postStatusUpdate( "I just earned " + starRating + " stars on " + levelName + "! Rank: " + rankName, bytes );
 		}
 		#endif
 		#if UNITY_IPHONE
@@ -163,7 +173,7 @@ public class SocialNetworkingHandler : MonoBehaviour {
 		{
 			var pathToImage = Application.persistentDataPath + "/" + "score.png";
 			
-			TwitterBinding.postStatusUpdate( "I scored in #Terrachanics!", pathToImage );
+			TwitterBinding.postStatusUpdate( "I just earned " + starRating + " stars on " + levelName + "! Rank: " + rankName, pathToImage );
 		}
 		#endif
 	}

@@ -716,14 +716,14 @@ public class ScoreMenu extends GUIControl
 					if (facebookButtonAB.Render())
 					{
 						if (snHandler)
-							snHandler.HandleFacebook();
+							snHandler.HandleFacebook(displayLevelText, agentRank, numOfStars);
 						PlayButtonPress();
 					}
 					
 					if (twitterButtonAB.Render())
 					{
 						if (snHandler)
-							snHandler.HandleTwitter();
+							snHandler.HandleTwitter(displayLevelText, agentRank, numOfStars);
 						PlayButtonPress();
 					}
 				}
