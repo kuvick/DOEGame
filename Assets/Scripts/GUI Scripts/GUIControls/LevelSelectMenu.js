@@ -364,6 +364,8 @@ public class LevelSelectMenu extends GUIControl
 	
 	public var isDebugMode : boolean;
 	
+	private var dragExplainRect:Rect;
+	
 	public function Start () 
 	{
 		super.Start();
@@ -697,6 +699,9 @@ public class LevelSelectMenu extends GUIControl
 		objectiveRect = createRect(Vector2(1062,295), 25f /1301f , 390f / 669f, 295f /669f, false, emailMessageBackgroundRect);
 		
 		objectiveRect.width -= objectiveRightBuffer;
+		
+		var size:Vector2 = levelSelectSkin.label.CalcSize(GUIContent("Tap and drag to scroll."));
+		dragExplainRect = Rect(padding, Screen.height - size.y - padding, size.x, size.y);
 		
 	}
 	
@@ -1150,6 +1155,8 @@ public class LevelSelectMenu extends GUIControl
 		GUI.EndGroup();
 		
 		pointers.Render();
+		if(!inboxTab)
+			GUI.Label(dragExplainRect, "Tap and drag to scroll.");
 	}
 	
 	private function HoldWait()
