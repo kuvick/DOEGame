@@ -328,17 +328,36 @@ public class SoundManager extends MonoBehaviour {
 		playMenuSound(menuSounds.inspectionClose);
 	}
 	
+	private var playTyping : boolean = false;
 	public function playNarrativeTyping()
 	{
-		playMenuSound(menuSounds.narrativeTyping);
+		//playMenuSound(menuSounds.narrativeTyping);
 		//playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
+		playTyping = true;
+		/*defaultClipSource.clip = menuSounds.narrativeTyping.GetClip();
+		defaultClipSource.loop = true;*/
+		while (playTyping)
+		{
+			if (!defaultClipSource.isPlaying)
+			{
+				playClipLooped(menuSounds.narrativeTyping.GetClip(), defaultClipSource, menuSounds.priority);
+			}
+			yield;// WaitForSeconds(defaultClipSource.clip.length);
+		}
+		defaultClipSource.loop = false;
+		defaultClipSource.clip = null;
 	}
 	
 	public function stopNarrativeTyping()
 	{
-		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(menuSounds.narrativeTyping.GetClip());
+		/*var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(menuSounds.narrativeTyping.GetClip());
 		if (sourcePlayingClip)
+		{
 			sourcePlayingClip.loop = false;
+			sourcePlayingClip.Stop();
+			sourcePlayingClip.clip = null;
+		}*/
+		playTyping = false;
 	}
 	
 	public function playMusic(musicClip : SoundType){
