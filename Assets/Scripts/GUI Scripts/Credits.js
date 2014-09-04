@@ -169,7 +169,7 @@ function Start ()
 	credits.Add("\n\nArtists\n");
 	credits.Add("Noelle Hébert\n Craig Landen\n Danny Tran");
 	credits.Add("\n\nAudio Team\n");
-	credits.Add("Luke Roberts\n Heather Plunkard");
+	credits.Add("Luke Roberts");
 	credits.Add("\n\nQuality Assurance\n");
 	credits.Add("Sarah Patterson");
 	credits.Add("\n\n\n\nPAST MEMBERS\n\n\nSenior Designer\n");
@@ -185,7 +185,7 @@ function Start ()
 	credits.Add("\n\nArtists\n");
 	credits.Add("Rebecca Williams\nKaitlyn McIntosh");
 	credits.Add("\n\nSpecial Thanks to:\n");
-	credits.Add("Jerrod Johnson\nLuciano Fenu\nJason Frostock\nAmina Obe\n");
+	credits.Add("Heather Plunkard\nJerrod Johnson\nLuciano Fenu\nJason Frostock\nAmina Obe\n");
 	
 	
 	
