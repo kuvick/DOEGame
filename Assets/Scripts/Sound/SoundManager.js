@@ -347,11 +347,7 @@ public class SoundManager extends MonoBehaviour {
 	{
 		var sourcePlayingClip : AudioSource = getSoundSourcePlayingClip(menuSounds.narrativeTyping.GetClip());
 		if (sourcePlayingClip)
-		{
 			sourcePlayingClip.loop = false;
-			sourcePlayingClip.Stop();
-			sourcePlayingClip.clip = null;
-		}
 		playTyping = false;
 	}
 	

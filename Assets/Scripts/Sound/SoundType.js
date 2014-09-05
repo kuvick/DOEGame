@@ -20,10 +20,17 @@ class SoundType{
 	
 	// returns the main audio clip
 	public function GetClip(){
-		var clip = Resources.Load(pathToSounds + audioClipName);
+		// attempt to find whether there is an intro and loop component
+		var clip = Resources.Load(pathToSounds + audioClipName + "_intro");
+		// if not, find clip as is
 		if (clip == null){
-			Debug.LogWarning("Sound clip was not set");
+			clip = Resources.Load(pathToSounds + audioClipName);
+			if (clip == null)
+				Debug.LogWarning("Sound clip was not set");
 		}
+		// if there is an intro component, set the loop component name
+		else
+			loopClipName = audioClipName + "_loop";
 		return (clip);
 	}
 	
