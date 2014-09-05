@@ -517,6 +517,7 @@ public class NarrativePanelUI extends GUIControl
 			//if(GUI.Button(home, homeButton))
 			if(homeButtonAB.Render())
 			{	
+				SoundManager.Instance().stopNarrativeTyping();
 				Application.LoadLevel("StartScreen");
 			}
 			

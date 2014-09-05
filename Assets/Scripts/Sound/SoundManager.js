@@ -352,6 +352,7 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	public function playMusic(musicClip : SoundType){
+		StopCoroutine("playClipIntroToLooped");
 		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
 		}
@@ -369,12 +370,16 @@ public class SoundManager extends MonoBehaviour {
 		playClip(clipToPlay, source, priority, true);
 	}
 	
+	private static var startLoopScene : String; // used to make sure the loop section is not played at the wrong time
 	// if a music has an intro and separate loop section, plays the intro first before switching to the looping clip
 	private function playClipIntroToLooped(introClip : AudioClip, loopClip : AudioClip, source : AudioSource, priority : SoundPriority)
 	{
+		startLoopScene = Application.loadedLevelName;
 		playClip(introClip, source, priority, false);
 		yield WaitForSeconds(introClip.length);
-		playClip(loopClip, source, priority, true);
+		if (Application.loadedLevelName == startLoopScene)
+			playClip(loopClip, source, priority, true);
+		startLoopScene = String.Empty;
 	}
 	
 	// will play a single clip without looping it
