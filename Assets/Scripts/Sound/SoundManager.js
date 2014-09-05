@@ -352,7 +352,6 @@ public class SoundManager extends MonoBehaviour {
 	}
 	
 	public function playMusic(musicClip : SoundType){
-		StopCoroutine("playClipIntroToLooped");
 		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
 		}
