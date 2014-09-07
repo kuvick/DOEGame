@@ -355,6 +355,7 @@ public class SoundManager extends MonoBehaviour {
 		if (alreadyPlayingLoopedSound(musicClip.GetClip())){
 			return; // don't restart the sound
 		}
+		startLoopScene = String.Empty; // ensures that if a new song is started, does not randomly continue the previous
 		if (musicClip.loopClipName == String.Empty)
 			playClipLooped(musicClip.GetClip(), musicSource, backgroundSounds.priority);
 		else
@@ -365,7 +366,7 @@ public class SoundManager extends MonoBehaviour {
 		musicSource.Stop();
 	}
 	
-	private function playClipLooped(clipToPlay : AudioClip, source : AudioSource, priority : SoundPriority){
+	public function playClipLooped(clipToPlay : AudioClip, source : AudioSource, priority : SoundPriority){
 		playClip(clipToPlay, source, priority, true);
 	}
 	
@@ -374,8 +375,10 @@ public class SoundManager extends MonoBehaviour {
 	private function playClipIntroToLooped(introClip : AudioClip, loopClip : AudioClip, source : AudioSource, priority : SoundPriority)
 	{
 		startLoopScene = Application.loadedLevelName;
+		Debug.Log(startLoopScene);
 		playClip(introClip, source, priority, false);
 		yield WaitForSeconds(introClip.length);
+		Debug.Log(startLoopScene);
 		if (Application.loadedLevelName == startLoopScene)
 			playClip(loopClip, source, priority, true);
 		startLoopScene = String.Empty;

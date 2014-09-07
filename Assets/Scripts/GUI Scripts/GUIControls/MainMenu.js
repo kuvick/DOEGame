@@ -776,7 +776,10 @@ public class MainMenu extends GUIControl
 			if(doVictoryTrace)
 				cameraControl.StartCompleteSequence(intelSystem.GetLastPrimary());//StartTrace();
 			else
+			{
 				startMissionComplete = true;
+				SoundManager.Instance().playMusic(SoundManager.Instance().backgroundSounds.scoreMenuMusic);
+			}
 			startPath = true;
 			inspectionDispRef.ClearTooltips();
 		}
@@ -797,7 +800,10 @@ public class MainMenu extends GUIControl
 			else
 			{
 				if(victorySplashStartTime == 0)
+				{
 					victorySplashStartTime = Time.time;
+					
+				}
 				if(Time.time - victorySplashStartTime >= victorySplashTimerInSeconds)
 				{
 					victorySplashStartTime = 0;
