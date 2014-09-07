@@ -472,8 +472,6 @@ public class ScoreMenu extends GUIControl
 		goalWidth = expEarnedFill * expBarRect.width;
 		
 		levelSelectRef = gameObject.GetComponent(LevelSelectMenu);
-		backgroundMusic = SoundManager.Instance().backgroundSounds.scoreMenuMusic;
-		
 		
 		var codexBox : Vector2 = new Vector2(1744, 104);
 		
@@ -1150,7 +1148,8 @@ public class ScoreMenu extends GUIControl
 			techEntry = null;
 		}
 		
-		//Debug.Log("Tech Name: " + technologyName);		
+		//Debug.Log("Tech Name: " + technologyName);
+		saveSystem.currentPlayer.updateStarScore(Application.loadedLevelName, numOfStars);
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	}
 	

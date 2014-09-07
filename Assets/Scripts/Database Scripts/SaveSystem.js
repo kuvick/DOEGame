@@ -499,6 +499,17 @@ public class Player
 		Debug.Log(lastUnlockedIndex + " " + numToUnlock);
 	}
 	
+	public function updateStarScore(levelName : String, newStarScore : int)
+	{
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName && newStarScore > levelDataList[i].levelStar){
+				levelDataList[i].levelStar = newStarScore;
+				return;
+			}
+		}
+	}
+	
 	public function unlockLevel(levelName : String)
 	{
 		var levelDataExists : boolean = false;
@@ -557,6 +568,7 @@ public class LevelData
 	@XmlAttribute("levelName")
 	public var levelName : String;
 	public var levelScore : int;
+	public var levelStar : int;
 	public var levelUnlocked : boolean;
 	public var levelCompleted : boolean;
 }
