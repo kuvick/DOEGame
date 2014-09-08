@@ -108,6 +108,8 @@ private var isActive : boolean = false;
 
 function Start ()
 {
+	// prevent screen from dimming
+	Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	//developerList = developerList.Load();
 	triggeredReturn = false;
 	
@@ -294,7 +296,11 @@ function OnGUI()
 	
 	GUI.Label(tapToContinueRect, "Tap to continue.", style);
 	if(isActive && (Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0))
+	{
+		// reset screen timeout after done with credits
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		Application.LoadLevel("StartScreen");
+	}
 	
 	GUI.DrawTexture(logoRect, logo, ScaleMode.StretchToFill);
 	logoRect.y -= speed;
@@ -341,6 +347,8 @@ function ReturnToMain()
 	{
 		triggeredReturn = true;
 		yield WaitForSeconds(1.0f);
+		// reset screen timeout after done with credits
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		Application.LoadLevel("StartScreen");
 	}
 }
