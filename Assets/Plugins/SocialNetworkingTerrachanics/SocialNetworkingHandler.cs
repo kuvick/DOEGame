@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using Prime31;
 
 public class SocialNetworkingHandler : MonoBehaviour {
-	#if UNITY_IPHONE || UNITY_ANDROID
 	private string levelName;
 	private string rankName;
 	private int starRating;
-
+	#if UNITY_IPHONE || UNITY_ANDROID
 	// Use this for initialization
 	void Start () {
 	
