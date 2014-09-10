@@ -93,7 +93,7 @@ public class MainMenu extends GUIControl
 	private var startTime = 0;
 	private var startScore = 0;
 	
-	private var victorySplashTimerInSeconds = 2.0f;
+	public var victorySplashTimerInSeconds = 2.0f;		
 	private var victorySplashStartTime = 0;
 	private var victorySplashRectangle:Rect;
 	private var mostRecentTurnScore : int = 0;
