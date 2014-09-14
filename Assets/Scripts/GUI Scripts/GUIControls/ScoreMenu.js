@@ -1149,7 +1149,7 @@ public class ScoreMenu extends GUIControl
 		}
 		
 		//Debug.Log("Tech Name: " + technologyName);
-		saveSystem.currentPlayer.updateStarScore(Application.loadedLevelName, numOfStars);
+		saveSystem.currentPlayer.updateStarScore(intelSystem.levelName, numOfStars);
 		saveSystem.SavePlayer(saveSystem.currentPlayer.name);
 	}
 	

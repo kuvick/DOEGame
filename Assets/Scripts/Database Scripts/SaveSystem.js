@@ -510,6 +510,18 @@ public class Player
 		}
 	}
 	
+	// Gets the star score for given level name
+	// returns -1 if level not found
+	public function getStarScore(levelName : String) : int
+	{
+		for(var i : int = 0; i < levelDataList.Count; i++)
+		{
+			if(levelDataList[i].levelName == levelName)
+				return levelDataList[i].levelStar;
+		}
+		return -1;
+	}
+	
 	public function unlockLevel(levelName : String)
 	{
 		var levelDataExists : boolean = false;

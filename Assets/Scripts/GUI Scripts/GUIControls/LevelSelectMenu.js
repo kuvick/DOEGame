@@ -81,6 +81,7 @@ public class LevelNode
 	public var sceneName:String = "";
 	public var difficulty:int = 0;
 	private var score:int = 0;
+	private var starRating : int = 0;
 	
 	public var subjectText : String;
 	public var messageText : String;
@@ -145,6 +146,16 @@ public class LevelNode
 	public function getScore():int
 	{
 		return score;
+	}
+	
+	public function GetStar() : int
+	{
+		return starRating;
+	}
+	
+	public function SetStar(star : int)
+	{
+		starRating = star;
 	}
 }
 
@@ -331,6 +342,10 @@ public class LevelSelectMenu extends GUIControl
 	public var rankTextures : List.<Texture> = new List.<Texture>();
 	private var rankRect:Rect;
 	private var rankTextureNum:int;
+	
+	public var starFillTexture : Texture;
+	public var starUnfillTexture : Texture;
+	private var starRect : Rect;
 	
 	private var returnedFromMessage:boolean;
 	
@@ -656,6 +671,9 @@ public class LevelSelectMenu extends GUIControl
 			senderRectangle = new Rect(statusRectangle.x - statusRectangle.width - (messageBuffer.x) + completedLevels[0].bounds.height * .75, statusRectangle.y, statusRectangle.width, statusRectangle.height);
 			senderRect = new Rect(0, missionScrollArea.y + messageBuffer.y, completedLevels[0].bounds.height * .75, completedLevels[0].bounds.height * .75);
 		}
+		starRect = new Rect(0, 0, statusRectangle.width / 2.0f, statusRectangle.height / 2.0f);
+		starRect.x = statusRectangle.right - starRect.width;
+		starRect.y = statusRectangle.y + (starRect.height / 2.0f);
 		// check whether to go directly to level instead of loading dashboard
 		
 		var displayTips:boolean = true;
@@ -880,6 +898,8 @@ public class LevelSelectMenu extends GUIControl
 						//Display proper difficulty icon
 						
 						statusRectangle.y = levelsToRender[i].bounds.y + ((levelsToRender[i].bounds.height - statusRectangle.height) / 4);
+						starRect.x = statusRectangle.right - starRect.width;
+						starRect.y = statusRectangle.y + (starRect.height / 2.0f);
 						
 						if(displayDifficulty)
 						{
@@ -903,6 +923,17 @@ public class LevelSelectMenu extends GUIControl
 								//Debug.LogError("The given difficulty does not have a matching icon");
 								GUI.DrawTexture(statusRectangle, difficultyIcons[2], ScaleMode.StretchToFill);
 							}		
+						}
+						else
+						{
+							for (var j : int = 0; j < 5; j++)
+							{
+								if (j < 5 - levelsToRender[i].GetStar())
+									GUI.DrawTexture(starRect, starUnfillTexture, ScaleMode.StretchToFill);
+								else
+									GUI.DrawTexture(starRect, starFillTexture, ScaleMode.StretchToFill);
+								starRect.x -= starRect.width;
+							}
 						}
 
 						levelsToRender[i].bounds.x = senderRect.width;
@@ -1328,6 +1359,7 @@ public class LevelSelectMenu extends GUIControl
 					levels[i].bounds = level;
 					levels[i].subjectText = (levels.Length - actualLevelIndex) + ": " + levels[i].subjectText;
 					levels[i].completed = true;
+					levels[i].SetStar(saveSystem.currentPlayer.getStarScore(levels[i].sceneName));
 					completedLevels.Add(levels[i]);
 					countCompleted++;	
 				} else {
