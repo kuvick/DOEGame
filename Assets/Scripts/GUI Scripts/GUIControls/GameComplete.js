@@ -14,7 +14,7 @@ public class GameComplete extends GUIControl
 	public var background : Texture;
 	public var ecrbLogo : Texture;
 	private var ecrbLogoRect:Rect;
-	private var tapToContinueRect:Rect;
+	//private var tapToContinueRect:Rect;
 	private var congratsAgentRect:Rect;
 	public var congratsAgent:Texture;
 	public var goldCoin:Texture;
@@ -22,9 +22,15 @@ public class GameComplete extends GUIControl
 	private var goldCoinSpeeds:List.<float> = new List.<float>();
 	public var style:GUIStyle;
 	
+	
+	public var continueButtonTexture:Texture;
+	private var contButtonRect : Rect;
+	private var continueButtonAB : AnimatedButton;
+	
 	public function Initialize()
 	{
 		super.Initialize();
+		
 		backgroundMusic = SoundManager.Instance().backgroundSounds.creditsMenuMusic;
 		
 		var halfScreenRect:Rect = Rect(0,0,screenWidth / 2, screenHeight);
@@ -40,8 +46,8 @@ public class GameComplete extends GUIControl
 		
 		style.fontSize = 0.025 * Screen.height * 1.5;
 		
-		var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
-		tapToContinueRect = Rect(screenWidth - size.x - padding, screenHeight - size.y - padding, size.x, size.y);
+		//var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
+		//tapToContinueRect = Rect(screenWidth - size.x - padding, screenHeight - size.y - padding, size.x, size.y);
 		
 		for(var i:int = 0; i < 5; i++)
 		{
@@ -54,7 +60,12 @@ public class GameComplete extends GUIControl
 			goldCoinRects.Add(tempRect);
 			
 		}
-		
+
+		contButtonRect = createRect(continueButtonTexture, 0f,0f, continueButtonTexture.height / 1080.0, false);
+		contButtonRect.x = Screen.width - contButtonRect.width - padding;
+		contButtonRect.y = Screen.height - contButtonRect.height - padding;
+		continueButtonAB = new AnimatedButton(Color.blue, continueButtonTexture, contButtonRect);
+						
 		PlayerPrefs.SetInt("DisplayedGameComplete", 1);
 		
 	}
@@ -66,9 +77,11 @@ public class GameComplete extends GUIControl
 		RenderCoins();
 		GUI.DrawTexture(ecrbLogoRect, ecrbLogo);
 		GUI.DrawTexture(congratsAgentRect, congratsAgent);
-		GUI.Label(tapToContinueRect, "Tap to continue.", style);
+		//GUI.Label(tapToContinueRect, "Tap to continue.", style);
 		
-		if(Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0)
+
+		//if(Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0)
+		if(continueButtonAB.Render(style))
 			Application.LoadLevel("Credits");
 			
 
