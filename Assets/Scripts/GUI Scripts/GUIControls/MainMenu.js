@@ -252,7 +252,8 @@ public class MainMenu extends GUIControl
 		pauseButton.x = screenWidth - pauseButton.width;
 		
 		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
-    	zoomButtonRect.x = pauseButton.x - zoomButtonRect.width - padding;
+    	zoomButtonRect.x = screenWidth - zoomButtonRect.width - padding;
+    	zoomButtonRect.y = zoomButtonRect.height;
 		
 		helpButton = createRect(zoomButton,0,0, 41.0 / 540.0, false);
 		helpButton.x = pauseButton.x - (pauseButton.width);
