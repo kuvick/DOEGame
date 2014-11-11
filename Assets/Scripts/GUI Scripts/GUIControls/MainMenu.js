@@ -253,7 +253,6 @@ public class MainMenu extends GUIControl
 		
 		zoomButtonRect = createRect(zoomButton, 0,0,0.1, false);
     	zoomButtonRect.x = pauseButton.x - zoomButtonRect.width - padding;
-    	//zoomButtonRect.y = Screen.height / 2 - zoomButtonRect.height / 2;
 		
 		helpButton = createRect(zoomButton,0,0, 41.0 / 540.0, false);
 		helpButton.x = pauseButton.x - (pauseButton.width);
@@ -778,7 +777,7 @@ public class MainMenu extends GUIControl
 			else
 			{
 				startMissionComplete = true;
-				SoundManager.Instance().playMusic(SoundManager.Instance().backgroundSounds.scoreMenuMusic);
+				//SoundManager.Instance().playMusic(SoundManager.Instance().backgroundSounds.scoreMenuMusic);
 			}
 			startPath = true;
 			inspectionDispRef.ClearTooltips();
