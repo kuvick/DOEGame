@@ -106,6 +106,10 @@ private var style:GUIStyle;
 // used to prevent accidental double-click to skip from win screen
 private var isActive : boolean = false;
 
+public var continueButtonTexture:Texture;
+private var contButtonRect : Rect;
+private var continueButtonAB : AnimatedButton;
+
 function Start ()
 {
 	// prevent screen from dimming
@@ -219,10 +223,20 @@ function Start ()
 	style.fontSize = skin.label.fontSize;
 	style.alignment = TextAnchor.UpperLeft;
 	style.normal.textColor = Color.white;
+	style.hover.background = null;
+	style.active.background = null;
+	style.normal.background = null;
 	
 	var padding : float = Screen.height * 0.02;
-	var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
-	tapToContinueRect = Rect(Screen.width - size.x - padding, Screen.height - size.y - padding, size.x, size.y);
+	
+	contButtonRect = createRect(continueButtonTexture, 0f,0f, continueButtonTexture.height / 1080.0);
+	contButtonRect.x = Screen.width - contButtonRect.width - padding;
+	contButtonRect.y = Screen.height - contButtonRect.height - padding;
+	continueButtonAB = new AnimatedButton(Color.blue, continueButtonTexture, contButtonRect);
+					
+	//var size:Vector2 = style.CalcSize(GUIContent("Tap to continue."));
+	//tapToContinueRect = Rect(Screen.width - size.x - padding, Screen.height - size.y - padding, size.x, size.y);
+	
 	
 	StartCoroutine(DoubleTapCheck());
 }
@@ -294,8 +308,9 @@ function OnGUI()
 {
 	GUI.skin = skin;
 	
-	GUI.Label(tapToContinueRect, "Tap to continue.", style);
-	if(isActive && (Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0))
+	//GUI.Label(tapToContinueRect, "Tap to continue.", style);
+	//if(isActive && (Input.GetKeyUp(KeyCode.Mouse0) || Input.touchCount > 0))
+	if(continueButtonAB.Render(style))
 	{
 		// reset screen timeout after done with credits
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
@@ -339,6 +354,21 @@ function OnGUI()
 		}
 	}
 	
+}
+
+function createRect(texture:Texture,xPercent:float,yPercent:float, heightPercentage:float):Rect
+{
+
+	var height:float = heightPercentage * Screen.height;
+	var textX:float = texture.width;
+	var textY:float = texture.height;
+	var textRatio:float = textX / textY;
+	var width:float = height * textRatio;
+	var x:float = Screen.width * xPercent;
+	var y:float = Screen.height * yPercent;
+	
+	
+	return Rect(x, y, width, height);
 }
 
 function ReturnToMain()
