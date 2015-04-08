@@ -1,4 +1,4 @@
-/**********************************************************
+/********************************************************** 
 StartMenu.js
 
 Description: 
@@ -19,8 +19,10 @@ public class StartMenu extends GUIControl
 		//Start Menu:
 		
 	private static var playStartScreen = true;	
-	public var splashRedAxonBG:Texture;
-	public var splashRedAxonIcon:Texture;
+	public var splashRedAxonBG:Texture; //Legacy name
+	//public var splashRedAxonIcon:Texture;
+	public var presentsText:Texture;
+	
 	public var splashDOEBG:Texture;
 	public var splashDOEIcon:Texture;
 	public var backgroundText:Texture;
@@ -923,7 +925,8 @@ public class StartMenu extends GUIControl
 			currentIcon = splashDOEIcon;
 			yield WaitForSeconds(2);
 			currentTexture = splashRedAxonBG;
-			currentIcon = splashRedAxonIcon;
+			//currentIcon = splashRedAxonIcon;
+			currentIcon = presentsText;
 			yield WaitForSeconds(2);
 			showSplash = false;
 			playStartScreen = false;
