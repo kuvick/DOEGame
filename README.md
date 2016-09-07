@@ -4,6 +4,11 @@ Terrachanics is a turn-based puzzle game aiming to recruit aspiring engineers an
 
 [View Flash Prototype code here](https://github.com/transplanar/Terrachanics_Flash-Prototype).
 
+#Media
+*Gameplay Walkthrough*
+
+[![Terrachanics image](http://i.imgur.com/nXJ73I0.png)](https://www.youtube.com/watch?v=c0dbq1l7zfU)
+
 #Gameplay
 Terrachanics is made up of three core mechanics:
 * Linking - Like connect the dots, but sometimes paths branch off or converge in tricky ways
