@@ -2,6 +2,8 @@
 
 Terrachanics is a turn-based puzzle game aiming to recruit aspiring engineers and STEM field graduates into careers with the U.S. Department of Energy (DOE). Players solve a series of increasingly complex puzzles to unlock information about cutting edge energy technologies, as well as learn about the many exciting opportunities the DOE has to offer.
 
+[View Flash Prototype code here](https://github.com/transplanar/Terrachanics_Flash-Prototype).
+
 #Gameplay
 Terrachanics is made up of three core mechanics:
 * Linking - Like connect the dots, but sometimes paths branch off or converge in tricky ways
